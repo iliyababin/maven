@@ -1,10 +1,10 @@
 class ExerciseSet {
   final String exerciseSetId;
-  final String weight;
-  final String reps;
+   String weight;
+   String reps;
   final String exerciseGroupId;
 
-  const ExerciseSet({
+  ExerciseSet({
     required this.exerciseSetId,
     required this.weight,
     required this.reps,

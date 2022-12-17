@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_theme.dart';
-import 'package:maven/screens/home_screen.dart';
-import 'package:maven/screens/profile_screen.dart';
-import 'package:maven/screens/workout_screen.dart';
+import 'package:maven/data/app_themes.dart';
+import 'package:maven/screen/home_screen.dart';
+import 'package:maven/screen/profile_screen.dart';
+import 'package:maven/screen/workout_screen.dart';
+
+import 'package:theme_provider/theme_provider.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -14,9 +16,9 @@ class Maven extends StatefulWidget {
 class _MavenState extends State<Maven> {
 
   List<Widget> screens = <Widget>[
-    HomeScreen(),
-    WorkoutScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const WorkoutScreen(),
+    const ProfileScreen(),
   ];
 
   int selectedIndex = 0;
@@ -29,13 +31,19 @@ class _MavenState extends State<Maven> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
-      backgroundColor: getBackgroundColor(context),
+      backgroundColor: colors(context).backgroundColor,
       body: SafeArea(
           child: screens.elementAt(selectedIndex)
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: getPrimaryColor(context),
+        backgroundColor: colors(context).backgroundColor,
+        selectedItemColor: colors(context).primaryColor,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 12
+        ),
         currentIndex: selectedIndex,
         items: const [
           BottomNavigationBarItem(

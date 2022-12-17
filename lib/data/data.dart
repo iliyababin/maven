@@ -84,6 +84,18 @@ const exerciseSets = [
     "reps": "5",
     "exerciseGroupId": "2"
   },
+  {
+    "exerciseSetId": "5",
+    "weight": "225",
+    "reps": "10",
+    "exerciseGroupId": "1"
+  },
+  {
+    "exerciseSetId": "6",
+    "weight": "10",
+    "reps": "5",
+    "exerciseGroupId": "2"
+  },
 ];
 
 List<Workout> parsedWorkouts = workouts.map<Workout>(Workout.fromJson).toList();

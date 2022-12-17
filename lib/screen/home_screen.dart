@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/widgets/titled_section.dart';
-import 'package:stacked_themes/stacked_themes.dart';
+import 'package:theme_provider/theme_provider.dart';
 
-import '../data/app_theme.dart';
+import '../data/app_themes.dart';
+import '../widget/titled_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,10 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
           title: "Testing",
           child: ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: getErrorColor(context)
+                backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
             ),
             onPressed: () {
-              getThemeManager(context).selectThemeAtIndex(0);
+              ThemeProvider.controllerOf(context).setTheme("light_theme");
             },
             child: Text("swotch"),
           )
@@ -35,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
             title: "Testing",
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: getErrorColor(context)
+                  backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
               ),
               onPressed: () {
-                getThemeManager(context).selectThemeAtIndex(1);
+                ThemeProvider.controllerOf(context).setTheme("dark_theme");
               },
               child: Text("test"),
             )
-        )
+        ),
       ],
     );
   }

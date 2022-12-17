@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_theme.dart';
+import 'package:maven/data/app_themes.dart';
 import 'package:maven/maven.dart';
-import 'package:stacked_themes/stacked_themes.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 Future main() async {
-  await ThemeManager.initialise();
   runApp(const Main());
 }
 
@@ -13,15 +12,18 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeBuilder(
+    return ThemeProvider(
+      saveThemesOnChange: true,
+      loadThemeOnInit: true,
       themes: getThemes(),
-      // themes: getThemes(),
-      builder: (context, regularTheme, darkTheme, themeMode) => MaterialApp(
-        title: 'Flutter Demo',
-        theme: regularTheme,
-        darkTheme: darkTheme,
-        themeMode: themeMode,
-        home: const Maven(),
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            theme: ThemeProvider.themeOf(themeContext).data,
+            title: 'Material App',
+            home: const Maven(),
+          ),
+        ),
       ),
     );
   }

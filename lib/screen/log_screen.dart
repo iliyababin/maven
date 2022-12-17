@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:maven/data/app_themes.dart';
 
 import '../data/data.dart';
 import '../model/workout.dart';
-import '../widgets/exercise_section.dart';
+import '../widget/exercise_section.dart';
 
 class LogScreen extends StatefulWidget {
   const LogScreen({Key? key, required this.workout}) : super(key: key);
@@ -14,11 +15,20 @@ class LogScreen extends StatefulWidget {
 }
 
 class _LogScreenState extends State<LogScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colors(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Current Workout"),
+        title: const Text("Current Workout"),
+        titleTextStyle: TextStyle(
+          color: colors(context).primaryTextColor
+        ),
+        backgroundColor: colors(context).backgroundLightColor,
+        iconTheme: IconThemeData(
+          color: colors(context).primaryTextColor
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,8 +43,11 @@ class _LogScreenState extends State<LogScreen> {
         onPressed: (){
           _navigateAndDisplaySelection(context);
         },
-        child: Icon(Icons.add, color: Colors.blue,),
-        backgroundColor: Color(0xff3b3f52),
+        backgroundColor: colors(context).backgroundLightColor,
+        child: Icon(
+          Icons.add,
+          color: colors(context).primaryColor,
+        ),
       ),
     );
   }

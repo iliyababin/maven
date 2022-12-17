@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/screens/log_screen.dart';
 
 import '../data/data.dart';
-import '../widgets/titled_section.dart';
+import '../widget/titled_section.dart';
+import 'log_screen.dart';
 
 class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
