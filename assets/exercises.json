@@ -1,0 +1,32 @@
+[
+  {
+    "exerciseId": 1,
+    "name": "Push-ups",
+    "muscle": "Chest",
+    "picture": "https://example.com/pushups.jpg"
+  },
+  {
+    "exerciseId": 2,
+    "name": "Squats",
+    "muscle": "Legs",
+    "picture": "https://example.com/squats.jpg"
+  },
+  {
+    "exerciseId": 3,
+    "name": "Lunges",
+    "muscle": "Legs",
+    "picture": "https://example.com/lunges.jpg"
+  },
+  {
+    "exerciseId": 4,
+    "name": "Bicep Curls",
+    "muscle": "Arms",
+    "picture": "https://example.com/bicepcurls.jpg"
+  },
+  {
+    "exerciseId": 5,
+    "name": "Tricep Dips",
+    "muscle": "Arms",
+    "picture": "https://example.com/tricepdips.jpg"
+  }
+]

@@ -1,20 +1,15 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:maven/data/app_themes.dart';
+import 'package:maven/common/model/exercise.dart';
 import 'package:maven/widget/set_row.dart';
-import 'package:observable_ish/observable_ish.dart';
-import 'dart:developer' as devl;
 
-import '../data/data.dart';
-import '../model/exercise_group.dart';
 import '../model/exercise_set.dart';
 
 class ExerciseSection extends StatefulWidget {
-  final ExerciseGroup exerciseGroup;
+  final Exercise exercise;
+  final bool active;
 
-  const ExerciseSection({Key? key, required this.exerciseGroup}) : super(key: key);
+  const ExerciseSection({Key? key, required this.exercise, required this.active}) : super(key: key);
 
   @override
   State<ExerciseSection> createState() => _ExerciseSectionState();
@@ -22,52 +17,12 @@ class ExerciseSection extends StatefulWidget {
 
 class _ExerciseSectionState extends State<ExerciseSection> {
 
-  List<ExerciseSet> exerciseSets = List.empty(growable: true);
-  List<SetRow> setRows = List.empty(growable: true);
-
-  @override
-  void initState() {
-    super.initState();
-    exerciseSets = getExerciseSetsByExerciseGroupId(widget.exerciseGroup.exerciseGroupId).toList();
-    convertSetRows();
-  }
-
-
-  void addSetRow(){
-    exerciseSets.add(
-      ExerciseSet(
-        exerciseSetId: "100",
-        weight: exerciseSets.last.weight,
-        reps: exerciseSets.last.reps,
-        exerciseGroupId: exerciseSets.last.exerciseGroupId
-      )
-    );
-    convertSetRows();
-  }
-
-  void convertSetRows() {
-    List<SetRow> tempSetRows = List.empty(growable: true);
-
-    for (var index = 1; index < exerciseSets.length+1; ++index) {
-      tempSetRows.add(SetRow(
-        exerciseSet: exerciseSets.elementAt(index-1),
-        index: index,
-        onExerciseSetChanged: (exerciseSet) {
-
-        },
-      ));
-    }
-    setState(() {
-      setRows = tempSetRows;
-    });
-  }
-
+  List<ExerciseSet> sets = [
+    ExerciseSet(hintWeight: 0, hintReps: 0)
+  ];
 
   @override
   Widget build(BuildContext context) {
-
-    devl.log(exerciseSets.length.toString());
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,7 +38,7 @@ class _ExerciseSectionState extends State<ExerciseSection> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      getExercise(widget.exerciseGroup.exerciseId).name,
+                      widget.exercise.name,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: colors(context).accentTextColor,
@@ -128,7 +83,6 @@ class _ExerciseSectionState extends State<ExerciseSection> {
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               width: 44,
@@ -142,7 +96,7 @@ class _ExerciseSectionState extends State<ExerciseSection> {
               ),
             ),
             Container(
-              width: 80,
+              width: 93,
               alignment: Alignment.center,
               child: Text(
                 "PREVIOUS",
@@ -164,7 +118,7 @@ class _ExerciseSectionState extends State<ExerciseSection> {
               ),
             ),
             Container(
-              width: 80,
+              width: 100,
               alignment: Alignment.center,
               child: Text(
                 "REPS",
@@ -174,7 +128,7 @@ class _ExerciseSectionState extends State<ExerciseSection> {
                 ),
               ),
             ),
-            SizedBox(
+            if(widget.active) SizedBox(
               width: 40,
               child: Text(
                 "",
@@ -190,43 +144,41 @@ class _ExerciseSectionState extends State<ExerciseSection> {
           height: 10,
         ),
         ListView.builder(
-          itemCount: exerciseSets.length,
+          itemCount: sets.length,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final exerciseSet = exerciseSets[index];
+            final set = sets[index];
             return Dismissible(
-                background: Container(
-                  color: colors(context).errorColor,
-                  child: Container(
-                    padding: EdgeInsetsDirectional.only(end: 8),
-                    alignment: FractionalOffset.centerRight,
-                    child: Icon(
-                      Icons.delete,
-                      color: colors(context).backgroundColor,
-                    ),
-                  ),
-                ),
-                direction: DismissDirection.endToStart,
-                key: Key(exerciseSet.exerciseSetId),
-                onDismissed: (DismissDirection direction) {
-                  setState(() {
-                    exerciseSets.removeAt(index);
-                  });
-                },
-                child: SetRow(
-                  exerciseSet: exerciseSets.elementAt(index),
-                  index: index,
-                  onExerciseSetChanged: (exerciseSet) {
-                  },
-                )
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,onDismissed: (DismissDirection direction) {
+                setState(() {
+                  sets.removeAt(index);
+                });
+              },
+              background: Container(
+                color: colors(context).errorColor,
+              ),
+              child: SetRow(
+                index: index,
+                active: false,
+                set: set,
+                onChanged: (newSet) {
+                  print("hey");
+                  sets[index] = newSet;
+                }
+              )
             );
           },
         ),
         TextButton(
             onPressed: () {
-              addSetRow();
+              ExerciseSet prevSet = sets[sets.length-1];
+              print(sets.length);
+              setState(() {
+                sets.add(ExerciseSet(hintWeight:  0, hintReps:  0));
+              });
             },
             child: Text(
               "ADD SET",

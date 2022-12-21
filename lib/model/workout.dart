@@ -1,15 +1,29 @@
 
-class Workout {
-  final String workoutId;
-  final String name;
+import 'package:flutter/foundation.dart';
 
-  const Workout({
-    required this.workoutId,
+class Workout {
+  int? workoutId;
+  String name;
+
+  Workout({
+    this.workoutId,
     required this.name,
   });
 
-  static Workout fromJson(json) => Workout(
-      workoutId: json['workoutId'],
-      name: json['name'],
+  factory Workout.fromMap(Map<String, dynamic> json) => Workout(
+    workoutId: json["workoutId"],
+    name:  json["name"]
   );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'workoutId': workoutId,
+      'name': name
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Workout{workoutId: $workoutId, name: $name}';
+  }
 }

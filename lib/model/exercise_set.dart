@@ -1,21 +1,14 @@
 class ExerciseSet {
-  final String exerciseSetId;
-   String weight;
-   String reps;
-  final String exerciseGroupId;
+   int? weight;
+   int? reps;
+   int? hintWeight;
+   int? hintReps;
 
   ExerciseSet({
-    required this.exerciseSetId,
-    required this.weight,
-    required this.reps,
-    required this.exerciseGroupId,
+    this.weight,
+    this.reps,
+    this.hintWeight,
+    this.hintReps
   });
-
-  static ExerciseSet fromJson(json) => ExerciseSet(
-      exerciseSetId: json['exerciseSetId'],
-      weight: json['weight'],
-      reps: json['reps'],
-      exerciseGroupId: json['exerciseGroupId']
-  );
 
 }

@@ -1,17 +1,27 @@
 class ExerciseGroup {
-  final String exerciseGroupId;
-  final String exerciseId;
-  final String workoutId;
+  int? exerciseGroupId;
+  final int exerciseId;
+  final int workoutId;
 
-  const ExerciseGroup({
-    required this.exerciseGroupId,
+  ExerciseGroup({
+    this.exerciseGroupId,
     required this.exerciseId,
     required this.workoutId,
   });
 
-  static ExerciseGroup fromJson(json) => ExerciseGroup(
-    exerciseGroupId: json['exerciseGroupId'],
-    exerciseId: json['exerciseId'],
-    workoutId: json['workoutId'],
-  );
+  factory ExerciseGroup.fromMap(Map<String, dynamic> json) {
+    return ExerciseGroup(
+      exerciseGroupId: json['exerciseGroupId'] ,
+      exerciseId: json['exerciseId'],
+      workoutId: json['workoutId'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'exerciseGroupId': exerciseGroupId,
+      'exerciseId': exerciseId,
+      'workoutId': workoutId,
+    };
+  }
 }

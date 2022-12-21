@@ -1,15 +1,18 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:maven/data/app_themes.dart';
+import 'package:observable_ish/observable_ish.dart';
 
 import '../model/exercise_set.dart';
 
 class SetRow extends StatefulWidget {
-  final ExerciseSet exerciseSet;
-  final int index;
-  final Function(ExerciseSet) onExerciseSetChanged;
 
-  const SetRow({Key? key, required this.exerciseSet, required this.index, required this.onExerciseSetChanged}) : super(key: key);
+  final int index;
+  final bool active;
+  final ExerciseSet set;
+  final Function(ExerciseSet) onChanged;
+
+  const SetRow({Key? key, required this.index, required this.active, required this.onChanged, required this.set}) : super(key: key);
 
   @override
   State<SetRow> createState() => _SetRowState();
@@ -19,20 +22,37 @@ class _SetRowState extends State<SetRow> {
 
   bool isChecked = false;
   bool isDisabled = true;
-  String weight = "";
-  String reps = "";
+
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _repsController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(widget.set.weight != null || widget.set.reps != null){
+      _weightController.text = widget.set.weight.toString() == "null" ? "": widget.set.weight.toString();
+      _repsController.text = widget.set.reps.toString() == "null" ? "": widget.set.reps.toString();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    isDisabled = (weight.isEmpty || reps.isEmpty);
+    isDisabled = false;
+
+
 
     return AnimatedContainer(
       color: isChecked ? colors(context).completeColor : colors(context).backgroundColor,
       duration: const Duration(milliseconds: 150),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(
+            width: 4,
+          ),
           SizedBox(
             width: 36,
             child: TextButton(
@@ -46,7 +66,7 @@ class _SetRowState extends State<SetRow> {
             ),
           ),
           SizedBox(
-            width: 80,
+            width: 100,
             child: TextButton(
               onPressed: (){},
               child: Text(
@@ -60,10 +80,13 @@ class _SetRowState extends State<SetRow> {
           SizedBox(
             width: 80,
             child: TextField(
+              controller: _weightController,
               onTap: (){},
               onChanged: (String value) {
                 setState(() {
-                  weight = value;
+                  widget.set.weight = int.parse(value);
+                  log("Loggin weights: ${widget.set.weight}");
+                  widget.onChanged(widget.set);
                 });
               },
               keyboardType: TextInputType.number,
@@ -84,19 +107,25 @@ class _SetRowState extends State<SetRow> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 7), //Change this value to custom as you like
                   isDense: true, // and add this line
-                  hintText: '0',
+                  hintText: widget.set.hintWeight.toString(),
                   hintStyle: TextStyle(
                     color: colors(context).textFieldHintColor,
                   )),
             ),
+          ),
+          const SizedBox(
+            width: 10
           ),
           SizedBox(
             width: 80,
             child: TextField(
               onTap: (){},
+              controller: _repsController,
               onChanged: (String value) {
                 setState(() {
-                  reps = value;
+                  widget.set.reps = int.parse(value);
+                  log("Loggin reps: ${widget.set.reps}");
+                  widget.onChanged(widget.set);
                 });
               },
               keyboardType: TextInputType.number,
@@ -117,13 +146,13 @@ class _SetRowState extends State<SetRow> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 7), //Change this value to custom as you like
                   isDense: true, // and add this line
-                  hintText: '',
+                  hintText: widget.set.hintReps.toString(),
                   hintStyle: TextStyle(
                     color: colors(context).textFieldHintColor,
                   )),
             ),
           ),
-          Transform.scale(
+          widget.active ? Transform.scale(
             scale: 1.9,
             child: Theme(
               data: Theme.of(context).copyWith(
@@ -149,7 +178,13 @@ class _SetRowState extends State<SetRow> {
                 ),
               ),
             ),
-          ),
+          )
+              :
+          Container(
+            width: 100,
+            alignment: Alignment.center,
+            child: Icon(Icons.lock, color: colors(context).textFieldHintColor,),
+          )
         ],
       ),
     );
