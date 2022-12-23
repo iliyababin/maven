@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_themes.dart';
 import 'package:maven/common/model/exercise.dart';
+import 'package:maven/data/app_themes.dart';
 import 'package:maven/widget/set_row.dart';
 
-import '../model/exercise_set.dart';
+import '../common/model/exercise_set.dart';
 
 class ExerciseSection extends StatefulWidget {
   final Exercise exercise;
@@ -18,7 +18,7 @@ class ExerciseSection extends StatefulWidget {
 class _ExerciseSectionState extends State<ExerciseSection> {
 
   List<ExerciseSet> sets = [
-    ExerciseSet(hintWeight: 0, hintReps: 0)
+    //ExerciseSet(hintWeight: 0, hintReps: 0)
   ];
 
   @override
@@ -177,7 +177,7 @@ class _ExerciseSectionState extends State<ExerciseSection> {
               ExerciseSet prevSet = sets[sets.length-1];
               print(sets.length);
               setState(() {
-                sets.add(ExerciseSet(hintWeight:  0, hintReps:  0));
+                //sets.add(ExerciseSet(hintWeight:  0, hintReps:  0));
               });
             },
             child: Text(

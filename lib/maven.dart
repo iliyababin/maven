@@ -4,9 +4,9 @@ import 'package:maven/main.dart';
 import 'package:maven/screen/home_screen.dart';
 import 'package:maven/screen/profile_screen.dart';
 import 'package:maven/screen/workout_screen.dart';
-import 'package:maven/util/database_helper.dart';
-import 'package:maven/util/workout_bloc.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+
+import 'feature/log_workout/screen/log_workout_screen.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -16,7 +16,6 @@ class Maven extends StatefulWidget {
 }
 
 class _MavenState extends State<Maven> {
-
   List<Widget> screens = <Widget>[
     const HomeScreen(),
     const WorkoutScreen(),
@@ -43,7 +42,6 @@ class _MavenState extends State<Maven> {
       });
     });
 
-    WorkoutBloc workoutBloc = WorkoutBloc();
     return Scaffold(
       backgroundColor: colors(context).backgroundColor,
       body: SafeArea(
@@ -52,8 +50,35 @@ class _MavenState extends State<Maven> {
       persistentFooterButtons: currentWorkoutId != -1 ?[
         Container(
           height: 50,
-          child: Text("hey"),
-        )
+                child: TextButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: Duration(milliseconds: 150),
+                        pageBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation) {
+                          return const LogWorkoutScreen();
+                        },
+                        transitionsBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation,
+                            Widget child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0, 1),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text("Current Workout"),
+                ),
+              )
       ] : null,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colors(context).backgroundColor,

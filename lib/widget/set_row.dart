@@ -1,9 +1,9 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:maven/data/app_themes.dart';
-import 'package:observable_ish/observable_ish.dart';
 
-import '../model/exercise_set.dart';
+import '../common/model/exercise_set.dart';
 
 class SetRow extends StatefulWidget {
 
@@ -98,16 +98,24 @@ class _SetRowState extends State<SetRow> {
               decoration:  InputDecoration(
                   filled: true,
                   isCollapsed: true,
-                  fillColor: isChecked ? colors(context).completeColor : colors(context).textFieldBackgroundColor,
-                  enabledBorder:  OutlineInputBorder(
-                    borderSide:  BorderSide(color: isChecked ? colors(context).completeColor : colors(context).textFieldBackgroundColor, width: 0.0),
+                  fillColor: isChecked
+                      ? colors(context).completeColor
+                      : colors(context).textFieldBackgroundColor,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: isChecked
+                            ? colors(context).completeColor
+                            : colors(context).textFieldBackgroundColor,
+                        width: 0.0),
                   ),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 7), //Change this value to custom as you like
-                  isDense: true, // and add this line
-                  hintText: widget.set.hintWeight.toString(),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 7),
+                  //Change this value to custom as you like
+                  isDense: true,
+                  // and add this line
+                  hintText: "",
                   hintStyle: TextStyle(
                     color: colors(context).textFieldHintColor,
                   )),
@@ -137,16 +145,24 @@ class _SetRowState extends State<SetRow> {
               decoration:  InputDecoration(
                   filled: true,
                   isCollapsed: true,
-                  fillColor: isChecked ? colors(context).completeColor : colors(context).textFieldBackgroundColor,
-                  enabledBorder:  OutlineInputBorder(
-                    borderSide:  BorderSide(color: isChecked ? colors(context).completeColor : colors(context).textFieldBackgroundColor, width: 0.0),
+                  fillColor: isChecked
+                      ? colors(context).completeColor
+                      : colors(context).textFieldBackgroundColor,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: isChecked
+                            ? colors(context).completeColor
+                            : colors(context).textFieldBackgroundColor,
+                        width: 0.0),
                   ),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 7), //Change this value to custom as you like
-                  isDense: true, // and add this line
-                  hintText: widget.set.hintReps.toString(),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 7),
+                  //Change this value to custom as you like
+                  isDense: true,
+                  // and add this line
+                  hintText: "",
                   hintStyle: TextStyle(
                     color: colors(context).textFieldHintColor,
                   )),

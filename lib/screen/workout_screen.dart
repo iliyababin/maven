@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:maven/feature/create_workout/screen/create_workout_screen.dart';
+import 'package:maven/feature/view_workout/screen/view_workout_screen.dart';
 import 'package:maven/main.dart';
-import 'package:maven/model/workout.dart';
-import 'package:maven/features/create_workout/screen/create_workout_screen.dart';
-import 'package:maven/screen/log_workout_screen.dart';
-import 'package:maven/util/workout_bloc.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -13,88 +12,29 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-  final workoutBloc = WorkoutBloc();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          StreamBuilder<List<Workout>>(
-            stream: workoutBloc.workouts,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: Text('Loading..s.'));
-              }
+          Consumer<WorkoutProvider>(
+            builder: (context, workoutProvider, child) {
               return ListView(
-                children: snapshot.data!.map((workout) {
+                children: workoutProvider.workouts.map((workout) {
                   return Dismissible(
                     key: UniqueKey(),
                     onDismissed: (direction) {
-                      workoutBloc.deleteWorkout(workout.workoutId!);
+                      Provider.of<WorkoutProvider>(context, listen: false)
+                          .deleteWorkout(workout.workoutId!);
                     },
                     child: ListTile(
                       onTap: () async {
-                        int currentWorkoutId = ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1).getValue();
-
-                        if(currentWorkoutId == -1){
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('Warning'),
-                                content: Text('Do you want to start the workout?'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => LogWorkoutScreen(workout: workout))
-                                      );
-                                      ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", workout.workoutId ?? -1);
-                                    },
-                                    child: Text('Start'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Confirm action
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('Warning'),
-                                content: Text(
-                                    "There's already a workout, would you like to discard it?"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", -1);
-                                    },
-                                    child: Text('Yes'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Confirm action
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewWorkoutScreen(
+                                    workoutId: workout.workoutId!)));
                       },
                       title: Text(workout.name),
                     ),
@@ -102,15 +42,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 }).toList(),
               );
             },
-          ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CreateWorkoutScreen())
-          );
+              MaterialPageRoute(
+                  builder: (context) => const CreateWorkoutScreen()));
         },
         child: Icon(Icons.add),
       ),
