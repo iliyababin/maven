@@ -1,12 +1,12 @@
+import 'package:Maven/screen/home_screen.dart';
+import 'package:Maven/screen/profile_screen.dart';
+import 'package:Maven/screen/workout_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_themes.dart';
-import 'package:maven/main.dart';
-import 'package:maven/screen/home_screen.dart';
-import 'package:maven/screen/profile_screen.dart';
-import 'package:maven/screen/workout_screen.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
+import 'data/app_themes.dart';
 import 'feature/log_workout/screen/log_workout_screen.dart';
+import 'main.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -33,7 +33,6 @@ class _MavenState extends State<Maven> {
 
   @override
   Widget build(BuildContext context) {
-
     Preference<int> currentWorkoutIdPref = ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1);
 
     currentWorkoutIdPref.listen((value) {
@@ -49,7 +48,7 @@ class _MavenState extends State<Maven> {
       ),
       persistentFooterButtons: currentWorkoutId != -1 ?[
         Container(
-          height: 50,
+                height: 50,
                 child: TextButton(
                   onPressed: () async {
                     Navigator.push(
@@ -79,7 +78,7 @@ class _MavenState extends State<Maven> {
                   child: const Text("Current Workout"),
                 ),
               )
-      ] : null,
+            ] : null,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colors(context).backgroundColor,
         selectedItemColor: colors(context).primaryColor,
@@ -97,8 +96,8 @@ class _MavenState extends State<Maven> {
               label: "Workout"
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: "Profile",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
         onTap: _onItemTapped,

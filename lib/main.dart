@@ -1,11 +1,11 @@
+import 'package:Maven/util/database_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_themes.dart';
-import 'package:maven/maven.dart';
-import 'package:maven/util/database_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
+import 'data/app_themes.dart';
+import 'maven.dart';
 import 'model/workout.dart';
 
 void main() async {

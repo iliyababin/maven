@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/create_workout/screen/create_workout_screen.dart';
-import 'package:maven/feature/view_workout/screen/view_workout_screen.dart';
-import 'package:maven/main.dart';
 import 'package:provider/provider.dart';
+
+import '../feature/create_workout/screen/create_workout_screen.dart';
+import '../feature/view_workout/screen/view_workout_screen.dart';
+import '../main.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

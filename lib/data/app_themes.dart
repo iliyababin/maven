@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_colors.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import '../maven.dart';
+import 'app_colors.dart';
 
 List<AppTheme> getThemes(){
   return [

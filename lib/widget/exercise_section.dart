@@ -1,9 +1,9 @@
+import 'package:Maven/widget/set_row.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/common/model/exercise.dart';
-import 'package:maven/data/app_themes.dart';
-import 'package:maven/widget/set_row.dart';
 
+import '../common/model/exercise.dart';
 import '../common/model/exercise_set.dart';
+import '../data/app_themes.dart';
 
 class ExerciseSection extends StatefulWidget {
   final Exercise exercise;
@@ -23,7 +23,6 @@ class _ExerciseSectionState extends State<ExerciseSection> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -52,31 +51,31 @@ class _ExerciseSectionState extends State<ExerciseSection> {
             Row(
               children: [
                 PopupMenuButton(
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(5),
                     ),
                   ),
-                  padding: EdgeInsets.all(0),
-                  itemBuilder: (context) =>
-                  [
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (context) => [
                     const PopupMenuItem(
                         child: ListTile(
-                          visualDensity: VisualDensity.compact,
-                          title: Text("Add note"),
-                          textColor: Colors.white,
-                        )
-                    ),
+                      visualDensity: VisualDensity.compact,
+                      title: Text("Add note"),
+                      textColor: Colors.white,
+                    )),
                     const PopupMenuItem(
                         child: ListTile(
-                          visualDensity: VisualDensity.compact,
-                          title: Text("Remove exercise"),
-                          textColor: Colors.red,
-                        )
-                    )
+                      visualDensity: VisualDensity.compact,
+                      title: Text("Remove exercise"),
+                      textColor: Colors.red,
+                    ))
                   ],
-                  icon: Icon(Icons.more_vert, color: Colors.blue,),
-                  color: Color(0xff20232a),
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Colors.blue,
+                  ),
+                  color: const Color(0xff20232a),
                 )
               ],
             )
@@ -151,30 +150,28 @@ class _ExerciseSectionState extends State<ExerciseSection> {
           itemBuilder: (context, index) {
             final set = sets[index];
             return Dismissible(
-              key: UniqueKey(),
-              direction: DismissDirection.endToStart,onDismissed: (DismissDirection direction) {
-                setState(() {
-                  sets.removeAt(index);
-                });
-              },
-              background: Container(
-                color: colors(context).errorColor,
-              ),
-              child: SetRow(
-                index: index,
-                active: false,
-                set: set,
-                onChanged: (newSet) {
-                  print("hey");
-                  sets[index] = newSet;
-                }
-              )
-            );
+                key: UniqueKey(),
+                direction: DismissDirection.endToStart,
+                onDismissed: (DismissDirection direction) {
+                  setState(() {
+                    sets.removeAt(index);
+                  });
+                },
+                background: Container(
+                  color: colors(context).errorColor,
+                ),
+                child: SetRow(
+                    index: index,
+                    active: false,
+                    set: set,
+                    onChanged: (newSet) {
+                      print("hey");
+                      sets[index] = newSet;
+                    }));
           },
         ),
         TextButton(
             onPressed: () {
-              ExerciseSet prevSet = sets[sets.length-1];
               print(sets.length);
               setState(() {
                 //sets.add(ExerciseSet(hintWeight:  0, hintReps:  0));

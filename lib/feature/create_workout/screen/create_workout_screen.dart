@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/model/exercise_set.dart';
-import 'package:maven/data/app_themes.dart';
-import 'package:maven/feature/create_workout/model/exercise_block.dart';
-import 'package:maven/feature/create_workout/widget/exercise_block_widget.dart';
-import 'package:maven/model/exercise_group.dart';
-import 'package:maven/model/workout.dart';
-import 'package:maven/screen/add_exercise_screen.dart';
-import 'package:maven/util/database_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/model/exercise_set.dart';
+import '../../../data/app_themes.dart';
 import '../../../main.dart';
+import '../../../model/exercise_group.dart';
+import '../../../model/workout.dart';
+import '../../../screen/add_exercise_screen.dart';
+import '../../../util/database_helper.dart';
+import '../model/exercise_block.dart';
+import '../widget/exercise_block_widget.dart';
 
 class CreateWorkoutScreen extends StatefulWidget {
   const CreateWorkoutScreen({Key? key}) : super(key: key);

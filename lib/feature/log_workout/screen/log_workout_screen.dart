@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/model/exercise_group.dart';
-import 'package:maven/util/database_helper.dart';
 
 import '../../../main.dart';
+import '../../../model/exercise_group.dart';
+import '../../../util/database_helper.dart';
 
 class LogWorkoutScreen extends StatefulWidget {
   const LogWorkoutScreen({Key? key}) : super(key: key);
@@ -10,7 +10,6 @@ class LogWorkoutScreen extends StatefulWidget {
   @override
   State<LogWorkoutScreen> createState() => _LogWorkoutScreenState();
 }
-
 
 class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
   @override

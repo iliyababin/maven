@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/model/exercise.dart';
-import 'package:maven/util/database_helper.dart';
+
+import '../common/model/exercise.dart';
+import '../util/database_helper.dart';
 
 class AddExerciseScreen extends StatelessWidget {
   const AddExerciseScreen({Key? key}) : super(key: key);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/create_workout/model/exercise_block.dart';
-import 'package:maven/feature/create_workout/model/temp_exercise_set.dart';
-import 'package:maven/feature/create_workout/widget/exercise_set_widget.dart';
+
+import '../model/exercise_block.dart';
+import '../model/temp_exercise_set.dart';
+import 'exercise_set_widget.dart';
 
 class ExerciseBlockWidget extends StatefulWidget {
   final ExerciseBlockData exerciseBlockData;
@@ -26,8 +27,6 @@ class _ExerciseBlockWidgetState extends State<ExerciseBlockWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.exerciseBlockData.sets.length);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

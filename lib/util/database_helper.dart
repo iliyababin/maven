@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:maven/common/model/exercise.dart';
-import 'package:maven/model/workout.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../common/model/exercise.dart';
 import '../common/model/exercise_set.dart';
 import '../model/exercise_group.dart';
+import '../model/workout.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:maven/data/app_themes.dart';
-import 'package:maven/feature/log_workout/screen/log_workout_screen.dart';
-import 'package:maven/model/exercise_group.dart';
-import 'package:maven/model/workout.dart';
-import 'package:maven/util/database_helper.dart';
 
 import '../../../common/model/exercise.dart';
+import '../../../data/app_themes.dart';
 import '../../../main.dart';
+import '../../../model/exercise_group.dart';
+import '../../../model/workout.dart';
+import '../../../util/database_helper.dart';
+import '../../log_workout/screen/log_workout_screen.dart';
 
 class ViewWorkoutScreen extends StatefulWidget {
   const ViewWorkoutScreen({Key? key, required this.workoutId})
