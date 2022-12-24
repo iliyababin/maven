@@ -1,3 +1,4 @@
+import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold.build(
       body: Stack(
         children: [
           Consumer<WorkoutProvider>(
@@ -45,6 +46,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           )
         ],
       ),
+      context: context,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(

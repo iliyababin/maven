@@ -7,9 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../common/model/exercise.dart';
+import '../common/model/exercise_group.dart';
 import '../common/model/exercise_set.dart';
-import '../model/exercise_group.dart';
-import '../model/workout.dart';
+import '../common/model/workout.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();

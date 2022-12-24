@@ -11,7 +11,7 @@ List<AppTheme> getThemes(){
       data: ThemeData(),
       options: AppColors(
         backgroundColor: const Color(0xFFFFFFFF),
-        backgroundLightColor: const Color(0xFFFFFFFF),
+        backgroundDarkColor: const Color(0xFFFFFFFF),
         primaryColor: const Color(0xFF2196F3),
         primaryTextColor: const Color(0xFF000000),
         accentTextColor: const Color(0xFF2196F3),
@@ -20,6 +20,7 @@ List<AppTheme> getThemes(){
         completeColor: const Color(0xFFC1FFB0),
         checkColor: const Color(0xFF2196F3),
         errorColor: const Color(0xFFFF7474),
+        unselectedItemColor: const Color(0xFF595959),
       ),
     ),
     AppTheme(
@@ -28,7 +29,7 @@ List<AppTheme> getThemes(){
       data: ThemeData(),
       options: AppColors(
         backgroundColor: const Color(0xff121212),
-        backgroundLightColor: const Color(0xff1c1c1c),
+        backgroundDarkColor: const Color(0xff101010),
         primaryColor: const Color(0xFF2196F3),
         primaryTextColor: const Color(0xFFFFFFFF),
         accentTextColor: const Color(0xFF2196F3),
@@ -37,6 +38,7 @@ List<AppTheme> getThemes(){
         completeColor: const Color(0xFF173515),
         checkColor: const Color(0xFF2196F3),
         errorColor: const Color(0xFFF32121),
+        unselectedItemColor: const Color(0xFFB7B7B7),
       ),
     ),
   ];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/model/exercise_group.dart';
 import '../../../main.dart';
-import '../../../model/exercise_group.dart';
 import '../../../util/database_helper.dart';
 
 class LogWorkoutScreen extends StatefulWidget {

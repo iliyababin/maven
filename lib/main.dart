@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
+import 'common/model/workout.dart';
 import 'data/app_themes.dart';
 import 'maven.dart';
-import 'model/workout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

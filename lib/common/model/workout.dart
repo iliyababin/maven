@@ -1,6 +1,3 @@
-
-import 'package:flutter/foundation.dart';
-
 class Workout {
   int? workoutId;
   String name;

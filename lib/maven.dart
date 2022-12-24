@@ -1,5 +1,6 @@
+import 'package:Maven/feature/profile/screen/profile_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
-import 'package:Maven/screen/profile_screen.dart';
+import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/screen/workout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -20,6 +21,7 @@ class _MavenState extends State<Maven> {
     const HomeScreen(),
     const WorkoutScreen(),
     const ProfileScreen(),
+    const TestingScreen(),
   ];
 
   int selectedIndex = 0;
@@ -43,11 +45,10 @@ class _MavenState extends State<Maven> {
 
     return Scaffold(
       backgroundColor: colors(context).backgroundColor,
-      body: SafeArea(
-          child: screens.elementAt(selectedIndex)
-      ),
-      persistentFooterButtons: currentWorkoutId != -1 ?[
-        Container(
+      body: SafeArea(child: screens.elementAt(selectedIndex)),
+      persistentFooterButtons: currentWorkoutId != -1
+          ? [
+              Container(
                 height: 50,
                 child: TextButton(
                   onPressed: () async {
@@ -78,26 +79,29 @@ class _MavenState extends State<Maven> {
                   child: const Text("Current Workout"),
                 ),
               )
-            ] : null,
+            ]
+          : null,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: colors(context).backgroundColor,
+        backgroundColor: colors(context).backgroundDarkColor,
         selectedItemColor: colors(context).primaryColor,
-        selectedLabelStyle:  TextStyle(
+        unselectedItemColor: colors(context).unselectedItemColor,
+        type: BottomNavigationBarType.fixed,
+        unselectedIconTheme: IconThemeData(),
+        selectedLabelStyle: const TextStyle(
           fontSize: 12,
         ),
         currentIndex: selectedIndex,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Home"
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.fitness_center),
-              label: "Workout"
-          ),
+              icon: Icon(Icons.fitness_center), label: "Workout"),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: "Profile",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dangerous),
+            label: "Testing",
           ),
         ],
         onTap: _onItemTapped,

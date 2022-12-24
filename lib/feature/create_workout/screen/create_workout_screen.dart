@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/model/exercise_group.dart';
 import '../../../common/model/exercise_set.dart';
+import '../../../common/model/workout.dart';
 import '../../../data/app_themes.dart';
 import '../../../main.dart';
-import '../../../model/exercise_group.dart';
-import '../../../model/workout.dart';
 import '../../../screen/add_exercise_screen.dart';
 import '../../../util/database_helper.dart';
+import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
 import '../widget/exercise_block_widget.dart';
 
@@ -25,15 +26,9 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: colors(context).primaryTextColor),
-        title: Text(
-          'Create workout',
-          style: TextStyle(
-            color: colors(context).primaryTextColor
-          ),
-        ),
-        backgroundColor: colors(context).backgroundColor,
+      appBar: CustomAppBar.build(
+        title: "Create Workout",
+        context: context,
         actions: [
           TextButton(
               onPressed: () async {
@@ -69,6 +64,7 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
               ))
         ],
       ),
+      backgroundColor: colors(context).backgroundColor,
       body: Column(
         children: [
           TextFormField(

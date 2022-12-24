@@ -1,10 +1,11 @@
+import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/exercise.dart';
+import '../../../common/model/exercise_group.dart';
+import '../../../common/model/workout.dart';
 import '../../../data/app_themes.dart';
 import '../../../main.dart';
-import '../../../model/exercise_group.dart';
-import '../../../model/workout.dart';
 import '../../../util/database_helper.dart';
 import '../../log_workout/screen/log_workout_screen.dart';
 
@@ -22,8 +23,9 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(""),
+      appBar: CustomAppBar.build(
+        title: "Workout",
+        context: context,
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
@@ -64,7 +66,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                             child: Text(
                               "Discard",
                               style:
-                                  TextStyle(color: colors(context).errorColor),
+                              TextStyle(color: colors(context).errorColor),
                             ),
                             onPressed: () {
                               // Perform the "Yes" action
@@ -115,7 +117,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
             ExerciseGroup exerciseGroup = exerciseGroups[index];
             return FutureBuilder(
               future:
-                  DatabaseHelper.instance.getExercise(exerciseGroup.exerciseId),
+              DatabaseHelper.instance.getExercise(exerciseGroup.exerciseId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading exercise');
                 Exercise exercise = snapshot.data!;
@@ -132,7 +134,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                   subtitle: FutureBuilder(
                     future: DatabaseHelper.instance
                         .getExerciseSetsByExerciseGroupId(
-                            exerciseGroup.exerciseGroupId!),
+                        exerciseGroup.exerciseGroupId!),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return const Text('Loading exercise');
