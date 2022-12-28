@@ -7,7 +7,7 @@ import '../../../common/model/workout.dart';
 import '../../../data/app_themes.dart';
 import '../../../main.dart';
 import '../../../util/database_helper.dart';
-import '../../log_workout/screen/log_workout_screen.dart';
+import '../../../util/workout_manager.dart';
 
 class ViewWorkoutScreen extends StatefulWidget {
   const ViewWorkoutScreen({Key? key, required this.workoutId})
@@ -48,7 +48,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
         Container(
           width: double.infinity,
           child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 int currentWorkoutIdPref = ISharedPrefs.of(context)
                     .streamingSharedPreferences
                     .getInt("currentWorkoutId", defaultValue: -1)
@@ -68,8 +68,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                               style:
                               TextStyle(color: colors(context).errorColor),
                             ),
-                            onPressed: () {
-                              // Perform the "Yes" action
+                            onPressed: () async {
                               Navigator.of(context).pop(true);
                             },
                           ),
@@ -82,17 +81,13 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                         ],
                       );
                     },
-                  ).then((value) {
-                    if (value) {
-                      ISharedPrefs.of(context)
-                          .streamingSharedPreferences
-                          .setInt("currentWorkoutId", widget.workoutId);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LogWorkoutScreen()));
-                    }
+                  ).then((value) async {
+
                   });
+
+                } else {
+                  generateActiveWorkoutTemplate(context, widget.workoutId);
+                  Navigator.pop(context);
                 }
               },
               child: const Text("START")),

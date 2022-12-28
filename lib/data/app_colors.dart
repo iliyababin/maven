@@ -14,6 +14,10 @@ class AppColors implements AppThemeOptions{
   final Color checkColor;
   final Color errorColor;
   final Color unselectedItemColor;
+  final Color dragBarColor;
+  final Color slidingPanelShadowColor;
+  final Color whiteColor;
+  final Color transparentColor = const Color(0x00000000);
 
   AppColors({
     required this.backgroundColor,
@@ -27,5 +31,8 @@ class AppColors implements AppThemeOptions{
     required this.checkColor,
     required this.errorColor,
     required this.unselectedItemColor,
+    required this.dragBarColor,
+    required this.slidingPanelShadowColor,
+    required this.whiteColor,
   });
 }

@@ -148,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  custom_check_box:
+    dependency: "direct main"
+    description:
+      name: custom_check_box
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   dart_style:
     dependency: transitive
     description:

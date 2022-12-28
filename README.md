@@ -1,10 +1,8 @@
 # Maven: The ultimate workout tracker
 
-Transform your fitness journey with Maven, the ultimate ad-free workout tracking app. Easily log
-workouts, set and track goals, and view progress all while offline.
+Transform your fitness journey with Maven, the ultimate ad-free workout tracking app. Easily log workouts, set and track goals, and view progress all while offline.
 
-*Note: Maven is currently in the beta stage. If you encounter any issues while using the app, please
-let us know. Your feedback is appreciated.*
+*Note: Maven is currently in the alpha stage. If you encounter any issues while using the app, please let us know. Your feedback is appreciated.*
 
 ## Contents
 
@@ -18,23 +16,16 @@ let us know. Your feedback is appreciated.*
 
 ## Overview
 
-Maven is a comprehensive workout tracking app that helps you stay on track with your fitness goals.
-With Maven, you can:
+[need overview]
 
-- Create unlimited workouts
-- Set and track goals
-- View progress over time
-- Log and track different exercises
-- Option to log time, reps, and weight for each exercise
-- Customize the app's theme to make it your own
 
 ## Screenshots
 
-[need photos]
+[need screenshots]
 
 ## Download
 
-The Maven Workout Tracker app is currently in beta and is available for download on both Android and
+The Maven Workout Tracker app is currently in alpha and is available for download on both Android and
 iOS. You can download the beta version of the app from here:
 [need link]
 
@@ -44,7 +35,7 @@ iOS. You can download the beta version of the app from here:
 
 2. Clone this repository to your local machine.
 
-        git clone [repository link]`
+        git clone [repository link]
 
 3. Navigate to the repository directory in a terminal.
 
@@ -63,10 +54,7 @@ iOS. You can download the beta version of the app from here:
 
 ## Feedback and Issues
 
-We welcome any feedback and suggestions on how to improve the Maven app. If you have ideas for new
-features or have encountered any issues while using the app, please let us know by submitting an
-issue or suggestion to this repository. You can also reach out to us via email at  [email address].
-Your feedback helps us make the app better for all users.
+[ need section]
 
 ## License
 

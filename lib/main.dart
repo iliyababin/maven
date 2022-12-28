@@ -1,10 +1,10 @@
-import 'package:Maven/util/database_helper.dart';
+import 'package:Maven/util/provider/active_workout_provider.dart';
+import 'package:Maven/util/provider/workout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import 'common/model/workout.dart';
 import 'data/app_themes.dart';
 import 'maven.dart';
 
@@ -19,46 +19,13 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => WorkoutProvider()),
+      ChangeNotifierProvider(create: (context) => ActiveWorkoutProvider()),
     ],
     child: ISharedPrefs(streamingSharedPreferences: ssp, child: const Main()),
   ));
 }
 
-class WorkoutProvider with ChangeNotifier {
-  List<Workout> _workouts = [];
 
-  List<Workout> get workouts => _workouts;
-
-  WorkoutProvider() {
-    init();
-  }
-
-  void init() async {
-    _workouts = await DatabaseHelper.instance.getWorkouts();
-    notifyListeners();
-  }
-
-  Future<Workout?> getWorkout(int workoutId) async {
-    return await DatabaseHelper.instance.getWorkout(workoutId);
-  }
-
-  Future<int> addWorkout(Workout workout) async {
-    int j = await DatabaseHelper.instance.addWorkout(workout);
-    _workouts = await DatabaseHelper.instance.getWorkouts();
-    notifyListeners();
-    print("NOTIFIED");
-    return j;
-  }
-
-  void deleteWorkout(int workoutId) async {
-    DatabaseHelper.instance.deleteWorkout(workoutId);
-    DatabaseHelper.instance.deleteExerciseGroupsByWorkoutId(workoutId);
-    DatabaseHelper.instance.deleteExerciseSetsByWorkoutId(workoutId);
-    _workouts = await DatabaseHelper.instance.getWorkouts();
-    notifyListeners();
-    print("NOTIFIED 2");
-  }
-}
 
 class Main extends StatelessWidget {
   const Main({super.key});
@@ -68,7 +35,7 @@ class Main extends StatelessWidget {
     return ThemeProvider(
       saveThemesOnChange: true,
       loadThemeOnInit: true,
-      themes: getThemes(),
+      themes: getThemes(context),
       child: ThemeConsumer(
         child: Builder(
           builder: (themeContext) => MaterialApp(

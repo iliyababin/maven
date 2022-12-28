@@ -21,6 +21,7 @@ dependencies:
   provider: ^6.0.5
   settings_ui: ^2.0.2
   sliding_up_panel: ^2.0.0+1
+  custom_check_box: ^0.0.4
 
 dev_dependencies:
   flutter_test:
