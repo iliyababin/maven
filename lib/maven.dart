@@ -1,16 +1,16 @@
 import 'package:Maven/common/model/active_exercise_set.dart';
+import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/common/util/i_shared_preferences.dart';
+import 'package:Maven/common/util/workout_manager.dart';
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/screen/workout_screen.dart';
-import 'package:Maven/util/database_helper.dart';
-import 'package:Maven/util/workout_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-import 'data/app_themes.dart';
+import 'common/theme/app_themes.dart';
 import 'feature/workout/screen/log_workout_screen.dart';
-import 'main.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});

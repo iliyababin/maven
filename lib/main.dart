@@ -1,11 +1,12 @@
-import 'package:Maven/util/provider/active_workout_provider.dart';
-import 'package:Maven/util/provider/workout_provider.dart';
+import 'package:Maven/common/util/i_shared_preferences.dart';
+import 'package:Maven/common/util/provider/active_workout_provider.dart';
+import 'package:Maven/common/util/provider/workout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import 'data/app_themes.dart';
+import 'common/theme/app_themes.dart';
 import 'maven.dart';
 
 void main() async {
@@ -49,25 +50,3 @@ class Main extends StatelessWidget {
   }
 }
 
-class ISharedPrefs extends InheritedWidget {
-  const ISharedPrefs({
-    super.key,
-    required this.streamingSharedPreferences,
-    required super.child,
-  });
-
-  final StreamingSharedPreferences streamingSharedPreferences;
-
-  static ISharedPrefs? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ISharedPrefs>();
-  }
-
-  static ISharedPrefs of(BuildContext context) {
-    final ISharedPrefs? result = maybeOf(context);
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ISharedPrefs oldWidget) => streamingSharedPreferences != oldWidget.streamingSharedPreferences;
-
-}

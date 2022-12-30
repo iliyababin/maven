@@ -6,15 +6,14 @@ import 'dart:io';
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/active_workout.dart';
+import 'package:Maven/common/model/exercise.dart';
+import 'package:Maven/common/model/exercise_group.dart';
+import 'package:Maven/common/model/exercise_set.dart';
+import 'package:Maven/common/model/workout.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../common/model/exercise.dart';
-import '../common/model/exercise_group.dart';
-import '../common/model/exercise_set.dart';
-import '../common/model/workout.dart';
 
 ///
 /// Helps with basic CRUD operations on database. Stored on users system.

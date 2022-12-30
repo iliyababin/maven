@@ -1,10 +1,10 @@
-import 'package:Maven/util/provider/active_workout_provider.dart';
+import 'package:Maven/common/model/active_workout.dart';
+import 'package:Maven/common/util/provider/active_workout_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../common/model/active_workout.dart';
-import '../main.dart';
 import 'database_helper.dart';
+import 'i_shared_preferences.dart';
 
 Future<void> generateActiveWorkoutTemplate(BuildContext context, int workoutId) async {
   int test = await Provider.of<ActiveWorkoutProvider>(context, listen: false).generateActiveWorkoutTemplate(workoutId);

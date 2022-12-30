@@ -18,6 +18,8 @@ class AppColors implements AppThemeOptions{
   final Color slidingPanelShadowColor;
   final Color whiteColor;
   final Color transparentColor = const Color(0x00000000);
+  final Color popupMenuBackgroundColor;
+  final Color finishColor;
 
   AppColors({
     required this.backgroundColor,
@@ -34,5 +36,7 @@ class AppColors implements AppThemeOptions{
     required this.dragBarColor,
     required this.slidingPanelShadowColor,
     required this.whiteColor,
+    required this.popupMenuBackgroundColor,
+    required this.finishColor,
   });
 }

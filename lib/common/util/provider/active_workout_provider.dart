@@ -1,6 +1,6 @@
+import 'package:Maven/common/model/active_workout.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/model/active_workout.dart';
 import '../database_helper.dart';
 
 class ActiveWorkoutProvider with ChangeNotifier {

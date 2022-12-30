@@ -1,13 +1,13 @@
+import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/common/util/i_shared_preferences.dart';
+import 'package:Maven/common/util/workout_manager.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/exercise.dart';
 import '../../../common/model/exercise_group.dart';
 import '../../../common/model/workout.dart';
-import '../../../data/app_themes.dart';
-import '../../../main.dart';
-import '../../../util/database_helper.dart';
-import '../../../util/workout_manager.dart';
+import '../../../common/theme/app_themes.dart';
 
 class ViewWorkoutScreen extends StatefulWidget {
   const ViewWorkoutScreen({Key? key, required this.workoutId})

@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
   theme_provider: ^0.5.0
   sqflite: ^2.2.2
   path_provider: ^2.0.11
@@ -20,8 +19,6 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   provider: ^6.0.5
   settings_ui: ^2.0.2
-  sliding_up_panel: ^2.0.0+1
-  custom_check_box: ^0.0.4
 
 dev_dependencies:
   flutter_test:

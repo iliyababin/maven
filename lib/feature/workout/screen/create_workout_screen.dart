@@ -1,13 +1,13 @@
+import 'package:Maven/common/util/provider/workout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/model/exercise_group.dart';
 import '../../../common/model/exercise_set.dart';
 import '../../../common/model/workout.dart';
-import '../../../data/app_themes.dart';
+import '../../../common/theme/app_themes.dart';
+import '../../../common/util/database_helper.dart';
 import '../../../screen/add_exercise_screen.dart';
-import '../../../util/database_helper.dart';
-import '../../../util/provider/workout_provider.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
 import '../widget/exercise_block_widget.dart';

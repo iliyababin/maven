@@ -1,5 +1,5 @@
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/data/app_themes.dart';
+import 'package:Maven/common/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,7 +48,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
           ),
           SizedBox(width: spacerSize),
           Container(
-            width: 80,
+            width: 90,
             height: 35,
             child: TextButton(
               onPressed: (){},
@@ -93,7 +93,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
               ),
             ),
           ),
-          SizedBox(width: spacerSize),
+          SizedBox(width: spacerSize*2),
         ],
       ),
     );

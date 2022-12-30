@@ -1,4 +1,4 @@
-import 'package:Maven/data/app_themes.dart';
+import 'package:Maven/common/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar {

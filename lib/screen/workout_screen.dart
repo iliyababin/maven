@@ -1,12 +1,12 @@
-import 'package:Maven/util/provider/active_workout_provider.dart';
+import 'package:Maven/common/util/provider/active_workout_provider.dart';
+import 'package:Maven/common/util/provider/workout_provider.dart';
+import 'package:Maven/common/util/workout_manager.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../feature/workout/screen/create_workout_screen.dart';
 import '../feature/workout/screen/view_workout_screen.dart';
-import '../util/provider/workout_provider.dart';
-import '../util/workout_manager.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
