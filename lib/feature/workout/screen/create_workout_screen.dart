@@ -1,12 +1,11 @@
-import 'package:Maven/common/util/provider/workout_provider.dart';
+import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
+import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/model/exercise_group.dart';
-import '../../../common/model/exercise_set.dart';
 import '../../../common/model/workout.dart';
 import '../../../common/theme/app_themes.dart';
-import '../../../common/util/database_helper.dart';
 import '../../../screen/add_exercise_screen.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
@@ -25,59 +24,34 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold.build(
+      context: context,
       appBar: CustomAppBar.build(
-        title: "Create Workout",
+        title: 'Create Workout',
         context: context,
         actions: [
           TextButton(
-              onPressed: () async {
-                if (workoutTitleController.text.isEmpty) {
-                  const snackBar = SnackBar(
-                    content: Text('Enter a workout title'),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  return;
-                }
-                int test =
-                    await Provider.of<WorkoutProvider>(context, listen: false)
-                        .addWorkout(Workout(name: workoutTitleController.text));
-                print(test);
-                for (var exerciseBlock in exerciseBlocks) {
-                  int exerciseGroupId = await DatabaseHelper.instance
-                      .addExerciseGroup(ExerciseGroup(
-                          exerciseId: exerciseBlock.exercise.exerciseId,
-                          workoutId: test));
-                  for (var tempExerciseSet in exerciseBlock.sets) {
-                    DatabaseHelper.instance.addExerciseSet(ExerciseSet(
-                        exerciseGroupId: exerciseGroupId,
-                        weight: tempExerciseSet.weight,
-                        reps: tempExerciseSet.reps,
-                        workoutId: test));
-                  }
-                }
-                Navigator.pop(context);
-              },
+              onPressed: _createWorkout,
               child: Text(
                 'Save',
                 style: TextStyle(color: colors(context).accentTextColor),
-              ))
+              )
+          ),
         ],
       ),
-      backgroundColor: colors(context).backgroundColor,
       body: Column(
         children: [
           TextFormField(
             controller: workoutTitleController,
-            decoration: const InputDecoration(hintText: 'Workout title'),
-            validator: (value) {},
+            decoration: const InputDecoration(
+                hintText: 'Workout title'
+            ),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: exerciseBlocks.length,
               itemBuilder: (BuildContext context, int index) {
                 ExerciseBlockData exerciseBlockData = exerciseBlocks[index];
-                /*return Text(exerciseBlockData.exercise.name);*/
                 return ExerciseBlockWidget(
                   exerciseBlockData: exerciseBlockData,
                   onChanged: (exerciseBlockData) {
@@ -90,20 +64,44 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddExerciseScreen())
-          ).then((exercise) => {
-            setState(() {
-              exerciseBlocks.add(ExerciseBlockData(
-                          exercise: exercise,
-                          sets: List.empty(growable: true)));
-                    })
-          });
-        },
+        onPressed: _addExercise,
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _createWorkout() {
+    if (workoutTitleController.text.isEmpty) {
+      const snackBar = SnackBar(
+        content: Text('Enter a workout title'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
+
+    context.read<WorkoutBloc>().add(
+        AddWorkout(
+            workout: Workout(name: workoutTitleController.text),
+            exerciseBlocks: exerciseBlocks
+        )
+    );
+
+    Navigator.pop(context);
+  }
+
+  void _addExercise() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddExerciseScreen())
+    ).then((exercise) {
+      setState(() {
+        exerciseBlocks.add(
+            ExerciseBlockData(
+                exercise: exercise,
+                sets: List.empty(growable: true)
+            )
+        );
+      });
+    });
   }
 }

@@ -27,7 +27,7 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
       builder: (context, currentWorkoutId) {
         return CustomScaffold.build(
           context: context,
-          appbar: CustomAppBar.build(
+          appBar: CustomAppBar.build(
             title: "",
             context: context,
             actions: [

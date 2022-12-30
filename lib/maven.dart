@@ -3,9 +3,9 @@ import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/common/util/i_shared_preferences.dart';
 import 'package:Maven/common/util/workout_manager.dart';
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
+import 'package:Maven/feature/workout/screen/workout_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
-import 'package:Maven/screen/workout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
