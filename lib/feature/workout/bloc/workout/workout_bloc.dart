@@ -1,4 +1,4 @@
-common/model/exercise_group.dart';
+import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
 import 'package:Maven/common/model/workout.dart';
 import 'package:Maven/common/util/database_helper.dart';
@@ -10,48 +10,54 @@ part 'workout_event.dart';
 part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
-  WorkoutBloc() : super(WorkoutInitial()) {
+  WorkoutBloc() : super(const WorkoutState()) {
+
     on<LoadWorkoutList>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.loading));
+
+      await Future.delayed(Duration(seconds: 2));
+
       List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
-      emit(WorkoutLoaded(workouts: workouts));
+
+      emit(state.copyWith(
+        workouts: () => workouts,
+        status: () => WorkoutStatus.success
+      ));
     });
 
     on<AddWorkout>((event, emit) async {
-      if(state is WorkoutLoaded) {
+      if(state.status == WorkoutStatus.success) {
+        emit(state.copyWith(status: () => WorkoutStatus.loading));
+
         int workoutId = await DatabaseHelper.instance.addWorkout(event.workout);
 
         for (var exerciseBlock in event.exerciseBlocks) {
           int exerciseGroupId = await DatabaseHelper.instance.addExerciseGroup(
               ExerciseGroup(
-                exerciseId: exerciseBlock.exercise.exerciseId,
-                workoutId: workoutId
+                  exerciseId: exerciseBlock.exercise.exerciseId,
+                  workoutId: workoutId
               )
           );
           for (var tempExerciseSet in exerciseBlock.sets) {
             DatabaseHelper.instance.addExerciseSet(
-              ExerciseSet(
-                exerciseGroupId: exerciseGroupId,
-                weight: tempExerciseSet.weight,
-                reps: tempExerciseSet.reps,
-                workoutId: workoutId
-              )
+                ExerciseSet(
+                    exerciseGroupId: exerciseGroupId,
+                    weight: tempExerciseSet.weight,
+                    reps: tempExerciseSet.reps,
+                    workoutId: workoutId
+                )
             );
           }
         }
 
-        List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
-        emit(
-          WorkoutLoaded(workouts: workouts)
-        );
-      }
-    });
+        emit(state.copyWith(status: () => WorkoutStatus.added));
 
-    on<DeleteWorkout>((event, emit) async {
-      DatabaseHelper.instance.deleteWorkout(event.workoutId);
-      List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
-      emit(
-          WorkoutLoaded(workouts: workouts)
-      );
+        List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
+        emit(state.copyWith(
+            workouts: () => workouts,
+            status: () => WorkoutStatus.success
+        ));
+      }
     });
   }
 }

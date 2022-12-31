@@ -1,19 +1,37 @@
 part of 'workout_bloc.dart';
 
-abstract class WorkoutState extends Equatable {
-  const WorkoutState();
-
-  @override
-  List<Object> get props => [];
+enum WorkoutStatus {
+  initial,
+  loading,
+  success,
+  failure,
+  added
 }
 
-class WorkoutInitial extends WorkoutState {}
+class WorkoutState extends Equatable {
+  const WorkoutState({
+    this.status = WorkoutStatus.initial,
+    this.workouts = const [],
+  });
 
-class WorkoutLoaded extends WorkoutState {
+  final WorkoutStatus status;
   final List<Workout> workouts;
 
-  const WorkoutLoaded({required this.workouts});
+  Iterable<Workout> get filteredWorkouts => workouts;
+
+  WorkoutState copyWith({
+    WorkoutStatus Function()? status,
+    List<Workout> Function()? workouts,
+  }) {
+    return WorkoutState(
+      status: status != null ? status() : this.status,
+      workouts: workouts != null ? workouts() : this.workouts,
+    );
+  }
 
   @override
-  List<Object> get props => [workouts];
+  List<Object?> get props => [
+    status,
+    workouts,
+  ];
 }
