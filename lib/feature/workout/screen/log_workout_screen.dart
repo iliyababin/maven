@@ -31,12 +31,22 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
             title: "",
             context: context,
             actions: [
-              TextButton(
-                onPressed: (){
-
-                },
-                child: Text("Finish"),
-              )
+              IconButton(
+                onPressed: (){},
+                icon: Icon(
+                  Icons.pause,
+                  size: 26,
+                  color: colors(context).accentTextColor,
+                )
+              ),
+              IconButton(
+                  onPressed: (){},
+                  icon: Icon(
+                    Icons.flag,
+                    size: 26,
+                    color: colors(context).finishColor,
+                  )
+              ),
             ]
           ),
           floatingActionButton: FloatingActionButton(

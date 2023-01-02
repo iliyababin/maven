@@ -93,7 +93,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
               ),
             ),
           ),
-          SizedBox(width: spacerSize*2),
+          SizedBox(width: spacerSize*1.4),
         ],
       ),
     );

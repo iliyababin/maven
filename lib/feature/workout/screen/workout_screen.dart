@@ -1,5 +1,8 @@
+import 'package:Maven/common/model/workout.dart';
 import 'package:Maven/common/theme/app_themes.dart';
 import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
+import 'package:Maven/feature/workout/widget/workout_card.dart';
+import 'package:Maven/widget/flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +33,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
           return <Widget>[
-            const CupertinoSliverNavigationBar(
-              largeTitle: Text('Workout'),
+            CupertinoSliverNavigationBar(
+              largeTitle: Text(
+                'Workout',
+                style: TextStyle(
+                  color: colors(context).primaryTextColor,
+                ),
+              ),
+              backgroundColor: colors(context).backgroundColor,
             )
           ];
         },
@@ -44,160 +53,92 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Quick Start",
                       style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: colors(context).primaryTextColor
                       ),
                     ),
-                    SizedBox(height: 8,),
+                    const SizedBox(height: 14,),
                     Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            height: 45,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                elevation: MaterialStateProperty.all<double?>(0),
-                                backgroundColor: MaterialStateProperty.all<Color>(colors(context).accentTextColor),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(width: 8,),
-                                  Text(
-                                    'Start an Empty Workout',
-                                    style: TextStyle(
-                                      color: colors(context).whiteColor,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        FlatButton(
+                          text: Text(
+                            "Start an Empty Workout",
+                            style: TextStyle(
+                              color: colors(context).whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700
                             ),
                           ),
+                          color: colors(context).accentTextColor,
+                          showIcon: false,
+                          onPressed: (){},
                         ),
                       ],
                     ),
-                    SizedBox(height: 12,),
+                    const SizedBox(height: 12,),
                     Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            height: 45,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(colors(context).backgroundColor,),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
-                                        width: 1, // thickness
-                                        color: colors(context).backgroundDarkColor // color
-                                    ),
-                                  ),
-                                ),
-                                elevation: MaterialStateProperty.all<double?>(0),
-
-                                overlayColor: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                    return states.contains(MaterialState.pressed)
-                                        ? colors(context).backgroundDarkColor
-                                        : null;
-                                  },
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                      Icons.post_add,
-                                      color: colors(context).accentTextColor
-                                  ),
-                                  SizedBox(width: 8,),
-                                  Text(
-                                    'Create Template',
-                                    style: TextStyle(
-                                      color: colors(context).accentTextColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        FlatButton(
+                          text: Text(
+                            "Create Template",
+                            style: TextStyle(
+                                color: colors(context).accentTextColor,
+                                fontSize: 15,
                             ),
                           ),
+                          color: colors(context).backgroundColor,
+                          borderColor: colors(context).backgroundDarkColor,
+                          showIcon: true,
+                          icon: Icon(
+                            Icons.post_add,
+                            size: 20,
+                            color: colors(context).accentTextColor,
+                          ),
+                          onPressed: () => _createWorkout(context),
                         ),
                         const SizedBox(width: 16),
-                        Expanded(
-                          child: Container(
-                            height: 45,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(colors(context).backgroundColor,),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(
-                                        width: 1, // thickness
-                                        color: colors(context).backgroundDarkColor // color
-                                    ),
-                                  ),
-                                ),
-                                elevation: MaterialStateProperty.all<double?>(0),
-
-                                overlayColor: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                    return states.contains(MaterialState.pressed)
-                                        ? colors(context).backgroundDarkColor
-                                        : null;
-                                  },
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                      Icons.polyline,
-                                      color: colors(context).accentTextColor
-                                  ),
-                                  SizedBox(width: 8,),
-                                  Text(
-                                    'Workout Builder',
-                                    style: TextStyle(
-                                      color: colors(context).accentTextColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        FlatButton(
+                          text: Text(
+                            "Workout Builder",
+                            style: TextStyle(
+                              color: colors(context).accentTextColor,
+                              fontSize: 15,
                             ),
                           ),
-                        ),
+                          color: colors(context).backgroundColor,
+                          borderColor: colors(context).backgroundDarkColor,
+                          showIcon: true,
+                          icon: Icon(
+                            Icons.polyline,
+                            size: 18,
+                            color: colors(context).accentTextColor,
+                          ),
+                          onPressed: ( ) {
+
+                          },
+                        )
                       ],
                     ),
                   ],
                 ),
               ),
+              const SizedBox(height: 14,),
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: const Text(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
                   "Workouts",
                   style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: colors(context).primaryTextColor
                   ),
                 ),
               ),
-              SizedBox(height: 8,),
+              const SizedBox(height: 14,),
               BlocBuilder<WorkoutBloc, WorkoutState>(
                 builder: (context, state) {
                   if (state.status == WorkoutStatus.loading) {
@@ -205,28 +146,31 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   } else if (state.status == WorkoutStatus.success) {
 
                     final workouts = state.workouts;
-                    return ListView.builder(
-                      itemCount: workouts.length,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final workout = workouts[index];
-                        return ListTile(
-                          title: Text(workout.name),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ViewWorkoutScreen(
-                                            workoutId: workout.workoutId!
-                                        )
-                                )
-                            );
-                          },
-                        );
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView.separated(
+                        itemCount: workouts.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final workout = workouts[index];
+
+                          return WorkoutCard(
+                            workout: workout,
+                            backgroundColor: colors(context).backgroundColor,
+                            borderColor: colors(context).backgroundDarkColor,
+                            accentColor: colors(context).accentTextColor,
+                              primaryTextColor: colors(context).primaryTextColor,
+                            onTap: () {
+                              _showWorkout(context, workout);
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 10,);
+                        },
+                      ),
                     );
                   } else {
                     return const Text("lol");
@@ -239,6 +183,27 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       ),
     );
   }
+
+  _showWorkout(BuildContext context, Workout workout) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>
+        ViewWorkoutScreen(
+            workoutId: workout.workoutId!
+        )
+      )
+    );
+  }
+  _createWorkout(BuildContext context) {
+    print("Heyere");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>
+        const CreateWorkoutScreen()
+      )
+    );
+  }
+}
 /*
 
   @override
@@ -319,17 +284,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
 */
-
-  _navigateToCreateWorkoutScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const CreateWorkoutScreen()
-        )
-    );
-  }
-}
-
 /*workoutProvider.workouts.map((workout) {
 return Dismissible(
 key: UniqueKey(),

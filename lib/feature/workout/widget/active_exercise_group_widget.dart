@@ -4,6 +4,8 @@ import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/theme/app_themes.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
+import 'package:Maven/widget/m_popup_menu_button.dart';
+import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
 
 class ActiveExerciseGroupWidget extends StatefulWidget {
@@ -45,77 +47,46 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                     ),
                   ),
                 ),
+
                 Container(
-                  height: 35,
-                  width: 65,
-                  child: PopupMenuButton(
-                    itemBuilder: (context) {
-                      return [
-                        PopupMenuItem(
-                          height: 30,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.timer_outlined,
-                                size: 15,
-                                color: colors(context).accentTextColor,
-                              ),
-                              const SizedBox(width: 5,),
-                              Text(
-                                'Auto Rest Timer',
-                                style: TextStyle(
-                                  color: colors(context).primaryTextColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ],
+                  height: 52,
+                  width: 52,
+                  child: MPopupMenuButton(
+                      iconColor: colors(context).accentTextColor,
+                      color: colors(context).popupMenuBackgroundColor,
+                      children: [
+                        MPopupMenuItem.build(
+                          icon: Icon(
+                            Icons.straighten,
+                            size: 21,
+                            color: colors(context).accentTextColor,
                           ),
-                          onTap: (){
-
-                          },
+                          text: 'Weight Unit',
+                          textColor: colors(context).primaryTextColor,
+                          onTap: (){}
                         ),
-                        PopupMenuItem(
-                          height: 30,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.delete,
-                                size: 15,
-                                color: colors(context).errorColor,
-                              ),
-                              const SizedBox(width: 5,),
-                              Text(
-                                'Remove Exercise',
-                                style: TextStyle(
-                                  color: colors(context).errorColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: (){
-                            DatabaseHelper.instance.deleteActiveExerciseGroup(widget.activeExerciseGroup.activeExerciseGroupId!);
-                            setState(() {
-
-                            });
-                          },
+                        MPopupMenuItem.build(
+                            icon: Icon(
+                              Icons.timer_outlined,
+                              size: 21,
+                              color: colors(context).accentTextColor,
+                            ),
+                            text: 'Auto Rest Timer',
+                            textColor: colors(context).primaryTextColor,
+                            onTap: (){}
                         ),
-                      ];
-                    },
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(7),
-                      ),
-                    ),
-                    offset: Offset.fromDirection(2, 30),
-                    color: colors(context).popupMenuBackgroundColor,
-                    child: Icon(
-                      Icons.more_horiz,
-                      color: colors(context).accentTextColor,
-                    ),
-                  ),
+                        MPopupMenuItem.build(
+                            icon: Icon(
+                              Icons.delete,
+                              size: 21,
+                              color: colors(context).errorColor,
+                            ),
+                            text: 'Remove Exercise',
+                            textColor: colors(context).errorColor,
+                            onTap: (){}
+                        ),
+                      ]
+                  )
                 )
               ],
             );
