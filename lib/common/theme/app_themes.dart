@@ -8,7 +8,9 @@ List<AppTheme> getThemes(BuildContext context){
     AppTheme(
       id: "light_theme",
       description: "My Custom Theme",
-      data: ThemeData(),
+      data: ThemeData(
+        
+      ),
       options: AppColors(
         backgroundColor: const Color(0xFFFFFFFF),
         backgroundDarkColor: const Color(0xFFF1F1F1),

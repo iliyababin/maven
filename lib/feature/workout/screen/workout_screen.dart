@@ -148,29 +148,31 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     final workouts = state.workouts;
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.separated(
-                        itemCount: workouts.length,
+                      child: ReorderableListView(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
+                        proxyDecorator: proxyDecorator,
+                        children: List.generate(workouts.length, (index) {
                           final workout = workouts[index];
-
-                          return WorkoutCard(
-                            workout: workout,
-                            backgroundColor: colors(context).backgroundColor,
-                            borderColor: colors(context).backgroundDarkColor,
-                            accentColor: colors(context).accentTextColor,
+                          return Padding(
+                            key: UniqueKey(),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: WorkoutCard(
+                              workout: workout,
+                              backgroundColor: colors(context).backgroundColor,
+                              borderColor: colors(context).backgroundDarkColor,
+                              accentColor: colors(context).accentTextColor,
                               primaryTextColor: colors(context).primaryTextColor,
-                            onTap: () {
-                              _showWorkout(context, workout);
-                            },
+                              onTap: () {
+                                _showWorkout(context, workout);
+                              },
+                            ),
                           );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const SizedBox(height: 10,);
-                        },
-                      ),
+                        }),
+                        onReorder: (oldIndex, newIndex) => _reorderWorkouts(oldIndex, newIndex, workouts, context) ,
+                      )
+
                     );
                   } else {
                     return const Text("lol");
@@ -181,6 +183,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
         )
       ),
+    );
+  }
+
+  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          elevation: 0,
+          color: Colors.transparent,
+          child: child,
+        );
+      },
+      child: child,
     );
   }
 
@@ -195,11 +211,25 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
   _createWorkout(BuildContext context) {
-    print("Heyere");
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) =>
         const CreateWorkoutScreen()
+      )
+    );
+  }
+
+  _reorderWorkouts(int oldIndex, int newIndex, List<Workout> workouts, BuildContext context)  {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final Workout item = workouts.removeAt(oldIndex);
+      workouts.insert(newIndex, item);
+    });
+    context.read<WorkoutBloc>().add(
+      ReorderWorkoutList(
+        workouts: workouts
       )
     );
   }

@@ -9,7 +9,7 @@ import '../../../common/theme/app_themes.dart';
 import '../../../screen/add_exercise_screen.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
-import '../widget/exercise_block_widget.dart';
+import '../widget/view_exercise_block_widget.dart';
 
 class CreateWorkoutScreen extends StatefulWidget {
   const CreateWorkoutScreen({Key? key}) : super(key: key);
@@ -41,18 +41,38 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
       ),
       body: Column(
         children: [
-          TextFormField(
-            controller: workoutTitleController,
-            decoration: const InputDecoration(
-                hintText: 'Workout title'
+          Padding(
+            padding: const EdgeInsetsDirectional.all(16),
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: workoutTitleController,
+                  style: TextStyle(
+                    color: colors(context).primaryTextColor
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'New Workout Template',
+                    hintStyle: TextStyle(
+                      color: colors(context).unselectedItemColor
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: colors(context).backgroundDarkColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: colors(context).primaryColor),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
           Expanded(
             child: ListView.builder(
               itemCount: exerciseBlocks.length,
               itemBuilder: (BuildContext context, int index) {
                 ExerciseBlockData exerciseBlockData = exerciseBlocks[index];
-                return ExerciseBlockWidget(
+                return ViewExerciseBlockWidget(
                   exerciseBlockData: exerciseBlockData,
                   onChanged: (exerciseBlockData) {
                     exerciseBlocks[index] = exerciseBlockData;
@@ -80,10 +100,10 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
     }
 
     context.read<WorkoutBloc>().add(
-        AddWorkout(
-            workout: Workout(name: workoutTitleController.text),
-            exerciseBlocks: exerciseBlocks
-        )
+      AddWorkout(
+        workout: Workout(name: workoutTitleController.text),
+        exerciseBlocks: exerciseBlocks
+      )
     );
 
     Navigator.pop(context);

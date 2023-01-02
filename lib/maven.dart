@@ -1,4 +1,5 @@
 import 'package:Maven/common/model/active_exercise_set.dart';
+import 'package:Maven/common/model/workout.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/common/util/i_shared_preferences.dart';
 import 'package:Maven/common/util/workout_manager.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'common/theme/app_themes.dart';
-import 'feature/workout/screen/log_workout_screen.dart';
+import 'feature/workout/screen/active_workout_screen.dart';
+import 'generated/l10n.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -65,10 +67,15 @@ class _MavenState extends State<Maven> {
           onPressed: (){
            deleteCurrentWorkout(context);
           },
-          child: Text("discard workout")
+          child: Text(S.of(context).discard)
         ),
         ElevatedButton(
             onPressed: () async{
+              List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
+              for(var workout in workouts) {
+                print(workout.sortOrder);
+              }
+
               List activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
               List activeExerciseGroups = await DatabaseHelper.instance.getActiveExerciseGroups();
               List<ActiveExerciseSet> activeExerciseSets = await DatabaseHelper.instance.getActiveExerciseSets();

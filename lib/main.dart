@@ -3,12 +3,14 @@ import 'package:Maven/common/util/provider/active_workout_provider.dart';
 import 'package:Maven/common/util/provider/workout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'common/theme/app_themes.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
+import 'generated/l10n.dart';
 import 'maven.dart';
 
 void main() async {
@@ -31,7 +33,6 @@ void main() async {
   ));
 }
 
-
 class Main extends StatelessWidget {
   const Main({super.key});
 
@@ -45,10 +46,17 @@ class Main extends StatelessWidget {
         child: Builder(
           builder: (themeContext) =>
               MaterialApp(
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
                 theme: ThemeProvider
                     .themeOf(themeContext)
                     .data,
-                title: 'Material App',
+                title: "hey",
                 home: const Maven(),
               ),
         ),

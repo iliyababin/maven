@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../model/exercise_block.dart';
 import '../model/temp_exercise_set.dart';
-import 'exercise_set_widget.dart';
+import 'view_exercise_set_widget.dart';
 
-class ExerciseBlockWidget extends StatefulWidget {
+class ViewExerciseBlockWidget extends StatefulWidget {
   final ExerciseBlockData exerciseBlockData;
   final Function(ExerciseBlockData) onChanged;
 
-  const ExerciseBlockWidget(
+  const ViewExerciseBlockWidget(
       {Key? key, required this.exerciseBlockData, required this.onChanged})
       : super(key: key);
 
   @override
-  State<ExerciseBlockWidget> createState() => _ExerciseBlockWidgetState();
+  State<ViewExerciseBlockWidget> createState() => _ViewExerciseBlockWidgetState();
 }
 
-class _ExerciseBlockWidgetState extends State<ExerciseBlockWidget> {
+class _ViewExerciseBlockWidgetState extends State<ViewExerciseBlockWidget> {
   bool hasSet = false;
 
   @override
@@ -37,7 +37,7 @@ class _ExerciseBlockWidgetState extends State<ExerciseBlockWidget> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return ExerciseSetWidget(
+            return ViewExerciseSetWidget(
                 index: index,
                 onChanged: (exerciseSet) {
                   widget.exerciseBlockData.sets[index] = exerciseSet;

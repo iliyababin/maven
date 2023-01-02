@@ -1,23 +1,28 @@
 import 'package:equatable/equatable.dart';
 
 class Workout extends Equatable{
-  int? workoutId;
-  String name;
+   int? workoutId;
+   String name;
+   int? sortOrder;
+
 
   Workout({
     this.workoutId,
     required this.name,
+    this.sortOrder,
   });
 
   factory Workout.fromMap(Map<String, dynamic> json) => Workout(
     workoutId: json["workoutId"],
-    name:  json["name"]
+    name: json["name"],
+    sortOrder: json["sortOrder"],
   );
 
   Map<String, dynamic> toMap() {
     return {
       'workoutId': workoutId,
-      'name': name
+      'name': name,
+      'sortOrder': sortOrder,
     };
   }
 
@@ -29,5 +34,5 @@ class Workout extends Equatable{
   }
 
   @override
-  List<Object?> get props => [workoutId, name];
+  List<Object?> get props => [workoutId, name, sortOrder];
 }

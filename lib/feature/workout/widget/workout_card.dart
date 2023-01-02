@@ -46,7 +46,8 @@ class WorkoutCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      workout.name,
+                      //TODO: WORKOUT NAME
+                      "${workout.name} ${workout.sortOrder}",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,

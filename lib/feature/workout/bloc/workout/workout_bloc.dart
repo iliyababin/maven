@@ -59,5 +59,22 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         ));
       }
     });
+
+    on<ReorderWorkoutList>((event, emit) async {
+
+      List<Workout> workouts = event.workouts;
+
+      // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
+      for (int i = 0; i < workouts.length; i++) {
+        Workout workout = workouts[i];
+        workout.sortOrder = i;
+        int test = await DatabaseHelper.instance.updateWorkout(workout);
+      }
+
+      emit(state.copyWith(
+          workouts: () => workouts,
+          status: () => WorkoutStatus.success
+      ));
+    });
   }
 }

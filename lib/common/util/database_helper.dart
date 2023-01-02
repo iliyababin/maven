@@ -26,8 +26,8 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy125.db');
-    String path = join(documentsDirectory.path, 'testy125.db');
+    await deleteDatabase('testy136.db');
+    String path = join(documentsDirectory.path, 'testy136.db');
 
     return await openDatabase(
       path,
@@ -54,7 +54,8 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE workout (
         workoutId INTEGER PRIMARY KEY,
-        name TEXT
+        name TEXT,
+        sortOrder INTEGER
       );
     ''');
     await db.execute('''
@@ -129,7 +130,10 @@ class DatabaseHelper {
   ///
   Future<int> addWorkout(Workout workout) async {
     Database db = await instance.database;
-    return await db.insert('workout', workout.toMap());
+    Map<String, dynamic> workoutMap = workout.toMap();
+    int highestSortOrder = await getWorkoutWithHighestSortOrder() + 1;
+    workoutMap["sortOrder"] = highestSortOrder;
+    return await db.insert('workout', workoutMap);
   }
 
   Future<Workout?> getWorkout(int workoutId) async {
@@ -141,11 +145,20 @@ class DatabaseHelper {
 
   Future<List<Workout>> getWorkouts() async {
     Database db = await instance.database;
-    var workouts = await db.query('workout', orderBy: 'name');
+    var workouts = await db.query('workout', orderBy: 'sortOrder');
     List<Workout> workoutList = workouts.isNotEmpty
         ? workouts.map((c) => Workout.fromMap(c)).toList()
         : [];
     return workoutList;
+  }
+
+  Future<int> getWorkoutWithHighestSortOrder() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('workout', orderBy: 'sortOrder DESC');
+    if (maps.length > 0) {
+      return Workout.fromMap(maps.first).sortOrder ?? 0;
+    }
+    return 0;
   }
 
   Future<int> updateWorkout(Workout workout) async {
