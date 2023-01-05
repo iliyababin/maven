@@ -1,6 +1,7 @@
 import 'package:Maven/common/util/i_shared_preferences.dart';
 import 'package:Maven/common/util/provider/active_workout_provider.dart';
 import 'package:Maven/common/util/provider/workout_provider.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import 'common/theme/app_themes.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'generated/l10n.dart';
 import 'maven.dart';
@@ -21,8 +21,12 @@ void main() async {
     ssp.setInt("currentWorkoutId", -1);
   }
 
-  runApp(BlocProvider(
-    create: (context) => WorkoutBloc()..add(LoadWorkoutList()),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => WorkoutBloc()..add(InitializeWorkoutBloc())
+      ),
+    ],
     child: MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => WorkoutProvider()),

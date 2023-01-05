@@ -19,23 +19,25 @@ class WorkoutCard extends StatelessWidget {
     required this.primaryTextColor
   }) : super(key: key);
 
+  final double borderRadius = 8;
+
   @override
   Widget build(BuildContext context) {
 
 
     return Material(
       color: backgroundColor,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
         splashColor: Colors.black12,
         onTap: onTap,
         customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: borderColor, width: 1.0),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           child: Padding(
             padding: const EdgeInsets.all(13.0),
@@ -54,7 +56,7 @@ class WorkoutCard extends StatelessWidget {
                         color: primaryTextColor
                       ),
                     ),
-                    IconButton(
+                    /*IconButton(
                       onPressed: () {},
                       icon: Icon(
                         Icons.more_horiz,
@@ -62,7 +64,7 @@ class WorkoutCard extends StatelessWidget {
                       ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                    ),
+                    ),*/
                   ],
                 ),
                 SizedBox(height: 1,),

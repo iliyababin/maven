@@ -1,9 +1,9 @@
+import 'package:Maven/theme/app_themes.dart';
 import 'package:Maven/widget/set_row.dart';
 import 'package:flutter/material.dart';
 
 import '../common/model/exercise.dart';
 import '../common/model/exercise_set.dart';
-import '../common/theme/app_themes.dart';
 
 class ExerciseSection extends StatefulWidget {
   final Exercise exercise;

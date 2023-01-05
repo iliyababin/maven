@@ -1,13 +1,13 @@
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/common/util/i_shared_preferences.dart';
 import 'package:Maven/common/util/workout_manager.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/exercise.dart';
 import '../../../common/model/exercise_group.dart';
 import '../../../common/model/workout.dart';
-import '../../../common/theme/app_themes.dart';
 
 class ViewWorkoutScreen extends StatefulWidget {
   const ViewWorkoutScreen({Key? key, required this.workoutId})
@@ -29,7 +29,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
-          future: DatabaseHelper.instance.getWorkout(widget.workoutId),
+          future: DBHelper.instance.getWorkout(widget.workoutId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Text('Loading');
@@ -98,7 +98,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
 
   FutureBuilder getListOfExercises(int workoutId) {
     return FutureBuilder(
-      future: DatabaseHelper.instance
+      future: DBHelper.instance
           .getExerciseGroupsByWorkoutId(widget.workoutId),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading exercises');
@@ -112,7 +112,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
             ExerciseGroup exerciseGroup = exerciseGroups[index];
             return FutureBuilder(
               future:
-              DatabaseHelper.instance.getExercise(exerciseGroup.exerciseId),
+              DBHelper.instance.getExercise(exerciseGroup.exerciseId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading exercise');
                 Exercise exercise = snapshot.data!;
@@ -127,7 +127,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                   ),
                   title: Text(exercise.name),
                   subtitle: FutureBuilder(
-                    future: DatabaseHelper.instance
+                    future: DBHelper.instance
                         .getExerciseSetsByExerciseGroupId(
                         exerciseGroup.exerciseGroupId!),
                     builder: (context, snapshot) {

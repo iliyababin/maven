@@ -7,10 +7,10 @@ import 'package:Maven/feature/profile/screen/profile_screen.dart';
 import 'package:Maven/feature/workout/screen/workout_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-import 'common/theme/app_themes.dart';
 import 'feature/workout/screen/active_workout_screen.dart';
 import 'generated/l10n.dart';
 
@@ -71,14 +71,19 @@ class _MavenState extends State<Maven> {
         ),
         ElevatedButton(
             onPressed: () async{
-              List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
+              /*List<WorkoutFolder> workoutFolders = await DatabaseHelper.instance.getWorkoutFolders();
+              for(var workoutFolder in workoutFolders) {
+                print("id: ${workoutFolder.workoutFolderId}");
+              }*/
+
+              List<Workout> workouts = await DBHelper.instance.getWorkouts();
               for(var workout in workouts) {
-                print(workout.sortOrder);
+                print("name bruh: ${workout.name}");
               }
 
-              List activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
-              List activeExerciseGroups = await DatabaseHelper.instance.getActiveExerciseGroups();
-              List<ActiveExerciseSet> activeExerciseSets = await DatabaseHelper.instance.getActiveExerciseSets();
+              List activeWorkouts = await DBHelper.instance.getActiveWorkouts();
+              List activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroups();
+              List<ActiveExerciseSet> activeExerciseSets = await DBHelper.instance.getActiveExerciseSets();
               print("activeWorkouts: ${activeWorkouts.length}");
               print("activeExerciseGroups: ${activeExerciseGroups.length}");
               print("activeExerciseSets: ${activeExerciseSets.length}");

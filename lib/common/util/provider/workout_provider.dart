@@ -13,27 +13,27 @@ class WorkoutProvider with ChangeNotifier {
   }
 
   void init() async {
-    _workouts = await DatabaseHelper.instance.getWorkouts();
+    _workouts = await DBHelper.instance.getWorkouts();
     notifyListeners();
   }
 
   Future<Workout?> getWorkout(int workoutId) async {
-    return await DatabaseHelper.instance.getWorkout(workoutId);
+    return await DBHelper.instance.getWorkout(workoutId);
   }
 
   Future<int> addWorkout(Workout workout) async {
-    int j = await DatabaseHelper.instance.addWorkout(workout);
-    _workouts = await DatabaseHelper.instance.getWorkouts();
+    int j = await DBHelper.instance.addWorkout(workout);
+    _workouts = await DBHelper.instance.getWorkouts();
     notifyListeners();
     print("NOTIFIED");
     return j;
   }
 
   void deleteWorkout(int workoutId) async {
-    DatabaseHelper.instance.deleteWorkout(workoutId);
-    DatabaseHelper.instance.deleteExerciseGroupsByWorkoutId(workoutId);
-    DatabaseHelper.instance.deleteExerciseSetsByWorkoutId(workoutId);
-    _workouts = await DatabaseHelper.instance.getWorkouts();
+    DBHelper.instance.deleteWorkout(workoutId);
+    DBHelper.instance.deleteExerciseGroupsByWorkoutId(workoutId);
+    DBHelper.instance.deleteExerciseSetsByWorkoutId(workoutId);
+    _workouts = await DBHelper.instance.getWorkouts();
     notifyListeners();
     print("NOTIFIED 2");
   }

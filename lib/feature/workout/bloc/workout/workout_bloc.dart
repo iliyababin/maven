@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
 import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/workout_folder.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/model/exercise_block.dart';
 import 'package:bloc/bloc.dart';
@@ -12,34 +15,39 @@ part 'workout_state.dart';
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc() : super(const WorkoutState()) {
 
-    on<LoadWorkoutList>((event, emit) async {
+    on<InitializeWorkoutBloc>((event, emit) async {
       emit(state.copyWith(status: () => WorkoutStatus.loading));
 
       await Future.delayed(Duration(seconds: 2));
 
-      List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
+      List<Workout> workouts = await DBHelper.instance.getWorkouts();
+      List<WorkoutFolder> workoutFolders = await DBHelper.instance.getWorkoutFolders();
 
       emit(state.copyWith(
         workouts: () => workouts,
+        workoutFolders: () => workoutFolders,
         status: () => WorkoutStatus.success
       ));
     });
 
+
     on<AddWorkout>((event, emit) async {
+      log("trying to add workout");
       if(state.status == WorkoutStatus.success) {
+        log("Iin");
         emit(state.copyWith(status: () => WorkoutStatus.loading));
 
-        int workoutId = await DatabaseHelper.instance.addWorkout(event.workout);
+        int workoutId = await DBHelper.instance.addWorkout(event.workout);
 
         for (var exerciseBlock in event.exerciseBlocks) {
-          int exerciseGroupId = await DatabaseHelper.instance.addExerciseGroup(
+          int exerciseGroupId = await DBHelper.instance.addExerciseGroup(
               ExerciseGroup(
                   exerciseId: exerciseBlock.exercise.exerciseId,
                   workoutId: workoutId
               )
           );
           for (var tempExerciseSet in exerciseBlock.sets) {
-            DatabaseHelper.instance.addExerciseSet(
+            DBHelper.instance.addExerciseSet(
                 ExerciseSet(
                     exerciseGroupId: exerciseGroupId,
                     weight: tempExerciseSet.weight,
@@ -52,15 +60,20 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
         emit(state.copyWith(status: () => WorkoutStatus.added));
 
-        List<Workout> workouts = await DatabaseHelper.instance.getWorkouts();
+        List<Workout> workouts = await DBHelper.instance.getWorkouts();
         emit(state.copyWith(
             workouts: () => workouts,
             status: () => WorkoutStatus.success
         ));
+        log("Added Workout: ${workoutId}");
+      } else {
+        log("didnt add workout");
       }
     });
 
+
     on<ReorderWorkoutList>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.loading));
 
       List<Workout> workouts = event.workouts;
 
@@ -68,7 +81,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       for (int i = 0; i < workouts.length; i++) {
         Workout workout = workouts[i];
         workout.sortOrder = i;
-        int test = await DatabaseHelper.instance.updateWorkout(workout);
+        int test = await DBHelper.instance.updateWorkout(workout);
       }
 
       emit(state.copyWith(
@@ -76,5 +89,21 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           status: () => WorkoutStatus.success
       ));
     });
+
+
+
+    on<AddWorkoutFolder>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.loading));
+
+      await DBHelper.instance.addWorkoutFolder(event.workoutFolder);
+
+      List<WorkoutFolder> workoutFolders = await DBHelper.instance.getWorkoutFolders();
+
+      emit(state.copyWith(
+        workoutFolders: () => workoutFolders,
+        status: () => WorkoutStatus.success
+      ));
+    });
+
   }
 }

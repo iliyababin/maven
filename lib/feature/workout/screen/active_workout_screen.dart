@@ -4,13 +4,13 @@ import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/common/util/i_shared_preferences.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
 import 'package:Maven/screen/add_exercise_screen.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import '../../../common/model/active_workout.dart';
-import '../../../common/theme/app_themes.dart';
 
 class LogWorkoutScreen extends StatefulWidget {
   const LogWorkoutScreen({Key? key}) : super(key: key);
@@ -56,7 +56,7 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
                   MaterialPageRoute(builder: (context) => const AddExerciseScreen())
               ).then((value) {
                 Exercise exercise = value;
-                DatabaseHelper.instance.addActiveExerciseGroup(
+                DBHelper.instance.addActiveExerciseGroup(
                   ActiveExerciseGroup(
                     exerciseId: exercise.exerciseId,
                     activeWorkoutId: currentWorkoutId
@@ -82,7 +82,7 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: FutureBuilder(
-                        future: DatabaseHelper.instance.getActiveWorkout(currentWorkoutId),
+                        future: DBHelper.instance.getActiveWorkout(currentWorkoutId),
                         builder: (context, snapshot) {
                           if(!snapshot.hasData) return Text("Loading");
                           ActiveWorkout activeWorkout = snapshot.data!;
@@ -98,7 +98,7 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
                       ),
                     ),
                     FutureBuilder(
-                      future: DatabaseHelper.instance.getActiveExerciseGroupsByActiveWorkoutId(currentWorkoutId),
+                      future: DBHelper.instance.getActiveExerciseGroupsByActiveWorkoutId(currentWorkoutId),
                       builder: (context, snapshot) {
                         List<ActiveExerciseGroup> activeExerciseGroups = snapshot.data ?? [];
                         if (!snapshot.hasData) return const Text("Loading...");

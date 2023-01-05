@@ -1,11 +1,11 @@
 import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/model/workout.dart';
-import '../../../common/theme/app_themes.dart';
 import '../../../screen/add_exercise_screen.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
@@ -101,7 +101,7 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
 
     context.read<WorkoutBloc>().add(
       AddWorkout(
-        workout: Workout(name: workoutTitleController.text),
+        workout: Workout(name: workoutTitleController.text, workoutFolderId: 1),
         exerciseBlocks: exerciseBlocks
       )
     );

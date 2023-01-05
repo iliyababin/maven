@@ -7,7 +7,7 @@ abstract class WorkoutEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadWorkoutList extends WorkoutEvent {}
+class InitializeWorkoutBloc extends WorkoutEvent {}
 
 class AddWorkout extends WorkoutEvent {
   final Workout workout;
@@ -40,4 +40,31 @@ class DeleteWorkout extends WorkoutEvent {
 
   @override
   List<Object> get props => [workoutId];
+}
+
+
+class LoadWorkoutFolders extends WorkoutEvent {}
+
+class AddWorkoutFolder extends WorkoutEvent {
+  final WorkoutFolder workoutFolder;
+
+  const AddWorkoutFolder({
+    required this.workoutFolder,
+  });
+
+  @override
+  List<Object> get props => [workoutFolder];
+}
+
+class ReorderWorkoutFolders extends WorkoutEvent {
+  final int oldListIndex;
+  final int newListIndex;
+
+  const ReorderWorkoutFolders({
+    required this.oldListIndex,
+    required this.newListIndex
+  });
+
+  @override
+  List<Object> get props => [oldListIndex, newListIndex];
 }

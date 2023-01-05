@@ -19,14 +19,14 @@ void deleteCurrentWorkout(BuildContext context) {
 
 Future<void> pauseCurrentWorkout(BuildContext context) async {
   int currentWorkoutId = ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1).getValue();
-  ActiveWorkout? activeWorkout =  await DatabaseHelper.instance.getActiveWorkout(currentWorkoutId);
+  ActiveWorkout? activeWorkout =  await DBHelper.instance.getActiveWorkout(currentWorkoutId);
   activeWorkout?.isPaused = 1;
   Provider.of<ActiveWorkoutProvider>(context, listen: false).updateActiveWorkout(activeWorkout!);
   ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", -1);
 }
 
 void unpauseWorkout(BuildContext context, int activeWorkoutId) async {
-  ActiveWorkout? activeWorkout =  await DatabaseHelper.instance.getActiveWorkout(activeWorkoutId);
+  ActiveWorkout? activeWorkout =  await DBHelper.instance.getActiveWorkout(activeWorkoutId);
   activeWorkout?.isPaused = 0;
   Provider.of<ActiveWorkoutProvider>(context, listen: false).updateActiveWorkout(activeWorkout!);
   ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", activeWorkoutId);

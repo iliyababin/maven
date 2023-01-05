@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:Maven/common/model/workout.dart';
-import 'package:Maven/common/theme/app_themes.dart';
+import 'package:Maven/common/model/workout_folder.dart';
 import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
-import 'package:Maven/feature/workout/widget/workout_card.dart';
-import 'package:Maven/widget/flat_button.dart';
+import 'package:Maven/feature/workout/screen/reorder_workout_screen.dart';
+import 'package:Maven/feature/workout/widget/workout_folder_widget.dart';
+import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,173 +22,233 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-
-  bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
   }
 
+  _showWorkout(BuildContext context, Workout workout) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ViewWorkoutScreen(workoutId: workout.workoutId!)));
+  }
+
+  _createWorkout(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CreateWorkoutScreen()));
+  }
+
+  _reorderWorkouts(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ReorderWorkoutScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _random = Random();
+
+    String getRandomNumber() {
+      final number = _random
+          .nextInt(10000); // Generates a random number between 0 and 9999
+      return number.toString();
+    }
+
     return CupertinoPageScaffold(
       backgroundColor: colors(context).backgroundColor,
       child: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-          return <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(
-                'Workout',
-                style: TextStyle(
-                  color: colors(context).primaryTextColor,
-                ),
-              ),
-              backgroundColor: colors(context).backgroundColor,
-            )
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Quick Start",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: colors(context).primaryTextColor
-                      ),
-                    ),
-                    const SizedBox(height: 14,),
-                    Row(
-                      children: [
-                        FlatButton(
-                          text: Text(
-                            "Start an Empty Workout",
-                            style: TextStyle(
-                              color: colors(context).whiteColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700
-                            ),
-                          ),
-                          color: colors(context).accentTextColor,
-                          showIcon: false,
-                          onPressed: (){},
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12,),
-                    Row(
-                      children: [
-                        FlatButton(
-                          text: Text(
-                            "Create Template",
-                            style: TextStyle(
-                                color: colors(context).accentTextColor,
-                                fontSize: 15,
-                            ),
-                          ),
-                          color: colors(context).backgroundColor,
-                          borderColor: colors(context).backgroundDarkColor,
-                          showIcon: true,
-                          icon: Icon(
-                            Icons.post_add,
-                            size: 20,
-                            color: colors(context).accentTextColor,
-                          ),
-                          onPressed: () => _createWorkout(context),
-                        ),
-                        const SizedBox(width: 16),
-                        FlatButton(
-                          text: Text(
-                            "Workout Builder",
-                            style: TextStyle(
-                              color: colors(context).accentTextColor,
-                              fontSize: 15,
-                            ),
-                          ),
-                          color: colors(context).backgroundColor,
-                          borderColor: colors(context).backgroundDarkColor,
-                          showIcon: true,
-                          icon: Icon(
-                            Icons.polyline,
-                            size: 18,
-                            color: colors(context).accentTextColor,
-                          ),
-                          onPressed: ( ) {
-
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 14,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  "Workouts",
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              CupertinoSliverNavigationBar(
+                largeTitle: Text(
+                  'Workout',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: colors(context).primaryTextColor
+                    color: colors(context).primaryTextColor,
                   ),
                 ),
-              ),
-              const SizedBox(height: 14,),
-              BlocBuilder<WorkoutBloc, WorkoutState>(
-                builder: (context, state) {
-                  if (state.status == WorkoutStatus.loading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state.status == WorkoutStatus.success) {
+                backgroundColor: colors(context).backgroundColor,
+              )
+            ];
+          },
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                quickStart(),
+                workouts(),
+                BlocBuilder<WorkoutBloc, WorkoutState>(
+                  builder: (context, state) {
+                    if (state.status == WorkoutStatus.loading) {
+                      return const SizedBox(
+                          height: 300,
+                          child: Center(child: CircularProgressIndicator()));
+                    } else if (state.status == WorkoutStatus.success) {
+                      List<WorkoutFolder> workoutFolders = state.workoutFolders;
 
-                    final workouts = state.workouts;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ReorderableListView(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        proxyDecorator: proxyDecorator,
-                        children: List.generate(workouts.length, (index) {
-                          final workout = workouts[index];
-                          return Padding(
-                            key: UniqueKey(),
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: WorkoutCard(
-                              workout: workout,
-                              backgroundColor: colors(context).backgroundColor,
-                              borderColor: colors(context).backgroundDarkColor,
-                              accentColor: colors(context).accentTextColor,
-                              primaryTextColor: colors(context).primaryTextColor,
-                              onTap: () {
-                                _showWorkout(context, workout);
-                              },
-                            ),
-                          );
-                        }),
-                        onReorder: (oldIndex, newIndex) => _reorderWorkouts(oldIndex, newIndex, workouts, context) ,
-                      )
-
-                    );
-                  } else {
-                    return const Text("lol");
-                  }
-                },
-              ),
-            ],
-          ),
-        )
-      ),
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: workoutFolders.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return WorkoutFolderWidget(
+                                workoutFolder: workoutFolders[index],
+                                workouts: state.workouts.where((workout) =>
+                                    workout.workoutFolderId ==
+                                    workoutFolders[index].workoutFolderId));
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 10,
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return const Text("lol");
+                    }
+                  },
+                ),
+              ],
+            ),
+          )),
     );
   }
+
+  quickStart() => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Quick Start",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: colors(context).primaryTextColor),
+            ),
+            const SizedBox(
+              height: 14,
+            ),
+            Row(
+              children: [
+                MFlatButton(
+                  text: Text(
+                    "Start an Empty Workout",
+                    style: TextStyle(
+                        color: colors(context).whiteColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  backgroundColor: colors(context).accentTextColor,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              children: [
+                MFlatButton(
+                  text: Text(
+                    "Create Template",
+                    style: TextStyle(
+                      color: colors(context).accentTextColor,
+                      fontSize: 15,
+                    ),
+                  ),
+                  backgroundColor: colors(context).backgroundColor,
+                  borderColor: colors(context).backgroundDarkColor,
+                  icon: Icon(
+                    Icons.post_add,
+                    size: 20,
+                    color: colors(context).accentTextColor,
+                  ),
+                  onPressed: () => _createWorkout(context),
+                ),
+                const SizedBox(width: 16),
+                MFlatButton(
+                  text: Text(
+                    "Workout Builder",
+                    style: TextStyle(
+                      color: colors(context).accentTextColor,
+                      fontSize: 15,
+                    ),
+                  ),
+                  backgroundColor: colors(context).backgroundColor,
+                  borderColor: colors(context).backgroundDarkColor,
+                  icon: Icon(
+                    Icons.polyline,
+                    size: 18,
+                    color: colors(context).accentTextColor,
+                  ),
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ],
+        ),
+      );
+
+  workouts() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Workouts",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: colors(context).primaryTextColor),
+            ),
+            Row(
+              children: [
+                MFlatButton(
+                  backgroundColor: colors(context).backgroundColor,
+                  onPressed: () => _reorderWorkouts(context),
+                  icon: Icon(
+                    CupertinoIcons.arrow_up_arrow_down,
+                    size: 20,
+                    color: colors(context).primaryColor,
+                  ),
+                  expand: false,
+                  borderColor: colors(context).backgroundDarkColor,
+                  width: 35,
+                  height: 35,
+                  padding: EdgeInsets.all(5),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                MFlatButton(
+                  backgroundColor: colors(context).backgroundColor,
+                  onPressed: () {
+                    final workoutFolder = WorkoutFolder(name: "GOTTEM");
+                    context
+                        .read<WorkoutBloc>()
+                        .add(AddWorkoutFolder(workoutFolder: workoutFolder));
+                  },
+                  icon: Icon(
+                    CupertinoIcons.folder_fill_badge_plus,
+                    size: 20,
+                    color: colors(context).primaryColor,
+                  ),
+                  expand: false,
+                  borderColor: colors(context).backgroundDarkColor,
+                  width: 35,
+                  height: 35,
+                  padding: EdgeInsets.all(5),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
 
   Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
     return AnimatedBuilder(
@@ -197,40 +261,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         );
       },
       child: child,
-    );
-  }
-
-  _showWorkout(BuildContext context, Workout workout) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>
-        ViewWorkoutScreen(
-            workoutId: workout.workoutId!
-        )
-      )
-    );
-  }
-  _createWorkout(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>
-        const CreateWorkoutScreen()
-      )
-    );
-  }
-
-  _reorderWorkouts(int oldIndex, int newIndex, List<Workout> workouts, BuildContext context)  {
-    setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
-      final Workout item = workouts.removeAt(oldIndex);
-      workouts.insert(newIndex, item);
-    });
-    context.read<WorkoutBloc>().add(
-      ReorderWorkoutList(
-        workouts: workouts
-      )
     );
   }
 }

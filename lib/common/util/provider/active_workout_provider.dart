@@ -15,36 +15,36 @@ class ActiveWorkoutProvider with ChangeNotifier {
   }
 
   void init() async {
-    _activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
-    _pausedActiveWorkouts = await DatabaseHelper.instance.getPausedActiveWorkouts();
+    _activeWorkouts = await DBHelper.instance.getActiveWorkouts();
+    _pausedActiveWorkouts = await DBHelper.instance.getPausedActiveWorkouts();
     notifyListeners();
   }
 
   Future<int> addActiveWorkout(ActiveWorkout activeWorkout) async {
-    int j = await DatabaseHelper.instance.addActiveWorkout(activeWorkout);
-    _activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
+    int j = await DBHelper.instance.addActiveWorkout(activeWorkout);
+    _activeWorkouts = await DBHelper.instance.getActiveWorkouts();
     notifyListeners();
     return j;
   }
 
   Future<int> generateActiveWorkoutTemplate(int workoutId) async {
-    int activeWorkoutId = await DatabaseHelper.instance.generateActiveWorkoutTemplate(workoutId);
-    _activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
+    int activeWorkoutId = await DBHelper.instance.generateActiveWorkoutTemplate(workoutId);
+    _activeWorkouts = await DBHelper.instance.getActiveWorkouts();
     notifyListeners();
     return activeWorkoutId;
   }
 
   Future<void> updateActiveWorkout(ActiveWorkout activeWorkout) async {
-    DatabaseHelper.instance.updateActiveWorkout(activeWorkout);
-    _pausedActiveWorkouts = await DatabaseHelper.instance.getPausedActiveWorkouts();
+    DBHelper.instance.updateActiveWorkout(activeWorkout);
+    _pausedActiveWorkouts = await DBHelper.instance.getPausedActiveWorkouts();
     notifyListeners();
   }
 
   Future<void> deleteActiveWorkout(int activeWorkoutId) async {
-    DatabaseHelper.instance.deleteActiveWorkout(activeWorkoutId);
-    DatabaseHelper.instance.deleteActiveExerciseGroupsByActiveWorkoutId(activeWorkoutId);
-    DatabaseHelper.instance.deleteActiveExerciseSetsByActiveWorkoutId(activeWorkoutId);
-    _activeWorkouts = await DatabaseHelper.instance.getActiveWorkouts();
+    DBHelper.instance.deleteActiveWorkout(activeWorkoutId);
+    DBHelper.instance.deleteActiveExerciseGroupsByActiveWorkoutId(activeWorkoutId);
+    DBHelper.instance.deleteActiveExerciseSetsByActiveWorkoutId(activeWorkoutId);
+    _activeWorkouts = await DBHelper.instance.getActiveWorkouts();
     notifyListeners();
   }
 }

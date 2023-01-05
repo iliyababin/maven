@@ -10,6 +10,7 @@ import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
 import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/workout_folder.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,16 +19,16 @@ import 'package:sqflite/sqflite.dart';
 ///
 /// Helps with basic CRUD operations on database. Stored on users system.
 ///
-class DatabaseHelper {
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+class DBHelper {
+  DBHelper._privateConstructor();
+  static final DBHelper instance = DBHelper._privateConstructor();
   static Database? _database;
   Future<Database> get database async => _database ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy136.db');
-    String path = join(documentsDirectory.path, 'testy136.db');
+    await deleteDatabase('testy142.db');
+    String path = join(documentsDirectory.path, 'testy142.db');
 
     return await openDatabase(
       path,
@@ -43,6 +44,15 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+
+    await db.execute('''
+      CREATE TABLE workoutFolder (
+        workoutFolderId INTEGER PRIMARY KEY,
+        name TEXT,
+        sortOrder INTEGER
+      );
+    ''');
+
     await db.execute('''
       CREATE TABLE exercise (
         exerciseId INTEGER PRIMARY KEY,
@@ -55,9 +65,12 @@ class DatabaseHelper {
       CREATE TABLE workout (
         workoutId INTEGER PRIMARY KEY,
         name TEXT,
-        sortOrder INTEGER
+        sortOrder INTEGER,
+        workoutFolderId INTEGER,
+        FOREIGN KEY (workoutFolderId) REFERENCES workoutFolder(workoutFolderId)
       );
     ''');
+
     await db.execute('''
       CREATE TABLE exerciseGroup (
         exerciseGroupId INTEGER PRIMARY KEY,
@@ -115,7 +128,12 @@ class DatabaseHelper {
         [exercise.exerciseId, exercise.name, exercise.muscle, exercise.picture],
       );
     }
+
+    addWorkoutFolder(WorkoutFolder(name: "My Workouts"));
   }
+
+  ///
+
 
   ///
   ///
@@ -123,10 +141,49 @@ class DatabaseHelper {
   /// CRUD for non-active models
   ///
   ///
-  ///
 
   ///
-  /// Workout Methods
+  /// workoutFolder
+  ///
+  Future<int> addWorkoutFolder(WorkoutFolder workoutFolder) async {
+    Database db = await instance.database;
+    Map<String, dynamic> workoutFolderMap = workoutFolder.toMap();
+    int highestSortOrder = await getWorkoutFolderWithHighestSortOrder() + 1;
+    workoutFolderMap["sortOrder"] = highestSortOrder;
+    return await db.insert('workoutFolder', workoutFolderMap);
+  }
+
+  Future<List<WorkoutFolder>> getWorkoutFolders() async {
+    Database db = await instance.database;
+    var workoutFolders = await db.query('workoutFolder', orderBy: 'sortOrder');
+    List<WorkoutFolder> workoutFolderList = workoutFolders.isNotEmpty
+        ? workoutFolders.map((c) => WorkoutFolder.fromMap(c)).toList()
+        : [];
+    return workoutFolderList;
+  }
+
+  Future<int> getWorkoutFolderWithHighestSortOrder() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('workoutFolder', orderBy: 'sortOrder DESC');
+    if (maps.length > 0) {
+      return WorkoutFolder.fromMap(maps.first).sortOrder ?? 0;
+    }
+    return 0;
+  }
+
+  Future<int> updateWorkoutFolder(WorkoutFolder workoutFolder) async {
+    final db = await instance.database;
+    return await db.update(
+      'workoutFolder',
+      workoutFolder.toMap(),
+      where: 'workoutFolderId = ?',
+      whereArgs: [workoutFolder.workoutFolderId],
+    );
+  }
+
+
+  ///
+  /// workout
   ///
   Future<int> addWorkout(Workout workout) async {
     Database db = await instance.database;
@@ -161,6 +218,25 @@ class DatabaseHelper {
     return 0;
   }
 
+
+  Future<List<Workout>> getWorkoutFoldersByWorkoutFolderId(int workoutFolderId) async {
+    final db = await instance.database;
+    var workouts = await db.query(
+      'workout',
+      where: 'workoutFolderId = ?',
+      whereArgs: [workoutFolderId],
+    );
+    List<Workout> workoutList = workouts.isNotEmpty
+        ? workouts.map((c) => Workout.fromMap(c)).toList()
+        : [];
+    return workoutList;
+  }
+
+  Future<int> deleteWorkout(int id) async {
+    final db = await instance.database;
+    return await db.delete('workout', where: 'workoutId = ?', whereArgs: [id]);
+  }
+
   Future<int> updateWorkout(Workout workout) async {
     final db = await instance.database;
     return await db.update(
@@ -171,13 +247,8 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> deleteWorkout(int id) async {
-    final db = await instance.database;
-    return await db.delete('workout', where: 'workoutId = ?', whereArgs: [id]);
-  }
-
   ///
-  /// Exercise methods
+  /// exercise
   ///
   Future<Exercise?> getExercise(int exerciseId) async {
     final db = await instance.database;
@@ -196,7 +267,7 @@ class DatabaseHelper {
   }
 
   ///
-  /// ExerciseGroup methods
+  /// exerciseGroup
   ///
   Future<int> addExerciseGroup(ExerciseGroup exerciseGroup) async {
     Database db = await instance.database;
@@ -240,7 +311,7 @@ class DatabaseHelper {
   }
 
   ///
-  /// ExerciseSet methods
+  /// exerciseSet
   ///
   Future<void> addExerciseSet(ExerciseSet exerciseSet) async {
     Database db = await instance.database;
@@ -283,12 +354,6 @@ class DatabaseHelper {
         where: 'exerciseSetId = ?', whereArgs: [exerciseSetId]);
   }
 
-  ///
-  ///
-  ///
-  /// CRUD for active models
-  ///
-  ///
   ///
 
   ///
@@ -416,6 +481,7 @@ class DatabaseHelper {
         : [];
     return activeExerciseSetsList;
   }
+
 
   Future<int> deleteActiveExerciseSet(int activeExerciseSetId) async {
     final db = await instance.database;

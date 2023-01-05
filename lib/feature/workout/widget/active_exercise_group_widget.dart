@@ -1,9 +1,9 @@
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/exercise.dart';
-import 'package:Maven/common/theme/app_themes.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:Maven/widget/m_popup_menu_button.dart';
 import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FutureBuilder(
-          future: DatabaseHelper.instance.getExercise(widget.activeExerciseGroup.exerciseId),
+          future: DBHelper.instance.getExercise(widget.activeExerciseGroup.exerciseId),
           builder: (context, snapshot) {
             if(!snapshot.hasData) return const Text("cant get exercises");
             Exercise exercise = snapshot.data!;
@@ -163,7 +163,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
           ],
         ),
         FutureBuilder(
-          future: DatabaseHelper.instance.getActiveExerciseSetsByActiveExerciseGroupId(widget.activeExerciseGroup.activeExerciseGroupId!),
+          future: DBHelper.instance.getActiveExerciseSetsByActiveExerciseGroupId(widget.activeExerciseGroup.activeExerciseGroupId!),
           builder: (context, snapshot) {
             if(!snapshot.hasData) return const Text("bruh");
 
@@ -182,7 +182,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                   key: UniqueKey(),
                   direction: DismissDirection.endToStart,
                   onDismissed: (direction) {
-                    DatabaseHelper.instance.deleteActiveExerciseSet(activeExerciseSet.activeExerciseSetId!);
+                    DBHelper.instance.deleteActiveExerciseSet(activeExerciseSet.activeExerciseSetId!);
                     setState(() {
 
                     });
@@ -201,7 +201,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
         ),
         TextButton(
           onPressed: (){
-            DatabaseHelper.instance.addActiveExerciseSet(
+            DBHelper.instance.addActiveExerciseSet(
               ActiveExerciseSet(
                 activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!,
                 activeWorkoutId: widget.activeExerciseGroup.activeWorkoutId

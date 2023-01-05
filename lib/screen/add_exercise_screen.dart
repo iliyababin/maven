@@ -18,7 +18,7 @@ class AddExerciseScreen extends StatelessWidget {
             onPressed: () async{
 
 
-              List<Exercise> help  = await DatabaseHelper.instance.getExercises();
+              List<Exercise> help  = await DBHelper.instance.getExercises();
 
               print(help.first.name);
             }, child: Text("get first exercise"),
@@ -26,7 +26,7 @@ class AddExerciseScreen extends StatelessWidget {
           Flexible(
             fit: FlexFit.tight,
           child: FutureBuilder<List<Exercise>>(
-            future: DatabaseHelper.instance.getExercises(),
+            future: DBHelper.instance.getExercises(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: Text('Loading..s.'));

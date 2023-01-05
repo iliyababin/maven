@@ -1,5 +1,5 @@
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/theme/app_themes.dart';
+import 'package:Maven/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
