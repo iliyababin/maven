@@ -5,7 +5,8 @@ enum WorkoutStatus {
   loading,
   success,
   failure,
-  added
+  added,
+  reordering
 }
 
 class WorkoutState extends Equatable {

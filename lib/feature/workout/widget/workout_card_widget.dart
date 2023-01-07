@@ -1,91 +1,72 @@
 import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutCard extends StatelessWidget {
   final Workout workout;
-  final Color backgroundColor;
-  final Color borderColor;
-  final Color accentColor;
   final VoidCallback onTap;
-  final Color primaryTextColor;
 
-  const WorkoutCard({
-    Key? key,
+  const WorkoutCard({Key? key,
     required this.workout,
-    this.backgroundColor = Colors.black,
-    this.accentColor = Colors.red,
-    required this.borderColor,
     required this.onTap,
-    required this.primaryTextColor
   }) : super(key: key);
 
-  final double borderRadius = 8;
+  final double borderRadius = 12;
 
   @override
   Widget build(BuildContext context) {
-
-
     return Material(
-      color: backgroundColor,
+      color: mt(context).workoutCard.backgroundColor,
       borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
-        splashColor: Colors.black12,
         onTap: onTap,
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-        ),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: borderColor, width: 1.0),
             borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              width: 1,
+              color: mt(context).borderColor
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.all(13.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      //TODO: WORKOUT NAME
-                      "${workout.name} ${workout.sortOrder}",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: primaryTextColor
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        //TODO: WORKOUT NAME
+                        workout.name,
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            color: mt(context).text.primaryColor
+                        ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 1,),
+                  Text(
+                    'Chest, Triceps, Shoulders',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: mt(context).text.accentColor
                     ),
-                    /*IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.more_horiz,
-                        color: accentColor,
-                      ),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),*/
-                  ],
-                ),
-                SizedBox(height: 1,),
-                Text(
-                  "Chest, Triceps, Shoulders",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: accentColor
                   ),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  "Description: Doing stuff",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: primaryTextColor
+                  const SizedBox(
+                    height: 2,
                   ),
-                ),
-              ]
+                  Text(
+                    'Description: Doing stuff',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: mt(context).text.secondaryColor
+                    ),
+                  ),
+                ]
             ),
           ),
         ),

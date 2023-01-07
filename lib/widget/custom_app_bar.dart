@@ -1,4 +1,4 @@
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar {
@@ -11,7 +11,7 @@ class CustomAppBar {
       leading: IconButton(
         icon: Icon(
           Icons.keyboard_backspace,
-          color: colors(context).accentTextColor,
+          color: mt(context).text.accentColor,
         ),
         onPressed: () {
           Navigator.pop(context);
@@ -19,11 +19,11 @@ class CustomAppBar {
       ),
       title: Text(
         title,
-        style: TextStyle(color: colors(context).primaryTextColor),
+        style: TextStyle(color: mt(context).text.primaryColor),
       ),
       centerTitle: true,
       elevation: 0,
-      backgroundColor: colors(context).backgroundColor,
+      backgroundColor: mt(context).backgroundColor,
       actions: actions,
     );
   }

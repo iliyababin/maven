@@ -17,7 +17,7 @@ class MFlatButton extends StatefulWidget {
 
   const MFlatButton({super.key,
     this.text,
-    this.backgroundColor = Colors.red,
+    this.backgroundColor = Colors.transparent,
     this.borderColor,
     this.icon,
     required this.onPressed,

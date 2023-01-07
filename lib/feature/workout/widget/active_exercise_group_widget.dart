@@ -3,7 +3,7 @@ import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_popup_menu_button.dart';
 import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                         exercise.name,
                         style: TextStyle(
                           fontSize: 15,
-                          color: colors(context).accentTextColor,
+                          color: mt(context).text.accentColor,
                           fontWeight: FontWeight.w600
                         )
                       ),
@@ -52,40 +52,40 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                   height: 52,
                   width: 52,
                   child: MPopupMenuButton(
-                      iconColor: colors(context).accentTextColor,
-                      color: colors(context).popupMenuBackgroundColor,
-                      children: [
-                        MPopupMenuItem.build(
+                    iconColor: mt(context).icon.accentColor,
+                    color: mt(context).popupMenu.backgroundColor,
+                    children: [
+                      MPopupMenuItem.build(
+                        icon: Icon(
+                          Icons.straighten,
+                          size: 21,
+                          color: mt(context).text.accentColor,
+                        ),
+                        text: 'Weight Unit',
+                        textColor: mt(context).text.primaryColor,
+                        onTap: (){}
+                      ),
+                      MPopupMenuItem.build(
                           icon: Icon(
-                            Icons.straighten,
+                            Icons.timer_outlined,
                             size: 21,
-                            color: colors(context).accentTextColor,
+                            color: mt(context).text.accentColor,
                           ),
-                          text: 'Weight Unit',
-                          textColor: colors(context).primaryTextColor,
+                          text: 'Auto Rest Timer',
+                          textColor: mt(context).text.primaryColor,
                           onTap: (){}
+                      ),
+                      MPopupMenuItem.build(
+                        icon: Icon(
+                          Icons.delete,
+                          size: 21,
+                          color: mt(context).icon.errorColor,
                         ),
-                        MPopupMenuItem.build(
-                            icon: Icon(
-                              Icons.timer_outlined,
-                              size: 21,
-                              color: colors(context).accentTextColor,
-                            ),
-                            text: 'Auto Rest Timer',
-                            textColor: colors(context).primaryTextColor,
-                            onTap: (){}
-                        ),
-                        MPopupMenuItem.build(
-                            icon: Icon(
-                              Icons.delete,
-                              size: 21,
-                              color: colors(context).errorColor,
-                            ),
-                            text: 'Remove Exercise',
-                            textColor: colors(context).errorColor,
-                            onTap: (){}
-                        ),
-                      ]
+                        text: 'Remove Exercise',
+                        textColor: mt(context).text.errorColor,
+                        onTap: (){}
+                      ),
+                    ]
                   )
                 )
               ],
@@ -99,59 +99,59 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               width: 10,
             ),
             Container(
-                alignment: Alignment.center,
-                width: 35,
-                child: Text(
-                  "SET",
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: colors(context).primaryTextColor
-                  ),)
-
+              alignment: Alignment.center,
+              width: 35,
+              child: Text(
+                "SET",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: mt(context).text.primaryColor
+                ),
+              )
             ),
             const SizedBox(
               width: 10,
             ),
             Container(
+              alignment: Alignment.center,
+              width: 90,
+              child: Text(
+                "PREVIOUS",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: mt(context).text.primaryColor
+                ),
+              )
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Container(
                 alignment: Alignment.center,
-                width: 90,
                 child: Text(
-                  "PREVIOUS",
+                  "WEIGHT",
                   style: TextStyle(
                     fontSize: 10,
-                    color: colors(context).primaryTextColor
+                    color: mt(context).text.primaryColor
                   ),
                 )
+              )
             ),
             const SizedBox(
               width: 10,
             ),
             Expanded(
-                child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "WEIGHT",
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: colors(context).primaryTextColor
-                      ),
-                    )
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "REPS",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: mt(context).text.primaryColor
+                  ),
                 )
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "REPS",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: colors(context).primaryTextColor
-                    ),
-                  )
-                )
+              )
             ),
             const SizedBox(
               width: 10,
@@ -188,7 +188,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                     });
                   },
                   background: Container(
-                    color: colors(context).errorColor,
+                    color: Colors.redAccent,
                   ),
                   child: ActiveExerciseSetWidget(
                     index: index,

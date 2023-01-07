@@ -1,5 +1,5 @@
 import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,9 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
               onPressed: _createWorkout,
               child: Text(
                 'Save',
-                style: TextStyle(color: colors(context).accentTextColor),
+                style: TextStyle(
+                  color: mt(context).text.accentColor
+                ),
               )
           ),
         ],
@@ -48,18 +50,18 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
                 TextFormField(
                   controller: workoutTitleController,
                   style: TextStyle(
-                    color: colors(context).primaryTextColor
+                    color: mt(context).text.primaryColor
                   ),
                   decoration: InputDecoration(
                     hintText: 'New Workout Template',
                     hintStyle: TextStyle(
-                      color: colors(context).unselectedItemColor
+                      color: mt(context).textField.hintColor
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: colors(context).backgroundDarkColor),
+                      borderSide: BorderSide(color: mt(context).borderColor),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: colors(context).primaryColor),
+                      borderSide: BorderSide(color: mt(context).accentColor),
                     ),
                   ),
                 ),

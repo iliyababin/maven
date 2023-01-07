@@ -1,5 +1,5 @@
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,13 +25,13 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: animationSpeed,
-      color: isChecked ? colors(context).completeColor : colors(context).backgroundColor,
+      color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width: spacerSize),
-          Container(
+          SizedBox(
             width: 35,
             height: 35,
             child: TextButton(
@@ -47,7 +47,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
             ),
           ),
           SizedBox(width: spacerSize),
-          Container(
+          SizedBox(
             width: 90,
             height: 35,
             child: TextButton(
@@ -86,7 +86,9 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                     isChecked = value!;
                   });
                 },
-                fillColor: isChecked ? MaterialStateProperty.all<Color>(const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(colors(context).backgroundDarkColor),
+                fillColor: isChecked ? MaterialStateProperty.all<Color>(
+                  const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -106,7 +108,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
           duration: animationSpeed,
           decoration: BoxDecoration (
               borderRadius: const BorderRadius.all(Radius.circular(7)),
-              color: isChecked ? colors(context).completeColor : colors(context).backgroundDarkColor
+              color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor
           ),
           child: TextField(
             controller: controller,

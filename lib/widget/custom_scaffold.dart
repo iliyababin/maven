@@ -1,4 +1,4 @@
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffold {
@@ -9,7 +9,7 @@ class CustomScaffold {
     FloatingActionButton? floatingActionButton,
   }) {
     return Scaffold(
-      backgroundColor: colors(context).backgroundColor,
+      backgroundColor: mt(context).backgroundColor,
       appBar: appBar,
       body: body,
       floatingActionButton: floatingActionButton,

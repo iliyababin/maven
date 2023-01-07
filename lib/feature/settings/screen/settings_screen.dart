@@ -1,3 +1,4 @@
+import 'package:Maven/feature/settings/screen/theme_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -23,9 +24,14 @@ class SettingsScreen extends StatelessWidget {
                 leading: const Icon(Icons.palette),
                 title: const Text('Theme'),
                 description: Text(ThemeProvider.themeOf(context).description),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onPressed: (context) async {
-                  String cool = await showThemeSelectionDialog(context);
-                  ThemeProvider.controllerOf(context).setTheme(cool);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ThemeScreen())
+                  );
+                  /*String cool = await showThemeSelectionDialog(context);
+                  ThemeProvider.controllerOf(context).addTheme(cool);*/
                 },
               ),
               SettingsTile.navigation(

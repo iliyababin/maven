@@ -22,10 +22,10 @@ class AddWorkout extends WorkoutEvent {
   List<Object> get props => [workout, exerciseBlocks];
 }
 
-class ReorderWorkoutList extends WorkoutEvent {
+class ReorderWorkouts extends WorkoutEvent {
   final List<Workout> workouts;
 
-  const ReorderWorkoutList({
+  const ReorderWorkouts({
     required this.workouts
   });
 

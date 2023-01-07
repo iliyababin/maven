@@ -1,6 +1,7 @@
+/*
 import 'dart:developer';
 
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 import '../common/model/exercise_set.dart';
@@ -42,10 +43,8 @@ class _SetRowState extends State<SetRow> {
 
     isDisabled = false;
 
-
-
     return AnimatedContainer(
-      color: isChecked ? colors(context).completeColor : colors(context).backgroundColor,
+      color: isChecked ? colors(context).exerciseSetCompleteColor : colors(context).backgroundColor,
       duration: const Duration(milliseconds: 150),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -99,12 +98,12 @@ class _SetRowState extends State<SetRow> {
                   filled: true,
                   isCollapsed: true,
                   fillColor: isChecked
-                      ? colors(context).completeColor
+                      ? colors(context).exerciseSetCompleteColor
                       : colors(context).textFieldBackgroundColor,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: isChecked
-                            ? colors(context).completeColor
+                            ? colors(context).exerciseSetCompleteColor
                             : colors(context).textFieldBackgroundColor,
                         width: 0.0),
                   ),
@@ -146,12 +145,12 @@ class _SetRowState extends State<SetRow> {
                   filled: true,
                   isCollapsed: true,
                   fillColor: isChecked
-                      ? colors(context).completeColor
+                      ? colors(context).exerciseSetCompleteColor
                       : colors(context).textFieldBackgroundColor,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: isChecked
-                            ? colors(context).completeColor
+                            ? colors(context).exerciseSetCompleteColor
                             : colors(context).textFieldBackgroundColor,
                         width: 0.0),
                   ),
@@ -181,8 +180,7 @@ class _SetRowState extends State<SetRow> {
                   child: Checkbox(
                     visualDensity: VisualDensity.compact,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                    activeColor: colors(context).completeColor,
-                    checkColor: colors(context).checkColor,
+                    activeColor: colors(context).exerciseSetCompleteColor,
                     value: isChecked,
 
                     onChanged: (bool? value) {
@@ -206,3 +204,4 @@ class _SetRowState extends State<SetRow> {
     );
   }
 }
+*/

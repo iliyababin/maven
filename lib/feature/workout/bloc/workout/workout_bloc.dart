@@ -72,8 +72,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     });
 
 
-    on<ReorderWorkoutList>((event, emit) async {
-      emit(state.copyWith(status: () => WorkoutStatus.loading));
+    on<ReorderWorkouts>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.reordering));
 
       List<Workout> workouts = event.workouts;
 

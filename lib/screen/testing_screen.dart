@@ -29,34 +29,25 @@ class _TestingScreenState extends State<TestingScreen> {
         title: Text("ass"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 50,),
-            Text("hey"),
-            DragAndDropLists(
-              // lastItemTargetHeight: 50,
-              // addLastItemTargetHeightToTop: true,
-              // lastListTargetSize: 30,
-              disableScrolling: true,
-              listPadding: EdgeInsets.all(16),
-              listInnerDecoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              children: lists,
-              itemDivider: Divider(thickness: 2, height: 2, color: backgroundColor),
-              itemDecorationWhileDragging: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-              ),
-              /*listDragHandle: buildDragHandle(isList: true),
-              itemDragHandle: buildDragHandle(),*/
-              onItemReorder: onReorderListItem,
-              onListReorder: onReorderList,
-            ),
-          ],
+      body: DragAndDropLists(
+        // lastItemTargetHeight: 50,
+        // addLastItemTargetHeightToTop: true,
+        // lastListTargetSize: 30,
+        listPadding: EdgeInsets.all(16),
+        listInnerDecoration: BoxDecoration(
+          color: Theme.of(context).canvasColor,
+          borderRadius: BorderRadius.circular(10),
         ),
+        children: lists,
+        itemDivider: Divider(thickness: 2, height: 2, color: backgroundColor),
+        itemDecorationWhileDragging: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+        ),
+        /*listDragHandle: buildDragHandle(isList: true),
+        itemDragHandle: buildDragHandle(),*/
+        onItemReorder: onReorderListItem,
+        onListReorder: onReorderList,
       ),
     );
   }

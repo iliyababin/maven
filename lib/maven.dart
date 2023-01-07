@@ -7,7 +7,7 @@ import 'package:Maven/feature/profile/screen/profile_screen.dart';
 import 'package:Maven/feature/workout/screen/workout_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
-import 'package:Maven/theme/app_themes.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -23,154 +23,131 @@ class Maven extends StatefulWidget {
 
 class _MavenState extends State<Maven> {
 
+  int selectedIndex = 0;
+
   List<Widget> screens = <Widget>[
     const HomeScreen(),
     const WorkoutScreen(),
     const ProfileScreen(),
     const TestingScreen(),
   ];
-  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: mt(context).backgroundColor,
+      body: SafeArea(
+        child: screens[selectedIndex],
+      ),
+      persistentFooterButtons: persistentFooterButtons(),
+      bottomNavigationBar: bottomNavigationBar()
+    );
+  }
+
+  List<Widget> persistentFooterButtons() {
+    return [
+      Container(
+        child: PreferenceBuilder(
+          preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -2),
+          builder: (context, currentWorkoutId) {
+            return ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LogWorkoutScreen()
+                      )
+                  );
+                },
+                child: Text(
+                    "$currentWorkoutId"
+                )
+            );
+          },
+        )
+      ),
+      ElevatedButton(
+          onPressed: (){
+            deleteCurrentWorkout(context);
+          },
+          child: Text(S.of(context).discard)
+      ),
+      ElevatedButton(
+          onPressed: () async{
+            /*List<WorkoutFolder> workoutFolders = await DatabaseHelper.instance.getWorkoutFolders();
+              for(var workoutFolder in workoutFolders) {
+                print("id: ${workoutFolder.workoutFolderId}");
+              }*/
+
+            List<Workout> workouts = await DBHelper.instance.getWorkouts();
+            for(var workout in workouts) {
+              print("name bruh: ${workout.name}");
+            }
+
+            List activeWorkouts = await DBHelper.instance.getActiveWorkouts();
+            List activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroups();
+            List<ActiveExerciseSet> activeExerciseSets = await DBHelper.instance.getActiveExerciseSets();
+            print("activeWorkouts: ${activeWorkouts.length}");
+            print("activeExerciseGroups: ${activeExerciseGroups.length}");
+            print("activeExerciseSets: ${activeExerciseSets.length}");
+          },
+          child: Text("getAll")
+      ),
+      ElevatedButton(
+          onPressed: () async{
+            pauseCurrentWorkout(context);
+          },
+          child: Text("pause")
+      ),
+    ];
+  }
+
+  ///
+  /// Functions
+  ///
 
   void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
-//56 - 56 * panelController.panelPosition;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colors(context).backgroundColor,
-      body: SafeArea(
-        child: screens[selectedIndex],
-      ),
-      persistentFooterButtons: [
-        PreferenceBuilder(
-          preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -2),
-          builder: (context, currentWorkoutId) {
-            return ElevatedButton(
-              onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LogWorkoutScreen()
-                    )
-                );
-              },
-              child: Text(
-                "$currentWorkoutId"
-              )
-            );
-          },
-        ),
-        ElevatedButton(
-          onPressed: (){
-           deleteCurrentWorkout(context);
-          },
-          child: Text(S.of(context).discard)
-        ),
-        ElevatedButton(
-            onPressed: () async{
-              /*List<WorkoutFolder> workoutFolders = await DatabaseHelper.instance.getWorkoutFolders();
-              for(var workoutFolder in workoutFolders) {
-                print("id: ${workoutFolder.workoutFolderId}");
-              }*/
 
-              List<Workout> workouts = await DBHelper.instance.getWorkouts();
-              for(var workout in workouts) {
-                print("name bruh: ${workout.name}");
-              }
-
-              List activeWorkouts = await DBHelper.instance.getActiveWorkouts();
-              List activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroups();
-              List<ActiveExerciseSet> activeExerciseSets = await DBHelper.instance.getActiveExerciseSets();
-              print("activeWorkouts: ${activeWorkouts.length}");
-              print("activeExerciseGroups: ${activeExerciseGroups.length}");
-              print("activeExerciseSets: ${activeExerciseSets.length}");
-            },
-            child: Text("getAll")
-        ),
-        ElevatedButton(
-            onPressed: () async{
-              pauseCurrentWorkout(context);
-            },
-            child: Text("pause")
-        ),
-      ],
-      bottomNavigationBar: bottomNavigationBar()
-    );
-  }
-
-  PreferenceBuilder<int> collapsedContainer() {
-     return PreferenceBuilder<int>(
-       preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1),
-       builder: (context, currentWorkoutId) {
-         print(currentWorkoutId);
-         return Container(
-           decoration: BoxDecoration(
-               color: colors(context).backgroundColor,
-               borderRadius: const BorderRadius.vertical(top: Radius.circular(15))
-           ),
-           child: Column(
-             children: [
-               const SizedBox(height: 14,),
-               Container(
-                 height: 6,
-                 width: 40,
-                 decoration: BoxDecoration(
-                     color: colors(context).dragBarColor,
-                     borderRadius: const BorderRadius.all(Radius.circular(15))
-                 ),
-               ),
-               const SizedBox(height: 6,),
-               Text(
-                 "Afternoon workout",
-                 style: TextStyle(
-                     color: colors(context).primaryTextColor,
-                     fontWeight: FontWeight.w600,
-                     fontSize: 16
-                 ),
-               ),
-               Text(
-                 "id is $currentWorkoutId",
-                 style: TextStyle(
-                     color: colors(context).primaryTextColor,
-                     fontWeight: FontWeight.w500,
-                     fontSize: 13)
-                 ,
-               ),
-             ],
-           ),
-         );
-       },
-     );
-  }
+  ///
+  /// Widgets
+  ///
 
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: colors(context).backgroundColor,
-      selectedItemColor: colors(context).primaryColor,
-      unselectedItemColor: colors(context).unselectedItemColor,
+      backgroundColor: mt(context).bottomNavigationBar.backgroundColor,
+      selectedItemColor: mt(context).bottomNavigationBar.selectedItemColor,
+      unselectedItemColor: mt(context).bottomNavigationBar.unselectedItemColor,
       type: BottomNavigationBarType.fixed,
-      unselectedIconTheme: const IconThemeData(),
+      // TODO: here unselectedIconTheme: const IconThemeData(),
       selectedLabelStyle: const TextStyle(
         fontSize: 12,
       ),
       currentIndex: selectedIndex,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.fitness_center), label: "Workout"),
+          icon: Icon(Icons.home),
+          label: 'Home'
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fitness_center),
+          label: 'Workout'
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: "Profile",
+          label: 'Profile',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.dangerous),
-          label: "Testing",
+          label: 'Testing',
         ),
       ],
       onTap: _onItemTapped,
     );
   }
+
+
 }
