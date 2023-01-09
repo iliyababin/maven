@@ -82,7 +82,7 @@ class WorkoutCard extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) =>
           ViewWorkoutScreen(
-            workoutId: workout.workoutId!
+            workout: workout
           )
       )
     );

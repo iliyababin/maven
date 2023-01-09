@@ -20,8 +20,6 @@ class WorkoutState extends Equatable {
   final List<Workout> workouts;
   final List<WorkoutFolder> workoutFolders;
 
-  Iterable<Workout> get filteredWorkouts => workouts;
-
   WorkoutState copyWith({
     WorkoutStatus Function()? status,
     List<Workout> Function()? workouts,

@@ -134,9 +134,6 @@ class DBHelper {
   }
 
   ///
-
-
-  ///
   ///
   ///
   /// CRUD for non-active models
@@ -368,6 +365,12 @@ class DBHelper {
   Future<ActiveWorkout?> getActiveWorkout(int activeWorkoutId) async {
     final db = await instance.database;
     final activeWorkout = await db.query('activeWorkout', where: 'activeWorkoutId = ?', whereArgs: [activeWorkoutId]);
+    return activeWorkout.isNotEmpty ? ActiveWorkout.fromMap(activeWorkout.first) : null;
+  }
+
+  Future<ActiveWorkout?> getActiveWorkoutAAA() async {
+    final db = await instance.database;
+    final activeWorkout = await db.query('activeWorkout', where: 'isPaused = 0',);
     return activeWorkout.isNotEmpty ? ActiveWorkout.fromMap(activeWorkout.first) : null;
   }
 

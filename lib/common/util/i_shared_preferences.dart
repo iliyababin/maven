@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -22,4 +23,4 @@ class ISharedPrefs extends InheritedWidget {
   @override
   bool updateShouldNotify(ISharedPrefs oldWidget) => streamingSharedPreferences != oldWidget.streamingSharedPreferences;
 
-}
+}*/

@@ -628,13 +628,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  streaming_shared_preferences:
-    dependency: "direct main"
-    description:
-      name: streaming_shared_preferences
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   string_scanner:
     dependency: transitive
     description:

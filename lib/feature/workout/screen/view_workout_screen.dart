@@ -1,7 +1,4 @@
 import 'package:Maven/common/util/database_helper.dart';
-import 'package:Maven/common/util/i_shared_preferences.dart';
-import 'package:Maven/common/util/workout_manager.dart';
-import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +7,10 @@ import '../../../common/model/exercise_group.dart';
 import '../../../common/model/workout.dart';
 
 class ViewWorkoutScreen extends StatefulWidget {
-  final int workoutId;
+  final Workout workout;
 
   const ViewWorkoutScreen({Key? key,
-    required this.workoutId
+    required this.workout
   }) : super(key: key);
 
   @override
@@ -29,25 +26,12 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
         context: context,
       ),
       body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: DBHelper.instance.getWorkout(widget.workoutId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            Workout workout = snapshot.data!;
-
-            return Column(
-              children: [
-                Text(workout.name),
-                _listOfExercises(widget.workoutId)
-              ],
-            );
-          },
-        ),
+        child: Column(
+          children: [
+            Text(widget.workout.name),
+            _listOfExercises(widget.workout.workoutId!)
+          ],
+        )
       ),
       persistentFooterButtons: [
         SizedBox(
@@ -66,12 +50,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
   ///
 
   void _startWorkout(BuildContext context) {
-    int currentWorkoutIdPref = ISharedPrefs.of(context)
-        .streamingSharedPreferences
-        .getInt('currentWorkoutId', defaultValue: -1)
-        .getValue();
-
-    if (currentWorkoutIdPref != -1) {
+    /*if (currentWorkoutIdPref != -1) {
       showDialog(
         context: context,
         builder: (context) {
@@ -102,9 +81,12 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
 
       });
     } else {
-      generateActiveWorkoutTemplate(context, widget.workoutId);
+      context.read<ActiveWorkoutBloc>().add(ConvertTemplateToWorkout(
+        workout: widget.workout
+      ));
+      *//*generateActiveWorkoutTemplate(context, widget.workoutId);*//*
       Navigator.pop(context);
-    }
+    }*/
   }
 
   void _discardWorkout(BuildContext context) {
@@ -122,7 +104,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
   FutureBuilder _listOfExercises(int workoutId) {
     return FutureBuilder(
       future: DBHelper.instance
-          .getExerciseGroupsByWorkoutId(widget.workoutId),
+          .getExerciseGroupsByWorkoutId(widget.workout.workoutId!),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading exercises');
         List<ExerciseGroup> exerciseGroups = snapshot.data;

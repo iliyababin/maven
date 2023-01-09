@@ -1,18 +1,13 @@
-import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/model/workout.dart';
-import 'package:Maven/common/util/database_helper.dart';
-import 'package:Maven/common/util/i_shared_preferences.dart';
-import 'package:Maven/common/util/workout_manager.dart';
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
 import 'package:Maven/feature/workout/screen/workout_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feature/workout/screen/active_workout_screen.dart';
-import 'generated/l10n.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -39,7 +34,9 @@ class _MavenState extends State<Maven> {
       body: SafeArea(
         child: screens[selectedIndex],
       ),
-      persistentFooterButtons: persistentFooterButtons(),
+      persistentFooterButtons: [
+        persistentFooterButtons()
+      ],
       bottomNavigationBar: bottomNavigationBar()
     );
   }
@@ -58,8 +55,29 @@ class _MavenState extends State<Maven> {
   /// Widgets
   ///
 
-  List<Widget> persistentFooterButtons() {
-    return [
+  BlocBuilder persistentFooterButtons() {
+     return BlocBuilder<ActiveWorkoutBloc, ActiveWorkoutState>(
+       builder: (context, state) {
+         if(state.status == ActiveWorkoutStatus.active) {
+           return ElevatedButton(
+             onPressed: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                   builder: (context) => ActiveWorkoutScreen(
+                     activeWorkout: state.activeWorkout!
+                   )
+                 )
+               );
+             },
+             child: Text('Active Workout')
+           );
+         } else {
+           return Container();
+         }
+       },
+     );
+    /*return [
       Container(
           child: PreferenceBuilder(
             preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -2),
@@ -88,10 +106,10 @@ class _MavenState extends State<Maven> {
       ),
       ElevatedButton(
           onPressed: () async{
-            /*List<WorkoutFolder> workoutFolders = await DatabaseHelper.instance.getWorkoutFolders();
+            *//*List<WorkoutFolder> workoutFolders = await DatabaseHelper.instance.getWorkoutFolders();
               for(var workoutFolder in workoutFolders) {
                 print("id: ${workoutFolder.workoutFolderId}");
-              }*/
+              }*//*
 
             List<Workout> workouts = await DBHelper.instance.getWorkouts();
             for(var workout in workouts) {
@@ -113,7 +131,7 @@ class _MavenState extends State<Maven> {
           },
           child: Text("pause")
       ),
-    ];
+    ];*/
   }
 
   BottomNavigationBar bottomNavigationBar() {
