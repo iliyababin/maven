@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'create_workout_screen.dart';
-import 'view_workout_screen.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -58,29 +57,30 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       height: 400,
                       child: Center(child: CircularProgressIndicator())
                     );
-                  } else if (state.status == WorkoutStatus.success) {
+                  } else if (state.status == WorkoutStatus.success || state.status == WorkoutStatus.reordering) {
                     List<WorkoutFolder> workoutFolders = state.workoutFolders;
                     List<Workout> workouts = state.workouts;
 
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: ListView.separated(
+                      child: ReorderableListView(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: workoutFolders.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return WorkoutFolderWidget(
-                            workoutFolder: workoutFolders[index],
-                            workouts: workouts.where((workout) =>
-                            workout.workoutFolderId == workoutFolders[index].workoutFolderId).toList()
+                        proxyDecorator: proxyDecorator,
+                        children: workoutFolders.map((workoutFolder) {
+                          return Padding(
+                            key: UniqueKey(),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                            child: WorkoutFolderWidget(
+                              workoutFolder: workoutFolder,
+                              workouts: workouts.where((workout) =>
+                              workout.workoutFolderId == workoutFolder.workoutFolderId
+                              ).toList()
+                            ),
                           );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const SizedBox(
-                            height: 10,
-                          );
-                        },
+                        }).toList(),
+                        onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, workoutFolders),
                       ),
                     );
                   } else {
@@ -99,19 +99,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   /// Functions
   ///
 
-  _showWorkout(BuildContext context, Workout workout) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-          ViewWorkoutScreen(
-              workoutId: workout.workoutId!
-          )
-      )
-    );
-  }
-
-  _createWorkout(BuildContext context) {
+  void _createWorkout(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -120,7 +108,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
 
-  _reorderWorkouts(BuildContext context) {
+  void _reorderWorkouts(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -129,9 +117,70 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
 
+  void _reorder(int oldIndex, int newIndex, List<WorkoutFolder> workoutFolders) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final WorkoutFolder item = workoutFolders.elementAt(oldIndex);
+      workoutFolders.removeAt(oldIndex);
+      workoutFolders.insert(newIndex, item);
+
+      context.read<WorkoutBloc>().add(ReorderWorkoutFolders(
+        workoutFolders: workoutFolders
+      ));
+    });
+  }
+
+  Future<void> _createWorkoutFolder(BuildContext context) async {
+    String? result = await showDialogWithTextField(
+        context: context,
+        title: 'Create New Folder',
+        hintText: "Folder Name"
+    );
+    if (result != null) {
+      final workoutFolder = WorkoutFolder(name: result, expanded: 1);
+      context.read<WorkoutBloc>().add(AddWorkoutFolder(
+          workoutFolder: workoutFolder
+      ));
+    }
+  }
+
   ///
   /// Widgets
   ///
+  /// Creates a shadow underneath item when reordering.
+  /// Accounts for padding.
+  ///
+  /// [Source](https://github.com/flutter/flutter/issues/76706#issuecomment-986181379)
+  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          elevation: 0,
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 8,
+                child: Material(
+                  borderRadius: BorderRadius.circular(15),
+                  elevation: 5,
+                  shadowColor: mt(context).workoutFolder.dragShadowColor,
+                ),
+              ),
+              child!,
+            ],
+          ),
+        );
+      },
+      child: child,
+    );
+  }
 
   Padding quickStart() =>
     Padding(
@@ -173,7 +222,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             children: [
               MFlatButton(
                 text: Text(
-                  'Create Template',
+                  'Create Workout',
                   style: TextStyle(
                     color: mt(context).text.accentColor,
                     fontSize: 15,
@@ -259,24 +308,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         ],
       ),
     );
-
-  ///
-  /// Functions
-  ///
-
-  Future<void> _createWorkoutFolder(BuildContext context) async {
-    String? result = await showDialogWithTextField(
-        context: context,
-        title: 'Create New Folder',
-        hintText: "Folder Name"
-    );
-    if (result != null) {
-      final workoutFolder = WorkoutFolder(name: result);
-      context.read<WorkoutBloc>().add(AddWorkoutFolder(
-          workoutFolder: workoutFolder
-      ));
-    }
-  }
 }
 
 /*

@@ -15,6 +15,10 @@ part 'workout_state.dart';
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc() : super(const WorkoutState()) {
 
+    ///
+    /// Initialize
+    ///
+
     on<InitializeWorkoutBloc>((event, emit) async {
       emit(state.copyWith(status: () => WorkoutStatus.loading));
 
@@ -30,6 +34,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       ));
     });
 
+    ///
+    /// Workout
+    ///
 
     on<AddWorkout>((event, emit) async {
       log("trying to add workout");
@@ -71,7 +78,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       }
     });
 
-
     on<ReorderWorkouts>((event, emit) async {
       emit(state.copyWith(status: () => WorkoutStatus.reordering));
 
@@ -85,12 +91,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       }
 
       emit(state.copyWith(
-          workouts: () => workouts,
-          status: () => WorkoutStatus.success
+        workouts: () => workouts,
+        status: () => WorkoutStatus.success
       ));
     });
 
-
+    ///
+    /// WorkoutFolder
+    ///
 
     on<AddWorkoutFolder>((event, emit) async {
       emit(state.copyWith(status: () => WorkoutStatus.loading));
@@ -105,5 +113,33 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       ));
     });
 
+    on<UpdateWorkoutFolder>((event, emit) async {
+      await DBHelper.instance.updateWorkoutFolder(event.workoutFolder);
+
+      List<WorkoutFolder> workoutFolders = await DBHelper.instance.getWorkoutFolders();
+
+      emit(state.copyWith(
+        workoutFolders: () => workoutFolders,
+        status: () => WorkoutStatus.success
+      ));
+    });
+
+    on<ReorderWorkoutFolders>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.reordering));
+
+      List<WorkoutFolder> workoutFolders = event.workoutFolders;
+
+      // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
+      for (int i = 0; i < workoutFolders.length; i++) {
+        WorkoutFolder workoutFolder = workoutFolders[i];
+        workoutFolder.sortOrder = i;
+        int test = await DBHelper.instance.updateWorkoutFolder(workoutFolder);
+      }
+
+      emit(state.copyWith(
+          workoutFolders: () => workoutFolders,
+        status: () => WorkoutStatus.success
+      ));
+    });
   }
 }

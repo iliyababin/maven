@@ -12,14 +12,14 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import '../../../common/model/active_workout.dart';
 
-class LogWorkoutScreen extends StatefulWidget {
-  const LogWorkoutScreen({Key? key}) : super(key: key);
+class ActiveWorkoutScreen extends StatefulWidget {
+  const ActiveWorkoutScreen({Key? key}) : super(key: key);
 
   @override
-  State<LogWorkoutScreen> createState() => _LogWorkoutScreenState();
+  State<ActiveWorkoutScreen> createState() => _ActiveWorkoutScreenState();
 }
 
-class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
+class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return PreferenceBuilder<int>(
@@ -31,6 +31,14 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
             title: "",
             context: context,
             actions: [
+              IconButton(
+                  onPressed: (){},
+                  icon: Icon(
+                    Icons.delete,
+                    size: 26,
+                    color: mt(context).icon.errorColor,
+                  )
+              ),
               IconButton(
                 onPressed: (){},
                 icon: Icon(
@@ -44,7 +52,7 @@ class _LogWorkoutScreenState extends State<LogWorkoutScreen> {
                 icon: Icon(
                   Icons.flag,
                   size: 26,
-                  color: mt(context).icon.accentColor,
+                  color: mt(context).icon.completeColor,
                 )
               ),
             ]

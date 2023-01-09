@@ -20,7 +20,7 @@ class MPopupMenuButton extends StatelessWidget {
       },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(7),
+          Radius.circular(15),
         ),
       ),
       offset: Offset.fromDirection(2, 30),

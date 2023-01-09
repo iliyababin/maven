@@ -38,9 +38,10 @@ List<AppTheme> getThemes(BuildContext context){
         ),
         icon: MIconTheme(
           primaryColor: const Color(0xFF000000),
-          secondaryColor: const Color(0xFF383838),
+          secondaryColor: const Color(0xFF888888),
           accentColor: const Color(0xFF2196F3),
           errorColor: const Color(0xFFDD614A),
+          completeColor: const Color(0xFF0BDA51),
         ),
         workoutFolder: WorkoutFolderTheme(
           borderColor: const Color(0xFFF1F1F1),
@@ -58,6 +59,7 @@ List<AppTheme> getThemes(BuildContext context){
           errorOutlineColor: const Color(0xFFDD614A),
           hintColor: const Color(0xFFC8C8C8),
           primaryOutlineColor: const Color(0xFFF1F1F1),
+          backgroundColor: const Color(0xFFE3E3E3),
         ),
         workoutCard: WorkoutCardTheme(
           backgroundColor: const Color(0xFFFFFFFF),
@@ -93,9 +95,10 @@ List<AppTheme> getThemes(BuildContext context){
           ),
           icon: MIconTheme(
             primaryColor: const Color(0xFFFFFFFF),
-            secondaryColor: const Color(0xFF383838),
+            secondaryColor: const Color(0xFFB6B6B6),
             accentColor: const Color(0xFF2196F3),
             errorColor: const Color(0xFFDD614A),
+            completeColor: const Color(0xFF0BDA51),
           ),
           workoutFolder: WorkoutFolderTheme(
             borderColor: const Color(0xFF333333),
@@ -113,6 +116,7 @@ List<AppTheme> getThemes(BuildContext context){
             errorOutlineColor: const Color(0xFFDD614A),
             hintColor: const Color(0xff434343),
             primaryOutlineColor: const Color(0xFF333333),
+            backgroundColor: const Color(0xFFC9C9C9),
           ),
           workoutCard: WorkoutCardTheme(
             backgroundColor: const Color(0xFF121212),

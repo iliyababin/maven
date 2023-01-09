@@ -1,14 +1,16 @@
 import 'package:Maven/common/model/workout.dart';
 import 'package:Maven/common/model/workout_folder.dart';
+import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
 import 'package:Maven/feature/workout/widget/workout_card_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkoutFolderWidget extends StatefulWidget {
   final WorkoutFolder workoutFolder;
-  final Iterable<Workout> workouts;
+  final List<Workout> workouts;
 
   const WorkoutFolderWidget({Key? key,
     required this.workoutFolder,
@@ -25,7 +27,22 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
   final ExpandableController _expandableController = ExpandableController();
 
   @override
+  void initState() {
+    super.initState();
+    if(widget.workoutFolder.expanded == 1){
+      _expandableController.toggle();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _expandableController.addListener(() {
+      WorkoutFolder workoutFolder = widget.workoutFolder;
+      workoutFolder.expanded = _expandableController.expanded ? 1 : 0;
+      context.read<WorkoutBloc>().add(UpdateWorkoutFolder(
+        workoutFolder: workoutFolder
+      ));
+    });
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -119,25 +136,22 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
                     child: WorkoutCard(
                       workout: workout,
-                      onTap: (){},
                     ),
                   );
                 }).toList(),
-                onReorder: (oldIndex, newIndex) {
-
-                },
+                onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex),
               ),
             ) : Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Icon(
                     Icons.folder_copy_rounded,
                     color: mt(context).icon.secondaryColor,
                     size: 60,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                     child: Text(
                       'This folder is empty.',
                       textAlign: TextAlign.center,
@@ -151,13 +165,25 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
                     child: Row(
                       children: [
                         MFlatButton(
+                          text: Text(
+                            'Create New',
+                            style: TextStyle(
+                              color: mt(context).text.primaryColor
+                            ),
+                          ),
+                          borderColor: mt(context).borderColor,
                           onPressed: (){},
-                          text: Text('Create New'),
                         ),
                         const SizedBox(width: 16,),
                         MFlatButton(
+                          text: Text(
+                            'Move Existing',
+                            style: TextStyle(
+                              color: mt(context).text.primaryColor
+                            ),
+                          ),
+                          borderColor: mt(context).borderColor,
                           onPressed: (){},
-                          text: Text('Move Existing'),
                         ),
                       ],
                     ),
@@ -170,6 +196,31 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
       ),
     );
   }
+
+  ///
+  /// Functions
+  ///
+
+  void _reorder(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      List<Workout> workouts = widget.workouts;
+
+      final Workout item = workouts.elementAt(oldIndex);
+      workouts.removeAt(oldIndex);
+      workouts.insert(newIndex, item);
+
+      context.read<WorkoutBloc>().add(ReorderWorkouts(
+        workouts: workouts
+      ));
+    });
+  }
+
+  ///
+  /// Widgets
+  ///
 
   /// Creates a shadow underneath item when reordering.
   /// Accounts for padding.

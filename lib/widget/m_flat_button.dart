@@ -1,3 +1,4 @@
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 /// A custom button widget that can display a label, an icon, or both.
@@ -17,7 +18,7 @@ class MFlatButton extends StatefulWidget {
 
   const MFlatButton({super.key,
     this.text,
-    this.backgroundColor = Colors.transparent,
+    this.backgroundColor,
     this.borderColor,
     this.icon,
     required this.onPressed,
@@ -53,7 +54,7 @@ class _MFlatButtonState extends State<MFlatButton> {
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all<Size>(Size.zero),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(widget.padding),
-          backgroundColor: MaterialStateProperty.all<Color>(widget.backgroundColor!),
+          backgroundColor: MaterialStateProperty.all<Color>(widget.backgroundColor != null ? widget.backgroundColor! : mt(context).backgroundColor),
           shape: MaterialStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),

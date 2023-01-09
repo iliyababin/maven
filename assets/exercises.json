@@ -3,30 +3,45 @@
     "exerciseId": 1,
     "name": "Push-ups",
     "muscle": "Chest",
-    "picture": "https://example.com/pushups.jpg"
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/pushups.jpg",
+    "exerciseTypeId": 2,
+    "equipmentId": 4
   },
   {
     "exerciseId": 2,
     "name": "Squats",
-    "muscle": "Legs",
-    "picture": "https://example.com/squats.jpg"
+    "muscle": "Legs (Barbell)",
+    "bodyPart": "Lower Body",
+    "picture": "https://example.com/squats.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 3
   },
   {
     "exerciseId": 3,
-    "name": "Lunges",
+    "name": "Lunges (Dumbbells)",
     "muscle": "Legs",
-    "picture": "https://example.com/lunges.jpg"
+    "bodyPart": "Lower Body",
+    "picture": "https://example.com/lunges.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 6
   },
   {
     "exerciseId": 4,
-    "name": "Bicep Curls",
+    "name": "Bicep Curls (Cable)",
     "muscle": "Arms",
-    "picture": "https://example.com/bicepcurls.jpg"
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/bicepcurls.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 5
   },
   {
     "exerciseId": 5,
-    "name": "Tricep Dips",
+    "name": "Tricep Dips (Weighted)",
     "muscle": "Arms",
-    "picture": "https://example.com/tricepdips.jpg"
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/tricepdips.jpg",
+    "exerciseTypeId": 7,
+    "equipmentId": 11
   }
 ]

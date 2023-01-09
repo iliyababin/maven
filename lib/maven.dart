@@ -44,27 +44,41 @@ class _MavenState extends State<Maven> {
     );
   }
 
+  ///
+  /// Functions
+  ///
+
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  ///
+  /// Widgets
+  ///
+
   List<Widget> persistentFooterButtons() {
     return [
       Container(
-        child: PreferenceBuilder(
-          preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -2),
-          builder: (context, currentWorkoutId) {
-            return ElevatedButton(
-                onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LogWorkoutScreen()
-                      )
-                  );
-                },
-                child: Text(
-                    "$currentWorkoutId"
-                )
-            );
-          },
-        )
+          child: PreferenceBuilder(
+            preference: ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -2),
+            builder: (context, currentWorkoutId) {
+              return ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ActiveWorkoutScreen()
+                        )
+                    );
+                  },
+                  child: Text(
+                      "$currentWorkoutId"
+                  )
+              );
+            },
+          )
       ),
       ElevatedButton(
           onPressed: (){
@@ -101,20 +115,6 @@ class _MavenState extends State<Maven> {
       ),
     ];
   }
-
-  ///
-  /// Functions
-  ///
-
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
-  ///
-  /// Widgets
-  ///
 
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(

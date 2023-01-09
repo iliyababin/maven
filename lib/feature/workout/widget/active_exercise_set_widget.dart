@@ -108,7 +108,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
           duration: animationSpeed,
           decoration: BoxDecoration (
               borderRadius: const BorderRadius.all(Radius.circular(7)),
-              color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor
+              color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
           ),
           child: TextField(
             controller: controller,

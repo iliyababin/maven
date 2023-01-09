@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 Future<String?> showDialogWithTextField({
     required BuildContext context,
     required String title,
-    required String hintText
+    required String hintText,
   }) async {
 
   final formKey = GlobalKey<FormState>();
@@ -69,18 +69,23 @@ Future<String?> showDialogWithTextField({
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 6, 10, 14),
+                padding: const EdgeInsets.fromLTRB(14, 6, 10, 14),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      child: const Text('Cancel'),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: mt(context).text.errorColor
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                     TextButton(
-                      child: const Text('Ok'),
+                      child: const Text('Save'),
                       onPressed: () {
                         // Validate the form and return the result.
                         if (formKey.currentState!.validate()) {

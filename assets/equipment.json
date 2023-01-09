@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Assisted",
+    "image": "https://example.com/assisted.jpg",
+    "description": "An assisted exercise machine provides support to the user during the exercise, allowing them to perform the movement with less resistance."
+  },
+  {
+    "id": 2,
+    "name": "Band",
+    "image": "https://example.com/band.jpg",
+    "description": "A band is a long, thin piece of elastic material that can be used for resistance training."
+  },
+  {
+    "id": 3,
+    "name": "Barbell",
+    "image": "https://example.com/barbell.jpg",
+    "description": "A barbell is a long bar with weight plates attached to either end, used for weight training."
+  },
+  {
+    "id": 4,
+    "name": "Body Weight",
+    "image": "https://example.com/bodyweight.jpg",
+    "description": "Body-weight exercises use the weight of the individual's own body as resistance, rather than using external weights or machines."
+  },
+  {
+    "id": 5,
+    "name": "Cable",
+    "image": "https://example.com/cable.jpg",
+    "description": "TODO"
+  },
+  {
+    "id": 6,
+    "name": "Dumbbell",
+    "image": "https://example.com/dumbbell.jpg",
+    "description": "Dumbbells are small, handheld weights that can be used for various exercises."
+  },
+  {
+    "id": 7,
+    "name": "Kettle-bell",
+    "image": "https://example.com/kettlebell.jpg",
+    "description": "A kettle-bell is a cast iron weight shaped like a ball with a handle, used for exercises that combine cardiovascular, strength, and flexibility training."
+  },
+  {
+    "id": 8,
+    "name": "Machine",
+    "image": "https://example.com/machine.jpg",
+    "description": "A machine is a piece of equipment designed to allow the user to perform one or more specific exercises, typically with adjustable resistance."
+  },
+  {
+    "id": 9,
+    "name": "None",
+    "image": "https://example.com/none.jpg",
+    "description": "None refers to exercises that do not require any equipment."
+  },
+  {
+    "id": 10,
+    "name": "Stretch",
+    "image": "https://example.com/stretch.jpg",
+    "description": "Stretch exercises involve using the body's flexibility to improve range of motion and reduce muscle tension."
+  },
+  {
+    "id": 11,
+    "name": "Weighted",
+    "image": "https://example.com/weighted.jpg",
+    "description": "Weighted exercises involve using external weights, such as dumbbells or a barbell, to increase the resistance of the exercise."
+  }
+]

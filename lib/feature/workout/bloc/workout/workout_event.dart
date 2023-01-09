@@ -42,9 +42,6 @@ class DeleteWorkout extends WorkoutEvent {
   List<Object> get props => [workoutId];
 }
 
-
-class LoadWorkoutFolders extends WorkoutEvent {}
-
 class AddWorkoutFolder extends WorkoutEvent {
   final WorkoutFolder workoutFolder;
 
@@ -56,15 +53,27 @@ class AddWorkoutFolder extends WorkoutEvent {
   List<Object> get props => [workoutFolder];
 }
 
-class ReorderWorkoutFolders extends WorkoutEvent {
-  final int oldListIndex;
-  final int newListIndex;
+class LoadWorkoutFolders extends WorkoutEvent {}
 
-  const ReorderWorkoutFolders({
-    required this.oldListIndex,
-    required this.newListIndex
+class UpdateWorkoutFolder extends WorkoutEvent {
+  final WorkoutFolder workoutFolder;
+
+  const UpdateWorkoutFolder({
+    required this.workoutFolder
   });
 
   @override
-  List<Object> get props => [oldListIndex, newListIndex];
+  List<Object> get props => [workoutFolder];
+}
+
+class ReorderWorkoutFolders extends WorkoutEvent {
+  final List<WorkoutFolder> workoutFolders;
+
+
+  const ReorderWorkoutFolders({
+    required this.workoutFolders,
+  });
+
+  @override
+  List<Object> get props => [workoutFolders];
 }

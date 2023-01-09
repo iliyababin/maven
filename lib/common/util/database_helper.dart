@@ -27,8 +27,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy144.db');
-    String path = join(documentsDirectory.path, 'testy144.db');
+    await deleteDatabase('testy145.db');
+    String path = join(documentsDirectory.path, 'testy145.db');
 
     return await openDatabase(
       path,
@@ -49,6 +49,7 @@ class DBHelper {
       CREATE TABLE workoutFolder (
         workoutFolderId INTEGER PRIMARY KEY,
         name TEXT,
+        expanded INTEGER,
         sortOrder INTEGER
       );
     ''');
@@ -129,7 +130,7 @@ class DBHelper {
       );
     }
 
-    addWorkoutFolder(WorkoutFolder(name: "My Workouts"));
+    addWorkoutFolder(WorkoutFolder(name: "My Workouts", expanded: 0));
   }
 
   ///
