@@ -5,8 +5,8 @@ import 'package:Maven/theme/widget/m_icon_theme.dart';
 import 'package:Maven/theme/widget/m_popup_menu_theme.dart';
 import 'package:Maven/theme/widget/m_text_field_theme.dart';
 import 'package:Maven/theme/widget/m_text_theme.dart';
-import 'package:Maven/theme/widget/workout_card_theme.dart';
-import 'package:Maven/theme/widget/workout_folder_theme.dart';
+import 'package:Maven/theme/widget/template_card_theme.dart';
+import 'package:Maven/theme/widget/template_folder_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -43,7 +43,7 @@ List<AppTheme> getThemes(BuildContext context){
           errorColor: const Color(0xFFDD614A),
           completeColor: const Color(0xFF0BDA51),
         ),
-        workoutFolder: WorkoutFolderTheme(
+        templateFolder: TemplateFolderTheme(
           borderColor: const Color(0xFFF1F1F1),
           dragShadowColor: const Color(0xFF838383),
           backgroundColor: const Color(0xFFFFFFFF)
@@ -61,7 +61,7 @@ List<AppTheme> getThemes(BuildContext context){
           primaryOutlineColor: const Color(0xFFF1F1F1),
           backgroundColor: const Color(0xFFE3E3E3),
         ),
-        workoutCard: WorkoutCardTheme(
+        templateCard:TemplateCardTheme(
           backgroundColor: const Color(0xFFFFFFFF),
           borderColor: const Color(0xFFF1F1F1),
         ),
@@ -100,7 +100,7 @@ List<AppTheme> getThemes(BuildContext context){
             errorColor: const Color(0xFFDD614A),
             completeColor: const Color(0xFF0BDA51),
           ),
-          workoutFolder: WorkoutFolderTheme(
+          templateFolder: TemplateFolderTheme(
             borderColor: const Color(0xFF333333),
             dragShadowColor: const Color(0xFF838383),
             backgroundColor: const Color(0xFF121212)
@@ -118,7 +118,7 @@ List<AppTheme> getThemes(BuildContext context){
             primaryOutlineColor: const Color(0xFF333333),
             backgroundColor: const Color(0xFFC9C9C9),
           ),
-          workoutCard: WorkoutCardTheme(
+          templateCard: TemplateCardTheme(
             backgroundColor: const Color(0xFF121212),
             borderColor: const Color(0xFF333333),
           ),

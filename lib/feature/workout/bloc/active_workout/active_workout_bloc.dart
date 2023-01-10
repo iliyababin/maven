@@ -1,5 +1,5 @@
 import 'package:Maven/common/model/active_workout.dart';
-import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -29,7 +29,7 @@ class ActiveWorkoutBloc extends Bloc<ActiveWorkoutEvent, ActiveWorkoutState> {
     on<ConvertTemplateToWorkout>((event, emit) async {
       emit(state.copyWith(status: () => ActiveWorkoutStatus.loading));
 
-      int activeWorkoutId = await DBHelper.instance.generateActiveWorkoutTemplate(event.workout.workoutId!);
+      int activeWorkoutId = await DBHelper.instance.generateWorkoutFromTemplate(event.template.templateId!);
       ActiveWorkout? activeWorkout = await DBHelper.instance.getActiveWorkout(activeWorkoutId);
 
       emit(state.copyWith(

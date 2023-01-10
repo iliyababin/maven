@@ -7,8 +7,8 @@ import 'package:Maven/theme/widget/m_icon_theme.dart';
 import 'package:Maven/theme/widget/m_popup_menu_theme.dart';
 import 'package:Maven/theme/widget/m_text_field_theme.dart';
 import 'package:Maven/theme/widget/m_text_theme.dart';
-import 'package:Maven/theme/widget/workout_card_theme.dart';
-import 'package:Maven/theme/widget/workout_folder_theme.dart';
+import 'package:Maven/theme/widget/template_card_theme.dart';
+import 'package:Maven/theme/widget/template_folder_theme.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class MColorScheme implements AppThemeOptions{
@@ -41,8 +41,8 @@ class MColorScheme implements AppThemeOptions{
   final MPopupMenuTheme popupMenu;
   final MTextFieldTheme textField;
 
-  final WorkoutFolderTheme workoutFolder;
-  final WorkoutCardTheme workoutCard;
+  final TemplateFolderTheme templateFolder;
+  final TemplateCardTheme templateCard;
   final ActiveExerciseSetTheme activeExerciseSet;
 
   final Color sliverNavigationBarBackgroundColor;
@@ -60,8 +60,8 @@ class MColorScheme implements AppThemeOptions{
     required this.dialog,
     required this.textField,
 
-    required this.workoutFolder,
-    required this.workoutCard,
+    required this.templateFolder,
+    required this.templateCard,
     required this.activeExerciseSet,
 
     required this.sliverNavigationBarBackgroundColor,

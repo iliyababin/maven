@@ -1,4 +1,4 @@
-import 'package:Maven/feature/workout/model/temp_exercise_set.dart';
+import 'package:Maven/feature/template/model/temp_exercise_set.dart';
 
 import '../../../common/model/exercise.dart';
 

@@ -1,19 +1,19 @@
 class ExerciseGroup {
   int? exerciseGroupId;
   final int exerciseId;
-  final int workoutId;
+  final int templateId;
 
   ExerciseGroup({
     this.exerciseGroupId,
     required this.exerciseId,
-    required this.workoutId,
+    required this.templateId,
   });
 
   factory ExerciseGroup.fromMap(Map<String, dynamic> json) {
     return ExerciseGroup(
       exerciseGroupId: json['exerciseGroupId'] ,
       exerciseId: json['exerciseId'],
-      workoutId: json['workoutId'],
+      templateId: json['templateId'],
     );
   }
 
@@ -21,7 +21,7 @@ class ExerciseGroup {
     return {
       'exerciseGroupId': exerciseGroupId,
       'exerciseId': exerciseId,
-      'workoutId': workoutId,
+      'templateId': templateId,
     };
   }
 }

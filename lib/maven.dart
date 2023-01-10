@@ -1,12 +1,12 @@
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
 import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
-import 'package:Maven/feature/workout/screen/workout_screen.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'feature/template/screen/template_screen.dart';
 import 'feature/workout/screen/active_workout_screen.dart';
 
 class Maven extends StatefulWidget {
@@ -18,11 +18,11 @@ class Maven extends StatefulWidget {
 
 class _MavenState extends State<Maven> {
 
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
 
   List<Widget> screens = <Widget>[
     const HomeScreen(),
-    const WorkoutScreen(),
+    const TemplateScreen(),
     const ProfileScreen(),
     const TestingScreen(),
   ];
@@ -32,7 +32,7 @@ class _MavenState extends State<Maven> {
     return Scaffold(
       backgroundColor: mt(context).backgroundColor,
       body: SafeArea(
-        child: screens[selectedIndex],
+        child: screens[_selectedIndex],
       ),
       persistentFooterButtons: [
         persistentFooterButtons()
@@ -47,7 +47,7 @@ class _MavenState extends State<Maven> {
 
   void _onItemTapped(int index) {
     setState(() {
-      selectedIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -144,7 +144,7 @@ class _MavenState extends State<Maven> {
       selectedLabelStyle: const TextStyle(
         fontSize: 12,
       ),
-      currentIndex: selectedIndex,
+      currentIndex: _selectedIndex,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

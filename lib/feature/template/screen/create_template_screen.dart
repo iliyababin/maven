@@ -1,37 +1,37 @@
-import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
+import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/model/workout.dart';
+import '../../../common/model/template.dart';
 import '../../../screen/add_exercise_screen.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../model/exercise_block.dart';
 import '../widget/view_exercise_block_widget.dart';
 
-class CreateWorkoutScreen extends StatefulWidget {
-  const CreateWorkoutScreen({Key? key}) : super(key: key);
+class CreateTemplateScreen extends StatefulWidget {
+  const CreateTemplateScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateWorkoutScreen> createState() => _CreateWorkoutScreenState();
+  State<CreateTemplateScreen> createState() => _CreateTemplateScreenState();
 }
 
-class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
+class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
   List<ExerciseBlockData> exerciseBlocks = List.empty(growable: true);
-  final workoutTitleController = TextEditingController();
+  final templateTitleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.build(
       context: context,
       appBar: CustomAppBar.build(
-        title: 'Create Workout',
+        title: 'Create Template',
         context: context,
         actions: [
           TextButton(
-              onPressed: _createWorkout,
+              onPressed: _createTemplate,
               child: Text(
                 'Save',
                 style: TextStyle(
@@ -48,12 +48,12 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: workoutTitleController,
+                  controller: templateTitleController,
                   style: TextStyle(
                     color: mt(context).text.primaryColor
                   ),
                   decoration: InputDecoration(
-                    hintText: 'New Workout Template',
+                    hintText: 'New Template Template',
                     hintStyle: TextStyle(
                       color: mt(context).textField.hintColor
                     ),
@@ -92,18 +92,18 @@ class _CreateWorkoutScreenState extends State<CreateWorkoutScreen> {
     );
   }
 
-  void _createWorkout() {
-    if (workoutTitleController.text.isEmpty) {
+  void _createTemplate() {
+    if (templateTitleController.text.isEmpty) {
       const snackBar = SnackBar(
-        content: Text('Enter a workout title'),
+        content: Text('Enter a template title'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
 
-    context.read<WorkoutBloc>().add(
-      AddWorkout(
-        workout: Workout(name: workoutTitleController.text, workoutFolderId: 1),
+    context.read<TemplateBloc>().add(
+      AddTemplate(
+        template: Template(name: templateTitleController.text, templateFolderId: 1),
         exerciseBlocks: exerciseBlocks
       )
     );

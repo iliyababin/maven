@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-class WorkoutFolder extends Equatable{
-  int? workoutFolderId;
+class TemplateFolder extends Equatable{
+  int? templateFolderId;
   String name;
   int expanded;
   int? sortOrder;
 
 
-  WorkoutFolder({
-    this.workoutFolderId,
+  TemplateFolder({
+    this.templateFolderId,
     required this.name,
     required this.expanded,
     this.sortOrder,
   });
 
-  factory WorkoutFolder.fromMap(Map<String, dynamic> json) => WorkoutFolder(
-    workoutFolderId: json["workoutFolderId"],
+  factory TemplateFolder.fromMap(Map<String, dynamic> json) => TemplateFolder(
+    templateFolderId: json["templateFolderId"],
     name: json["name"],
     expanded: json["expanded"],
     sortOrder: json["sortOrder"],
@@ -23,7 +23,7 @@ class WorkoutFolder extends Equatable{
 
   Map<String, dynamic> toMap() {
     return {
-      'workoutFolderId': workoutFolderId,
+      'templateFolderId': templateFolderId,
       'name': name,
       'expanded': expanded,
       'sortOrder': sortOrder,
@@ -31,5 +31,5 @@ class WorkoutFolder extends Equatable{
   }
 
   @override
-  List<Object?> get props => [workoutFolderId, name, expanded, sortOrder];
+  List<Object?> get props => [templateFolderId, name, expanded, sortOrder];
 }

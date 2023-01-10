@@ -10,12 +10,12 @@ abstract class ActiveWorkoutEvent extends Equatable {
 class InitializeActiveWorkoutBloc extends ActiveWorkoutEvent {}
 
 class ConvertTemplateToWorkout extends ActiveWorkoutEvent {
-  final Workout workout;
+  final Template template;
 
   const ConvertTemplateToWorkout({
-    required this.workout,
+    required this.template,
   });
 
   @override
-  List<Object> get props => [workout];
+  List<Object> get props => [template];
 }

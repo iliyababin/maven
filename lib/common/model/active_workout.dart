@@ -1,4 +1,4 @@
-import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/template.dart';
 
 class ActiveWorkout {
   int? activeWorkoutId;
@@ -17,9 +17,9 @@ class ActiveWorkout {
     isPaused:  json["isPaused"],
   );
 
-  static ActiveWorkout workoutToActiveWorkout(Workout workout){
+  static ActiveWorkout templateToActiveWorkout(Template template){
     return ActiveWorkout(
-      name: workout.name,
+      name: template.name,
       isPaused: 0,
     );
   }

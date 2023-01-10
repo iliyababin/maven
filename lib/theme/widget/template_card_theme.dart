@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class WorkoutCardTheme {
+class TemplateCardTheme {
   final Color backgroundColor;
   final Color borderColor;
 
-  WorkoutCardTheme({
+  TemplateCardTheme({
     required this.backgroundColor,
     required this.borderColor
   });

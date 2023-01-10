@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class WorkoutFolderTheme {
+class TemplateFolderTheme {
   final Color backgroundColor;
   final Color borderColor;
   final Color dragShadowColor;
 
-  WorkoutFolderTheme({
+  TemplateFolderTheme({
     required this.backgroundColor,
     required this.borderColor,
     required this.dragShadowColor,

@@ -1,27 +1,27 @@
-import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/model/workout_folder.dart';
-import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
-import 'package:Maven/feature/workout/widget/workout_card_widget.dart';
+import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
+import 'package:Maven/feature/template/widget/template_card_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WorkoutFolderWidget extends StatefulWidget {
-  final WorkoutFolder workoutFolder;
-  final List<Workout> workouts;
+class TemplateFolderWidget extends StatefulWidget {
+  final TemplateFolder templateFolder;
+  final List<Template> templates;
 
-  const WorkoutFolderWidget({Key? key,
-    required this.workoutFolder,
-    required this.workouts
+  const TemplateFolderWidget({Key? key,
+    required this.templateFolder,
+    required this.templates
   }) : super(key: key);
 
   @override
-  State<WorkoutFolderWidget> createState() => _WorkoutFolderWidgetState();
+  State<TemplateFolderWidget> createState() => _TemplateFolderWidgetState();
 }
 
-class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
+class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
   final double borderRadius = 15;
 
   final ExpandableController _expandableController = ExpandableController();
@@ -29,7 +29,7 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
   @override
   void initState() {
     super.initState();
-    if(widget.workoutFolder.expanded == 1){
+    if(widget.templateFolder.expanded == 1){
       _expandableController.toggle();
     }
   }
@@ -37,10 +37,10 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
   @override
   Widget build(BuildContext context) {
     _expandableController.addListener(() {
-      WorkoutFolder workoutFolder = widget.workoutFolder;
-      workoutFolder.expanded = _expandableController.expanded ? 1 : 0;
-      context.read<WorkoutBloc>().add(UpdateWorkoutFolder(
-        workoutFolder: workoutFolder
+      TemplateFolder templateFolder = widget.templateFolder;
+      templateFolder.expanded = _expandableController.expanded ? 1 : 0;
+      context.read<TemplateBloc>().add(UpdateTemplateFolder(
+        templateFolder: templateFolder
       ));
     });
     return Container(
@@ -48,11 +48,11 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           width: 1,
-          color: mt(context).workoutFolder.borderColor,
+          color: mt(context).templateFolder.borderColor,
         )
       ),
       child: Material(
-        color: mt(context).workoutFolder.backgroundColor,
+        color: mt(context).templateFolder.backgroundColor,
         borderRadius: BorderRadius.circular(borderRadius),
         child: InkWell(
           onTap: (){
@@ -83,7 +83,7 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.workoutFolder.name,
+                    widget.templateFolder.name,
                     style: TextStyle(
                       color: mt(context).text.primaryColor,
                       fontSize: 17,
@@ -116,26 +116,26 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
             collapsed: Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 0, 18),
               child: Text(
-                '${widget.workouts.length.toString()} workouts',
+                '${widget.templates.length.toString()} templates',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
                   fontSize: 16
                 ),
               ),
             ),
-            expanded: widget.workouts.isNotEmpty ? Padding(
+            expanded: widget.templates.isNotEmpty ? Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
               child: ReorderableListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 proxyDecorator: proxyDecorator,
-                children: widget.workouts.map((workout) {
+                children: widget.templates.map((template) {
                   return Padding(
                     key: UniqueKey(),
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                    child: WorkoutCard(
-                      workout: workout,
+                    child: TemplateCard(
+                      template: template,
                     ),
                   );
                 }).toList(),
@@ -206,14 +206,14 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      List<Workout> workouts = widget.workouts;
+      List<Template> templates = widget.templates;
 
-      final Workout item = workouts.elementAt(oldIndex);
-      workouts.removeAt(oldIndex);
-      workouts.insert(newIndex, item);
+      final Template item = templates.elementAt(oldIndex);
+      templates.removeAt(oldIndex);
+      templates.insert(newIndex, item);
 
-      context.read<WorkoutBloc>().add(ReorderWorkouts(
-        workouts: workouts
+      context.read<TemplateBloc>().add(ReorderTemplates(
+        templates: templates
       ));
     });
   }
@@ -243,7 +243,7 @@ class _WorkoutFolderWidgetState extends State<WorkoutFolderWidget> {
                 child: Material(
                   borderRadius: BorderRadius.circular(borderRadius),
                   elevation: 5,
-                  shadowColor: mt(context).workoutFolder.dragShadowColor,
+                  shadowColor: mt(context).templateFolder.dragShadowColor,
                 ),
               ),
               child!,

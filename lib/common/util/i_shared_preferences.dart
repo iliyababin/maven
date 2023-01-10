@@ -24,3 +24,5 @@ class ISharedPrefs extends InheritedWidget {
   bool updateShouldNotify(ISharedPrefs oldWidget) => streamingSharedPreferences != oldWidget.streamingSharedPreferences;
 
 }*/
+
+

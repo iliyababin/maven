@@ -1,35 +1,37 @@
+import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/model/exercise.dart';
 import '../../../common/model/exercise_group.dart';
-import '../../../common/model/workout.dart';
 
-class ViewWorkoutScreen extends StatefulWidget {
-  final Workout workout;
+class ViewTemplateScreen extends StatefulWidget {
+  final Template template;
 
-  const ViewWorkoutScreen({Key? key,
-    required this.workout
+  const ViewTemplateScreen({Key? key,
+    required this.template
   }) : super(key: key);
 
   @override
-  State<ViewWorkoutScreen> createState() => _ViewWorkoutScreenState();
+  State<ViewTemplateScreen> createState() => _ViewTemplateScreenState();
 }
 
-class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
+class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.build(
-        title: "Workout",
+        title: "Template",
         context: context,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(widget.workout.name),
-            _listOfExercises(widget.workout.workoutId!)
+            Text(widget.template.name),
+            _listOfExercises(widget.template.templateId!)
           ],
         )
       ),
@@ -38,7 +40,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
           width: double.infinity,
           child: ElevatedButton(
             child: const Text('START'),
-            onPressed: () => _startWorkout(context),
+            onPressed: () => _startTemplate(context),
           ),
         )
       ],
@@ -49,15 +51,16 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
   /// Functions
   ///
 
-  void _startWorkout(BuildContext context) {
-    /*if (currentWorkoutIdPref != -1) {
+  void _startTemplate(BuildContext context) {
+    context.read<ActiveWorkoutBloc>().add(ConvertTemplateToWorkout(template: widget.template));
+    /*if (currentTemplateIdPref != -1) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Workout in progress'),
+            title: const Text('Template in progress'),
             content: const Text(
-              'You already have a workout in progress, would you like to discard it?'
+              'You already have a template in progress, would you like to discard it?'
             ),
             actions: <Widget>[
               TextButton(
@@ -68,7 +71,7 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
                     color: mt(context).text.errorColor
                   ),
                 ),
-                onPressed: () => _discardWorkout(context),
+                onPressed: () => _discardTemplate(context),
               ),
               TextButton(
                 child: const Text("Cancel"),
@@ -81,15 +84,15 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
 
       });
     } else {
-      context.read<ActiveWorkoutBloc>().add(ConvertTemplateToWorkout(
-        workout: widget.workout
+      context.read<ActiveTemplateBloc>().add(ConvertTemplateToTemplate(
+        template: widget.template
       ));
-      *//*generateActiveWorkoutTemplate(context, widget.workoutId);*//*
+      *//*generateActiveTemplateTemplate(context, widget.templateId);*//*
       Navigator.pop(context);
     }*/
   }
 
-  void _discardWorkout(BuildContext context) {
+  void _discardTemplate(BuildContext context) {
     Navigator.of(context).pop(true);
   }
 
@@ -101,10 +104,10 @@ class _ViewWorkoutScreenState extends State<ViewWorkoutScreen> {
   /// Widgets
   ///
 
-  FutureBuilder _listOfExercises(int workoutId) {
+  FutureBuilder _listOfExercises(int templateId) {
     return FutureBuilder(
       future: DBHelper.instance
-          .getExerciseGroupsByWorkoutId(widget.workout.workoutId!),
+          .getExerciseGroupsByTemplateId(widget.template.templateId!),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading exercises');
         List<ExerciseGroup> exerciseGroups = snapshot.data;

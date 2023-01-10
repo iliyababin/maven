@@ -1,13 +1,14 @@
-import 'package:Maven/common/model/workout.dart';
-import 'package:Maven/feature/workout/screen/view_workout_screen.dart';
+import 'package:Maven/common/model/template.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
-class WorkoutCard extends StatelessWidget {
-  final Workout workout;
+import '../screen/view_template_screen.dart';
 
-  const WorkoutCard({Key? key,
-    required this.workout,
+class TemplateCard extends StatelessWidget {
+  final Template template;
+
+  const TemplateCard({Key? key,
+    required this.template,
   }) : super(key: key);
 
   final double borderRadius = 12;
@@ -15,10 +16,10 @@ class WorkoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: mt(context).workoutCard.backgroundColor,
+      color: mt(context).templateCard.backgroundColor,
       borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
-        onTap: () => _showWorkout(context, workout),
+        onTap: () => _showTemplate(context, template),
         borderRadius: BorderRadius.circular(borderRadius),
         child: Container(
           decoration: BoxDecoration(
@@ -37,7 +38,7 @@ class WorkoutCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        workout.name,
+                        template.name,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w800,
@@ -76,13 +77,13 @@ class WorkoutCard extends StatelessWidget {
   /// Functions
   /// 
   
-  void _showWorkout(BuildContext context, Workout workout) {
+  void _showTemplate(BuildContext context, Template template) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
-          ViewWorkoutScreen(
-            workout: workout
+          ViewTemplateScreen(
+            template: template
           )
       )
     );

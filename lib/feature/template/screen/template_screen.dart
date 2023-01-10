@@ -1,25 +1,26 @@
 import 'package:Maven/common/dialog/show_text_input_dialog.dart';
-import 'package:Maven/common/model/workout.dart';
+import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/model/workout_folder.dart';
-import 'package:Maven/feature/workout/bloc/workout/workout_bloc.dart';
-import 'package:Maven/feature/workout/screen/reorder_workout_screen.dart';
-import 'package:Maven/feature/workout/widget/workout_folder_widget.dart';
+import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'create_workout_screen.dart';
+import '../widget/template_folder_widget.dart';
+import 'create_template_screen.dart';
+import 'reorder_template_screen.dart';
 
-class WorkoutScreen extends StatefulWidget {
-  const WorkoutScreen({Key? key}) : super(key: key);
+
+class TemplateScreen extends StatefulWidget {
+  const TemplateScreen({Key? key}) : super(key: key);
 
   @override
-  State<WorkoutScreen> createState() => _WorkoutScreenState();
+  State<TemplateScreen> createState() => _TemplateScreenState();
 }
 
-class _WorkoutScreenState extends State<WorkoutScreen> {
+class _TemplateScreenState extends State<TemplateScreen> {
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           return <Widget>[
             CupertinoSliverNavigationBar(
               largeTitle: Text(
-                'Workout',
+                'Template',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
                 ),
@@ -49,17 +50,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               quickStart(),
-              workouts(),
-              BlocBuilder<WorkoutBloc, WorkoutState>(
+              templates(),
+              BlocBuilder<TemplateBloc, TemplateState>(
                 builder: (context, state) {
-                  if (state.status == WorkoutStatus.loading) {
+                  if (state.status == TemplateStatus.loading) {
                     return const SizedBox(
                       height: 400,
                       child: Center(child: CircularProgressIndicator())
                     );
-                  } else if (state.status == WorkoutStatus.success || state.status == WorkoutStatus.reordering) {
-                    List<WorkoutFolder> workoutFolders = state.workoutFolders;
-                    List<Workout> workouts = state.workouts;
+                  } else if (state.status == TemplateStatus.success || state.status == TemplateStatus.reordering) {
+                    List<TemplateFolder> templateFolders = state.templateFolders;
+                    List<Template> templates = state.templates;
 
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -68,19 +69,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         proxyDecorator: proxyDecorator,
-                        children: workoutFolders.map((workoutFolder) {
+                        children: templateFolders.map((templateFolder) {
                           return Padding(
                             key: UniqueKey(),
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            child: WorkoutFolderWidget(
-                              workoutFolder: workoutFolder,
-                              workouts: workouts.where((workout) =>
-                              workout.workoutFolderId == workoutFolder.workoutFolderId
+                            child: TemplateFolderWidget(
+                              templateFolder: templateFolder,
+                              templates: templates.where((template) =>
+                              template.templateFolderId == templateFolder.templateFolderId
                               ).toList()
                             ),
                           );
                         }).toList(),
-                        onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, workoutFolders),
+                        onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, templateFolders),
                       ),
                     );
                   } else {
@@ -99,49 +100,49 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   /// Functions
   ///
 
-  void _createWorkout(BuildContext context) {
+  void _createTemplate(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const CreateWorkoutScreen()
+        builder: (context) => const CreateTemplateScreen()
       )
     );
   }
 
-  void _reorderWorkouts(BuildContext context) {
+  void _reorderTemplates(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ReorderWorkoutScreen()
+        builder: (context) => const ReorderTemplateScreen()
       )
     );
   }
 
-  void _reorder(int oldIndex, int newIndex, List<WorkoutFolder> workoutFolders) {
+  void _reorder(int oldIndex, int newIndex, List<TemplateFolder> templateFolders) {
     setState(() {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      final WorkoutFolder item = workoutFolders.elementAt(oldIndex);
-      workoutFolders.removeAt(oldIndex);
-      workoutFolders.insert(newIndex, item);
+      final TemplateFolder item = templateFolders.elementAt(oldIndex);
+      templateFolders.removeAt(oldIndex);
+      templateFolders.insert(newIndex, item);
 
-      context.read<WorkoutBloc>().add(ReorderWorkoutFolders(
-        workoutFolders: workoutFolders
+      context.read<TemplateBloc>().add(ReorderTemplateFolders(
+        templateFolders: templateFolders
       ));
     });
   }
 
-  Future<void> _createWorkoutFolder(BuildContext context) async {
+  Future<void> _createTemplateFolder(BuildContext context) async {
     String? result = await showDialogWithTextField(
         context: context,
         title: 'Create New Folder',
         hintText: "Folder Name"
     );
     if (result != null) {
-      final workoutFolder = WorkoutFolder(name: result, expanded: 1);
-      context.read<WorkoutBloc>().add(AddWorkoutFolder(
-          workoutFolder: workoutFolder
+      final templateFolder = TemplateFolder(name: result, expanded: 1);
+      context.read<TemplateBloc>().add(AddTemplateFolder(
+          templateFolder: templateFolder
       ));
     }
   }
@@ -170,7 +171,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: Material(
                   borderRadius: BorderRadius.circular(15),
                   elevation: 5,
-                  shadowColor: mt(context).workoutFolder.dragShadowColor,
+                  shadowColor: mt(context).templateFolder.dragShadowColor,
                 ),
               ),
               child!,
@@ -222,7 +223,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             children: [
               MFlatButton(
                 text: Text(
-                  'Create Workout',
+                  'Create Template',
                   style: TextStyle(
                     color: mt(context).text.accentColor,
                     fontSize: 15,
@@ -234,12 +235,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   size: 20,
                   color: mt(context).icon.accentColor,
                 ),
-                onPressed: () => _createWorkout(context),
+                onPressed: () => _createTemplate(context),
               ),
               const SizedBox(width: 16),
               MFlatButton(
                 text: Text(
-                  'Workout Builder',
+                  'Template Builder',
                   style: TextStyle(
                     color: mt(context).text.accentColor,
                     fontSize: 15,
@@ -259,14 +260,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       ),
   );
 
-  Padding workouts() =>
+  Padding templates() =>
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Workouts',
+            'Templates',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -285,7 +286,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   size: 20,
                   color: mt(context).icon.accentColor,
                 ),
-                onPressed: () => _reorderWorkouts(context),
+                onPressed: () => _reorderTemplates(context),
               ),
               const SizedBox(
                 width: 8,
@@ -301,7 +302,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   size: 22,
                   color: mt(context).icon.accentColor,
                 ),
-                onPressed: () => _createWorkoutFolder(context),
+                onPressed: () => _createTemplateFolder(context),
               ),
             ],
           )
@@ -321,56 +322,56 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ElevatedButton(
-            onPressed: () => _navigateToCreateWorkoutScreen(context),
-            child: const Text("Create Workout"),
+            onPressed: () => _navigateToCreateTemplateScreen(context),
+            child: const Text("Create Template"),
           ),
-          const Text("Paused workouts:"),
+          const Text("Paused templates:"),
           Flexible(
             fit: FlexFit.tight,
-            child: Consumer<ActiveWorkoutProvider>(
-              builder: (context, activeWorkoutProvider, child) {
-                if(activeWorkoutProvider.pausedActiveWorkouts.length == 0 ){
+            child: Consumer<ActiveTemplateProvider>(
+              builder: (context, activeTemplateProvider, child) {
+                if(activeTemplateProvider.pausedActiveTemplates.length == 0 ){
                   print("emptyu");
                   return Container();
                 }
                 return ListView(
-                  children: activeWorkoutProvider.pausedActiveWorkouts.map((
-                      activeWorkout) {
+                  children: activeTemplateProvider.pausedActiveTemplates.map((
+                      activeTemplate) {
                     return ListTile(
                       onTap: () {
-                        unpauseWorkout(
-                            context, activeWorkout.activeWorkoutId!);
+                        unpauseTemplate(
+                            context, activeTemplate.activeTemplateId!);
                       },
-                      title: Text(activeWorkout.name),
+                      title: Text(activeTemplate.name),
                     );
                   }).toList(),
                 );
               },
             ),
           ),
-          const Text("Workout templates:"),
-          BlocBuilder<WorkoutBloc, WorkoutState>(
+          const Text("Template templates:"),
+          BlocBuilder<TemplateBloc, TemplateState>(
             builder: (context, state) {
-              if (state.status == WorkoutStatus.loading) {
+              if (state.status == TemplateStatus.loading) {
                 return const CircularProgressIndicator();
-              } else if (state.status == WorkoutStatus.success) {
+              } else if (state.status == TemplateStatus.success) {
 
-                final workouts = state.workouts;
+                final templates = state.templates;
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: workouts.length,
+                    itemCount: templates.length,
                     itemBuilder: (context, index) {
-                      final workout = workouts[index];
+                      final template = templates[index];
 
                       return ListTile(
-                        title: Text(workout.name),
+                        title: Text(template.name),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ViewWorkoutScreen(
-                                          workoutId: workout.workoutId!
+                                      ViewTemplateScreen(
+                                          templateId: template.templateId!
                                       )
                               )
                           );
@@ -390,26 +391,26 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
   }
 */
-/*workoutProvider.workouts.map((workout) {
+/*templateProvider.templates.map((template) {
 return Dismissible(
 key: UniqueKey(),
 onDismissed: (direction) {
-Provider.of<WorkoutProvider>(context, listen: false)
-    .deleteWorkout(workout.workoutId!);
+Provider.of<TemplateProvider>(context, listen: false)
+    .deleteTemplate(template.templateId!);
 },
 child: ListTile(
 onTap: () async {
 Navigator.push(
 context,
 MaterialPageRoute(
-builder: (context) => ViewWorkoutScreen(
-workoutId: workout.workoutId!
+builder: (context) => ViewTemplateScreen(
+templateId: template.templateId!
 )
 )
 );
 },
-title: Text(workout.name),
-subtitle: Text(workout.workoutId.toString()),
+title: Text(template.name),
+subtitle: Text(template.templateId.toString()),
 ),
 );
 }).toList()*/
