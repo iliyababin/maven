@@ -5,14 +5,14 @@ class ActiveExerciseSet {
   int? weight;
   int? reps;
   int activeExerciseGroupId;
-  int activeWorkoutId;
+  int workoutId;
 
   ActiveExerciseSet({
     this.activeExerciseSetId,
     this.weight,
     this.reps,
     required this.activeExerciseGroupId,
-    required this.activeWorkoutId,
+    required this.workoutId,
   });
 
   factory ActiveExerciseSet.fromMap(Map<String, dynamic> json) => ActiveExerciseSet(
@@ -20,7 +20,7 @@ class ActiveExerciseSet {
     weight: json["weight"],
     reps: json["reps"],
     activeExerciseGroupId: json["activeExerciseGroupId"],
-    activeWorkoutId: json["activeWorkoutId"],
+    workoutId: json["workoutId"],
   );
 
   Map<String, dynamic> toMap() {
@@ -29,14 +29,14 @@ class ActiveExerciseSet {
       'weight': weight,
       'reps': reps,
       'activeExerciseGroupId': activeExerciseGroupId,
-      'activeWorkoutId': activeWorkoutId,
+      'workoutId': workoutId,
     };
   }
 
-  static ActiveExerciseSet exerciseSetToActiveExerciseSet(ExerciseSet exerciseSet, int activeExerciseGroupId, int activeWorkoutId) {
+  static ActiveExerciseSet exerciseSetToActiveExerciseSet(ExerciseSet exerciseSet, int activeExerciseGroupId, int workoutId) {
     return ActiveExerciseSet(
       activeExerciseGroupId: activeExerciseGroupId,
-      activeWorkoutId: activeWorkoutId,
+      workoutId: workoutId,
       reps: exerciseSet.reps,
       weight: exerciseSet.weight,
     );

@@ -39,7 +39,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                       child: Text(
                         exercise.name,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           color: mt(context).text.accentColor,
                           fontWeight: FontWeight.w600
                         )
@@ -204,7 +204,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
             DBHelper.instance.addActiveExerciseSet(
               ActiveExerciseSet(
                 activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!,
-                activeWorkoutId: widget.activeExerciseGroup.activeWorkoutId
+                workoutId: widget.activeExerciseGroup.workoutId
               )
             );
             setState(() {

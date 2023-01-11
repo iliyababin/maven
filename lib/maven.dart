@@ -1,5 +1,5 @@
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
-import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/screen/home_screen.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
@@ -32,11 +32,16 @@ class _MavenState extends State<Maven> {
     return Scaffold(
       backgroundColor: mt(context).backgroundColor,
       body: SafeArea(
-        child: screens[_selectedIndex],
+        child: Column(
+          children: [
+            Expanded(child: screens[_selectedIndex]),
+            workout(),
+          ],
+        ),
       ),
-      persistentFooterButtons: [
+      /*persistentFooterButtons: [
         persistentFooterButtons()
-      ],
+      ],*/
       bottomNavigationBar: bottomNavigationBar()
     );
   }
@@ -55,22 +60,40 @@ class _MavenState extends State<Maven> {
   /// Widgets
   ///
 
-  BlocBuilder persistentFooterButtons() {
-     return BlocBuilder<ActiveWorkoutBloc, ActiveWorkoutState>(
+  BlocBuilder workout() {
+     return BlocBuilder<WorkoutBloc, WorkoutState>(
        builder: (context, state) {
-         if(state.status == ActiveWorkoutStatus.active) {
-           return ElevatedButton(
-             onPressed: () {
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                   builder: (context) => ActiveWorkoutScreen(
-                     activeWorkout: state.activeWorkout!
-                   )
-                 )
-               );
-             },
-             child: Text('Active Workout')
+         if(state.status == WorkoutStatus.active) {
+           return Container(
+             height: 75,
+             width: double.infinity,
+             decoration: BoxDecoration(
+               borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+               color: mt(context).bottomNavigationBar.backgroundColor,
+               boxShadow: [
+                 BoxShadow(
+                   color: Colors.grey.withOpacity(0.2),
+                   spreadRadius: 5,
+                   blurRadius: 7,
+                   offset: Offset(0, 3), // changes position of shadow
+                 ),
+               ],
+             ),
+             child: Center(
+               child: ElevatedButton(
+                   onPressed: () {
+                     Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                             builder: (context) => WorkoutScreen(
+                                 workout: state.workout!
+                             )
+                         )
+                     );
+                   },
+                   child: Text('Active Workout')
+               ),
+             ),
            );
          } else {
            return Container();
@@ -145,14 +168,15 @@ class _MavenState extends State<Maven> {
         fontSize: 12,
       ),
       currentIndex: _selectedIndex,
+      elevation: 0,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home'
+          label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.fitness_center),
-          label: 'Workout'
+          label: 'Workout',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

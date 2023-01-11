@@ -5,11 +5,11 @@ import 'dart:io';
 
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/model/active_workout.dart';
 import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
 import 'package:Maven/common/model/template.dart';
+import 'package:Maven/common/model/workout.dart';
 import 'package:Maven/common/model/workout_folder.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -17,7 +17,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 ///
-/// Helps with basic CRUD operations on database. Stored on users system.
+/// Creates, manages, and performs CRUD operations on database. Stored on users system.
 ///
 class DBHelper {
   DBHelper._privateConstructor();
@@ -27,8 +27,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy146.db');
-    String path = join(documentsDirectory.path, 'testy146.db');
+    await deleteDatabase('testy152.db');
+    String path = join(documentsDirectory.path, 'testy152.db');
 
     return await openDatabase(
       path,
@@ -46,20 +46,20 @@ class DBHelper {
   Future _onCreate(Database db, int version) async {
 
     await db.execute('''
-      CREATE TABLE templateFolder (
-        templateFolderId INTEGER PRIMARY KEY,
-        name TEXT,
-        expanded INTEGER,
-        sortOrder INTEGER
-      );
-    ''');
-
-    await db.execute('''
       CREATE TABLE exercise (
         exerciseId INTEGER PRIMARY KEY,
         name TEXT,
         muscle TEXT,
         picture TEXT
+      );
+    ''');
+    
+    await db.execute('''
+      CREATE TABLE templateFolder (
+        templateFolderId INTEGER PRIMARY KEY,
+        name TEXT,
+        expanded INTEGER,
+        sortOrder INTEGER
       );
     ''');
     await db.execute('''
@@ -94,19 +94,20 @@ class DBHelper {
     ''');
 
     await db.execute('''
-      CREATE TABLE activeWorkout (
-        activeWorkoutId INTEGER PRIMARY KEY,
+      CREATE TABLE workout (
+        workoutId INTEGER PRIMARY KEY,
         name TEXT,
-        isPaused INTEGER
+        isPaused INTEGER,
+        datetime TEXT
       );
     ''');
     await db.execute('''
       CREATE TABLE activeExerciseGroup (
         activeExerciseGroupId INTEGER PRIMARY KEY,
         exerciseId INTEGER,
-        activeWorkoutId INTEGER,
+        workoutId INTEGER,
         FOREIGN KEY (exerciseId) REFERENCES exercise(exerciseId),
-        FOREIGN KEY (activeWorkoutId) REFERENCES activeWorkout(activeWorkoutId)
+        FOREIGN KEY (workoutId) REFERENCES workout(workoutId)
       );
     ''');
     await db.execute('''
@@ -115,9 +116,9 @@ class DBHelper {
         weight INTEGER,
         reps INTEGER,
         activeExerciseGroupId INTEGER,
-        activeWorkoutId INTEGER,
+        workoutId INTEGER,
         FOREIGN KEY (activeExerciseGroupId) REFERENCES activeExerciseGroup(activeExerciseGroupId),
-        FOREIGN KEY (activeWorkoutId) REFERENCES activeWorkout(activeWorkoutId)
+        FOREIGN KEY (workoutId) REFERENCES workout(workoutId)
       );
     ''');
 
@@ -348,60 +349,60 @@ class DBHelper {
 
 
   ///
-  /// activeWorkout
+  /// workout
   ///
-  Future<int> addActiveWorkout(ActiveWorkout activeWorkout) async {
+  Future<int> addWorkout(Workout workout) async {
     final db = await instance.database;
-    return await db.insert('activeWorkout', activeWorkout.toMap());
+    return await db.insert('workout', workout.toMap());
   }
 
-  Future<ActiveWorkout?> getActiveWorkout(int activeWorkoutId) async {
+  Future<Workout?> getWorkout(int workoutId) async {
     final db = await instance.database;
-    final activeWorkout = await db.query('activeWorkout', where: 'activeWorkoutId = ?', whereArgs: [activeWorkoutId]);
-    return activeWorkout.isNotEmpty ? ActiveWorkout.fromMap(activeWorkout.first) : null;
+    final workout = await db.query('workout', where: 'workoutId = ?', whereArgs: [workoutId]);
+    return workout.isNotEmpty ? Workout.fromMap(workout.first) : null;
   }
 
-  Future<ActiveWorkout?> getActiveWorkoutAAA() async {
+  Future<Workout?> getWorkoutAAA() async {
     final db = await instance.database;
-    final activeWorkout = await db.query('activeWorkout', where: 'isPaused = 0',);
-    return activeWorkout.isNotEmpty ? ActiveWorkout.fromMap(activeWorkout.first) : null;
+    final workout = await db.query('workout', where: 'isPaused = 0',);
+    return workout.isNotEmpty ? Workout.fromMap(workout.first) : null;
   }
 
-  Future<List<ActiveWorkout>> getActiveWorkouts() async {
+  Future<List<Workout>> getWorkouts() async {
     final db = await instance.database;
-    var activeWorkouts = await db.query('activeWorkout', orderBy: 'name');
-    List<ActiveWorkout> activeWorkoutList = activeWorkouts.isNotEmpty
-        ? activeWorkouts.map((c) => ActiveWorkout.fromMap(c)).toList()
+    var workouts = await db.query('workout', orderBy: 'name');
+    List<Workout> workoutList = workouts.isNotEmpty
+        ? workouts.map((c) => Workout.fromMap(c)).toList()
         : [];
-    return activeWorkoutList;
+    return workoutList;
   }
 
-  Future<List<ActiveWorkout>> getPausedActiveWorkouts() async {
+  Future<List<Workout>> getPausedWorkouts() async {
     final db = await instance.database;
-    var activeWorkouts = await db.query(
-      'activeWorkout',
+    var workouts = await db.query(
+      'workout',
       where: 'isPaused = ?',
       whereArgs: [1],
     );
-    List<ActiveWorkout> activeWorkoutList = activeWorkouts.isNotEmpty
-        ? activeWorkouts.map((c) => ActiveWorkout.fromMap(c)).toList()
+    List<Workout> workoutList = workouts.isNotEmpty
+        ? workouts.map((c) => Workout.fromMap(c)).toList()
         : [];
-    return activeWorkoutList;
+    return workoutList;
   }
 
-  Future<void> updateActiveWorkout(ActiveWorkout activeWorkout) async {
+  Future<void> updateWorkout(Workout workout) async {
     final db = await instance.database;
     await db.update(
-      'activeWorkout',
-      activeWorkout.toMap(),
-      where: 'activeWorkoutId = ?',
-      whereArgs: [activeWorkout.activeWorkoutId],
+      'workout',
+      workout.toMap(),
+      where: 'workoutId = ?',
+      whereArgs: [workout.workoutId],
     );
   }
 
-  Future<int> deleteActiveWorkout(int activeWorkoutId) async {
+  Future<int> deleteWorkout(int workoutId) async {
     final db = await instance.database;
-    return await db.delete('activeWorkout', where: 'activeWorkoutId = ?', whereArgs: [activeWorkoutId]);
+    return await db.delete('workout', where: 'workoutId = ?', whereArgs: [workoutId]);
   }
 
   ///
@@ -421,12 +422,12 @@ class DBHelper {
     return activeExerciseGroupList;
   }
 
-  Future<List<ActiveExerciseGroup>> getActiveExerciseGroupsByActiveWorkoutId(int activeWorkoutId) async {
+  Future<List<ActiveExerciseGroup>> getActiveExerciseGroupsByWorkoutId(int workoutId) async {
     final db = await instance.database;
     var activeExerciseGroups = await db.query(
       'activeExerciseGroup',
-      where: 'activeWorkoutId = ?',
-      whereArgs: [activeWorkoutId],
+      where: 'workoutId = ?',
+      whereArgs: [workoutId],
     );
     List<ActiveExerciseGroup> activeExerciseGroupList = activeExerciseGroups.isNotEmpty
         ? activeExerciseGroups.map((c) => ActiveExerciseGroup.fromMap(c)).toList()
@@ -440,10 +441,10 @@ class DBHelper {
         where: 'activeExerciseGroupId = ?', whereArgs: [activeExerciseGroupId]);
   }
 
-  Future<void> deleteActiveExerciseGroupsByActiveWorkoutId(int activeWorkoutId) async {
+  Future<void> deleteActiveExerciseGroupsByWorkoutId(int workoutId) async {
     final db = await instance.database;
     List<Map<String, dynamic>> activeExerciseGroups = await db
-        .query('activeExerciseGroup', where: 'activeWorkoutId = ?', whereArgs: [activeWorkoutId]);
+        .query('activeExerciseGroup', where: 'workoutId = ?', whereArgs: [workoutId]);
     for (var activeExerciseGroup in activeExerciseGroups) {
       await deleteActiveExerciseGroup(activeExerciseGroup['activeExerciseGroupId']);
     }
@@ -486,10 +487,10 @@ class DBHelper {
         where: 'activeExerciseSetId = ?', whereArgs: [activeExerciseSetId]);
   }
 
-  Future<void> deleteActiveExerciseSetsByActiveWorkoutId(int activeWorkoutId) async {
+  Future<void> deleteActiveExerciseSetsByWorkoutId(int workoutId) async {
     final db = await instance.database;
     List<Map<String, dynamic>> activeExerciseSets = await db
-        .query('activeExerciseSet', where: 'activeWorkoutId = ?', whereArgs: [activeWorkoutId]);
+        .query('activeExerciseSet', where: 'workoutId = ?', whereArgs: [workoutId]);
     log(activeExerciseSets.length.toString());
     for (var activeExerciseSet in activeExerciseSets) {
       await deleteActiveExerciseSet(activeExerciseSet['activeExerciseSetId']);
@@ -501,19 +502,19 @@ class DBHelper {
   ///
   Future<int> generateWorkoutFromTemplate(int templateId) async {
     Template? template = await getTemplate(templateId);
-    ActiveWorkout activeWorkout = ActiveWorkout.templateToActiveWorkout(template!);
-    int activeWorkoutId = await addActiveWorkout(activeWorkout);
+    Workout workout = Workout.templateToWorkout(template!);
+    int workoutId = await addWorkout(workout);
 
     List<ExerciseGroup> exerciseGroups = await getExerciseGroupsByTemplateId(templateId);
     for (var exerciseGroup in exerciseGroups) {
-      int activeExerciseGroupId = await addActiveExerciseGroup(ActiveExerciseGroup.exerciseGroupToActiveExerciseGroup(exerciseGroup, activeWorkoutId));
+      int activeExerciseGroupId = await addActiveExerciseGroup(ActiveExerciseGroup.exerciseGroupToActiveExerciseGroup(exerciseGroup, workoutId));
 
       List<ExerciseSet> exerciseSets = await getExerciseSetsByExerciseGroupId(exerciseGroup.exerciseGroupId!);
       for(var exerciseSet in exerciseSets){
-        addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, activeWorkoutId));
+        addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
       }
     }
 
-    return activeWorkoutId;
+    return workoutId;
   }
 }

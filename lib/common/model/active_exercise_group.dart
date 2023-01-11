@@ -3,19 +3,19 @@ import 'package:Maven/common/model/exercise_group.dart';
 class ActiveExerciseGroup {
   int? activeExerciseGroupId;
   final int exerciseId;
-  final int activeWorkoutId;
+  final int workoutId;
 
   ActiveExerciseGroup({
     this.activeExerciseGroupId,
     required this.exerciseId,
-    required this.activeWorkoutId,
+    required this.workoutId,
   });
 
   factory ActiveExerciseGroup.fromMap(Map<String, dynamic> json) {
     return ActiveExerciseGroup(
       activeExerciseGroupId: json['activeExerciseGroupId'] ,
       exerciseId: json['exerciseId'],
-      activeWorkoutId: json['activeWorkoutId'],
+      workoutId: json['workoutId'],
     );
   }
 
@@ -23,14 +23,14 @@ class ActiveExerciseGroup {
     return {
       'activeExerciseGroupId': activeExerciseGroupId,
       'exerciseId': exerciseId,
-      'activeWorkoutId': activeWorkoutId,
+      'workoutId': workoutId,
     };
   }
 
-  static ActiveExerciseGroup exerciseGroupToActiveExerciseGroup(ExerciseGroup exerciseGroup, int activeWorkoutId) {
+  static ActiveExerciseGroup exerciseGroupToActiveExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
     return ActiveExerciseGroup(
       exerciseId: exerciseGroup.exerciseId,
-      activeWorkoutId: activeWorkoutId
+      workoutId: workoutId
     );
   }
 }

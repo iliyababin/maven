@@ -22,7 +22,7 @@ class TemplateFolderWidget extends StatefulWidget {
 }
 
 class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
-  final double borderRadius = 15;
+  final double borderRadius = 10;
 
   final ExpandableController _expandableController = ExpandableController();
 
@@ -63,132 +63,140 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
             });
           },
           borderRadius: BorderRadius.circular(borderRadius),
-          child: ExpandablePanel(
+          child: ExpandableNotifier(
             controller: _expandableController,
-            theme: ExpandableThemeData(
-              iconColor: mt(context).accentColor,
-              iconPlacement: ExpandablePanelIconPlacement.right,
-              headerAlignment: ExpandablePanelHeaderAlignment.center,
-              iconPadding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-              inkWellBorderRadius: BorderRadius.circular(borderRadius),
-              iconSize: 30,
-              useInkWell: false
-            ),
-            header: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              padding: const EdgeInsets.fromLTRB(12, 12, 0, 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.templateFolder.name,
+            child: ScrollOnExpand(
+              child: ExpandablePanel(
+                controller: _expandableController,
+                theme: ExpandableThemeData(
+                  iconColor: mt(context).accentColor,
+                  iconPlacement: ExpandablePanelIconPlacement.right,
+                  headerAlignment: ExpandablePanelHeaderAlignment.center,
+                  iconPadding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
+                  inkWellBorderRadius: BorderRadius.circular(borderRadius),
+                  iconSize: 30,
+                  useInkWell: false,
+                  
+                ),
+                header: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.templateFolder.name,
+                        style: TextStyle(
+                          color: mt(context).text.primaryColor,
+                          fontSize: 18.5,
+                          fontWeight: FontWeight.w700
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(borderRadius),
+                          child : Material(
+                            color: Colors.transparent,
+                            child : InkWell(
+                              child : Padding(
+                                padding : const EdgeInsets.all(5),
+                                child : Icon(
+                                  Icons.more_horiz,
+                                  color: mt(context).icon.accentColor,
+                                ),
+                              ),
+                              onTap : () {
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+                collapsed: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
+                  child: Text(
+                    '${widget.templates.length.toString()} templates',
                     style: TextStyle(
                       color: mt(context).text.primaryColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w900
+                      fontSize: 16
                     ),
                   ),
-                  SizedBox(
-                    width: 40,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      child : Material(
-                        color: Colors.transparent,
-                        child : InkWell(
-                          child : Padding(
-                            padding : const EdgeInsets.all(5),
-                            child : Icon(
-                              Icons.more_horiz,
-                              color: mt(context).icon.accentColor,
-                            ),
-                          ),
-                          onTap : () {
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ),
-            collapsed: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 0, 18),
-              child: Text(
-                '${widget.templates.length.toString()} templates',
-                style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 16
                 ),
-              ),
-            ),
-            expanded: widget.templates.isNotEmpty ? Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
-              child: ReorderableListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                proxyDecorator: proxyDecorator,
-                children: widget.templates.map((template) {
-                  return Padding(
-                    key: UniqueKey(),
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                    child: TemplateCard(
-                      template: template,
-                    ),
-                  );
-                }).toList(),
-                onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex),
-              ),
-            ) : Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  Icon(
-                    Icons.folder_copy_rounded,
-                    color: mt(context).icon.secondaryColor,
-                    size: 60,
+                expanded: widget.templates.isNotEmpty ? Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
+                  child: ReorderableListView(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    proxyDecorator: proxyDecorator,
+                    children: widget.templates.map((template) {
+                      return Padding(
+                        key: UniqueKey(),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                        child: TemplateCard(
+                          template: template,
+                        ),
+                      );
+                    }).toList(),
+                    onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                    child: Text(
-                      'This folder is empty.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor
+                ) : Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      Icon(
+                        Icons.folder_copy_rounded,
+                        color: mt(context).icon.accentColor,
+                        size: 60,
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                        child: Text(
+                          'This folder is empty.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: mt(context).text.secondaryColor
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            MFlatButton(
+                              text: Text(
+                                'Create New',
+                                style: TextStyle(
+                                  color: mt(context).text.primaryColor
+                                ),
+                              ),
+                              borderColor: mt(context).borderColor,
+                              backgroundColor: mt(context).templateFolder.backgroundColor,
+                              onPressed: (){},
+                            ),
+                            const SizedBox(width: 16,),
+                            MFlatButton(
+                              text: Text(
+                                'Move Existing',
+                                style: TextStyle(
+                                  color: mt(context).text.primaryColor
+                                ),
+                              ),
+                              borderColor: mt(context).borderColor,
+                              backgroundColor: mt(context).templateFolder.backgroundColor,
+                              onPressed: (){},
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        MFlatButton(
-                          text: Text(
-                            'Create New',
-                            style: TextStyle(
-                              color: mt(context).text.primaryColor
-                            ),
-                          ),
-                          borderColor: mt(context).borderColor,
-                          onPressed: (){},
-                        ),
-                        const SizedBox(width: 16,),
-                        MFlatButton(
-                          text: Text(
-                            'Move Existing',
-                            style: TextStyle(
-                              color: mt(context).text.primaryColor
-                            ),
-                          ),
-                          borderColor: mt(context).borderColor,
-                          onPressed: (){},
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
           ),

@@ -27,6 +27,8 @@ dependencies:
   expandable: ^5.0.1
   drag_and_drop_lists: ^0.3.3
   cupertino_icons: ^1.0.5
+  dotted_border: ^2.0.0+3
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_test:

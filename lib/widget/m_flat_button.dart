@@ -57,7 +57,7 @@ class _MFlatButtonState extends State<MFlatButton> {
           backgroundColor: MaterialStateProperty.all<Color>(widget.backgroundColor != null ? widget.backgroundColor! : mt(context).backgroundColor),
           shape: MaterialStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               side: BorderSide(
                 width: widget.borderColor != null ? 1 : 0,
                 color: widget.borderColor != null ? widget.borderColor! : Colors.transparent

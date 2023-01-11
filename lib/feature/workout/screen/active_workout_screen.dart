@@ -7,21 +7,23 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/model/active_workout.dart';
+import '../../../common/model/workout.dart';
+import '../bloc/active_workout/workout_bloc.dart';
 
-class ActiveWorkoutScreen extends StatefulWidget {
-  final ActiveWorkout activeWorkout;
+class WorkoutScreen extends StatefulWidget {
+  final Workout workout;
 
-  const ActiveWorkoutScreen({Key? key,
-    required this.activeWorkout
+  const WorkoutScreen({Key? key,
+    required this.workout
   }) : super(key: key);
 
   @override
-  State<ActiveWorkoutScreen> createState() => _ActiveWorkoutScreenState();
+  State<WorkoutScreen> createState() => _WorkoutScreenState();
 }
 
-class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
+class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.build(
@@ -39,7 +41,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
                 )
             ),
             IconButton(
-                onPressed: (){},
+                onPressed: () => _pauseWorkout(context),
                 icon: Icon(
                   Icons.pause,
                   size: 26,
@@ -66,7 +68,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
             DBHelper.instance.addActiveExerciseGroup(
                 ActiveExerciseGroup(
                   exerciseId: exercise.exerciseId,
-                  activeWorkoutId: widget.activeWorkout.activeWorkoutId!
+                  workoutId: widget.workout.workoutId!
                 )
             );
             setState(() {
@@ -89,7 +91,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Text(
-                    widget.activeWorkout.name,
+                    widget.workout.name,
                     style: TextStyle(
                         color: mt(context).text.primaryColor,
                         fontWeight: FontWeight.w600,
@@ -98,7 +100,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
                   ),
                 ),
                 FutureBuilder(
-                  future: DBHelper.instance.getActiveExerciseGroupsByActiveWorkoutId(widget.activeWorkout.activeWorkoutId!),
+                  future: DBHelper.instance.getActiveExerciseGroupsByWorkoutId(widget.workout.workoutId!),
                   builder: (context, snapshot) {
                     List<ActiveExerciseGroup> activeExerciseGroups = snapshot.data ?? [];
                     if (!snapshot.hasData) return const Text("Loading...");
@@ -119,6 +121,11 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
         ],
       ),
     );
+  }
+
+  void _pauseWorkout(BuildContext context) {
+    context.read<WorkoutBloc>().add(PauseWorkout());
+    Navigator.pop(context);
   }
 }
 

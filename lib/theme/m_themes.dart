@@ -26,7 +26,7 @@ List<AppTheme> getThemes(BuildContext context){
         backgroundColor: const Color(0xFFFAFCFD),
         text: MTextTheme(
           primaryColor: const Color(0xFF000000),
-          secondaryColor: const Color(0xFF383838),
+          secondaryColor: const Color(0xFF797979),
           accentColor: const Color(0xFF2196F3),
           whiteColor: const Color(0xFFFFFFFF),
           errorColor: const Color(0xFFDD614A),

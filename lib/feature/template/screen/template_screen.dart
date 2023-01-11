@@ -2,12 +2,17 @@ import 'package:Maven/common/dialog/show_text_input_dialog.dart';
 import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/model/workout_folder.dart';
 import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../common/dialog/show_confirmation_dialog.dart';
+import '../../../common/model/workout.dart';
 import '../widget/template_folder_widget.dart';
 import 'create_template_screen.dart';
 import 'reorder_template_screen.dart';
@@ -36,7 +41,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
           return <Widget>[
             CupertinoSliverNavigationBar(
               largeTitle: Text(
-                'Template',
+                'Workout',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
                 ),
@@ -50,12 +55,139 @@ class _TemplateScreenState extends State<TemplateScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               quickStart(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Text(
+                  'In Progress',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: mt(context).text.primaryColor
+                  ),
+                ),
+              ),
+              BlocBuilder<WorkoutBloc, WorkoutState>(
+                builder: (context, state) {
+                  print(state.status);
+                  if(state.status == WorkoutStatus.loading) {
+                    return Container();
+                  } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
+                    List<Workout> pausedWorkouts = state.pausedWorkouts;
+
+                    return pausedWorkouts.isEmpty
+                        ?
+                    Material(
+                      borderRadius: BorderRadius.circular(10),
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(10),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(10),
+                          dashPattern: [13, 7],
+                          strokeWidth: 3,
+                          color: mt(context).borderColor,
+                          child: Container(
+                            height: 80,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "All workouts complete. 💪",
+                              style: TextStyle(
+                                color: mt(context).text.secondaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                        :
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView.separated(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: pausedWorkouts.length,
+                        itemBuilder: (context, index) {
+                          Workout pausedWorkout = pausedWorkouts[index];
+                          return Material(
+                            borderRadius: BorderRadius.circular(10),
+                            color: mt(context).templateFolder.backgroundColor,
+                            child: InkWell(
+                              onTap: () async {
+                                if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
+                                  bool? confirmation = await showConfirmationDialog(
+                                      context: context,
+                                      title: 'Workout in progress',
+                                      subtext: 'You already have a workout in progress, would you like to delete it?'
+                                  );
+                                  if(confirmation == null) return;
+                                  if(!confirmation) return;
+                                  context.read<WorkoutBloc>().add(DeleteActiveWorkout());
+                                }
+                                context.read<WorkoutBloc>().add(UnpauseWorkout(workout: pausedWorkout));
+                              },
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: mt(context).borderColor
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            pausedWorkout.name,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: mt(context).text.primaryColor
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      StreamBuilder(
+                                        stream: Stream.periodic(Duration(minutes: 1)),
+                                        builder: (context, snapshot) {
+                                          return Text('Started ${timeago.format(pausedWorkout.datetime)}');
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 9,);
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Text("nothign here");
+                  }
+                },
+              ),
+              SizedBox(height: 25,),
               templates(),
               BlocBuilder<TemplateBloc, TemplateState>(
                 builder: (context, state) {
                   if (state.status == TemplateStatus.loading) {
                     return const SizedBox(
-                      height: 400,
+                      height: 100,
                       child: Center(child: CircularProgressIndicator())
                     );
                   } else if (state.status == TemplateStatus.success || state.status == TemplateStatus.reordering) {
@@ -72,7 +204,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         children: templateFolders.map((templateFolder) {
                           return Padding(
                             key: UniqueKey(),
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
                             child: TemplateFolderWidget(
                               templateFolder: templateFolder,
                               templates: templates.where((template) =>
@@ -167,7 +299,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: 8,
+                bottom: 14,
                 child: Material(
                   borderRadius: BorderRadius.circular(15),
                   elevation: 5,
@@ -192,10 +324,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
           Text(
             'Quick Start',
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: mt(context).text.primaryColor
-            ),
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: mt(context).text.primaryColor),
           ),
           const SizedBox(
             height: 14,
@@ -212,7 +343,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   ),
                 ),
                 backgroundColor: mt(context).accentColor,
-                onPressed: () {},
+                onPressed: () {
+                },
               ),
             ],
           ),
@@ -269,7 +401,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
           Text(
             'Templates',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.w800,
               color: mt(context).text.primaryColor),
           ),
@@ -286,6 +418,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   size: 20,
                   color: mt(context).icon.accentColor,
                 ),
+                backgroundColor: mt(context).templateFolder.backgroundColor,
                 onPressed: () => _reorderTemplates(context),
               ),
               const SizedBox(
@@ -302,6 +435,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   size: 22,
                   color: mt(context).icon.accentColor,
                 ),
+                backgroundColor: mt(context).templateFolder.backgroundColor,
                 onPressed: () => _createTemplateFolder(context),
               ),
             ],

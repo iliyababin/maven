@@ -1,5 +1,5 @@
 import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
-import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,7 @@ void main() async {
         create: (context) => TemplateBloc()..add(InitializeTemplateBloc())
       ),
       BlocProvider(
-        create: (context) => ActiveWorkoutBloc()..add(InitializeActiveWorkoutBloc())
+        create: (context) => WorkoutBloc()..add(InitializeWorkoutBloc())
       ),
     ],
     child:  const Main(),

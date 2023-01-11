@@ -11,7 +11,7 @@ class TemplateCard extends StatelessWidget {
     required this.template,
   }) : super(key: key);
 
-  final double borderRadius = 12;
+  final double borderRadius = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class TemplateCard extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(13.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -40,8 +40,8 @@ class TemplateCard extends StatelessWidget {
                       Text(
                         template.name,
                         style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w800,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500,
                             color: mt(context).text.primaryColor
                         ),
                       ),

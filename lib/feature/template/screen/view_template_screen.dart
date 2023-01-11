@@ -1,10 +1,11 @@
 import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/util/database_helper.dart';
-import 'package:Maven/feature/workout/bloc/active_workout/active_workout_bloc.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/dialog/show_confirmation_dialog.dart';
 import '../../../common/model/exercise.dart';
 import '../../../common/model/exercise_group.dart';
 
@@ -51,8 +52,18 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
   /// Functions
   ///
 
-  void _startTemplate(BuildContext context) {
-    context.read<ActiveWorkoutBloc>().add(ConvertTemplateToWorkout(template: widget.template));
+  void _startTemplate(BuildContext context) async {
+    if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
+      bool? confirmation = await showConfirmationDialog(
+        context: context,
+        title: 'Workout in progress',
+        subtext: 'You already have a workout in progress, would you like to delete it?'
+      );
+      if(confirmation ?? false) return;
+      context.read<WorkoutBloc>().add(DeleteActiveWorkout());
+    }
+    context.read<WorkoutBloc>().add(ConvertTemplateToWorkout(template: widget.template));
+    Navigator.pop(context);
     /*if (currentTemplateIdPref != -1) {
       showDialog(
         context: context,
