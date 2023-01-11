@@ -29,5 +29,5 @@ Transform your workout experience with Maven - the powerful, cross-platform fitn
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](need link) - see the LICENSE.md
+This project is licensed under the [GNU General Public License v3.0](https://github.com/Deluxepter/maven/blob/master/LICENSE) - see the LICENSE.md
 file for details.
