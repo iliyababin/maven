@@ -1,8 +1,8 @@
+
+
 ## Maven: Track Progress. Reach Goals. Unleash Potential.
 
 Transform your workout experience with Maven - the powerful, cross-platform fitness app that's dedicated to helping you achieve your best. Maven is all about results, not profits. Take control of your fitness journey, reach your goals and exceed your own expectations with Maven today!
-
-**Note**: *Currently under development and is not suitable for use at this time.*
 
 
 ## Contents
@@ -16,11 +16,11 @@ Transform your workout experience with Maven - the powerful, cross-platform fitn
 
 2. Clone this repository to your local machine.
 
-        git clone [repository link]
+        git clone https://github.com/Deluxepter/maven
 
 3. Navigate to the repository directory in a terminal.
 
-        cd [repository directory]
+        cd maven
 
 4. Use `flutter pub` get to install the dependencies.
 
