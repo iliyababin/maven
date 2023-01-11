@@ -1,33 +1,14 @@
-# Maven: The ultimate workout tracker
+## Maven: Track Progress. Reach Goals. Unleash Potential.
 
-Transform your fitness journey with Maven, the ultimate ad-free workout tracking app. Easily log workouts, set and track goals, and view progress all while offline.
+Transform your workout experience with Maven - the powerful, cross-platform fitness app that's dedicated to helping you achieve your best. Maven is all about results, not profits. Take control of your fitness journey, reach your goals and exceed your own expectations with Maven today!
 
-*Note: Maven is currently in the alpha stage. If you encounter any issues while using the app, please let us know. Your feedback is appreciated.*
+**Note**: *Currently under development and is not suitable for use at this time.*
+
 
 ## Contents
-
-- [Overview](#overview)
-- [Screenshots](#screenshots)
-- [Download](#download)
 - [Build](#build)
-- [Planned Features](#planned-features)
-- [Feedback and Issues](#feedback-and-issues)
 - [License](#license)
 
-## Overview
-
-[need overview]
-
-
-## Screenshots
-
-[need screenshots]
-
-## Download
-
-The Maven Workout Tracker app is currently in alpha and is available for download on both Android and
-iOS. You can download the beta version of the app from here:
-[need link]
 
 ## Build
 
@@ -45,16 +26,6 @@ iOS. You can download the beta version of the app from here:
 
 5. Use `flutter run` to build and run the app on your device or emulator.
 
-## Planned Features
-
-- [ ] Integration with wearOS and watchOS devices
-- [ ] Option for online account to sync data across devices
-- [ ] Social features to share workouts and progress with friends
-- [ ] Option to export and import data from other apps (not planned for a while)
-
-## Feedback and Issues
-
-[ need section]
 
 ## License
 
