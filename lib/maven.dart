@@ -5,7 +5,10 @@ import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import 'common/util/general_utils.dart';
+import 'feature/nutrition/screen/nutrition_screen.dart';
 import 'feature/template/screen/template_screen.dart';
 import 'feature/workout/screen/active_workout_screen.dart';
 
@@ -22,9 +25,10 @@ class _MavenState extends State<Maven> {
 
   List<Widget> screens = <Widget>[
     const HomeScreen(),
+    const NutritionScreen(),
     const TemplateScreen(),
-    const ProfileScreen(),
     const TestingScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -32,11 +36,21 @@ class _MavenState extends State<Maven> {
     return Scaffold(
       backgroundColor: mt(context).backgroundColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(child: screens[_selectedIndex]),
-            workout(),
-          ],
+        child: SlidingUpPanel(
+          borderRadius: BorderRadius.circular(25),
+          body: Expanded(child: screens[_selectedIndex]),
+          panel: Container(
+            alignment: Alignment.topCenter,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: mt(context).backgroundColor,
+            ),
+            child: Column(
+              children: [
+                workout()
+              ],
+            ),
+          ),
         ),
       ),
       /*persistentFooterButtons: [
@@ -45,6 +59,13 @@ class _MavenState extends State<Maven> {
       bottomNavigationBar: bottomNavigationBar()
     );
   }
+
+  /*Column(
+  children: [
+  Expanded(child: screens[_selectedIndex]),
+  workout(),
+  ],
+  )*/
 
   ///
   /// Functions
@@ -65,33 +86,60 @@ class _MavenState extends State<Maven> {
        builder: (context, state) {
          if(state.status == WorkoutStatus.active) {
            return Container(
-             height: 75,
+             height: 80,
              width: double.infinity,
              decoration: BoxDecoration(
                borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-               color: mt(context).bottomNavigationBar.backgroundColor,
                boxShadow: [
                  BoxShadow(
-                   color: Colors.grey.withOpacity(0.2),
+                   color: mt(context).bottomNavigationBar.shadowColor,
                    spreadRadius: 5,
                    blurRadius: 7,
                    offset: Offset(0, 3), // changes position of shadow
                  ),
                ],
              ),
-             child: Center(
-               child: ElevatedButton(
-                   onPressed: () {
-                     Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                             builder: (context) => WorkoutScreen(
-                                 workout: state.workout!
-                             )
-                         )
-                     );
-                   },
-                   child: Text('Active Workout')
+             child: Material(
+               borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+               color: mt(context).bottomNavigationBar.backgroundColor,
+               child: InkWell(
+                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                 onTap: () {
+                   Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                           builder: (context) => WorkoutScreen(
+                               workout: state.workout!
+                           )
+                       )
+                   );
+                 },
+                 child: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     Text(
+                       'Current Workout: ${state.workout?.name ?? "null"}',
+                       style: TextStyle(
+                         fontSize: 20,
+                         fontWeight: FontWeight.w800,
+                         color: mt(context).text.primaryColor
+                       ),
+                     ),
+                     SizedBox(height: 3,),
+                     StreamBuilder(
+                       stream: Stream.periodic(Duration(seconds: 1)),
+                       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                         return Text(
+                           workoutDuration(state.workout?.datetime ?? DateTime.now()),
+                           style: TextStyle(
+                             fontSize: 15,
+                             color: mt(context).text.secondaryColor
+                           ),
+                         );
+                       },
+                     )
+                   ],
+                 ),
                ),
              ),
            );
@@ -157,6 +205,10 @@ class _MavenState extends State<Maven> {
     ];*/
   }
 
+  ///
+  /// Widgets
+  ///
+
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
       backgroundColor: mt(context).bottomNavigationBar.backgroundColor,
@@ -175,16 +227,20 @@ class _MavenState extends State<Maven> {
           label: 'Home',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.dining),
+          label: 'Nutrition',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.fitness_center),
           label: 'Workout',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+          icon: Icon(Icons.stacked_line_chart),
+          label: 'Progress',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.dangerous),
-          label: 'Testing',
+          icon: Icon(Icons.person),
+          label: 'Profile',
         ),
       ],
       onTap: _onItemTapped,

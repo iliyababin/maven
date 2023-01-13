@@ -46,36 +46,32 @@ class _MFlatButtonState extends State<MFlatButton> {
   }
 
   Widget widgetBuildButton(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: widget.height,
       width: widget.width,
-      child: ElevatedButton(
-        onPressed: widget.onPressed,
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all<Size>(Size.zero),
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(widget.padding),
-          backgroundColor: MaterialStateProperty.all<Color>(widget.backgroundColor != null ? widget.backgroundColor! : mt(context).backgroundColor),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                width: widget.borderColor != null ? 1 : 0,
-                color: widget.borderColor != null ? widget.borderColor! : Colors.transparent
-              ),
-            ),
-          ),
-          elevation: MaterialStateProperty.all<double?>(0),
-          overlayColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-            return widget.borderColor != Colors.transparent ? widget.borderColor : null;
-          }),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          width: 1.25,
+          color: widget.borderColor ?? widget.backgroundColor ?? mt(context).backgroundColor
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if(widget.icon != null) widget.icon!,
-            if(widget.icon != null && widget.text != null) SizedBox(width: 8,),
-            if(widget.text != null) widget.text!,
-          ],
+        color: widget.borderColor
+      ),
+      child: Material(
+        borderRadius: BorderRadius.circular(7),
+        color: widget.backgroundColor ?? mt(context).backgroundColor,
+        child: InkWell(
+          onTap: widget.onPressed,
+          splashFactory: InkRipple.splashFactory,
+          borderRadius: BorderRadius.circular(7),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if(widget.icon != null) widget.icon!,
+              if(widget.icon != null && widget.text != null) SizedBox(width: 8,),
+              if(widget.text != null) widget.text!,
+            ],
+          ),
         ),
       ),
     );

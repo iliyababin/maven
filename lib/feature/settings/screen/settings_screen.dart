@@ -1,4 +1,5 @@
 import 'package:Maven/feature/settings/screen/theme_screen.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -16,29 +17,22 @@ class SettingsScreen extends StatelessWidget {
         context: context,
       ),
       body: SettingsList(
+        lightTheme: SettingsThemeData(
+          settingsSectionBackground: mt(context).foregroundColor,
+          settingsListBackground: mt(context).backgroundColor,
+          leadingIconsColor: mt(context).icon.secondaryColor,
+          settingsTileTextColor: mt(context).text.primaryColor,
+          dividerColor: mt(context).borderColor,
+          titleTextColor: mt(context).text.primaryColor,
+          trailingTextColor: mt(context).text.secondaryColor,
+
+        ),
+        platform: DevicePlatform.iOS,
         sections: [
           SettingsSection(
-            title: const Text('Common'),
+            title: const Text('GENERAL'),
             tiles: <SettingsTile>[
-              SettingsTile(
-                leading: const Icon(Icons.palette),
-                title: const Text('Theme'),
-                description: Text(ThemeProvider.themeOf(context).description),
-                trailing: Icon(Icons.keyboard_arrow_right),
-                onPressed: (context) async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ThemeScreen())
-                  );
-                  /*String cool = await showThemeSelectionDialog(context);
-                  ThemeProvider.controllerOf(context).addTheme(cool);*/
-                },
-              ),
-              SettingsTile.navigation(
-                leading: const Icon(Icons.language),
-                title: const Text('Language'),
-                value: const Text('English'),
-              ),
+
               SettingsTile.navigation(
                 title: const Text("test"),
                 value: const Text("welp"),
@@ -48,7 +42,104 @@ class SettingsScreen extends StatelessWidget {
             ],
           ),
           SettingsSection(
-              tiles: <SettingsTile>[SettingsTile(title: const Text("cool"))])
+            title: const Text('APPEARANCE'),
+            tiles: <SettingsTile>[
+
+              SettingsTile.navigation(
+                leading: const Icon(Icons.palette),
+                title: const Text('Theme'),
+                value: Text(ThemeProvider.themeOf(context).description),
+                onPressed: (context) async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ThemeScreen())
+                  );
+                  /*String cool = await showThemeSelectionDialog(context);
+                  ThemeProvider.controllerOf(context).addTheme(cool);*/
+                },
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: const Text('UNITS & LOCALIZATION'),
+            tiles: <SettingsTile>[
+
+              SettingsTile.navigation(
+                leading: const Icon(Icons.language),
+                title: const Text('Language'),
+                value: const Text('English'),
+              ),
+
+              SettingsTile.navigation(
+                title: const Text('Weight'),
+                value: const Text('Metric'),
+              ),
+
+              SettingsTile.navigation(
+                title: const Text('Distance'),
+                value: const Text('Imperial'),
+              ),
+
+
+            ]
+          ),
+          SettingsSection(
+              title: const Text('DATA'),
+              tiles: <SettingsTile>[
+
+                SettingsTile.navigation(
+                  leading: Icon(Icons.add_box_outlined),
+                  title: const Text('Import'),
+                  onPressed: (context) {
+
+                  },
+                ),
+
+                SettingsTile.navigation(
+                  leading: Icon(Icons.open_in_new),
+                  title: const Text('Export'),
+                  onPressed: (context) {
+
+                  },
+                ),
+
+              ]
+          ),
+          SettingsSection(
+            title: const Text('ABOUT'),
+            tiles: <SettingsTile>[
+
+              SettingsTile.navigation(
+                leading: Icon(Icons.help_outline_rounded),
+                title: const Text('Help'),
+                onPressed: (context) {
+
+                },
+              ),
+
+              SettingsTile.navigation(
+                title: const Text('Feedback'),
+                onPressed: (context) {
+
+                },
+              ),
+
+              SettingsTile.navigation(
+                title: const Text('Open source libraries'),
+                onPressed: (context) {
+
+                },
+              ),
+
+              SettingsTile(
+                title: const Text('Version'),
+                value: const Text('v1.0.0 android'),
+                onPressed: (context) {
+
+                },
+              ),
+            ]
+          )
         ],
       ),
     );

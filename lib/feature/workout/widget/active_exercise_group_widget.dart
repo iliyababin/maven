@@ -39,7 +39,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                       child: Text(
                         exercise.name,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 17,
                           color: mt(context).text.accentColor,
                           fontWeight: FontWeight.w600
                         )
@@ -104,7 +104,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               child: Text(
                 "SET",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 11,
                   color: mt(context).text.primaryColor
                 ),
               )
@@ -118,7 +118,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               child: Text(
                 "PREVIOUS",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 11,
                   color: mt(context).text.primaryColor
                 ),
               )
@@ -132,8 +132,8 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                 child: Text(
                   "WEIGHT",
                   style: TextStyle(
-                    fontSize: 10,
-                    color: mt(context).text.primaryColor
+                    fontSize: 11,
+                    color: mt(context).text.primaryColor,
                   ),
                 )
               )
@@ -147,7 +147,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                 child: Text(
                   "REPS",
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 11,
                     color: mt(context).text.primaryColor
                   ),
                 )
@@ -157,7 +157,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               width: 10,
             ),
             const SizedBox(
-              width: 52,
+              width: 46,
               child: Text(""),
             ),
           ],

@@ -5,7 +5,6 @@ import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
 import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,17 +54,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               quickStart(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Text(
-                  'In Progress',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
-                    color: mt(context).text.primaryColor
-                  ),
-                ),
-              ),
+
               BlocBuilder<WorkoutBloc, WorkoutState>(
                 builder: (context, state) {
                   print(state.status);
@@ -76,105 +65,96 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
                     return pausedWorkouts.isEmpty
                         ?
-                    Material(
-                      borderRadius: BorderRadius.circular(10),
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(10),
-                        child: DottedBorder(
-                          borderType: BorderType.RRect,
-                          radius: Radius.circular(10),
-                          dashPattern: [13, 7],
-                          strokeWidth: 3,
-                          color: mt(context).borderColor,
-                          child: Container(
-                            height: 80,
-                            alignment: Alignment.center,
-                            child: Text(
-                              "All workouts complete. 💪",
-                              style: TextStyle(
-                                color: mt(context).text.secondaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400
-                              ),
+                    Container()
+                        :
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Text(
+                            'In Progress',
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                                color: mt(context).text.primaryColor
                             ),
                           ),
                         ),
-                      ),
-                    )
-                        :
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: pausedWorkouts.length,
-                        itemBuilder: (context, index) {
-                          Workout pausedWorkout = pausedWorkouts[index];
-                          return Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: mt(context).templateFolder.backgroundColor,
-                            child: InkWell(
-                              onTap: () async {
-                                if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
-                                  bool? confirmation = await showConfirmationDialog(
-                                      context: context,
-                                      title: 'Workout in progress',
-                                      subtext: 'You already have a workout in progress, would you like to delete it?'
-                                  );
-                                  if(confirmation == null) return;
-                                  if(!confirmation) return;
-                                  context.read<WorkoutBloc>().add(DeleteActiveWorkout());
-                                }
-                                context.read<WorkoutBloc>().add(UnpauseWorkout(workout: pausedWorkout));
-                              },
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                decoration: BoxDecoration(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: pausedWorkouts.length,
+                            itemBuilder: (context, index) {
+                              Workout pausedWorkout = pausedWorkouts[index];
+                              return Material(
+                                borderRadius: BorderRadius.circular(10),
+                                color: mt(context).templateFolder.backgroundColor,
+                                child: InkWell(
+                                  onTap: () async {
+                                    if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
+                                      bool? confirmation = await showConfirmationDialog(
+                                          context: context,
+                                          title: 'Workout in progress',
+                                          subtext: 'You already have a workout in progress, would you like to delete it?'
+                                      );
+                                      if(confirmation == null) return;
+                                      if(!confirmation) return;
+                                      context.read<WorkoutBloc>().add(DeleteActiveWorkout());
+                                    }
+                                    context.read<WorkoutBloc>().add(UnpauseWorkout(workout: pausedWorkout));
+                                  },
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: mt(context).borderColor
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(13),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: mt(context).borderColor
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(13),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            pausedWorkout.name,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: mt(context).text.primaryColor
-                                            ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                pausedWorkout.name,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: mt(context).text.primaryColor
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+                                          StreamBuilder(
+                                            stream: Stream.periodic(Duration(minutes: 1)),
+                                            builder: (context, snapshot) {
+                                              return Text('Started ${timeago.format(pausedWorkout.datetime)}');
+                                            },
                                           )
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      StreamBuilder(
-                                        stream: Stream.periodic(Duration(minutes: 1)),
-                                        builder: (context, snapshot) {
-                                          return Text('Started ${timeago.format(pausedWorkout.datetime)}');
-                                        },
-                                      )
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(height: 9,);
-                        },
-                      ),
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(height: 9,);
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   } else {
                     return const Text("nothign here");

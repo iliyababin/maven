@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   dotted_border: ^2.0.0+3
   timeago: ^3.3.0
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

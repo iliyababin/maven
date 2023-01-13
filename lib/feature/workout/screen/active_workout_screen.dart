@@ -6,10 +6,12 @@ import 'package:Maven/screen/add_exercise_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
+import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/model/workout.dart';
+import '../../../common/util/general_utils.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -58,6 +60,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             ),
           ]
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -82,23 +85,48 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           color: mt(context).icon.accentColor,
         ),
       ),
+
       body: ListView(
         children: [
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Text(
-                    widget.workout.name,
-                    style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Text(
+                        widget.workout.name,
+                        style: TextStyle(
+                          color: mt(context).text.primaryColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 28
+                        ),
+                      ),
+
+                      SizedBox(height: 4,),
+
+                      StreamBuilder(
+                        stream: Stream.periodic(Duration(seconds: 1)),
+                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                          return Text(
+                            workoutDuration(widget.workout.datetime),
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: mt(context).text.secondaryColor
+                            ),
+                          );
+                        },
+                      )
+
+                    ],
                   ),
                 ),
+
                 FutureBuilder(
                   future: DBHelper.instance.getActiveExerciseGroupsByWorkoutId(widget.workout.workoutId!),
                   builder: (context, snapshot) {
@@ -115,6 +143,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     );
                   },
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: MFlatButton(
+                    text: Text(
+                      'ADD EXERCISES',
+                      style: TextStyle(
+                        color: mt(context).text.accentColor,
+                        fontWeight: FontWeight.w700
+                      ),
+                    ),
+                    expand: false,
+                    backgroundColor: const Color(0xFFEAF5FF),
+                    onPressed: () {
+
+                    },
+                  ),
+                )
               ],
             ),
           ),

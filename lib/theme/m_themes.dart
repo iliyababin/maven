@@ -21,25 +21,27 @@ List<AppTheme> getThemes(BuildContext context){
 
       ),
       options: MColorScheme(
-        accentColor: const Color(0xFF2196F3),
+        accentColor: const Color(0xFF35A6FF),
         borderColor: const Color(0xFFF1F1F1),
-        backgroundColor: const Color(0xFFFAFCFD),
+        backgroundColor: const Color(0xFFFFFFFF),
+        foregroundColor: const Color(0xFFFFFFFF),
         text: MTextTheme(
           primaryColor: const Color(0xFF000000),
           secondaryColor: const Color(0xFF797979),
-          accentColor: const Color(0xFF2196F3),
+          accentColor: const Color(0xFF35A6FF),
           whiteColor: const Color(0xFFFFFFFF),
           errorColor: const Color(0xFFDD614A),
         ),
         bottomNavigationBar: MBottomNavigationBarTheme(
           backgroundColor: const Color(0xFFFFFFFF),
-          selectedItemColor: const Color(0xFF2196F3),
+          selectedItemColor: const Color(0xFF35A6FF),
           unselectedItemColor: const Color(0xFF383838),
+          shadowColor: const Color(0xFFE0E0E0),
         ),
         icon: MIconTheme(
           primaryColor: const Color(0xFF000000),
           secondaryColor: const Color(0xFF888888),
-          accentColor: const Color(0xFF2196F3),
+          accentColor: const Color(0xFF35A6FF),
           errorColor: const Color(0xFFDD614A),
           completeColor: const Color(0xFF0BDA51),
         ),
@@ -59,7 +61,7 @@ List<AppTheme> getThemes(BuildContext context){
           errorOutlineColor: const Color(0xFFDD614A),
           hintColor: const Color(0xFFC8C8C8),
           primaryOutlineColor: const Color(0xFFF1F1F1),
-          backgroundColor: const Color(0xFFE3E3E3),
+          backgroundColor: const Color(0xFFF1F1F1),
         ),
         templateCard:TemplateCardTheme(
           backgroundColor: const Color(0xFFFFFFFF),
@@ -68,7 +70,7 @@ List<AppTheme> getThemes(BuildContext context){
         activeExerciseSet: ActiveExerciseSetTheme(
           completeColor: const Color(0xffd9ffe7),
         ),
-        sliverNavigationBarBackgroundColor: const Color(0xFFFFFFFF),
+        sliverNavigationBarBackgroundColor: const Color(0xFFFDFDFD),
       )
     ),
     AppTheme(
@@ -81,9 +83,10 @@ List<AppTheme> getThemes(BuildContext context){
           accentColor: const Color(0xFF2196F3),
           borderColor: const Color(0xFF333333),
           backgroundColor: const Color(0xff121212),
+          foregroundColor: const Color(0xFF000000),
           text: MTextTheme(
             primaryColor: const Color(0xFFFFFFFF),
-            secondaryColor: const Color(0xFF383838),
+            secondaryColor: const Color(0xFF646464),
             accentColor: const Color(0xFF2196F3),
             whiteColor: const Color(0xFFFFFFFF),
             errorColor: const Color(0xFFDD614A),
@@ -92,6 +95,7 @@ List<AppTheme> getThemes(BuildContext context){
             backgroundColor: const Color(0xFF121212),
             selectedItemColor: const Color(0xFF2196F3),
             unselectedItemColor: const Color(0xFF676767),
+            shadowColor: const Color(0xFF0C0C0C),
           ),
           icon: MIconTheme(
             primaryColor: const Color(0xFFFFFFFF),

@@ -43,7 +43,13 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                   )
                 )
               ),
-              child: Text(widget.index.toString()),
+              child: Text(
+                widget.index.toString(),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
             ),
           ),
           SizedBox(width: spacerSize),
@@ -59,7 +65,13 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                       )
                   )
               ),
-              child: const Text("-"),
+              child: Text(
+                "-",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: mt(context).text.primaryColor
+                ),
+              ),
             ),
           ),
           SizedBox(width: spacerSize),
@@ -77,7 +89,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
             height: 40,
             width: 30,
             child: Transform.scale(
-              scale: 1.65,
+              scale: 1.8,
               child: Checkbox(
                 value: isChecked,
 
@@ -104,7 +116,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   Expanded customTextField({required TextEditingController controller, required bool isChecked}) {
     return Expanded(
         child: AnimatedContainer(
-          height: 30,
+          height: 33,
           duration: animationSpeed,
           decoration: BoxDecoration (
               borderRadius: const BorderRadius.all(Radius.circular(7)),
@@ -118,7 +130,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
             decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: '',
-              contentPadding: const EdgeInsets.symmetric(vertical: 10),
+              contentPadding: EdgeInsets.symmetric(vertical: 10),
             ),
           ),
         )

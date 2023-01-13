@@ -33,7 +33,7 @@ Future<String?> showDialogWithTextField({
                       title,
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        fontSize: 18,
+                        fontSize: 20,
                         color: mt(context).text.primaryColor
                       ),
                     ),
@@ -60,7 +60,7 @@ Future<String?> showDialogWithTextField({
                       controller: textController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Invalid input!';
+                          return 'Empty';
                         }
                         return null;
                       },
@@ -71,13 +71,14 @@ Future<String?> showDialogWithTextField({
               Padding(
                 padding: const EdgeInsets.fromLTRB(14, 6, 10, 14),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       child: Text(
                         'Cancel',
                         style: TextStyle(
-                          color: mt(context).text.errorColor
+                          color: mt(context).text.errorColor,
+                          fontSize: 17
                         ),
                       ),
                       onPressed: () {
@@ -85,7 +86,12 @@ Future<String?> showDialogWithTextField({
                       },
                     ),
                     TextButton(
-                      child: const Text('Save'),
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(
+                          fontSize: 17
+                        ),
+                      ),
                       onPressed: () {
                         // Validate the form and return the result.
                         if (formKey.currentState!.validate()) {

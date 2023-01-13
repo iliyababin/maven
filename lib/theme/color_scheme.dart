@@ -33,6 +33,7 @@ class MColorScheme implements AppThemeOptions{
   final Color accentColor;
   final Color borderColor;
   final Color backgroundColor;
+  final Color foregroundColor;
 
   final MTextTheme text;
   final MBottomNavigationBarTheme bottomNavigationBar;
@@ -52,6 +53,7 @@ class MColorScheme implements AppThemeOptions{
     required this.accentColor,
     required this.borderColor,
     required this.backgroundColor,
+    required this.foregroundColor,
 
     required this.text,
     required this.bottomNavigationBar,

@@ -22,7 +22,7 @@ class CustomAppBar {
         style: TextStyle(color: mt(context).text.primaryColor),
       ),
       centerTitle: true,
-      elevation: 0,
+      elevation: 1,
       backgroundColor: mt(context).backgroundColor,
       actions: actions,
     );
