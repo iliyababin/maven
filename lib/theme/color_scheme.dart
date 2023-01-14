@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:Maven/theme/widget/active_exercise_set_theme.dart';
 import 'package:Maven/theme/widget/m_bottom_navigation_bar_theme.dart';
 import 'package:Maven/theme/widget/m_dialog_theme.dart';
+import 'package:Maven/theme/widget/m_flat_button_theme.dart';
 import 'package:Maven/theme/widget/m_icon_theme.dart';
 import 'package:Maven/theme/widget/m_popup_menu_theme.dart';
 import 'package:Maven/theme/widget/m_text_field_theme.dart';
@@ -41,6 +42,7 @@ class MColorScheme implements AppThemeOptions{
   final MDialogTheme dialog;
   final MPopupMenuTheme popupMenu;
   final MTextFieldTheme textField;
+  final MFlatButtonTheme flatButton;
 
   final TemplateFolderTheme templateFolder;
   final TemplateCardTheme templateCard;
@@ -61,6 +63,7 @@ class MColorScheme implements AppThemeOptions{
     required this.popupMenu,
     required this.dialog,
     required this.textField,
+    required this.flatButton,
 
     required this.templateFolder,
     required this.templateCard,

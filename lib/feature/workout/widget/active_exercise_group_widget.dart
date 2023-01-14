@@ -39,9 +39,9 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                       child: Text(
                         exercise.name,
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 18,
                           color: mt(context).text.accentColor,
-                          fontWeight: FontWeight.w600
+                          fontWeight: FontWeight.w900
                         )
                       ),
                     ),
@@ -148,7 +148,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                   "REPS",
                   style: TextStyle(
                     fontSize: 11,
-                    color: mt(context).text.primaryColor
+                    color: mt(context).text.primaryColor,
                   ),
                 )
               )

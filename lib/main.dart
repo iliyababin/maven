@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:theme_provider/theme_provider.dart';
 
+import 'feature/app/screen/maven.dart';
 import 'generated/l10n.dart';
-import 'maven.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ class Main extends StatelessWidget {
               ],
               supportedLocales: S.delegate.supportedLocales,
               theme: ThemeProvider.themeOf(themeContext).data,
-              title: "Maven - Workout",
+              title: "Maven",
               home: const Maven(),
             ),
         ),

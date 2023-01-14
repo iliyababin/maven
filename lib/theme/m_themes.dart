@@ -1,6 +1,7 @@
 import 'package:Maven/theme/widget/active_exercise_set_theme.dart';
 import 'package:Maven/theme/widget/m_bottom_navigation_bar_theme.dart';
 import 'package:Maven/theme/widget/m_dialog_theme.dart';
+import 'package:Maven/theme/widget/m_flat_button_theme.dart';
 import 'package:Maven/theme/widget/m_icon_theme.dart';
 import 'package:Maven/theme/widget/m_popup_menu_theme.dart';
 import 'package:Maven/theme/widget/m_text_field_theme.dart';
@@ -24,7 +25,7 @@ List<AppTheme> getThemes(BuildContext context){
         accentColor: const Color(0xFF35A6FF),
         borderColor: const Color(0xFFF1F1F1),
         backgroundColor: const Color(0xFFFFFFFF),
-        foregroundColor: const Color(0xFFFFFFFF),
+        foregroundColor: const Color(0xFFE9EAEA),
         text: MTextTheme(
           primaryColor: const Color(0xFF000000),
           secondaryColor: const Color(0xFF797979),
@@ -61,11 +62,14 @@ List<AppTheme> getThemes(BuildContext context){
           errorOutlineColor: const Color(0xFFDD614A),
           hintColor: const Color(0xFFC8C8C8),
           primaryOutlineColor: const Color(0xFFF1F1F1),
-          backgroundColor: const Color(0xFFF1F1F1),
+          backgroundColor: const Color(0xFFE9EAEA),
         ),
         templateCard:TemplateCardTheme(
           backgroundColor: const Color(0xFFFFFFFF),
           borderColor: const Color(0xFFF1F1F1),
+        ),
+        flatButton: MFlatButtonTheme(
+          completeColor: const Color(0xFF2DCD70)
         ),
         activeExerciseSet: ActiveExerciseSetTheme(
           completeColor: const Color(0xffd9ffe7),
@@ -125,6 +129,9 @@ List<AppTheme> getThemes(BuildContext context){
           templateCard: TemplateCardTheme(
             backgroundColor: const Color(0xFF121212),
             borderColor: const Color(0xFF333333),
+          ),
+          flatButton: MFlatButtonTheme(
+              completeColor: const Color(0xFF2DCD70)
           ),
           activeExerciseSet: ActiveExerciseSetTheme(
             completeColor: const Color(0xFF003000),

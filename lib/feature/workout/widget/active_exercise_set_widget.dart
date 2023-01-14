@@ -102,7 +102,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                   const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
             ),
@@ -116,10 +116,10 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   Expanded customTextField({required TextEditingController controller, required bool isChecked}) {
     return Expanded(
         child: AnimatedContainer(
-          height: 33,
+          height: 30,
           duration: animationSpeed,
           decoration: BoxDecoration (
-              borderRadius: const BorderRadius.all(Radius.circular(7)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
           ),
           child: TextField(

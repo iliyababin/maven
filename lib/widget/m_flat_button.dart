@@ -36,9 +36,11 @@ class MFlatButton extends StatefulWidget {
 class _MFlatButtonState extends State<MFlatButton> {
   @override
   Widget build(BuildContext context) {
-    if(widget.expand) {
+    if(widget.width != double.infinity) {
+      return widgetBuildButton(context);
+    } else if(widget.expand) {
       return Expanded(
-        child: widgetBuildButton(context)
+          child: widgetBuildButton(context)
       );
     } else {
       return widgetBuildButton(context);
@@ -50,9 +52,8 @@ class _MFlatButtonState extends State<MFlatButton> {
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          width: 1.25,
           color: widget.borderColor ?? widget.backgroundColor ?? mt(context).backgroundColor
         ),
         color: widget.borderColor

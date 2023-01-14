@@ -26,7 +26,7 @@ class MPopupMenuButton extends StatelessWidget {
       offset: Offset.fromDirection(2, 30),
       color: color,
       child: Icon(
-        Icons.more_vert,
+        Icons.more_horiz,
         color: iconColor,
       ),
     );

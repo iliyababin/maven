@@ -1,25 +1,16 @@
 import 'package:Maven/common/model/active_exercise_group.dart';
-import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
-import 'package:Maven/screen/add_exercise_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/custom_app_bar.dart';
-import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/model/workout.dart';
-import '../../../common/util/general_utils.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 
 class WorkoutScreen extends StatefulWidget {
-  final Workout workout;
 
-  const WorkoutScreen({Key? key,
-    required this.workout
-  }) : super(key: key);
+  const WorkoutScreen({Key? key}) : super(key: key);
 
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
@@ -28,7 +19,79 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
+    return Column(
+      children: [
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+              MFlatButton(
+                onPressed: (){},
+                text: Text(
+                  'Pause',
+                  style: TextStyle(
+                    color: mt(context).text.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                height: 38,
+                width: 80,
+                backgroundColor: mt(context).foregroundColor,
+              ),
+
+
+              MFlatButton(
+                onPressed: (){},
+                text: Text(
+                  'Finish',
+                  style: TextStyle(
+                    color: mt(context).text.whiteColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                height: 38,
+                width: 80,
+                backgroundColor: mt(context).flatButton.completeColor,
+              )
+
+            ],
+          ),
+        ),
+
+        BlocBuilder<WorkoutBloc, WorkoutState>(
+          builder: (context, state) {
+            if(state.status == WorkoutStatus.active) {
+              return FutureBuilder(
+                future: DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout?.workoutId ?? 0),
+                builder: (context, snapshot) {
+                  List<ActiveExerciseGroup> activeExerciseGroups = snapshot.data ?? [];
+                  if (!snapshot.hasData) return const Text("Loading...");
+                  return ListView.builder(
+                    itemCount: activeExerciseGroups.length,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ActiveExerciseGroupWidget(activeExerciseGroup: activeExerciseGroups[index]);
+                    },
+                  );
+                },
+              );
+            }
+            return Container();
+          },
+        )
+
+
+      ],
+    );
+  }
+    /*return CustomScaffold.build(
       context: context,
       appBar: CustomAppBar.build(
           title: "",
@@ -172,7 +235,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void _pauseWorkout(BuildContext context) {
     context.read<WorkoutBloc>().add(PauseWorkout());
     Navigator.pop(context);
-  }
+  }*/
 }
 
 
