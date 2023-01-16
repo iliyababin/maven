@@ -4,6 +4,7 @@ import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/widget/m_flat_button.dart';
 import 'package:Maven/widget/m_popup_menu_button.dart';
 import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -199,20 +200,35 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
             );
           },
         ),
-        TextButton(
-          onPressed: (){
-            DBHelper.instance.addActiveExerciseSet(
-              ActiveExerciseSet(
-                activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!,
-                workoutId: widget.activeExerciseGroup.workoutId
-              )
-            );
-            setState(() {
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
+          child: MFlatButton(
+            onPressed: (){
+              DBHelper.instance.addActiveExerciseSet(
+                  ActiveExerciseSet(
+                      activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!,
+                      workoutId: widget.activeExerciseGroup.workoutId
+                  )
+              );
+              setState(() {
 
-            });
-          },
-          style: const ButtonStyle(),
-          child: const Text("ADD SET")
+              });
+            },
+            expand: false,
+            icon: Icon(
+              Icons.add_rounded,
+              size: 24,
+              color: mt(context).icon.accentColor,
+            ),
+            text: Text(
+              'Add Set',
+              style: TextStyle(
+                color: mt(context).text.accentColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
         ),
       ],
     );

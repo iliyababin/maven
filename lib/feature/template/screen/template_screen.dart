@@ -76,7 +76,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             'In Progress',
                             style: TextStyle(
                                 fontSize: 22,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w900,
                                 color: mt(context).text.primaryColor
                             ),
                           ),
@@ -201,6 +201,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   }
                 },
               ),
+              SizedBox(height: 200,)
             ],
           ),
         )
@@ -305,7 +306,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
             'Quick Start',
             style: TextStyle(
                 fontSize: 22,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w900,
                 color: mt(context).text.primaryColor),
           ),
           const SizedBox(
