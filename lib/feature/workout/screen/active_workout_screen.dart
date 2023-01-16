@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
-import 'package:Maven/widget/m_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,7 +78,113 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                 ),
 
                 Expanded(
-                  child: MListView.build(
+                  child: CustomScrollView(
+                    slivers: [
+
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 25, 15, 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+
+                                Text(
+                                  workout.name,
+                                  style: TextStyle(
+                                      color: mt(context).text.primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 25
+                                  ),
+                                ),
+
+                                SizedBox(height: 4,),
+
+                                StreamBuilder(
+                                  stream: Stream.periodic(Duration(seconds: 1)),
+                                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                    return Text(
+                                      workoutDuration(workout.datetime),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: mt(context).text.secondaryColor
+                                      ),
+                                    );
+                                  },
+                                )
+
+                              ],
+                            ),
+                          )
+                        ])
+                      ),
+
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: state.activeExerciseGroups.length,
+                          (context, index) {
+                            return ActiveExerciseGroupWidget(activeExerciseGroup: state.activeExerciseGroups[index]);
+                          }
+                        ),
+                      ),
+
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: MFlatButton(
+                              text: Text(
+                                'ADD EXERCISES',
+                                style: TextStyle(
+                                    color: mt(context).text.accentColor,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                              expand: false,
+                              backgroundColor: const Color(0xFFEAF5FF),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+                            child: MFlatButton(
+                              onPressed: () {},
+                              expand: false,
+                              backgroundColor: mt(context).flatButton.errorColor,
+                              text: Text(
+                                'Discard Workout',
+                                style: TextStyle(
+                                    color: mt(context).text.errorColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                          ),
+                        ])
+                      )
+
+                    ],
+                  ),
+                )
+              ],
+
+            ),
+          );
+
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      }
+    );
+  }
+  /*
+  * MListView.build(
                       header:  Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
                         child: Column(
@@ -114,42 +219,51 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                         ),
                       ),
 
-                      footer: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-                        child: MFlatButton(
-                          onPressed: () {},
-                          expand: false,
-                          backgroundColor: mt(context).flatButton.errorColor,
-                          text: Text(
-                            'Discard Workout',
-                            style: TextStyle(
-                                color: mt(context).text.errorColor,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w900
+                      footer: Column(
+                        children: [
+
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: MFlatButton(
+                              text: Text(
+                                'ADD EXERCISES',
+                                style: TextStyle(
+                                    color: mt(context).text.accentColor,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                              expand: false,
+                              backgroundColor: const Color(0xFFEAF5FF),
+                              onPressed: () {
+
+                              },
                             ),
                           ),
-                        ),
+
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+                            child: MFlatButton(
+                              onPressed: () {},
+                              expand: false,
+                              backgroundColor: mt(context).flatButton.errorColor,
+                              text: Text(
+                                'Discard Workout',
+                                style: TextStyle(
+                                    color: mt(context).text.errorColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
                       ),
 
                       children: state.activeExerciseGroups.map((activeExerciseGroup) =>
                           ActiveExerciseGroupWidget(activeExerciseGroup: activeExerciseGroup)
                       ).toList()
-                  ),
-                )
-              ],
-
-            ),
-          );
-
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      }
-    );
-
-  }
+                  )*/
     /*return CustomScaffold.build(
       context: context,
       appBar: CustomAppBar.build(
