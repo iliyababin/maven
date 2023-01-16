@@ -1,4 +1,5 @@
 
+import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -25,10 +26,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
         ));
       } else {
+        List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout.workoutId!);
         emit(state.copyWith(
-          workout: () => workout,
           status: () => WorkoutStatus.active,
-          pausedWorkouts: () => pausedWorkouts
+          pausedWorkouts: () => pausedWorkouts,
+          workout: () => workout,
+          activeExerciseGroups: () => activeExerciseGroups
         ));
       }
     });
@@ -38,10 +41,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       int workoutId = await DBHelper.instance.generateWorkoutFromTemplate(event.template.templateId!);
       Workout? workout = await DBHelper.instance.getWorkout(workoutId);
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout!.workoutId!);
 
       emit(state.copyWith(
-          workout: () => workout!,
-        status: () => WorkoutStatus.active
+        workout: () => workout,
+        status: () => WorkoutStatus.active,
+        activeExerciseGroups: () => activeExerciseGroups
       ));
     });
 
@@ -94,7 +99,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
-        pausedWorkouts: () => pausedWorkouts
+        pausedWorkouts: () => pausedWorkouts,
+        activeExerciseGroups: () => []
       ));
     });
   }
