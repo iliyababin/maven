@@ -69,7 +69,7 @@ class _MFlatButtonState extends State<MFlatButton> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if(widget.icon != null) widget.icon!,
-              if(widget.icon != null && widget.text != null) SizedBox(width: 8,),
+              if(widget.icon != null && widget.text != null) SizedBox(width: 2,),
               if(widget.text != null) widget.text!,
             ],
           ),

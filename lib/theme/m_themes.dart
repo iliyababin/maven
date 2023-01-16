@@ -69,7 +69,8 @@ List<AppTheme> getThemes(BuildContext context){
           borderColor: const Color(0xFFF1F1F1),
         ),
         flatButton: MFlatButtonTheme(
-          completeColor: const Color(0xFF2DCD70)
+          completeColor: const Color(0xFF2DCD70),
+          errorColor: const Color(0xFFFFEEEF)
         ),
         activeExerciseSet: ActiveExerciseSetTheme(
           completeColor: const Color(0xffd9ffe7),
@@ -131,7 +132,8 @@ List<AppTheme> getThemes(BuildContext context){
             borderColor: const Color(0xFF333333),
           ),
           flatButton: MFlatButtonTheme(
-              completeColor: const Color(0xFF2DCD70)
+            completeColor: const Color(0xFF2DCD70),
+            errorColor: const Color(0xFFFEABB2)
           ),
           activeExerciseSet: ActiveExerciseSetTheme(
             completeColor: const Color(0xFF003000),
