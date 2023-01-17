@@ -1,4 +1,4 @@
-import 'package:Maven/common/model/exercise_group.dart';
+
 
 class ActiveExerciseGroup {
   int? activeExerciseGroupId;
@@ -27,9 +27,9 @@ class ActiveExerciseGroup {
     };
   }
 
-  static ActiveExerciseGroup exerciseGroupToActiveExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
+  static ActiveExerciseGroup exerciseToActiveExerciseGroup(int exerciseId, int workoutId) {
     return ActiveExerciseGroup(
-      exerciseId: exerciseGroup.exerciseId,
+      exerciseId: exerciseId,
       workoutId: workoutId
     );
   }

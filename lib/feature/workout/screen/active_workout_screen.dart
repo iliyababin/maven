@@ -6,8 +6,10 @@ import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/model/exercise.dart';
 import '../../../common/model/workout.dart';
 import '../../../common/util/general_utils.dart';
+import '../../../screen/add_exercise_screen.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -18,10 +20,13 @@ class WorkoutScreen extends StatefulWidget {
   State<WorkoutScreen> createState() => _WorkoutScreenState();
 }
 
-class _WorkoutScreenState extends State<WorkoutScreen>{
+class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
 
+  bool timerActive = true;
 
+  @override
   Widget build(BuildContext context) {
+    print(timerActive);
     return BlocBuilder<WorkoutBloc, WorkoutState>(
       builder: (context, state) {
         if (state.status == WorkoutStatus.active) {
@@ -31,51 +36,44 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
             child: Column(
               children: [
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                Container(
+                  height: 50,
+                  color: Colors.purple,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
 
-                      MFlatButton(
-                        onPressed: (){},
-                        text: Text(
-                          'Pause',
-                          style: TextStyle(
-                            color: mt(context).text.primaryColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Container(width: 60, color: Colors.green),
+
+
+                            Flexible(
+                              child: Container(
+                                  alignment: FractionalOffset.centerLeft,
+                                  color: Colors.pink,
+                                  width: timerActive ? double.infinity : 40,
+                                  child: Text('hey'),
+                              ),
+                            ),
+                          ],
                         ),
-                        height: 38,
-                        width: 80,
-                        backgroundColor: mt(context).foregroundColor,
                       ),
 
-
-                      MFlatButton(
-                        onPressed: (){},
-                        text: Text(
-                          'Finish',
-                          style: TextStyle(
-                            color: mt(context).text.whiteColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        height: 38,
-                        width: 80,
-                        backgroundColor: mt(context).flatButton.completeColor,
-                      )
-
+                      Container(width: 60, color: Colors.yellow),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 10,),
+                ElevatedButton(onPressed: () {
+                  setState(() {
+                    timerActive = !timerActive;
+                  });
+                }, child: null),
+                const SizedBox(height: 10),
 
-                LinearProgressIndicator(
-                ),
+                const LinearProgressIndicator(),
 
                 Expanded(
                   child: CustomScrollView(
@@ -98,10 +96,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                                   ),
                                 ),
 
-                                SizedBox(height: 4,),
+                                const SizedBox(height: 4,),
 
                                 StreamBuilder(
-                                  stream: Stream.periodic(Duration(seconds: 1)),
+                                  stream: Stream.periodic(const Duration(seconds: 1)),
                                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                     return Text(
                                       workoutDuration(workout.datetime),
@@ -123,7 +121,9 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                         delegate: SliverChildBuilderDelegate(
                           childCount: state.activeExerciseGroups.length,
                           (context, index) {
-                            return ActiveExerciseGroupWidget(activeExerciseGroup: state.activeExerciseGroups[index]);
+                            return ActiveExerciseGroupWidget(
+                              activeExerciseGroup: state.activeExerciseGroups[index]
+                            );
                           }
                         ),
                       ),
@@ -131,25 +131,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                       SliverList(
                         delegate: SliverChildListDelegate([
                           Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: MFlatButton(
-                              text: Text(
-                                'ADD EXERCISES',
-                                style: TextStyle(
-                                    color: mt(context).text.accentColor,
-                                    fontWeight: FontWeight.w900
-                                ),
-                              ),
-                              expand: false,
-                              backgroundColor: const Color(0xFFEAF5FF),
-                              onPressed: () {
-
-                              },
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+                            padding: const EdgeInsets.fromLTRB(15, 30, 15, 60),
                             child: MFlatButton(
                               onPressed: () {},
                               expand: false,
@@ -183,202 +165,74 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
       }
     );
   }
-  /*
-  * MListView.build(
-                      header:  Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
 
-                            Text(
-                              workout.name,
-                              style: TextStyle(
-                                  color: mt(context).text.primaryColor,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 25
-                              ),
-                            ),
+  ///
+  /// Functions
+  ///
 
-                            SizedBox(height: 4,),
+  void _addExercises () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddExerciseScreen())
+    ).then((value) {
+      Exercise exercise = value;
+      context.read<WorkoutBloc>().add(
+        AddExercise(
+          exercise: exercise
+        )
+      );
 
-                            StreamBuilder(
-                              stream: Stream.periodic(Duration(seconds: 1)),
-                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                return Text(
-                                  workoutDuration(workout.datetime),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: mt(context).text.secondaryColor
-                                  ),
-                                );
-                              },
-                            )
-
-                          ],
-                        ),
-                      ),
-
-                      footer: Column(
-                        children: [
-
-                          Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: MFlatButton(
-                              text: Text(
-                                'ADD EXERCISES',
-                                style: TextStyle(
-                                    color: mt(context).text.accentColor,
-                                    fontWeight: FontWeight.w900
-                                ),
-                              ),
-                              expand: false,
-                              backgroundColor: const Color(0xFFEAF5FF),
-                              onPressed: () {
-
-                              },
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-                            child: MFlatButton(
-                              onPressed: () {},
-                              expand: false,
-                              backgroundColor: mt(context).flatButton.errorColor,
-                              text: Text(
-                                'Discard Workout',
-                                style: TextStyle(
-                                    color: mt(context).text.errorColor,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w900
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ],
-                      ),
-
-                      children: state.activeExerciseGroups.map((activeExerciseGroup) =>
-                          ActiveExerciseGroupWidget(activeExerciseGroup: activeExerciseGroup)
-                      ).toList()
-                  )*/
-    /*return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-          title: "",
-          context: context,
-          actions: [
-            IconButton(
-                onPressed: (){},
-                icon: Icon(
-                  Icons.delete,
-                  size: 26,
-                  color: mt(context).icon.errorColor,
-                )
-            ),
-            IconButton(
-                onPressed: () => _pauseWorkout(context),
-                icon: Icon(
-                  Icons.pause,
-                  size: 26,
-                  color: mt(context).icon.accentColor,
-                )
-            ),
-            IconButton(
-                onPressed: (){},
-                icon: Icon(
-                  Icons.flag,
-                  size: 26,
-                  color: mt(context).icon.completeColor,
-                )
-            ),
-          ]
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        backgroundColor: Colors.green,
-        child: Icon(
-          Icons.add,
-          color: mt(context).icon.accentColor,
-        ),
-      ),
-
-      body: ListView(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Text(
-                        widget.workout.name,
-                        style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 28
-                        ),
-                      ),
-
-                      SizedBox(height: 4,),
-
-                      StreamBuilder(
-                        stream: Stream.periodic(Duration(seconds: 1)),
-                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                          return Text(
-                            workoutDuration(widget.workout.datetime),
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: mt(context).text.secondaryColor
-                            ),
-                          );
-                        },
-                      )
-
-                    ],
-                  ),
-                ),
-
-                FutureBuilder(
-                  future: DBHelper.instance.getActiveExerciseGroupsByWorkoutId(widget.workout.workoutId!),
-                  builder: (context, snapshot) {
-                    List<ActiveExerciseGroup> activeExerciseGroups = snapshot.data ?? [];
-                    if (!snapshot.hasData) return const Text("Loading...");
-                    return ListView.builder(
-                      itemCount: activeExerciseGroups.length,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ActiveExerciseGroupWidget(activeExerciseGroup: activeExerciseGroups[index]);
-                      },
-                    );
-                  },
-                ),
-
-
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+    });
   }
 
   void _pauseWorkout(BuildContext context) {
     context.read<WorkoutBloc>().add(PauseWorkout());
     Navigator.pop(context);
-  }*/
+  }
 }
 
+/*
+*
+                        MFlatButton(
+                          onPressed: (){},
+                          icon: Icon(
+                            Icons.add_rounded,
+                            size: 30,
+                            color: mt(context).text.whiteColor,
+                          ),
+                          height: 38,
+                          width: 38,
+                          backgroundColor: mt(context).accentColor,
+                        ),
 
+                        const SizedBox(width: 8,),
+
+                        MFlatButton(
+                          onPressed: (){},
+                          icon: Icon(
+                            Icons.more_horiz,
+                            color: mt(context).icon.primaryColor,
+                          ),
+                          height: 38,
+                          width: 38,
+                          backgroundColor: mt(context).foregroundColor,
+                        ),
+
+
+                        const SizedBox(width: 8,),
+
+                        MFlatButton(
+                          onPressed: (){},
+                          text: Text(
+                            'Finish',
+                            style: TextStyle(
+                              color: mt(context).text.whiteColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          height: 38,
+                          width: 84,
+                          backgroundColor: mt(context).flatButton.completeColor,
+                        ),
+*/

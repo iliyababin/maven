@@ -48,11 +48,12 @@ class _MavenState extends State<Maven> {
           builder: (context, state) {
             if(state.status == WorkoutStatus.active) {
               return SlidingUpPanel(
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(25), topLeft: Radius.circular(25)),
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                 minHeight: 85,
                 maxHeight: MediaQuery.of(context).size.height - 50,
                 backdropEnabled: true,
                 controller: panelController,
+
 
                 onPanelSlide: (position) {
                   setState(() {
@@ -93,7 +94,7 @@ class _MavenState extends State<Maven> {
                 ),
 
                 panel: slidingPanelBackground(
-                  const WorkoutScreen()
+                   WorkoutScreen()
                 )
 
               );
@@ -192,7 +193,7 @@ class _MavenState extends State<Maven> {
       height: 85,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: mt(context).backgroundColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),

@@ -4,6 +4,7 @@ import 'package:Maven/common/util/database_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../common/model/exercise.dart';
 import '../../../../common/model/template.dart';
 import '../../../../common/model/workout.dart';
 
@@ -103,40 +104,23 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         activeExerciseGroups: () => []
       ));
     });
+
+    on<AddExercise>((event, emit) async {
+      emit(state.copyWith(status: () => WorkoutStatus.loading));
+
+      DBHelper.instance.addActiveExerciseGroup(
+        ActiveExerciseGroup.exerciseToActiveExerciseGroup(
+          event.exercise.exerciseId,
+          state.workout!.workoutId!
+        )
+      );
+
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+
+      emit(state.copyWith(
+        status: () => WorkoutStatus.active,
+        activeExerciseGroups: () => activeExerciseGroups
+      ));
+    });
   }
 }
-/*
-Future<void> deleteWorkout(int WorkoutId) async {
-  DBHelper.instance.deleteWorkout(WorkoutId);
-  DBHelper.instance.deleteActiveExerciseGroupsByWorkoutId(WorkoutId);
-  DBHelper.instance.deleteActiveExerciseSetsByWorkoutId(WorkoutId);
-  _Workouts = await DBHelper.instance.getWorkouts();
-  notifyListeners();
-}
-
-Future<void> generateWorkoutTemplate(BuildContext context, int workoutId) async {
-  int test = await Provider.of<WorkoutProvider>(context, listen: false).generateWorkoutTemplate(workoutId);
-  ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", test);
-}
-
-void deleteCurrentWorkout(BuildContext context) {
-  int currentWorkoutId = ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1).getValue();
-  //Provider.of<WorkoutProvider>(context, listen: false).deleteWorkout(currentWorkoutId);
-  ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", -1);
-}
-
-Future<void> pauseCurrentWorkout(BuildContext context) async {
-  int currentWorkoutId = ISharedPrefs.of(context).streamingSharedPreferences.getInt("currentWorkoutId", defaultValue: -1).getValue();
-  Workout? Workout =  await DBHelper.instance.getWorkout(currentWorkoutId);
-  Workout?.isPaused = 1;
-  Provider.of<WorkoutProvider>(context, listen: false).updateWorkout(Workout!);
-  ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", -1);
-}
-
-void unpauseWorkout(BuildContext context, int WorkoutId) async {
-  Workout? Workout =  await DBHelper.instance.getWorkout(WorkoutId);
-  Workout?.isPaused = 0;
-  Provider.of<WorkoutProvider>(context, listen: false).updateWorkout(Workout!);
-  ISharedPrefs.of(context).streamingSharedPreferences.setInt("currentWorkoutId", WorkoutId);
-}
-*/

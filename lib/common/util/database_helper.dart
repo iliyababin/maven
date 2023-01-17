@@ -507,7 +507,7 @@ class DBHelper {
 
     List<ExerciseGroup> exerciseGroups = await getExerciseGroupsByTemplateId(templateId);
     for (var exerciseGroup in exerciseGroups) {
-      int activeExerciseGroupId = await addActiveExerciseGroup(ActiveExerciseGroup.exerciseGroupToActiveExerciseGroup(exerciseGroup, workoutId));
+      int activeExerciseGroupId = await addActiveExerciseGroup(ActiveExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
 
       List<ExerciseSet> exerciseSets = await getExerciseSetsByExerciseGroupId(exerciseGroup.exerciseGroupId!);
       for(var exerciseSet in exerciseSets){
