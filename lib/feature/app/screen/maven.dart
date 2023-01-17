@@ -208,7 +208,7 @@ class _MavenState extends State<Maven> {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 7),
           Container(
             height: 6,
             width: 48,

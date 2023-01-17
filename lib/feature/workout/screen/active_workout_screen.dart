@@ -1,3 +1,7 @@
+/*
+*
+
+*/
 import 'dart:async';
 
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
@@ -22,11 +26,12 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
 
-  bool timerActive = true;
+  Timer _timer = Timer(Duration(seconds: 30), () { });
+  int _originalTime = 30;
+  int _timeLeft = 30;
 
   @override
   Widget build(BuildContext context) {
-    print(timerActive);
     return BlocBuilder<WorkoutBloc, WorkoutState>(
       builder: (context, state) {
         if (state.status == WorkoutStatus.active) {
@@ -36,9 +41,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
             child: Column(
               children: [
 
-                Container(
-                  height: 50,
-                  color: Colors.purple,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -46,34 +50,113 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       Expanded(
                         child: Row(
                           children: [
-                            Container(width: 60, color: Colors.green),
-
-
-                            Flexible(
-                              child: Container(
-                                  alignment: FractionalOffset.centerLeft,
-                                  color: Colors.pink,
-                                  width: timerActive ? double.infinity : 40,
-                                  child: Text('hey'),
+                            MFlatButton(
+                              onPressed: (){},
+                              icon: Icon(
+                                Icons.add_rounded,
+                                size: 30,
+                                color: mt(context).text.whiteColor,
                               ),
+                              height: 38,
+                              width: 38,
+                              backgroundColor: mt(context).accentColor,
                             ),
+
+                            const SizedBox(width: 8,),
+
+                            MFlatButton(
+                              onPressed: (){},
+                              icon: Icon(
+                                Icons.more_horiz,
+                                size: 25,
+                                color: mt(context).text.primaryColor,
+                              ),
+                              height: 38,
+                              width: 38,
+                              backgroundColor: mt(context).foregroundColor,
+                            ),
+
+                            const SizedBox(width: 8,),
+
+                            _timeLeft != 0 ?
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadiusDirectional.circular(8),
+                                child: Container(
+                                  height: 38,
+                                  child: Stack(
+                                    children: [
+
+                                      LinearProgressIndicator(
+                                        backgroundColor: mt(context).foregroundColor,
+                                        color: mt(context).accentColor,
+                                        value: _timeLeft / _originalTime,
+                                        minHeight: 38,
+                                       ),
+                                      Center(
+                                        child: Text(
+                                          _timeLeft.toString(),
+                                          style: TextStyle(
+                                            color: mt(context).text.primaryColor,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                            :
+                            MFlatButton(
+                              onPressed: (){},
+                              icon: Icon(
+                                Icons.timer,
+                                size: 25,
+                                color: mt(context).text.primaryColor,
+                              ),
+                              height: 38,
+                              width: 38,
+                              backgroundColor: mt(context).foregroundColor,
+                            ),
+
                           ],
                         ),
                       ),
 
-                      Container(width: 60, color: Colors.yellow),
+                      const SizedBox(width: 8,),
+
+                      MFlatButton(
+                        onPressed: (){
+                          _startTimer(35);
+                          /*setState(() {
+                            timerActive = !timerActive;
+                          });*/
+                        },
+                        text: Text(
+                          'Finish',
+                          style: TextStyle(
+                            color: mt(context).text.whiteColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        height: 38,
+                        width: 84,
+                        backgroundColor: mt(context).flatButton.completeColor,
+                      ),
                     ],
                   ),
                 ),
 
-                ElevatedButton(onPressed: () {
-                  setState(() {
-                    timerActive = !timerActive;
-                  });
-                }, child: null),
-                const SizedBox(height: 10),
-
                 const LinearProgressIndicator(),
+
+                /*TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: Duration(seconds: 25),
+                  builder: (context, value, _) => LinearProgressIndicator(value: value),
+                ),*/
 
                 Expanded(
                   child: CustomScrollView(
@@ -170,6 +253,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   /// Functions
   ///
 
+  void _startTimer (int seconds) {
+    _originalTime = seconds;
+    _timeLeft = seconds;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_timeLeft > 0) {
+          _timeLeft--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
   void _addExercises () {
     Navigator.push(
       context,
@@ -190,49 +287,3 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     Navigator.pop(context);
   }
 }
-
-/*
-*
-                        MFlatButton(
-                          onPressed: (){},
-                          icon: Icon(
-                            Icons.add_rounded,
-                            size: 30,
-                            color: mt(context).text.whiteColor,
-                          ),
-                          height: 38,
-                          width: 38,
-                          backgroundColor: mt(context).accentColor,
-                        ),
-
-                        const SizedBox(width: 8,),
-
-                        MFlatButton(
-                          onPressed: (){},
-                          icon: Icon(
-                            Icons.more_horiz,
-                            color: mt(context).icon.primaryColor,
-                          ),
-                          height: 38,
-                          width: 38,
-                          backgroundColor: mt(context).foregroundColor,
-                        ),
-
-
-                        const SizedBox(width: 8,),
-
-                        MFlatButton(
-                          onPressed: (){},
-                          text: Text(
-                            'Finish',
-                            style: TextStyle(
-                              color: mt(context).text.whiteColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          height: 38,
-                          width: 84,
-                          backgroundColor: mt(context).flatButton.completeColor,
-                        ),
-*/
