@@ -4,6 +4,7 @@
 */
 import 'dart:async';
 
+import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/model/exercise.dart';
+import '../../../common/model/timed.dart';
 import '../../../common/model/workout.dart';
 import '../../../common/util/general_utils.dart';
 import '../../../screen/add_exercise_screen.dart';
@@ -27,8 +29,13 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
 
   Timer _timer = Timer(Duration(seconds: 30), () { });
-  int _originalTime = 30;
-  int _timeLeft = 30;
+  double _timePercent = 0;
+  String _timeFormatted = '';
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +62,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               icon: Icon(
                                 Icons.add_rounded,
                                 size: 30,
-                                color: mt(context).text.whiteColor,
-                              ),
-                              height: 38,
-                              width: 38,
-                              backgroundColor: mt(context).accentColor,
-                            ),
-
-                            const SizedBox(width: 8,),
-
-                            MFlatButton(
-                              onPressed: (){},
-                              icon: Icon(
-                                Icons.more_horiz,
-                                size: 25,
-                                color: mt(context).text.primaryColor,
+                                color: mt(context).icon.primaryColor,
                               ),
                               height: 38,
                               width: 38,
@@ -78,7 +71,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
 
                             const SizedBox(width: 8,),
 
-                            _timeLeft != 0 ?
+                            MFlatButton(
+                              onPressed: (){
+
+
+                              },
+                              icon: Icon(
+                                Icons.more_horiz,
+                                size: 25,
+                                color: mt(context).icon.primaryColor,
+                              ),
+                              height: 38,
+                              width: 38,
+                              backgroundColor: mt(context).foregroundColor,
+                            ),
+
+                            const SizedBox(width: 8,),
+
+                            _timePercent != 0 ?
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadiusDirectional.circular(8),
@@ -90,19 +100,31 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                       LinearProgressIndicator(
                                         backgroundColor: mt(context).foregroundColor,
                                         color: mt(context).accentColor,
-                                        value: _timeLeft / _originalTime,
+                                        value: _timePercent,
                                         minHeight: 38,
                                        ),
                                       Center(
                                         child: Text(
-                                          _timeLeft.toString(),
+                                          _timeFormatted,
                                           style: TextStyle(
-                                            color: mt(context).text.primaryColor,
+                                            color: _timePercent > 0.5 ? mt(context).text.whiteColor : mt(context).text.primaryColor,
                                             fontSize: 17,
                                             fontWeight: FontWeight.w900,
                                           ),
                                         ),
                                       ),
+                                      MFlatButton(
+                                        onPressed: () {
+                                          showTimerPickerDialog(context: context).then(
+                                                (value) {
+                                              if(value == null) return;
+                                              _startTimer(value);
+                                            },
+                                          );
+                                        },
+                                        expand: false,
+                                        backgroundColor: Colors.transparent,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -110,10 +132,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             )
                             :
                             MFlatButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                showTimerPickerDialog(context: context).then(
+                                      (value) {
+                                    if(value == null) return;
+                                    _startTimer(value);
+                                  },
+                                );
+                              },
                               icon: Icon(
                                 Icons.timer,
-                                size: 25,
+                                size: 21,
                                 color: mt(context).text.primaryColor,
                               ),
                               height: 38,
@@ -129,7 +158,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
 
                       MFlatButton(
                         onPressed: (){
-                          _startTimer(35);
                           /*setState(() {
                             timerActive = !timerActive;
                           });*/
@@ -205,7 +233,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           childCount: state.activeExerciseGroups.length,
                           (context, index) {
                             return ActiveExerciseGroupWidget(
-                              activeExerciseGroup: state.activeExerciseGroups[index]
+                              activeExerciseGroup: state.activeExerciseGroups[index],
+                              activeExerciseSets: state.activeExerciseSets.where(
+                                  (activeExerciseSet) =>
+                                  activeExerciseSet.activeExerciseGroupId == state.activeExerciseGroups[index].activeExerciseGroupId
+                              ).toList()
                             );
                           }
                         ),
@@ -253,13 +285,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   /// Functions
   ///
 
-  void _startTimer (int seconds) {
-    _originalTime = seconds;
-    _timeLeft = seconds;
+  void _startTimer (Timed timed) {
+    int totalTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
+    int modifiedTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      modifiedTime = modifiedTime - 1;
       setState(() {
-        if (_timeLeft > 0) {
-          _timeLeft--;
+        if (modifiedTime >= 0) {
+          _timePercent = modifiedTime / totalTime;
+          _timeFormatted = secondsToTime(modifiedTime );
         } else {
           _timer.cancel();
         }

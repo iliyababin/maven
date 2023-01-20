@@ -2,17 +2,24 @@ import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:Maven/widget/m_popup_menu_button.dart';
 import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActiveExerciseGroupWidget extends StatefulWidget {
-  const ActiveExerciseGroupWidget({Key? key, required this.activeExerciseGroup}) : super(key: key);
-
   final ActiveExerciseGroup activeExerciseGroup;
+  final List<ActiveExerciseSet> activeExerciseSets;
+
+  const ActiveExerciseGroupWidget({Key? key,
+    required this.activeExerciseGroup,
+    required this.activeExerciseSets
+  }) : super(key: key);
+
 
   @override
   State<ActiveExerciseGroupWidget> createState() => _ActiveExerciseGroupWidgetState();
@@ -31,7 +38,9 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
             Exercise exercise = snapshot.data!;
             return Row(
               children: [
-                SizedBox(width: 10,),
+
+                const SizedBox(width: 10),
+
                 Expanded(
                   child: TextButton(
                     onPressed: () {  },
@@ -49,7 +58,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                   ),
                 ),
 
-                Container(
+                SizedBox(
                   height: 52,
                   width: 52,
                   child: MPopupMenuButton(
@@ -89,10 +98,12 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                     ]
                   )
                 )
+
               ],
             );
           },
         ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children:  [
@@ -163,56 +174,42 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
             ),
           ],
         ),
-        FutureBuilder(
-          future: DBHelper.instance.getActiveExerciseSetsByActiveExerciseGroupId(widget.activeExerciseGroup.activeExerciseGroupId!),
-          builder: (context, snapshot) {
-            if(!snapshot.hasData) return const Text("bruh");
 
-            List<ActiveExerciseSet> activeExerciseSets = snapshot.data!;
+        ListView.builder(
+          itemCount: widget.activeExerciseSets.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
 
-            return ListView.builder(
-              itemCount: activeExerciseSets.length,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
+            ActiveExerciseSet activeExerciseSet = widget.activeExerciseSets[index];
 
-                ActiveExerciseSet activeExerciseSet = activeExerciseSets[index];
-
-                return Dismissible(
-                  key: UniqueKey(),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    DBHelper.instance.deleteActiveExerciseSet(activeExerciseSet.activeExerciseSetId!);
-                    setState(() {
-
-                    });
-                  },
-                  background: Container(
-                    color: Colors.redAccent,
-                  ),
-                  child: ActiveExerciseSetWidget(
-                    index: index,
-                    activeExerciseSet: activeExerciseSet
-                  ),
-                );
+            return Dismissible(
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
+                context.read<WorkoutBloc>().add(DeleteActiveExerciseSet(
+                    activeExerciseSetId: widget.activeExerciseSets[index].activeExerciseSetId!
+                ));
               },
+              background: Container(
+                color: Colors.redAccent,
+              ),
+              child: ActiveExerciseSetWidget(
+                index: index + 1,
+                activeExerciseSet: activeExerciseSet
+              ),
             );
           },
         ),
+
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
           child: MFlatButton(
             onPressed: (){
-              DBHelper.instance.addActiveExerciseSet(
-                  ActiveExerciseSet(
-                      activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!,
-                      workoutId: widget.activeExerciseGroup.workoutId
-                  )
-              );
-              setState(() {
-
-              });
+              context.read<WorkoutBloc>().add(AddActiveExerciseSet(
+                activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!
+              ));
             },
             expand: false,
             icon: Icon(
