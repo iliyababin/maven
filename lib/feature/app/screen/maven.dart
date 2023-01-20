@@ -50,7 +50,7 @@ class _MavenState extends State<Maven> {
               return SlidingUpPanel(
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                 minHeight: 85,
-                maxHeight: MediaQuery.of(context).size.height - 50,
+                maxHeight: MediaQuery.of(context).size.height,
                 backdropEnabled: true,
                 controller: panelController,
 
@@ -213,7 +213,7 @@ class _MavenState extends State<Maven> {
             height: 6,
             width: 48,
             decoration: BoxDecoration(
-              color: mt(context).foregroundColor,
+              color: mt(context).handleBarColor,
               borderRadius: BorderRadius.circular(100)
             ),
           ),
