@@ -49,6 +49,7 @@ class MColorScheme implements AppThemeOptions{
   final ActiveExerciseSetTheme activeExerciseSet;
 
   final Color sliverNavigationBarBackgroundColor;
+  final Color handleBarColor;
 
 
   MColorScheme({
@@ -70,6 +71,7 @@ class MColorScheme implements AppThemeOptions{
     required this.activeExerciseSet,
 
     required this.sliverNavigationBarBackgroundColor,
+    required this.handleBarColor,
 
   });
 }

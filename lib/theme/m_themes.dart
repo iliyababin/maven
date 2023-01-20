@@ -76,6 +76,7 @@ List<AppTheme> getThemes(BuildContext context){
           completeColor: const Color(0xffd9ffe7),
         ),
         sliverNavigationBarBackgroundColor: const Color(0xFFFDFDFD),
+        handleBarColor: const Color(0xFFE9EAEA)
       )
     ),
     AppTheme(
@@ -125,7 +126,7 @@ List<AppTheme> getThemes(BuildContext context){
             errorOutlineColor: const Color(0xFFDD614A),
             hintColor: const Color(0xff434343),
             primaryOutlineColor: const Color(0xFF333333),
-            backgroundColor: const Color(0xFFC9C9C9),
+            backgroundColor: const Color(0xFF3A3A3A),
           ),
           templateCard: TemplateCardTheme(
             backgroundColor: const Color(0xFF121212),
@@ -139,7 +140,9 @@ List<AppTheme> getThemes(BuildContext context){
             completeColor: const Color(0xFF003000),
           ),
           sliverNavigationBarBackgroundColor: const Color(0xFF121212),
-        )
+            handleBarColor: const Color(0xFF505050)
+
+        ),
     ),
   ];
 }
