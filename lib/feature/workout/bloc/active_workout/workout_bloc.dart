@@ -1,5 +1,6 @@
 
 import 'package:Maven/common/model/active_exercise_group.dart';
+import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -27,12 +28,21 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
         ));
       } else {
-        List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout.workoutId!);
+          List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout.workoutId!);
+          List<ActiveExerciseSet> activeExerciseSets = [];
+
+          for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+            List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+                .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+            activeExerciseSets.addAll(activeExerciseBunch);
+          }
+
         emit(state.copyWith(
           status: () => WorkoutStatus.active,
           pausedWorkouts: () => pausedWorkouts,
           workout: () => workout,
-          activeExerciseGroups: () => activeExerciseGroups
+          activeExerciseGroups: () => activeExerciseGroups,
+          activeExerciseSets: () => activeExerciseSets,
         ));
       }
     });
@@ -44,10 +54,19 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       Workout? workout = await DBHelper.instance.getWorkout(workoutId);
       List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout!.workoutId!);
 
+      List<ActiveExerciseSet> activeExerciseSets = [];
+
+      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+        activeExerciseSets.addAll(activeExerciseBunch);
+      }
+
       emit(state.copyWith(
         workout: () => workout,
         status: () => WorkoutStatus.active,
-        activeExerciseGroups: () => activeExerciseGroups
+        activeExerciseGroups: () => activeExerciseGroups,
+        activeExerciseSets: () => activeExerciseSets,
       ));
     });
 
@@ -101,7 +120,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
         pausedWorkouts: () => pausedWorkouts,
-        activeExerciseGroups: () => []
+        activeExerciseGroups: () => [],
+        activeExerciseSets: () => [],
       ));
     });
 
@@ -120,6 +140,48 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       emit(state.copyWith(
         status: () => WorkoutStatus.active,
         activeExerciseGroups: () => activeExerciseGroups
+      ));
+    });
+
+    on<AddActiveExerciseSet>((event, emit) async {
+
+      DBHelper.instance.addActiveExerciseSet(
+          ActiveExerciseSet(
+            activeExerciseGroupId: event.activeExerciseGroupId,
+            workoutId: state.workout!.workoutId!
+          )
+      );
+
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+
+      List<ActiveExerciseSet> activeExerciseSets = [];
+
+      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+        activeExerciseSets.addAll(activeExerciseBunch);
+      }
+
+      emit(state.copyWith(
+          activeExerciseSets: () => activeExerciseSets
+      ));
+    });
+
+    on<DeleteActiveExerciseSet>((event, emit) async {
+      await DBHelper.instance.deleteActiveExerciseSet(event.activeExerciseSetId);
+
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+
+      List<ActiveExerciseSet> activeExerciseSets = [];
+
+      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+        activeExerciseSets.addAll(activeExerciseBunch);
+      }
+
+      emit(state.copyWith(
+          activeExerciseSets: () => activeExerciseSets
       ));
     });
   }
