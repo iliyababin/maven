@@ -8,3 +8,24 @@ String workoutDuration(DateTime startTime) {
   }
   return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
 }
+
+String secondsToTime(int seconds) {
+  int hours = (seconds / 3600).floor();
+  int minutes = ((seconds % 3600) / 60).floor();
+  int remainingSeconds = seconds % 60;
+  String time = "";
+  if(hours != 0) {
+    time += "$hours:";
+  }
+  if(minutes < 10) {
+    time += "$minutes:";
+  } else {
+    time += "$minutes:";
+  }
+  if(remainingSeconds < 10) {
+    time += "0$remainingSeconds";
+  } else {
+    time += "$remainingSeconds";
+  }
+  return time;
+}
