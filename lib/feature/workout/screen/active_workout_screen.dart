@@ -178,7 +178,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   ),
                 ),
 
-                const LinearProgressIndicator(),
+                LinearProgressIndicator(
+                  value: state.activeExerciseSets.where((activeExerciseSet) => activeExerciseSet.checked == 1).length / state.activeExerciseSets.length,
+                ),
 
                 /*TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: 1),

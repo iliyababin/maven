@@ -148,7 +148,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       DBHelper.instance.addActiveExerciseSet(
           ActiveExerciseSet(
             activeExerciseGroupId: event.activeExerciseGroupId,
-            workoutId: state.workout!.workoutId!
+            workoutId: state.workout!.workoutId!,
+            weight: 0,
+            reps: 0,
+            checked: 0
           )
       );
 
@@ -169,6 +172,25 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     on<DeleteActiveExerciseSet>((event, emit) async {
       await DBHelper.instance.deleteActiveExerciseSet(event.activeExerciseSetId);
+
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+
+      List<ActiveExerciseSet> activeExerciseSets = [];
+
+      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+        activeExerciseSets.addAll(activeExerciseBunch);
+      }
+
+      emit(state.copyWith(
+          activeExerciseSets: () => activeExerciseSets
+      ));
+    });
+
+
+    on<UpdateActiveExerciseSet>((event, emit) async {
+      await DBHelper.instance.updateActiveExerciseSet(event.activeExerciseSet);
 
       List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
 

@@ -27,8 +27,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy152.db');
-    String path = join(documentsDirectory.path, 'testy152.db');
+    await deleteDatabase('testy153.db');
+    String path = join(documentsDirectory.path, 'testy153.db');
 
     return await openDatabase(
       path,
@@ -115,6 +115,7 @@ class DBHelper {
         activeExerciseSetId INTEGER PRIMARY KEY,
         weight INTEGER,
         reps INTEGER,
+        checked INTEGER,
         activeExerciseGroupId INTEGER,
         workoutId INTEGER,
         FOREIGN KEY (activeExerciseGroupId) REFERENCES activeExerciseGroup(activeExerciseGroupId),
@@ -480,6 +481,15 @@ class DBHelper {
     return activeExerciseSetsList;
   }
 
+  Future<int> updateActiveExerciseSet(ActiveExerciseSet activeExerciseSet) async {
+    final Database db = await instance.database;
+    return await db.update(
+      'activeExerciseSet',
+      activeExerciseSet.toMap(),
+      where: 'activeExerciseSetId = ?',
+      whereArgs: [activeExerciseSet.activeExerciseSetId],
+    );
+  }
 
   Future<int> deleteActiveExerciseSet(int activeExerciseSetId) async {
     final db = await instance.database;
@@ -517,4 +527,5 @@ class DBHelper {
 
     return workoutId;
   }
+
 }

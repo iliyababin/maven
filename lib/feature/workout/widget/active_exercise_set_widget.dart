@@ -2,6 +2,9 @@ import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/active_workout/workout_bloc.dart';
 
 class ActiveExerciseSetWidget extends StatefulWidget {
   const ActiveExerciseSetWidget({Key? key, required this.activeExerciseSet, required this.index}) : super(key: key);
@@ -20,6 +23,39 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   Duration animationSpeed = const Duration(milliseconds: 250);
   TextEditingController weightController = TextEditingController();
   TextEditingController repController = TextEditingController();
+
+  GlobalKey globalKey = GlobalKey();
+  @override
+  void initState() {
+    isChecked = widget.activeExerciseSet.checked == 1 ? true : false;
+    if(widget.activeExerciseSet.weight != 0) {
+      weightController.text = widget.activeExerciseSet.weight.toString();
+    }
+
+    weightController.addListener(() {
+      if(weightController.text == widget.activeExerciseSet.weight.toString()) return;
+
+      print('acessing weight');
+      if(weightController.text.isEmpty) return;
+      print('got thru weight');
+      ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+      activeExerciseSet.weight = int.parse(weightController.text);
+      context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
+          activeExerciseSet: activeExerciseSet
+      ));
+    });
+
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    weightController.dispose();
+    repController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,17 +110,38 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
               ),
             ),
           ),
+
           SizedBox(width: spacerSize),
-          customTextField(
-            controller: weightController,
-            isChecked: isChecked,
+
+          Expanded(
+              child: AnimatedContainer(
+                height: 30,
+                duration: animationSpeed,
+                decoration: BoxDecoration (
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
+                ),
+                child: Form(
+                  key: globalKey,
+                  child: TextField(
+                    controller: weightController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '',
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                  ),
+                ),
+              )
           ),
+
           SizedBox(width: spacerSize),
-          customTextField(
-            controller: repController,
-            isChecked: isChecked
-          ),
+
           SizedBox(width: spacerSize),
+
           SizedBox(
             height: 40,
             width: 30,
@@ -92,11 +149,19 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
               scale: 1.8,
               child: Checkbox(
                 value: isChecked,
-
                 onChanged: (value) {
-                  setState(() {
-                    isChecked = value!;
+                  setState(()  {
+                     isChecked = !isChecked;
                   });
+
+                  ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+                  activeExerciseSet.checked = widget.activeExerciseSet.checked == 1
+                      ? widget.activeExerciseSet.checked = 0
+                      : widget.activeExerciseSet.checked = 1;
+
+                  context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
+                      activeExerciseSet: activeExerciseSet
+                  ));
                 },
                 fillColor: isChecked ? MaterialStateProperty.all<Color>(
                   const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
@@ -113,27 +178,5 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
     );
   }
 
-  Expanded customTextField({required TextEditingController controller, required bool isChecked}) {
-    return Expanded(
-        child: AnimatedContainer(
-          height: 30,
-          duration: animationSpeed,
-          decoration: BoxDecoration (
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
-          ),
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: '',
-              contentPadding: EdgeInsets.symmetric(vertical: 10),
-            ),
-          ),
-        )
-    );
-  }
 }
+

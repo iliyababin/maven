@@ -4,6 +4,7 @@ class ActiveExerciseSet {
   int? activeExerciseSetId;
   int? weight;
   int? reps;
+  int checked;
   int activeExerciseGroupId;
   int workoutId;
 
@@ -11,6 +12,7 @@ class ActiveExerciseSet {
     this.activeExerciseSetId,
     this.weight,
     this.reps,
+    required this.checked,
     required this.activeExerciseGroupId,
     required this.workoutId,
   });
@@ -19,6 +21,7 @@ class ActiveExerciseSet {
     activeExerciseSetId: json["activeExerciseSetId"],
     weight: json["weight"],
     reps: json["reps"],
+    checked: json["checked"],
     activeExerciseGroupId: json["activeExerciseGroupId"],
     workoutId: json["workoutId"],
   );
@@ -28,6 +31,7 @@ class ActiveExerciseSet {
       'activeExerciseSetId': activeExerciseSetId,
       'weight': weight,
       'reps': reps,
+      'checked': checked,
       'activeExerciseGroupId': activeExerciseGroupId,
       'workoutId': workoutId,
     };
@@ -37,8 +41,9 @@ class ActiveExerciseSet {
     return ActiveExerciseSet(
       activeExerciseGroupId: activeExerciseGroupId,
       workoutId: workoutId,
-      reps: exerciseSet.reps,
       weight: exerciseSet.weight,
+      reps: exerciseSet.reps,
+      checked: 0,
     );
   }
 }
