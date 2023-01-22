@@ -356,6 +356,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 ),
               ),
 
+              Text('this is a test')
             ],
           ),
         );
