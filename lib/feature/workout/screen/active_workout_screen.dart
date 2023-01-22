@@ -48,8 +48,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
             child: Column(
               children: [
 
-                Padding(
+                Container(
                   padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+                  decoration: BoxDecoration(
+                    color: mt(context).backgroundColor,
+                    shape: BoxShape.rectangle,
+
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -66,16 +71,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               height: 38,
                               width: 38,
-                              backgroundColor: mt(context).foregroundColor,
+                              backgroundColor: mt(context).backgroundColor,
+                              borderColor: mt(context).borderColor,
                             ),
 
                             const SizedBox(width: 8,),
 
                             MFlatButton(
-                              onPressed: (){
-
-
-                              },
+                              onPressed: () => _showBottomSheet(),
                               icon: Icon(
                                 Icons.more_horiz,
                                 size: 25,
@@ -83,7 +86,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               height: 38,
                               width: 38,
-                              backgroundColor: mt(context).foregroundColor,
+                              backgroundColor: mt(context).backgroundColor,
+                              borderColor: mt(context).borderColor,
                             ),
 
                             const SizedBox(width: 8,),
@@ -109,7 +113,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           style: TextStyle(
                                             color: _timePercent > 0.5 ? mt(context).text.whiteColor : mt(context).text.primaryColor,
                                             fontSize: 17,
-                                            fontWeight: FontWeight.w900,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
@@ -147,8 +151,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               height: 38,
                               width: 38,
-                              backgroundColor: mt(context).foregroundColor,
+                              backgroundColor: mt(context).backgroundColor,
+                              borderColor: mt(context).borderColor,
                             ),
+
+
 
                           ],
                         ),
@@ -181,7 +188,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 LinearProgressIndicator(
                   value: state.activeExerciseSets.where((activeExerciseSet) => activeExerciseSet.checked == 1).length / state.activeExerciseSets.length,
                 ),
-
                 /*TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: 1),
                   duration: Duration(seconds: 25),
@@ -195,7 +201,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       SliverList(
                         delegate: SliverChildListDelegate([
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 25, 15, 12),
+                            padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -321,5 +327,39 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   void _pauseWorkout(BuildContext context) {
     context.read<WorkoutBloc>().add(PauseWorkout());
     Navigator.pop(context);
+  }
+
+  ///
+  ///
+  ///
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+              color: mt(context).backgroundColor,
+              borderRadius: BorderRadiusDirectional.only(topEnd: Radius.circular(15), topStart: Radius.circular(15))
+          ),
+          height: 330,
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              Container(
+                height: 5,
+                width: 42,
+                decoration: BoxDecoration(
+                    color: mt(context).handleBarColor,
+                    borderRadius: BorderRadius.circular(100)
+                ),
+              ),
+
+            ],
+          ),
+        );
+      },
+    );
   }
 }

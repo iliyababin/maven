@@ -35,9 +35,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
     weightController.addListener(() {
       if(weightController.text == widget.activeExerciseSet.weight.toString()) return;
 
-      print('acessing weight');
       if(weightController.text.isEmpty) return;
-      print('got thru weight');
       ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
       activeExerciseSet.weight = int.parse(weightController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(

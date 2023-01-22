@@ -191,20 +191,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     on<UpdateActiveExerciseSet>((event, emit) async {
       await DBHelper.instance.updateActiveExerciseSet(event.activeExerciseSet);
-
-      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
-
-      List<ActiveExerciseSet> activeExerciseSets = [];
-
-      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
-        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
-            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
-        activeExerciseSets.addAll(activeExerciseBunch);
-      }
-
-      emit(state.copyWith(
-          activeExerciseSets: () => activeExerciseSets
-      ));
     });
   }
 }

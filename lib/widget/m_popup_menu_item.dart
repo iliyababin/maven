@@ -18,9 +18,9 @@ class MPopupMenuItem  {
             Text(
               text,
               style: TextStyle(
-                  color: textColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400
+                color: textColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w500
               ),
             ),
           ],
