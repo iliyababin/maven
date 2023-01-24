@@ -27,8 +27,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy153.db');
-    String path = join(documentsDirectory.path, 'testy153.db');
+    await deleteDatabase('testy154.db');
+    String path = join(documentsDirectory.path, 'testy154.db');
 
     return await openDatabase(
       path,

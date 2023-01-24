@@ -39,12 +39,14 @@ class _MavenState extends State<Maven> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mt(context).backgroundColor,
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
+
           builder: (context, state) {
             if(state.status == WorkoutStatus.active) {
               return SlidingUpPanel(
@@ -94,7 +96,13 @@ class _MavenState extends State<Maven> {
                 ),
 
                 panel: slidingPanelBackground(
-                   WorkoutScreen()
+                  WorkoutScreen(isWorkoutActive: (p0) {
+                    if(!p0) {
+                      setState(() {
+                        panelPosition = 0;
+                      });
+                    }
+                  })
                 )
 
               );

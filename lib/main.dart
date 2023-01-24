@@ -1,3 +1,5 @@
+import 'package:Maven/common/repository/template_repository_impl.dart';
+import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/template/bloc/template/template_bloc.dart';
 import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/theme/m_themes.dart';
@@ -12,17 +14,26 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (context) => TemplateBloc()..add(InitializeTemplateBloc())
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => TemplateRepositoryImpl(DBHelper.instance)
+        )
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TemplateBloc()..add(InitializeTemplateBloc())
+          ),
+          BlocProvider(
+            create: (context) => WorkoutBloc()..add(InitializeWorkoutBloc())
+          ),
+        ],
+        child:  const Main(),
       ),
-      BlocProvider(
-        create: (context) => WorkoutBloc()..add(InitializeWorkoutBloc())
-      ),
-    ],
-    child:  const Main(),
-  ));
+    )
+  );
 }
 
 class Main extends StatelessWidget {

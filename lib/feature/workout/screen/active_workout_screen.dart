@@ -4,10 +4,12 @@
 */
 import 'dart:async';
 
+import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
 import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_group_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,8 +21,11 @@ import '../../../screen/add_exercise_screen.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 
 class WorkoutScreen extends StatefulWidget {
+  final Function(bool) isWorkoutActive;
 
-  const WorkoutScreen({Key? key}) : super(key: key);
+  const WorkoutScreen({Key? key,
+    required this.isWorkoutActive
+  }) : super(key: key);
 
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
@@ -28,7 +33,7 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
 
-  Timer _timer = Timer(Duration(seconds: 30), () { });
+  Timer _timer = Timer(const Duration(seconds: 30), () { });
   double _timePercent = 0;
   String _timeFormatted = '';
 
@@ -63,11 +68,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         child: Row(
                           children: [
                             MFlatButton(
-                              onPressed: (){},
+                              onPressed: () => _addExercises(),
                               icon: Icon(
                                 Icons.add_rounded,
                                 size: 30,
-                                color: mt(context).icon.primaryColor,
+                                color: mt(context).icon.accentColor,
                               ),
                               height: 38,
                               width: 38,
@@ -78,7 +83,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             const SizedBox(width: 8,),
 
                             MFlatButton(
-                              onPressed: () => _showBottomSheet(),
+                              onPressed: () => _showWorkoutOptions(),
                               icon: Icon(
                                 Icons.more_horiz,
                                 size: 25,
@@ -185,9 +190,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   ),
                 ),
 
-                LinearProgressIndicator(
+                /*LinearProgressIndicator(
                   value: state.activeExerciseSets.where((activeExerciseSet) => activeExerciseSet.checked == 1).length / state.activeExerciseSets.length,
-                ),
+                ),*/
                 /*TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: 1),
                   duration: Duration(seconds: 25),
@@ -292,11 +297,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   ///
   /// Functions
   ///
+  void _addExercises () {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddExerciseScreen())
+    ).then((value) {
+      Exercise exercise = value;
+      context.read<WorkoutBloc>().add(
+          AddExercise(
+              exercise: exercise
+          )
+      );
+    });
+  }
 
   void _startTimer (Timed timed) {
     int totalTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
     int modifiedTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       modifiedTime = modifiedTime - 1;
       setState(() {
         if (modifiedTime >= 0) {
@@ -309,22 +327,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     });
   }
 
-  void _addExercises () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddExerciseScreen())
-    ).then((value) {
-      Exercise exercise = value;
-      context.read<WorkoutBloc>().add(
-        AddExercise(
-          exercise: exercise
-        )
-      );
 
-    });
-  }
 
   void _pauseWorkout(BuildContext context) {
+    widget.isWorkoutActive(false);
     context.read<WorkoutBloc>().add(PauseWorkout());
     Navigator.pop(context);
   }
@@ -333,34 +339,102 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   ///
   ///
 
-  void _showBottomSheet() {
-    showModalBottomSheet(
+  void _showWorkoutOptions() {
+    showBottomSheetDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          decoration: BoxDecoration(
-              color: mt(context).backgroundColor,
-              borderRadius: BorderRadiusDirectional.only(topEnd: Radius.circular(15), topStart: Radius.circular(15))
-          ),
-          height: 330,
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              Container(
-                height: 5,
-                width: 42,
-                decoration: BoxDecoration(
-                    color: mt(context).handleBarColor,
-                    borderRadius: BorderRadius.circular(100)
+      height: 270,
+      child: Material(
+        color: mt(context).backgroundColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            ListTile(
+              onTap: () {},
+              horizontalTitleGap: 15,
+              leading: Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  Icons.drive_file_rename_outline_rounded,
+                  color: mt(context).icon.accentColor,
+                  size: 26,
                 ),
               ),
+              title: Text(
+                'Rename Workout',
+                style: TextStyle(
+                  color: mt(context).text.primaryColor,
+                  fontSize: 18
+                ),
+              ),
+            ),
 
-              Text('this is a test')
-            ],
-          ),
-        );
-      },
+            ListTile(
+              onTap: () {},
+              horizontalTitleGap: 15,
+              leading: Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  CupertinoIcons.arrow_up_arrow_down,
+                  color: mt(context).icon.accentColor,
+                  size: 24,
+                ),
+              ),
+              title: Text(
+                'Reorder Exercises',
+                style: TextStyle(
+                  color: mt(context).text.primaryColor,
+                  fontSize: 18
+                ),
+              ),
+            ),
+
+            ListTile(
+              onTap: () => _pauseWorkout(context),
+              horizontalTitleGap: 15,
+              leading: Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  Icons.pause_circle_outline_rounded,
+                  color: mt(context).icon.accentColor,
+                  size: 26,
+                ),
+              ),
+              title: Text(
+                'Pause Workout',
+                style: TextStyle(
+                  color: mt(context).text.primaryColor,
+                  fontSize: 18
+                ),
+              ),
+            ),
+
+            ListTile(
+              onTap: () {},
+              horizontalTitleGap: 15,
+              leading: Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  Icons.delete_rounded,
+                  color: mt(context).icon.errorColor,
+                  size: 26,
+                ),
+              ),
+              title: Text(
+                'Discard Workout',
+                style: TextStyle(
+                  color: mt(context).text.errorColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ),
+
+            SizedBox(height: 7,),
+          ],
+        ),
+      )
     );
   }
+
 }

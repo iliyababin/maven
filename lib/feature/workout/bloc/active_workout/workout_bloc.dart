@@ -4,6 +4,7 @@ import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/model/exercise.dart';
 import '../../../../common/model/template.dart';
@@ -84,7 +85,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
-        pausedWorkouts: () => pausedWorkouts
+        pausedWorkouts: () => pausedWorkouts,
+        activeExerciseGroups: () => [],
+        activeExerciseSets: () => [],
       ));
     });
 
@@ -100,10 +103,22 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       List<Workout> pausedWorkouts = await DBHelper.instance.getPausedWorkouts();
 
+      List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout!.workoutId!);
+
+      List<ActiveExerciseSet> activeExerciseSets = [];
+
+      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<ActiveExerciseSet> activeExerciseBunch = await DBHelper.instance
+            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+        activeExerciseSets.addAll(activeExerciseBunch);
+      }
+
       emit(state.copyWith(
-          workout: () => updatedWorkout!,
-          status: () => WorkoutStatus.active,
-          pausedWorkouts: () => pausedWorkouts
+        workout: () => updatedWorkout!,
+        status: () => WorkoutStatus.active,
+        pausedWorkouts: () => pausedWorkouts,
+        activeExerciseGroups: () => activeExerciseGroups,
+        activeExerciseSets: () => activeExerciseSets
       ));
     });
 

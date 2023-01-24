@@ -139,7 +139,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                           StreamBuilder(
                                             stream: Stream.periodic(Duration(minutes: 1)),
                                             builder: (context, snapshot) {
-                                              return Text('Started ${timeago.format(pausedWorkout.datetime)}');
+                                              return Text('Created ${timeago.format(pausedWorkout.datetime)}');
                                             },
                                           )
                                         ],
