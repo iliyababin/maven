@@ -51,7 +51,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                         style: TextStyle(
                           fontSize: 18,
                           color: mt(context).text.accentColor,
-                          fontWeight: FontWeight.w900
+                          fontWeight: FontWeight.w500
                         )
                       ),
                     ),
@@ -116,7 +116,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               child: Text(
                 "SET",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   color: mt(context).text.primaryColor
                 ),
               )
@@ -130,7 +130,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               child: Text(
                 "PREVIOUS",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   color: mt(context).text.primaryColor
                 ),
               )
@@ -144,7 +144,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                 child: Text(
                   "WEIGHT",
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     color: mt(context).text.primaryColor,
                   ),
                 )
@@ -159,7 +159,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
                 child: Text(
                   "REPS",
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     color: mt(context).text.primaryColor,
                   ),
                 )

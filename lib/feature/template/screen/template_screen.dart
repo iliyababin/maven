@@ -240,7 +240,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
       templateFolders.removeAt(oldIndex);
       templateFolders.insert(newIndex, item);
 
-      context.read<TemplateBloc>().add(ReorderTemplateFolders(
+      context.read<TemplateBloc>().add(TemplateFolderReorder(
         templateFolders: templateFolders
       ));
     });
@@ -254,7 +254,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
     );
     if (result != null) {
       final templateFolder = TemplateFolder(name: result, expanded: 1);
-      context.read<TemplateBloc>().add(AddTemplateFolder(
+      context.read<TemplateBloc>().add(TemplateFolderAdd(
           templateFolder: templateFolder
       ));
     }

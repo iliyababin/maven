@@ -36,6 +36,6 @@ class TemplateState extends Equatable {
   List<Object?> get props => [
     status,
     templates,
-    templateFolders
+    templateFolders,
   ];
 }

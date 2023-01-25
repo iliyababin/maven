@@ -7,13 +7,13 @@ abstract class TemplateEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitializeTemplateBloc extends TemplateEvent {}
+class TemplateInitialize extends TemplateEvent {}
 
-class AddTemplate extends TemplateEvent {
+class TemplateAdd extends TemplateEvent {
   final Template template;
   final List<ExerciseBlockData> exerciseBlocks;
 
-  const AddTemplate({
+  const TemplateAdd({
     required this.template,
     required this.exerciseBlocks
   });
@@ -22,10 +22,10 @@ class AddTemplate extends TemplateEvent {
   List<Object> get props => [template, exerciseBlocks];
 }
 
-class ReorderTemplates extends TemplateEvent {
+class TemplateReorder extends TemplateEvent {
   final List<Template> templates;
 
-  const ReorderTemplates({
+  const TemplateReorder({
     required this.templates
   });
 
@@ -33,19 +33,22 @@ class ReorderTemplates extends TemplateEvent {
   List<Object> get props => [templates];
 }
 
-class DeleteTemplate extends TemplateEvent {
+class TemplateDelete extends TemplateEvent {
   final int templateId;
 
-  const DeleteTemplate(this.templateId);
+  const TemplateDelete(this.templateId);
 
   @override
   List<Object> get props => [templateId];
 }
 
-class AddTemplateFolder extends TemplateEvent {
+
+
+
+class TemplateFolderAdd extends TemplateEvent {
   final TemplateFolder templateFolder;
 
-  const AddTemplateFolder({
+  const TemplateFolderAdd({
     required this.templateFolder,
   });
 
@@ -53,12 +56,10 @@ class AddTemplateFolder extends TemplateEvent {
   List<Object> get props => [templateFolder];
 }
 
-class LoadTemplateFolders extends TemplateEvent {}
-
-class UpdateTemplateFolder extends TemplateEvent {
+class TemplateFolderUpdate extends TemplateEvent {
   final TemplateFolder templateFolder;
 
-  const UpdateTemplateFolder({
+  const TemplateFolderUpdate({
     required this.templateFolder
   });
 
@@ -66,11 +67,10 @@ class UpdateTemplateFolder extends TemplateEvent {
   List<Object> get props => [templateFolder];
 }
 
-class ReorderTemplateFolders extends TemplateEvent {
+class TemplateFolderReorder extends TemplateEvent {
   final List<TemplateFolder> templateFolders;
 
-
-  const ReorderTemplateFolders({
+  const TemplateFolderReorder({
     required this.templateFolders,
   });
 

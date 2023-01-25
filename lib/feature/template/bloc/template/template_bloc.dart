@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
@@ -6,140 +6,145 @@ import 'package:Maven/common/model/template.dart';
 import 'package:Maven/common/model/workout_folder.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/template/model/exercise_block.dart';
+import 'package:Maven/feature/template/repository/exercise_set_repository_impl.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../repository/exercise_group_repository_impl.dart';
+import '../../repository/template_folder_repository_impl.dart';
+import '../../repository/template_repository_impl.dart';
 
 part 'template_event.dart';
 part 'template_state.dart';
 
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
-  TemplateBloc() : super(const TemplateState()) {
+  final TemplateRepositoryImpl templateRepository;
+  final TemplateFolderRepositoryImpl templateFolderRepository;
+  final ExerciseGroupRepositoryImpl exerciseGroupRepository;
+  final ExerciseSetRepositoryImpl exerciseSetRepository;
 
-    ///
-    /// Initialize
-    ///
+  TemplateBloc({
+    required this.templateRepository,
+    required this.exerciseGroupRepository,
+    required this.exerciseSetRepository,
+    required this.templateFolderRepository,
+  }) : super(const TemplateState()) {
+    on<TemplateInitialize>(_templateInitialize);
+    on<TemplateAdd>(_templateAdd);
+    on<TemplateReorder>(_templateReorder);
 
-    on<InitializeTemplateBloc>((event, emit) async {
-      emit(state.copyWith(status: () => TemplateStatus.loading));
+    on<TemplateFolderAdd>(_templateFolderAdd);
+    on<TemplateFolderUpdate>(_templateFolderUpdate);
+    on<TemplateFolderReorder>(_templateFolderReorder);
+  }
 
-      await Future.delayed(Duration(seconds: 2));
+  Future<void> _templateInitialize(TemplateInitialize event, emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading));
 
-      List<Template> templates = await DBHelper.instance.getTemplates();
-      List<TemplateFolder> templateFolders = await DBHelper.instance.getTemplateFolders();
+    await Future.delayed(const Duration(seconds: 2));
 
-      emit(state.copyWith(
-          templates: () => templates,
-          templateFolders: () => templateFolders,
-          status: () => TemplateStatus.success
-      ));
-    });
+    List<Template> templates = await templateRepository.getTemplates();
+    List<TemplateFolder> templateFolders = await templateFolderRepository.getTemplateFolders();
 
-    ///
-    /// Template
-    ///
+    emit(state.copyWith(
+      status: () => TemplateStatus.success,
+      templates: () => templates,
+      templateFolders: () => templateFolders,
+    ));
+  }
 
-    on<AddTemplate>((event, emit) async {
-      log("trying to add template");
-      if(state.status == TemplateStatus.success) {
-        log("Iin");
-        emit(state.copyWith(status: () => TemplateStatus.loading));
+  Future<void> _templateAdd(TemplateAdd event, emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading));
 
-        int templateId = await DBHelper.instance.addTemplate(event.template);
+    int templateId = await templateRepository.addTemplate(event.template);
 
-        for (var exerciseBlock in event.exerciseBlocks) {
-          int exerciseGroupId = await DBHelper.instance.addExerciseGroup(
-            ExerciseGroup(
-                exerciseId: exerciseBlock.exercise.exerciseId,
-                templateId: templateId
-            )
-          );
-          for (var tempExerciseSet in exerciseBlock.sets) {
-            DBHelper.instance.addExerciseSet(
-              ExerciseSet(
-                  exerciseGroupId: exerciseGroupId,
-                  weight: tempExerciseSet.weight,
-                  reps: tempExerciseSet.reps,
-                  templateId: templateId
-              )
-            );
-          }
-        }
-
-        emit(state.copyWith(status: () => TemplateStatus.added));
-
-        List<Template> templates = await DBHelper.instance.getTemplates();
-        emit(state.copyWith(
-            templates: () => templates,
-            status: () => TemplateStatus.success
-        ));
-        log("Added Template: ${templateId}");
-      } else {
-        log("didnt add template");
+    for (var exerciseBlock in event.exerciseBlocks) {
+      int exerciseGroupId = await exerciseGroupRepository.addExerciseGroup(
+          ExerciseGroup(
+              exerciseId: exerciseBlock.exercise.exerciseId,
+              templateId: templateId));
+      for (var tempExerciseSet in exerciseBlock.sets) {
+        exerciseSetRepository.addExerciseSet(ExerciseSet(
+            exerciseGroupId: exerciseGroupId,
+            weight: tempExerciseSet.weight,
+            reps: tempExerciseSet.reps,
+            templateId: templateId));
       }
-    });
+    }
 
-    on<ReorderTemplates>((event, emit) async {
-      emit(state.copyWith(status: () => TemplateStatus.reordering));
+    emit(state.copyWith(status: () => TemplateStatus.added));
 
-      List<Template> templates = event.templates;
+    List<Template> templates = await templateRepository.getTemplates();
 
-      // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
-      for (int i = 0; i < templates.length; i++) {
-        Template template = templates[i];
-        template.sortOrder = i;
-        int test = await DBHelper.instance.updateTemplate(template);
-      }
+    emit(state.copyWith(
+        templates: () => templates, status: () => TemplateStatus.success));
+  }
 
-      emit(state.copyWith(
-          templates: () => templates,
-          status: () => TemplateStatus.success
-      ));
-    });
+  Future<void> _templateReorder(TemplateReorder event, emit) async {
+    emit(
+      state.copyWith(status: () => TemplateStatus.reordering),
+    );
 
-    ///
-    /// TemplateFolder
-    ///
+    List<Template> templates = event.templates;
 
-    on<AddTemplateFolder>((event, emit) async {
-      emit(state.copyWith(status: () => TemplateStatus.loading));
+    // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
+    for (int i = 0; i < templates.length; i++) {
+      Template template = templates[i];
+      template.sortOrder = i;
+      templateRepository.updateTemplate(template);
+    }
 
-      await DBHelper.instance.addTemplateFolder(event.templateFolder);
+    emit(state.copyWith(
+      status: () => TemplateStatus.success,
+      templates: () => templates,
+    ));
+  }
 
-      List<TemplateFolder> templateFolders = await DBHelper.instance.getTemplateFolders();
+  Future<void> _templateFolderAdd(event, emit) async {
+    emit(
+      state.copyWith(status: () => TemplateStatus.loading),
+    );
 
-      emit(state.copyWith(
-          templateFolders: () => templateFolders,
-          status: () => TemplateStatus.success
-      ));
-    });
+    await templateFolderRepository.addTemplateFolder(event.templateFolder);
 
-    on<UpdateTemplateFolder>((event, emit) async {
-      await DBHelper.instance.updateTemplateFolder(event.templateFolder);
+    List<TemplateFolder> templateFolders =
+        await templateFolderRepository.getTemplateFolders();
 
-      List<TemplateFolder> templateFolders = await DBHelper.instance.getTemplateFolders();
+    emit(state.copyWith(
+      status: () => TemplateStatus.success,
+      templateFolders: () => templateFolders,
+    ));
+  }
 
-      emit(state.copyWith(
-          templateFolders: () => templateFolders,
-          status: () => TemplateStatus.success
-      ));
-    });
+  Future<void> _templateFolderUpdate(event, emit) async {
+    await DBHelper.instance.updateTemplateFolder(event.templateFolder);
 
-    on<ReorderTemplateFolders>((event, emit) async {
-      emit(state.copyWith(status: () => TemplateStatus.reordering));
+    List<TemplateFolder> templateFolders =
+        await templateFolderRepository.getTemplateFolders();
 
-      List<TemplateFolder> templateFolders = event.templateFolders;
+    emit(state.copyWith(
+      templateFolders: () => templateFolders,
+      status: () => TemplateStatus.success,
+    ));
+  }
 
-      // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
-      for (int i = 0; i < templateFolders.length; i++) {
-        TemplateFolder templateFolder = templateFolders[i];
-        templateFolder.sortOrder = i;
-        int test = await DBHelper.instance.updateTemplateFolder(templateFolder);
-      }
+  Future<void> _templateFolderReorder(event, emit) async {
+    emit(state.copyWith(
+      status: () => TemplateStatus.reordering,
+    ));
 
-      emit(state.copyWith(
-          templateFolders: () => templateFolders,
-          status: () => TemplateStatus.success
-      ));
-    });
+    List<TemplateFolder> templateFolders = event.templateFolders;
+
+    // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
+    for (int i = 0; i < templateFolders.length; i++) {
+      TemplateFolder templateFolder = templateFolders[i];
+      templateFolder.sortOrder = i;
+      int test = await DBHelper.instance.updateTemplateFolder(templateFolder);
+    }
+
+    emit(state.copyWith(
+      status: () => TemplateStatus.success,
+      templateFolders: () => templateFolders,
+    ));
   }
 }

@@ -102,7 +102,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
     }
 
     context.read<TemplateBloc>().add(
-      AddTemplate(
+      TemplateAdd(
         template: Template(name: templateTitleController.text, templateFolderId: 1),
         exerciseBlocks: exerciseBlocks
       )

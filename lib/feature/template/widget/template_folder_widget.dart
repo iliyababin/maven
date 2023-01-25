@@ -8,6 +8,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class TemplateFolderWidget extends StatefulWidget {
   final TemplateFolder templateFolder;
   final List<Template> templates;
@@ -39,7 +40,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
     _expandableController.addListener(() {
       TemplateFolder templateFolder = widget.templateFolder;
       templateFolder.expanded = _expandableController.expanded ? 1 : 0;
-      context.read<TemplateBloc>().add(UpdateTemplateFolder(
+      context.read<TemplateBloc>().add(TemplateFolderUpdate(
         templateFolder: templateFolder
       ));
     });
@@ -220,7 +221,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       templates.removeAt(oldIndex);
       templates.insert(newIndex, item);
 
-      context.read<TemplateBloc>().add(ReorderTemplates(
+      context.read<TemplateBloc>().add(TemplateReorder(
         templates: templates
       ));
     });

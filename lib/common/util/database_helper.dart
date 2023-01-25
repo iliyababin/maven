@@ -37,6 +37,14 @@ class DBHelper {
     );
   }
 
+  ///
+  /// Tables
+  ///
+  final String TEMPLATE_TABLE = 'template';
+  final String TEMPLATE_FOLDER_TABLE = 'templateFolder';
+  final String EXERCISE_GROUP_TABLE = 'exerciseGroup';
+  final String EXERCISE_SET_TABLE = 'exerciseSet';
+
   Future<List<Exercise>> _loadExerciseJson() async {
     String jsonString = await rootBundle.loadString('assets/exercises.json');
     List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(jsonDecode(jsonString));
@@ -132,7 +140,8 @@ class DBHelper {
       );
     }
 
-    addTemplateFolder(TemplateFolder(name: "My Templates", expanded: 0));
+    // TODO: Generate table on app start
+    //addTemplateFolder(TemplateFolder(name: "My Templates", expanded: 0));
   }
 
   ///
@@ -155,71 +164,8 @@ class DBHelper {
     return exerciseList;
   }
 
-  ///
-  /// template
-  ///
-  Future<int> addTemplate(Template template) async {
-    final Database db = await instance.database;
-    Map<String, dynamic> templateMap = template.toMap();
-    int highestSortOrder = await getTemplateWithHighestSortOrder() + 1;
-    templateMap["sortOrder"] = highestSortOrder;
-    return await db.insert('template', templateMap);
-  }
 
-  Future<Template?> getTemplate(int templateId) async {
-    final Database db = await instance.database;
-    final template = await db
-        .query('template', where: 'templateId = ?', whereArgs: [templateId]);
-    return template.isNotEmpty ? Template.fromMap(template.first) : null;
-  }
 
-  Future<List<Template>> getTemplates() async {
-    final Database db = await instance.database;
-    var templates = await db.query('template', orderBy: 'sortOrder');
-    List<Template> templateList = templates.isNotEmpty
-        ? templates.map((c) => Template.fromMap(c)).toList()
-        : [];
-    return templateList;
-  }
-
-  Future<int> getTemplateWithHighestSortOrder() async {
-    final Database db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query('template', orderBy: 'sortOrder DESC');
-    if (maps.isNotEmpty) {
-      return Template.fromMap(maps.first).sortOrder ?? 0;
-    }
-    return 0;
-  }
-
-  ///
-  /// templateFolder
-  ///
-
-  Future<int> addTemplateFolder(TemplateFolder templateFolder) async {
-    final Database db = await instance.database;
-    Map<String, dynamic> templateFolderMap = templateFolder.toMap();
-    int highestSortOrder = await getTemplateFolderWithHighestSortOrder() + 1;
-    templateFolderMap["sortOrder"] = highestSortOrder;
-    return await db.insert('templateFolder', templateFolderMap);
-  }
-
-  Future<List<TemplateFolder>> getTemplateFolders() async {
-    final Database db = await instance.database;
-    var templateFolders = await db.query('templateFolder', orderBy: 'sortOrder');
-    List<TemplateFolder> templateFolderList = templateFolders.isNotEmpty
-        ? templateFolders.map((c) => TemplateFolder.fromMap(c)).toList()
-        : [];
-    return templateFolderList;
-  }
-
-  Future<int> getTemplateFolderWithHighestSortOrder() async {
-    final Database db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query('templateFolder', orderBy: 'sortOrder DESC');
-    if (maps.isNotEmpty) {
-      return TemplateFolder.fromMap(maps.first).sortOrder ?? 0;
-    }
-    return 0;
-  }
 
   Future<int> updateTemplateFolder(TemplateFolder templateFolder) async {
     final Database db = await instance.database;
@@ -248,17 +194,6 @@ class DBHelper {
     final Database db = await instance.database;
     return await db.delete('template', where: 'templateId = ?', whereArgs: [id]);
   }
-
-  Future<int> updateTemplate(Template template) async {
-    final Database db = await instance.database;
-    return await db.update(
-      'template',
-      template.toMap(),
-      where: 'templateId = ?',
-      whereArgs: [template.templateId],
-    );
-  }
-
 
   ///
   /// exerciseGroup
@@ -307,10 +242,6 @@ class DBHelper {
   ///
   /// exerciseSet
   ///
-  Future<void> addExerciseSet(ExerciseSet exerciseSet) async {
-    Database db = await instance.database;
-    await db.insert('exerciseSet', exerciseSet.toMap());
-  }
 
   Future<List<ExerciseSet>> getExerciseSets() async {
     final db = await instance.database;
@@ -511,7 +442,7 @@ class DBHelper {
   /// other
   ///
   Future<int> generateWorkoutFromTemplate(int templateId) async {
-    Template? template = await getTemplate(templateId);
+    /*Template? template = await getTemplate(templateId);
     Workout workout = Workout.templateToWorkout(template!);
     int workoutId = await addWorkout(workout);
 
@@ -524,8 +455,8 @@ class DBHelper {
         addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
       }
     }
-
-    return workoutId;
+*/
+    return 1;
   }
 
 }
