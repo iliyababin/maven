@@ -2,31 +2,42 @@
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/template/repository/template_repository_impl.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/model/exercise.dart';
+import '../../../../common/model/exercise_group.dart';
+import '../../../../common/model/exercise_set.dart';
 import '../../../../common/model/template.dart';
 import '../../../../common/model/workout.dart';
+import '../../repository/workout_repository_impl.dart';
 
 part 'workout_event.dart';
 part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
-  WorkoutBloc() : super(const WorkoutState()) {
+
+  final WorkoutRepositoryImpl workoutRepository;
+  final TemplateRepositoryImpl templateRepository;
+
+  WorkoutBloc({
+    required this.workoutRepository,
+    required this.templateRepository,
+  }) : super(const WorkoutState()) {
     on<InitializeWorkoutBloc>((event, emit) async {
-      emit(state.copyWith(status: () => WorkoutStatus.loading));
+      emit(state.copyWith(
+        status: () => WorkoutStatus.loading,
+      ));
 
-      Workout? workout = await DBHelper.instance.getWorkoutAAA();
-
-      List<Workout> pausedWorkouts = await DBHelper.instance.getPausedWorkouts();
+      Workout? workout = await workoutRepository.getWorkoutAAA();
+      List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
 
       if(workout == null){
         emit(state.copyWith(
           status: () => WorkoutStatus.none,
           pausedWorkouts: () => pausedWorkouts
-
         ));
       } else {
           List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout.workoutId!);
@@ -51,8 +62,15 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     on<ConvertTemplateToWorkout>((event, emit) async {
       emit(state.copyWith(status: () => WorkoutStatus.loading));
 
-      int workoutId = await DBHelper.instance.generateWorkoutFromTemplate(event.template.templateId!);
-      Workout? workout = await DBHelper.instance.getWorkout(workoutId);
+
+
+      int workoutId = await genTem(event.template.templateId!);
+      Workout? workout = await workoutRepository.getWorkout(workoutId);
+
+      if(workout == null) {
+        print("Error with converting workout");
+        return;
+      }
       List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout!.workoutId!);
 
       List<ActiveExerciseSet> activeExerciseSets = [];
@@ -76,12 +94,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       if(state.workout == null) return;
 
-      Workout? workout = await DBHelper.instance.getWorkout(state.workout?.workoutId ?? 0);
+      Workout? workout = await workoutRepository.getWorkout(state.workout?.workoutId ?? 0);
       workout?.isPaused = 1;
 
-      await DBHelper.instance.updateWorkout(workout!);
+      await workoutRepository.updateWorkout(workout!);
 
-      List<Workout> pausedWorkouts = await DBHelper.instance.getPausedWorkouts();
+      List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
 
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
@@ -97,11 +115,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       Workout workout = event.workout;
       workout.isPaused = 0;
 
-      await DBHelper.instance.updateWorkout(workout);
+      await workoutRepository.updateWorkout(workout);
 
-      Workout? updatedWorkout = await DBHelper.instance.getWorkoutAAA();
+      Workout? updatedWorkout = await workoutRepository.getWorkoutAAA();
 
-      List<Workout> pausedWorkouts = await DBHelper.instance.getPausedWorkouts();
+      List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
 
       List<ActiveExerciseGroup> activeExerciseGroups = await DBHelper.instance.getActiveExerciseGroupsByWorkoutId(workout!.workoutId!);
 
@@ -126,11 +144,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       emit(state.copyWith(status: () => WorkoutStatus.loading));
 
       int workoutId = state.workout?.workoutId! ?? -1;
-      DBHelper.instance.deleteWorkout(workoutId);
+      workoutRepository.deleteWorkout(workoutId);
       DBHelper.instance.deleteActiveExerciseGroupsByWorkoutId(workoutId);
       DBHelper.instance.deleteActiveExerciseSetsByWorkoutId(workoutId);
 
-      List<Workout> pausedWorkouts = await DBHelper.instance.getPausedWorkouts();
+      List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
 
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
@@ -207,5 +225,22 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     on<UpdateActiveExerciseSet>((event, emit) async {
       await DBHelper.instance.updateActiveExerciseSet(event.activeExerciseSet);
     });
+  }
+
+  Future<int> genTem(templateId) async {
+    Template? template = await templateRepository.getTemplate(templateId);
+    Workout workout = Workout.templateToWorkout(template!);
+    int workoutId = await workoutRepository.addWorkout(workout);
+
+    List<ExerciseGroup> exerciseGroups = await DBHelper.instance.getExerciseGroupsByTemplateId(templateId);
+    for (var exerciseGroup in exerciseGroups) {
+      int activeExerciseGroupId = await DBHelper.instance.addActiveExerciseGroup(ActiveExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
+
+      List<ExerciseSet> exerciseSets = await DBHelper.instance.getExerciseSetsByExerciseGroupId(exerciseGroup.exerciseGroupId!);
+      for(var exerciseSet in exerciseSets){
+        DBHelper.instance.addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
+      }
+    }
+    return workoutId;
   }
 }
