@@ -12,6 +12,7 @@ import 'feature/app/screen/maven.dart';
 import 'feature/template/repository/exercise_group_repository_impl.dart';
 import 'feature/template/repository/template_folder_repository_impl.dart';
 import 'feature/template/repository/template_repository_impl.dart';
+import 'feature/workout/repository/workout_repository_impl.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -25,6 +26,7 @@ void main() async {
         RepositoryProvider(create: (context) => ExerciseGroupRepositoryImpl(DBHelper.instance)),
         RepositoryProvider(create: (context) => ExerciseGroupRepositoryImpl(DBHelper.instance)),
         RepositoryProvider(create: (context) => ExerciseSetRepositoryImpl(DBHelper.instance)),
+        RepositoryProvider(create: (context) => WorkoutRepositoryImpl(DBHelper.instance)),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -34,7 +36,10 @@ void main() async {
             exerciseSetRepository: context.read<ExerciseSetRepositoryImpl>(),
             templateFolderRepository: context.read<TemplateFolderRepositoryImpl>(),
           )..add(TemplateInitialize())),
-          BlocProvider(create: (context) => WorkoutBloc()..add(InitializeWorkoutBloc())),
+          BlocProvider(create: (context) => WorkoutBloc(
+            workoutRepository: context.read<WorkoutRepositoryImpl>(),
+            templateRepository: context.read<TemplateRepositoryImpl>(),
+          )..add(InitializeWorkoutBloc())),
         ],
         child:  const Main(),
       ),
