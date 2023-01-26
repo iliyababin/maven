@@ -1,4 +1,7 @@
-
+enum ExerciseType {
+  weightAndReps,
+  duration,
+}
 
 class Exercise {
   final int exerciseId;
