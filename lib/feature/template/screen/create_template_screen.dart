@@ -53,7 +53,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                     color: mt(context).text.primaryColor
                   ),
                   decoration: InputDecoration(
-                    hintText: 'New Template Template',
+                    hintText: 'New Template',
                     hintStyle: TextStyle(
                       color: mt(context).textField.hintColor
                     ),
@@ -104,7 +104,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
     context.read<TemplateBloc>().add(
       TemplateAdd(
         template: Template(name: templateTitleController.text, templateFolderId: 1),
-        exerciseBlocks: exerciseBlocks
+        exerciseBlocks: exerciseBlocks,
       )
     );
 

@@ -38,21 +38,24 @@ class _ViewExerciseBlockWidgetState extends State<ViewExerciseBlockWidget> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return ViewExerciseSetWidget(
-                index: index,
-                onChanged: (exerciseSet) {
-                  widget.exerciseBlockData.sets[index] = exerciseSet;
-                  widget.onChanged(widget.exerciseBlockData);
-                });
+              index: index,
+              onChanged: (exerciseSet) {
+                widget.exerciseBlockData.sets[index] = exerciseSet;
+                widget.onChanged(widget.exerciseBlockData);
+              }
+            );
           },
         ),
         TextButton(
-            onPressed: () {
-              setState(() {
-                widget.exerciseBlockData.sets.add(TempExerciseSet());
-              });
-            },
-            child: const Text("ADD SET"))
+          onPressed: () {
+            setState(() {
+              widget.exerciseBlockData.sets.add(TempExerciseSet());
+            });
+          },
+          child: const Text("ADD SET")
+        )
       ],
     );
   }
+
 }

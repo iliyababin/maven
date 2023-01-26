@@ -31,6 +31,9 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
     if(widget.activeExerciseSet.weight != 0) {
       weightController.text = widget.activeExerciseSet.weight.toString();
     }
+    if(widget.activeExerciseSet.reps != 0) {
+      repController.text = widget.activeExerciseSet.reps.toString();
+    }
 
     weightController.addListener(() {
       if(weightController.text == widget.activeExerciseSet.weight.toString()) return;
@@ -38,6 +41,16 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
       if(weightController.text.isEmpty) return;
       ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
       activeExerciseSet.weight = int.parse(weightController.text);
+      context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
+          activeExerciseSet: activeExerciseSet
+      ));
+    });
+    repController.addListener(() {
+      if(repController.text == widget.activeExerciseSet.reps.toString()) return;
+
+      if(repController.text.isEmpty) return;
+      ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+      activeExerciseSet.reps = int.parse(repController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
           activeExerciseSet: activeExerciseSet
       ));
@@ -60,6 +73,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
     return AnimatedContainer(
       duration: animationSpeed,
       color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
+      padding: EdgeInsets.symmetric(vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +134,6 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                     color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
                 ),
                 child: Form(
-                  key: globalKey,
                   child: TextField(
                     controller: weightController,
                     keyboardType: TextInputType.number,
@@ -138,7 +151,33 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
 
           SizedBox(width: spacerSize),
 
+          Expanded(
+              child: AnimatedContainer(
+                height: 30,
+                duration: animationSpeed,
+                decoration: BoxDecoration (
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
+                ),
+                child: Form(
+                  child: TextField(
+                    controller: repController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '',
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                  ),
+                ),
+              )
+          ),
+
           SizedBox(width: spacerSize),
+
+
 
           SizedBox(
             height: 40,

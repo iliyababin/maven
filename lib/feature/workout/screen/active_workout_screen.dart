@@ -353,7 +353,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               onTap: () {},
               horizontalTitleGap: 15,
               leading: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Icon(
                   Icons.drive_file_rename_outline_rounded,
                   color: mt(context).icon.accentColor,
@@ -364,7 +364,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 'Rename Workout',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
-                  fontSize: 18
+                  fontSize: 17
                 ),
               ),
             ),
@@ -373,7 +373,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               onTap: () {},
               horizontalTitleGap: 15,
               leading: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Icon(
                   CupertinoIcons.arrow_up_arrow_down,
                   color: mt(context).icon.accentColor,
@@ -384,7 +384,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 'Reorder Exercises',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
-                  fontSize: 18
+                  fontSize: 17
                 ),
               ),
             ),
@@ -393,7 +393,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               onTap: () => _pauseWorkout(context),
               horizontalTitleGap: 15,
               leading: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Icon(
                   Icons.pause_circle_outline_rounded,
                   color: mt(context).icon.accentColor,
@@ -404,7 +404,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 'Pause Workout',
                 style: TextStyle(
                   color: mt(context).text.primaryColor,
-                  fontSize: 18
+                  fontSize: 17
                 ),
               ),
             ),
@@ -413,7 +413,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               onTap: () {},
               horizontalTitleGap: 15,
               leading: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Icon(
                   Icons.delete_rounded,
                   color: mt(context).icon.errorColor,
@@ -424,13 +424,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 'Discard Workout',
                 style: TextStyle(
                   color: mt(context).text.errorColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500
                 ),
               ),
             ),
 
-            SizedBox(height: 7,),
+            const SizedBox(height:9),
           ],
         ),
       )

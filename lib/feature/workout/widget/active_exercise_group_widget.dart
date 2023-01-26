@@ -3,6 +3,7 @@ import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/util/database_helper.dart';
 import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
+import 'package:Maven/feature/workout/widget/active_exercise_row.dart';
 import 'package:Maven/feature/workout/widget/active_exercise_set_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
@@ -104,76 +105,39 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
           },
         ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:  [
-            const SizedBox(
-              width: 10,
+        ActiveExerciseRow.build(
+          set: Text(
+            "SET",
+            style: TextStyle(
+                fontSize: 13,
+                color: mt(context).text.primaryColor
             ),
-            Container(
-              alignment: Alignment.center,
-              width: 35,
-              child: Text(
-                "SET",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).text.primaryColor
-                ),
-              )
+          ),
+          previous: Text(
+            "PREVIOUS",
+            style: TextStyle(
+                fontSize: 13,
+                color: mt(context).text.primaryColor
             ),
-            const SizedBox(
-              width: 10,
+          ),
+          option1: Text(
+            "WEIGHT",
+            style: TextStyle(
+              fontSize: 13,
+              color: mt(context).text.primaryColor,
             ),
-            Container(
-              alignment: Alignment.center,
-              width: 90,
-              child: Text(
-                "PREVIOUS",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).text.primaryColor
-                ),
-              )
+          ),
+          option2: Text(
+            "REPS",
+            style: TextStyle(
+              fontSize: 13,
+              color: mt(context).text.primaryColor,
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "WEIGHT",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: mt(context).text.primaryColor,
-                  ),
-                )
-              )
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "REPS",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: mt(context).text.primaryColor,
-                  ),
-                )
-              )
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            const SizedBox(
-              width: 46,
-              child: Text(""),
-            ),
-          ],
+          ),
+          checkbox: Container()
         ),
+
+        const SizedBox(height: 3),
 
         ListView.builder(
           itemCount: widget.activeExerciseSets.length,
@@ -222,7 +186,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               style: TextStyle(
                 color: mt(context).text.accentColor,
                 fontSize: 16,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
