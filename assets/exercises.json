@@ -43,5 +43,50 @@
     "picture": "https://example.com/tricepdips.jpg",
     "exerciseTypeId": 7,
     "equipmentId": 11
+  },
+  {
+    "exerciseId": 6,
+    "name": "Pull-ups",
+    "muscle": "Back",
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/pullups.jpg",
+    "exerciseTypeId": 2,
+    "equipmentId": 1
+  },
+  {
+    "exerciseId": 7,
+    "name": "Deadlifts",
+    "muscle": "Legs (Barbell)",
+    "bodyPart": "Lower Body",
+    "picture": "https://example.com/deadlifts.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 3
+  },
+  {
+    "exerciseId": 8,
+    "name": "Shoulder Press",
+    "muscle": "Shoulders",
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/shoulderpress.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 2
+  },
+  {
+    "exerciseId": 9,
+    "name": "Lat Pulldowns",
+    "muscle": "Back",
+    "bodyPart": "Upper Body",
+    "picture": "https://example.com/latpulldowns.jpg",
+    "exerciseTypeId": 7,
+    "equipmentId": 8
+  },
+  {
+    "exerciseId": 10,
+    "name": "Leg press",
+    "muscle": "Legs",
+    "bodyPart": "Lower Body",
+    "picture": "https://example.com/legpress.jpg",
+    "exerciseTypeId": 6,
+    "equipmentId": 9
   }
 ]
