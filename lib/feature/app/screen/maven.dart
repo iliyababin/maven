@@ -1,6 +1,5 @@
 import 'package:Maven/feature/home/screen/home_screen.dart';
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
-import 'package:Maven/feature/workout/bloc/active_workout/workout_bloc.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,9 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
 import '../../nutrition/screen/nutrition_screen.dart';
-import '../../template/screen/template_screen.dart';
-import '../../workout/screen/active_workout_screen.dart';
+import '../../workout/template/screen/template_screen.dart';
+import '../../workout/workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/workout/screen/active_workout_screen.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -210,7 +210,7 @@ class _MavenState extends State<Maven> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             blurRadius: 1,
-            offset: const Offset(0, 2), // changes position of shadow
+            offset: const Offset(0, 4), // changes position of shadow
           ),
         ],
       ),
