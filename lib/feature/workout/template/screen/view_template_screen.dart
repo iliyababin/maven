@@ -61,9 +61,9 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
         subtext: 'You already have a workout in progress, would you like to delete it?'
       );
       if(confirmation ?? false) return;
-      context.read<WorkoutBloc>().add(DeleteActiveWorkout());
+      context.read<WorkoutBloc>().add(WorkoutDelete());
     }
-    context.read<WorkoutBloc>().add(ConvertTemplateToWorkout(template: widget.template));
+    context.read<WorkoutBloc>().add(WorkoutFromTemplate(template: widget.template));
     Navigator.pop(context);
     /*if (currentTemplateIdPref != -1) {
       showDialog(

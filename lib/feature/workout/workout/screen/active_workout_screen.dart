@@ -300,7 +300,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     ).then((value) {
       Exercise exercise = value;
       context.read<WorkoutBloc>().add(
-          AddExercise(
+          WorkoutAddExercise(
               exercise: exercise
           )
       );
@@ -327,7 +327,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
 
   void _pauseWorkout(BuildContext context) {
     widget.isWorkoutActive(false);
-    context.read<WorkoutBloc>().add(PauseWorkout());
+    context.read<WorkoutBloc>().add(WorkoutPause());
     Navigator.pop(context);
   }
 

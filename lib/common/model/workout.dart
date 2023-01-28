@@ -20,7 +20,7 @@ class Workout {
     datetime: DateTime.parse(json["datetime"]),
   );
 
-  static Workout templateToWorkout(Template template){
+  static Workout fromTemplate(Template template){
     return Workout(
       name: template.name,
       isPaused: 0,

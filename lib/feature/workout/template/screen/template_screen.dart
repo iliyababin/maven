@@ -103,9 +103,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                       );
                                       if(confirmation == null) return;
                                       if(!confirmation) return;
-                                      context.read<WorkoutBloc>().add(DeleteActiveWorkout());
+                                      context.read<WorkoutBloc>().add(WorkoutDelete());
                                     }
-                                    context.read<WorkoutBloc>().add(UnpauseWorkout(workout: pausedWorkout));
+                                    context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkout));
                                   },
                                   borderRadius: BorderRadius.circular(10),
                                   child: Container(

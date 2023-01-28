@@ -172,7 +172,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
           padding: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
           child: MFlatButton(
             onPressed: (){
-              context.read<WorkoutBloc>().add(AddActiveExerciseSet(
+              context.read<WorkoutBloc>().add(WorkoutAddActiveExerciseSet(
                 activeExerciseGroupId: widget.activeExerciseGroup.activeExerciseGroupId!
               ));
             },

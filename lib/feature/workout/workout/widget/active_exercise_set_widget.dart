@@ -74,7 +74,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: animationSpeed,
-      height: 42,
+      height: 44,
       color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
       padding: EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(

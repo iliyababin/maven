@@ -9,10 +9,10 @@ abstract class WorkoutEvent extends Equatable {
 
 class WorkoutInitialize extends WorkoutEvent {}
 
-class ConvertTemplateToWorkout extends WorkoutEvent {
+class WorkoutFromTemplate extends WorkoutEvent {
   final Template template;
 
-  const ConvertTemplateToWorkout({
+  const WorkoutFromTemplate({
     required this.template,
   });
 
@@ -20,12 +20,12 @@ class ConvertTemplateToWorkout extends WorkoutEvent {
   List<Object> get props => [template];
 }
 
-class PauseWorkout extends WorkoutEvent {}
+class WorkoutPause extends WorkoutEvent {}
 
-class UnpauseWorkout extends WorkoutEvent {
+class WorkoutUnpause extends WorkoutEvent {
   final Workout workout;
 
-  const UnpauseWorkout({
+  const WorkoutUnpause({
     required this.workout,
   });
 
@@ -33,13 +33,12 @@ class UnpauseWorkout extends WorkoutEvent {
   List<Object> get props => [workout];
 }
 
-class DeleteActiveWorkout extends WorkoutEvent {}
+class WorkoutDelete extends WorkoutEvent {}
 
-
-class AddExercise extends WorkoutEvent{
+class WorkoutAddExercise extends WorkoutEvent{
   final Exercise exercise;
 
-  const AddExercise({
+  const WorkoutAddExercise({
    required this.exercise
   });
 
@@ -47,10 +46,10 @@ class AddExercise extends WorkoutEvent{
   List<Object> get props => [exercise];
 }
 
-class AddActiveExerciseSet extends WorkoutEvent {
+class WorkoutAddActiveExerciseSet extends WorkoutEvent {
   final int activeExerciseGroupId;
 
-  const AddActiveExerciseSet({
+  const WorkoutAddActiveExerciseSet({
     required this.activeExerciseGroupId
   });
 

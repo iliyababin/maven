@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/model/exercise.dart';
 import 'package:Maven/common/model/exercise_group.dart';
@@ -26,8 +25,8 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    await deleteDatabase('testy158.db');
-    String path = join(documentsDirectory.path, 'testy158.db');
+    await deleteDatabase('testy159.db');
+    String path = join(documentsDirectory.path, 'testy159.db');
 
     return await openDatabase(
       path,
@@ -286,47 +285,7 @@ class DBHelper {
   ///
   /// activeExerciseGroup
   ///
-  Future<int> addActiveExerciseGroup(ActiveExerciseGroup activeExerciseGroup) async {
-    final db = await instance.database;
-    return await db.insert('activeExerciseGroup', activeExerciseGroup.toMap());
-  }
 
-  Future<List<ActiveExerciseGroup>> getActiveExerciseGroups() async {
-    Database db = await instance.database;
-    var activeExerciseGroups = await db.query('activeExerciseGroup');
-    List<ActiveExerciseGroup> activeExerciseGroupList = activeExerciseGroups.isNotEmpty
-        ? activeExerciseGroups.map((c) => ActiveExerciseGroup.fromMap(c)).toList()
-        : [];
-    return activeExerciseGroupList;
-  }
-
-  Future<List<ActiveExerciseGroup>> getActiveExerciseGroupsByWorkoutId(int workoutId) async {
-    final db = await instance.database;
-    var activeExerciseGroups = await db.query(
-      'activeExerciseGroup',
-      where: 'workoutId = ?',
-      whereArgs: [workoutId],
-    );
-    List<ActiveExerciseGroup> activeExerciseGroupList = activeExerciseGroups.isNotEmpty
-        ? activeExerciseGroups.map((c) => ActiveExerciseGroup.fromMap(c)).toList()
-        : [];
-    return activeExerciseGroupList;
-  }
-
-  Future<int> deleteActiveExerciseGroup(int activeExerciseGroupId) async {
-    final db = await instance.database;
-    return await db.delete('activeExerciseGroup',
-        where: 'activeExerciseGroupId = ?', whereArgs: [activeExerciseGroupId]);
-  }
-
-  Future<void> deleteActiveExerciseGroupsByWorkoutId(int workoutId) async {
-    final db = await instance.database;
-    List<Map<String, dynamic>> activeExerciseGroups = await db
-        .query('activeExerciseGroup', where: 'workoutId = ?', whereArgs: [workoutId]);
-    for (var activeExerciseGroup in activeExerciseGroups) {
-      await deleteActiveExerciseGroup(activeExerciseGroup['activeExerciseGroupId']);
-    }
-  }
 
   ///
   /// activeExerciseSet
