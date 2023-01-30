@@ -78,7 +78,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
               itemDivider: const SizedBox(height: 8),
               listPadding: const EdgeInsets.only(top: 15, bottom: 0, left: 15, right: 15),
               lastListTargetSize: 100,
-              onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex, templates,templateFolders),
+              onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex,),
               onListReorder: (oldListIndex, newListIndex) => _onReorderList(oldListIndex, newListIndex, templateFolders),
               children: _lists,
               itemDecorationWhileDragging: BoxDecoration(
@@ -140,38 +140,21 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
       int oldListIndex,
       int newItemIndex,
       int newListIndex,
-      List<Template> templates,
-      List<TemplateFolder> templateFolders,
   ) {
     setState(() {
       final rd = _lists[oldListIndex].children.removeAt(oldItemIndex);
       _lists[newListIndex].children.insert(newItemIndex, rd);
     });
 
-    final oldFolderId = templateFolders[oldListIndex].templateFolderId;
-    final newFolderId = templateFolders[newListIndex].templateFolderId;
-    final templatesInOldFolder = _getTemplatesInFolder(templates, oldFolderId!);
-    final templatesInNewFolder = _getTemplatesInFolder(templates, newFolderId!);
-
-    if (oldListIndex == newListIndex) {
-      final removedTemplate = templatesInOldFolder.removeAt(oldItemIndex);
-      templatesInOldFolder.insert(newItemIndex, removedTemplate);
-      context.read<TemplateBloc>().add(TemplateReorder(
-        templates: templatesInOldFolder,
-      ));
-    } else {
-      final removedTemplate = templatesInOldFolder.removeAt(oldItemIndex);
-      removedTemplate.templateFolderId = newFolderId;
-      templatesInNewFolder.insert(newItemIndex, removedTemplate);
-      context.read<TemplateBloc>().add(TemplateReorder(
-        templates: templatesInNewFolder,
-      ));
-    }
+    context.read<TemplateBloc>().add(TemplateMoveToFolder(
+      oldTemplateIndex: oldItemIndex,
+      oldTemplateFolderIndex: oldListIndex,
+      newTemplateIndex: newItemIndex,
+      newTemplateFolderIndex: newListIndex
+    ));
   }
 
-  List<Template> _getTemplatesInFolder(List<Template> templates, int folderId) {
-    return templates.where((template) => template.templateFolderId == folderId).toList();
-  }
+
 
   void _onReorderList(
     int oldListIndex,

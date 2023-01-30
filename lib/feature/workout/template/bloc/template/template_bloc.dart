@@ -32,6 +32,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     on<TemplateInitialize>(_templateInitialize);
     on<TemplateAdd>(_templateAdd);
     on<TemplateReorder>(_templateReorder);
+    on<TemplateMoveToFolder>(_templateMoveToFolder);
 
     on<TemplateFolderAdd>(_templateFolderAdd);
     on<TemplateFolderUpdate>(_templateFolderUpdate);
@@ -100,6 +101,54 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       status: () => TemplateStatus.success,
       templates: () => newTemplates,
     ));
+  }
+
+  Future<void> _templateMoveToFolder(TemplateMoveToFolder event, emit) async {
+
+    final oldFolderId = state.templateFolders[event.oldTemplateFolderIndex].templateFolderId;
+    final newFolderId = state.templateFolders[event.newTemplateFolderIndex].templateFolderId;
+    final templatesInOldFolder = _getTemplatesInFolder(oldFolderId!);
+    final templatesInNewFolder = _getTemplatesInFolder(newFolderId!);
+
+    if (event.oldTemplateFolderIndex == event.newTemplateFolderIndex) {
+      final removedTemplate = templatesInOldFolder.removeAt(event.oldTemplateIndex);
+      templatesInOldFolder.insert(event.newTemplateIndex, removedTemplate);
+
+      for (int i = 0; i < templatesInOldFolder.length; i++) {
+        Template template = templatesInOldFolder[i];
+        template.sortOrder = i;
+        templateRepository.updateTemplate(template);
+      }
+
+      List<Template> newTemplates = await templateRepository.getTemplates();
+
+      emit(state.copyWith(
+        status: () => TemplateStatus.success,
+        templates: () => newTemplates,
+      ));
+
+    } else {
+      final removedTemplate = templatesInOldFolder.removeAt(event.oldTemplateIndex);
+      removedTemplate.templateFolderId = newFolderId;
+      templatesInNewFolder.insert(event.newTemplateIndex, removedTemplate);
+
+      for (int i = 0; i < templatesInNewFolder.length; i++) {
+        Template template = templatesInNewFolder[i];
+        template.sortOrder = i;
+        templateRepository.updateTemplate(template);
+      }
+
+      List<Template> newTemplates = await templateRepository.getTemplates();
+
+      emit(state.copyWith(
+        status: () => TemplateStatus.success,
+        templates: () => newTemplates,
+      ));
+    }
+  }
+
+  List<Template> _getTemplatesInFolder(int folderId) {
+    return state.templates.where((template) => template.templateFolderId == folderId).toList();
   }
 
   Future<void> _templateFolderAdd(event, emit) async {
