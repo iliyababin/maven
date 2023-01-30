@@ -94,9 +94,11 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       templateRepository.updateTemplate(template);
     }
 
+    List<Template> newTemplates = await templateRepository.getTemplates();
+
     emit(state.copyWith(
       status: () => TemplateStatus.success,
-      templates: () => templates,
+      templates: () => newTemplates,
     ));
   }
 

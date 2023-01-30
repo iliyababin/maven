@@ -77,3 +77,10 @@ class TemplateFolderReorder extends TemplateEvent {
   @override
   List<Object> get props => [templateFolders];
 }
+
+class TemplateMoveToFolder extends TemplateEvent {
+
+
+  @override
+  List<Object> get props => [];
+}

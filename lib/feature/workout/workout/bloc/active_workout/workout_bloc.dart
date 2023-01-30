@@ -26,6 +26,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final ActiveExerciseGroupRepository activeExerciseGroupRepository;
   final ActiveExerciseSetRepository activeExerciseSetRepository;
 
+
   WorkoutBloc({
     required this.workoutRepository,
     required this.templateRepository,

@@ -57,7 +57,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
               BlocBuilder<WorkoutBloc, WorkoutState>(
                 builder: (context, state) {
-                  print(state.status);
                   if(state.status == WorkoutStatus.loading) {
                     return Container();
                   } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
@@ -177,6 +176,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ReorderableListView(
+
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
