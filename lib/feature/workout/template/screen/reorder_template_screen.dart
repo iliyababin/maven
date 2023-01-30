@@ -26,7 +26,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
     return CustomScaffold.build(
       context: context,
       appBar: CustomAppBar.build(
-        title: "Reorder",
+        title: "Manage",
         context: context,
         actions: [
 
