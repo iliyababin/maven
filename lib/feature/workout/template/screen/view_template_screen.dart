@@ -1,13 +1,15 @@
-import 'package:Maven/common/model/template.dart';
+import 'package:Maven/common/dao/exercise_dao.dart';
 import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/template/dao/template_exercise_group_dao.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/dialog/show_confirmation_dialog.dart';
-import '../../../../common/model/exercise.dart';
-import '../../../../common/model/exercise_group.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../model/exercise.dart';
+import '../model/template_exercise_group.dart';
 
 
 class ViewTemplateScreen extends StatefulWidget {
@@ -118,21 +120,19 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
 
   FutureBuilder _listOfExercises(int templateId) {
     return FutureBuilder(
-      future: DBHelper.instance
-          .getExerciseGroupsByTemplateId(widget.template.templateId!),
+      future: context.read<TemplateExerciseGroupDao>().getTemplateExerciseGroupsByTemplateId(widget.template.templateId!),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading exercises');
-        List<ExerciseGroup> exerciseGroups = snapshot.data;
+        List<TemplateExerciseGroup> exerciseGroups = snapshot.data;
         return ListView.builder(
           itemCount: exerciseGroups.length,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            ExerciseGroup exerciseGroup = exerciseGroups[index];
+            TemplateExerciseGroup exerciseGroup = exerciseGroups[index];
             return FutureBuilder(
-              future:
-              DBHelper.instance.getExercise(exerciseGroup.exerciseId),
+              future: context.read<ExerciseDao>().getExercise(exerciseGroup.exerciseId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading exercise');
                 Exercise exercise = snapshot.data!;
@@ -149,7 +149,7 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                   subtitle: FutureBuilder(
                     future: DBHelper.instance
                         .getExerciseSetsByExerciseGroupId(
-                        exerciseGroup.exerciseGroupId!),
+                        exerciseGroup.templateExerciseGroupId!),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return const Text('Loading exercise');

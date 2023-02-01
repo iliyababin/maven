@@ -1,15 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/model/exercise.dart';
-import 'package:Maven/common/model/exercise_group.dart';
 import 'package:Maven/common/model/exercise_set.dart';
-import 'package:Maven/common/model/template.dart';
-import 'package:Maven/common/model/workout_folder.dart';
-import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -46,11 +40,7 @@ class DBHelper {
 
   final String WORKOUT_TABLE = 'workout';
 
-  Future<List<Exercise>> _loadExerciseJson() async {
-    String jsonString = await rootBundle.loadString('assets/exercises.json');
-    List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(jsonDecode(jsonString));
-    return jsonList.map((json) => Exercise.fromMap(json)).toList();
-  }
+
 
   Future _onCreate(Database db, int version) async {
 
@@ -133,117 +123,9 @@ class DBHelper {
     ''');
 
 
-    List<Exercise> exercises = await _loadExerciseJson();
-    for (var exercise in exercises) {
-      await db.execute(
-        'INSERT INTO exercise (exerciseId, name, muscle, picture) VALUES (?, ?, ?, ?)',
-        [exercise.exerciseId, exercise.name, exercise.muscle, exercise.picture],
-      );
-    }
-
     // TODO: Generate table on app start
     //addTemplateFolder(TemplateFolder(name: "My Templates", expanded: 0));
   }
-
-  ///
-  /// exercise
-  ///
-
-  Future<Exercise?> getExercise(int exerciseId) async {
-    final db = await instance.database;
-    final exercise = await db
-        .query('exercise', where: 'exerciseId = ?', whereArgs: [exerciseId]);
-    return exercise.isNotEmpty ? Exercise.fromMap(exercise.first) : null;
-  }
-
-  Future<List<Exercise>> getExercises() async {
-    Database db = await instance.database;
-    var exercises = await db.query('exercise');
-    List<Exercise> exerciseList = exercises.isNotEmpty
-        ? exercises.map((c) => Exercise.fromMap(c)).toList()
-        : [];
-    return exerciseList;
-  }
-
-
-
-
-  Future<int> updateTemplateFolder(TemplateFolder templateFolder) async {
-    final Database db = await instance.database;
-    return await db.update(
-      'templateFolder',
-      templateFolder.toMap(),
-      where: 'templateFolderId = ?',
-      whereArgs: [templateFolder.templateFolderId],
-    );
-  }
-
-  Future<List<Template>> getTemplateFoldersByTemplateFolderId(int templateFolderId) async {
-    final Database db = await instance.database;
-    var templates = await db.query(
-      'template',
-      where: 'templateFolderId = ?',
-      whereArgs: [templateFolderId],
-    );
-    List<Template> templateList = templates.isNotEmpty
-        ? templates.map((c) => Template.fromMap(c)).toList()
-        : [];
-    return templateList;
-  }
-
-  Future<int> deleteTemplate(int id) async {
-    final Database db = await instance.database;
-    return await db.delete('template', where: 'templateId = ?', whereArgs: [id]);
-  }
-
-  ///
-  /// exerciseGroup
-  ///
-  Future<int> addExerciseGroup(ExerciseGroup exerciseGroup) async {
-    Database db = await instance.database;
-    return await db.insert('exerciseGroup', exerciseGroup.toMap());
-  }
-
-  Future<List<ExerciseGroup>> getExerciseGroups() async {
-    final db = await instance.database;
-    final exerciseGroups = await db.query('exerciseGroup');
-    return exerciseGroups.isNotEmpty
-        ? exerciseGroups.map((c) => ExerciseGroup.fromMap(c)).toList()
-        : [];
-  }
-
-  Future<List<ExerciseGroup>> getExerciseGroupsByTemplateId(int templateId) async {
-    final db = await instance.database;
-    var exerciseGroups = await db.query(
-      'exerciseGroup',
-      where: 'templateId = ?',
-      whereArgs: [templateId],
-    );
-    List<ExerciseGroup> exerciseGroupList = exerciseGroups.isNotEmpty
-        ? exerciseGroups.map((c) => ExerciseGroup.fromMap(c)).toList()
-        : [];
-    return exerciseGroupList;
-  }
-
-  Future<int> deleteExerciseGroup(int id) async {
-    final db = await instance.database;
-    return await db
-        .delete('exerciseGroup', where: 'exerciseGroupId = ?', whereArgs: [id]);
-  }
-
-  Future<void> deleteExerciseGroupsByTemplateId(int templateId) async {
-    final db = await instance.database;
-    List<Map<String, dynamic>> exerciseGroups = await db
-        .query('exerciseGroup', where: 'templateId = ?', whereArgs: [templateId]);
-    for (var exerciseGroup in exerciseGroups) {
-      await deleteExerciseGroup(exerciseGroup['exerciseGroupId']);
-    }
-  }
-
-  ///
-  /// exerciseSet
-  ///
-
   Future<List<ExerciseSet>> getExerciseSets() async {
     final db = await instance.database;
     final exerciseSets = await db.query('exerciseSet');
@@ -279,12 +161,6 @@ class DBHelper {
     return await db.delete('exerciseSet',
         where: 'exerciseSetId = ?', whereArgs: [exerciseSetId]);
   }
-
-
-
-  ///
-  /// activeExerciseGroup
-  ///
 
 
   ///

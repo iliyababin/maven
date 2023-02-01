@@ -1,18 +1,20 @@
 
+import 'package:Maven/common/dao/exercise_dao.dart';
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
 import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/template/dao/template_dao.dart';
 import 'package:Maven/feature/workout/workout/repository/active_exercise_group_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common/model/exercise.dart';
-import '../../../../../common/model/exercise_group.dart';
 import '../../../../../common/model/exercise_set.dart';
-import '../../../../../common/model/template.dart';
 import '../../../../../common/model/workout.dart';
-import '../../../template/repository/template_repository.dart';
+import '../../../template/dao/template_exercise_group_dao.dart';
+import '../../../template/model/exercise.dart';
+import '../../../template/model/template.dart';
+import '../../../template/model/template_exercise_group.dart';
 import '../../repository/active_exercise_set_repository.dart';
 import '../../repository/workout_repository.dart';
 
@@ -21,15 +23,19 @@ part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
+  final ExerciseDao exerciseDao;
+  final TemplateDao templateDao;
   final WorkoutRepository workoutRepository;
-  final TemplateRepository templateRepository;
+  final TemplateExerciseGroupDao templateExerciseGroupDao;
   final ActiveExerciseGroupRepository activeExerciseGroupRepository;
   final ActiveExerciseSetRepository activeExerciseSetRepository;
 
 
   WorkoutBloc({
+    required this.exerciseDao,
+    required this.templateDao,
     required this.workoutRepository,
-    required this.templateRepository,
+    required this.templateExerciseGroupDao,
     required this.activeExerciseGroupRepository,
     required this.activeExerciseSetRepository,
   }) : super(const WorkoutState()) {
@@ -186,7 +192,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       List<ActiveExerciseSet> activeExerciseBunch = await activeExerciseSetRepository
           .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
       activeExerciseSets.addAll(activeExerciseBunch);
-      Exercise? exercise = await DBHelper.instance.getExercise(activeExerciseGroup.exerciseId);
+      Exercise? exercise = await exerciseDao.getExercise(activeExerciseGroup.exerciseId);
       exercises.add(exercise!);
     }
     emit(state.copyWith(
@@ -198,14 +204,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<Workout> _generateWorkoutFromTemplate(templateId) async {
-    Template? template = await templateRepository.getTemplate(templateId);
+    Template? template = await templateDao.getTemplate(templateId);
     Workout convertedWorkout = Workout.fromTemplate(template!);
     int workoutId = await workoutRepository.addWorkout(convertedWorkout);
-    List<ExerciseGroup> exerciseGroups = await DBHelper.instance.getExerciseGroupsByTemplateId(templateId);
+    List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(templateId);
     for (var exerciseGroup in exerciseGroups) {
       int activeExerciseGroupId = await activeExerciseGroupRepository.addActiveExerciseGroup(ActiveExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
 
-      List<ExerciseSet> exerciseSets = await DBHelper.instance.getExerciseSetsByExerciseGroupId(exerciseGroup.exerciseGroupId!);
+      List<ExerciseSet> exerciseSets = await DBHelper.instance.getExerciseSetsByExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
       for(var exerciseSet in exerciseSets){
         activeExerciseSetRepository.addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
       }

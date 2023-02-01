@@ -1,6 +1,6 @@
 import 'package:Maven/common/dialog/show_text_input_dialog.dart';
-import 'package:Maven/common/model/template.dart';
-import 'package:Maven/common/model/workout_folder.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
+import 'package:Maven/feature/workout/template/model/template_folder.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -85,7 +85,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           child: ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemCount: pausedWorkouts.length,
                             itemBuilder: (context, index) {
                               Workout pausedWorkout = pausedWorkouts[index];
@@ -179,7 +179,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         proxyDecorator: proxyDecorator,
                         children: templateFolders.map((templateFolder) {
                           return Padding(

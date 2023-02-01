@@ -1,7 +1,6 @@
 import 'package:Maven/common/model/active_exercise_group.dart';
 import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/model/exercise.dart';
-import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/template/model/exercise.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:Maven/widget/m_popup_menu_button.dart';
@@ -9,6 +8,7 @@ import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/dao/exercise_dao.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import 'active_exercise_row.dart';
 import 'active_exercise_set_widget.dart';
@@ -34,7 +34,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FutureBuilder(
-          future: DBHelper.instance.getExercise(widget.activeExerciseGroup.exerciseId),
+          future: context.read<ExerciseDao>().getExercise(widget.activeExerciseGroup.exerciseId),
           builder: (context, snapshot) {
             if(!snapshot.hasData) return const Text("cant get exercises");
             Exercise exercise = snapshot.data!;

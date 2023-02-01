@@ -8,11 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/model/exercise.dart';
 import '../../../../common/model/timed.dart';
 import '../../../../common/model/workout.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../../screen/add_exercise_screen.dart';
+import '../../template/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../widget/active_exercise_group_widget.dart';
 

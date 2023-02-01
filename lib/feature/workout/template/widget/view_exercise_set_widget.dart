@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../model/temp_exercise_set.dart';
+import '../dto/temp_exercise_set.dart';
+
 
 class ViewExerciseSetWidget extends StatefulWidget {
   final int index;

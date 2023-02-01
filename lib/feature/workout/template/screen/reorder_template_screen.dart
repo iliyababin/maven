@@ -1,5 +1,5 @@
-import 'package:Maven/common/model/template.dart';
-import 'package:Maven/common/model/workout_folder.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
+import 'package:Maven/feature/workout/template/model/template_folder.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
@@ -165,6 +165,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
       final removedList = _lists.removeAt(oldListIndex);
       _lists.insert(newListIndex, removedList);
     });
+
     final movedList = templateFolders.removeAt(oldListIndex);
     templateFolders.insert(newListIndex, movedList);
     context.read<TemplateBloc>().add(TemplateFolderReorder(templateFolders: templateFolders));

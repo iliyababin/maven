@@ -9,6 +9,7 @@ abstract class TemplateEvent extends Equatable {
 
 class TemplateInitialize extends TemplateEvent {}
 
+
 class TemplateAdd extends TemplateEvent {
   final Template template;
   final List<ExerciseBlockData> exerciseBlocks;
@@ -20,6 +21,14 @@ class TemplateAdd extends TemplateEvent {
 
   @override
   List<Object> get props => [template, exerciseBlocks];
+}
+
+class TemplateGetExerciseGroups extends TemplateEvent {
+  final int templateId;
+
+  const TemplateGetExerciseGroups({required this.templateId});
+
+
 }
 
 class TemplateReorder extends TemplateEvent {
@@ -65,8 +74,6 @@ class TemplateDelete extends TemplateEvent {
 }
 
 
-
-
 class TemplateFolderAdd extends TemplateEvent {
   final TemplateFolder templateFolder;
 
@@ -93,6 +100,29 @@ class TemplateFolderReorder extends TemplateEvent {
   final List<TemplateFolder> templateFolders;
 
   const TemplateFolderReorder({
+    required this.templateFolders,
+  });
+
+  @override
+  List<Object> get props => [templateFolders];
+}
+
+class TemplateStreamUpdateTemplates extends TemplateEvent {
+
+  final List<Template> templates;
+
+  const TemplateStreamUpdateTemplates({
+    required this.templates,
+  });
+
+  @override
+  List<Object> get props => [templates];
+}
+
+class TemplateStreamUpdateTemplateFolders extends TemplateEvent {
+  final List<TemplateFolder> templateFolders;
+
+  const TemplateStreamUpdateTemplateFolders({
     required this.templateFolders,
   });
 

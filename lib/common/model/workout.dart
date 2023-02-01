@@ -1,4 +1,4 @@
-import 'package:Maven/common/model/template.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
 
 class Workout {
   int? workoutId;

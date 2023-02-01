@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../common/model/template.dart';
 import '../../../../screen/add_exercise_screen.dart';
 import '../../../../widget/custom_app_bar.dart';
 import '../bloc/template/template_bloc.dart';
-import '../model/exercise_block.dart';
+import '../dto/exercise_block.dart';
+import '../model/template.dart';
 import '../widget/view_exercise_block_widget.dart';
 
 class CreateTemplateScreen extends StatefulWidget {
