@@ -1,6 +1,6 @@
 import 'package:Maven/common/dialog/show_text_input_dialog.dart';
-import 'package:Maven/common/model/template.dart';
-import 'package:Maven/common/model/workout_folder.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
+import 'package:Maven/feature/workout/template/model/template_folder.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../common/dialog/show_confirmation_dialog.dart';
-import '../../../../common/model/workout.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
 import '../widget/template_folder_widget.dart';
 import 'create_template_screen.dart';
@@ -57,7 +57,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
               BlocBuilder<WorkoutBloc, WorkoutState>(
                 builder: (context, state) {
-                  print(state.status);
                   if(state.status == WorkoutStatus.loading) {
                     return Container();
                   } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
@@ -86,7 +85,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           child: ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemCount: pausedWorkouts.length,
                             itemBuilder: (context, index) {
                               Workout pausedWorkout = pausedWorkouts[index];
@@ -139,7 +138,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                           StreamBuilder(
                                             stream: Stream.periodic(Duration(minutes: 1)),
                                             builder: (context, snapshot) {
-                                              return Text('Created ${timeago.format(pausedWorkout.datetime)}');
+                                              return Text('Created ${timeago.format(pausedWorkout.timestamp)}');
                                             },
                                           )
                                         ],
@@ -161,7 +160,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   }
                 },
               ),
-              SizedBox(height: 25,),
+              const SizedBox(height: 25,),
               templates(),
               BlocBuilder<TemplateBloc, TemplateState>(
                 builder: (context, state) {
@@ -177,9 +176,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ReorderableListView(
+
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         proxyDecorator: proxyDecorator,
                         children: templateFolders.map((templateFolder) {
                           return Padding(

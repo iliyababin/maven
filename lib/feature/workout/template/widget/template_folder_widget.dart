@@ -1,5 +1,5 @@
-import 'package:Maven/common/model/template.dart';
-import 'package:Maven/common/model/workout_folder.dart';
+import 'package:Maven/feature/workout/template/model/template.dart';
+import 'package:Maven/feature/workout/template/model/template_folder.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:expandable/expandable.dart';
@@ -30,19 +30,20 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
 
   @override
   void initState() {
-    super.initState();
     if(widget.templateFolder.expanded == 1){
       _expandableController.toggle();
     }
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _expandableController.addListener(() {
+    _expandableController.addListener(() async {
       TemplateFolder templateFolder = widget.templateFolder;
-      templateFolder.expanded = _expandableController.expanded ? 1 : 0;
+      TemplateFolder modifiedTemplateFolder = templateFolder.copyWith(expanded: _expandableController.expanded ? 1 : 0);
+
       context.read<TemplateBloc>().add(TemplateFolderUpdate(
-        templateFolder: templateFolder
+          templateFolder: modifiedTemplateFolder
       ));
     });
     return Container(

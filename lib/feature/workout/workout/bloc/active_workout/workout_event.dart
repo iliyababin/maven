@@ -58,7 +58,7 @@ class WorkoutAddActiveExerciseSet extends WorkoutEvent {
 }
 
 class UpdateActiveExerciseSet extends WorkoutEvent{
-  final ActiveExerciseSet activeExerciseSet;
+  final WorkoutExerciseSet activeExerciseSet;
 
   const UpdateActiveExerciseSet({
     required this.activeExerciseSet

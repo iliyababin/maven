@@ -1,7 +1,8 @@
+import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../common/model/exercise.dart';
-import '../common/util/database_helper.dart';
+import '../feature/workout/template/model/exercise.dart';
 
 class AddExerciseScreen extends StatelessWidget {
   const AddExerciseScreen({Key? key}) : super(key: key);
@@ -16,9 +17,7 @@ class AddExerciseScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async{
-
-
-              List<Exercise> help  = await DBHelper.instance.getExercises();
+              List<Exercise> help  = await context.read<ExerciseDao>().getExercises();
 
               print(help.first.name);
             }, child: Text("get first exercise"),
@@ -26,7 +25,7 @@ class AddExerciseScreen extends StatelessWidget {
           Flexible(
             fit: FlexFit.tight,
           child: FutureBuilder<List<Exercise>>(
-            future: DBHelper.instance.getExercises(),
+            future: context.read<ExerciseDao>().getExercises(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: Text('Loading..s.'));

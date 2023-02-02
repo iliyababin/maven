@@ -9,6 +9,7 @@ abstract class TemplateEvent extends Equatable {
 
 class TemplateInitialize extends TemplateEvent {}
 
+
 class TemplateAdd extends TemplateEvent {
   final Template template;
   final List<ExerciseBlockData> exerciseBlocks;
@@ -22,6 +23,14 @@ class TemplateAdd extends TemplateEvent {
   List<Object> get props => [template, exerciseBlocks];
 }
 
+class TemplateGetExerciseGroups extends TemplateEvent {
+  final int templateId;
+
+  const TemplateGetExerciseGroups({required this.templateId});
+
+
+}
+
 class TemplateReorder extends TemplateEvent {
   final List<Template> templates;
 
@@ -33,6 +42,28 @@ class TemplateReorder extends TemplateEvent {
   List<Object> get props => [templates];
 }
 
+class TemplateMoveToFolder extends TemplateEvent {
+  final int oldTemplateIndex;
+  final int oldTemplateFolderIndex;
+  final int newTemplateIndex;
+  final int newTemplateFolderIndex;
+
+  const TemplateMoveToFolder({
+    required this.oldTemplateIndex,
+    required this.oldTemplateFolderIndex,
+    required this.newTemplateIndex,
+    required this.newTemplateFolderIndex,
+  });
+
+  @override
+  List<Object> get props => [
+    oldTemplateIndex,
+    oldTemplateFolderIndex,
+    newTemplateIndex,
+    newTemplateFolderIndex,
+  ];
+}
+
 class TemplateDelete extends TemplateEvent {
   final int templateId;
 
@@ -41,8 +72,6 @@ class TemplateDelete extends TemplateEvent {
   @override
   List<Object> get props => [templateId];
 }
-
-
 
 
 class TemplateFolderAdd extends TemplateEvent {
@@ -71,6 +100,29 @@ class TemplateFolderReorder extends TemplateEvent {
   final List<TemplateFolder> templateFolders;
 
   const TemplateFolderReorder({
+    required this.templateFolders,
+  });
+
+  @override
+  List<Object> get props => [templateFolders];
+}
+
+class TemplateStreamUpdateTemplates extends TemplateEvent {
+
+  final List<Template> templates;
+
+  const TemplateStreamUpdateTemplates({
+    required this.templates,
+  });
+
+  @override
+  List<Object> get props => [templates];
+}
+
+class TemplateStreamUpdateTemplateFolders extends TemplateEvent {
+  final List<TemplateFolder> templateFolders;
+
+  const TemplateStreamUpdateTemplateFolders({
     required this.templateFolders,
   });
 

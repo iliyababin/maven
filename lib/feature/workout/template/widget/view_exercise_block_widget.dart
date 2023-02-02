@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../model/exercise_block.dart';
-import '../model/temp_exercise_set.dart';
+import '../dto/exercise_block.dart';
+import '../dto/temp_exercise_set.dart';
 import 'view_exercise_set_widget.dart';
 
 class ViewExerciseBlockWidget extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:Maven/common/model/active_exercise_set.dart';
+import 'package:Maven/common/model/workout_exercise_set.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'active_exercise_row.dart';
 class ActiveExerciseSetWidget extends StatefulWidget {
   const ActiveExerciseSetWidget({Key? key, required this.activeExerciseSet, required this.index}) : super(key: key);
 
-  final ActiveExerciseSet activeExerciseSet;
+  final WorkoutExerciseSet activeExerciseSet;
   final int index;
   
   @override
@@ -41,7 +41,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
       if(weightController.text == widget.activeExerciseSet.weight.toString()) return;
 
       if(weightController.text.isEmpty) return;
-      ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+      WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
       activeExerciseSet.weight = int.parse(weightController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
           activeExerciseSet: activeExerciseSet
@@ -51,7 +51,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
       if(repController.text == widget.activeExerciseSet.reps.toString()) return;
 
       if(repController.text.isEmpty) return;
-      ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+      WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
       activeExerciseSet.reps = int.parse(repController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
           activeExerciseSet: activeExerciseSet
@@ -168,7 +168,7 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
                   isChecked = !isChecked;
                 });
 
-                ActiveExerciseSet activeExerciseSet = widget.activeExerciseSet;
+                WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
                 activeExerciseSet.checked = widget.activeExerciseSet.checked == 1
                     ? widget.activeExerciseSet.checked = 0
                     : widget.activeExerciseSet.checked = 1;
