@@ -21,8 +21,8 @@ class WorkoutState extends Equatable {
   final WorkoutStatus status;
   final Workout? workout;
   final List<Workout> pausedWorkouts;
-  final List<ActiveExerciseGroup> activeExerciseGroups;
-  final List<ActiveExerciseSet> activeExerciseSets;
+  final List<WorkoutExerciseGroup> activeExerciseGroups;
+  final List<WorkoutExerciseSet> activeExerciseSets;
   final List<Exercise> exercises;
 
 
@@ -30,8 +30,8 @@ class WorkoutState extends Equatable {
     WorkoutStatus Function()? status,
     Workout Function()? workout,
     List<Workout> Function()? pausedWorkouts,
-    List<ActiveExerciseGroup> Function()? activeExerciseGroups,
-    List<ActiveExerciseSet> Function()? activeExerciseSets,
+    List<WorkoutExerciseGroup> Function()? activeExerciseGroups,
+    List<WorkoutExerciseSet> Function()? activeExerciseSets,
     List<Exercise> Function()? exercises,
   }) {
     return WorkoutState(

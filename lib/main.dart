@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:Maven/common/util/database_helper.dart';
-import 'package:Maven/feature/workout/workout/repository/active_exercise_group_repository_impl.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +10,7 @@ import 'common/util/database.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/workout/template/bloc/template/template_bloc.dart';
 import 'feature/workout/template/model/exercise.dart';
-import 'feature/workout/template/repository/exercise_set_repository_impl.dart';
 import 'feature/workout/workout/bloc/active_workout/workout_bloc.dart';
-import 'feature/workout/workout/repository/active_exercise_set_repository_impl.dart';
-import 'feature/workout/workout/repository/workout_repository_impl.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
@@ -27,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db004.db')
+      .databaseBuilder('db008.db')
       .build();
 
   database.exerciseDao.addExercises(await _loadExerciseJson());
@@ -38,10 +33,7 @@ void main() async {
       providers: [
         RepositoryProvider(create: (context) => database.exerciseDao),
         RepositoryProvider(create: (context) => database.templateExerciseGroupDao),
-        RepositoryProvider(create: (context) => ExerciseSetRepositoryImpl(DBHelper.instance)),
-        RepositoryProvider(create: (context) => WorkoutRepositoryImpl(DBHelper.instance)),
-        RepositoryProvider(create: (context) => ActiveExerciseGroupRepositoryImpl(DBHelper.instance)),
-        RepositoryProvider(create: (context) => ActiveExerciseSetRepositoryImpl(DBHelper.instance)),
+        RepositoryProvider(create: (context) => database.templateExerciseSetDao),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -49,15 +41,16 @@ void main() async {
             templateDao: database.templateDao,
             templateFolderDao: database.templateFolderDao,
             templateExerciseGroupDao: database.templateExerciseGroupDao,
-            exerciseSetRepository: context.read<ExerciseSetRepositoryImpl>(),
+            templateExerciseSetDao: database.templateExerciseSetDao,
           )..add(TemplateInitialize())),
           BlocProvider(create: (context) => WorkoutBloc(
             exerciseDao: database.exerciseDao,
             templateDao: database.templateDao,
-            workoutRepository: context.read<WorkoutRepositoryImpl>(),
             templateExerciseGroupDao: database.templateExerciseGroupDao,
-            activeExerciseGroupRepository: context.read<ActiveExerciseGroupRepositoryImpl>(),
-            activeExerciseSetRepository: context.read<ActiveExerciseSetRepositoryImpl>(),
+            templateExerciseSetDao: database.templateExerciseSetDao,
+            workoutDao: database.workoutDao,
+            workoutExerciseGroupDao: database.workoutExerciseGroupDao,
+            workoutExerciseSetDao: database.workoutExerciseSetDao,
           )..add(WorkoutInitialize())),
         ],
         child:  const Main(),

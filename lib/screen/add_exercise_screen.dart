@@ -1,4 +1,4 @@
-import 'package:Maven/common/dao/exercise_dao.dart';
+import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

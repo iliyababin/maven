@@ -1,22 +1,21 @@
-
-import 'package:Maven/common/dao/exercise_dao.dart';
-import 'package:Maven/common/model/active_exercise_group.dart';
-import 'package:Maven/common/model/active_exercise_set.dart';
-import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/common/model/workout_exercise_group.dart';
+import 'package:Maven/common/model/workout_exercise_set.dart';
+import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:Maven/feature/workout/template/dao/template_dao.dart';
-import 'package:Maven/feature/workout/workout/repository/active_exercise_group_repository.dart';
+import 'package:Maven/feature/workout/workout/dao/workout_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common/model/exercise_set.dart';
-import '../../../../../common/model/workout.dart';
 import '../../../template/dao/template_exercise_group_dao.dart';
+import '../../../template/dao/template_exercise_set_dao.dart';
 import '../../../template/model/exercise.dart';
 import '../../../template/model/template.dart';
 import '../../../template/model/template_exercise_group.dart';
-import '../../repository/active_exercise_set_repository.dart';
-import '../../repository/workout_repository.dart';
+import '../../../template/model/template_exercise_set.dart';
+import '../../dao/workout_exercise_group_dao.dart';
+import '../../dao/workout_exercise_set_dao.dart';
+import '../../model/workout.dart';
 
 part 'workout_event.dart';
 part 'workout_state.dart';
@@ -25,19 +24,23 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
   final ExerciseDao exerciseDao;
   final TemplateDao templateDao;
-  final WorkoutRepository workoutRepository;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
-  final ActiveExerciseGroupRepository activeExerciseGroupRepository;
-  final ActiveExerciseSetRepository activeExerciseSetRepository;
+  final TemplateExerciseSetDao templateExerciseSetDao;
+
+  final WorkoutDao workoutDao;
+  final WorkoutExerciseGroupDao workoutExerciseGroupDao;
+  final WorkoutExerciseSetDao workoutExerciseSetDao;
 
 
   WorkoutBloc({
     required this.exerciseDao,
     required this.templateDao,
-    required this.workoutRepository,
     required this.templateExerciseGroupDao,
-    required this.activeExerciseGroupRepository,
-    required this.activeExerciseSetRepository,
+    required this.templateExerciseSetDao,
+
+    required this.workoutDao,
+    required this.workoutExerciseGroupDao,
+    required this.workoutExerciseSetDao,
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_workoutInitialize);
     on<WorkoutFromTemplate>(_workoutFromTemplate);
@@ -48,15 +51,15 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     on<WorkoutAddActiveExerciseSet>(_workoutAddActiveExerciseSet);
 
     on<DeleteActiveExerciseSet>((event, emit) async {
-      await activeExerciseSetRepository.deleteActiveExerciseSet(event.activeExerciseSetId);
+      await workoutExerciseSetDao.deleteWorkoutExerciseSet(event.activeExerciseSetId);
 
-      List<ActiveExerciseGroup> activeExerciseGroups = await activeExerciseGroupRepository.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+      List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
 
-      List<ActiveExerciseSet> activeExerciseSets = [];
+      List<WorkoutExerciseSet> activeExerciseSets = [];
 
-      for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
-        List<ActiveExerciseSet> activeExerciseBunch = await activeExerciseSetRepository
-            .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+      for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
+        List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
+            .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
         activeExerciseSets.addAll(activeExerciseBunch);
       }
 
@@ -67,15 +70,15 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
 
     on<UpdateActiveExerciseSet>((event, emit) async {
-      await activeExerciseSetRepository.updateActiveExerciseSet(event.activeExerciseSet);
+      await workoutExerciseSetDao.updateWorkoutExerciseSet(event.activeExerciseSet);
     });
   }
 
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
-    List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
-    Workout? workout = await workoutRepository.getPausedWorkout();
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
+    Workout? workout = await workoutDao.getPausedWorkout();
     if(workout == null) {
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
@@ -102,8 +105,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     if(state.workout == null) throw UnsupportedError('There is no workout to pause');
     Workout workout = state.workout!;
     workout.isPaused = 1;
-    await workoutRepository.updateWorkout(workout);
-    List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
+    await workoutDao.updateWorkout(workout);
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
     emit(state.copyWith(
       status: () => WorkoutStatus.none,
       pausedWorkouts: () => pausedWorkouts,
@@ -117,9 +120,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
     Workout workout = event.workout;
     workout.isPaused = 0;
-    await workoutRepository.updateWorkout(workout);
-    Workout? updatedWorkout = await workoutRepository.getPausedWorkout();
-    List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
+    await workoutDao.updateWorkout(workout);
+    Workout? updatedWorkout = await workoutDao.getPausedWorkout();
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
     await _updateWorkoutsItems(emit, workout: updatedWorkout!);
     emit(state.copyWith(
       status: () => WorkoutStatus.active,
@@ -131,10 +134,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
     if(state.workout == null) throw UnsupportedError('There is no workout to pause');
     int workoutId = state.workout!.workoutId!;
-    workoutRepository.deleteWorkout(workoutId);
-    activeExerciseGroupRepository.deleteActiveExerciseGroupsByWorkoutId(workoutId);
-    activeExerciseSetRepository.deleteActiveExerciseSetsByWorkoutId(workoutId);
-    List<Workout> pausedWorkouts = await workoutRepository.getPausedWorkouts();
+    workoutDao.deleteWorkout(workoutId);
+    workoutExerciseGroupDao.deleteWorkoutExerciseGroupsByWorkoutId(workoutId);
+    workoutExerciseSetDao.deleteWorkoutExerciseSetsByWorkoutId(workoutId);
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
     emit(state.copyWith(
       status: () => WorkoutStatus.none,
       pausedWorkouts: () => pausedWorkouts,
@@ -145,21 +148,21 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _workoutAddExercise(WorkoutAddExercise event, emit) async {
-    activeExerciseGroupRepository.addActiveExerciseGroup(
-      ActiveExerciseGroup.exerciseToActiveExerciseGroup(
+    workoutExerciseGroupDao.addWorkoutExerciseGroup(
+      WorkoutExerciseGroup.exerciseToActiveExerciseGroup(
         event.exercise.exerciseId,
         state.workout!.workoutId!,
       )
     );
-    List<ActiveExerciseGroup> activeExerciseGroups = await activeExerciseGroupRepository.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
     emit(state.copyWith(
       activeExerciseGroups: () => activeExerciseGroups
     ));
   }
 
   Future<void> _workoutAddActiveExerciseSet(WorkoutAddActiveExerciseSet event, emit) async {
-    activeExerciseSetRepository.addActiveExerciseSet(
-      ActiveExerciseSet(
+    workoutExerciseSetDao.addWorkoutExerciseSet(
+      WorkoutExerciseSet(
         activeExerciseGroupId: event.activeExerciseGroupId,
         workoutId: state.workout!.workoutId!,
         weight: 0,
@@ -167,11 +170,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         checked: 0
       )
     );
-    List<ActiveExerciseGroup> activeExerciseGroups = await activeExerciseGroupRepository.getActiveExerciseGroupsByWorkoutId(state.workout!.workoutId!);
-    List<ActiveExerciseSet> activeExerciseSets = [];
-    for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
-      List<ActiveExerciseSet> activeExerciseBunch = await activeExerciseSetRepository
-          .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
+    List<WorkoutExerciseSet> activeExerciseSets = [];
+    for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
+      List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
+          .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
       activeExerciseSets.addAll(activeExerciseBunch);
     }
     emit(state.copyWith(
@@ -185,12 +188,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _updateWorkoutsItems(emit, {
     required Workout workout,
   }) async {
-    List<ActiveExerciseGroup> activeExerciseGroups = await activeExerciseGroupRepository.getActiveExerciseGroupsByWorkoutId(workout.workoutId!);
-    List<ActiveExerciseSet> activeExerciseSets = [];
+    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workout.workoutId!);
+    List<WorkoutExerciseSet> activeExerciseSets = [];
     List<Exercise> exercises = [];
-    for(ActiveExerciseGroup activeExerciseGroup in activeExerciseGroups){
-      List<ActiveExerciseSet> activeExerciseBunch = await activeExerciseSetRepository
-          .getActiveExerciseSetsByActiveExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
+    for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
+      List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
+          .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
       activeExerciseSets.addAll(activeExerciseBunch);
       Exercise? exercise = await exerciseDao.getExercise(activeExerciseGroup.exerciseId);
       exercises.add(exercise!);
@@ -206,18 +209,18 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<Workout> _generateWorkoutFromTemplate(templateId) async {
     Template? template = await templateDao.getTemplate(templateId);
     Workout convertedWorkout = Workout.fromTemplate(template!);
-    int workoutId = await workoutRepository.addWorkout(convertedWorkout);
+    int workoutId = await workoutDao.addWorkout(convertedWorkout);
     List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(templateId);
     for (var exerciseGroup in exerciseGroups) {
-      int activeExerciseGroupId = await activeExerciseGroupRepository.addActiveExerciseGroup(ActiveExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
+      int activeExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
 
-      List<ExerciseSet> exerciseSets = await DBHelper.instance.getExerciseSetsByExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
+      List<TemplateExerciseSet> exerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
       for(var exerciseSet in exerciseSets){
-        activeExerciseSetRepository.addActiveExerciseSet(ActiveExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
+        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
       }
     }
 
-    Workout? workout = await workoutRepository.getWorkout(workoutId);
+    Workout? workout = await workoutDao.getWorkout(workoutId);
     if(workout == null) {
       throw UnimplementedError('The generated and saved workout was somehow null');
     } else {

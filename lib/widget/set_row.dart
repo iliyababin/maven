@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
-import '../common/model/exercise_set.dart';
+import '../common/model/template_exercise_set.dart';
 
 class SetRow extends StatefulWidget {
 

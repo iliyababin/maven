@@ -1,6 +1,6 @@
-import 'package:Maven/common/dao/exercise_dao.dart';
-import 'package:Maven/common/util/database_helper.dart';
+import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:Maven/feature/workout/template/dao/template_exercise_group_dao.dart';
+import 'package:Maven/feature/workout/template/dao/template_exercise_set_dao.dart';
 import 'package:Maven/feature/workout/template/model/template.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -147,9 +147,7 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                   ),
                   title: Text(exercise.name),
                   subtitle: FutureBuilder(
-                    future: DBHelper.instance
-                        .getExerciseSetsByExerciseGroupId(
-                        exerciseGroup.templateExerciseGroupId!),
+                    future: context.read<TemplateExerciseSetDao>().getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return const Text('Loading exercise');

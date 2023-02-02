@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:Maven/common/model/exercise_set.dart';
 import 'package:Maven/feature/workout/template/dao/template_dao.dart';
 import 'package:Maven/feature/workout/template/dao/template_exercise_group_dao.dart';
 import 'package:Maven/feature/workout/template/dao/template_folder_dao.dart';
 import 'package:Maven/feature/workout/template/model/template.dart';
 import 'package:Maven/feature/workout/template/model/template_exercise_group.dart';
+import 'package:Maven/feature/workout/template/model/template_exercise_set.dart';
 import 'package:Maven/feature/workout/template/model/template_folder.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../dao/template_exercise_set_dao.dart';
 import '../../dto/exercise_block.dart';
-import '../../repository/exercise_set_repository_impl.dart';
 
 part 'template_event.dart';
 part 'template_state.dart';
@@ -21,13 +21,13 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final TemplateDao templateDao;
   final TemplateFolderDao templateFolderDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
-  final ExerciseSetRepositoryImpl exerciseSetRepository;
+  final TemplateExerciseSetDao templateExerciseSetDao;
 
   TemplateBloc({
     required this.templateDao,
     required this.templateFolderDao,
     required this.templateExerciseGroupDao,
-    required this.exerciseSetRepository,
+    required this.templateExerciseSetDao,
   }) : super(const TemplateState()) {
     templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
     templateFolderDao.getTemplateFoldersAsStream().listen((event) => add(TemplateStreamUpdateTemplateFolders(templateFolders: event)));
@@ -70,7 +70,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
               exerciseId: exerciseBlock.exercise.exerciseId,
               templateId: templateId));
       for (var tempExerciseSet in exerciseBlock.sets) {
-        exerciseSetRepository.addExerciseSet(ExerciseSet(
+        templateExerciseSetDao.addTemplateExerciseSet(TemplateExerciseSet(
             exerciseGroupId: exerciseGroupId,
             weight: tempExerciseSet.weight,
             reps: tempExerciseSet.reps,

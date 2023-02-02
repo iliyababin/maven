@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../common/dialog/show_confirmation_dialog.dart';
-import '../../../../common/model/workout.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
 import '../widget/template_folder_widget.dart';
 import 'create_template_screen.dart';
@@ -138,7 +138,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                           StreamBuilder(
                                             stream: Stream.periodic(Duration(minutes: 1)),
                                             builder: (context, snapshot) {
-                                              return Text('Created ${timeago.format(pausedWorkout.datetime)}');
+                                              return Text('Created ${timeago.format(pausedWorkout.timestamp)}');
                                             },
                                           )
                                         ],
@@ -160,7 +160,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   }
                 },
               ),
-              SizedBox(height: 25,),
+              const SizedBox(height: 25,),
               templates(),
               BlocBuilder<TemplateBloc, TemplateState>(
                 builder: (context, state) {

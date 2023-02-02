@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/model/timed.dart';
-import '../../../../common/model/workout.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../../screen/add_exercise_screen.dart';
 import '../../template/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
+import '../model/workout.dart';
 import '../widget/active_exercise_group_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -222,7 +222,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   stream: Stream.periodic(const Duration(seconds: 1)),
                                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                     return Text(
-                                      workoutDuration(workout.datetime),
+                                      workoutDuration(workout.timestamp),
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: mt(context).text.secondaryColor

@@ -1,5 +1,5 @@
-import 'package:Maven/common/model/active_exercise_group.dart';
-import 'package:Maven/common/model/active_exercise_set.dart';
+import 'package:Maven/common/model/workout_exercise_group.dart';
+import 'package:Maven/common/model/workout_exercise_set.dart';
 import 'package:Maven/feature/workout/template/model/exercise.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
@@ -8,14 +8,14 @@ import 'package:Maven/widget/m_popup_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/dao/exercise_dao.dart';
+import '../../template/dao/exercise_dao.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import 'active_exercise_row.dart';
 import 'active_exercise_set_widget.dart';
 
 class ActiveExerciseGroupWidget extends StatefulWidget {
-  final ActiveExerciseGroup activeExerciseGroup;
-  final List<ActiveExerciseSet> activeExerciseSets;
+  final WorkoutExerciseGroup activeExerciseGroup;
+  final List<WorkoutExerciseSet> activeExerciseSets;
 
   const ActiveExerciseGroupWidget({Key? key,
     required this.activeExerciseGroup,
@@ -147,7 +147,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
 
-            ActiveExerciseSet activeExerciseSet = widget.activeExerciseSets[index];
+            WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSets[index];
 
             return Dismissible(
               key: UniqueKey(),

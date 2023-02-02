@@ -82,7 +82,7 @@ class _MavenState extends State<Maven> {
                         stream: Stream.periodic(Duration(seconds: 1)),
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                           return Text(
-                            workoutDuration(state.workout?.datetime ?? DateTime.now()),
+                            workoutDuration(state.workout?.timestamp ?? DateTime.now()),
                             style: TextStyle(
                               color: mt(context).text.secondaryColor,
                               fontSize: 16,
