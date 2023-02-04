@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../../widget/m_flat_button.dart';
@@ -41,20 +42,28 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   final TextEditingController option1EditingController = TextEditingController();
   final TextEditingController option2EditingController = TextEditingController();
 
+  bool _shake = false;
+
+  void _updateExerciseSet() {
+    widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
+      option1: option1EditingController.text.isEmpty ? 0 : int.parse(option1EditingController.text),
+      option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text)
+    ));
+  }
+
+  @override
+  void initState() {
+    option1EditingController.text = widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString();
+    option2EditingController.text = widget.exerciseSet.option2 == null ? '' : widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    option1EditingController.addListener(() {
-      widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
-        option1: option1EditingController.text.isEmpty ? 0 : int.parse(option1EditingController.text)
-      ));
-    });
+    option1EditingController.addListener(() => _updateExerciseSet());
 
-    option2EditingController.addListener(() {
-      widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
-          option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text)
-      ));
-    });
+    option2EditingController.addListener(() => _updateExerciseSet());
 
     return AnimatedContainer(
       duration: _animationSpeed,
@@ -137,31 +146,52 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
         ) : null,
 
-        checkbox: widget.checkboxEnabled ? SizedBox(
-          height: 38,
-          child: Transform.scale(
-            scale: 1.8,
-            child: Checkbox(
-              value: _isChecked,
-              onChanged: (value) {
-                setState(()  {
-                  _isChecked = !_isChecked;
-                });
+        checkbox: widget.checkboxEnabled ? ShakeWidget(
+          shakeConstant: ShakeHorizontalConstant2(),
+          duration: const Duration(milliseconds: 2000),
+          autoPlay: _shake,
+          child: SizedBox(
+            height: 38,
+            child: Transform.scale(
+              scale: 1.8,
+              child: Checkbox(
+                value: _isChecked,
+                onChanged: (value) async {
+                  if(widget.exerciseSet.option2 == null) {
+                    if(option1EditingController.text.isEmpty) {
+                      setState(() {_shake = true;});
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      setState(() {_shake = false;});
+                      return;
+                    }
+                  } else {
+                    if(option1EditingController.text.isEmpty || option2EditingController.text.isEmpty) {
+                      setState(() {_shake = true;});
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      setState(() {_shake = false;});
+                      return;
+                    }
+                  }
 
-               /* WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
-                activeExerciseSet.checked = widget.activeExerciseSet.checked == 1
-                    ? widget.activeExerciseSet.checked = 0
-                    : widget.activeExerciseSet.checked = 1;
+                  setState(()  {
+                    _isChecked = !_isChecked;
+                  });
 
-                context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
-                    activeExerciseSet: activeExerciseSet
-                ));*/
-              },
-              fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                  const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
+                 /* WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
+                  activeExerciseSet.checked = widget.activeExerciseSet.checked == 1
+                      ? widget.activeExerciseSet.checked = 0
+                      : widget.activeExerciseSet.checked = 1;
+
+                  context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
+                      activeExerciseSet: activeExerciseSet
+                  ));*/
+                },
+                fillColor: _isChecked ? MaterialStateProperty.all<Color>(
+                    const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
               ),
             ),
           ),

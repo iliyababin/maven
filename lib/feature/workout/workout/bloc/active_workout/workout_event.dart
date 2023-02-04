@@ -46,15 +46,15 @@ class WorkoutAddExercise extends WorkoutEvent{
   List<Object> get props => [exercise];
 }
 
-class WorkoutAddActiveExerciseSet extends WorkoutEvent {
-  final int activeExerciseGroupId;
+class WorkoutAddWorkoutExerciseSet extends WorkoutEvent {
+  final int workoutExerciseGroupId;
 
-  const WorkoutAddActiveExerciseSet({
-    required this.activeExerciseGroupId
+  const WorkoutAddWorkoutExerciseSet({
+    required this.workoutExerciseGroupId
   });
 
   @override
-  List<Object> get props => [activeExerciseGroupId];
+  List<Object> get props => [workoutExerciseGroupId];
 }
 
 class UpdateActiveExerciseSet extends WorkoutEvent{
@@ -68,14 +68,27 @@ class UpdateActiveExerciseSet extends WorkoutEvent{
   List<Object> get props => [activeExerciseSet];
 }
 
-class DeleteActiveExerciseSet extends WorkoutEvent {
-  final int activeExerciseSetId;
+class WorkoutUpdateWorkoutExerciseSet extends WorkoutEvent {
 
-  const DeleteActiveExerciseSet({
-    required this.activeExerciseSetId
+  final WorkoutExerciseSet workoutExerciseSet;
+
+  const WorkoutUpdateWorkoutExerciseSet({
+    required this.workoutExerciseSet
   });
 
   @override
-  List<Object> get props => [activeExerciseSetId];
+  List<Object> get props => [workoutExerciseSet];
 }
+
+class WorkoutDeleteWorkoutExerciseSet extends WorkoutEvent {
+  final int workoutExerciseSetId;
+
+  const WorkoutDeleteWorkoutExerciseSet({
+    required this.workoutExerciseSetId
+  });
+
+  @override
+  List<Object> get props => [workoutExerciseSetId];
+}
+
 

@@ -33,6 +33,7 @@ dependencies:
   floor: ^1.4.1
   floor_generator: ^1.4.1
   build_runner: ^2.3.3
+  flutter_shake_animated: ^0.0.5
 
 dev_dependencies:
   flutter_test:

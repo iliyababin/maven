@@ -93,19 +93,17 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                 ).toList(growable: true),
                 onExerciseSetAdd: () {
                   setState(() {
-                    exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 5));
+                    exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 0));
                   });
                 },
                 onExerciseSetUpdate: (value) {
-                  print('UPDATING: ${value.option1} ${value.option2}');
                   int exerciseSetIndex = exerciseBlocks[index].sets.indexWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
                   TempExerciseSet tempExerciseSet = TempExerciseSet(
                     tempExerciseSetId: value.exerciseSetId,
                     option1: value.option1,
                     option2: value.option2,
                   );
-                  print('UPDATING: ${tempExerciseSet.option1} ${tempExerciseSet.option2}');
-                  //exerciseBlocks[index].sets[exerciseSetIndex]
+                  exerciseBlocks[index].sets[exerciseSetIndex] = tempExerciseSet;
                 },
                 onExerciseSetDelete: (value) {
                   setState(() {

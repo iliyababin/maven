@@ -49,6 +49,24 @@ class WorkoutExerciseSet {
     required this.workoutId,
   });
 
+  WorkoutExerciseSet copyWith({
+    int? workoutExerciseSetId,
+    int? option_1,
+    int? option_2,
+    int? checked,
+    int? workoutExerciseGroupId,
+    int? workoutId,
+  }) {
+    return WorkoutExerciseSet(
+      workoutExerciseSetId: workoutExerciseSetId ?? this.workoutExerciseSetId,
+      option_1: option_1 ?? this.option_1,
+      option_2: option_2 ?? this.option_2,
+      checked: checked ?? this.checked,
+      workoutExerciseGroupId: workoutExerciseGroupId ?? this.workoutExerciseGroupId,
+      workoutId: workoutId ?? this.workoutId,
+    );
+  }
+
   static WorkoutExerciseSet exerciseSetToWorkoutExerciseSet(TemplateExerciseSet exerciseSet, int workoutExerciseGroupId, int workoutId) {
     return WorkoutExerciseSet(
       workoutExerciseGroupId: workoutExerciseGroupId,

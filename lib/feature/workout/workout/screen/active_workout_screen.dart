@@ -18,7 +18,6 @@ import '../../template/dao/exercise_dao.dart';
 import '../../template/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
-import '../widget/active_exercise_group_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
   final Function(bool) isWorkoutActive;
@@ -262,27 +261,41 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   exercise: snapshot.data!,
                                   exerciseSets: exerciseSets,
                                   onExerciseSetAdd: () {
-
+                                    context.read<WorkoutBloc>().add(
+                                        WorkoutAddWorkoutExerciseSet(workoutExerciseGroupId: state.activeExerciseGroups[index].activeExerciseGroupId!)
+                                    );
                                   },
                                   onExerciseSetUpdate: (value) {
+                                    WorkoutExerciseSet workoutExerciseSet = state.activeExerciseSets.firstWhere(
+                                        (activeExerciseSet) => activeExerciseSet.workoutExerciseSetId == value.exerciseSetId
+                                    );
 
+                                    context.read<WorkoutBloc>().add(
+                                      WorkoutUpdateWorkoutExerciseSet(
+                                        workoutExerciseSet: workoutExerciseSet.copyWith(
+                                          option_1: value.option1,
+                                          option_2: value.option2,
+                                        )
+                                      )
+                                    );
                                   },
                                   onExerciseSetDelete: (value) {
-
+                                    context.read<WorkoutBloc>().add(
+                                        WorkoutDeleteWorkoutExerciseSet(workoutExerciseSetId: value.exerciseSetId)
+                                    );
                                   },
                                   checkboxEnabled: true,
-                                  hintsEnabled: true,
                                 );
                               },
                             );
 
-                            return ActiveExerciseGroupWidget(
+                            /*return ActiveExerciseGroupWidget(
                               activeExerciseGroup: state.activeExerciseGroups[index],
                               activeExerciseSets: state.activeExerciseSets.where(
                                   (activeExerciseSet) =>
                                   activeExerciseSet.workoutExerciseGroupId == state.activeExerciseGroups[index].activeExerciseGroupId
                               ).toList(),
-                            );
+                            );*/
                           }
                         ),
                       ),
