@@ -177,14 +177,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     _isChecked = !_isChecked;
                   });
 
-                 /* WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
-                  activeExerciseSet.checked = widget.activeExerciseSet.checked == 1
-                      ? widget.activeExerciseSet.checked = 0
-                      : widget.activeExerciseSet.checked = 1;
 
-                  context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
-                      activeExerciseSet: activeExerciseSet
-                  ));*/
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
                     const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
