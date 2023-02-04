@@ -9,8 +9,8 @@ class ActiveExerciseRow {
     required Widget previous,
     required Widget option1,
     Widget? option2,
-    Widget? option3,
-    required Widget checkbox,
+    Widget? rpe,
+    Widget? checkbox,
   }) {
     return Row(
       children: [
@@ -57,34 +57,36 @@ class ActiveExerciseRow {
               child: option2
             )
           ),
-
         if(option2 != null)
           const SizedBox(
             width: SPACER_SIZE,
           ),
 
-        if(option3 != null)
+        if(rpe != null)
           Expanded(
             child: Container(
                 alignment: Alignment.center,
                 child: option2
             )
           ),
-
-        if(option3 != null)
+        if(rpe != null)
           const SizedBox(
             width: SPACER_SIZE,
           ),
 
-        SizedBox(
-          width: 46,
-          child: checkbox,
-        ),
-
-        const SizedBox(
-          width: SPACER_SIZE,
-        ),
-
+        if(checkbox != null)
+          SizedBox(
+            width: 46,
+            child: checkbox,
+          ),
+        if(checkbox != null)
+          const SizedBox(
+            width: SPACER_SIZE,
+          ),
+        if(checkbox == null)
+          const SizedBox(
+            width: SPACER_SIZE,
+          ),
       ],
     );
   }

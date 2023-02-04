@@ -23,11 +23,11 @@ class TemplateExerciseSet {
   @ColumnInfo(name: 'template_exercise_set_id')
   int? templateExerciseSetId;
 
-  @ColumnInfo(name: 'weight')
-  int? weight;
+  @ColumnInfo(name: 'option_1')
+  int option1;
 
-  @ColumnInfo(name: 'reps')
-  int? reps;
+  @ColumnInfo(name: 'option_2')
+  int? option2;
 
   @ColumnInfo(name: 'template_exercise_group_id')
   int exerciseGroupId;
@@ -37,8 +37,8 @@ class TemplateExerciseSet {
 
   TemplateExerciseSet({
     this.templateExerciseSetId,
-    this.weight,
-    this.reps,
+    required this.option1,
+    this.option2,
     required this.exerciseGroupId,
     required this.templateId,
   });

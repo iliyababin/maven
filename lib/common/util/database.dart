@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Maven/common/util/date_time_converter.dart';
+import 'package:Maven/common/util/exercise_type_converter.dart';
 import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:Maven/feature/workout/template/model/exercise.dart';
 import 'package:Maven/feature/workout/template/model/template_exercise_group.dart';
@@ -38,6 +39,7 @@ part 'database.g.dart';
 )
 @TypeConverters([
   DateTimeConverter,
+  ExerciseTypeConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
 

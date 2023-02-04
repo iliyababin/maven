@@ -1,9 +1,15 @@
+
 class TempExerciseSet {
-  int? weight;
-  int? reps;
+
+  final int tempExerciseSetId;
+  final int option1;
+  final int? option2;
 
   TempExerciseSet({
-    this.weight,
-    this.reps,
+    required this.tempExerciseSetId,
+    required this.option1,
+    this.option2,
   });
+
+
 }

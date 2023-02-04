@@ -1,3 +1,6 @@
+import 'package:Maven/feature/workout/common/dto/exercise_set.dart';
+import 'package:Maven/feature/workout/common/widget/exercise_group_widget.dart';
+import 'package:Maven/feature/workout/template/dto/temp_exercise_set.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +12,6 @@ import '../../../../widget/custom_app_bar.dart';
 import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
 import '../model/template.dart';
-import '../widget/view_exercise_block_widget.dart';
 
 class CreateTemplateScreen extends StatefulWidget {
   const CreateTemplateScreen({Key? key}) : super(key: key);
@@ -25,7 +27,9 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.build(
+
       context: context,
+
       appBar: CustomAppBar.build(
         title: 'Create Template',
         context: context,
@@ -41,54 +45,85 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.all(16),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: templateTitleController,
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'New Template',
-                    hintStyle: TextStyle(
-                      color: mt(context).textField.hintColor
+
+      body: CustomScrollView(
+        slivers: [
+
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsetsDirectional.all(16),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: templateTitleController,
+                      style: TextStyle(
+                          color: mt(context).text.primaryColor
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'New Template',
+                        hintStyle: TextStyle(
+                            color: mt(context).textField.hintColor
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: mt(context).borderColor),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: mt(context).accentColor),
+                        ),
+                      ),
                     ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: mt(context).borderColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: mt(context).accentColor),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              )
+            ])
           ),
 
-          Expanded(
-            child: ListView.builder(
-              itemCount: exerciseBlocks.length,
-              itemBuilder: (BuildContext context, int index) {
-                ExerciseBlockData exerciseBlockData = exerciseBlocks[index];
-                return ViewExerciseBlockWidget(
-                  exerciseBlockData: exerciseBlockData,
-                  onChanged: (exerciseBlockData) {
-                    exerciseBlocks[index] = exerciseBlockData;
-                  },
-                );
-              },
-            ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: exerciseBlocks.length,
+              (context, index) => ExerciseGroupWidget(
+                exercise: exerciseBlocks[index].exercise,
+                exerciseSets: exerciseBlocks[index].sets.map((tempExerciseSet) =>
+                    ExerciseSet(
+                      exerciseSetId: tempExerciseSet.tempExerciseSetId,
+                      option1: tempExerciseSet.option1,
+                      option2: tempExerciseSet.option2,
+                    )
+                ).toList(growable: true),
+                onExerciseSetAdd: () {
+                  setState(() {
+                    exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 5));
+                  });
+                },
+                onExerciseSetUpdate: (value) {
+                  print('UPDATING: ${value.option1} ${value.option2}');
+                  int exerciseSetIndex = exerciseBlocks[index].sets.indexWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
+                  TempExerciseSet tempExerciseSet = TempExerciseSet(
+                    tempExerciseSetId: value.exerciseSetId,
+                    option1: value.option1,
+                    option2: value.option2,
+                  );
+                  print('UPDATING: ${tempExerciseSet.option1} ${tempExerciseSet.option2}');
+                  //exerciseBlocks[index].sets[exerciseSetIndex]
+                },
+                onExerciseSetDelete: (value) {
+                  setState(() {
+                    exerciseBlocks[index].sets.removeWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
+                  });
+                },
+              ),
+            )
           )
+
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _addExercise,
         child: const Icon(Icons.add),
       ),
+
     );
   }
 
@@ -117,10 +152,12 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         MaterialPageRoute(builder: (context) => const AddExerciseScreen())
     ).then((exercise) {
       setState(() {
+        List<TempExerciseSet> sets = [];
+        sets.add(TempExerciseSet(tempExerciseSetId: 0, option1: 0));
         exerciseBlocks.add(
             ExerciseBlockData(
-                exercise: exercise,
-                sets: List.empty(growable: true)
+              exercise: exercise,
+              sets: sets
             )
         );
       });

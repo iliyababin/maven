@@ -163,10 +163,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _workoutAddActiveExerciseSet(WorkoutAddActiveExerciseSet event, emit) async {
     workoutExerciseSetDao.addWorkoutExerciseSet(
       WorkoutExerciseSet(
-        activeExerciseGroupId: event.activeExerciseGroupId,
+        workoutExerciseGroupId: event.activeExerciseGroupId,
         workoutId: state.workout!.workoutId!,
-        weight: 0,
-        reps: 0,
+        option_1: 0,
+        option_2: 0,
         checked: 0
       )
     );
@@ -216,7 +216,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       List<TemplateExerciseSet> exerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
       for(var exerciseSet in exerciseSets){
-        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToActiveExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
+        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToWorkoutExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
       }
     }
 

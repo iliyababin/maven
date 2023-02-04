@@ -154,7 +154,7 @@ class _ActiveExerciseGroupWidgetState extends State<ActiveExerciseGroupWidget> {
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 context.read<WorkoutBloc>().add(DeleteActiveExerciseSet(
-                    activeExerciseSetId: widget.activeExerciseSets[index].activeExerciseSetId!
+                    activeExerciseSetId: widget.activeExerciseSets[index].workoutExerciseSetId!
                 ));
               },
               background: Container(

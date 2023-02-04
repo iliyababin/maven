@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
 import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
+import 'package:Maven/common/model/workout_exercise_set.dart';
+import 'package:Maven/feature/workout/common/widget/exercise_group_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/model/timed.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../../screen/add_exercise_screen.dart';
+import '../../common/dto/exercise_set.dart';
+import '../../template/dao/exercise_dao.dart';
 import '../../template/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
@@ -241,11 +245,42 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         delegate: SliverChildBuilderDelegate(
                           childCount: state.activeExerciseGroups.length,
                           (context, index) {
+                            return FutureBuilder(
+                              future: context.read<ExerciseDao>().getExercise(state.activeExerciseGroups[index].exerciseId),
+                              builder: (context, snapshot) {
+                                if(!snapshot.hasData) return Container();
+
+                                List<WorkoutExerciseSet> workoutExerciseSets = state.activeExerciseSets.where((activeExerciseSet) => activeExerciseSet.workoutExerciseGroupId == state.activeExerciseGroups[index].activeExerciseGroupId).toList();
+
+                                List<ExerciseSet> exerciseSets = workoutExerciseSets.map((workoutExerciseSet) => ExerciseSet(
+                                  exerciseSetId: workoutExerciseSet.workoutExerciseSetId!,
+                                  option1: workoutExerciseSet.option_1,
+                                  option2: workoutExerciseSet.option_2,
+                                )).toList();
+
+                                return ExerciseGroupWidget(
+                                  exercise: snapshot.data!,
+                                  exerciseSets: exerciseSets,
+                                  onExerciseSetAdd: () {
+
+                                  },
+                                  onExerciseSetUpdate: (value) {
+
+                                  },
+                                  onExerciseSetDelete: (value) {
+
+                                  },
+                                  checkboxEnabled: true,
+                                  hintsEnabled: true,
+                                );
+                              },
+                            );
+
                             return ActiveExerciseGroupWidget(
                               activeExerciseGroup: state.activeExerciseGroups[index],
                               activeExerciseSets: state.activeExerciseSets.where(
                                   (activeExerciseSet) =>
-                                  activeExerciseSet.activeExerciseGroupId == state.activeExerciseGroups[index].activeExerciseGroupId
+                                  activeExerciseSet.workoutExerciseGroupId == state.activeExerciseGroups[index].activeExerciseGroupId
                               ).toList(),
                             );
                           }

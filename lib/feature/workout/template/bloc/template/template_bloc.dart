@@ -72,8 +72,8 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       for (var tempExerciseSet in exerciseBlock.sets) {
         templateExerciseSetDao.addTemplateExerciseSet(TemplateExerciseSet(
             exerciseGroupId: exerciseGroupId,
-            weight: tempExerciseSet.weight,
-            reps: tempExerciseSet.reps,
+            option1: tempExerciseSet.option1,
+            option2: tempExerciseSet.option2 != null ? tempExerciseSet.option2 : null,
             templateId: templateId));
       }
     }

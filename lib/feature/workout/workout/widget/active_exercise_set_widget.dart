@@ -9,11 +9,14 @@ import '../bloc/active_workout/workout_bloc.dart';
 import 'active_exercise_row.dart';
 
 class ActiveExerciseSetWidget extends StatefulWidget {
-  const ActiveExerciseSetWidget({Key? key, required this.activeExerciseSet, required this.index}) : super(key: key);
-
   final WorkoutExerciseSet activeExerciseSet;
   final int index;
-  
+
+  const ActiveExerciseSetWidget({Key? key,
+    required this.activeExerciseSet,
+    required this.index
+  }) : super(key: key);
+
   @override
   State<ActiveExerciseSetWidget> createState() => _ActiveExerciseSetWidgetState();
 }
@@ -27,32 +30,33 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
   TextEditingController repController = TextEditingController();
 
   GlobalKey globalKey = GlobalKey();
+
   @override
   void initState() {
     isChecked = widget.activeExerciseSet.checked == 1 ? true : false;
-    if(widget.activeExerciseSet.weight != 0) {
-      weightController.text = widget.activeExerciseSet.weight.toString();
+    if(widget.activeExerciseSet.option_1 != 0) {
+      weightController.text = widget.activeExerciseSet.option_1.toString();
     }
-    if(widget.activeExerciseSet.reps != 0) {
-      repController.text = widget.activeExerciseSet.reps.toString();
+    if(widget.activeExerciseSet.option_2 != 0) {
+      repController.text = widget.activeExerciseSet.option_2.toString();
     }
 
     weightController.addListener(() {
-      if(weightController.text == widget.activeExerciseSet.weight.toString()) return;
+      if(weightController.text == widget.activeExerciseSet.option_1.toString()) return;
 
       if(weightController.text.isEmpty) return;
       WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
-      activeExerciseSet.weight = int.parse(weightController.text);
+      activeExerciseSet.option_1 = int.parse(weightController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
           activeExerciseSet: activeExerciseSet
       ));
     });
     repController.addListener(() {
-      if(repController.text == widget.activeExerciseSet.reps.toString()) return;
+      if(repController.text == widget.activeExerciseSet.option_2.toString()) return;
 
       if(repController.text.isEmpty) return;
       WorkoutExerciseSet activeExerciseSet = widget.activeExerciseSet;
-      activeExerciseSet.reps = int.parse(repController.text);
+      activeExerciseSet.option_2 = int.parse(repController.text);
       context.read<WorkoutBloc>().add(UpdateActiveExerciseSet(
           activeExerciseSet: activeExerciseSet
       ));
@@ -76,13 +80,11 @@ class _ActiveExerciseSetWidgetState extends State<ActiveExerciseSetWidget> {
       duration: animationSpeed,
       height: 44,
       color: isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
-      padding: EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
 
         set: MFlatButton(
-          onPressed: () {
-
-          },
+          onPressed: () {},
           expand: false,
           height: 35,
           backgroundColor: Colors.transparent,
