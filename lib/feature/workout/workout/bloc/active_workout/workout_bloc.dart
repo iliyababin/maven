@@ -31,6 +31,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutExerciseGroupDao workoutExerciseGroupDao;
   final WorkoutExerciseSetDao workoutExerciseSetDao;
 
+  /// Controls whether or not streams trigger bloc emits
+  bool preventUpdates = false;
 
   WorkoutBloc({
     required this.exerciseDao,
@@ -66,7 +68,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _workoutExerciseGroupsStream(WorkoutExerciseGroupsStream event, emit) async {
     emit(state.copyWith(activeExerciseGroups: () => event.workoutExerciseGroups));
   }
+
   Future<void> _workoutExerciseSetsStream(WorkoutExerciseSetsStream event, emit) async {
+    if(preventUpdates) {
+      preventUpdates = false;
+      return;
+    }
     emit(state.copyWith(activeExerciseSets: () => event.workoutExerciseSets));
   }
 
@@ -168,11 +175,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _workoutUpdateWorkoutExerciseSet (WorkoutUpdateWorkoutExerciseSet event, emit) async {
+    preventUpdates = true;
     workoutExerciseSetDao.updateWorkoutExerciseSet(event.workoutExerciseSet);
   }
 
   Future<void> _workoutDeleteWorkoutExerciseSet (WorkoutDeleteWorkoutExerciseSet event, emit) async {
-    workoutExerciseSetDao.deleteWorkoutExerciseSet(event.workoutExerciseSetId);
+    workoutExerciseSetDao.deleteWorkoutExerciseSet(event.workoutExerciseSet);
   }
   
   Future<void> _updateWorkoutsItems(emit, {

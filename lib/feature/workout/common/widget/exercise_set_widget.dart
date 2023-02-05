@@ -63,6 +63,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   Widget build(BuildContext context) {
 
     option1EditingController.addListener(() => _updateExerciseSet());
+    option2EditingController.addListener(() => _updateExerciseSet());
 
 
     return AnimatedContainer(

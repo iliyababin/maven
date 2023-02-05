@@ -22,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db013.db')
+      .databaseBuilder('db020.db')
       .build();
 
   database.exerciseDao.addExercises(await _loadExerciseJson());

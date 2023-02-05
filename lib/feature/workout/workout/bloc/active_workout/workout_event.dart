@@ -103,14 +103,14 @@ class WorkoutUpdateWorkoutExerciseSet extends WorkoutEvent {
 }
 
 class WorkoutDeleteWorkoutExerciseSet extends WorkoutEvent {
-  final int workoutExerciseSetId;
+  final WorkoutExerciseSet workoutExerciseSet;
 
   const WorkoutDeleteWorkoutExerciseSet({
-    required this.workoutExerciseSetId
+    required this.workoutExerciseSet
   });
 
   @override
-  List<Object> get props => [workoutExerciseSetId];
+  List<Object> get props => [workoutExerciseSet];
 }
 
 

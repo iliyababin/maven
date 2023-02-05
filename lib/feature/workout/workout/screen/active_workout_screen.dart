@@ -280,7 +280,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   },
                                   onExerciseSetDelete: (value) {
                                     context.read<WorkoutBloc>().add(
-                                        WorkoutDeleteWorkoutExerciseSet(workoutExerciseSetId: value.exerciseSetId)
+                                        WorkoutDeleteWorkoutExerciseSet(workoutExerciseSet: state.activeExerciseSets.firstWhere((workoutExerciseSet) => workoutExerciseSet.workoutExerciseSetId == value.exerciseSetId))
                                     );
                                   },
                                   checkboxEnabled: true,
