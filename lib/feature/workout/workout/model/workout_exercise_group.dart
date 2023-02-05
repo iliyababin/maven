@@ -1,8 +1,8 @@
 
 import 'package:floor/floor.dart';
 
-import '../../feature/workout/template/model/exercise.dart';
-import '../../feature/workout/workout/model/workout.dart';
+import '../../template/model/exercise.dart';
+import 'workout.dart';
 
 @Entity(
   tableName: 'workout_exercise_group',

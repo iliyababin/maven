@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../../../../common/model/workout_exercise_group.dart';
+import '../model/workout_exercise_group.dart';
 
 @dao
 abstract class WorkoutExerciseGroupDao {
@@ -13,6 +13,9 @@ abstract class WorkoutExerciseGroupDao {
 
   @Query('SELECT * FROM workout_exercise_group WHERE workout_id = :workoutId')
   Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsByWorkoutId(int workoutId);
+
+  @Query('SELECT * FROM workout_exercise_group')
+  Stream<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsAsStream();
 
   @delete
   Future<void> deleteWorkoutExerciseGroup(WorkoutExerciseGroup workoutExerciseGroup);

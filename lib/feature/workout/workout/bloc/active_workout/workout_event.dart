@@ -46,6 +46,28 @@ class WorkoutAddExercise extends WorkoutEvent{
   List<Object> get props => [exercise];
 }
 
+class WorkoutExerciseGroupsStream extends WorkoutEvent {
+  final List<WorkoutExerciseGroup> workoutExerciseGroups;
+
+  const WorkoutExerciseGroupsStream({
+    required this.workoutExerciseGroups
+  });
+
+  @override
+  List<Object> get props => [workoutExerciseGroups];
+}
+
+class WorkoutExerciseSetsStream extends WorkoutEvent {
+  final List<WorkoutExerciseSet> workoutExerciseSets;
+
+  const WorkoutExerciseSetsStream({
+    required this.workoutExerciseSets
+  });
+
+  @override
+  List<Object> get props => [workoutExerciseSets];
+}
+
 class WorkoutAddWorkoutExerciseSet extends WorkoutEvent {
   final int workoutExerciseGroupId;
 

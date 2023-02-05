@@ -1,8 +1,8 @@
-import 'package:Maven/common/model/workout_exercise_group.dart';
-import 'package:Maven/common/model/workout_exercise_set.dart';
 import 'package:Maven/feature/workout/template/dao/exercise_dao.dart';
 import 'package:Maven/feature/workout/template/dao/template_dao.dart';
 import 'package:Maven/feature/workout/workout/dao/workout_dao.dart';
+import 'package:Maven/feature/workout/workout/model/workout_exercise_group.dart';
+import 'package:Maven/feature/workout/workout/model/workout_exercise_set.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +43,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.workoutExerciseSetDao,
   }) : super(const WorkoutState()) {
 
+    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupsStream(workoutExerciseGroups: event)));
+    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetsStream(workoutExerciseSets: event)));
+
+    on<WorkoutExerciseGroupsStream>(_workoutExerciseGroupsStream);
+    on<WorkoutExerciseSetsStream>(_workoutExerciseSetsStream);
+
     on<WorkoutInitialize>(_workoutInitialize);
     on<WorkoutFromTemplate>(_workoutFromTemplate);
     on<WorkoutPause>(_workoutPause);
@@ -57,6 +63,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
   }
 
+  Future<void> _workoutExerciseGroupsStream(WorkoutExerciseGroupsStream event, emit) async {
+    emit(state.copyWith(activeExerciseGroups: () => event.workoutExerciseGroups));
+  }
+  Future<void> _workoutExerciseSetsStream(WorkoutExerciseSetsStream event, emit) async {
+    emit(state.copyWith(activeExerciseSets: () => event.workoutExerciseSets));
+  }
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
@@ -153,46 +165,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         checked: 0
       )
     );
-    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
-    List<WorkoutExerciseSet> activeExerciseSets = [];
-    for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
-      List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
-          .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
-      activeExerciseSets.addAll(activeExerciseBunch);
-    }
-    emit(state.copyWith(
-      activeExerciseSets: () => activeExerciseSets
-    ));
   }
 
   Future<void> _workoutUpdateWorkoutExerciseSet (WorkoutUpdateWorkoutExerciseSet event, emit) async {
     workoutExerciseSetDao.updateWorkoutExerciseSet(event.workoutExerciseSet);
-/*
-    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
-    List<WorkoutExerciseSet> activeExerciseSets = [];
-    for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
-      List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
-          .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
-      activeExerciseSets.addAll(activeExerciseBunch);
-    }
-    emit(state.copyWith(
-        activeExerciseSets: () => activeExerciseSets
-    ));*/
   }
 
   Future<void> _workoutDeleteWorkoutExerciseSet (WorkoutDeleteWorkoutExerciseSet event, emit) async {
     workoutExerciseSetDao.deleteWorkoutExerciseSet(event.workoutExerciseSetId);
-
-    List<WorkoutExerciseGroup> activeExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(state.workout!.workoutId!);
-    List<WorkoutExerciseSet> activeExerciseSets = [];
-    for(WorkoutExerciseGroup activeExerciseGroup in activeExerciseGroups){
-      List<WorkoutExerciseSet> activeExerciseBunch = await workoutExerciseSetDao
-          .getWorkoutExerciseSetsByWorkoutExerciseGroupId(activeExerciseGroup.activeExerciseGroupId!);
-      activeExerciseSets.addAll(activeExerciseBunch);
-    }
-    emit(state.copyWith(
-        activeExerciseSets: () => activeExerciseSets
-    ));
   }
   
   Future<void> _updateWorkoutsItems(emit, {

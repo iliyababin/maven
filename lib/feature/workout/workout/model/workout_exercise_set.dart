@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 
-import '../../feature/workout/template/model/template_exercise_set.dart';
-import '../../feature/workout/workout/model/workout.dart';
+import '../../template/model/template_exercise_set.dart';
+import 'workout.dart';
 import 'workout_exercise_group.dart';
 
 @Entity(

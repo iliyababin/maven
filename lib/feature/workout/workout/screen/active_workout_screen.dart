@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
 import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
-import 'package:Maven/common/model/workout_exercise_set.dart';
 import 'package:Maven/feature/workout/common/widget/exercise_group_widget.dart';
+import 'package:Maven/feature/workout/workout/model/workout_exercise_set.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -269,7 +269,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     WorkoutExerciseSet workoutExerciseSet = state.activeExerciseSets.firstWhere(
                                         (activeExerciseSet) => activeExerciseSet.workoutExerciseSetId == value.exerciseSetId
                                     );
-
                                     context.read<WorkoutBloc>().add(
                                       WorkoutUpdateWorkoutExerciseSet(
                                         workoutExerciseSet: workoutExerciseSet.copyWith(

@@ -1,4 +1,4 @@
-import 'package:Maven/common/model/workout_exercise_set.dart';
+import 'package:Maven/feature/workout/workout/model/workout_exercise_set.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';

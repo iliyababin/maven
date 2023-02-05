@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import 'common/util/database.dart';
+import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/workout/template/bloc/template/template_bloc.dart';
 import 'feature/workout/template/model/exercise.dart';

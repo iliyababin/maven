@@ -43,6 +43,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   final TextEditingController option2EditingController = TextEditingController();
 
   bool _shake = false;
+  
 
   void _updateExerciseSet() {
     widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
@@ -63,7 +64,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
     option1EditingController.addListener(() => _updateExerciseSet());
 
-    option2EditingController.addListener(() => _updateExerciseSet());
 
     return AnimatedContainer(
       duration: _animationSpeed,
