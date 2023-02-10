@@ -1,3 +1,4 @@
+import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
@@ -48,7 +49,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   void _updateExerciseSet() {
     widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
       option1: option1EditingController.text.isEmpty ? 0 : int.parse(option1EditingController.text),
-      option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text)
+      option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text),
+      checked: widget.checkboxEnabled ? _isChecked ? 1 : 0 : null
     ));
   }
 
@@ -57,13 +59,269 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     option1EditingController.text = widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString();
     option2EditingController.text = widget.exerciseSet.option2 == null ? '' : widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString();
     super.initState();
+    _isChecked = widget.exerciseSet.checked == 1 ? true : false;
+
   }
+
+  final FocusNode _fn = FocusNode();
 
   @override
   Widget build(BuildContext context) {
 
     option1EditingController.addListener(() => _updateExerciseSet());
     option2EditingController.addListener(() => _updateExerciseSet());
+
+    _fn.addListener(() {
+      if(_fn.hasFocus) {
+        _fn.unfocus();
+        showBottomSheetDialog(
+          context: context,
+          onClose: () {
+            print('closed');
+          },
+          child: DefaultTabController(
+            length: 2,
+            child: Row(
+              children: [
+
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 20, top: 20, bottom: 5),
+                        child: TextField(
+                          keyboardType: TextInputType.none,
+                          decoration: InputDecoration(
+                            hintText: 'Weight',
+                            hintStyle: TextStyle(
+                                color: mt(context).text.primaryColor
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: mt(context).borderColor,
+                                    width: 1
+                                )
+                            ),
+                          ),
+                          style: TextStyle(
+                            color: mt(context).text.primaryColor
+                          ),
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '1',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '2',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '3',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '4',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '5',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '6',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '7',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '8',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '9',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '0',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              text: Text(
+                                '3',
+                                style: TextStyle(
+                                    color: mt(context).text.primaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900
+                                ),
+                              ),
+                            ),
+                            MFlatButton(
+                              onPressed: (){},
+                              height: 75,
+                              icon: Icon(
+                                Icons.backspace_rounded,
+                                color: mt(context).icon.primaryColor,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  width: 1,
+                  color: mt(context).borderColor,
+                ),
+
+                Container(
+                  width: 70,
+                  child: Column(
+                    children: [
+                      MFlatButton(
+                        onPressed: (){},
+                        icon: Icon(
+                          Icons.history_rounded
+                        ),
+                      ),
+                      MFlatButton(
+                        onPressed: (){},
+                        icon: Icon(
+                            Icons.calculate_rounded
+                        ),
+                      ),
+                      MFlatButton(
+                        onPressed: (){},
+                        icon: Icon(
+                          Icons.check
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+
+              ],
+            )
+          )
+        );
+      }
+    });
 
 
     return AnimatedContainer(
@@ -114,8 +372,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
           child: Form(
             child: TextField(
+              focusNode: _fn,
               controller: option1EditingController,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.none,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -174,9 +433,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     }
                   }
 
-                  setState(()  {
+                  setState(() {
                     _isChecked = !_isChecked;
+                    _updateExerciseSet();
                   });
+
 
 
                 },

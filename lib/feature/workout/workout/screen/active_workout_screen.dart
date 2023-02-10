@@ -8,6 +8,7 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/model/timed.dart';
@@ -36,9 +37,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   double _timePercent = 0;
   String _timeFormatted = '';
 
+
+
   @override
   void dispose() {
     super.dispose();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+    });
   }
 
   @override
@@ -255,8 +260,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   exerciseSetId: workoutExerciseSet.workoutExerciseSetId!,
                                   option1: workoutExerciseSet.option_1,
                                   option2: workoutExerciseSet.option_2,
+                                  checked: workoutExerciseSet.checked,
                                 )).toList();
 
+                                print('RDERNING');
                                 return ExerciseGroupWidget(
                                   exercise: snapshot.data!,
                                   exerciseSets: exerciseSets,
@@ -274,6 +281,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         workoutExerciseSet: workoutExerciseSet.copyWith(
                                           option_1: value.option1,
                                           option_2: value.option2,
+                                          checked: value.checked,
                                         )
                                       )
                                     );
@@ -385,6 +393,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   void _showWorkoutOptions() {
     showBottomSheetDialog(
       context: context,
+      onClose: () {},
       height: 270,
       child: Material(
         color: mt(context).backgroundColor,

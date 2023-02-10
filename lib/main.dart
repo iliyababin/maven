@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Maven/feature/workout/barbell_calculator/model/plate.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +23,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db020.db')
+      .databaseBuilder('db021.db')
       .build();
 
   database.exerciseDao.addExercises(await _loadExerciseJson());
+  database.plateDao.addPlates(getDefaultPlates());
 
 
   runApp(
@@ -34,6 +36,7 @@ void main() async {
         RepositoryProvider(create: (context) => database.exerciseDao),
         RepositoryProvider(create: (context) => database.templateExerciseGroupDao),
         RepositoryProvider(create: (context) => database.templateExerciseSetDao),
+        RepositoryProvider(create: (context) => database.plateDao),
       ],
       child: MultiBlocProvider(
         providers: [

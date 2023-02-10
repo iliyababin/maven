@@ -1,3 +1,4 @@
+import 'package:Maven/feature/workout/barbell_calculator/widget/barbell_calculator_widget.dart';
 import 'package:flutter/material.dart';
 
 class NutritionScreen extends StatefulWidget {
@@ -10,6 +11,8 @@ class NutritionScreen extends StatefulWidget {
 class _NutritionScreenState extends State<NutritionScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return  Center(
+      child: Container(child: BarbellCalculatorWidget(weight: (200-45) / 2)),
+    );
   }
 }
