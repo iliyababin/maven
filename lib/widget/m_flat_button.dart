@@ -15,6 +15,7 @@ class MFlatButton extends StatefulWidget {
   final EdgeInsets padding;
   final double height;
   final double width;
+  final double borderRadius;
 
   const MFlatButton({super.key,
     this.text,
@@ -26,6 +27,7 @@ class MFlatButton extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.height = 42,
     this.width = double.infinity,
+    this.borderRadius = 8,
   });
 
 
@@ -52,19 +54,19 @@ class _MFlatButtonState extends State<MFlatButton> {
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(widget.borderRadius),
         border: Border.all(
           color: widget.borderColor ?? widget.backgroundColor ?? mt(context).backgroundColor
         ),
         color: widget.borderColor
       ),
       child: Material(
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(widget.borderRadius),
         color: widget.backgroundColor ?? mt(context).backgroundColor,
         child: InkWell(
           onTap: widget.onPressed,
           splashFactory: InkRipple.splashFactory,
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

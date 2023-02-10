@@ -15,7 +15,7 @@ void showBottomSheetDialog({
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
         child: Container(
           decoration: BoxDecoration(
             color: mt(context).backgroundColor,
