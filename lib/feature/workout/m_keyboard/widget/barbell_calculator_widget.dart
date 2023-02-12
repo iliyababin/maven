@@ -1,9 +1,10 @@
-import 'package:Maven/feature/workout/barbell_calculator/service/barbell_calculator.dart';
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../dao/plate_dao.dart';
 import '../model/plate.dart';
+import '../service/barbell_calculator.dart';
 
 class BarbellCalculatorWidget extends StatelessWidget {
   const BarbellCalculatorWidget({Key? key,
@@ -14,7 +15,6 @@ class BarbellCalculatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
       future: getPlatesFromWeight(context.read<PlateDao>(), weight),
       builder: (context, snapshot) {
@@ -29,8 +29,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
         List<Widget> ui = [];
 
         ui.add(Container(
-          width: 30,
-          height: 20,
+          width: 20,
+          height: 16,
           color: Color(0xFF4e5967),
         ));
 
@@ -67,16 +67,76 @@ class BarbellCalculatorWidget extends StatelessWidget {
           ));
 
           ui.add(Container(
-            width: 3,
+            width: 4,
             height: 20,
             color: Color(0xFF4e5967),
           ));
+
         }
 
+        ui.add(Container(
+          width: 80,
+        ));
 
 
-        return Row(
-          children: ui,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                children: [
+
+                  Text(
+                    'Plate Calculator',
+                    style: TextStyle(
+                      color: mt(context).text.primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900
+                    ),
+                  ),
+
+                  SizedBox(height: 5,),
+
+                  Text(
+                    'Target Weight: ${weight.toString()}',
+                    style: TextStyle(
+                        color: mt(context).text.secondaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
+            Container(
+              height: 2,
+              color: mt(context).borderColor,
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: ui,
+                ),
+              ),
+            ),
+
+            Container(
+              height: 2,
+              color: mt(context).borderColor,
+            ),
+
+            Container(
+              height: 50,
+            )
+          ],
         );
 
       },

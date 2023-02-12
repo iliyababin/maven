@@ -1,5 +1,5 @@
-import 'package:Maven/feature/workout/barbell_calculator/dao/plate_dao.dart';
 
+import '../dao/plate_dao.dart';
 import '../model/plate.dart';
 
 Future<List<Plate>> getPlatesFromWeight(PlateDao plateDao, double weight) async {

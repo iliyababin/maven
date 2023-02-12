@@ -1,4 +1,4 @@
-import 'package:Maven/feature/workout/barbell_calculator/widget/barbell_calculator_widget.dart';
+import 'package:Maven/feature/workout/m_keyboard/widget/barbell_calculator_widget.dart';
 import 'package:flutter/material.dart';
 
 class NutritionScreen extends StatefulWidget {

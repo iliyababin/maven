@@ -49,7 +49,7 @@ List<Plate> getDefaultPlates() => [
     weightLb: 35,
     weightKg: 15,
     amount: 99,
-    color: Colors.yellow,
+    color: Color(0xFFFF803B),
     height: 0.9,
   ),
   const Plate(

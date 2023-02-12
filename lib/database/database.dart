@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import '../feature/workout/barbell_calculator/dao/plate_dao.dart';
-import '../feature/workout/barbell_calculator/model/plate.dart';
+import '../feature/workout/m_keyboard/dao/plate_dao.dart';
+import '../feature/workout/m_keyboard/model/plate.dart';
 import '../feature/workout/template/dao/exercise_dao.dart';
 import '../feature/workout/template/dao/template_dao.dart';
 import '../feature/workout/template/dao/template_exercise_group_dao.dart';

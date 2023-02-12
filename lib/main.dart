@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:Maven/feature/workout/barbell_calculator/model/plate.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
+import 'feature/workout/m_keyboard/model/plate.dart';
 import 'feature/workout/template/bloc/template/template_bloc.dart';
 import 'feature/workout/template/model/exercise.dart';
 import 'feature/workout/workout/bloc/active_workout/workout_bloc.dart';

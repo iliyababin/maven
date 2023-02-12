@@ -1,5 +1,5 @@
 import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
-import 'package:Maven/feature/workout/barbell_calculator/widget/m_keyboard.dart';
+import 'package:Maven/feature/workout/m_keyboard/widget/m_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
@@ -76,18 +76,21 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
       if(_fn.hasFocus) {
         _fn.unfocus();
         showBottomSheetDialog(
-            context: context,
-            onClose: () {
-              print('closed');
+          context: context,
+          onClose: () {
+            print('closed');
+          },
+          height: 300,
+          child: MKeyboard(
+            mKeyboardType: MKeyboardType.barbell,
+            value: option1EditingController.text,
+            onValueChanged: (p0) {
+              option1EditingController.text = p0;
             },
-            height: 300,
-            child: MKeyboard(
-              mKeyboardType: MKeyboardType.barbell,
-            )
+          )
         );
       }
     });
-
 
     return AnimatedContainer(
       duration: _animationSpeed,
