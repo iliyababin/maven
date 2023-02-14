@@ -8,6 +8,9 @@ abstract class WorkoutExerciseSetDao {
   @insert
   Future<int> addWorkoutExerciseSet(WorkoutExerciseSet workoutExerciseSet);
 
+  @Query('SELECT * FROM workout_exercise_set WHERE workout_exercise_set_id = :workoutExerciseSetId')
+  Future<WorkoutExerciseSet?> getWorkoutExerciseSet(int workoutExerciseSetId);
+
   @Query('SELECT * FROM workout_exercise_set')
   Future<List<WorkoutExerciseSet>> getWorkoutExerciseSets();
 

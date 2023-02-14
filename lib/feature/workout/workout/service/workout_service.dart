@@ -1,0 +1,119 @@
+
+import '../../common/dto/exercise_set.dart';
+import '../../template/dao/exercise_dao.dart';
+import '../../template/model/exercise.dart';
+import '../dao/workout_dao.dart';
+import '../dao/workout_exercise_group_dao.dart';
+import '../dao/workout_exercise_set_dao.dart';
+import '../model/workout.dart';
+import '../model/workout_exercise_group.dart';
+import '../model/workout_exercise_set.dart';
+
+class WorkoutDto {
+  Workout workout;
+  List<WorkoutGroupDto> workoutGroupDtos;
+
+  WorkoutDto({
+    required this.workout,
+    required this.workoutGroupDtos,
+  });
+}
+
+class WorkoutGroupDto {
+  WorkoutExerciseGroup workoutExerciseGroup;
+  List<ExerciseSet> exerciseSets;
+  Exercise exercise;
+
+  WorkoutGroupDto({
+    required this.workoutExerciseGroup,
+    required this.exerciseSets,
+    required this.exercise,
+  });
+}
+
+class WorkoutService {
+  final WorkoutDao workoutDao;
+  final WorkoutExerciseGroupDao workoutExerciseGroupDao;
+  final WorkoutExerciseSetDao workoutExerciseSetDao;
+  final ExerciseDao exerciseDao;
+
+  const WorkoutService({
+    required this.workoutDao,
+    required this.workoutExerciseGroupDao,
+    required this.workoutExerciseSetDao,
+    required this.exerciseDao,
+  });
+
+  Future<WorkoutDto?> getWorkoutDto() async {
+    Workout? workout = await workoutDao.getPausedWorkout();
+    if(workout == null) return null;
+
+    List<WorkoutExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workout.workoutId!);
+
+    List<WorkoutGroupDto> workoutGroupDtos = [];
+
+    for(WorkoutExerciseGroup workoutExerciseGroup in workoutExerciseGroups){
+      List<WorkoutExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.workoutExerciseGroupId!);
+      List<ExerciseSet> exerciseSets = workoutExerciseSets.map((workoutExerciseSet) =>
+        ExerciseSet(
+          exerciseSetId: workoutExerciseSet.workoutExerciseSetId!,
+          option1: workoutExerciseSet.option_1,
+          option2: workoutExerciseSet.option_2,
+          checked: workoutExerciseSet.checked
+        )
+      ).toList();
+      Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
+      if(exercise == null) throw UnimplementedError('Exercise does not exist');
+      workoutGroupDtos.add(
+        WorkoutGroupDto(
+          workoutExerciseGroup: workoutExerciseGroup,
+          exerciseSets: exerciseSets,
+          exercise: exercise
+        )
+      );
+    }
+
+    return WorkoutDto(
+      workout: workout,
+      workoutGroupDtos: workoutGroupDtos
+    );
+  }
+
+  Future<int> addWorkoutExerciseSet({
+    required int workoutId,
+    required int workoutExerciseGroupId,
+  }) async {
+    return workoutExerciseSetDao.addWorkoutExerciseSet(
+      WorkoutExerciseSet(
+        workoutId: workoutId,
+        workoutExerciseGroupId: workoutId,
+        option_1: 0,
+        checked: 0,
+      ),
+    );
+  }
+
+  Future<void> deleteWorkoutExerciseSet({
+    required int workoutExerciseSetId
+  }) async{
+    WorkoutExerciseSet? workoutExerciseSet = await workoutExerciseSetDao.getWorkoutExerciseSet(workoutExerciseSetId);
+    workoutExerciseSetDao.deleteWorkoutExerciseSet(workoutExerciseSet!);
+  }
+
+  Future<void> updateWorkoutExerciseSet({
+    required ExerciseSet exerciseSet,
+    required int workoutId,
+    required int workoutExerciseGroupId,
+  }) async {
+    workoutExerciseSetDao.updateWorkoutExerciseSet(
+      WorkoutExerciseSet(
+        workoutExerciseSetId: exerciseSet.exerciseSetId,
+        option_1: exerciseSet.option1,
+        option_2: exerciseSet.option2,
+        checked: exerciseSet.checked ?? 0,
+        workoutId: workoutId,
+        workoutExerciseGroupId: workoutExerciseGroupId,
+      )
+    );
+  }
+}

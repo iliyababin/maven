@@ -1,5 +1,7 @@
 import 'package:Maven/feature/home/screen/home_screen.dart';
 import 'package:Maven/feature/profile/screen/profile_screen.dart';
+import 'package:Maven/feature/workout/workout/dao/workout_exercise_group_dao.dart';
+import 'package:Maven/feature/workout/workout/service/workout_service.dart';
 import 'package:Maven/screen/testing_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +10,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
 import '../../nutrition/screen/nutrition_screen.dart';
+import '../../workout/template/dao/exercise_dao.dart';
 import '../../workout/template/screen/template_screen.dart';
 import '../../workout/workout/bloc/active_workout/workout_bloc.dart';
-import '../../workout/workout/screen/active_workout_screen.dart';
+import '../../workout/workout/dao/workout_dao.dart';
+import '../../workout/workout/dao/workout_exercise_set_dao.dart';
+import '../../workout/workout/screen/workout_screen.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -33,11 +38,6 @@ class _MavenState extends State<Maven> {
 
   final PanelController panelController = PanelController();
   double panelPosition = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
 
   @override
@@ -96,13 +96,21 @@ class _MavenState extends State<Maven> {
                 ),
 
                 panel: slidingPanelBackground(
-                  WorkoutScreen(isWorkoutActive: (p0) {
-                    if(!p0) {
-                      setState(() {
-                        panelPosition = 0;
-                      });
-                    }
-                  })
+                  WorkoutScreen(
+                    isWorkoutActive: (p0) {
+                      if(!p0) {
+                        setState(() {
+                          panelPosition = 0;
+                        });
+                      }
+                    },
+                    workoutService: WorkoutService(
+                      workoutDao: context.read<WorkoutDao>(),
+                      workoutExerciseGroupDao: context.read<WorkoutExerciseGroupDao>(),
+                      workoutExerciseSetDao: context.read<WorkoutExerciseSetDao>(),
+                      exerciseDao: context.read<ExerciseDao>()
+                    ),
+                  )
                 )
 
               );

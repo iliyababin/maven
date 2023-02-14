@@ -13,34 +13,22 @@ class WorkoutState extends Equatable {
     this.status = WorkoutStatus.initial,
     this.workout,
     this.pausedWorkouts = const [],
-    this.activeExerciseGroups = const [],
-    this.activeExerciseSets = const [],
-    this.exercises = const [],
   });
 
   final WorkoutStatus status;
   final Workout? workout;
   final List<Workout> pausedWorkouts;
-  final List<WorkoutExerciseGroup> activeExerciseGroups;
-  final List<WorkoutExerciseSet> activeExerciseSets;
-  final List<Exercise> exercises;
 
 
   WorkoutState copyWith({
     WorkoutStatus Function()? status,
     Workout Function()? workout,
     List<Workout> Function()? pausedWorkouts,
-    List<WorkoutExerciseGroup> Function()? activeExerciseGroups,
-    List<WorkoutExerciseSet> Function()? activeExerciseSets,
-    List<Exercise> Function()? exercises,
   }) {
     return WorkoutState(
       status: status != null ? status() : this.status,
       workout: workout != null ? workout() : this.workout,
       pausedWorkouts: pausedWorkouts != null ? pausedWorkouts() : this.pausedWorkouts,
-      activeExerciseGroups: activeExerciseGroups != null ? activeExerciseGroups() : this.activeExerciseGroups,
-      activeExerciseSets: activeExerciseSets != null ? activeExerciseSets() : this.activeExerciseSets,
-      exercises: exercises != null ? exercises() : this.exercises,
     );
   }
 
@@ -49,8 +37,5 @@ class WorkoutState extends Equatable {
     status,
     workout,
     pausedWorkouts,
-    activeExerciseGroups,
-    activeExerciseSets,
-    exercises,
   ];
 }

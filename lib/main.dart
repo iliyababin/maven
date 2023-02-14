@@ -23,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db021.db')
+      .databaseBuilder('db022.db')
       .build();
 
   database.exerciseDao.addExercises(await _loadExerciseJson());
@@ -36,6 +36,9 @@ void main() async {
         RepositoryProvider(create: (context) => database.exerciseDao),
         RepositoryProvider(create: (context) => database.templateExerciseGroupDao),
         RepositoryProvider(create: (context) => database.templateExerciseSetDao),
+        RepositoryProvider(create: (context) => database.workoutDao),
+        RepositoryProvider(create: (context) => database.workoutExerciseGroupDao),
+        RepositoryProvider(create: (context) => database.workoutExerciseSetDao),
         RepositoryProvider(create: (context) => database.plateDao),
       ],
       child: MultiBlocProvider(

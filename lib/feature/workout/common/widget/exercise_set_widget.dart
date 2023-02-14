@@ -45,7 +45,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   final TextEditingController option2EditingController = TextEditingController();
 
   bool _shake = false;
-  
+
+  bool _dialogOpen = false;
 
   void _updateExerciseSet() {
     widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
@@ -74,6 +75,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
     _fn.addListener(() {
       if(_fn.hasFocus) {
+        if(_dialogOpen) return;
+        _dialogOpen = true;
         _fn.unfocus();
         showBottomSheetDialog(
           context: context,

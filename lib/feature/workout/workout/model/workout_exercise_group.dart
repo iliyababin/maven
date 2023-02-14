@@ -23,7 +23,7 @@ class WorkoutExerciseGroup {
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'workout_exercise_group_id')
-  int? activeExerciseGroupId;
+  int? workoutExerciseGroupId;
 
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
@@ -32,7 +32,7 @@ class WorkoutExerciseGroup {
   final int workoutId;
 
   WorkoutExerciseGroup({
-    this.activeExerciseGroupId,
+    this.workoutExerciseGroupId,
     required this.exerciseId,
     required this.workoutId,
   });
