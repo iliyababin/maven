@@ -5,9 +5,9 @@ import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../../widget/m_flat_button.dart';
-import '../../template/model/exercise.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
+import '../model/exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
@@ -48,6 +48,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   bool _dialogOpen = false;
 
+  final FocusNode _fn = FocusNode();
+
+
   void _updateExerciseSet() {
     widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
       option1: option1EditingController.text.isEmpty ? 0 : int.parse(option1EditingController.text),
@@ -62,10 +65,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     option2EditingController.text = widget.exerciseSet.option2 == null ? '' : widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString();
     super.initState();
     _isChecked = widget.exerciseSet.checked == 1 ? true : false;
-
   }
 
-  final FocusNode _fn = FocusNode();
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           },
           height: 300,
           child: MKeyboard(
-            mKeyboardType: MKeyboardType.barbell,
+            exerciseEquipment: widget.exercise.exerciseEquipment,
             value: option1EditingController.text,
             onValueChanged: (p0) {
               option1EditingController.text = p0;

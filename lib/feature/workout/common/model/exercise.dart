@@ -1,5 +1,7 @@
-import 'package:Maven/feature/workout/template/model/exercise_type.dart';
+import 'package:Maven/feature/workout/common/model/exercise_type.dart';
 import 'package:floor/floor.dart';
+
+import 'exercise_equipment.dart';
 
 @Entity(tableName: 'exercise')
 class Exercise {
@@ -20,12 +22,16 @@ class Exercise {
   @ColumnInfo(name: 'exercise_type')
   final ExerciseType exerciseType;
 
+  @ColumnInfo(name: 'exercise_equipment')
+  final ExerciseEquipment exerciseEquipment;
+
   const Exercise({
     required this.exerciseId,
     required this.name,
     required this.muscle,
     required this.picture,
     required this.exerciseType,
+    required this.exerciseEquipment,
   });
 
   factory Exercise.fromMap(Map<String, dynamic> json) => Exercise(
@@ -33,7 +39,8 @@ class Exercise {
     name: json["name"],
     muscle: json["muscle"],
     picture: json["picture"],
-    exerciseType: getExerciseTypes().firstWhere((exerciseType) => exerciseType.exerciseTypeId == json["exerciseType"])
+    exerciseType: getExerciseTypes().firstWhere((exerciseType) => exerciseType.exerciseTypeId == json["exerciseType"]),
+    exerciseEquipment: getExerciseEquipmentById(json["exerciseEquipment"])!,
   );
 }
 

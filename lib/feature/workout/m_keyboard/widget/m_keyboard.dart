@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../../widget/m_flat_button.dart';
+import '../../common/model/exercise_equipment.dart';
 import 'numpad_widget.dart';
 
 enum MKeyboardType {
@@ -14,12 +15,12 @@ enum MKeyboardType {
 
 class MKeyboard extends StatefulWidget {
   MKeyboard({Key? key,
-    required this.mKeyboardType,
+    required this.exerciseEquipment,
     required this.value,
     required this.onValueChanged,
   }) : super(key: key);
 
-  final MKeyboardType mKeyboardType;
+  final ExerciseEquipment exerciseEquipment;
 
   String value;
 
@@ -91,7 +92,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                 ),
               ),
-              MFlatButton(
+              ExerciseEquipment.barbell == widget.exerciseEquipment ? MFlatButton(
                 onPressed: (){
                   setState(() {
                     _selectedTab = 1;
@@ -102,7 +103,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   Icons.calculate_rounded,
                   color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                 ),
-              ),
+              ) : Container(),
               MFlatButton(
                 onPressed: (){
                   setState(() {

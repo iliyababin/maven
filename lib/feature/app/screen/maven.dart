@@ -241,7 +241,7 @@ class _MavenState extends State<Maven> {
   
   SizedBox bottomNavigationBar() {
     return SizedBox(
-      height: 56 - 56 * panelPosition,
+      height: /*56 - 56 * panelPosition*/ 56,
       child: BottomNavigationBar(
         backgroundColor: mt(context).bottomNavigationBar.backgroundColor,
         selectedItemColor: mt(context).bottomNavigationBar.selectedItemColor,

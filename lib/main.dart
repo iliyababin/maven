@@ -8,9 +8,9 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
+import 'feature/workout/common/model/exercise.dart';
 import 'feature/workout/m_keyboard/model/plate.dart';
 import 'feature/workout/template/bloc/template/template_bloc.dart';
-import 'feature/workout/template/model/exercise.dart';
 import 'feature/workout/workout/bloc/active_workout/workout_bloc.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
@@ -23,11 +23,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db022.db')
+      .databaseBuilder('db026.db')
       .build();
 
   database.exerciseDao.addExercises(await _loadExerciseJson());
   database.plateDao.addPlates(getDefaultPlates());
+  /*List<Plate> defaultPlates = getDefaultPlates();
+  List<Plate> plates = await database.plateDao.getPlates();
+  for(var defaultPlate in defaultPlates) {
+    Plate plate = plates.firstWhere((plate) => plate.plateId == defaultPlate.plateId && plate.isCustomized, orElse: () {
+      return defaultPlate;
+    },);
+    database.plateDao.addPlate(plate);
+  }*/
 
 
   runApp(

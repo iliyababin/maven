@@ -1,4 +1,6 @@
+import 'package:Maven/feature/settings/screen/plate_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,6 +48,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
           color: Color(0xFF4e5967),
         ));
 
+        double possibleWeight = 0;
+        plates.forEach((plate) {possibleWeight += plate.weight;});
         for (Plate plate in plates) {
           ui.add(Container(
             height: 125 * plate.height,
@@ -58,7 +62,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             child: RotatedBox(
               quarterTurns: 3,
               child: Text(
-                plate.weightLb.toStringAsFixed(plate.weightLb.truncateToDouble() == plate.weightLb ? 0 : 1),
+                plate.weight.toStringAsFixed(plate.weight.truncateToDouble() == plate.weight ? 0 : 1),
                 style: const TextStyle(
                   color: Colors.white
                 ),
@@ -67,7 +71,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
           ));
 
           ui.add(Container(
-            width: 4,
+            width: 3,
             height: 20,
             color: Color(0xFF4e5967),
           ));
@@ -102,7 +106,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                   SizedBox(height: 5,),
 
                   Text(
-                    'Target Weight: ${weight.toString()}',
+                    'Target: ${weight.toString()} | Remaining: $possibleWeight',
                     style: TextStyle(
                         color: mt(context).text.secondaryColor,
                         fontSize: 16,
@@ -135,6 +139,26 @@ class BarbellCalculatorWidget extends StatelessWidget {
 
             Container(
               height: 50,
+              child: Row(
+                children: [
+                  MFlatButton(
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PlateScreen()),
+                      );
+                    },
+                    borderRadius: 0,
+                    height: double.infinity,
+                    text: Text(
+                      'Manage',
+                      style: TextStyle(
+                        color: mt(context).text.accentColor
+                      ),
+                    ),
+                  )
+                ],
+              ),
             )
           ],
         );

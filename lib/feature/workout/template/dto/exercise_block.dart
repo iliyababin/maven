@@ -1,5 +1,5 @@
 
-import '../model/exercise.dart';
+import '../../common/model/exercise.dart';
 import 'temp_exercise_set.dart';
 
 class ExerciseBlockData {

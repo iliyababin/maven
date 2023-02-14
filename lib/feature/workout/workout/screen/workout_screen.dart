@@ -14,9 +14,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/model/timed.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../../screen/add_exercise_screen.dart';
-import '../../template/model/exercise.dart';
+import '../../common/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
+import '../model/workout_exercise_group.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key,
@@ -94,7 +95,25 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       child: Row(
                         children: [
                           MFlatButton(
-                            onPressed: () => _addExercises(),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AddExerciseScreen()),
+                              ).then((value) async {
+                                Exercise exercise = value;
+                                int workoutExerciseGroupId = await widget.workoutService.addWorkoutExerciseGroup(workoutId: workout.workoutId!, exercise: exercise);
+                                WorkoutExerciseGroup? workoutExerciseGroup = await widget.workoutService.getWorkoutExerciseGroup(workoutExerciseGroupId);
+                                setState(() {
+                                  workoutGroupDtos.add(
+                                    WorkoutGroupDto(
+                                      workoutExerciseGroup: workoutExerciseGroup!,
+                                      exerciseSets: [],
+                                      exercise: exercise,
+                                    ),
+                                  );
+                                });
+                              });
+                            },
                             icon: Icon(
                               Icons.add_rounded,
                               size: 30,
@@ -334,19 +353,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
         );
       },
     );
-  }
-
-  ///
-  /// Functions
-  ///
-  void _addExercises () {
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AddExerciseScreen())
-    ).then((value) {
-      Exercise exercise = value;
-
-    });
   }
 
   void _startTimer (Timed timed) {

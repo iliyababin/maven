@@ -1,12 +1,12 @@
 
 import 'package:floor/floor.dart';
 
-import '../model/exercise.dart';
+import '../../common/model/exercise.dart';
 
 @dao
 abstract class ExerciseDao {
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> addExercises(List<Exercise> exercises);
 
   @Query('SELECT * FROM exercise WHERE exercise_id = :exerciseId')

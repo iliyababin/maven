@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import 'exercise.dart';
+import '../../common/model/exercise.dart';
 import 'template.dart';
 
 @Entity(

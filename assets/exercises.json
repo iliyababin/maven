@@ -6,7 +6,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/pushups.jpg",
     "exerciseType": 2,
-    "equipmentId": 4
+    "exerciseEquipment": 4
   },
   {
     "exerciseId": 2,
@@ -15,7 +15,7 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/squats.jpg",
     "exerciseType": 6,
-    "equipmentId": 3
+    "exerciseEquipment": 3
   },
   {
     "exerciseId": 3,
@@ -24,7 +24,7 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/lunges.jpg",
     "exerciseType": 6,
-    "equipmentId": 6
+    "exerciseEquipment": 6
   },
   {
     "exerciseId": 4,
@@ -33,7 +33,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/bicepcurls.jpg",
     "exerciseType": 6,
-    "equipmentId": 5
+    "exerciseEquipment": 5
   },
   {
     "exerciseId": 5,
@@ -42,7 +42,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/tricepdips.jpg",
     "exerciseType": 7,
-    "equipmentId": 11
+    "exerciseEquipment": 11
   },
   {
     "exerciseId": 6,
@@ -51,7 +51,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/pullups.jpg",
     "exerciseType": 2,
-    "equipmentId": 1
+    "exerciseEquipment": 1
   },
   {
     "exerciseId": 7,
@@ -60,7 +60,7 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/deadlifts.jpg",
     "exerciseType": 6,
-    "equipmentId": 3
+    "exerciseEquipment": 3
   },
   {
     "exerciseId": 8,
@@ -69,7 +69,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/shoulderpress.jpg",
     "exerciseType": 6,
-    "equipmentId": 2
+    "exerciseEquipment": 2
   },
   {
     "exerciseId": 9,
@@ -78,7 +78,7 @@
     "bodyPart": "Upper Body",
     "picture": "https://example.com/latpulldowns.jpg",
     "exerciseType": 7,
-    "equipmentId": 8
+    "exerciseEquipment": 8
   },
   {
     "exerciseId": 10,
@@ -87,7 +87,7 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/legpress.jpg",
     "exerciseType": 6,
-    "equipmentId": 9
+    "exerciseEquipment": 9
   },
   {
     "exerciseId": 11,
@@ -96,6 +96,6 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/legpress.jpg",
     "exerciseType": 3,
-    "equipmentId": 8
+    "exerciseEquipment": 8
   }
 ]

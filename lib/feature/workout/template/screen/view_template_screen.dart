@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/dialog/show_confirmation_dialog.dart';
+import '../../common/model/exercise.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
-import '../model/exercise.dart';
 import '../model/template_exercise_group.dart';
 
 

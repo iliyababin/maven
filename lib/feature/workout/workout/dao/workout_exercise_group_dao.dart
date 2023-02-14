@@ -8,6 +8,9 @@ abstract class WorkoutExerciseGroupDao {
   @insert
   Future<int> addWorkoutExerciseGroup(WorkoutExerciseGroup workoutExerciseGroup);
 
+  @Query('SELECT * FROM workout_exercise_group WHERE workout_exercise_group_id = :workoutExerciseGroupId')
+  Future<WorkoutExerciseGroup?> getWorkoutExerciseGroup(int workoutExerciseGroupId);
+
   @Query('SELECT * FROM workout_exercise_group')
   Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroups();
 
@@ -22,5 +25,4 @@ abstract class WorkoutExerciseGroupDao {
 
   @Query('DELETE * FROM workout_exercise_group WHERE workout_id = :workoutId')
   Future<void> deleteWorkoutExerciseGroupsByWorkoutId(int workoutId);
-
 }

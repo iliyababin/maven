@@ -10,11 +10,8 @@ class Plate {
   @ColumnInfo(name: 'plate_id')
   final int plateId;
 
-  @ColumnInfo(name: 'weight_lb')
-  final double weightLb;
-
-  @ColumnInfo(name: 'weight_kg')
-  final double weightKg;
+  @ColumnInfo(name: 'weight')
+  final double weight;
 
   @ColumnInfo(name: 'amount')
   final int amount;
@@ -25,63 +22,66 @@ class Plate {
   @ColumnInfo(name: 'height')
   final double height;
 
+  @ColumnInfo(name: 'is_customized')
+  final bool isCustomized;
+
   const Plate({
     required this.plateId,
-    required this.weightLb,
-    required this.weightKg,
+    required this.weight,
     required this.amount,
     required this.color,
     required this.height,
+    required this.isCustomized,
   });
 }
 
 List<Plate> getDefaultPlates() => [
   const Plate(
     plateId: 1,
-    weightLb: 45,
-    weightKg: 20,
-    amount: 99,
+    weight: 45,
+    amount: 1,
     color: Colors.blue,
     height: 1,
+    isCustomized: false,
   ),
   const Plate(
     plateId: 2,
-    weightLb: 35,
-    weightKg: 15,
+    weight: 35,
     amount: 99,
     color: Color(0xFFFF803B),
     height: 0.9,
+    isCustomized: false,
   ),
   const Plate(
     plateId: 3,
-    weightLb: 25,
-    weightKg: 10,
+    weight: 25,
     amount: 99,
     color: Colors.green,
     height: 0.8,
+    isCustomized: false,
   ),
   const Plate(
     plateId: 4,
-    weightLb: 10,
-    weightKg: 5,
+    weight: 10,
     amount: 99,
     color: Color(0xFF373C41),
     height: 0.7,
+    isCustomized: false,
   ),
   const Plate(
     plateId: 5,
-    weightLb: 5,
-    weightKg: 2.25,
+    weight: 5,
     amount: 99,
     color: Color(0xFF373C41),
     height: 0.6,
+    isCustomized: false,
   ),
   const Plate(
     plateId: 6,
-    weightLb: 2.5,
-    weightKg: 1.1,
+    weight: 2.5,
     amount: 99,
     color: Color(0xFF373C41),
     height: 0.5,
+    isCustomized: false,
   ),
 ];

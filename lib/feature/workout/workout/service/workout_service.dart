@@ -1,7 +1,7 @@
 
 import '../../common/dto/exercise_set.dart';
+import '../../common/model/exercise.dart';
 import '../../template/dao/exercise_dao.dart';
-import '../../template/model/exercise.dart';
 import '../dao/workout_dao.dart';
 import '../dao/workout_exercise_group_dao.dart';
 import '../dao/workout_exercise_set_dao.dart';
@@ -79,6 +79,23 @@ class WorkoutService {
     );
   }
 
+  Future<int> addWorkoutExerciseGroup({
+    required int workoutId,
+    required Exercise exercise,
+  }) async {
+    return workoutExerciseGroupDao.addWorkoutExerciseGroup(
+      WorkoutExerciseGroup(
+        workoutId: workoutId,
+        exerciseId: exercise.exerciseId,
+      ),
+    );
+  }
+
+  Future<WorkoutExerciseGroup?> getWorkoutExerciseGroup(int workoutExerciseGroupId) async {
+    return await workoutExerciseGroupDao.getWorkoutExerciseGroup(workoutExerciseGroupId);
+  }
+
+
   Future<int> addWorkoutExerciseSet({
     required int workoutId,
     required int workoutExerciseGroupId,
@@ -86,7 +103,7 @@ class WorkoutService {
     return workoutExerciseSetDao.addWorkoutExerciseSet(
       WorkoutExerciseSet(
         workoutId: workoutId,
-        workoutExerciseGroupId: workoutId,
+        workoutExerciseGroupId: workoutExerciseGroupId,
         option_1: 0,
         checked: 0,
       ),
@@ -116,4 +133,6 @@ class WorkoutService {
       )
     );
   }
+
+
 }

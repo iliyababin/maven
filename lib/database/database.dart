@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import '../feature/workout/common/model/exercise.dart';
+import '../feature/workout/common/model/exercise_equipment.dart';
 import '../feature/workout/m_keyboard/dao/plate_dao.dart';
 import '../feature/workout/m_keyboard/model/plate.dart';
 import '../feature/workout/template/dao/exercise_dao.dart';
@@ -10,7 +12,6 @@ import '../feature/workout/template/dao/template_dao.dart';
 import '../feature/workout/template/dao/template_exercise_group_dao.dart';
 import '../feature/workout/template/dao/template_exercise_set_dao.dart';
 import '../feature/workout/template/dao/template_folder_dao.dart';
-import '../feature/workout/template/model/exercise.dart';
 import '../feature/workout/template/model/template.dart';
 import '../feature/workout/template/model/template_exercise_group.dart';
 import '../feature/workout/template/model/template_exercise_set.dart';
@@ -23,6 +24,7 @@ import '../feature/workout/workout/model/workout_exercise_group.dart';
 import '../feature/workout/workout/model/workout_exercise_set.dart';
 import 'type_converter/color_convert.dart';
 import 'type_converter/date_time_converter.dart';
+import 'type_converter/exercise_equipment_converter.dart';
 import 'type_converter/exercise_type_converter.dart';
 
 part 'database.g.dart';
@@ -44,6 +46,7 @@ part 'database.g.dart';
 @TypeConverters([
   DateTimeConverter,
   ExerciseTypeConverter,
+  ExerciseEquipmentConverter,
   ColorConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
