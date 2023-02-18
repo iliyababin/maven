@@ -11,7 +11,7 @@ import '../model/exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
-  const ExerciseSetWidget({Key? key,
+  ExerciseSetWidget({Key? key,
     required this.index,
     required this.exercise,
     required this.exerciseSet,
@@ -24,7 +24,7 @@ class ExerciseSetWidget extends StatefulWidget {
 
   final Exercise exercise;
 
-  final ExerciseSet exerciseSet;
+  ExerciseSet exerciseSet;
 
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
 
@@ -41,19 +41,13 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   bool _isChecked = false;
 
-  final TextEditingController option1EditingController = TextEditingController();
   final TextEditingController option2EditingController = TextEditingController();
 
   bool _shake = false;
 
-  bool _dialogOpen = false;
-
-  final FocusNode _fn = FocusNode();
-
 
   void _updateExerciseSet() {
     widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
-      option1: option1EditingController.text.isEmpty ? 0 : int.parse(option1EditingController.text),
       option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text),
       checked: widget.checkboxEnabled ? _isChecked ? 1 : 0 : null
     ));
@@ -61,7 +55,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   @override
   void initState() {
-    option1EditingController.text = widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString();
     option2EditingController.text = widget.exerciseSet.option2 == null ? '' : widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString();
     super.initState();
     _isChecked = widget.exerciseSet.checked == 1 ? true : false;
@@ -72,30 +65,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   @override
   Widget build(BuildContext context) {
 
-    option1EditingController.addListener(() => _updateExerciseSet());
     option2EditingController.addListener(() => _updateExerciseSet());
 
-    _fn.addListener(() {
-      if(_fn.hasFocus) {
-        if(_dialogOpen) return;
-        _dialogOpen = true;
-        _fn.unfocus();
-        showBottomSheetDialog(
-          context: context,
-          onClose: () {
-            print('closed');
-          },
-          height: 300,
-          child: MKeyboard(
-            exerciseEquipment: widget.exercise.exerciseEquipment,
-            value: option1EditingController.text,
-            onValueChanged: (p0) {
-              option1EditingController.text = p0;
-            },
-          )
-        );
-      }
-    });
 
     return AnimatedContainer(
       duration: _animationSpeed,
@@ -136,27 +107,38 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
         ),
 
-        option1: AnimatedContainer(
+        option1: MFlatButton(
           height: 30,
-          duration: _animationSpeed,
-          decoration: BoxDecoration (
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
+          expand: false,
+          backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
+          text: Text(
+            widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString()
           ),
-          child: Form(
-            child: TextField(
-              focusNode: _fn,
-              controller: option1EditingController,
-              keyboardType: TextInputType.none,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: widget.hintsEnabled ? widget.exerciseSet.option1.toString() : '',
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+          onPressed: () {
+            showBottomSheetDialog(
+              context: context,
+              onClose: () {
+                print('closed');
+              },
+              height: 300,
+              child: MKeyboard(
+                exerciseEquipment: widget.exercise.exerciseEquipment,
+                value: widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString(),
+                onValueChanged: (p0) {
+                  setState(() {
+                    var nice = widget.exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
+                    widget.exerciseSet = nice;
+                    widget.onExerciseSetUpdate(nice);
+
+                  });
+                },
               ),
-            ),
-          ),
+            );
+          },
         ),
+
+
+
 
         option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? AnimatedContainer(
           height: 30,
@@ -190,7 +172,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               child: Checkbox(
                 value: _isChecked,
                 onChanged: (value) async {
-                  if(widget.exerciseSet.option2 == null) {
+                /*  if(widget.exerciseSet.option2 == null) {
                     if(option1EditingController.text.isEmpty) {
                       setState(() {_shake = true;});
                       await Future.delayed(const Duration(milliseconds: 500));
@@ -204,7 +186,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                       setState(() {_shake = false;});
                       return;
                     }
-                  }
+                  }*/
 
                   setState(() {
                     _isChecked = !_isChecked;

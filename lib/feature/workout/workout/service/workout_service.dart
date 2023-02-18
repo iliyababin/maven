@@ -134,5 +134,11 @@ class WorkoutService {
     );
   }
 
+  Future<void> changeWorkoutName(String workoutName) async {
+    if(workoutName.isEmpty) workoutName = "Untitled Workout";
+    Workout? workout = await workoutDao.getPausedWorkout();
+    workoutDao.updateWorkout(workout!.copyWith(name: workoutName));
+  }
+
 
 }

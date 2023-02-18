@@ -31,4 +31,18 @@ class Workout {
       timestamp: DateTime.now(),
     );
   }
+
+  Workout copyWith({
+    int? workoutId,
+    String? name,
+    int? isPaused,
+    DateTime? timestamp,
+  }) {
+    return Workout(
+      workoutId: workoutId ?? this.workoutId,
+      name: name ?? this.name,
+      isPaused: isPaused ?? this.isPaused,
+      timestamp: timestamp ?? this.timestamp,
+    );
+  }
 }

@@ -48,7 +48,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         Row(
           children: [
 
-            const SizedBox(width: 10),
+            const SizedBox(width: 11),
 
             Expanded(
               child: TextButton(

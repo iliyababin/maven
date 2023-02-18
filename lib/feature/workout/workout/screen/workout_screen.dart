@@ -37,8 +37,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   Future<WorkoutDto?>? _workoutDto;
 
   Timer _timer = Timer(const Duration(seconds: 30), () { });
+
   double _timePercent = 0;
+
   String _timeFormatted = '';
+
+  final FocusNode _workoutNameNode = FocusNode();
 
   @override
   void initState() {
@@ -252,12 +256,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                workout.name,
+                              TextFormField(
+                                onChanged: (value) {
+                                  widget.workoutService.changeWorkoutName(value);
+                                },
+                                focusNode: _workoutNameNode,
+                                initialValue: workout.name,
+                                decoration: const InputDecoration.collapsed(
+                                  hintText: 'Workout'
+                                ),
                                 style: TextStyle(
-                                    color: mt(context).text.primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 25
+                                  color: mt(context).text.primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 25,
                                 ),
                               ),
                               const SizedBox(height: 4,),
@@ -306,9 +317,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                             workoutGroupDtos[index].exerciseSets[exerciseSetIndex] = value;
                             widget.workoutService.updateWorkoutExerciseSet(
-                              exerciseSet: value,
-                              workoutId: workout.workoutId!,
-                              workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!
+                                exerciseSet: value,
+                                workoutId: workout.workoutId!,
+                                workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!
                             );
                           },
                           onExerciseSetDelete: (value) {
@@ -395,7 +406,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           children: [
 
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                _workoutNameNode.requestFocus();
+              },
               horizontalTitleGap: 15,
               leading: Container(
                 padding: const EdgeInsets.only(left: 15),
