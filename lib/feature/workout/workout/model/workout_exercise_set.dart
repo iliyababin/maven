@@ -86,4 +86,5 @@ class WorkoutExerciseSet extends Equatable {
     option_2,
     checked,
   ];
+
 }

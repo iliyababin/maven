@@ -112,7 +112,10 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           expand: false,
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
           text: Text(
-            widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString()
+            widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString(),
+            style: TextStyle(
+              color: mt(context).text.primaryColor
+            ),
           ),
           onPressed: () {
             showBottomSheetDialog(
@@ -138,27 +141,37 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         ),
 
 
-
-
-        option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? AnimatedContainer(
+        option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MFlatButton(
           height: 30,
-          duration: _animationSpeed,
-          decoration: BoxDecoration (
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor
-          ),
-          child: Form(
-            child: TextField(
-              controller: option2EditingController,
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: widget.hintsEnabled ? widget.exerciseSet.option2.toString() : '',
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
-              ),
+          expand: false,
+          backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
+          text: Text(
+            widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString(),
+            style: TextStyle(
+                color: mt(context).text.primaryColor
             ),
           ),
+          onPressed: () {
+            showBottomSheetDialog(
+              context: context,
+              onClose: () {
+                print('closed');
+              },
+              height: 300,
+              child: MKeyboard(
+                exerciseEquipment: widget.exercise.exerciseEquipment,
+                value: widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString(),
+                onValueChanged: (p0) {
+                  setState(() {
+                    var nice = widget.exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
+                    widget.exerciseSet = nice;
+                    widget.onExerciseSetUpdate(nice);
+
+                  });
+                },
+              ),
+            );
+          },
         ) : null,
 
         checkbox: widget.checkboxEnabled ? ShakeWidget(

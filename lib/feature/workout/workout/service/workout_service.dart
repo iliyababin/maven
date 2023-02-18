@@ -100,11 +100,16 @@ class WorkoutService {
     required int workoutId,
     required int workoutExerciseGroupId,
   }) async {
+    WorkoutExerciseGroup? workoutExerciseGroup = await workoutExerciseGroupDao.getWorkoutExerciseGroup(workoutExerciseGroupId);
+    Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup!.exerciseId);
+
+    print(exercise?.exerciseType.exerciseTypeOption2 == null ? null : 0);
     return workoutExerciseSetDao.addWorkoutExerciseSet(
       WorkoutExerciseSet(
         workoutId: workoutId,
         workoutExerciseGroupId: workoutExerciseGroupId,
         option_1: 0,
+        option_2: exercise?.exerciseType.exerciseTypeOption2 == null ? null : 0,
         checked: 0,
       ),
     );
@@ -138,6 +143,10 @@ class WorkoutService {
     if(workoutName.isEmpty) workoutName = "Untitled Workout";
     Workout? workout = await workoutDao.getPausedWorkout();
     workoutDao.updateWorkout(workout!.copyWith(name: workoutName));
+  }
+
+  Future<WorkoutExerciseSet?> getWorkoutExerciseSet(int workoutExerciseSetId) async {
+    return await workoutExerciseSetDao.getWorkoutExerciseSet(workoutExerciseSetId);
   }
 
 

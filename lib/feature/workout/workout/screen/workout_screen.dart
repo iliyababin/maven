@@ -18,6 +18,7 @@ import '../../common/model/exercise.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
 import '../model/workout_exercise_group.dart';
+import '../model/workout_exercise_set.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key,
@@ -297,21 +298,25 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           exercise: workoutGroupDtos[index].exercise,
                           exerciseSets: workoutGroupDtos[index].exerciseSets,
                           onExerciseSetAdd: () async {
-                            int temporaryId = DateTime.now().millisecondsSinceEpoch;
-                            setState(() {
-                              workoutGroupDtos[index].exerciseSets.add(
-                                ExerciseSet(
-                                  exerciseSetId: temporaryId,
-                                  option1: 0,
-                                ),
-                              );
-                            });
+
                             int workoutExerciseSetId = await widget.workoutService.addWorkoutExerciseSet(
                               workoutId: workout.workoutId!,
                               workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,
                             );
-                            int workoutExerciseSetIndex =workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == temporaryId);
-                            workoutGroupDtos[index].exerciseSets[workoutExerciseSetIndex] = workoutGroupDtos[index].exerciseSets[workoutExerciseSetIndex].copyWith(exerciseSetId: workoutExerciseSetId);
+
+                            WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.getWorkoutExerciseSet(workoutExerciseSetId);
+
+
+                            setState(() {
+                              workoutGroupDtos[index].exerciseSets.add(
+                                ExerciseSet(
+                                  exerciseSetId: workoutExerciseSet!.workoutExerciseSetId!,
+                                  option1: workoutExerciseSet.option_1,
+                                  option2: workoutExerciseSet.option_2,
+                                  checked: workoutExerciseSet.checked,
+                                )
+                              );
+                            });
                           },
                           onExerciseSetUpdate: (value) {
                             int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
@@ -336,24 +341,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                     ),
 
                     SliverList(
-                        delegate: SliverChildListDelegate([
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 30, 15, 60),
-                            child: MFlatButton(
-                              onPressed: () {},
-                              expand: false,
-                              backgroundColor: mt(context).flatButton.errorColor,
-                              text: Text(
-                                'Discard Workout',
-                                style: TextStyle(
-                                    color: mt(context).text.errorColor,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w900
-                                ),
-                              ),
-                            ),
-                          ),
-                        ])
+                      delegate: SliverChildListDelegate([
+                        Container(height: 100,)
+
+                      ])
                     )
 
                   ],
@@ -381,8 +372,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
       });
     });
   }
-
-
 
   void _pauseWorkout(BuildContext context) {
     widget.isWorkoutActive(false);
