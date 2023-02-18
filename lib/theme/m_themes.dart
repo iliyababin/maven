@@ -126,7 +126,7 @@ List<AppTheme> getThemes(BuildContext context){
             errorOutlineColor: const Color(0xFFDD614A),
             hintColor: const Color(0xff434343),
             primaryOutlineColor: const Color(0xFF333333),
-            backgroundColor: const Color(0xFF3A3A3A),
+            backgroundColor: const Color(0xFF2E2E2E),
           ),
           templateCard: TemplateCardTheme(
             backgroundColor: const Color(0xFF121212),
