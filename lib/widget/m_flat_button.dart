@@ -61,7 +61,7 @@ class _MFlatButtonState extends State<MFlatButton> {
         color: widget.borderColor
       ),
       child: Material(
-        borderRadius: BorderRadius.circular(widget.borderRadius),
+        borderRadius: BorderRadius.circular(widget.borderRadius-1),
         color: widget.backgroundColor ?? mt(context).backgroundColor,
         child: InkWell(
           onTap: widget.onPressed,

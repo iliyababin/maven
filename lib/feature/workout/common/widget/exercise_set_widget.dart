@@ -132,7 +132,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     var nice = widget.exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
                     widget.exerciseSet = nice;
                     widget.onExerciseSetUpdate(nice);
-
                   });
                 },
               ),
