@@ -37,7 +37,6 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('Totale: $totalTime Left: $timeLeft');
     return timeLeft != 0 ?
     Expanded(
       child: ClipRRect(
