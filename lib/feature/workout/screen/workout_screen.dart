@@ -4,11 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common/model/timed.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../../screen/add_exercise_screen.dart';
 import '../../../common/dialog/bottom_sheet_dialog.dart';
-import '../../../common/dialog/show_timer_picker_dialog.dart';
 import '../../../theme/m_themes.dart';
 import '../../../widget/m_flat_button.dart';
 import '../../common/dto/exercise_set.dart';
@@ -35,15 +33,10 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
-  Timer _timer = Timer(const Duration(seconds: 30), () { });
-
-  double _timePercent = 0;
-
-  String _timeFormatted = '';
 
   final FocusNode _workoutNameNode = FocusNode();
 
-  TextEditingController textEditingController = TextEditingController();
+  ExerciseTimerController timerController = ExerciseTimerController();
 
   @override
   Widget build(BuildContext context) {
@@ -134,67 +127,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             borderColor: mt(context).borderColor,
                           ),
                           const SizedBox(width: 8,),
-                          ExerciseTimerWidget(),
-                          _timePercent != 0 ?
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadiusDirectional.circular(8),
-                              child: SizedBox(
-                                height: 38,
-                                child: Stack(
-                                  children: [
-                                    LinearProgressIndicator(
-                                      backgroundColor: mt(context).foregroundColor,
-                                      color: mt(context).accentColor,
-                                      value: _timePercent,
-                                      minHeight: 38,
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        _timeFormatted,
-                                        style: TextStyle(
-                                          color: _timePercent > 0.5 ? mt(context).text.whiteColor : mt(context).text.primaryColor,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    MFlatButton(
-                                      onPressed: () {
-                                        showTimerPickerDialog(context: context).then(
-                                              (value) {
-                                            if(value == null) return;
-                                            _startTimer(value);
-                                          },
-                                        );
-                                      },
-                                      expand: false,
-                                      backgroundColor: Colors.transparent,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )
-                              :
-                          MFlatButton(
-                            onPressed: (){
-                              showTimerPickerDialog(context: context).then(
-                                    (value) {
-                                  if(value == null) return;
-                                  _startTimer(value);
-                                },
-                              );
-                            },
-                            icon: Icon(
-                              Icons.timer,
-                              size: 21,
-                              color: mt(context).text.primaryColor,
-                            ),
-                            height: 38,
-                            width: 38,
-                            backgroundColor: mt(context).backgroundColor,
-                            borderColor: mt(context).borderColor,
+                          ExerciseTimerWidget(
+                            controller: timerController,
                           ),
                         ],
                       ),
@@ -317,22 +251,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
         );
       },
     );
-  }
-
-  void _startTimer (Timed timed) {
-    int totalTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
-    int modifiedTime = timed.second + (timed.minute * 60) + (timed.hour * 60 * 60);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      modifiedTime = modifiedTime - 1;
-      setState(() {
-        if (modifiedTime >= 0) {
-          _timePercent = modifiedTime / totalTime;
-          _timeFormatted = secondsToTime(modifiedTime );
-        } else {
-          _timer.cancel();
-        }
-      });
-    });
   }
 
   void _pauseWorkout(BuildContext context) {

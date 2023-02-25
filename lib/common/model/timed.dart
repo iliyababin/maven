@@ -8,4 +8,8 @@ class Timed {
     required this.minute,
     required this.second
   });
+
+  int toSeconds() {
+    return (hour * 60 * 60) + (minute * 60) + second;
+  }
 }
