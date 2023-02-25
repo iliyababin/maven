@@ -1,5 +1,6 @@
-import 'package:Maven/feature/workout/common/model/exercise_equipment.dart';
 import 'package:floor/floor.dart';
+
+import '../../feature/common/model/exercise_equipment.dart';
 
 class ExerciseEquipmentConverter extends TypeConverter<ExerciseEquipment, int> {
   @override

@@ -1,21 +1,21 @@
-import 'package:Maven/feature/home/screen/home_screen.dart';
-import 'package:Maven/feature/profile/screen/profile_screen.dart';
-import 'package:Maven/feature/workout/workout/dao/workout_exercise_group_dao.dart';
-import 'package:Maven/feature/workout/workout/service/workout_service.dart';
-import 'package:Maven/screen/testing_screen.dart';
-import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
+import '../../../screen/testing_screen.dart';
+import '../../../theme/m_themes.dart';
+import '../../home/screen/home_screen.dart';
 import '../../nutrition/screen/nutrition_screen.dart';
-import '../../workout/template/dao/exercise_dao.dart';
-import '../../workout/template/screen/template_screen.dart';
-import '../../workout/workout/bloc/active_workout/workout_bloc.dart';
-import '../../workout/workout/dao/workout_dao.dart';
-import '../../workout/workout/dao/workout_exercise_set_dao.dart';
-import '../../workout/workout/screen/workout_screen.dart';
+import '../../profile/screen/profile_screen.dart';
+import '../../template/dao/exercise_dao.dart';
+import '../../template/screen/template_screen.dart';
+import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/dao/workout_dao.dart';
+import '../../workout/dao/workout_exercise_group_dao.dart';
+import '../../workout/dao/workout_exercise_set_dao.dart';
+import '../../workout/screen/workout_screen.dart';
+import '../../workout/service/workout_service.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});

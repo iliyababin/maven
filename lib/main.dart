@@ -4,38 +4,41 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
-import 'feature/workout/common/model/exercise.dart';
-import 'feature/workout/m_keyboard/model/plate.dart';
-import 'feature/workout/template/bloc/template/template_bloc.dart';
-import 'feature/workout/workout/bloc/active_workout/workout_bloc.dart';
+import 'feature/common/model/exercise.dart';
+import 'feature/equipment/model/plate.dart';
+import 'feature/equipment/service/equipment_service.dart';
+import 'feature/template/bloc/template/template_bloc.dart';
+import 'feature/workout/bloc/active_workout/workout_bloc.dart';
 
+/**
+ * Entry point for project, refer to documentation for further details.
+ */
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
   List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(jsonDecode(jsonString));
   return jsonList.map((json) => Exercise.fromMap(json)).toList();
 }
 
+GetIt services = GetIt.instance;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db026.db')
+      .databaseBuilder('db031.db')
       .build();
 
-  database.exerciseDao.addExercises(await _loadExerciseJson());
   database.plateDao.addPlates(getDefaultPlates());
-  /*List<Plate> defaultPlates = getDefaultPlates();
-  List<Plate> plates = await database.plateDao.getPlates();
-  for(var defaultPlate in defaultPlates) {
-    Plate plate = plates.firstWhere((plate) => plate.plateId == defaultPlate.plateId && plate.isCustomized, orElse: () {
-      return defaultPlate;
-    },);
-    database.plateDao.addPlate(plate);
-  }*/
+  database.exerciseDao.addExercises(await _loadExerciseJson());
+
+  services.registerLazySingleton<EquipmentService>(() => EquipmentService(
+    plateDao: database.plateDao,
+  ));
 
 
   runApp(

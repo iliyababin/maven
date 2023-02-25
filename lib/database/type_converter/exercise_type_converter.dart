@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 
-import '../../feature/workout/common/model/exercise_type.dart';
+import '../../feature/common/model/exercise_type.dart';
+
 
 
 class ExerciseTypeConverter extends TypeConverter<ExerciseType, int> {
