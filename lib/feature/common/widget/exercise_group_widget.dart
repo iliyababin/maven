@@ -49,7 +49,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           children: [
 
             MFlatButton(
-              onPressed: () {  },
+              onPressed: () {
+
+              },
               splashColor: mt(context).accentColor.withAlpha(50),
               mainAxisAlignment: MainAxisAlignment.start,
               leading: SizedBox(width: 10,),
