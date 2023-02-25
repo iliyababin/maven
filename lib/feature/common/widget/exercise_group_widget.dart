@@ -48,21 +48,17 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         Row(
           children: [
 
-            const SizedBox(width: 11),
-
-            Expanded(
-              child: TextButton(
-                onPressed: () {  },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.exercise.name,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: mt(context).text.accentColor,
-                      fontWeight: FontWeight.w500
-                    )
-                  ),
+            MFlatButton(
+              onPressed: () {  },
+              splashColor: mt(context).accentColor.withAlpha(50),
+              mainAxisAlignment: MainAxisAlignment.start,
+              leading: SizedBox(width: 10,),
+              text: Text(
+                widget.exercise.name,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: mt(context).text.accentColor,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -140,7 +136,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 color: mt(context).text.primaryColor,
               ),
             ) : null,
-            checkbox: widget.checkboxEnabled ? Container() : null
+            checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: Text(''),) : null
         ),
 
         const SizedBox(height: 3),
@@ -175,7 +171,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           child: MFlatButton(
             onPressed: () => widget.onExerciseSetAdd(),
             expand: false,
-            icon: Icon(
+            leading: Icon(
               Icons.add_rounded,
               size: 24,
               color: mt(context).icon.accentColor,

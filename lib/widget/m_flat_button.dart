@@ -9,25 +9,29 @@ class MFlatButton extends StatefulWidget {
   final Text? text;
   final Color? backgroundColor;
   final Color? borderColor;
-  final Icon? icon;
+  final Widget? leading;
   final VoidCallback onPressed;
   final bool expand;
   final EdgeInsets padding;
   final double height;
   final double width;
   final double borderRadius;
+  final Color? splashColor;
+  final MainAxisAlignment mainAxisAlignment;
 
   const MFlatButton({super.key,
     this.text,
     this.backgroundColor,
     this.borderColor,
-    this.icon,
+    this.leading,
     required this.onPressed,
     this.expand = true,
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.height = 42,
     this.width = double.infinity,
     this.borderRadius = 8,
+    this.splashColor,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   });
 
 
@@ -66,12 +70,13 @@ class _MFlatButtonState extends State<MFlatButton> {
         child: InkWell(
           onTap: widget.onPressed,
           splashFactory: InkRipple.splashFactory,
+          splashColor: widget.splashColor,
           borderRadius: BorderRadius.circular(widget.borderRadius),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: widget.mainAxisAlignment,
             children: [
-              if(widget.icon != null) widget.icon!,
-              if(widget.icon != null && widget.text != null) SizedBox(width: 2,),
+              if(widget.leading != null) widget.leading!,
+              if(widget.leading != null && widget.text != null) SizedBox(width: 2,),
               if(widget.text != null) widget.text!,
             ],
           ),

@@ -94,7 +94,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   });
                 },
                 borderRadius: 0,
-                icon: Icon(
+                leading: Icon(
                   Icons.history_rounded,
                   color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                 ),
@@ -106,7 +106,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   });
                 },
                 borderRadius: 0,
-                icon: Icon(
+                leading: Icon(
                   Icons.calculate_rounded,
                   color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                 ),
@@ -118,7 +118,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   });
                 },
                 borderRadius: 0,
-                icon: Icon(
+                leading: Icon(
                   Icons.numbers_rounded,
                   color: _selectedTab == 2 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                 ),
@@ -129,7 +129,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   Navigator.pop(context);
                 },
                 borderRadius: 0,
-                icon: const Icon(
+                leading: const Icon(
                     Icons.check
                 ),
               ),

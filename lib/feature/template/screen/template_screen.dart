@@ -343,7 +343,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   ),
                 ),
                 borderColor: mt(context).borderColor,
-                icon: Icon(
+                leading: Icon(
                   Icons.post_add,
                   size: 20,
                   color: mt(context).icon.accentColor,
@@ -360,7 +360,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   ),
                 ),
                 borderColor: mt(context).borderColor,
-                icon: Icon(
+                leading: Icon(
                   Icons.polyline,
                   size: 18,
                   color: mt(context).icon.accentColor,
@@ -394,7 +394,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 expand: false,
                 padding: const EdgeInsets.all(5),
                 borderColor: mt(context).borderColor,
-                icon: Icon(
+                leading: Icon(
                   CupertinoIcons.arrow_up_arrow_down,
                   size: 20,
                   color: mt(context).icon.accentColor,
@@ -411,7 +411,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 expand: false,
                 padding: const EdgeInsets.all(5),
                 borderColor: mt(context).borderColor,
-                icon: Icon(
+                leading: Icon(
                   Icons.create_new_folder_rounded,
                   size: 22,
                   color: mt(context).icon.accentColor,

@@ -146,7 +146,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     },
                     width: 55,
                     borderRadius: 0,
-                    icon: const Icon(
+                    leading: const Icon(
                       Icons.settings
                     ),
                   ),

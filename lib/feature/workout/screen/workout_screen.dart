@@ -103,7 +103,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 });
                               });
                             },
-                            icon: Icon(
+                            leading: Icon(
                               Icons.add_rounded,
                               size: 30,
                               color: mt(context).icon.accentColor,
@@ -116,7 +116,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           const SizedBox(width: 8,),
                           MFlatButton(
                             onPressed: () => _showWorkoutOptions(),
-                            icon: Icon(
+                            leading: Icon(
                               Icons.more_horiz,
                               size: 25,
                               color: mt(context).icon.primaryColor,

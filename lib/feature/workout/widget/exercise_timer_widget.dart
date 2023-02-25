@@ -92,7 +92,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
               },
         );*/
       },
-      icon: Icon(
+      leading: Icon(
         Icons.timer,
         size: 21,
         color: mt(context).text.primaryColor,
