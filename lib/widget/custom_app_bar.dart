@@ -1,4 +1,5 @@
 import 'package:Maven/theme/m_themes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar {
@@ -10,7 +11,7 @@ class CustomAppBar {
     return AppBar(
       leading: IconButton(
         icon: Icon(
-          Icons.keyboard_backspace,
+          CupertinoIcons.left_chevron,
           color: mt(context).text.accentColor,
         ),
         onPressed: () {
