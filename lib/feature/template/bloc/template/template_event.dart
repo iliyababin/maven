@@ -75,14 +75,14 @@ class TemplateDelete extends TemplateEvent {
 
 
 class TemplateFolderAdd extends TemplateEvent {
-  final TemplateFolder templateFolder;
+  final String name;
 
   const TemplateFolderAdd({
-    required this.templateFolder,
+    required this.name,
   });
 
   @override
-  List<Object> get props => [templateFolder];
+  List<Object> get props => [name];
 }
 
 class TemplateFolderUpdate extends TemplateEvent {
@@ -96,10 +96,10 @@ class TemplateFolderUpdate extends TemplateEvent {
   List<Object> get props => [templateFolder];
 }
 
-class TemplateFolderExpandable extends TemplateEvent {
+class TemplateFolderToggle extends TemplateEvent {
   final TemplateFolder templateFolder;
 
-  const TemplateFolderExpandable({
+  const TemplateFolderToggle({
     required this.templateFolder
   });
   @override

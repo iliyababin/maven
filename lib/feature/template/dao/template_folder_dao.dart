@@ -21,6 +21,9 @@ abstract class TemplateFolderDao {
   @Query('SELECT * FROM template_folder ORDER BY sort_order ASC')
   Stream<List<TemplateFolder>> getTemplateFoldersAsStream();
 
+  @Query('SELECT sort_order FROM template_folder WHERE sort_order = (SELECT MAX(sort_order) FROM template_folder)')
+  Future<int?> getHighestTemplateFolderSortOrder();
+
   @update
   Future<void> updateTemplateFolder(TemplateFolder templateFolder);
 

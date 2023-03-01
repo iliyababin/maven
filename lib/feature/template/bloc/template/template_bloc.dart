@@ -42,7 +42,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     on<TemplateFolderAdd>(_templateFolderAdd);
     on<TemplateFolderUpdate>(_templateFolderUpdate);
-    on<TemplateFolderExpandable>(_templateFolderExpandable);
+    on<TemplateFolderToggle>(_templateFolderToggle);
     on<TemplateFolderReorder>(_templateFolderReorder);
   }
 
@@ -80,10 +80,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
-  Future<List<TemplateExerciseGroup>> _test(event, emit) async {
-    return templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(1);
-  }
-
   Future<void> _templateReorder(TemplateReorder event, emit) async {
     List<Template> templates = event.templates;
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
@@ -114,14 +110,21 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         templateDao.updateTemplate(template.copyWith(sortOrder: i));
       }
     }
+    await emit(state.copyWith(status: () => TemplateStatus.reorder));
   }
 
   List<Template> _getTemplatesInFolder(int folderId) {
     return state.templates.where((template) => template.templateFolderId == folderId).toList();
   }
 
-  Future<void> _templateFolderAdd(event, emit) async {
-    await templateFolderDao.addTemplateFolder(event.templateFolder);
+  Future<void> _templateFolderAdd(TemplateFolderAdd event, emit) async {
+    int num = (await templateFolderDao.getHighestTemplateFolderSortOrder() ?? 0) + 1;
+    TemplateFolder templateFolder = TemplateFolder(
+      name: event.name,
+      expanded: 1,
+      sortOrder: num,
+    );
+    await templateFolderDao.addTemplateFolder(templateFolder);
     await emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
@@ -129,7 +132,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     await templateFolderDao.updateTemplateFolder(event.templateFolder);
   }
 
-  Future<void> _templateFolderExpandable(TemplateFolderExpandable event, emit) async {
+  Future<void> _templateFolderToggle(TemplateFolderToggle event, emit) async {
     await emit(state.copyWith(status: () => TemplateStatus.toggle));
     await templateFolderDao.updateTemplateFolder(event.templateFolder);
   }
@@ -141,7 +144,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       TemplateFolder templateFolder = templateFolders[i];
       templateFolderDao.updateTemplateFolder(templateFolder.copyWith(sortOrder: i));
     }
+    await emit(state.copyWith(status: () => TemplateStatus.reorder));
   }
-
 }
 

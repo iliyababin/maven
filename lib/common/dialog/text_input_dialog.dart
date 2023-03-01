@@ -9,7 +9,7 @@ class TextInputDialog extends StatefulWidget {
     this.hintText = '',
     required this.initialValue,
     this.keyboardType = TextInputType.number,
-    required this.onValueChanged,
+    this.onValueChanged,
     this.onValueSubmit,
   }) : super(key: key);
 
@@ -17,7 +17,7 @@ class TextInputDialog extends StatefulWidget {
   final String hintText;
   final String initialValue;
   final TextInputType keyboardType;
-  final ValueChanged<String> onValueChanged;
+  final ValueChanged<String>? onValueChanged;
   final ValueChanged<String>? onValueSubmit;
 
   @override
@@ -49,7 +49,10 @@ class _TextInputDialogState extends State<TextInputDialog> {
           ),
           const SizedBox(height: 30),
           TextFormField(
-            onChanged: (value) => widget.onValueChanged(value),
+            onChanged: (value) {
+              if(widget.onValueChanged == null) return;
+              widget.onValueChanged!(value);
+            },
             controller: _textEditingController,
             keyboardType: widget.keyboardType,
             style: const TextStyle(

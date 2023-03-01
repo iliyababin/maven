@@ -27,101 +27,95 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.build(
-
       context: context,
-
       appBar: CustomAppBar.build(
         title: 'Create Template',
         context: context,
         actions: [
           TextButton(
-              onPressed: _createTemplate,
-              child: Text(
-                'Save',
-                style: TextStyle(
-                  color: mt(context).text.accentColor
-                ),
-              )
+            onPressed: _createTemplate,
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: mt(context).text.accentColor
+              ),
+            ),
           ),
         ],
       ),
-
-        body: CustomScrollView(
+      body: CustomScrollView(
         slivers: [
-
           SliverList(
-            delegate: SliverChildListDelegate([
-              Padding(
-                padding: const EdgeInsetsDirectional.all(16),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: templateTitleController,
-                      style: TextStyle(
-                          color: mt(context).text.primaryColor
+              delegate: SliverChildListDelegate([
+                Padding(
+                  padding: const EdgeInsetsDirectional.all(16),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: templateTitleController,
+                        style: TextStyle(
+                            color: mt(context).text.primaryColor
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'New Template',
+                          hintStyle: TextStyle(
+                              color: mt(context).textField.hintColor
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mt(context).borderColor),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: mt(context).accentColor),
+                          ),
+                        ),
                       ),
-                      decoration: InputDecoration(
-                        hintText: 'New Template',
-                        hintStyle: TextStyle(
-                            color: mt(context).textField.hintColor
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: mt(context).borderColor),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: mt(context).accentColor),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ])
+                    ],
+                  ),
+                )
+              ])
           ),
 
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: exerciseBlocks.length,
-              (context, index) => ExerciseGroupWidget(
-                exercise: exerciseBlocks[index].exercise,
-                exerciseSets: exerciseBlocks[index].sets.map((tempExerciseSet) =>
-                    ExerciseSet(
-                      exerciseSetId: tempExerciseSet.tempExerciseSetId,
-                      option1: tempExerciseSet.option1,
-                      option2: tempExerciseSet.option2,
-                    )
-                ).toList(growable: true),
-                onExerciseSetAdd: () {
-                  setState(() {
-                    exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 0));
-                  });
-                },
-                onExerciseSetUpdate: (value) {
-                  int exerciseSetIndex = exerciseBlocks[index].sets.indexWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
-                  TempExerciseSet tempExerciseSet = TempExerciseSet(
-                    tempExerciseSetId: value.exerciseSetId,
-                    option1: value.option1,
-                    option2: value.option2,
-                  );
-                  exerciseBlocks[index].sets[exerciseSetIndex] = tempExerciseSet;
-                },
-                onExerciseSetDelete: (value) {
-                  setState(() {
-                    exerciseBlocks[index].sets.removeWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
-                  });
-                },
-              ),
-            )
+              delegate: SliverChildBuilderDelegate(
+                childCount: exerciseBlocks.length,
+                    (context, index) => ExerciseGroupWidget(
+                  exercise: exerciseBlocks[index].exercise,
+                  exerciseSets: exerciseBlocks[index].sets.map((tempExerciseSet) =>
+                      ExerciseSet(
+                        exerciseSetId: tempExerciseSet.tempExerciseSetId,
+                        option1: tempExerciseSet.option1,
+                        option2: tempExerciseSet.option2,
+                      )
+                  ).toList(growable: true),
+                  onExerciseSetAdd: () {
+                    setState(() {
+                      exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 0));
+                    });
+                  },
+                  onExerciseSetUpdate: (value) {
+                    int exerciseSetIndex = exerciseBlocks[index].sets.indexWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
+                    TempExerciseSet tempExerciseSet = TempExerciseSet(
+                      tempExerciseSetId: value.exerciseSetId,
+                      option1: value.option1,
+                      option2: value.option2,
+                    );
+                    exerciseBlocks[index].sets[exerciseSetIndex] = tempExerciseSet;
+                  },
+                  onExerciseSetDelete: (value) {
+                    setState(() {
+                      exerciseBlocks[index].sets.removeWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
+                    });
+                  },
+                ),
+              )
           )
 
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: _addExercise,
         child: const Icon(Icons.add),
       ),
-
     );
   }
 

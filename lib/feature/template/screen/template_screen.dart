@@ -1,5 +1,3 @@
-import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +6,8 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../../../common/dialog/bottom_sheet_dialog.dart';
 import '../../../common/dialog/show_confirmation_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
+import '../../../theme/m_themes.dart';
+import '../../../widget/m_flat_button.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
@@ -26,12 +26,6 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -137,6 +131,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
             ),
 
             const SliverToBoxAdapter(child: SizedBox(height: 8)),
+
             // Workouts header
             SliverList(
               delegate: SliverChildListDelegate([
@@ -166,7 +161,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
                   return pausedWorkouts.isEmpty
                       ?
-                  SliverList(delegate: SliverChildListDelegate([]))
+                  SliverList(delegate: SliverChildListDelegate([
+                  ]))
                     :
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
@@ -291,7 +287,21 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                 color: mt(context).icon.accentColor,
                               ),
                               backgroundColor: mt(context).templateFolder.backgroundColor,
-                              onPressed: () => _createTemplateFolder(context),
+                              onPressed: () => showBottomSheetDialog(
+                                context: context,
+                                child: TextInputDialog(
+                                  title: 'Enter a folder name',
+                                  initialValue: '',
+                                  hintText: 'eg. Mondays workouts',
+                                  keyboardType: TextInputType.name,
+                                  onValueSubmit: (value) {
+                                    context.read<TemplateBloc>().add(TemplateFolderAdd(
+                                        name: value
+                                    ));
+                                  },
+                                ),
+                                onClose: (){}
+                              ),
                             ),
                           ],
                         )
@@ -323,14 +333,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
                   if(templateFolders.isEmpty) {
                     return SliverList(
-                      delegate: SliverChildListDelegate([
-                        Container(
-                          height: 500,
-                          child: Image.asset('assets/icons8-document-440.png'),
-                        )
-                      ]),
+                      delegate: SliverChildListDelegate([]),
                     );
                   }
+
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: templateFolders.length,
@@ -341,8 +347,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           child: ReorderableDelayedDragStartListener(
                             index: index,
                             child: TemplateFolderWidget(
-                                templateFolder: templateFolders[index],
-                                templates: templates.where((template) => template.templateFolderId == templateFolders[index].templateFolderId).toList()
+                              templateFolder: templateFolders[index],
+                              templates: templates.where((template) => template.templateFolderId == templateFolders[index].templateFolderId).toList(),
                             ),
                           ),
                         );
@@ -355,223 +361,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
             const SliverToBoxAdapter(child: SizedBox(height: 100)),
 
-
-
-            /*Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-
-                BlocBuilder<WorkoutBloc, WorkoutState>(
-                  builder: (context, state) {
-                    if(state.status == WorkoutStatus.loading) {
-                      return Container();
-                    } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
-                      List<Workout> pausedWorkouts = state.pausedWorkouts;
-
-                      return pausedWorkouts.isEmpty
-                          ?
-                      Container()
-                          :
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            child: Text(
-                              'In Progress',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w900,
-                                  color: mt(context).text.primaryColor
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView.separated(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: pausedWorkouts.length,
-                              itemBuilder: (context, index) {
-                                Workout pausedWorkout = pausedWorkouts[index];
-                                return Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: mt(context).templateFolder.backgroundColor,
-                                  child: InkWell(
-                                    onTap: () async {
-                                      if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
-                                        bool? confirmation = await showConfirmationDialog(
-                                            context: context,
-                                            title: 'Workout in progress',
-                                            subtext: 'You already have a workout in progress, would you like to delete it?'
-                                        );
-                                        if(confirmation == null) return;
-                                        if(!confirmation) return;
-                                        context.read<WorkoutBloc>().add(WorkoutDelete());
-                                      }
-                                      context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkout));
-                                    },
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            width: 1,
-                                            color: mt(context).borderColor
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(13),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  pausedWorkout.name,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: mt(context).text.primaryColor
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 7,
-                                            ),
-                                            StreamBuilder(
-                                              stream: Stream.periodic(Duration(minutes: 1)),
-                                              builder: (context, snapshot) {
-                                                return Text('Created ${timeago.format(pausedWorkout.timestamp)}');
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) {
-                                return SizedBox(height: 9,);
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return const Text("nothign here");
-                    }
-                  },
-                ),
-                const SizedBox(height: 25,),
-                templates(),
-                BlocBuilder<TemplateBloc, TemplateState>(
-                  buildWhen: (previous, current) {
-                    if(current.status == TemplateStatus.toggle) return false;
-                    return true;
-                  },
-                  builder: (context, state) {
-                    if (state.status == TemplateStatus.loading) {
-                      return const SizedBox(
-                          height: 100,
-                          child: Center(child: CircularProgressIndicator())
-                      );
-                    } else {
-                      List<TemplateFolder> templateFolders = state.templateFolders;
-                      List<Template> templates = state.templates;
-
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: ReorderableListView(
-
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          proxyDecorator: proxyDecorator,
-                          children: templateFolders.map((templateFolder) {
-                            return Padding(
-                              key: UniqueKey(),
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
-                              child: TemplateFolderWidget(
-                                  templateFolder: templateFolder,
-                                  templates: templates.where((template) =>
-                                  template.templateFolderId == templateFolder.templateFolderId
-                                  ).toList()
-                              ),
-                            );
-                          }).toList(),
-                          onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, templateFolders),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                SizedBox(height: 200,)
-              ],
-            )*/
           ],
         )
       ),
     );
   }
 
-  Future<void> _createTemplateFolder(BuildContext context) async {
-    /*String? result = await showDialogWithTextField(
-        context: context,
-        title: 'Create New Folder',
-        hintText: "Folder Name"
-    );
-    if (result != null) {
-      final templateFolder = TemplateFolder(name: result, expanded: 1);
-      context.read<TemplateBloc>().add(TemplateFolderAdd(
-          templateFolder: templateFolder
-      ));
-    }*/
-    showBottomSheetDialog(
-      context: context,
-      child: TextInputDialog(
-        onValueChanged: (String value) {
-        },
-        hintText: 'eg. Workouts',
-        title: 'Create new folder',
-        initialValue: '',
-        onValueSubmit: (value) {
-          final templateFolder = TemplateFolder(name: value, expanded: 1);
-          context.read<TemplateBloc>().add(TemplateFolderAdd(
-              templateFolder: templateFolder
-          ));
-        },
-      ),
-      onClose: () {  },
-    );
-/*
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Wrap(
-          children: [
-           Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: Column(
-               children: [
-
-               ],
-             ),
-           )
-          ],
-        );
-      },
-    );*/
-
-  }
-
-  ///
-  /// Widgets
-  ///
   /// Creates a shadow underneath item when reordering.
   /// Accounts for padding.
   ///
@@ -605,107 +400,3 @@ class _TemplateScreenState extends State<TemplateScreen> {
     );
   }
 }
-
-/*
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return CustomScaffold.build(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ElevatedButton(
-            onPressed: () => _navigateToCreateTemplateScreen(context),
-            child: const Text("Create Template"),
-          ),
-          const Text("Paused templates:"),
-          Flexible(
-            fit: FlexFit.tight,
-            child: Consumer<ActiveTemplateProvider>(
-              builder: (context, activeTemplateProvider, child) {
-                if(activeTemplateProvider.pausedActiveTemplates.length == 0 ){
-                  print("emptyu");
-                  return Container();
-                }
-                return ListView(
-                  children: activeTemplateProvider.pausedActiveTemplates.map((
-                      activeTemplate) {
-                    return ListTile(
-                      onTap: () {
-                        unpauseTemplate(
-                            context, activeTemplate.activeTemplateId!);
-                      },
-                      title: Text(activeTemplate.name),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ),
-          const Text("Template templates:"),
-          BlocBuilder<TemplateBloc, TemplateState>(
-            builder: (context, state) {
-              if (state.status == TemplateStatus.loading) {
-                return const CircularProgressIndicator();
-              } else if (state.status == TemplateStatus.success) {
-
-                final templates = state.templates;
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: templates.length,
-                    itemBuilder: (context, index) {
-                      final template = templates[index];
-
-                      return ListTile(
-                        title: Text(template.name),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ViewTemplateScreen(
-                                          templateId: template.templateId!
-                                      )
-                              )
-                          );
-                        },
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return const Text("lol");
-              }
-            },
-          )
-        ],
-      ),
-      context: context,
-    );
-  }
-*/
-/*templateProvider.templates.map((template) {
-return Dismissible(
-key: UniqueKey(),
-onDismissed: (direction) {
-Provider.of<TemplateProvider>(context, listen: false)
-    .deleteTemplate(template.templateId!);
-},
-child: ListTile(
-onTap: () async {
-Navigator.push(
-context,
-MaterialPageRoute(
-builder: (context) => ViewTemplateScreen(
-templateId: template.templateId!
-)
-)
-);
-},
-title: Text(template.name),
-subtitle: Text(template.templateId.toString()),
-),
-);
-}).toList()*/
