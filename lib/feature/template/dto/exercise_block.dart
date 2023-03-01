@@ -1,13 +1,13 @@
 
+import '../../common/dto/exercise_set.dart';
 import '../../common/model/exercise.dart';
-import 'temp_exercise_set.dart';
 
-class ExerciseBlockData {
+class ExerciseGroup {
   Exercise exercise;
-  List<TempExerciseSet> sets;
+  List<ExerciseSet> exerciseSets;
 
-  ExerciseBlockData({
+  ExerciseGroup({
     required this.exercise,
-    required this.sets,
+    required this.exerciseSets,
   });
 }

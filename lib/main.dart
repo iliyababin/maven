@@ -31,7 +31,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db035.db')
+      .databaseBuilder('db040.db')
       .build();
 
   database.plateDao.addPlates(getDefaultPlates());

@@ -11,7 +11,7 @@ import '../model/exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
-  ExerciseSetWidget({Key? key,
+  const ExerciseSetWidget({Key? key,
     required this.index,
     required this.exercise,
     required this.exerciseSet,
@@ -24,7 +24,7 @@ class ExerciseSetWidget extends StatefulWidget {
 
   final Exercise exercise;
 
-  ExerciseSet exerciseSet;
+  final ExerciseSet exerciseSet;
 
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
 
@@ -37,6 +37,8 @@ class ExerciseSetWidget extends StatefulWidget {
 
 class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
+  late ExerciseSet exerciseSet;
+
   static const Duration _animationSpeed = Duration(milliseconds: 250);
 
   bool _isChecked = false;
@@ -47,7 +49,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
 
   void _updateExerciseSet() {
-    widget.onExerciseSetUpdate(widget.exerciseSet.copyWith(
+    widget.onExerciseSetUpdate(exerciseSet.copyWith(
       option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text),
       checked: widget.checkboxEnabled ? _isChecked ? 1 : 0 : null
     ));
@@ -55,8 +57,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   @override
   void initState() {
-    option2EditingController.text = widget.exerciseSet.option2 == null ? '' : widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString();
-    _isChecked = widget.exerciseSet.checked == 1 ? true : false;
+    exerciseSet = widget.exerciseSet;
+    option2EditingController.text = exerciseSet.option2 == null ? '' : exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString();
+    _isChecked = exerciseSet.checked == 1 ? true : false;
     super.initState();
   }
 
@@ -116,7 +119,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           expand: false,
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
           text: Text(
-            widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString(),
+            exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
             style: TextStyle(
               color: mt(context).text.primaryColor
             ),
@@ -124,21 +127,18 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           onPressed: () {
             showBottomSheetDialog(
               context: context,
-              onClose: () {
-                print('closed');
-              },
-              height: 300,
               child: MKeyboard(
                 exerciseEquipment: widget.exercise.exerciseEquipment,
-                value: widget.exerciseSet.option1 == 0 ? '' : widget.exerciseSet.option1.toString(),
+                value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
                   setState(() {
-                    var nice = widget.exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
-                    widget.exerciseSet = nice;
+                    var nice = exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
+                    exerciseSet = nice;
                     widget.onExerciseSetUpdate(nice);
                   });
                 },
               ),
+              onClose: () {},
             );
           },
         ),
@@ -149,7 +149,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           expand: false,
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
           text: Text(
-            widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString(),
+            exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
             style: TextStyle(
                 color: mt(context).text.primaryColor
             ),
@@ -163,11 +163,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               height: 300,
               child: MKeyboard(
                 exerciseEquipment: widget.exercise.exerciseEquipment,
-                value: widget.exerciseSet.option2 == 0 ? '' : widget.exerciseSet.option2.toString(),
+                value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {
                   setState(() {
-                    var nice = widget.exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
-                    widget.exerciseSet = nice;
+                    var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
+                    exerciseSet = nice;
                     widget.onExerciseSetUpdate(nice);
 
                   });
@@ -188,7 +188,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               child: Checkbox(
                 value: _isChecked,
                 onChanged: (value) async {
-                /*  if(widget.exerciseSet.option2 == null) {
+                /*  if(exerciseSet.option2 == null) {
                     if(option1EditingController.text.isEmpty) {
                       setState(() {_shake = true;});
                       await Future.delayed(const Duration(milliseconds: 500));

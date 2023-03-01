@@ -36,7 +36,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     on<TemplateStreamUpdateTemplateFolders>(_templateStreamUpdateTemplateFolders);
 
     on<TemplateInitialize>(_templateInitialize);
-    on<TemplateAdd>(_templateAdd);
+    on<TemplateCreate>(_templateCreate);
     on<TemplateReorder>(_templateReorder);
     on<TemplateMoveToFolder>(_templateMoveToFolder);
 
@@ -58,22 +58,39 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     emit(state.copyWith(status: () => TemplateStatus.loaded));
   }
 
-  Future<void> _templateAdd(TemplateAdd event, emit) async {
+  Future<void> _templateCreate(TemplateCreate event, emit) async {
     emit(state.copyWith(status: () => TemplateStatus.loading));
 
-    int templateId = await templateDao.addTemplate(event.template);
+    List<TemplateFolder> templateFolders = await templateFolderDao.getTemplateFolders();
 
-    for (var exerciseBlock in event.exerciseBlocks) {
+    if(templateFolders.isEmpty) {
+      TemplateFolder templateFolder = const TemplateFolder(
+        templateFolderId: 0,
+        name: 'Workouts',
+        expanded: 1,
+      );
+      int templateFolderId = await templateFolderDao.addTemplateFolder(templateFolder);
+      templateFolders.add(templateFolder);
+    }
+
+    int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolders.first.templateFolderId));
+
+    for (var exerciseGroup in event.exerciseGroups) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
-          TemplateExerciseGroup(
-              exerciseId: exerciseBlock.exercise.exerciseId,
-              templateId: templateId));
-      for (var tempExerciseSet in exerciseBlock.sets) {
-        templateExerciseSetDao.addTemplateExerciseSet(TemplateExerciseSet(
+        TemplateExerciseGroup(
+          exerciseId: exerciseGroup.exercise.exerciseId,
+          templateId: templateId,
+        )
+      );
+      for (var tempExerciseSet in exerciseGroup.exerciseSets) {
+        templateExerciseSetDao.addTemplateExerciseSet(
+          TemplateExerciseSet(
+            templateId: templateId,
             exerciseGroupId: exerciseGroupId,
             option1: tempExerciseSet.option1,
-            option2: tempExerciseSet.option2 != null ? tempExerciseSet.option2 : null,
-            templateId: templateId));
+            option2: tempExerciseSet.option2,
+          )
+        );
       }
     }
 

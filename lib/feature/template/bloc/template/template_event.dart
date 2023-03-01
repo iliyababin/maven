@@ -10,17 +10,17 @@ abstract class TemplateEvent extends Equatable {
 class TemplateInitialize extends TemplateEvent {}
 
 
-class TemplateAdd extends TemplateEvent {
-  final Template template;
-  final List<ExerciseBlockData> exerciseBlocks;
+class TemplateCreate extends TemplateEvent {
+  final String name;
+  final List<ExerciseGroup> exerciseGroups;
 
-  const TemplateAdd({
-    required this.template,
-    required this.exerciseBlocks
+  const TemplateCreate({
+    required this.name,
+    required this.exerciseGroups
   });
 
   @override
-  List<Object> get props => [template, exerciseBlocks];
+  List<Object> get props => [name, exerciseGroups];
 }
 
 class TemplateGetExerciseGroups extends TemplateEvent {

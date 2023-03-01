@@ -1,3 +1,5 @@
+import 'package:Maven/common/dialog/bottom_sheet_dialog.dart';
+import 'package:Maven/common/dialog/text_input_dialog.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,6 @@ import '../../common/widget/exercise_group_widget.dart';
 import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
 import '../dto/temp_exercise_set.dart';
-import '../model/template.dart';
 
 class CreateTemplateScreen extends StatefulWidget {
   const CreateTemplateScreen({Key? key}) : super(key: key);
@@ -21,8 +22,7 @@ class CreateTemplateScreen extends StatefulWidget {
 }
 
 class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
-  List<ExerciseBlockData> exerciseBlocks = List.empty(growable: true);
-  final templateTitleController = TextEditingController();
+  List<ExerciseGroup> exerciseGroups = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,24 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         context: context,
         actions: [
           TextButton(
-            onPressed: _createTemplate,
+            onPressed: () {
+              showBottomSheetDialog(
+                context: context,
+                child: TextInputDialog(
+                  title: 'Enter a Workout Name',
+                  initialValue: '',
+                  keyboardType: TextInputType.name,
+                  onValueSubmit: (value) {
+                    context.read<TemplateBloc>().add(TemplateCreate(
+                      name: value,
+                      exerciseGroups: exerciseGroups,
+                    ));
+                    Navigator.pop(context);
+                  },
+                ),
+                onClose: () {}
+              );
+            },
             child: Text(
               'Save',
               style: TextStyle(
@@ -43,116 +60,47 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-              delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsetsDirectional.all(16),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: templateTitleController,
-                        style: TextStyle(
-                            color: mt(context).text.primaryColor
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'New Template',
-                          hintStyle: TextStyle(
-                              color: mt(context).textField.hintColor
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mt(context).borderColor),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: mt(context).accentColor),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ])
-          ),
-
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: exerciseBlocks.length,
-                    (context, index) => ExerciseGroupWidget(
-                  exercise: exerciseBlocks[index].exercise,
-                  exerciseSets: exerciseBlocks[index].sets.map((tempExerciseSet) =>
-                      ExerciseSet(
-                        exerciseSetId: tempExerciseSet.tempExerciseSetId,
-                        option1: tempExerciseSet.option1,
-                        option2: tempExerciseSet.option2,
-                      )
-                  ).toList(growable: true),
-                  onExerciseSetAdd: () {
-                    setState(() {
-                      exerciseBlocks[index].sets.add(TempExerciseSet(tempExerciseSetId: DateTime.now().millisecondsSinceEpoch, option1: 0));
-                    });
-                  },
-                  onExerciseSetUpdate: (value) {
-                    int exerciseSetIndex = exerciseBlocks[index].sets.indexWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
-                    TempExerciseSet tempExerciseSet = TempExerciseSet(
-                      tempExerciseSetId: value.exerciseSetId,
-                      option1: value.option1,
-                      option2: value.option2,
-                    );
-                    exerciseBlocks[index].sets[exerciseSetIndex] = tempExerciseSet;
-                  },
-                  onExerciseSetDelete: (value) {
-                    setState(() {
-                      exerciseBlocks[index].sets.removeWhere((exerciseSet) => exerciseSet.tempExerciseSetId == value.exerciseSetId);
-                    });
-                  },
-                ),
-              )
-          )
-
-        ],
+      body: ListView.builder(
+        itemCount: exerciseGroups.length,
+        itemBuilder: (context, index) {
+          return ExerciseGroupWidget(
+            exercise: exerciseGroups[index].exercise,
+            exerciseSets: exerciseGroups[index].exerciseSets,
+            onExerciseSetAdd: () {
+              setState(() {
+                exerciseGroups[index].exerciseSets.add(ExerciseSet(
+                    exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                    option1: 0,
+                    option2: exerciseGroups[index].exercise.exerciseType.exerciseTypeOption2 == null ? null : 0
+                ));
+              });
+            },
+            onExerciseSetUpdate: (value) {
+              int exerciseSetIndex = exerciseGroups[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+              exerciseGroups[index].exerciseSets[exerciseSetIndex] = value;
+            },
+            onExerciseSetDelete: (value) {
+              setState(() {
+                exerciseGroups[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+              });
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addExercise,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((exercise) {
+            setState(() {
+              List<TempExerciseSet> sets = [];
+              exerciseGroups.add(ExerciseGroup(
+                exercise: exercise,
+                exerciseSets: [],
+              ));
+            });
+          });
+        },
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  void _createTemplate() {
-    if (templateTitleController.text.isEmpty) {
-      const snackBar = SnackBar(
-        content: Text('Enter a template title'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
-    }
-
-    context.read<TemplateBloc>().add(
-      TemplateAdd(
-        template: Template(name: templateTitleController.text, templateFolderId: 1),
-        exerciseBlocks: exerciseBlocks,
-      )
-    );
-
-    Navigator.pop(context);
-  }
-
-  void _addExercise() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AddExerciseScreen())
-    ).then((exercise) {
-      setState(() {
-        List<TempExerciseSet> sets = [];
-        sets.add(TempExerciseSet(tempExerciseSetId: 0, option1: 0));
-        exerciseBlocks.add(
-            ExerciseBlockData(
-              exercise: exercise,
-              sets: sets
-            )
-        );
-      });
-    });
   }
 }

@@ -6,19 +6,6 @@ import 'package:flutter/material.dart';
 /// allows the user to customize the background color, border color, and size
 /// of the button.
 class MFlatButton extends StatefulWidget {
-  final Text? text;
-  final Color? backgroundColor;
-  final Color? borderColor;
-  final Widget? leading;
-  final VoidCallback onPressed;
-  final bool expand;
-  final EdgeInsets padding;
-  final double height;
-  final double width;
-  final double borderRadius;
-  final Color? splashColor;
-  final MainAxisAlignment mainAxisAlignment;
-
   const MFlatButton({super.key,
     this.text,
     this.backgroundColor,
@@ -34,6 +21,18 @@ class MFlatButton extends StatefulWidget {
     this.mainAxisAlignment = MainAxisAlignment.center,
   });
 
+  final Text? text;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final Widget? leading;
+  final VoidCallback onPressed;
+  final bool expand;
+  final EdgeInsets padding;
+  final double height;
+  final double width;
+  final double borderRadius;
+  final Color? splashColor;
+  final MainAxisAlignment mainAxisAlignment;
 
   @override
   State<MFlatButton> createState() => _MFlatButtonState();
@@ -77,7 +76,7 @@ class _MFlatButtonState extends State<MFlatButton> {
             children: [
               if(widget.leading != null) widget.leading!,
               if(widget.leading != null && widget.text != null) SizedBox(width: 2,),
-              if(widget.text != null) widget.text!,
+              if(widget.text != null) Flexible(child: widget.text!),
             ],
           ),
         ),

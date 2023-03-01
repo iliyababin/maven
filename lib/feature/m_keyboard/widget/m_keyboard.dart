@@ -71,73 +71,77 @@ class _MKeyboardState extends State<MKeyboard> {
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      children: [
+    return Container(
+      height: 300,
+      child: Row(
+        children: [
 
-        Expanded(
-          child: Container(height: double.infinity, child: _buildScreen(_selectedTab)),
-        ),
-
-        Container(
-          width: 1,
-          color: mt(context).borderColor,
-        ),
-
-        Container(
-          width: 70,
-          child: Column(
-            children: [
-              MFlatButton(
-                onPressed: (){
-                  setState(() {
-                    _selectedTab = 0;
-                  });
-                },
-                borderRadius: 0,
-                leading: Icon(
-                  Icons.history_rounded,
-                  color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
-                ),
-              ),
-              ExerciseEquipment.barbell == widget.exerciseEquipment ? MFlatButton(
-                onPressed: (){
-                  setState(() {
-                    _selectedTab = 1;
-                  });
-                },
-                borderRadius: 0,
-                leading: Icon(
-                  Icons.calculate_rounded,
-                  color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
-                ),
-              ) : Container(),
-              MFlatButton(
-                onPressed: (){
-                  setState(() {
-                    _selectedTab = 2;
-                  });
-                },
-                borderRadius: 0,
-                leading: Icon(
-                  Icons.numbers_rounded,
-                  color: _selectedTab == 2 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
-                ),
-              ),
-              MFlatButton(
-                onPressed: (){
-                  //widget.onValueChanged(_controller.text);
-                  Navigator.pop(context);
-                },
-                borderRadius: 0,
-                leading: const Icon(
-                    Icons.check
-                ),
-              ),
-            ],
+          Expanded(
+            child: Container(height: double.infinity, child: _buildScreen(_selectedTab)),
           ),
-        )
 
-      ],
+          Container(
+            width: 1,
+            color: mt(context).borderColor,
+          ),
+
+          Container(
+            width: 70,
+            child: Column(
+              children: [
+                MFlatButton(
+                  onPressed: (){
+                    setState(() {
+                      _selectedTab = 0;
+                    });
+                  },
+                  borderRadius: 0,
+                  leading: Icon(
+                    Icons.history_rounded,
+                    color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                  ),
+                ),
+                ExerciseEquipment.barbell == widget.exerciseEquipment ? MFlatButton(
+                  onPressed: (){
+                    setState(() {
+                      _selectedTab = 1;
+                    });
+                  },
+                  borderRadius: 0,
+                  leading: Icon(
+                    Icons.calculate_rounded,
+                    color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                  ),
+                ) : Container(),
+                MFlatButton(
+                  onPressed: (){
+                    setState(() {
+                      _selectedTab = 2;
+                    });
+                  },
+                  borderRadius: 0,
+                  leading: Icon(
+                    Icons.numbers_rounded,
+                    color: _selectedTab == 2 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                  ),
+                ),
+                MFlatButton(
+                  onPressed: (){
+                    //widget.onValueChanged(_controller.text);
+                    Navigator.pop(context);
+                  },
+                  borderRadius: 0,
+                  leading: Icon(
+                    Icons.check,
+                    color: mt(context).icon.completeColor,
+                  ),
+                ),
+              ],
+            ),
+          )
+
+        ],
+      ),
     );
   }
 

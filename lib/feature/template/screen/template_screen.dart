@@ -323,9 +323,11 @@ class _TemplateScreenState extends State<TemplateScreen> {
               },
               builder: (context, state) {
                 if (state.status == TemplateStatus.loading) {
-                  return const SizedBox(
-                    height: 100,
-                    child: Center(child: CircularProgressIndicator()),
+                  return const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 200,
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
                   );
                 } else {
                   List<TemplateFolder> templateFolders = state.templateFolders;

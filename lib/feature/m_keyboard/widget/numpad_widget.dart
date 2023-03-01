@@ -71,16 +71,17 @@ class _NumPadWidgetState extends State<NumPadWidget> {
             focusNode: _focusNode,
             keyboardType: TextInputType.none,
             decoration: InputDecoration(
-                hintText: 'Weight',
+                hintText: '',
                 hintStyle: TextStyle(
-                    color: mt(context).text.primaryColor,
-                    fontSize: 16
+                  color: mt(context).text.primaryColor,
+                  fontSize: 18
                 ),
                 enabledBorder: InputBorder.none,
                 border: InputBorder.none
             ),
             style: TextStyle(
-                color: mt(context).text.primaryColor
+              color: mt(context).text.primaryColor,
+              fontSize: 18
             ),
           ),
         ),
