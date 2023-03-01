@@ -18,7 +18,7 @@ abstract class PlateDao {
   Future<List<Plate>> getPlates();
 
   @Query('SELECT * FROM plate ORDER BY weight DESC')
-  Stream<List<Plate>> getPlatesStream();
+  Stream<List<Plate>> getPlatesAsStream();
 
   @update
   Future<void> updatePlate(Plate plate);

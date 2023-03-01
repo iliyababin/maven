@@ -15,78 +15,33 @@ class ActiveExerciseRow {
     return Row(
       children: [
 
-        const SizedBox(
-          width: SPACER_SIZE,
-        ),
+        const SizedBox(width: SPACER_SIZE),
 
-        Container(
-            alignment: Alignment.center,
-            width: 35,
-            child: set
-        ),
+        Container(width: 35, alignment: Alignment.center, child: set),
 
-        const SizedBox(
-          width: SPACER_SIZE,
-        ),
+        const SizedBox(width: SPACER_SIZE),
 
-        Container(
-            alignment: Alignment.center,
-            width: 90,
-            child: previous
-        ),
+        Container(width: 90, alignment: Alignment.center, child: previous),
 
-        const SizedBox(
-          width: SPACER_SIZE,
-        ),
+        const SizedBox(width: SPACER_SIZE),
 
-        Expanded(
-            child: Container(
-                alignment: Alignment.center,
-                child: option1
-            )
-        ),
+        Expanded(child: Container(alignment: Alignment.center, child: option1)),
 
-        const SizedBox(
-          width: SPACER_SIZE,
-        ),
+        if(option2 != null) ...[
+          const SizedBox(width: SPACER_SIZE),
+          Expanded(child: Container(alignment: Alignment.center, child: option2))
+        ],
 
-        if(option2 != null)
-          Expanded(
-              child: Container(
-                  alignment: Alignment.center,
-                  child: option2
-              )
-          ),
-        if(option2 != null)
-          const SizedBox(
-            width: SPACER_SIZE,
-          ),
+        if(rpe != null) ...[
+          const SizedBox(width: SPACER_SIZE),
+          Expanded(child: Container(alignment: Alignment.center, child: rpe))
+        ],
 
-        if(rpe != null)
-          Expanded(
-              child: Container(
-                  alignment: Alignment.center,
-                  child: option2
-              )
-          ),
-        if(rpe != null)
-          const SizedBox(
-            width: SPACER_SIZE,
-          ),
-
-        if(checkbox != null)
-          SizedBox(
-            width: 46,
-            child: checkbox,
-          ),
-        if(checkbox != null)
-          const SizedBox(
-            width: SPACER_SIZE,
-          ),
-        if(checkbox == null)
-          const SizedBox(
-            width: SPACER_SIZE,
-          ),
+        if(checkbox != null) ...[
+          const SizedBox(width: SPACER_SIZE),
+          SizedBox(width: 46, child: checkbox),
+          const SizedBox(width: SPACER_SIZE)
+        ] else const SizedBox(width: SPACER_SIZE),
       ],
     );
   }

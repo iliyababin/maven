@@ -46,7 +46,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         ],
       ),
 
-      body: CustomScrollView(
+        body: CustomScrollView(
         slivers: [
 
           SliverList(

@@ -96,6 +96,16 @@ class TemplateFolderUpdate extends TemplateEvent {
   List<Object> get props => [templateFolder];
 }
 
+class TemplateFolderExpandable extends TemplateEvent {
+  final TemplateFolder templateFolder;
+
+  const TemplateFolderExpandable({
+    required this.templateFolder
+  });
+  @override
+  List<Object> get props => [templateFolder];
+}
+
 class TemplateFolderReorder extends TemplateEvent {
   final List<TemplateFolder> templateFolders;
 

@@ -13,6 +13,7 @@ import 'feature/common/model/exercise.dart';
 import 'feature/equipment/model/plate.dart';
 import 'feature/equipment/service/equipment_service.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
+import 'feature/template/service/template_service.dart';
 import 'feature/workout/bloc/active_workout/workout_bloc.dart';
 
 /**
@@ -38,6 +39,9 @@ void main() async {
 
   services.registerLazySingleton<EquipmentService>(() => EquipmentService(
     plateDao: database.plateDao,
+  ));
+  services.registerLazySingleton<TemplateService>(() => TemplateService(
+    templateDao: database.templateDao,
   ));
 
 

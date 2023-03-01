@@ -25,7 +25,7 @@ class EquipmentService {
     return plate;
   }
 
-  Stream<List<Plate>> getPlatesStream() => _plateDao.getPlatesStream();
+  Stream<List<Plate>> getPlatesAsStream() => _plateDao.getPlatesAsStream();
 
   Future<void> updatePlate(Plate plate) => _plateDao.updatePlate(plate);
 

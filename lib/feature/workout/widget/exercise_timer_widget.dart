@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:Maven/common/util/general_utils.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/dialog/show_timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../theme/m_themes.dart';
 import '../../../widget/m_flat_button.dart';
@@ -63,16 +63,10 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
               ),
               MFlatButton(
                 onPressed: () async {
-
-
-                  /*showTimerPickerDialog(context: context).then((value) {
-                    if(value == null) return;
-                    widget.controller.startTimer(Duration(seconds: 10));
-                  );*/
                 },
                 expand: false,
                 backgroundColor: Colors.transparent,
-              )
+              ),
             ],
           ),
         ),
@@ -81,15 +75,10 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
         :
     MFlatButton(
       onPressed: () async {
-        final player = AudioPlayer();
-        await player.play(AssetSource('complete.wav'));
-
-        /*showTimerPickerDialog(context: context).then(
-              (value) {
-            if(value == null) return;
-            widget.controller.startTimer(value);
-              },
-        );*/
+        showTimerPickerDialog(context: context).then((value) {
+          if (value == null) return;
+          widget.controller.startTimer(value);
+        });
       },
       leading: Icon(
         Icons.timer,
@@ -114,7 +103,7 @@ class ExerciseTimerController extends ChangeNotifier {
   void startTimer(Timed timed) {
     timeLeft = timed.toSeconds();
     totalTime = timed.toSeconds();
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (timeLeft == 0) {
         timer!.cancel();
         notifyListeners();

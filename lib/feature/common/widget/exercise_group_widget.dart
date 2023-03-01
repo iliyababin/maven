@@ -48,13 +48,26 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         Row(
           children: [
 
+            SizedBox(width: 8),
+            MFlatButton(
+              onPressed: (){},
+              width: 40,
+              height: 40,
+              leading: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                size: 26,
+                color: mt(context).icon.accentColor,
+              ),
+            ),
+
             MFlatButton(
               onPressed: () {
 
               },
               splashColor: mt(context).accentColor.withAlpha(50),
               mainAxisAlignment: MainAxisAlignment.start,
-              leading: SizedBox(width: 10,),
+              height: 40,
+              leading: SizedBox(width: 6),
               text: Text(
                 widget.exercise.name,
                 style: TextStyle(
@@ -66,7 +79,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             ),
 
             SizedBox(
-                height: 52,
+                height: 40,
                 width: 52,
                 child: MPopupMenuButton(
                     iconColor: mt(context).icon.accentColor,

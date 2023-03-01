@@ -1,4 +1,3 @@
-import 'package:Maven/common/dialog/show_text_input_dialog.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../common/dialog/show_confirmation_dialog.dart';
+import '../../../common/dialog/bottom_sheet_dialog.dart';
+import '../../../common/dialog/show_confirmation_dialog.dart';
+import '../../../common/dialog/text_input_dialog.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
@@ -49,205 +50,476 @@ class _TemplateScreenState extends State<TemplateScreen> {
             )
           ];
         },
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              quickStart(),
+        body: CustomScrollView(
+          slivers: [
 
-              BlocBuilder<WorkoutBloc, WorkoutState>(
-                builder: (context, state) {
-                  if(state.status == WorkoutStatus.loading) {
-                    return Container();
-                  } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
-                    List<Workout> pausedWorkouts = state.pausedWorkouts;
-
-                    return pausedWorkouts.isEmpty
-                        ?
-                    Container()
-                        :
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Text(
-                            'In Progress',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w900,
-                                color: mt(context).text.primaryColor
-                            ),
-                          ),
+            // Quick start
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Quick Start',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                          color: mt(context).text.primaryColor,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: ListView.separated(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: pausedWorkouts.length,
-                            itemBuilder: (context, index) {
-                              Workout pausedWorkout = pausedWorkouts[index];
-                              return Material(
-                                borderRadius: BorderRadius.circular(10),
-                                color: mt(context).templateFolder.backgroundColor,
-                                child: InkWell(
-                                  onTap: () async {
-                                    if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
-                                      bool? confirmation = await showConfirmationDialog(
-                                          context: context,
-                                          title: 'Workout in progress',
-                                          subtext: 'You already have a workout in progress, would you like to delete it?'
-                                      );
-                                      if(confirmation == null) return;
-                                      if(!confirmation) return;
-                                      context.read<WorkoutBloc>().add(WorkoutDelete());
-                                    }
-                                    context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkout));
-                                  },
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      Row(
+                        children: [
+                          MFlatButton(
+                            text: Text(
+                              'Start an Empty Workout',
+                              style: TextStyle(
+                                color: mt(context).text.whiteColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            backgroundColor: mt(context).accentColor,
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      Row(
+                        children: [
+                          MFlatButton(
+                            text: Text(
+                              'Create Template',
+                              style: TextStyle(
+                                color: mt(context).text.accentColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                            borderColor: mt(context).borderColor,
+                            leading: Icon(
+                              Icons.post_add,
+                              size: 20,
+                              color: mt(context).icon.accentColor,
+                            ),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTemplateScreen()));
+                            },
+                          ),
+                          const SizedBox(width: 14),
+                          MFlatButton(
+                            text: Text(
+                              'Template Builder',
+                              style: TextStyle(
+                                color: mt(context).text.accentColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                            borderColor: mt(context).borderColor,
+                            leading: Icon(
+                              Icons.polyline,
+                              size: 18,
+                              color: mt(context).icon.accentColor,
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+            // Workouts header
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'In Progress',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: mt(context).text.primaryColor,
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+            // Workouts
+            BlocBuilder<WorkoutBloc, WorkoutState>(
+              builder: (context, state) {
+                if(state.status == WorkoutStatus.loading) {
+                  return SliverList(delegate: SliverChildListDelegate([]),);
+                } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
+                  List<Workout> pausedWorkouts = state.pausedWorkouts;
+
+                  return pausedWorkouts.isEmpty
+                      ?
+                  SliverList(delegate: SliverChildListDelegate([]))
+                    :
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: pausedWorkouts.length,
+                        (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            color: mt(context).templateFolder.backgroundColor,
+                            child: InkWell(
+                              onTap: () async {
+                                if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
+                                  bool? confirmation = await showConfirmationDialog(
+                                      context: context,
+                                      title: 'Workout in progress',
+                                      subtext: 'You already have a workout in progress, would you like to delete it?'
+                                  );
+                                  if(confirmation == null) return;
+                                  if(!confirmation) return;
+                                  context.read<WorkoutBloc>().add(WorkoutDelete());
+                                }
+                                context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkouts[index]));
+                              },
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: mt(context).borderColor
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(13),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                  border: Border.all(
+                                      width: 1,
+                                      color: mt(context).borderColor
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                pausedWorkout.name,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: mt(context).text.primaryColor
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-                                          StreamBuilder(
-                                            stream: Stream.periodic(Duration(minutes: 1)),
-                                            builder: (context, snapshot) {
-                                              return Text('Created ${timeago.format(pausedWorkout.timestamp)}');
-                                            },
+                                          Text(
+                                            pausedWorkouts[index].name,
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: mt(context).text.primaryColor
+                                            ),
                                           )
                                         ],
                                       ),
-                                    ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      StreamBuilder(
+                                        stream: Stream.periodic(Duration(minutes: 1)),
+                                        builder: (context, snapshot) {
+                                          return Text('Created ${timeago.format(pausedWorkouts[index].timestamp)}');
+                                        },
+                                      )
+                                    ],
                                   ),
                                 ),
-                              );
-                            },
-                            separatorBuilder: (BuildContext context, int index) {
-                              return SizedBox(height: 9,);
-                            },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const Text("nothign here");
+                }
+              },
+            ),
+
+            // Template header
+            SliverList(
+                delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Templates',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: mt(context).text.primaryColor,
                           ),
                         ),
-                      ],
-                    );
-                  } else {
-                    return const Text("nothign here");
-                  }
-                },
-              ),
-              const SizedBox(height: 25,),
-              templates(),
-              BlocBuilder<TemplateBloc, TemplateState>(
-                builder: (context, state) {
-                  if (state.status == TemplateStatus.loading) {
-                    return const SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())
-                    );
-                  } else if (state.status == TemplateStatus.success || state.status == TemplateStatus.reordering) {
-                    List<TemplateFolder> templateFolders = state.templateFolders;
-                    List<Template> templates = state.templates;
-
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ReorderableListView(
-
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        proxyDecorator: proxyDecorator,
-                        children: templateFolders.map((templateFolder) {
-                          return Padding(
-                            key: UniqueKey(),
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
-                            child: TemplateFolderWidget(
-                              templateFolder: templateFolder,
-                              templates: templates.where((template) =>
-                              template.templateFolderId == templateFolder.templateFolderId
-                              ).toList()
+                        Row(
+                          children: [
+                            MFlatButton(
+                              width: 40,
+                              height: 40,
+                              expand: false,
+                              padding: const EdgeInsets.all(5),
+                              borderColor: mt(context).borderColor,
+                              leading: Icon(
+                                CupertinoIcons.arrow_up_arrow_down,
+                                size: 20,
+                                color: mt(context).icon.accentColor,
+                              ),
+                              backgroundColor: mt(context).templateFolder.backgroundColor,
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ReorderTemplateScreen()));
+                              },
                             ),
-                          );
-                        }).toList(),
-                        onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, templateFolders),
-                      ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            MFlatButton(
+                              width: 40,
+                              height: 40,
+                              expand: false,
+                              padding: const EdgeInsets.all(5),
+                              borderColor: mt(context).borderColor,
+                              leading: Icon(
+                                Icons.create_new_folder_rounded,
+                                size: 22,
+                                color: mt(context).icon.accentColor,
+                              ),
+                              backgroundColor: mt(context).templateFolder.backgroundColor,
+                              onPressed: () => _createTemplateFolder(context),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ])
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+            // Templates
+            BlocBuilder<TemplateBloc, TemplateState>(
+              buildWhen: (previous, current) {
+                if(current.status == TemplateStatus.toggle) {
+                  return false;
+                }
+                return true;
+              },
+              builder: (context, state) {
+                if (state.status == TemplateStatus.loading) {
+                  return const SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else {
+                  List<TemplateFolder> templateFolders = state.templateFolders;
+                  List<Template> templates = state.templates;
+
+                  if(templateFolders.isEmpty) {
+                    return SliverList(
+                      delegate: SliverChildListDelegate([
+                        Container(
+                          height: 500,
+                          child: Image.asset('assets/icons8-document-440.png'),
+                        )
+                      ]),
                     );
-                  } else {
-                    return const Text('There was an error');
                   }
-                },
-              ),
-              SizedBox(height: 200,)
-            ],
-          ),
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: templateFolders.length,
+                      (context, index) {
+                        return Padding(
+                          key: UniqueKey(),
+                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                          child: ReorderableDelayedDragStartListener(
+                            index: index,
+                            child: TemplateFolderWidget(
+                                templateFolder: templateFolders[index],
+                                templates: templates.where((template) => template.templateFolderId == templateFolders[index].templateFolderId).toList()
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+
+
+
+            /*Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+
+                BlocBuilder<WorkoutBloc, WorkoutState>(
+                  builder: (context, state) {
+                    if(state.status == WorkoutStatus.loading) {
+                      return Container();
+                    } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
+                      List<Workout> pausedWorkouts = state.pausedWorkouts;
+
+                      return pausedWorkouts.isEmpty
+                          ?
+                      Container()
+                          :
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Text(
+                              'In Progress',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w900,
+                                  color: mt(context).text.primaryColor
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView.separated(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: pausedWorkouts.length,
+                              itemBuilder: (context, index) {
+                                Workout pausedWorkout = pausedWorkouts[index];
+                                return Material(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: mt(context).templateFolder.backgroundColor,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
+                                        bool? confirmation = await showConfirmationDialog(
+                                            context: context,
+                                            title: 'Workout in progress',
+                                            subtext: 'You already have a workout in progress, would you like to delete it?'
+                                        );
+                                        if(confirmation == null) return;
+                                        if(!confirmation) return;
+                                        context.read<WorkoutBloc>().add(WorkoutDelete());
+                                      }
+                                      context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkout));
+                                    },
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1,
+                                            color: mt(context).borderColor
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(13),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  pausedWorkout.name,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: mt(context).text.primaryColor
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 7,
+                                            ),
+                                            StreamBuilder(
+                                              stream: Stream.periodic(Duration(minutes: 1)),
+                                              builder: (context, snapshot) {
+                                                return Text('Created ${timeago.format(pausedWorkout.timestamp)}');
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return SizedBox(height: 9,);
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Text("nothign here");
+                    }
+                  },
+                ),
+                const SizedBox(height: 25,),
+                templates(),
+                BlocBuilder<TemplateBloc, TemplateState>(
+                  buildWhen: (previous, current) {
+                    if(current.status == TemplateStatus.toggle) return false;
+                    return true;
+                  },
+                  builder: (context, state) {
+                    if (state.status == TemplateStatus.loading) {
+                      return const SizedBox(
+                          height: 100,
+                          child: Center(child: CircularProgressIndicator())
+                      );
+                    } else {
+                      List<TemplateFolder> templateFolders = state.templateFolders;
+                      List<Template> templates = state.templates;
+
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ReorderableListView(
+
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          proxyDecorator: proxyDecorator,
+                          children: templateFolders.map((templateFolder) {
+                            return Padding(
+                              key: UniqueKey(),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
+                              child: TemplateFolderWidget(
+                                  templateFolder: templateFolder,
+                                  templates: templates.where((template) =>
+                                  template.templateFolderId == templateFolder.templateFolderId
+                                  ).toList()
+                              ),
+                            );
+                          }).toList(),
+                          onReorder: (int oldIndex, int newIndex) => _reorder(oldIndex, newIndex, templateFolders),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                SizedBox(height: 200,)
+              ],
+            )*/
+          ],
         )
       ),
     );
   }
 
-  ///
-  /// Functions
-  ///
-
-  void _createTemplate(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CreateTemplateScreen()
-      )
-    );
-  }
-
-  void _reorderTemplates(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ReorderTemplateScreen()
-      )
-    );
-  }
-
-  void _reorder(int oldIndex, int newIndex, List<TemplateFolder> templateFolders) {
-    setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
-      final TemplateFolder item = templateFolders.elementAt(oldIndex);
-      templateFolders.removeAt(oldIndex);
-      templateFolders.insert(newIndex, item);
-
-      context.read<TemplateBloc>().add(TemplateFolderReorder(
-        templateFolders: templateFolders
-      ));
-    });
-  }
-
   Future<void> _createTemplateFolder(BuildContext context) async {
-    String? result = await showDialogWithTextField(
+    /*String? result = await showDialogWithTextField(
         context: context,
         title: 'Create New Folder',
         hintText: "Folder Name"
@@ -257,7 +529,44 @@ class _TemplateScreenState extends State<TemplateScreen> {
       context.read<TemplateBloc>().add(TemplateFolderAdd(
           templateFolder: templateFolder
       ));
-    }
+    }*/
+    showBottomSheetDialog(
+      context: context,
+      child: TextInputDialog(
+        onValueChanged: (String value) {
+        },
+        hintText: 'eg. Workouts',
+        title: 'Create new folder',
+        initialValue: '',
+        onValueSubmit: (value) {
+          final templateFolder = TemplateFolder(name: value, expanded: 1);
+          context.read<TemplateBloc>().add(TemplateFolderAdd(
+              templateFolder: templateFolder
+          ));
+        },
+      ),
+      onClose: () {  },
+    );
+/*
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Column(
+               children: [
+
+               ],
+             ),
+           )
+          ],
+        );
+      },
+    );*/
+
   }
 
   ///
@@ -295,135 +604,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
       child: child,
     );
   }
-
-  Padding quickStart() =>
-    Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Quick Start',
-            style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-                color: mt(context).text.primaryColor),
-          ),
-          const SizedBox(
-            height: 14,
-          ),
-          Row(
-            children: [
-              MFlatButton(
-                text: Text(
-                  'Start an Empty Workout',
-                  style: TextStyle(
-                    color: mt(context).text.whiteColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700
-                  ),
-                ),
-                backgroundColor: mt(context).accentColor,
-                onPressed: () {
-                },
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Row(
-            children: [
-              MFlatButton(
-                text: Text(
-                  'Create Template',
-                  style: TextStyle(
-                    color: mt(context).text.accentColor,
-                    fontSize: 15,
-                  ),
-                ),
-                borderColor: mt(context).borderColor,
-                leading: Icon(
-                  Icons.post_add,
-                  size: 20,
-                  color: mt(context).icon.accentColor,
-                ),
-                onPressed: () => _createTemplate(context),
-              ),
-              const SizedBox(width: 16),
-              MFlatButton(
-                text: Text(
-                  'Template Builder',
-                  style: TextStyle(
-                    color: mt(context).text.accentColor,
-                    fontSize: 15,
-                  ),
-                ),
-                borderColor: mt(context).borderColor,
-                leading: Icon(
-                  Icons.polyline,
-                  size: 18,
-                  color: mt(context).icon.accentColor,
-                ),
-                onPressed: () {},
-              )
-            ],
-          ),
-        ],
-      ),
-  );
-
-  Padding templates() =>
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Templates',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
-              color: mt(context).text.primaryColor),
-          ),
-          Row(
-            children: [
-              MFlatButton(
-                width: 35,
-                height: 35,
-                expand: false,
-                padding: const EdgeInsets.all(5),
-                borderColor: mt(context).borderColor,
-                leading: Icon(
-                  CupertinoIcons.arrow_up_arrow_down,
-                  size: 20,
-                  color: mt(context).icon.accentColor,
-                ),
-                backgroundColor: mt(context).templateFolder.backgroundColor,
-                onPressed: () => _reorderTemplates(context),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              MFlatButton(
-                width: 35,
-                height: 35,
-                expand: false,
-                padding: const EdgeInsets.all(5),
-                borderColor: mt(context).borderColor,
-                leading: Icon(
-                  Icons.create_new_folder_rounded,
-                  size: 22,
-                  color: mt(context).icon.accentColor,
-                ),
-                backgroundColor: mt(context).templateFolder.backgroundColor,
-                onPressed: () => _createTemplateFolder(context),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
 }
 
 /*

@@ -50,7 +50,7 @@ class _PlateScreenState extends State<PlateScreen> {
         ]
       ),
       body: StreamBuilder(
-        stream: widget.equipmentService.getPlatesStream(),
+        stream: widget.equipmentService.getPlatesAsStream(),
         builder: (context, snapshot)  {
           if(!snapshot.hasData) {
             return const Center(

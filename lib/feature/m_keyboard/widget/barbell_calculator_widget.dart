@@ -18,7 +18,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: equipmentService.getPlatesStream(),
+      stream: equipmentService.getPlatesAsStream(),
       builder: (context, snapshot) {
         if(!snapshot.hasData) {
           return const Center(

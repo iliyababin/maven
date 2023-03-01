@@ -42,7 +42,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       TemplateFolder templateFolder = widget.templateFolder;
       TemplateFolder modifiedTemplateFolder = templateFolder.copyWith(expanded: _expandableController.expanded ? 1 : 0);
 
-      context.read<TemplateBloc>().add(TemplateFolderUpdate(
+      context.read<TemplateBloc>().add(TemplateFolderExpandable(
           templateFolder: modifiedTemplateFolder
       ));
     });

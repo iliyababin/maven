@@ -64,7 +64,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.status == TemplateStatus.success || state.status == TemplateStatus.reordering) {
+          } else  {
             List<TemplateFolder> templateFolders = state.templateFolders;
             List<Template> templates = state.templates;
 
@@ -127,8 +127,6 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
                 ),
               ),
             );
-          } else {
-            return const Center(child: Text('There was an error.'),);
           }
         },
       ),

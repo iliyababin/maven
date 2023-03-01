@@ -1,17 +1,19 @@
 part of 'template_bloc.dart';
 
 enum TemplateStatus {
-  initial,
+  error,
   loading,
-  success,
-  failure,
-  added,
-  reordering
+  loaded,
+  add,
+  update,
+  delete,
+  reorder,
+  toggle,
 }
 
 class TemplateState extends Equatable {
   const TemplateState({
-    this.status = TemplateStatus.initial,
+    this.status = TemplateStatus.loaded,
     this.templates = const [],
     this.templateFolders = const [],
   });

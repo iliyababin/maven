@@ -42,6 +42,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     on<TemplateFolderAdd>(_templateFolderAdd);
     on<TemplateFolderUpdate>(_templateFolderUpdate);
+    on<TemplateFolderExpandable>(_templateFolderExpandable);
     on<TemplateFolderReorder>(_templateFolderReorder);
   }
 
@@ -54,9 +55,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _templateInitialize(TemplateInitialize event, Emitter emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loading));
-
-    emit(state.copyWith(status: () => TemplateStatus.success));
+    emit(state.copyWith(status: () => TemplateStatus.loaded));
   }
 
   Future<void> _templateAdd(TemplateAdd event, emit) async {
@@ -78,8 +77,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       }
     }
 
-    emit(state.copyWith(status: () => TemplateStatus.added));
-    emit(state.copyWith(status: () => TemplateStatus.success));
+    emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
   Future<List<TemplateExerciseGroup>> _test(event, emit) async {
@@ -93,6 +91,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       Template template = templates[i];
       templateDao.updateTemplate(template.copyWith(sortOrder: i));
     }
+    state.copyWith(status: () => TemplateStatus.reorder);
   }
 
   Future<void> _templateMoveToFolder(TemplateMoveToFolder event, emit) async {
@@ -123,9 +122,15 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
   Future<void> _templateFolderAdd(event, emit) async {
     await templateFolderDao.addTemplateFolder(event.templateFolder);
+    await emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
   Future<void> _templateFolderUpdate(event, emit) async {
+    await templateFolderDao.updateTemplateFolder(event.templateFolder);
+  }
+
+  Future<void> _templateFolderExpandable(TemplateFolderExpandable event, emit) async {
+    await emit(state.copyWith(status: () => TemplateStatus.toggle));
     await templateFolderDao.updateTemplateFolder(event.templateFolder);
   }
 
