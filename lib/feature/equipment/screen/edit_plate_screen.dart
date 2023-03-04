@@ -7,7 +7,7 @@ import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../../common/dialog/bottom_sheet_dialog.dart';
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../model/plate.dart';
 import '../service/equipment_service.dart';

@@ -18,11 +18,11 @@ void showBottomSheetDialog({
       return Wrap(
         children: [
           Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               child: Container(
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: mt(context).backgroundColor,
                 ),

@@ -6,7 +6,6 @@ import '../../../common/util/general_utils.dart';
 import '../../../screen/testing_screen.dart';
 import '../../../theme/m_themes.dart';
 import '../../home/screen/home_screen.dart';
-import '../../nutrition/screen/nutrition_screen.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../template/dao/exercise_dao.dart';
 import '../../template/screen/template_screen.dart';
@@ -30,7 +29,6 @@ class _MavenState extends State<Maven> {
 
   List<Widget> screens = <Widget>[
     const HomeScreen(),
-    const NutritionScreen(),
     const TemplateScreen(),
     const TestingScreen(),
     const ProfileScreen(),
@@ -253,14 +251,11 @@ class _MavenState extends State<Maven> {
         ),
         currentIndex: _selectedIndex,
         elevation: 0,
+
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dining),
-            label: 'Nutrition',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),

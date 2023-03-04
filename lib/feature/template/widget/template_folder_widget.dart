@@ -1,3 +1,4 @@
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,15 +10,14 @@ import '../model/template.dart';
 import '../model/template_folder.dart';
 import 'template_card_widget.dart';
 
-
 class TemplateFolderWidget extends StatefulWidget {
-  final TemplateFolder templateFolder;
-  final List<Template> templates;
-
   const TemplateFolderWidget({Key? key,
     required this.templateFolder,
     required this.templates
   }) : super(key: key);
+
+  final TemplateFolder templateFolder;
+  final List<Template> templates;
 
   @override
   State<TemplateFolderWidget> createState() => _TemplateFolderWidgetState();
@@ -26,33 +26,65 @@ class TemplateFolderWidget extends StatefulWidget {
 class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
   final double borderRadius = 10;
 
-  final ExpandableController _expandableController = ExpandableController();
+  final ExpandableController _expandedController = ExpandableController();
 
+  /// Creates a shadow underneath item when reordering.
+  ///
+  /// Accounts for padding.
+  /// [Source](https://github.com/flutter/flutter/issues/76706#issuecomment-986181379)
+  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          elevation: 0,
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 12,
+                child: Material(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  elevation: 5,
+                  shadowColor: mt(context).templateFolder.dragShadowColor,
+                ),
+              ),
+              child!,
+            ],
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+  
   @override
   void initState() {
     if(widget.templateFolder.expanded == 1){
-      _expandableController.toggle();
+      _expandedController.toggle();
     }
+    _expandedController.addListener(() async {
+      TemplateFolder templateFolder = widget.templateFolder;
+      TemplateFolder modifiedTemplateFolder = templateFolder.copyWith(expanded: _expandedController.expanded ? 1 : 0);
+      context.read<TemplateBloc>().add(TemplateFolderToggle(
+          templateFolder: modifiedTemplateFolder
+      ));
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _expandableController.addListener(() async {
-      TemplateFolder templateFolder = widget.templateFolder;
-      TemplateFolder modifiedTemplateFolder = templateFolder.copyWith(expanded: _expandableController.expanded ? 1 : 0);
-
-      context.read<TemplateBloc>().add(TemplateFolderToggle(
-          templateFolder: modifiedTemplateFolder
-      ));
-    });
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           width: 1,
           color: mt(context).templateFolder.borderColor,
-        )
+        ),
       ),
       child: Material(
         color: mt(context).templateFolder.backgroundColor,
@@ -60,17 +92,17 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
         child: InkWell(
           onTap: (){
             setState(() {
-              if(!_expandableController.expanded) {
-                _expandableController.toggle();
+              if(!_expandedController.expanded) {
+                _expandedController.toggle();
               }
             });
           },
           borderRadius: BorderRadius.circular(borderRadius),
           child: ExpandableNotifier(
-            controller: _expandableController,
+            controller: _expandedController,
             child: ScrollOnExpand(
               child: ExpandablePanel(
-                controller: _expandableController,
+                controller: _expandedController,
                 theme: ExpandableThemeData(
                   iconColor: mt(context).accentColor,
                   iconPlacement: ExpandablePanelIconPlacement.right,
@@ -79,7 +111,6 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                   inkWellBorderRadius: BorderRadius.circular(borderRadius),
                   iconSize: 30,
                   useInkWell: false,
-                  
                 ),
                 header: Container(
                   decoration: BoxDecoration(
@@ -97,24 +128,48 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                           fontWeight: FontWeight.w700
                         ),
                       ),
-                      SizedBox(
-                        width: 40,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(borderRadius),
-                          child : Material(
-                            color: Colors.transparent,
-                            child : InkWell(
-                              child : Padding(
-                                padding : const EdgeInsets.all(5),
-                                child : Icon(
-                                  Icons.more_horiz,
-                                  color: mt(context).icon.accentColor,
+                      MFlatButton(
+                        onPressed: (){
+                          showBottomSheetDialog(
+                            context: context,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                MFlatButton(
+                                  onPressed: (){},
+                                  height: 60,
+                                  expand: false,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  width: double.infinity,
+                                  borderRadius: 0,
+                                  leading: Padding(
+                                    padding: const EdgeInsets.only(left: 18, right: 16),
+                                    child: Icon(
+                                      Icons.edit_rounded,
+                                      color: mt(context).icon.accentColor,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  text: Text(
+                                    'Rename Folder',
+                                    style: TextStyle(
+                                      color: mt(context).text.primaryColor,
+                                      fontSize: 17
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              onTap : () {
-                              },
+                              ],
                             ),
-                          ),
+                            onClose: (){},
+                          );
+                        },
+                        height: 40,
+                        width: 50,
+                        borderRadius: borderRadius,
+                        backgroundColor: Colors.transparent,
+                        leading: Icon(
+                          Icons.more_horiz,
+                          color: mt(context).icon.accentColor,
                         ),
                       ),
                     ],
@@ -228,41 +283,6 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       ));
     });
   }
-
-  ///
-  /// Widgets
-  ///
-
-  /// Creates a shadow underneath item when reordering.
-  /// Accounts for padding.
-  ///
-  /// [Source](https://github.com/flutter/flutter/issues/76706#issuecomment-986181379)
-  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        return Material(
-          elevation: 0,
-          color: Colors.transparent,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 12,
-                child: Material(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  elevation: 5,
-                  shadowColor: mt(context).templateFolder.dragShadowColor,
-                ),
-              ),
-              child!,
-            ],
-          ),
-        );
-      },
-      child: child,
-    );
-  }
+  
+  
 }

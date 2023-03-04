@@ -1,10 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../common/dialog/bottom_sheet_dialog.dart';
-import '../../../common/dialog/show_confirmation_dialog.dart';
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../theme/m_themes.dart';
 import '../../../widget/m_flat_button.dart';
@@ -13,12 +13,14 @@ import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
 import '../model/template_folder.dart';
+import '../widget/paused_workout_widget.dart';
 import '../widget/template_folder_widget.dart';
 import 'create_template_screen.dart';
 import 'reorder_template_screen.dart';
 
-
+/// Screen which manages templates and workouts
 class TemplateScreen extends StatefulWidget {
+  /// Creates a screen for managing templates and workouts
   const TemplateScreen({Key? key}) : super(key: key);
 
   @override
@@ -149,91 +151,71 @@ class _TemplateScreenState extends State<TemplateScreen> {
               ]),
             ),
 
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
             // Workouts
             BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if(state.status == WorkoutStatus.loading) {
-                  return SliverList(delegate: SliverChildListDelegate([]),);
-                } else if (state.status == WorkoutStatus.none || state.status == WorkoutStatus.active) {
-                  List<Workout> pausedWorkouts = state.pausedWorkouts;
-
-                  return pausedWorkouts.isEmpty
-                      ?
-                  SliverList(delegate: SliverChildListDelegate([
-                  ]))
-                    :
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: pausedWorkouts.length,
-                        (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: mt(context).templateFolder.backgroundColor,
-                            child: InkWell(
-                              onTap: () async {
-                                if(context.read<WorkoutBloc>().state.status == WorkoutStatus.active) {
-                                  bool? confirmation = await showConfirmationDialog(
-                                      context: context,
-                                      title: 'Workout in progress',
-                                      subtext: 'You already have a workout in progress, would you like to delete it?'
-                                  );
-                                  if(confirmation == null) return;
-                                  if(!confirmation) return;
-                                  context.read<WorkoutBloc>().add(WorkoutDelete());
-                                }
-                                context.read<WorkoutBloc>().add(WorkoutUnpause(workout: pausedWorkouts[index]));
-                              },
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: mt(context).borderColor
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(13),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            pausedWorkouts[index].name,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: mt(context).text.primaryColor
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      StreamBuilder(
-                                        stream: Stream.periodic(Duration(minutes: 1)),
-                                        builder: (context, snapshot) {
-                                          return Text('Created ${timeago.format(pausedWorkouts[index].timestamp)}');
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                  return Container(
+                    height: 200,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(),
+                  );
+                } else if (state.status == WorkoutStatus.error) {
+                  return const Text(
+                    'Something went wrong',
                   );
                 } else {
-                  return const Text("nothign here");
+                  List<Workout> workouts = state.pausedWorkouts;
+
+                  return workouts.isEmpty
+                      ?
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 80,
+                      margin: const EdgeInsetsDirectional.only(start: 15, end: 15, bottom: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(15),
+                        border: Border.all(
+                          color: mt(context).borderColor
+                        )
+                      ),
+                      alignment: FractionalOffset.center,
+                      child: Text(
+                        'Paused workouts will appear here',
+                        style: TextStyle(
+                          color: mt(context).text.secondaryColor,
+                          fontSize: 14
+                        ),
+                      ),
+                    ),
+                  )
+                    :
+                  SliverPadding(
+                    padding: const EdgeInsetsDirectional.all(15),
+                    sliver: SliverList(
+                      /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
+                      ///
+                      /// Mimics a [ListView.separated] since there's no SliverList.separated
+                      ///
+                      /// [Source](https://stackoverflow.com/a/58176779)
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final int itemIndex = index ~/ 2;
+                          if (index.isEven) {
+                            return PausedWorkoutWidget(workout: workouts[itemIndex]);
+                          }
+                          return const SizedBox(height: 15);
+                        },
+                        semanticIndexCallback: (Widget widget, int localIndex) {
+                          if (localIndex.isEven) {
+                            return localIndex ~/ 2;
+                          }
+                          return null;
+                        },
+                        childCount: max(0, workouts.length * 2 - 1),
+                      ),
+                    ),
+                  );
                 }
               },
             ),

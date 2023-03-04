@@ -1,6 +1,7 @@
 part of 'workout_bloc.dart';
 
 enum WorkoutStatus {
+  error,
   initial,
   loading,
   success,
