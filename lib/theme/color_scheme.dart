@@ -12,47 +12,10 @@ import 'package:Maven/theme/widget/template_card_theme.dart';
 import 'package:Maven/theme/widget/template_folder_theme.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-class MColorScheme implements AppThemeOptions{
-  /*final Color backgroundColor;
-  final Color backgroundDarkColor;
-  final Color primaryColor;
-  final Color primaryTextColor;
-  final Color accentTextColor;
-  final Color textFieldBackgroundColor;
-  final Color textFieldHintColor;
-  final Color completeColor;
-  final Color checkColor;
-  final Color errorColor;
-  final Color unselectedItemColor;
-  final Color dragBarColor;
-  final Color slidingPanelShadowColor;
-  final Color whiteColor;
-  final Color transparentColor = const Color(0x00000000);
-  final Color popupMenuBackgroundColor;
-  final Color finishColor;*/
+class MThemeScheme implements AppThemeOptions {
+  MThemeScheme({
+    required this.sidePadding,
 
-  final Color accentColor;
-  final Color borderColor;
-  final Color backgroundColor;
-  final Color foregroundColor;
-
-  final MTextTheme text;
-  final MBottomNavigationBarTheme bottomNavigationBar;
-  final MIconTheme icon;
-  final MDialogTheme dialog;
-  final MPopupMenuTheme popupMenu;
-  final MTextFieldTheme textField;
-  final MFlatButtonTheme flatButton;
-
-  final TemplateFolderTheme templateFolder;
-  final TemplateCardTheme templateCard;
-  final ActiveExerciseSetTheme activeExerciseSet;
-
-  final Color sliverNavigationBarBackgroundColor;
-  final Color handleBarColor;
-
-
-  MColorScheme({
     required this.accentColor,
     required this.borderColor,
     required this.backgroundColor,
@@ -74,4 +37,26 @@ class MColorScheme implements AppThemeOptions{
     required this.handleBarColor,
 
   });
+  
+  final double sidePadding;
+  
+  final Color accentColor;
+  final Color borderColor;
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  final MTextTheme text;
+  final MBottomNavigationBarTheme bottomNavigationBar;
+  final MIconTheme icon;
+  final MDialogTheme dialog;
+  final MPopupMenuTheme popupMenu;
+  final MTextFieldTheme textField;
+  final MFlatButtonTheme flatButton;
+
+  final TemplateFolderTheme templateFolder;
+  final TemplateCardTheme templateCard;
+  final ActiveExerciseSetTheme activeExerciseSet;
+
+  final Color sliverNavigationBarBackgroundColor;
+  final Color handleBarColor;
 }

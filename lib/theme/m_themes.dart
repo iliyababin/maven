@@ -21,7 +21,8 @@ List<AppTheme> getThemes(BuildContext context){
       data: ThemeData(
 
       ),
-      options: MColorScheme(
+      options: MThemeScheme(
+        sidePadding: 20,
         accentColor: const Color(0xFF35A6FF),
         borderColor: const Color(0xFFF1F1F1),
         backgroundColor: const Color(0xFFFFFFFF),
@@ -42,6 +43,7 @@ List<AppTheme> getThemes(BuildContext context){
         icon: MIconTheme(
           primaryColor: const Color(0xFF000000),
           secondaryColor: const Color(0xFF888888),
+          tertiaryColor: const Color(0xFFD3D3D3),
           accentColor: const Color(0xFF35A6FF),
           errorColor: const Color(0xFFDD614A),
           completeColor: const Color(0xFF0BDA51),
@@ -85,7 +87,8 @@ List<AppTheme> getThemes(BuildContext context){
         data: ThemeData(
 
         ),
-        options: MColorScheme(
+        options: MThemeScheme(
+          sidePadding: 20,
           accentColor: const Color(0xFF2196F3),
           borderColor: const Color(0xFF333333),
           backgroundColor: const Color(0xff121212),
@@ -106,6 +109,7 @@ List<AppTheme> getThemes(BuildContext context){
           icon: MIconTheme(
             primaryColor: const Color(0xFFFFFFFF),
             secondaryColor: const Color(0xFFB6B6B6),
+            tertiaryColor: const Color(0xFF797979),
             accentColor: const Color(0xFF2196F3),
             errorColor: const Color(0xFFDD614A),
             completeColor: const Color(0xFF0BDA51),
@@ -147,7 +151,7 @@ List<AppTheme> getThemes(BuildContext context){
   ];
 }
 
-MColorScheme mt(BuildContext context){
-  return ThemeProvider.optionsOf<MColorScheme>(context);
+MThemeScheme mt(BuildContext context){
+  return ThemeProvider.optionsOf<MThemeScheme>(context);
 }
 
