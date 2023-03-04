@@ -28,6 +28,25 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
+  Padding headerText(String title) => Padding(
+    padding: const EdgeInsets.only(bottom: 13, top: 13),
+    child: Text(
+      title,
+      style: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w900,
+        color: mt(context).text.primaryColor,
+      ),
+    ),
+  );
+
+  /// Vertical divider for separating sections.
+  ///
+  /// **Note:** For consistency, make sure the surrounding widgets take up the least amount of space.
+  Widget divider() => const SliverToBoxAdapter(
+    child: SizedBox(height: 25),
+  );
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -46,50 +65,40 @@ class _TemplateScreenState extends State<TemplateScreen> {
             )
           ];
         },
-        body: CustomScrollView(
-          slivers: [
-
-            // Quick start
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
+        body: Padding(
+          padding: EdgeInsets.all(mt(context).sidePadding),
+          child: CustomScrollView(
+            slivers: [
+              // Quick start
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Quick Start',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                          color: mt(context).text.primaryColor,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      Row(
-                        children: [
-                          MFlatButton(
-                            text: Text(
-                              'Start an Empty Workout',
-                              style: TextStyle(
-                                color: mt(context).text.whiteColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            backgroundColor: mt(context).accentColor,
-                            onPressed: () {},
+                      headerText('Quick Start'),
+                      MFlatButton(
+                        onPressed: () {},
+                        text: Text(
+                          'Start an Empty Workout',
+                          style: TextStyle(
+                            color: mt(context).text.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                           ),
-                        ],
+                        ),
+                        expand: false,
+                        width: double.infinity,
+                        backgroundColor: mt(context).accentColor,
                       ),
                       const SizedBox(
-                        height: 14,
+                        height: 16,
                       ),
                       Row(
                         children: [
                           MFlatButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTemplateScreen()));
+                            },
                             text: Text(
                               'Create Template',
                               style: TextStyle(
@@ -103,11 +112,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                               size: 20,
                               color: mt(context).icon.accentColor,
                             ),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTemplateScreen()));
-                            },
                           ),
-                          const SizedBox(width: 14),
+                          const SizedBox(width: 16),
                           MFlatButton(
                             text: Text(
                               'Template Builder',
@@ -128,71 +134,56 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       ),
                     ],
                   ),
-                ),
-              ]),
-            ),
+                ]),
+              ),
 
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+              divider(),
 
-            // Workouts header
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'In Progress',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: mt(context).text.primaryColor,
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-
-            // Workouts
-            BlocBuilder<WorkoutBloc, WorkoutState>(
-              builder: (context, state) {
-                if(state.status == WorkoutStatus.loading) {
-                  return Container(
-                    height: 200,
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(),
-                  );
-                } else if (state.status == WorkoutStatus.error) {
-                  return const Text(
-                    'Something went wrong',
-                  );
-                } else {
-                  List<Workout> workouts = state.pausedWorkouts;
-
-                  return workouts.isEmpty
-                      ?
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 80,
-                      margin: const EdgeInsetsDirectional.only(start: 15, end: 15, bottom: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(15),
-                        border: Border.all(
-                          color: mt(context).borderColor
-                        )
+              // Workouts
+              SliverToBoxAdapter(
+                child: headerText('In Progress'),
+              ),
+              BlocBuilder<WorkoutBloc, WorkoutState>(
+                builder: (context, state) {
+                  if(state.status == WorkoutStatus.loading) {
+                    return Container(
+                      height: 200,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    );
+                  } else if (state.status == WorkoutStatus.error) {
+                    return Text(
+                      'Something went wrong',
+                      style: TextStyle(
+                        color: mt(context).text.errorColor,
                       ),
-                      alignment: FractionalOffset.center,
-                      child: Text(
-                        'Paused workouts will appear here',
-                        style: TextStyle(
-                          color: mt(context).text.secondaryColor,
-                          fontSize: 14
+                    );
+                  } else {
+                    List<Workout> workouts = state.pausedWorkouts;
+
+                    return workouts.isEmpty
+                        ?
+                    SliverToBoxAdapter(
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.circular(10),
+                          border: Border.all(
+                            color: mt(context).borderColor
+                          )
+                        ),
+                        alignment: FractionalOffset.center,
+                        child: Text(
+                          'No paused workouts',
+                          style: TextStyle(
+                            color: mt(context).text.secondaryColor,
+                            fontSize: 14
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                    :
-                  SliverPadding(
-                    padding: const EdgeInsetsDirectional.all(15),
-                    sliver: SliverList(
+                    )
+                      :
+                    SliverList(
                       /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
                       ///
                       /// Mimics a [ListView.separated] since there's no SliverList.separated
@@ -214,173 +205,145 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         },
                         childCount: max(0, workouts.length * 2 - 1),
                       ),
-                    ),
-                  );
-                }
-              },
-            ),
-
-            // Template header
-            SliverList(
-                delegate: SliverChildListDelegate([
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Templates',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            color: mt(context).text.primaryColor,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            MFlatButton(
-                              width: 40,
-                              height: 40,
-                              expand: false,
-                              padding: const EdgeInsets.all(5),
-                              borderColor: mt(context).borderColor,
-                              leading: Icon(
-                                CupertinoIcons.arrow_up_arrow_down,
-                                size: 20,
-                                color: mt(context).icon.accentColor,
-                              ),
-                              backgroundColor: mt(context).templateFolder.backgroundColor,
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ReorderTemplateScreen()));
-                              },
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            MFlatButton(
-                              width: 40,
-                              height: 40,
-                              expand: false,
-                              padding: const EdgeInsets.all(5),
-                              borderColor: mt(context).borderColor,
-                              leading: Icon(
-                                Icons.create_new_folder_rounded,
-                                size: 22,
-                                color: mt(context).icon.accentColor,
-                              ),
-                              backgroundColor: mt(context).templateFolder.backgroundColor,
-                              onPressed: () => showBottomSheetDialog(
-                                context: context,
-                                child: TextInputDialog(
-                                  title: 'Enter a folder name',
-                                  initialValue: '',
-                                  hintText: 'eg. Mondays workouts',
-                                  keyboardType: TextInputType.name,
-                                  onValueSubmit: (value) {
-                                    context.read<TemplateBloc>().add(TemplateFolderAdd(
-                                        name: value
-                                    ));
-                                  },
-                                ),
-                                onClose: (){}
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ])
-            ),
-
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-            // Templates
-            BlocBuilder<TemplateBloc, TemplateState>(
-              buildWhen: (previous, current) {
-                if(current.status == TemplateStatus.toggle) {
-                  return false;
-                }
-                return true;
-              },
-              builder: (context, state) {
-                if (state.status == TemplateStatus.loading) {
-                  return const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 200,
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                  );
-                } else {
-                  List<TemplateFolder> templateFolders = state.templateFolders;
-                  List<Template> templates = state.templates;
-
-                  if(templateFolders.isEmpty) {
-                    return SliverList(
-                      delegate: SliverChildListDelegate([]),
                     );
                   }
+                },
+              ),
 
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: templateFolders.length,
-                      (context, index) {
-                        return Padding(
-                          key: UniqueKey(),
-                          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                          child: ReorderableDelayedDragStartListener(
-                            index: index,
-                            child: TemplateFolderWidget(
-                              templateFolder: templateFolders[index],
-                              templates: templates.where((template) => template.templateFolderId == templateFolders[index].templateFolderId).toList(),
+              divider(),
+
+              // Templates
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      headerText('Templates'),
+                      Row(
+                        children: [
+                          MFlatButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ReorderTemplateScreen()));
+                            },
+                            width: 40,
+                            height: 40,
+                            expand: false,
+                            padding: const EdgeInsets.all(5),
+                            borderColor: mt(context).borderColor,
+                            leading: Icon(
+                              CupertinoIcons.arrow_up_arrow_down,
+                              size: 20,
+                              color: mt(context).icon.accentColor,
+                            ),
+                            backgroundColor: mt(context).templateFolder.backgroundColor,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          MFlatButton(
+                            onPressed: () => showBottomSheetDialog(
+                              context: context,
+                              child: TextInputDialog(
+                                title: 'Create New Folder',
+                                initialValue: '',
+                                hintText: 'eg. Mondays Workouts',
+                                keyboardType: TextInputType.name,
+                                onValueSubmit: (value) {
+                                  context.read<TemplateBloc>().add(TemplateFolderAdd(
+                                      name: value
+                                  ));
+                                },
+                              ),
+                              onClose: (){},
+                            ),
+                            width: 40,
+                            height: 40,
+                            expand: false,
+                            padding: const EdgeInsets.all(5),
+                            borderColor: mt(context).borderColor,
+                            leading: Icon(
+                              Icons.create_new_folder_rounded,
+                              size: 22,
+                              color: mt(context).icon.accentColor,
+                            ),
+                            backgroundColor: mt(context).templateFolder.backgroundColor,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5,)
+                ]),
+              ),
+              BlocBuilder<TemplateBloc, TemplateState>(
+                buildWhen: (previous, current) {
+                  if(current.status == TemplateStatus.toggle) {
+                    return false;
+                  }
+                  return true;
+                },
+                builder: (context, state) {
+                  if (state.status == TemplateStatus.loading) {
+                    return const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 200,
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    );
+                  } else {
+                    List<TemplateFolder> templateFolders = state.templateFolders;
+                    List<Template> templates = state.templates;
+
+                    if(templateFolders.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(10),
+                            border: Border.all(
+                                color: mt(context).borderColor
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
+                          padding: const EdgeInsetsDirectional.all(100),
+                          alignment: FractionalOffset.center,
+                          child: Text(
+                            'Empty',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: mt(context).text.secondaryColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
 
-            const SliverToBoxAdapter(child: SizedBox(height: 180)),
-
-          ],
-        )
-      ),
-    );
-  }
-
-  /// Creates a shadow underneath item when reordering.
-  /// Accounts for padding.
-  ///
-  /// [Source](https://github.com/flutter/flutter/issues/76706#issuecomment-986181379)
-  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        return Material(
-          elevation: 0,
-          color: Colors.transparent,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 14,
-                child: Material(
-                  borderRadius: BorderRadius.circular(15),
-                  elevation: 5,
-                  shadowColor: mt(context).templateFolder.dragShadowColor,
-                ),
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: templateFolders.length,
+                        (context, index) {
+                          return Padding(
+                            key: UniqueKey(),
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: ReorderableDelayedDragStartListener(
+                              index: index,
+                              child: TemplateFolderWidget(
+                                templateFolder: templateFolders[index],
+                                templates: templates.where((template) => template.templateFolderId == templateFolders[index].templateFolderId).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
               ),
-              child!,
+
+              const SliverToBoxAdapter(child: SizedBox(height: 180)),
             ],
           ),
-        );
-      },
-      child: child,
+        )
+      ),
     );
   }
 }

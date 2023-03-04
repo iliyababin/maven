@@ -135,14 +135,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _templateFolderAdd(TemplateFolderAdd event, emit) async {
-    int num = (await templateFolderDao.getHighestTemplateFolderSortOrder() ?? 0) + 1;
-    TemplateFolder templateFolder = TemplateFolder(
-      name: event.name,
-      expanded: 1,
-      sortOrder: num,
+    await templateFolderDao.addTemplateFolder(
+      TemplateFolder(
+        name: event.name,
+        expanded: 1,
+        sortOrder: (await templateFolderDao.getHighestTemplateFolderSortOrder() ?? 0) + 1,
+      ),
     );
-    await templateFolderDao.addTemplateFolder(templateFolder);
-    await emit(state.copyWith(status: () => TemplateStatus.add));
+    emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
   Future<void> _templateFolderUpdate(event, emit) async {

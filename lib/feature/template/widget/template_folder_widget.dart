@@ -24,9 +24,9 @@ class TemplateFolderWidget extends StatefulWidget {
 }
 
 class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
-  final double borderRadius = 10;
-
   final ExpandableController _expandedController = ExpandableController();
+
+  final double _borderRadius = 10;
 
   /// Creates a shadow underneath item when reordering.
   ///
@@ -47,7 +47,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                 right: 0,
                 bottom: 12,
                 child: Material(
-                  borderRadius: BorderRadius.circular(borderRadius),
+                  borderRadius: BorderRadius.circular(_borderRadius),
                   elevation: 5,
                   shadowColor: mt(context).templateFolder.dragShadowColor,
                 ),
@@ -80,7 +80,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(_borderRadius),
         border: Border.all(
           width: 1,
           color: mt(context).templateFolder.borderColor,
@@ -88,7 +88,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       ),
       child: Material(
         color: mt(context).templateFolder.backgroundColor,
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(_borderRadius),
         child: InkWell(
           onTap: (){
             setState(() {
@@ -97,7 +97,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
               }
             });
           },
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(_borderRadius),
           child: ExpandableNotifier(
             controller: _expandedController,
             child: ScrollOnExpand(
@@ -108,13 +108,13 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                   iconPlacement: ExpandablePanelIconPlacement.right,
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   iconPadding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
-                  inkWellBorderRadius: BorderRadius.circular(borderRadius),
+                  inkWellBorderRadius: BorderRadius.circular(_borderRadius),
                   iconSize: 30,
                   useInkWell: false,
                 ),
                 header: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderRadius: BorderRadius.circular(_borderRadius),
                   ),
                   padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
                   child: Row(
@@ -165,7 +165,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                         },
                         height: 40,
                         width: 50,
-                        borderRadius: borderRadius,
+                        borderRadius: _borderRadius,
                         backgroundColor: Colors.transparent,
                         leading: Icon(
                           Icons.more_horiz,
