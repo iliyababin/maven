@@ -94,6 +94,8 @@ class Main extends StatelessWidget {
           builder: (themeContext) =>
             MaterialApp(
               theme: ThemeProvider.themeOf(themeContext).data,
+              // TODO: Give user option to change this.
+              scrollBehavior: CustomScrollBehavior(),
               title: "Maven",
               home: const Maven(),
             ),
@@ -103,3 +105,9 @@ class Main extends StatelessWidget {
   }
 }
 
+class CustomScrollBehavior extends ScrollBehavior {
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics();
+  }
+}
