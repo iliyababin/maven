@@ -55,8 +55,9 @@ class _TextInputDialogState extends State<TextInputDialog> {
             },
             controller: _textEditingController,
             keyboardType: widget.keyboardType,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
+              color: mt(context).text.primaryColor,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,
