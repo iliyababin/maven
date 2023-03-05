@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_flat_button.dart';
+import '../../../common/widget/m_button.dart';
 import '../../equipment/model/plate.dart';
 import '../../equipment/screen/equipment_screen.dart';
 import '../../equipment/service/equipment_service.dart';
@@ -140,7 +140,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  MFlatButton(
+                  MButton(
                     onPressed: (){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EquipmentScreen()));
                     },

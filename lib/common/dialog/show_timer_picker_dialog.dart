@@ -1,8 +1,7 @@
+import 'package:Maven/common/widget/m_button.dart';
 import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../model/timed.dart';
 
@@ -114,11 +113,11 @@ showTimerPickerDialog({
                 mainAxisSize: MainAxisSize.max,
                 children: [
 
-                  MFlatButton(
+                  MButton(
                     onPressed: (){
                       Navigator.pop(context);
                     },
-                    text: Text(
+                    child: Text(
                       'Cancel',
                       style: TextStyle(
                         color: mt(context).text.primaryColor,
@@ -134,11 +133,11 @@ showTimerPickerDialog({
 
                   SizedBox(width: 16,),
 
-                  MFlatButton(
+                  MButton(
                     onPressed: (){
                       Navigator.pop(context, timed);
                     },
-                    text: Text(
+                    child: Text(
                       'Start',
                       style: TextStyle(
                         color: mt(context).text.whiteColor,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../feature/common/model/exercise.dart';
-import '../feature/template/dao/exercise_dao.dart';
+import '../../common/model/exercise.dart';
+import '../../template/dao/exercise_dao.dart';
 
 class AddExerciseScreen extends StatelessWidget {
   const AddExerciseScreen({Key? key}) : super(key: key);

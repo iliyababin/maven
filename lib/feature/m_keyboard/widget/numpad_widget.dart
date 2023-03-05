@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_flat_button.dart';
+import '../../../common/widget/m_button.dart';
 
 class NumPadWidget extends StatefulWidget {
   const NumPadWidget({Key? key,
@@ -33,8 +33,8 @@ class _NumPadWidgetState extends State<NumPadWidget> {
     super.initState();
   }
 
-  MFlatButton numberTile(int number) {
-    return MFlatButton(
+  MButton numberTile(int number) {
+    return MButton(
       onPressed: (){
         int selectionStart = _controller.selection.start;
         int selectionEnd = _controller.selection.end;
@@ -47,7 +47,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
       },
       height: double.infinity,
       borderRadius: 0,
-      text: Text(
+      child: Text(
         number.toString(),
         style: TextStyle(
           fontSize: 22,
@@ -126,7 +126,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
                   height: 65,
                   child: Row(
                     children: [
-                      MFlatButton(
+                      MButton(
                         onPressed: (){},
                         height: 65,
                         borderRadius: 0,
@@ -134,7 +134,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
 
                       numberTile(0),
 
-                      MFlatButton(
+                      MButton(
                         onPressed: (){
                           int selectionStart = _controller.selection.start;
                           int selectionEnd = _controller.selection.end;

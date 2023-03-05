@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/util/general_utils.dart';
-import '../../../../screen/add_exercise_screen.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../../../widget/m_flat_button.dart';
 import '../../common/dto/exercise_set.dart';
 import '../../common/model/exercise.dart';
 import '../../common/widget/exercise_group_widget.dart';
+import '../../exercise/screen/add_exercise_screen.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
 import '../model/workout_exercise_group.dart';
@@ -83,7 +83,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                     Expanded(
                       child: Row(
                         children: [
-                          MFlatButton(
+                          MButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -114,8 +114,86 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             borderColor: mt(context).borderColor,
                           ),
                           const SizedBox(width: 8,),
-                          MFlatButton(
-                            onPressed: () => _showWorkoutOptions(),
+                          MButton(
+                            onPressed: () {
+                              showBottomSheetDialog(
+                                context: context,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    MButton.tiled(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                        _workoutNameNode.requestFocus();
+                                      },
+                                      leading: Icon(
+                                        Icons.drive_file_rename_outline_rounded,
+                                        color: mt(context).icon.accentColor,
+                                        size: 26,
+                                      ),
+                                      child: Text(
+                                        'Rename Workout',
+                                        style: TextStyle(
+                                            color: mt(context).text.primaryColor,
+                                            fontSize: 17
+                                        ),
+                                      ),
+                                    ),
+                                    MButton.tiled(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                        _workoutNameNode.requestFocus();
+                                      },
+                                      leading: Icon(
+                                        CupertinoIcons.arrow_up_arrow_down,
+                                        color: mt(context).icon.accentColor,
+                                        size: 24,
+                                      ),
+                                      child: Text(
+                                        'Reorder Exercises',
+                                        style: TextStyle(
+                                            color: mt(context).text.primaryColor,
+                                            fontSize: 17
+                                        ),
+                                      ),
+                                    ),
+                                    MButton.tiled(
+                                      onPressed: () => _pauseWorkout(context),
+                                      leading: Icon(
+                                        Icons.pause_circle_outline_rounded,
+                                        color: mt(context).icon.accentColor,
+                                        size: 26,
+                                      ),
+                                      child: Text(
+                                        'Pause Workout',
+                                        style: TextStyle(
+                                            color: mt(context).text.primaryColor,
+                                            fontSize: 17
+                                        ),
+                                      ),
+                                    ),
+                                    MButton.tiled(
+                                      onPressed: () {},
+                                      leading: Icon(
+                                        Icons.delete_rounded,
+                                        color: mt(context).icon.errorColor,
+                                        size: 26,
+                                      ),
+                                      child: Text(
+                                        'Discard Workout',
+                                        style: TextStyle(
+                                            color: mt(context).text.errorColor,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                onClose: () {},
+                              );
+                            },
                             leading: Icon(
                               Icons.more_horiz,
                               size: 25,
@@ -134,9 +212,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ),
                     ),
                     const SizedBox(width: 8,),
-                    MFlatButton(
+                    MButton(
                       onPressed: (){},
-                      text: Text(
+                      child: Text(
                         'Finish',
                         style: TextStyle(
                           color: mt(context).text.whiteColor,
@@ -257,107 +335,5 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     widget.isWorkoutActive(false);
     context.read<WorkoutBloc>().add(WorkoutPause());
     Navigator.pop(context);
-  }
-
-  void _showWorkoutOptions() {
-    showBottomSheetDialog(
-      context: context,
-      onClose: () {},
-      height: 270,
-      child: Material(
-        color: mt(context).backgroundColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                _workoutNameNode.requestFocus();
-              },
-              horizontalTitleGap: 15,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: Icon(
-                  Icons.drive_file_rename_outline_rounded,
-                  color: mt(context).icon.accentColor,
-                  size: 26,
-                ),
-              ),
-              title: Text(
-                'Rename Workout',
-                style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 17
-                ),
-              ),
-            ),
-
-            ListTile(
-              onTap: () {},
-              horizontalTitleGap: 15,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: Icon(
-                  CupertinoIcons.arrow_up_arrow_down,
-                  color: mt(context).icon.accentColor,
-                  size: 24,
-                ),
-              ),
-              title: Text(
-                'Reorder Exercises',
-                style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 17
-                ),
-              ),
-            ),
-
-            ListTile(
-              onTap: () => _pauseWorkout(context),
-              horizontalTitleGap: 15,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: Icon(
-                  Icons.pause_circle_outline_rounded,
-                  color: mt(context).icon.accentColor,
-                  size: 26,
-                ),
-              ),
-              title: Text(
-                'Pause Workout',
-                style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 17
-                ),
-              ),
-            ),
-
-            ListTile(
-              onTap: () {},
-              horizontalTitleGap: 15,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: Icon(
-                  Icons.delete_rounded,
-                  color: mt(context).icon.errorColor,
-                  size: 26,
-                ),
-              ),
-              title: Text(
-                'Discard Workout',
-                style: TextStyle(
-                  color: mt(context).text.errorColor,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500
-                ),
-              ),
-            ),
-
-            const SizedBox(height:9),
-          ],
-        ),
-      )
-    );
   }
 }

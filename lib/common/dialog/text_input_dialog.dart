@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/m_themes.dart';
-import '../../widget/m_flat_button.dart';
+import '../widget/m_button.dart';
 
 class TextInputDialog extends StatefulWidget {
   const TextInputDialog({Key? key,
@@ -83,7 +83,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
             ),
           ),
           const SizedBox(height: 30),
-          MFlatButton(
+          MButton(
             onPressed: (){
               widget.onValueSubmit!(_textEditingController.text);
               Navigator.pop(context);
@@ -92,7 +92,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
             borderRadius: 12,
             height: 50,
             width: MediaQuery.of(context).size.width - 40,
-            text: Text(
+            child: Text(
               'Submit',
               style: TextStyle(
                   color: mt(context).text.whiteColor,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_flat_button.dart';
 import '../../../../widget/m_popup_menu_button.dart';
 import '../../../../widget/m_popup_menu_item.dart';
+import '../../../common/widget/m_button.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
 import '../model/exercise.dart';
@@ -49,7 +49,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           children: [
 
             SizedBox(width: 8),
-            MFlatButton(
+            MButton(
               onPressed: (){},
               width: 40,
               height: 40,
@@ -60,7 +60,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               ),
             ),
 
-            MFlatButton(
+            MButton(
               onPressed: () {
 
               },
@@ -68,7 +68,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               height: 40,
               leading: SizedBox(width: 6),
-              text: Text(
+              child: Text(
                 widget.exercise.name,
                 style: TextStyle(
                   fontSize: 18,
@@ -183,7 +183,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 4),
-          child: MFlatButton(
+          child: MButton(
             onPressed: () => widget.onExerciseSetAdd(),
             expand: false,
             leading: Icon(
@@ -191,7 +191,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               size: 24,
               color: mt(context).icon.accentColor,
             ),
-            text: Text(
+            child: Text(
               'Add Set',
               style: TextStyle(
                 color: mt(context).text.accentColor,

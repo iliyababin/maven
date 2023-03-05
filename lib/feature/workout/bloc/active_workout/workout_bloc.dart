@@ -21,6 +21,22 @@ part 'workout_event.dart';
 part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
+  WorkoutBloc({
+    required this.exerciseDao,
+    required this.templateDao,
+    required this.templateExerciseGroupDao,
+    required this.templateExerciseSetDao,
+    required this.workoutDao,
+    required this.workoutExerciseGroupDao,
+    required this.workoutExerciseSetDao,
+  }) : super(const WorkoutState()) {
+    on<WorkoutInitialize>(_workoutInitialize);
+    on<WorkoutStartTemplate>(_workoutStartTemplate);
+    on<WorkoutStartEmpty>(_workoutStartEmpty);
+    on<WorkoutPause>(_workoutPause);
+    on<WorkoutUnpause>(_workoutUnpause);
+    on<WorkoutDelete>(_workoutDelete);
+  }
 
   final ExerciseDao exerciseDao;
   final TemplateDao templateDao;
@@ -31,26 +47,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutExerciseGroupDao workoutExerciseGroupDao;
   final WorkoutExerciseSetDao workoutExerciseSetDao;
 
-  /// Controls whether or not streams trigger bloc emits
-  bool preventUpdates = false;
 
-  WorkoutBloc({
-    required this.exerciseDao,
-    required this.templateDao,
-    required this.templateExerciseGroupDao,
-    required this.templateExerciseSetDao,
-
-    required this.workoutDao,
-    required this.workoutExerciseGroupDao,
-    required this.workoutExerciseSetDao,
-  }) : super(const WorkoutState()) {
-    on<WorkoutInitialize>(_workoutInitialize);
-    on<WorkoutFromTemplate>(_workoutFromTemplate);
-    on<WorkoutPause>(_workoutPause);
-    on<WorkoutUnpause>(_workoutUnpause);
-    on<WorkoutDelete>(_workoutDelete);
-
-  }
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
@@ -70,10 +67,44 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     }
   }
 
-  Future<void> _workoutFromTemplate(WorkoutFromTemplate event, emit) async {
+  Future<void> _workoutStartTemplate(WorkoutStartTemplate event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
-    Workout workout = await _generateWorkoutFromTemplate(event.template.templateId!);
+
+    Template? template = await templateDao.getTemplate(event.template.templateId!);
+    Workout convertedWorkout = Workout.fromTemplate(template!);
+    int workoutId = await workoutDao.addWorkout(convertedWorkout);
+    List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
+    for (var exerciseGroup in exerciseGroups) {
+      int activeExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
+
+      List<TemplateExerciseSet> exerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
+      for(var exerciseSet in exerciseSets){
+        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToWorkoutExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
+      }
+    }
+
     emit(state.copyWith(status: () => WorkoutStatus.active,));
+  }
+
+  Future<void> _workoutStartEmpty(WorkoutStartEmpty event, emit) async {
+    await workoutDao.addWorkout(
+      Workout(
+        name: 'Untitled Workout',
+        isPaused: 0,
+        timestamp: DateTime.now(),
+      ),
+    );
+
+    Workout? pausedWorkout = await workoutDao.getPausedWorkout();
+
+    if(pausedWorkout == null) {
+      throw UnsupportedError('Could not create an empty workout. Maybe it was created but could not be found?');
+    } else {
+      emit(state.copyWith(
+        status: () => WorkoutStatus.active,
+        workout: () => pausedWorkout,
+      ));
+    }
   }
 
   Future<void> _workoutPause(WorkoutPause event, emit) async {
@@ -170,26 +201,4 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       exercises: () => exercises,
     ));
   }*/
-
-  Future<Workout> _generateWorkoutFromTemplate(templateId) async {
-    Template? template = await templateDao.getTemplate(templateId);
-    Workout convertedWorkout = Workout.fromTemplate(template!);
-    int workoutId = await workoutDao.addWorkout(convertedWorkout);
-    List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(templateId);
-    for (var exerciseGroup in exerciseGroups) {
-      int activeExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
-
-      List<TemplateExerciseSet> exerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
-      for(var exerciseSet in exerciseSets){
-        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToWorkoutExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
-      }
-    }
-
-    Workout? workout = await workoutDao.getWorkout(workoutId);
-    if(workout == null) {
-      throw UnimplementedError('The generated and saved workout was somehow null');
-    } else {
-      return workout;
-    }
-  }
 }

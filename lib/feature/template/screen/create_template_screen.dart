@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../screen/add_exercise_screen.dart';
 import '../../../../widget/custom_app_bar.dart';
 import '../../common/dto/exercise_set.dart';
 import '../../common/widget/exercise_group_widget.dart';
+import '../../exercise/screen/add_exercise_screen.dart';
 import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
 import '../dto/temp_exercise_set.dart';

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../../../common/dialog/show_timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
+import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../../../widget/m_flat_button.dart';
 
 class ExerciseTimerWidget extends StatefulWidget {
   const ExerciseTimerWidget({Key? key,
@@ -61,7 +61,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                   ),
                 ),
               ),
-              MFlatButton(
+              MButton(
                 onPressed: () async {
                 },
                 expand: false,
@@ -73,7 +73,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
       ),
     )
         :
-    MFlatButton(
+    MButton(
       onPressed: () async {
         showTimerPickerDialog(context: context).then((value) {
           if (value == null) return;

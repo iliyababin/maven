@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:Maven/common/widget/m_button.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
-import 'package:Maven/widget/m_flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -72,7 +72,7 @@ class _UpdatePlateScreenState extends State<UpdatePlateScreen> {
         context: context,
         title: 'Edit Plate',
         actions: [
-          MFlatButton(
+          MButton(
             onPressed: (){
               widget.equipmentService.updatePlate(
                 Plate(
@@ -87,7 +87,7 @@ class _UpdatePlateScreenState extends State<UpdatePlateScreen> {
               Navigator.pop(context);
             },
             width: 75,
-            text: Text(
+            child: Text(
               'Save',
               style: TextStyle(
                 color: mt(context).text.accentColor,

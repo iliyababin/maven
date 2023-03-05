@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_flat_button.dart';
+import '../../../common/widget/m_button.dart';
 import '../../../main.dart';
 import '../../common/model/exercise_equipment.dart';
 import '../../equipment/service/equipment_service.dart';
@@ -89,7 +89,7 @@ class _MKeyboardState extends State<MKeyboard> {
             width: 70,
             child: Column(
               children: [
-                MFlatButton(
+                MButton(
                   onPressed: (){
                     setState(() {
                       _selectedTab = 0;
@@ -101,7 +101,7 @@ class _MKeyboardState extends State<MKeyboard> {
                     color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                   ),
                 ),
-                ExerciseEquipment.barbell == widget.exerciseEquipment ? MFlatButton(
+                ExerciseEquipment.barbell == widget.exerciseEquipment ? MButton(
                   onPressed: (){
                     setState(() {
                       _selectedTab = 1;
@@ -113,7 +113,7 @@ class _MKeyboardState extends State<MKeyboard> {
                     color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                   ),
                 ) : Container(),
-                MFlatButton(
+                MButton(
                   onPressed: (){
                     setState(() {
                       _selectedTab = 2;
@@ -125,7 +125,7 @@ class _MKeyboardState extends State<MKeyboard> {
                     color: _selectedTab == 2 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
                   ),
                 ),
-                MFlatButton(
+                MButton(
                   onPressed: (){
                     //widget.onValueChanged(_controller.text);
                     Navigator.pop(context);

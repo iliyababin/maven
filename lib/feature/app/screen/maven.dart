@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../../../screen/testing_screen.dart';
 import '../../../theme/m_themes.dart';
 import '../../home/screen/home_screen.dart';
 import '../../profile/screen/profile_screen.dart';
@@ -30,7 +29,6 @@ class _MavenState extends State<Maven> {
   List<Widget> screens = <Widget>[
     const HomeScreen(),
     const TemplateScreen(),
-    const TestingScreen(),
     const ProfileScreen(),
   ];
 
@@ -69,7 +67,7 @@ class _MavenState extends State<Maven> {
                     children: [
                       const SizedBox(height: 10),
                       Text(
-                        state.workout?.name ?? 'null',
+                        state.workout!.name,
                         style: TextStyle(
                           color: mt(context).text.primaryColor,
                           fontSize: 22,

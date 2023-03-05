@@ -9,16 +9,18 @@ abstract class WorkoutEvent extends Equatable {
 
 class WorkoutInitialize extends WorkoutEvent {}
 
-class WorkoutFromTemplate extends WorkoutEvent {
+class WorkoutStartTemplate extends WorkoutEvent {
   final Template template;
 
-  const WorkoutFromTemplate({
+  const WorkoutStartTemplate({
     required this.template,
   });
 
   @override
   List<Object> get props => [template];
 }
+
+class WorkoutStartEmpty extends WorkoutEvent {}
 
 class WorkoutPause extends WorkoutEvent {}
 

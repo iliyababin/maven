@@ -57,7 +57,7 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
   void _startTemplate(BuildContext context) async {
     // TODO: Fix
 
-    context.read<WorkoutBloc>().add(WorkoutFromTemplate(template: widget.template));
+    context.read<WorkoutBloc>().add(WorkoutStartTemplate(template: widget.template));
     Navigator.pop(context);
     /*if (currentTemplateIdPref != -1) {
       showDialog(

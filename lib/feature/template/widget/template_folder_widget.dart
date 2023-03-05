@@ -3,8 +3,8 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../../../widget/m_flat_button.dart';
 import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
 import '../model/template_folder.dart';
@@ -128,33 +128,25 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                           fontWeight: FontWeight.w700
                         ),
                       ),
-                      MFlatButton(
+                      MButton(
                         onPressed: (){
                           showBottomSheetDialog(
                             context: context,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                MFlatButton(
+                                MButton.tiled(
                                   onPressed: (){},
-                                  height: 60,
-                                  expand: false,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  width: double.infinity,
-                                  borderRadius: 0,
-                                  leading: Padding(
-                                    padding: const EdgeInsets.only(left: 18, right: 16),
-                                    child: Icon(
-                                      Icons.edit_rounded,
-                                      color: mt(context).icon.accentColor,
-                                      size: 24,
-                                    ),
+                                  leading: Icon(
+                                    Icons.edit_rounded,
+                                    color: mt(context).icon.accentColor,
+                                    size: 24,
                                   ),
-                                  text: Text(
+                                  child: Text(
                                     'Rename Folder',
                                     style: TextStyle(
-                                      color: mt(context).text.primaryColor,
-                                      fontSize: 17
+                                        color: mt(context).text.primaryColor,
+                                        fontSize: 17
                                     ),
                                   ),
                                 ),
@@ -226,8 +218,8 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                         padding: const EdgeInsets.all(16),
                         child: Row(
                           children: [
-                            MFlatButton(
-                              text: Text(
+                            MButton(
+                              child: Text(
                                 'Create New',
                                 style: TextStyle(
                                   color: mt(context).text.primaryColor
@@ -238,8 +230,8 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                               onPressed: (){},
                             ),
                             const SizedBox(width: 16,),
-                            MFlatButton(
-                              text: Text(
+                            MButton(
+                              child: Text(
                                 'Move Existing',
                                 style: TextStyle(
                                   color: mt(context).text.primaryColor

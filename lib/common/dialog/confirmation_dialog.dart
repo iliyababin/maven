@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/m_themes.dart';
-import '../../widget/m_flat_button.dart';
+import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to confirm an action before proceeding.
 ///
-/// Meant to be used with [showBottomSheetDialog].
+/// To be used with [showBottomSheetDialog].
 class ConfirmationDialog extends StatelessWidget {
   /// Creates a confirmation dialog.
   const ConfirmationDialog({Key? key,
@@ -58,15 +58,14 @@ class ConfirmationDialog extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              MFlatButton(
+              MButton(
                 onPressed: (){
-                  onSubmit();
                   Navigator.pop(context);
                 },
                 borderColor: mt(context).borderColor,
                 borderRadius: 12,
                 height: 50,
-                text: Text(
+                child: Text(
                   cancelText,
                   style: TextStyle(
                     color: mt(context).text.primaryColor,
@@ -76,14 +75,15 @@ class ConfirmationDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 15),
-              MFlatButton(
+              MButton(
                 onPressed: (){
+                  onSubmit();
                   Navigator.pop(context);
                 },
                 backgroundColor: mt(context).accentColor,
                 borderRadius: 12,
                 height: 50,
-                text: Text(
+                child: Text(
                   submitText,
                   style: TextStyle(
                     color: mt(context).text.whiteColor,

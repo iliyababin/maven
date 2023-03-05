@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_flat_button.dart';
+import '../../../common/widget/m_button.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
@@ -82,12 +82,12 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
 
-        set: MFlatButton(
+        set: MButton(
           onPressed: () {},
           expand: false,
           height: 35,
           backgroundColor: Colors.transparent,
-          text: Text(
+          child: Text(
             widget.index.toString(),
             style: TextStyle(
               fontSize: 15,
@@ -97,14 +97,14 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
         ),
 
-        previous: MFlatButton(
+        previous: MButton(
           onPressed: () {
 
           },
           expand: false,
           height: 35,
           backgroundColor: Colors.transparent,
-          text: Text(
+          child: Text(
             '-',
             style: TextStyle(
               fontSize: 15,
@@ -114,11 +114,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
         ),
 
-        option1: MFlatButton(
+        option1: MButton(
           height: 30,
           expand: false,
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
-          text: Text(
+          child: Text(
             exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
             style: TextStyle(
               color: mt(context).text.primaryColor
@@ -144,11 +144,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         ),
 
 
-        option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MFlatButton(
+        option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MButton(
           height: 30,
           expand: false,
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
-          text: Text(
+          child: Text(
             exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
             style: TextStyle(
                 color: mt(context).text.primaryColor
