@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../template/dao/exercise_dao.dart';
+import '../../../exercise/dao/exercise_dao.dart';
 import '../../../template/dao/template_dao.dart';
 import '../../../template/dao/template_exercise_group_dao.dart';
 import '../../../template/dao/template_exercise_set_dao.dart';

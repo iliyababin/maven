@@ -11,12 +11,15 @@ import 'template_folder.dart';
       parentColumns: ['template_folder_id'],
       entity: TemplateFolder
     )
-  ]
+  ],
+  primaryKeys: [
+    'template_id',
+  ],
 )
 class Template extends Equatable {
 
-  @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'template_id')
+  @PrimaryKey(autoGenerate: true)
   final int? templateId;
 
   @ColumnInfo(name: 'name')
@@ -28,7 +31,6 @@ class Template extends Equatable {
   @ColumnInfo(name: 'template_folder_id')
   final int? templateFolderId;
 
-
   const Template({
     this.templateId,
     required this.name,
@@ -36,7 +38,7 @@ class Template extends Equatable {
     this.templateFolderId,
   });
 
-  factory Template.fromMap(Map<String, dynamic> json) => Template(
+ /* factory Template.fromMap(Map<String, dynamic> json) => Template(
     templateId: json["templateId"],
     name: json["name"],
     sortOrder: json["sortOrder"],
@@ -51,7 +53,7 @@ class Template extends Equatable {
       'templateFolderId': templateFolderId,
     };
   }
-
+*/
   Template copyWith({
     int? templateId,
     String? name,

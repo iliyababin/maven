@@ -1,6 +1,6 @@
 
 import '../../common/dto/exercise_set.dart';
-import '../../common/model/exercise.dart';
+import '../../exercise/model/exercise.dart';
 
 class ExerciseGroup {
   Exercise exercise;

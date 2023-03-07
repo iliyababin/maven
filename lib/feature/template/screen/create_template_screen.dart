@@ -12,7 +12,6 @@ import '../../common/widget/exercise_group_widget.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
-import '../dto/temp_exercise_set.dart';
 
 class CreateTemplateScreen extends StatefulWidget {
   const CreateTemplateScreen({Key? key}) : super(key: key);
@@ -91,7 +90,6 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((exercise) {
             setState(() {
-              List<TempExerciseSet> sets = [];
               exerciseGroups.add(ExerciseGroup(
                 exercise: exercise,
                 exerciseSets: [],

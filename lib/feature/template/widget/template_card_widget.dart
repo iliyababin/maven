@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../theme/m_themes.dart';
+import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
-import '../screen/view_template_screen.dart';
 
 class TemplateCard extends StatelessWidget {
   final Template template;
@@ -40,9 +41,9 @@ class TemplateCard extends StatelessWidget {
                       Text(
                         template.name,
                         style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.w500,
-                            color: mt(context).text.primaryColor
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: mt(context).text.primaryColor,
                         ),
                       ),
                     ],
@@ -77,8 +78,9 @@ class TemplateCard extends StatelessWidget {
   /// Functions
   /// 
   
-  void _showTemplate(BuildContext context, Template template) {
-    Navigator.push(
+  Future<void> _showTemplate(BuildContext context, Template template) async {
+    context.read<TemplateBloc>().add(TemplateDelete(template: template));
+    /*Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
@@ -86,6 +88,6 @@ class TemplateCard extends StatelessWidget {
             template: template
           )
       )
-    );
+    );*/
   }
 }

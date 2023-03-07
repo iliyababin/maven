@@ -1,8 +1,10 @@
+import 'package:Maven/common/dialog/confirmation_dialog.dart';
 import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/template/template_bloc.dart';
@@ -135,18 +137,83 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                const SizedBox(height: 6),
                                 MButton.tiled(
-                                  onPressed: (){},
+                                  onPressed: (){
+                                    showBottomSheetDialog(
+                                      context: context,
+                                      child: TextInputDialog(
+                                        title: 'Enter a Folder Name',
+                                        initialValue: widget.templateFolder.name,
+                                        keyboardType: TextInputType.name,
+                                        onValueSubmit: (value) {
+                                          context.read<TemplateBloc>().add(TemplateFolderUpdate(
+                                            templateFolder: widget.templateFolder.copyWith(name: value),
+                                          ));
+                                        },
+                                      ),
+                                      onClose: (){}
+                                    );
+                                  },
                                   leading: Icon(
                                     Icons.edit_rounded,
                                     color: mt(context).icon.accentColor,
                                     size: 24,
                                   ),
                                   child: Text(
-                                    'Rename Folder',
+                                    'Rename',
                                     style: TextStyle(
                                         color: mt(context).text.primaryColor,
                                         fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                                MButton.tiled(
+                                  // TODO: Implement a way to share
+                                  onPressed: (){},
+                                  leading: Icon(
+                                    Icons.share_rounded,
+                                    color: mt(context).icon.accentColor,
+                                    size: 24,
+                                  ),
+                                  child: Text(
+                                    'Share',
+                                    style: TextStyle(
+                                      color: mt(context).text.primaryColor,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ),
+                                MButton.tiled(
+                                  // TODO: Implement a way to share
+                                  onPressed: (){
+                                    showBottomSheetDialog(
+                                      context: context,
+                                      child: ConfirmationDialog(
+                                        title: 'Delete Folder',
+                                        subtitle: 'This will also delete all the templates inside',
+                                        confirmText: 'Delete',
+                                        submitColor: mt(context).text.errorColor,
+                                        onSubmit: () {
+                                          context.read<TemplateBloc>().add(TemplateFolderDelete(
+                                            templateFolderId: widget.templateFolder.templateFolderId!,
+                                          ));
+                                        },
+                                      ),
+                                      onClose: (){},
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.delete_rounded,
+                                    color: mt(context).icon.errorColor,
+                                    size: 24,
+                                  ),
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: mt(context).text.errorColor,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500
                                     ),
                                   ),
                                 ),

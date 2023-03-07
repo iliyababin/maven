@@ -78,6 +78,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         onPressed: () {
                           context.read<WorkoutBloc>().add(WorkoutStartEmpty());
                         },
+                        expand: false,
+                        width: double.infinity,
+                        backgroundColor: mt(context).accentColor,
                         child: Text(
                           'Start an Empty Workout',
                           style: TextStyle(
@@ -86,9 +89,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        expand: false,
-                        width: double.infinity,
-                        backgroundColor: mt(context).accentColor,
                       ),
                       const SizedBox(
                         height: 16,
@@ -99,6 +99,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTemplateScreen()));
                             },
+                            borderColor: mt(context).borderColor,
+                            leading: Icon(
+                              Icons.post_add,
+                              size: 20,
+                              color: mt(context).icon.accentColor,
+                            ),
                             child: Text(
                               'Create Template',
                               style: TextStyle(
@@ -106,22 +112,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                 fontSize: 15,
                               ),
                             ),
-                            borderColor: mt(context).borderColor,
-                            leading: Icon(
-                              Icons.post_add,
-                              size: 20,
-                              color: mt(context).icon.accentColor,
-                            ),
                           ),
                           const SizedBox(width: 16),
                           MButton(
-                            child: Text(
-                              'Template Builder',
-                              style: TextStyle(
-                                color: mt(context).text.accentColor,
-                                fontSize: 15,
-                              ),
-                            ),
                             borderColor: mt(context).borderColor,
                             leading: Icon(
                               Icons.polyline,
@@ -129,6 +122,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
                               color: mt(context).icon.accentColor,
                             ),
                             onPressed: () {},
+                            child: Text(
+                              'Template Builder',
+                              style: TextStyle(
+                                color: mt(context).text.accentColor,
+                                fontSize: 15,
+                              ),
+                            ),
                           )
                         ],
                       ),

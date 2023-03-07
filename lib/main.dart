@@ -9,16 +9,13 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
-import 'feature/common/model/exercise.dart';
 import 'feature/equipment/model/plate.dart';
 import 'feature/equipment/service/equipment_service.dart';
+import 'feature/exercise/bloc/exercise_bloc.dart';
+import 'feature/exercise/model/exercise.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
-import 'feature/template/service/template_service.dart';
 import 'feature/workout/bloc/active_workout/workout_bloc.dart';
 
-/**
- * Entry point for project, refer to documentation for further details.
- */
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
   List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(jsonDecode(jsonString));
@@ -31,7 +28,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db040.db')
+      .databaseBuilder('db048.db')
       .build();
 
   database.plateDao.addPlates(getDefaultPlates());
@@ -40,42 +37,30 @@ void main() async {
   services.registerLazySingleton<EquipmentService>(() => EquipmentService(
     plateDao: database.plateDao,
   ));
-  services.registerLazySingleton<TemplateService>(() => TemplateService(
-    templateDao: database.templateDao,
-  ));
-
 
   runApp(
-    MultiRepositoryProvider(
+    MultiBlocProvider(
       providers: [
-        RepositoryProvider(create: (context) => database.exerciseDao),
-        RepositoryProvider(create: (context) => database.templateExerciseGroupDao),
-        RepositoryProvider(create: (context) => database.templateExerciseSetDao),
-        RepositoryProvider(create: (context) => database.workoutDao),
-        RepositoryProvider(create: (context) => database.workoutExerciseGroupDao),
-        RepositoryProvider(create: (context) => database.workoutExerciseSetDao),
-        RepositoryProvider(create: (context) => database.plateDao),
+        BlocProvider(create: (context) => ExerciseBloc(
+          exerciseDao: database.exerciseDao,
+        )..add(ExerciseInitialize())),
+        BlocProvider(create: (context) => TemplateBloc(
+          templateDao: database.templateDao,
+          templateFolderDao: database.templateFolderDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
+        )..add(TemplateInitialize())),
+        BlocProvider(create: (context) => WorkoutBloc(
+          exerciseDao: database.exerciseDao,
+          templateDao: database.templateDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
+          workoutDao: database.workoutDao,
+          workoutExerciseGroupDao: database.workoutExerciseGroupDao,
+          workoutExerciseSetDao: database.workoutExerciseSetDao,
+        )..add(WorkoutInitialize())),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => TemplateBloc(
-            templateDao: database.templateDao,
-            templateFolderDao: database.templateFolderDao,
-            templateExerciseGroupDao: database.templateExerciseGroupDao,
-            templateExerciseSetDao: database.templateExerciseSetDao,
-          )..add(TemplateInitialize())),
-          BlocProvider(create: (context) => WorkoutBloc(
-            exerciseDao: database.exerciseDao,
-            templateDao: database.templateDao,
-            templateExerciseGroupDao: database.templateExerciseGroupDao,
-            templateExerciseSetDao: database.templateExerciseSetDao,
-            workoutDao: database.workoutDao,
-            workoutExerciseGroupDao: database.workoutExerciseGroupDao,
-            workoutExerciseSetDao: database.workoutExerciseSetDao,
-          )..add(WorkoutInitialize())),
-        ],
-        child:  const Main(),
-      ),
+      child:  const Main(),
     )
   );
 }

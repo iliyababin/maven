@@ -1,13 +1,19 @@
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import 'exercise_equipment.dart';
-import 'exercise_type.dart';
+import '../../common/model/exercise_equipment.dart';
+import '../../common/model/exercise_type.dart';
 
-@Entity(tableName: 'exercise')
-class Exercise {
+@Entity(
+  tableName: 'exercise',
+  primaryKeys: [
+    'exercise_id',
+  ],
+)
+class Exercise extends Equatable {
 
-  @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'exercise_id')
+  @PrimaryKey(autoGenerate: true)
   final int exerciseId;
 
   @ColumnInfo(name: 'name')
@@ -42,6 +48,16 @@ class Exercise {
     exerciseType: getExerciseTypes().firstWhere((exerciseType) => exerciseType.exerciseTypeId == json["exerciseType"]),
     exerciseEquipment: getExerciseEquipmentById(json["exerciseEquipment"])!,
   );
+
+  @override
+  List<Object?> get props => [
+    exerciseId,
+    name,
+    muscle,
+    picture,
+    exerciseType,
+    exerciseEquipment,
+  ];
 }
 
 

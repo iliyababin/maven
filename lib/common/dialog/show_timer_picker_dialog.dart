@@ -26,9 +26,9 @@ showTimerPickerDialog({
             child: Text(
               title,
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: mt(context).text.primaryColor
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: mt(context).text.primaryColor,
               ),
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../common/model/exercise.dart';
+import '../../exercise/model/exercise.dart';
 import 'template.dart';
 
 @Entity(
@@ -17,12 +17,15 @@ import 'template.dart';
         parentColumns: ['template_id'],
         entity: Template
     ),
-  ]
+  ],
+  primaryKeys: [
+    'template_exercise_group_id',
+  ],
 )
 class TemplateExerciseGroup extends Equatable {
   
-  @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'template_exercise_group_id')
+  @PrimaryKey(autoGenerate: true)
   final int? templateExerciseGroupId;
 
   @ColumnInfo(name: 'exercise_id')

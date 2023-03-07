@@ -31,7 +31,7 @@ class PausedWorkoutWidget extends StatelessWidget {
               title: 'Resume Workout',
               subtitle: 'Any active workouts will be discarded.',
               cancelText: 'Cancel',
-              submitText: 'Resume',
+              confirmText: 'Resume',
               onSubmit: () {
                 context.read<WorkoutBloc>().add(WorkoutDelete());
                 context.read<WorkoutBloc>().add(WorkoutUnpause(workout: workout));

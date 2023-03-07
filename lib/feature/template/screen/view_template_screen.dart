@@ -2,9 +2,9 @@ import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/model/exercise.dart';
+import '../../exercise/dao/exercise_dao.dart';
+import '../../exercise/model/exercise.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
-import '../dao/exercise_dao.dart';
 import '../dao/template_exercise_group_dao.dart';
 import '../dao/template_exercise_set_dao.dart';
 import '../model/template.dart';

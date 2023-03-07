@@ -29,5 +29,4 @@ abstract class TemplateFolderDao {
 
   @delete
   Future<void> deleteTemplateFolder(TemplateFolder templateFolder);
-
 }

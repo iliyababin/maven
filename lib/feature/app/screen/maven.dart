@@ -4,9 +4,9 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
 import '../../../theme/m_themes.dart';
+import '../../exercise/dao/exercise_dao.dart';
 import '../../home/screen/home_screen.dart';
 import '../../profile/screen/profile_screen.dart';
-import '../../template/dao/exercise_dao.dart';
 import '../../template/screen/template_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/dao/workout_dao.dart';
@@ -35,14 +35,12 @@ class _MavenState extends State<Maven> {
   final PanelController panelController = PanelController();
   double panelPosition = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mt(context).backgroundColor,
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
-
           builder: (context, state) {
             if(state.status == WorkoutStatus.active) {
               return SlidingUpPanel(
@@ -51,16 +49,12 @@ class _MavenState extends State<Maven> {
                 maxHeight: MediaQuery.of(context).size.height,
                 backdropEnabled: true,
                 controller: panelController,
-
-
                 onPanelSlide: (position) {
                   setState(() {
                     panelPosition = position;
                   });
                 },
-
                 body: screens[_selectedIndex],
-
                 collapsed: slidingPanelBackground(
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -25,7 +25,6 @@ import 'package:flutter/material.dart';
 /// To be used in a [showBottomSheetDialog].
 ///
 /// Example:
-///
 /// ```dart
 /// MFlatButton.tiled(
 ///   onPressed: (){},
@@ -66,7 +65,7 @@ class MButton extends StatelessWidget {
     required this.onPressed,
     required this.leading,
     required this.child,
-    this.height = 58,
+    this.height = 62,
     this.width = double.infinity,
     this.borderRadius = 0,
     this.backgroundColor,
@@ -75,7 +74,7 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.expand = false,
-  }) : leadingPadding = const EdgeInsets.only(left: 24, right: 16);
+  }) : leadingPadding = const EdgeInsets.only(left: 30, right: 16);
 
   /// Called when the button is tapped.
   final VoidCallback onPressed;

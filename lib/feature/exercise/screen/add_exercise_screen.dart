@@ -1,51 +1,49 @@
+import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/model/exercise.dart';
-import '../../template/dao/exercise_dao.dart';
+import '../../../widget/custom_app_bar.dart';
+import '../../../widget/custom_scaffold.dart';
+import '../bloc/exercise_bloc.dart';
+import '../model/exercise.dart';
 
 class AddExerciseScreen extends StatelessWidget {
   const AddExerciseScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Exercises"),
+    return CustomScaffold.build(
+      context: context,
+      appBar: CustomAppBar.build(
+        context: context,
+        title: 'Add Exercise'
       ),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () async{
-              List<Exercise> help  = await context.read<ExerciseDao>().getExercises();
+      body: BlocBuilder<ExerciseBloc, ExerciseState>(
+        builder: (context, state) {
+          if(state.status == ExerciseStatus.loading) {
+            return const Center(child: CircularProgressIndicator(),);
+          } else {
+            List<Exercise> exercises = state.exercises;
 
-              print(help.first.name);
-            }, child: Text("get first exercise"),
-          ),
-          Flexible(
-            fit: FlexFit.tight,
-          child: FutureBuilder<List<Exercise>>(
-            future: context.read<ExerciseDao>().getExercises(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: Text('Loading..s.'));
-              }
-              return ListView(
-                children: snapshot.data!.map((exercise) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pop(context, exercise);
-                    },
-                    title: Text(exercise.name),
-                    );
-                  }).toList(),
+            return ListView.builder(
+              itemCount: exercises.length,
+              itemBuilder: (context, index) {
+                Exercise exercise = exercises[index];
+
+                return ListTile(
+                  onTap: () => Navigator.pop(context, exercise),
+                  title: Text(
+                    exercise.name,
+                    style: TextStyle(
+                      color: mt(context).text.primaryColor
+                    ),
+                  ),
                 );
               },
-            ),
-          ),
-        ]
-      ),
-      
+            );
+          }
+        },
+      )
     );
   }
 }

@@ -17,7 +17,7 @@ abstract class TemplateExerciseSetDao {
   @delete
   Future<void> deleteTemplateExerciseSet(TemplateExerciseSet templateExerciseSet);
 
-  @Query('DELETE * FROM template_exercise_set WHERE template_id = :templateId')
+  @Query('DELETE FROM template_exercise_set WHERE template_id = :templateId')
   Future<void> deleteExerciseSetsByTemplateId(int templateId);
 
 }

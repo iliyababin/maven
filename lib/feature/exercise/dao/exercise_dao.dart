@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../../common/model/exercise.dart';
+import '../model/exercise.dart';
 
 @dao
 abstract class ExerciseDao {
@@ -15,4 +15,6 @@ abstract class ExerciseDao {
   @Query('SELECT * FROM exercise')
   Future<List<Exercise>> getExercises();
 
+  @Query('SELECT * FROM exercise')
+  Stream<List<Exercise>> getExercisesAsStream();
 }

@@ -13,7 +13,7 @@ enum TemplateStatus {
 
 class TemplateState extends Equatable {
   const TemplateState({
-    this.status = TemplateStatus.loaded,
+    this.status = TemplateStatus.loading,
     this.templates = const [],
     this.templateFolders = const [],
   });

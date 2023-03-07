@@ -4,10 +4,10 @@ import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../common/widget/m_button.dart';
+import '../../exercise/model/exercise.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
-import '../model/exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 

@@ -1,11 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'template_folder')
+@Entity(
+  tableName: 'template_folder',
+  primaryKeys: [
+    'template_folder_id',
+  ],
+)
 class TemplateFolder extends Equatable {
 
-  @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'template_folder_id')
+  @PrimaryKey(autoGenerate: true)
   final int? templateFolderId;
 
   @ColumnInfo(name: 'name')
