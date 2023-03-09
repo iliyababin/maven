@@ -4,7 +4,6 @@ import '../model/template_exercise_set.dart';
 
 @dao
 abstract class TemplateExerciseSetDao {
-
   @insert
   Future<void> addTemplateExerciseSet(TemplateExerciseSet templateExerciseSet);
 
@@ -19,5 +18,4 @@ abstract class TemplateExerciseSetDao {
 
   @Query('DELETE FROM template_exercise_set WHERE template_id = :templateId')
   Future<void> deleteExerciseSetsByTemplateId(int templateId);
-
 }

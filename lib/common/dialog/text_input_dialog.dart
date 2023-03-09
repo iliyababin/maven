@@ -34,6 +34,8 @@ class TextInputDialog extends StatefulWidget {
 class _TextInputDialogState extends State<TextInputDialog> {
   late TextEditingController _textEditingController;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     _textEditingController = TextEditingController(text: widget.initialValue);
@@ -55,36 +57,54 @@ class _TextInputDialogState extends State<TextInputDialog> {
             ),
           ),
           const SizedBox(height: 30),
-          TextFormField(
-            onChanged: (value) {
-              if(widget.onValueChanged == null) return;
-              widget.onValueChanged!(value);
-            },
-            controller: _textEditingController,
-            keyboardType: widget.keyboardType,
-            style: TextStyle(
-              fontSize: 18,
-              color: mt(context).text.primaryColor,
-            ),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              hintStyle: TextStyle(
-                color: mt(context).text.secondaryColor
+          Form(
+            key: _formKey,
+            child: TextFormField(
+              onChanged: (value) {
+                if(widget.onValueChanged == null) return;
+                widget.onValueChanged!(value);
+              },
+              validator: (value) {
+                if(value == null || value.isEmpty) return "The input cannot be empty.";
+                return null;
+              },
+              controller: _textEditingController,
+              keyboardType: widget.keyboardType,
+              style: TextStyle(
+                fontSize: 18,
+                color: mt(context).text.primaryColor,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                  color: mt(context).text.secondaryColor
+                ),
+                errorStyle: TextStyle(
+                  color: mt(context).textField.errorOutlineColor,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(
+                      width: 3,
+                      style: BorderStyle.solid,
+                      color: mt(context).borderColor
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: mt(context).borderColor
+                    color: mt(context).accentColor,
+                  ),
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
-                  width: 3,
-                  style: BorderStyle.solid,
-                  color: mt(context).accentColor,
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(
+                    width: 3,
+                    style: BorderStyle.solid,
+                    color: mt(context).textField.errorOutlineColor,
+                  ),
                 ),
               ),
             ),
@@ -109,11 +129,13 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   ),
                 ),
               ),
-              SizedBox(width: 15,),
+              const SizedBox(width: 15,),
               MButton(
                 onPressed: (){
-                  widget.onValueSubmit!(_textEditingController.text);
-                  Navigator.pop(context);
+                  if (_formKey.currentState!.validate()) {
+                    widget.onValueSubmit!(_textEditingController.text);
+                    Navigator.pop(context);
+                  }
                 },
                 backgroundColor: mt(context).accentColor,
                 borderRadius: 12,

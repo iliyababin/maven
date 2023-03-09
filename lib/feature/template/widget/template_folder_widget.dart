@@ -12,7 +12,9 @@ import '../model/template.dart';
 import '../model/template_folder.dart';
 import 'template_card_widget.dart';
 
+/// Displays a folder with list of [Template]s inside
 class TemplateFolderWidget extends StatefulWidget {
+  /// Creates a folder with [Template]s
   const TemplateFolderWidget({Key? key,
     required this.templateFolder,
     required this.templates
@@ -69,10 +71,8 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       _expandedController.toggle();
     }
     _expandedController.addListener(() async {
-      TemplateFolder templateFolder = widget.templateFolder;
-      TemplateFolder modifiedTemplateFolder = templateFolder.copyWith(expanded: _expandedController.expanded ? 1 : 0);
       context.read<TemplateBloc>().add(TemplateFolderToggle(
-          templateFolder: modifiedTemplateFolder
+        templateFolder: widget.templateFolder.copyWith(expanded: _expandedController.expanded ? 1 : 0),
       ));
     });
     super.initState();
@@ -152,7 +152,9 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                           ));
                                         },
                                       ),
-                                      onClose: (){}
+                                      onClose: (){
+                                        Navigator.pop(context);
+                                      }
                                     );
                                   },
                                   leading: Icon(
@@ -185,7 +187,6 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                   ),
                                 ),
                                 MButton.tiled(
-                                  // TODO: Implement a way to share
                                   onPressed: (){
                                     showBottomSheetDialog(
                                       context: context,
@@ -196,11 +197,13 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                         submitColor: mt(context).text.errorColor,
                                         onSubmit: () {
                                           context.read<TemplateBloc>().add(TemplateFolderDelete(
-                                            templateFolderId: widget.templateFolder.templateFolderId!,
+                                            templateFolder: widget.templateFolder,
                                           ));
                                         },
                                       ),
-                                      onClose: (){},
+                                      onClose: (){
+                                        Navigator.pop(context);
+                                      },
                                     );
                                   },
                                   leading: Icon(
@@ -260,7 +263,22 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                         ),
                       );
                     }).toList(),
-                    onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex),
+                    onReorder: (oldIndex, newIndex) {
+                      setState(() {
+                        if (newIndex > oldIndex) {
+                          newIndex -= 1;
+                        }
+                        List<Template> templates = widget.templates;
+
+                        final Template item = templates.elementAt(oldIndex);
+                        templates.removeAt(oldIndex);
+                        templates.insert(newIndex, item);
+
+                        context.read<TemplateBloc>().add(TemplateReorder(
+                            templates: templates
+                        ));
+                      });
+                    },
                   ),
                 ) : Center(
                   child: Column(
@@ -281,36 +299,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            MButton(
-                              child: Text(
-                                'Create New',
-                                style: TextStyle(
-                                  color: mt(context).text.primaryColor
-                                ),
-                              ),
-                              borderColor: mt(context).borderColor,
-                              backgroundColor: mt(context).templateFolder.backgroundColor,
-                              onPressed: (){},
-                            ),
-                            const SizedBox(width: 16,),
-                            MButton(
-                              child: Text(
-                                'Move Existing',
-                                style: TextStyle(
-                                  color: mt(context).text.primaryColor
-                                ),
-                              ),
-                              borderColor: mt(context).borderColor,
-                              backgroundColor: mt(context).templateFolder.backgroundColor,
-                              onPressed: (){},
-                            ),
-                          ],
-                        ),
-                      )
+                      const SizedBox(height: 40)
                     ],
                   ),
                 ),
@@ -321,27 +310,4 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       ),
     );
   }
-
-  ///
-  /// Functions
-  ///
-
-  void _reorder(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
-      List<Template> templates = widget.templates;
-
-      final Template item = templates.elementAt(oldIndex);
-      templates.removeAt(oldIndex);
-      templates.insert(newIndex, item);
-
-      context.read<TemplateBloc>().add(TemplateReorder(
-        templates: templates
-      ));
-    });
-  }
-  
-  
 }

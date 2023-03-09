@@ -10,12 +10,12 @@ import 'template.dart';
     ForeignKey(
       childColumns: ['exercise_id'],
       parentColumns: ['exercise_id'],
-      entity: Exercise
+      entity: Exercise,
     ),
     ForeignKey(
-        childColumns: ['template_id'],
-        parentColumns: ['template_id'],
-        entity: Template
+      childColumns: ['template_id'],
+      parentColumns: ['template_id'],
+      entity: Template,
     ),
   ],
   primaryKeys: [
@@ -34,7 +34,7 @@ class TemplateExerciseGroup extends Equatable {
   @ColumnInfo(name: 'template_id')
   final int templateId;
 
-  TemplateExerciseGroup({
+  const TemplateExerciseGroup({
     this.templateExerciseGroupId,
     required this.exerciseId,
     required this.templateId,

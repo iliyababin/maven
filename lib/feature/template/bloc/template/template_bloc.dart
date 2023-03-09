@@ -47,7 +47,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
-
   Future<void> _templateStreamUpdateTemplates(TemplateStreamUpdateTemplates event, emit) async {
     emit(state.copyWith(templates: () => event.templates));
   }
@@ -61,23 +60,23 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _templateCreate(TemplateCreate event, emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loading));
-
     List<TemplateFolder> templateFolders = await templateFolderDao.getTemplateFolders();
 
     if(templateFolders.isEmpty) {
       TemplateFolder templateFolder = const TemplateFolder(
-        templateFolderId: 0,
         name: 'Workouts',
         expanded: 1,
       );
       int templateFolderId = await templateFolderDao.addTemplateFolder(templateFolder);
-      templateFolders.add(templateFolder);
+      TemplateFolder? addedTemplateFolder = await templateFolderDao.getTemplateFolder(templateFolderId);
+      templateFolders.add(addedTemplateFolder!);
     }
 
-    int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolders.first.templateFolderId));
+    int templateFolderId = templateFolders.first.templateFolderId!;
 
-    for (var exerciseGroup in event.exerciseGroups) {
+    int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolderId));
+
+    for (ExerciseGroup exerciseGroup in event.exerciseGroups) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
           exerciseId: exerciseGroup.exercise.exerciseId,
@@ -85,7 +84,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         )
       );
       for (var tempExerciseSet in exerciseGroup.exerciseSets) {
-        templateExerciseSetDao.addTemplateExerciseSet(
+        await templateExerciseSetDao.addTemplateExerciseSet(
           TemplateExerciseSet(
             templateId: templateId,
             exerciseGroupId: exerciseGroupId,
@@ -96,7 +95,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       }
     }
 
-    emit(state.copyWith(status: () => TemplateStatus.add));
+    emit(state.copyWith(status: () => TemplateStatus.loaded));
   }
 
   Future<void> _templateReorder(TemplateReorder event, emit) async {
@@ -114,24 +113,21 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
     await templateDao.deleteTemplate(event.template);
 
-    /*  List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
-
-    for(TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
-      templateExerciseSetDao.de
-    }*/
-
     emit(state.copyWith(status: () => TemplateStatus.delete));
   }
 
   Future<void> _templateFolderDelete(TemplateFolderDelete event, emit) async {
-    TemplateFolder? templateFolder = await templateFolderDao.getTemplateFolder(event.templateFolderId);
-    if(templateFolder == null) {
-      throw UnsupportedError('There is no folder to delete!');
-    } else {
-      await templateDao.deleteTemplateByTemplateFolderId(templateFolder.templateFolderId!);
-      await templateFolderDao.deleteTemplateFolder(templateFolder);
+    List<Template> templates = await templateDao.getTemplatesByTemplateFolderId(event.templateFolder.templateFolderId!);
+
+    for(Template template in templates) {
+      int templateId = template.templateId!;
+      await templateExerciseSetDao.deleteExerciseSetsByTemplateId(templateId);
+      await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(templateId);
+      await templateDao.deleteTemplate(template);
     }
+
+    await templateFolderDao.deleteTemplateFolder(event.templateFolder);
+
     emit(state.copyWith(status: () => TemplateStatus.delete));
   }
 

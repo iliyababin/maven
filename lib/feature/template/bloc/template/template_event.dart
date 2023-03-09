@@ -110,14 +110,14 @@ class TemplateFolderReorder extends TemplateEvent {
 }
 
 class TemplateFolderDelete extends TemplateEvent {
-  final int templateFolderId;
+  final TemplateFolder templateFolder;
 
   const TemplateFolderDelete({
-    required this.templateFolderId,
+    required this.templateFolder,
   });
 
   @override
-  List<Object> get props => [templateFolderId];
+  List<Object> get props => [templateFolder];
 }
 
 class TemplateStreamUpdateTemplates extends TemplateEvent {

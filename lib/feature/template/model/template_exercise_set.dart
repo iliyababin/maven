@@ -22,19 +22,19 @@ class TemplateExerciseSet {
   
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'template_exercise_set_id')
-  int? templateExerciseSetId;
+  final int? templateExerciseSetId;
 
   @ColumnInfo(name: 'option_1')
-  int option1;
+  final int option1;
 
   @ColumnInfo(name: 'option_2')
-  int? option2;
+  final int? option2;
 
   @ColumnInfo(name: 'template_exercise_group_id')
-  int exerciseGroupId;
+  final int exerciseGroupId;
 
   @ColumnInfo(name: 'template_id')
-  int templateId;
+  final int templateId;
 
   TemplateExerciseSet({
     this.templateExerciseSetId,
@@ -43,5 +43,4 @@ class TemplateExerciseSet {
     required this.exerciseGroupId,
     required this.templateId,
   });
-
 }

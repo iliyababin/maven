@@ -1,5 +1,4 @@
 
-import 'package:Maven/main.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/m_themes.dart';
@@ -7,7 +6,6 @@ import '../../../widget/custom_app_bar.dart';
 import '../../../widget/custom_scaffold.dart';
 import '../model/plate.dart';
 import '../service/equipment_service.dart';
-import 'edit_plate_screen.dart';
 
 
 class PlateScreen extends StatefulWidget {
@@ -24,10 +22,11 @@ class PlateScreen extends StatefulWidget {
 class _PlateScreenState extends State<PlateScreen> {
 
   void editPlate(Plate plate) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePlateScreen(
+    //todo: edit plate
+    /*Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePlateScreen(
       equipmentService: services<EquipmentService>(),
       plate: plate,
-    )));
+    )));*/
   }
   @override
   Widget build(BuildContext context) {

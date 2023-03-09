@@ -4,13 +4,11 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/model/plate.dart';
-import 'feature/equipment/service/equipment_service.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
@@ -22,21 +20,15 @@ Future<List<Exercise>> _loadExerciseJson() async {
   return jsonList.map((json) => Exercise.fromMap(json)).toList();
 }
 
-GetIt services = GetIt.instance;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db048.db')
+      .databaseBuilder('db054.db')
       .build();
 
   database.plateDao.addPlates(getDefaultPlates());
   database.exerciseDao.addExercises(await _loadExerciseJson());
-
-  services.registerLazySingleton<EquipmentService>(() => EquipmentService(
-    plateDao: database.plateDao,
-  ));
 
   runApp(
     MultiBlocProvider(

@@ -21,5 +21,4 @@ abstract class TemplateExerciseGroupDao {
 
   @Query('DELETE FROM template_exercise_group WHERE template_id = :templateId')
   Future<void> deleteTemplateExerciseGroupsByTemplateId(int templateId);
-
 }
