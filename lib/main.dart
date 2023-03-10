@@ -8,6 +8,7 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
+import 'feature/equipment/bloc/plate/plate_bloc.dart';
 import 'feature/equipment/model/plate.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
@@ -24,7 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db054.db')
+      .databaseBuilder('db055.db')
       .build();
 
   database.plateDao.addPlates(getDefaultPlates());
@@ -51,6 +52,9 @@ void main() async {
           workoutExerciseGroupDao: database.workoutExerciseGroupDao,
           workoutExerciseSetDao: database.workoutExerciseSetDao,
         )..add(WorkoutInitialize())),
+        BlocProvider(create: (context) => PlateBloc(
+          plateDao: database.plateDao,
+        )..add(PlateInitialize())),
       ],
       child:  const Main(),
     )

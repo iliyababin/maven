@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../common/widget/m_button.dart';
-import '../../common/model/exercise_equipment.dart';
+import '../../exercise/model/exercise_equipment.dart';
+import 'barbell_calculator_widget.dart';
 import 'numpad_widget.dart';
 
 enum MKeyboardType {
@@ -46,11 +47,9 @@ class _MKeyboardState extends State<MKeyboard> {
       case 0:
         return Container();
       case 1:
-        // TODO: BarbellCalucatorWidget
-        return Container();/*BarbellCalculatorWidget(
-          equipmentService: services<EquipmentService>(),
+        return BarbellCalculatorWidget(
           weight: values.isEmpty ? 0 : int.parse(values).toDouble(),
-        );*/
+        );
       default:
         return NumPadWidget(
           value: values,

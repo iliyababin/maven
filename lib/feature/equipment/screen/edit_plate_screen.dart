@@ -5,27 +5,26 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
+import '../bloc/plate/plate_bloc.dart';
 import '../model/plate.dart';
-import '../service/equipment_service.dart';
 
-class UpdatePlateScreen extends StatefulWidget {
-  const UpdatePlateScreen({Key? key,
-    required this.equipmentService,
+class EditPlateScreen extends StatefulWidget {
+  const EditPlateScreen({Key? key,
     required this.plate,
   }) : super(key: key);
 
-  final EquipmentService equipmentService;
   final Plate plate;
 
   @override
-  State<UpdatePlateScreen> createState() => _UpdatePlateScreenState();
+  State<EditPlateScreen> createState() => _EditPlateScreenState();
 }
 
-class _UpdatePlateScreenState extends State<UpdatePlateScreen> {
+class _EditPlateScreenState extends State<EditPlateScreen> {
 
   late int amount;
   late Color color;
@@ -74,16 +73,16 @@ class _UpdatePlateScreenState extends State<UpdatePlateScreen> {
         actions: [
           MButton(
             onPressed: (){
-              widget.equipmentService.updatePlate(
-                Plate(
+              context.read<PlateBloc>().add(PlateUpdate(
+                plate: Plate(
                   plateId: widget.plate.plateId,
                   amount: amount,
                   color: color,
                   height: height,
                   weight: weight,
                   isCustomized: false,
-                )
-              );
+                ),
+              ));
               Navigator.pop(context);
             },
             width: 75,

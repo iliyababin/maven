@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../widget/custom_app_bar.dart';
 import '../../../widget/custom_scaffold.dart';
+import 'plate_screen.dart';
 
 class EquipmentScreen extends StatelessWidget {
   const EquipmentScreen({Key? key}) : super(key: key);
@@ -19,10 +20,7 @@ class EquipmentScreen extends StatelessWidget {
         children: [
           ListTile(
             onTap: () {
-              ///TODO: PlateScreen
-              /*Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlateScreen(
-                equipmentService: services<EquipmentService>(),
-              )));*/
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PlateScreen()));
             },
             title: Text(
               'Plates',
@@ -33,11 +31,21 @@ class EquipmentScreen extends StatelessWidget {
           ),
           ListTile(
             onTap: () {},
-            title: Text('Bars'),
+            title: Text(
+              'Bars',
+              style: TextStyle(
+                  color: mt(context).text.primaryColor
+              ),
+            ),
           ),
           ListTile(
             onTap: () {},
-            title: Text('Machines'),
+            title: Text(
+              'Machines',
+              style: TextStyle(
+                  color: mt(context).text.primaryColor
+              ),
+            ),
           ),
         ],
       )

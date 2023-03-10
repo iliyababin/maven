@@ -1,6 +1,6 @@
 
-import '../../common/dto/exercise_set.dart';
 import '../../exercise/dao/exercise_dao.dart';
+import '../../exercise/dto/exercise_set.dart';
 import '../../exercise/model/exercise.dart';
 import '../dao/workout_dao.dart';
 import '../dao/workout_exercise_group_dao.dart';

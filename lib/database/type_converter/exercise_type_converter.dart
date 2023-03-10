@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../../feature/common/model/exercise_type.dart';
+import '../../feature/exercise/model/exercise_type.dart';
 
 
 

@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import '../feature/common/model/exercise_equipment.dart';
 import '../feature/equipment/dao/plate_dao.dart';
 import '../feature/equipment/model/plate.dart';
 import '../feature/exercise/dao/exercise_dao.dart';
 import '../feature/exercise/model/exercise.dart';
+import '../feature/exercise/model/exercise_equipment.dart';
 import '../feature/template/dao/template_dao.dart';
 import '../feature/template/dao/template_exercise_group_dao.dart';
 import '../feature/template/dao/template_exercise_set_dao.dart';

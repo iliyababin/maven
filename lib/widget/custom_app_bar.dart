@@ -2,7 +2,7 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar {
+class CustomAppBar  {
   static AppBar build({
     required String title,
     required BuildContext context,

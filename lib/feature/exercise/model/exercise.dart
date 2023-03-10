@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../common/model/exercise_equipment.dart';
-import '../../common/model/exercise_type.dart';
+import 'exercise_equipment.dart';
+import 'exercise_type.dart';
 
 @Entity(
   tableName: 'exercise',

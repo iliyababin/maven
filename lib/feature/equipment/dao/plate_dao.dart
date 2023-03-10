@@ -22,4 +22,7 @@ abstract class PlateDao {
 
   @update
   Future<void> updatePlate(Plate plate);
+
+  @delete
+  Future<void> deletePlates(List<Plate> plates);
 }

@@ -4,9 +4,9 @@ import '../../../../theme/m_themes.dart';
 import '../../../../widget/m_popup_menu_button.dart';
 import '../../../../widget/m_popup_menu_item.dart';
 import '../../../common/widget/m_button.dart';
-import '../../exercise/model/exercise.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
+import '../model/exercise.dart';
 import 'exercise_set_widget.dart';
 
 class ExerciseGroupWidget extends StatefulWidget {

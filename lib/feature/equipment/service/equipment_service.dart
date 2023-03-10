@@ -1,35 +1,11 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
-import '../dao/plate_dao.dart';
 import '../model/plate.dart';
 
 class EquipmentService {
-  EquipmentService({
-    required PlateDao plateDao,
-  }) : _plateDao = plateDao;
 
-  final PlateDao _plateDao;
 
-  Future<Plate> addEmptyPlate() async {
-    int plateId = await _plateDao.addPlate(const Plate(
-      amount: 0,
-      color: Colors.pink,
-      height: 1,
-      isCustomized: false,
-      weight: 0,
-    ));
-    Plate? plate = await _plateDao.getPlate(plateId);
-    if(plate == null) throw Exception('A created plate could not be found in the database. This should never happen.');
-    return plate;
-  }
-
-  Stream<List<Plate>> getPlatesAsStream() => _plateDao.getPlatesAsStream();
-
-  Future<void> updatePlate(Plate plate) => _plateDao.updatePlate(plate);
-
-  List<Plate> getPlatesFromWeight(List<Plate> providedPlates, double weight) {
+  static List<Plate> getPlatesFromWeight(List<Plate> providedPlates, double weight) {
 
     List<Plate> plates = [];
 

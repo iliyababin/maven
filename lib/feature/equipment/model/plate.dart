@@ -1,10 +1,9 @@
-import 'dart:ui';
-
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 
 @Entity(tableName: 'plate')
-class Plate {
+class Plate extends Equatable{
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'plate_id')
@@ -33,6 +32,16 @@ class Plate {
     required this.height,
     required this.isCustomized,
   });
+
+  @override
+  List<Object?> get props => [
+    plateId,
+    weight,
+    amount,
+    color,
+    height,
+    isCustomized,
+  ];
 }
 
 List<Plate> getDefaultPlates() => [
