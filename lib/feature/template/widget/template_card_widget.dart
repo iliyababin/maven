@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
+import '../screen/view_template_screen.dart';
 
 class TemplateCard extends StatelessWidget {
   const TemplateCard({Key? key,
@@ -19,7 +18,9 @@ class TemplateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return MButton(
       onPressed: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTemplateScreen(
+          template: template,
+        )));
       },
       height: 90,
       expand: false,
@@ -65,22 +66,5 @@ class TemplateCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  ///
-  /// Functions
-  /// 
-
-  Future<void> _showTemplate(BuildContext context, Template template) async {
-    context.read<TemplateBloc>().add(TemplateDelete(template: template));
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-          ViewTemplateScreen(
-            template: template
-          )
-      )
-    );*/
   }
 }

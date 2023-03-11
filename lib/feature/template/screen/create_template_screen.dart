@@ -62,25 +62,27 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
       body: ListView.builder(
         itemCount: exerciseGroups.length,
         itemBuilder: (context, index) {
+          ExerciseGroup exerciseGroup = exerciseGroups[index];
           return ExerciseGroupWidget(
-            exercise: exerciseGroups[index].exercise,
-            exerciseSets: exerciseGroups[index].exerciseSets,
+            exercise: exerciseGroup.exercise,
+            exerciseSets: exerciseGroup.exerciseSets,
             onExerciseSetAdd: () {
               setState(() {
-                exerciseGroups[index].exerciseSets.add(ExerciseSet(
-                    exerciseSetId: DateTime.now().millisecondsSinceEpoch,
-                    option1: 0,
-                    option2: exerciseGroups[index].exercise.exerciseType.exerciseTypeOption2 == null ? null : 0
+                exerciseGroup.exerciseSets.add(ExerciseSet(
+                  exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                  option1: 0,
+                  option2: exerciseGroup.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
+                  barId: exerciseGroup.exercise.barId
                 ));
               });
             },
             onExerciseSetUpdate: (value) {
-              int exerciseSetIndex = exerciseGroups[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-              exerciseGroups[index].exerciseSets[exerciseSetIndex] = value;
+              int exerciseSetIndex = exerciseGroup.exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+              exerciseGroup.exerciseSets[exerciseSetIndex] = value;
             },
             onExerciseSetDelete: (value) {
               setState(() {
-                exerciseGroups[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                exerciseGroup.exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
               });
             },
           );

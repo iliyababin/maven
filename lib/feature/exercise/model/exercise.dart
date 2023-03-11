@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../equipment/model/bar.dart';
 import 'exercise_equipment.dart';
 import 'exercise_type.dart';
 
@@ -9,8 +10,24 @@ import 'exercise_type.dart';
   primaryKeys: [
     'exercise_id',
   ],
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['bar_id'],
+      parentColumns: ['bar_id'],
+      entity: Bar,
+    ),
+  ]
 )
 class Exercise extends Equatable {
+  const Exercise({
+    required this.exerciseId,
+    required this.name,
+    required this.muscle,
+    required this.picture,
+    required this.exerciseType,
+    required this.exerciseEquipment,
+    this.barId,
+  });
 
   @ColumnInfo(name: 'exercise_id')
   @PrimaryKey(autoGenerate: true)
@@ -31,14 +48,8 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'exercise_equipment')
   final ExerciseEquipment exerciseEquipment;
 
-  const Exercise({
-    required this.exerciseId,
-    required this.name,
-    required this.muscle,
-    required this.picture,
-    required this.exerciseType,
-    required this.exerciseEquipment,
-  });
+  @ColumnInfo(name: 'bar_id')
+  final int? barId;
 
   factory Exercise.fromMap(Map<String, dynamic> json) => Exercise(
     exerciseId: json["exerciseId"],
@@ -47,6 +58,7 @@ class Exercise extends Equatable {
     picture: json["picture"],
     exerciseType: getExerciseTypes().firstWhere((exerciseType) => exerciseType.exerciseTypeId == json["exerciseType"]),
     exerciseEquipment: getExerciseEquipmentById(json["exerciseEquipment"])!,
+    barId: json["barId"],
   );
 
   @override
@@ -57,6 +69,7 @@ class Exercise extends Equatable {
     picture,
     exerciseType,
     exerciseEquipment,
+    barId,
   ];
 }
 

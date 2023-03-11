@@ -8,8 +8,7 @@ import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
-import 'feature/equipment/bloc/plate/plate_bloc.dart';
-import 'feature/equipment/model/plate.dart';
+import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
@@ -25,11 +24,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db055.db')
+      .databaseBuilder('db061.db')
       .build();
 
-  database.plateDao.addPlates(getDefaultPlates());
-  database.exerciseDao.addExercises(await _loadExerciseJson());
+/*  database.plateDao.addPlates(getDefaultPlates());
+  database.barDao.addBars(getDefaultBars());
+  database.exerciseDao.addExercises(await _loadExerciseJson());*/
 
   runApp(
     MultiBlocProvider(
@@ -52,9 +52,10 @@ void main() async {
           workoutExerciseGroupDao: database.workoutExerciseGroupDao,
           workoutExerciseSetDao: database.workoutExerciseSetDao,
         )..add(WorkoutInitialize())),
-        BlocProvider(create: (context) => PlateBloc(
+        BlocProvider(create: (context) => EquipmentBloc(
           plateDao: database.plateDao,
-        )..add(PlateInitialize())),
+          barDao: database.barDao,
+        )..add(EquipmentInitialize())),
       ],
       child:  const Main(),
     )

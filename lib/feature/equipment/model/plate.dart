@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 
 @Entity(tableName: 'plate')
-class Plate extends Equatable{
+class Plate extends Equatable {
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'plate_id')

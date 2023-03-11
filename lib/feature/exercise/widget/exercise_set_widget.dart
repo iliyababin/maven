@@ -1,3 +1,4 @@
+import 'package:Maven/feature/exercise/model/exercise_equipment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
@@ -128,6 +129,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             showBottomSheetDialog(
               context: context,
               child: MKeyboard(
+                barId: widget.exerciseSet.barId,
                 exerciseEquipment: widget.exercise.exerciseEquipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
@@ -162,14 +164,14 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               },
               height: 300,
               child: MKeyboard(
-                exerciseEquipment: widget.exercise.exerciseEquipment,
+                barId: widget.exerciseSet.barId,
+                exerciseEquipment: ExerciseEquipment.none,
                 value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {
                   setState(() {
                     var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
                     exerciseSet = nice;
                     widget.onExerciseSetUpdate(nice);
-
                   });
                 },
               ),

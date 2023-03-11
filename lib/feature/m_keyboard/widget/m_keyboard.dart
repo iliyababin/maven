@@ -15,15 +15,15 @@ enum MKeyboardType {
 
 class MKeyboard extends StatefulWidget {
   const MKeyboard({Key? key,
+    this.barId,
     required this.exerciseEquipment,
     required this.value,
     required this.onValueChanged,
   }) : super(key: key);
 
+  final int? barId;
   final ExerciseEquipment exerciseEquipment;
-
   final String value;
-
   final Function(String) onValueChanged;
 
   @override
@@ -48,6 +48,7 @@ class _MKeyboardState extends State<MKeyboard> {
         return Container();
       case 1:
         return BarbellCalculatorWidget(
+          barId: widget.barId ?? 0,
           weight: values.isEmpty ? 0 : int.parse(values).toDouble(),
         );
       default:

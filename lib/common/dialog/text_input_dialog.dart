@@ -133,7 +133,9 @@ class _TextInputDialogState extends State<TextInputDialog> {
               MButton(
                 onPressed: (){
                   if (_formKey.currentState!.validate()) {
-                    widget.onValueSubmit!(_textEditingController.text);
+                    if(widget.onValueSubmit != null) {
+                      widget.onValueSubmit!(_textEditingController.text);
+                    }
                     Navigator.pop(context);
                   }
                 },

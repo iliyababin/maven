@@ -17,7 +17,6 @@ import 'template_folder.dart';
   ],
 )
 class Template extends Equatable {
-
   @ColumnInfo(name: 'template_id')
   @PrimaryKey(autoGenerate: true)
   final int? templateId;

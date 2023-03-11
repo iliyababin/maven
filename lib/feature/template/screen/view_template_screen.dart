@@ -1,3 +1,4 @@
+import 'package:Maven/theme/m_themes.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +34,13 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(widget.template.name),
-            _listOfExercises(widget.template.templateId!)
+            Text(
+              widget.template.name,
+              style: TextStyle(
+                color: mt(context).text.primaryColor
+              ),
+            ),
+            //_listOfExercises(widget.template.templateId!)
           ],
         )
       ),

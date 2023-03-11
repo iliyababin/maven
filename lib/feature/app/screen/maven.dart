@@ -7,6 +7,7 @@ import '../../../theme/m_themes.dart';
 import '../../exercise/dao/exercise_dao.dart';
 import '../../home/screen/home_screen.dart';
 import '../../profile/screen/profile_screen.dart';
+import '../../progress/screen/progress_screen.dart';
 import '../../template/screen/template_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/dao/workout_dao.dart';
@@ -29,6 +30,7 @@ class _MavenState extends State<Maven> {
   List<Widget> screens = <Widget>[
     const HomeScreen(),
     const TemplateScreen(),
+    const ProgressScreen(),
     const ProfileScreen(),
   ];
 
@@ -43,6 +45,7 @@ class _MavenState extends State<Maven> {
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
             if(state.status == WorkoutStatus.active) {
+
               return SlidingUpPanel(
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                 minHeight: 85,

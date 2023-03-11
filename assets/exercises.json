@@ -15,7 +15,8 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/squats.jpg",
     "exerciseType": 6,
-    "exerciseEquipment": 3
+    "exerciseEquipment": 3,
+    "barId": 1
   },
   {
     "exerciseId": 3,
@@ -60,7 +61,8 @@
     "bodyPart": "Lower Body",
     "picture": "https://example.com/deadlifts.jpg",
     "exerciseType": 6,
-    "exerciseEquipment": 3
+    "exerciseEquipment": 3,
+    "barId": 1
   },
   {
     "exerciseId": 8,

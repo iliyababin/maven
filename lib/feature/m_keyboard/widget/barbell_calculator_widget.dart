@@ -1,25 +1,28 @@
+import 'package:Maven/common/util/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../common/widget/m_button.dart';
-import '../../equipment/bloc/plate/plate_bloc.dart';
+import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../../equipment/model/plate.dart';
 import '../../equipment/screen/equipment_screen.dart';
 import '../../equipment/service/equipment_service.dart';
 
 class BarbellCalculatorWidget extends StatelessWidget {
   const BarbellCalculatorWidget({Key? key,
+    required this.barId,
     required this.weight,
   }) : super(key: key);
 
+  final int barId;
   final double weight;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PlateBloc, PlateState>(
+    return BlocBuilder<EquipmentBloc, EquipmentState>(
       builder: (context, state) {
-        if(state.status == PlateStatus.loading) {
+        if(state.status == EquipmentStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         } else {
           List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, weight);
@@ -29,14 +32,21 @@ class BarbellCalculatorWidget extends StatelessWidget {
           List<Widget> ui = [];
 
           ui.add(Container(
-            width: 20,
-            height: 16,
+            width: 40,
+            height: 20,
             color: const Color(0xFF4e5967),
+            alignment: Alignment.center,
+            child: Text(
+              removeDecimalZeroFormat(state.bars.firstWhere((bar) => bar.barId == barId).weight),
+              style: TextStyle(
+                color: mt(context).text.whiteColor
+              ),
+            ),
           ));
 
           ui.add(Container(
             width: 10,
-            height: 30,
+            height: 35,
             color: const Color(0xFF4e5967),
           ));
 
@@ -125,26 +135,17 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 height: 2,
                 color: mt(context).borderColor,
               ),
-              SizedBox(
-                height: 55,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    MButton(
-                      onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EquipmentScreen()));
-                      },
-                      width: 55,
-                      borderRadius: 0,
-                      leading: Icon(
-                        Icons.settings,
-                        color: mt(context).icon.accentColor,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                  ],
+              MButton(
+                onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EquipmentScreen()));
+                },
+                width: 55,
+                borderRadius: 0,
+                leading: Icon(
+                  Icons.settings,
+                  color: mt(context).icon.accentColor,
                 ),
-              )
+              ),
             ],
           );
         }

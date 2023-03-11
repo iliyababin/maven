@@ -5,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../theme/m_themes.dart';
-import '../bloc/plate/plate_bloc.dart';
+import '../bloc/equipment/equipment_bloc.dart';
 import '../model/plate.dart';
+import 'edit_plate_screen.dart';
 
 
 class PlateScreen extends StatefulWidget {
@@ -42,13 +43,13 @@ class _PlateScreenState extends State<PlateScreen> {
               showBottomSheetDialog(
                 context: context,
                 child: ConfirmationDialog(
-                  title: 'Delete Selected Plates',
+                  title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
                   submitColor: mt(context).text.errorColor,
                   confirmText: 'Delete',
                   onSubmit: () {
                     setState(() {
-                      context.read<PlateBloc>().add(PlateDelete(selectedPlates));
+                      context.read<EquipmentBloc>().add(PlateDelete(selectedPlates));
                     });
                   },
                 ),
@@ -63,7 +64,30 @@ class _PlateScreenState extends State<PlateScreen> {
         ] : [
           IconButton(
             onPressed: () async {
-              context.read<PlateBloc>().add(PlateAddEmpty());
+              showBottomSheetDialog(
+                context: context,
+                child: ConfirmationDialog(
+                  title: 'Reset Plates',
+                  subtitle: 'This will reset all plates to default',
+                  submitColor: mt(context).text.errorColor,
+                  confirmText: 'Reset',
+                  onSubmit: () {
+                    setState(() {
+                      context.read<EquipmentBloc>().add(PlateReset());
+                    });
+                  },
+                ),
+                onClose: (){},
+              );
+            },
+            icon: Icon(
+              Icons.restart_alt_rounded,
+              color: mt(context).icon.accentColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () async {
+              context.read<EquipmentBloc>().add(PlateAddEmpty());
             },
             icon: Icon(
               Icons.add_rounded,
@@ -72,9 +96,9 @@ class _PlateScreenState extends State<PlateScreen> {
           ),
         ]
       ),
-      body: BlocConsumer<PlateBloc, PlateState>(
+      body: BlocConsumer<EquipmentBloc, EquipmentState>(
         listener: (context, state) {
-          if(state.status == PlateStatus.delete) {
+          if(state.status == EquipmentStatus.delete) {
             setState(() {
               isSelecting = false;
               selectedPlates.clear();
@@ -82,7 +106,7 @@ class _PlateScreenState extends State<PlateScreen> {
           }
         },
         builder: (context, state) {
-          if(state.status == PlateStatus.loading) {
+          if(state.status == EquipmentStatus.loading) {
             return const Center(child: CircularProgressIndicator());
           } else {
             List<Plate> plates = state.plates;
@@ -102,9 +126,7 @@ class _PlateScreenState extends State<PlateScreen> {
                           }
                         });
                       } else {
-                        print('PUSH');
-
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
                       }
                     },
                     splashColor: mt(context).borderColor,

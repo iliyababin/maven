@@ -4,7 +4,6 @@ import '../model/plate.dart';
 
 class EquipmentService {
 
-
   static List<Plate> getPlatesFromWeight(List<Plate> providedPlates, double weight) {
 
     List<Plate> plates = [];
@@ -28,5 +27,4 @@ class EquipmentService {
 
     return plates;
   }
-
 }

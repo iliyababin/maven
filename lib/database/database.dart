@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import '../feature/equipment/dao/bar_dao.dart';
 import '../feature/equipment/dao/plate_dao.dart';
+import '../feature/equipment/model/bar.dart';
 import '../feature/equipment/model/plate.dart';
 import '../feature/exercise/dao/exercise_dao.dart';
 import '../feature/exercise/model/exercise.dart';
@@ -41,6 +43,7 @@ part 'database.g.dart';
     WorkoutExerciseGroup,
     WorkoutExerciseSet,
     Plate,
+    Bar,
   ],
 )
 @TypeConverters([
@@ -50,7 +53,6 @@ part 'database.g.dart';
   ColorConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
-
   ExerciseDao get exerciseDao;
 
   TemplateFolderDao get templateFolderDao;
@@ -63,5 +65,5 @@ abstract class MavenDatabase extends FloorDatabase {
   WorkoutExerciseSetDao get workoutExerciseSetDao;
 
   PlateDao get plateDao;
-
+  BarDao get barDao;
 }

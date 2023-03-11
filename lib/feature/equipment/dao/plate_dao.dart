@@ -4,7 +4,6 @@ import '../model/plate.dart';
 
 @dao
 abstract class PlateDao {
-
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> addPlate(Plate plate);
 
@@ -25,4 +24,7 @@ abstract class PlateDao {
 
   @delete
   Future<void> deletePlates(List<Plate> plates);
+
+  @Query('DELETE FROM plate')
+  Future<void> deleteAllPlates();
 }

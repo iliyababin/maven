@@ -70,8 +70,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _workoutStartTemplate(WorkoutStartTemplate event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
 
-    Template? template = await templateDao.getTemplate(event.template.templateId!);
-    Workout convertedWorkout = Workout.fromTemplate(template!);
+    Workout convertedWorkout = Workout.fromTemplate(event.template);
     int workoutId = await workoutDao.addWorkout(convertedWorkout);
     List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
     for (var exerciseGroup in exerciseGroups) {

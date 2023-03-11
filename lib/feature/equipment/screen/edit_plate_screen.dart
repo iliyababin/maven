@@ -10,7 +10,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
-import '../bloc/plate/plate_bloc.dart';
+import '../bloc/equipment/equipment_bloc.dart';
 import '../model/plate.dart';
 
 class EditPlateScreen extends StatefulWidget {
@@ -73,7 +73,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
         actions: [
           MButton(
             onPressed: (){
-              context.read<PlateBloc>().add(PlateUpdate(
+              context.read<EquipmentBloc>().add(PlateUpdate(
                 plate: Plate(
                   plateId: widget.plate.plateId,
                   amount: amount,
@@ -130,14 +130,12 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
               'Amount',
               style: TextStyle(
                   color: mt(context).text.primaryColor,
-                  fontSize: 18
               ),
             ),
             subtitle: Text(
               '$amount plates',
               style: TextStyle(
                   color: mt(context).text.secondaryColor,
-                  fontSize: 16
               ),
             ),
           ),
