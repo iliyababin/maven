@@ -278,7 +278,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         childCount: workoutGroupDtos.length,
                         (context, index) => ExerciseGroupWidget(
                           exercise: workoutGroupDtos[index].exercise,
+                          exerciseGroup: workoutGroupDtos[index].workoutExerciseGroup.toExerciseGroup(workoutGroupDtos[index].exercise),
                           exerciseSets: workoutGroupDtos[index].exerciseSets,
+                          onExerciseGroupUpdate: (value) {
+
+                          },
                           onExerciseSetAdd: () async {
                             WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.addWorkoutExerciseSet(
                               workoutId: workout.workoutId!,

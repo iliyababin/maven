@@ -8,7 +8,6 @@ class EquipmentService {
 
     List<Plate> plates = [];
 
-    weight = (weight - 45) / 2;
 
     for(int i = 0; i < providedPlates.length; i++) {
       Plate plate = providedPlates[i];

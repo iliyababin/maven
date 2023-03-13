@@ -1,4 +1,5 @@
 
+import 'package:Maven/feature/template/dto/exercise_block.dart';
 import 'package:floor/floor.dart';
 
 import '../../exercise/model/exercise.dart';
@@ -41,6 +42,14 @@ class WorkoutExerciseGroup {
     return WorkoutExerciseGroup(
       exerciseId: exerciseId,
       workoutId: workoutId
+    );
+  }
+
+  ExerciseGroup toExerciseGroup(Exercise exercise) {
+    return ExerciseGroup(
+      exerciseGroupId: workoutExerciseGroupId,
+      exercise: exercise,
+      exerciseSets: [],
     );
   }
 }

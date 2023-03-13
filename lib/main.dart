@@ -27,7 +27,7 @@ void main() async {
       .databaseBuilder('db061.db')
       .build();
 
-/*  database.plateDao.addPlates(getDefaultPlates());
+  /*database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
   database.exerciseDao.addExercises(await _loadExerciseJson());*/
 

@@ -1,19 +1,24 @@
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/m_themes.dart';
-import '../../../../widget/m_popup_menu_button.dart';
-import '../../../../widget/m_popup_menu_item.dart';
 import '../../../common/widget/m_button.dart';
+import '../../equipment/bloc/equipment/equipment_bloc.dart';
+import '../../equipment/model/bar.dart';
+import '../../template/dto/exercise_block.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../dto/exercise_set.dart';
 import '../model/exercise.dart';
+import '../model/exercise_equipment.dart';
 import 'exercise_set_widget.dart';
 
 class ExerciseGroupWidget extends StatefulWidget {
-
   const ExerciseGroupWidget({super.key,
     required this.exercise,
+    required this.exerciseGroup,
     required this.exerciseSets,
+    required this.onExerciseGroupUpdate,
     required this.onExerciseSetAdd,
     required this.onExerciseSetUpdate,
     required this.onExerciseSetDelete,
@@ -22,13 +27,12 @@ class ExerciseGroupWidget extends StatefulWidget {
   });
 
   final Exercise exercise;
-
+  final ExerciseGroup exerciseGroup;
   final List<ExerciseSet> exerciseSets;
-
+  final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
   final VoidCallback onExerciseSetAdd;
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
   final ValueChanged<ExerciseSet> onExerciseSetDelete;
-
   final bool checkboxEnabled;
   final bool hintsEnabled;
 
@@ -37,17 +41,13 @@ class ExerciseGroupWidget extends StatefulWidget {
 }
 
 class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-
         Row(
           children: [
-
             SizedBox(width: 8),
             MButton(
               onPressed: (){},
@@ -59,7 +59,6 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 color: mt(context).icon.accentColor,
               ),
             ),
-
             MButton(
               onPressed: () {
 
@@ -77,48 +76,120 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 ),
               ),
             ),
-
-            SizedBox(
-                height: 40,
-                width: 52,
-                child: MPopupMenuButton(
-                    iconColor: mt(context).icon.accentColor,
-                    color: mt(context).popupMenu.backgroundColor,
+            MButton(
+              onPressed: (){
+                showBottomSheetDialog(
+                  context: context,
+                  child: Column(
                     children: [
-                      MPopupMenuItem.build(
-                          icon: Icon(
-                            Icons.straighten,
-                            size: 21,
-                            color: mt(context).text.accentColor,
-                          ),
-                          text: 'Weight Unit',
-                          textColor: mt(context).text.primaryColor,
-                          onTap: (){}
-                      ),
-                      MPopupMenuItem.build(
-                          icon: Icon(
-                            Icons.timer_outlined,
-                            size: 21,
-                            color: mt(context).text.accentColor,
-                          ),
-                          text: 'Auto Rest Timer',
-                          textColor: mt(context).text.primaryColor,
-                          onTap: (){}
-                      ),
-                      MPopupMenuItem.build(
-                          icon: Icon(
-                            Icons.delete,
-                            size: 21,
-                            color: mt(context).icon.errorColor,
-                          ),
-                          text: 'Remove Exercise',
-                          textColor: mt(context).text.errorColor,
-                          onTap: (){}
-                      ),
-                    ]
-                )
-            )
+                      widget.exercise.exerciseEquipment == ExerciseEquipment.barbell ? MButton.tiled(
+                        onPressed: (){
+                          Navigator.pop(context);
+                          showBottomSheetDialog(
+                            context: context,
+                            child: BlocBuilder<EquipmentBloc, EquipmentState>(
+                              builder: (context, state) {
+                                if(state.status == EquipmentStatus.loading) {
+                                  return const Center(heightFactor: 3,child: CircularProgressIndicator());
+                                } else {
+                                  List<Bar> bars = state.bars;
+                                  return SizedBox(
+                                    height: 300,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 30, bottom: 10),
+                                          child: Text(
+                                            'Bar Type',
+                                            style: TextStyle(
+                                              color: mt(context).text.primaryColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                            itemCount: bars.length,
+                                            itemBuilder: (context, index) {
+                                              Bar bar = bars[index];
+                                              print(widget.exerciseGroup.barId);
 
+                                              return MButton.tiled(
+                                                onPressed: (){
+                                                  widget.onExerciseGroupUpdate(widget.exerciseGroup.copyWith(
+                                                    barId: bar.barId,
+                                                  ));
+                                                  Navigator.pop(context);
+                                                },
+                                                leading: widget.exerciseGroup.barId == bar.barId ? Container(
+                                                  width: 20,
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Icon(
+                                                    Icons.check,
+                                                    color: mt(context).icon.accentColor,
+                                                  ),
+                                                ) : Container(width: 20,),
+                                                child: Text(
+                                                  bar.name,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: mt(context).text.primaryColor,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            onClose: (){},
+                          );
+                        },
+                        leading: Icon(
+                          Icons.fitness_center_rounded,
+                          color: mt(context).icon.accentColor,
+                          size: 24,
+                        ),
+                        child: Text(
+                          'Bar Type',
+                          style: TextStyle(
+                            color: mt(context).text.primaryColor,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ) : Container(),
+                      MButton.tiled(
+                        onPressed: (){},
+                        leading: Icon(
+                          Icons.delete_rounded,
+                          color: mt(context).icon.errorColor,
+                          size: 24,
+                        ),
+                        child: Text(
+                          'Remove',
+                          style: TextStyle(
+                            color: mt(context).text.errorColor,
+                            fontSize: 17,
+                          ),
+                        )
+                      ),
+                    ],
+                  ),
+                  onClose: (){}
+                );
+              },
+              width: 45,
+              height: 40,
+              child: Icon(
+                Icons.more_horiz_rounded,
+                color: mt(context).icon.accentColor,
+              ),
+            )
           ],
         ),
 

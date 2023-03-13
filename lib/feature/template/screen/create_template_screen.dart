@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../widget/custom_app_bar.dart';
 import '../../exercise/dto/exercise_set.dart';
+import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/template/template_bloc.dart';
@@ -65,14 +66,21 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           ExerciseGroup exerciseGroup = exerciseGroups[index];
           return ExerciseGroupWidget(
             exercise: exerciseGroup.exercise,
+            exerciseGroup: exerciseGroup,
             exerciseSets: exerciseGroup.exerciseSets,
+            onExerciseGroupUpdate: (value) {
+              print('updating');
+              int exerciseGroupIndex = exerciseGroups.indexWhere((exerciseGroup) => exerciseGroup.exerciseGroupId == value.exerciseGroupId);
+              setState(() {
+                exerciseGroups[exerciseGroupIndex] = value;
+              });
+            },
             onExerciseSetAdd: () {
               setState(() {
                 exerciseGroup.exerciseSets.add(ExerciseSet(
                   exerciseSetId: DateTime.now().millisecondsSinceEpoch,
                   option1: 0,
                   option2: exerciseGroup.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
-                  barId: exerciseGroup.exercise.barId
                 ));
               });
             },
@@ -90,11 +98,14 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((exercise) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((value) {
+            Exercise exercise = value;
             setState(() {
               exerciseGroups.add(ExerciseGroup(
+                exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
                 exercise: exercise,
                 exerciseSets: [],
+                barId: exercise.barId
               ));
             });
           });

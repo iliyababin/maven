@@ -61,6 +61,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     exerciseSet = widget.exerciseSet;
     option2EditingController.text = exerciseSet.option2 == null ? '' : exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString();
     _isChecked = exerciseSet.checked == 1 ? true : false;
+    option2EditingController.addListener(() => _updateExerciseSet());
     super.initState();
   }
 
@@ -72,17 +73,12 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    option2EditingController.addListener(() => _updateExerciseSet());
-
-
     return AnimatedContainer(
       duration: _animationSpeed,
       height: 44,
       color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
-
         set: MButton(
           onPressed: () {},
           expand: false,
@@ -129,7 +125,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             showBottomSheetDialog(
               context: context,
               child: MKeyboard(
-                barId: widget.exerciseSet.barId,
+                barId: widget.exercise.barId,
                 exerciseEquipment: widget.exercise.exerciseEquipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
@@ -164,7 +160,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               },
               height: 300,
               child: MKeyboard(
-                barId: widget.exerciseSet.barId,
+                barId: widget.exercise.barId,
                 exerciseEquipment: ExerciseEquipment.none,
                 value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {

@@ -33,6 +33,12 @@ class _NumPadWidgetState extends State<NumPadWidget> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   MButton numberTile(int number) {
     return MButton(
       onPressed: (){

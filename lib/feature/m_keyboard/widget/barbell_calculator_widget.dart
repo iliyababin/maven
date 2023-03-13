@@ -18,6 +18,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
   final int barId;
   final double weight;
 
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EquipmentBloc, EquipmentState>(
@@ -25,9 +26,14 @@ class BarbellCalculatorWidget extends StatelessWidget {
         if(state.status == EquipmentStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, weight);
-          double remainingWeight = (weight - 45)  ;
-          plates.forEach((element) {remainingWeight -= element.weight;});
+          final double barWeight = state.bars.firstWhere((bar) => bar.barId == barId).weight;
+
+          List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, (weight - barWeight) / 2);
+
+          double possibleWeight = 0;
+          plates.forEach((plate) { possibleWeight += plate.weight; });
+          possibleWeight = possibleWeight * 2 + barWeight;
+
 
           List<Widget> ui = [];
 
@@ -37,7 +43,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             color: const Color(0xFF4e5967),
             alignment: Alignment.center,
             child: Text(
-              removeDecimalZeroFormat(state.bars.firstWhere((bar) => bar.barId == barId).weight),
+              removeDecimalZeroFormat(barWeight),
               style: TextStyle(
                 color: mt(context).text.whiteColor
               ),
@@ -56,8 +62,6 @@ class BarbellCalculatorWidget extends StatelessWidget {
             color: const Color(0xFF4e5967),
           ));
 
-          double possibleWeight = 0;
-          plates.forEach((plate) {possibleWeight += plate.weight;});
           for (Plate plate in plates) {
             ui.add(Container(
               height: 125 * plate.height,
@@ -109,7 +113,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 5,),
                     Text(
-                      'Target: ${weight.toString()} | Possible: ${remainingWeight} ',
+                      'Target: ${weight.toString()} | Possible: $possibleWeight ',
                       style: TextStyle(
                           color: mt(context).text.secondaryColor,
                           fontSize: 16,
@@ -139,7 +143,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 onPressed: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EquipmentScreen()));
                 },
-                width: 55,
+                width: 50,
                 borderRadius: 0,
                 leading: Icon(
                   Icons.settings,
