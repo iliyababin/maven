@@ -14,6 +14,7 @@ class ExerciseSetWidget extends StatefulWidget {
 
   const ExerciseSetWidget({Key? key,
     required this.index,
+    this.barId,
     required this.exercise,
     required this.exerciseSet,
     required this.onExerciseSetUpdate,
@@ -22,13 +23,10 @@ class ExerciseSetWidget extends StatefulWidget {
   }) : super(key: key);
 
   final int index;
-
+  final int? barId;
   final Exercise exercise;
-
   final ExerciseSet exerciseSet;
-
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
-
   final bool checkboxEnabled;
   final bool hintsEnabled;
 
@@ -125,7 +123,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             showBottomSheetDialog(
               context: context,
               child: MKeyboard(
-                barId: widget.exercise.barId,
+                barId: widget.barId,
                 exerciseEquipment: widget.exercise.exerciseEquipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
@@ -160,7 +158,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               },
               height: 300,
               child: MKeyboard(
-                barId: widget.exercise.barId,
+                barId: widget.barId,
                 exerciseEquipment: ExerciseEquipment.none,
                 value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {

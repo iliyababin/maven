@@ -1,6 +1,5 @@
 
 class TempExerciseSet {
-
   int tempExerciseSetId;
   int option1;
   int? option2;

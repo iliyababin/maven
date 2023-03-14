@@ -242,6 +242,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               ),
               child: ExerciseSetWidget(
                 index: index + 1,
+                barId: widget.exerciseGroup.barId,
                 exercise: widget.exercise,
                 exerciseSet: widget.exerciseSets[index],
                 onExerciseSetUpdate: (value) => widget.onExerciseSetUpdate(value),
