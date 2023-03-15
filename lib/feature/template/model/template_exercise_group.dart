@@ -1,12 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../equipment/model/bar.dart';
 import '../../exercise/model/exercise.dart';
 import 'template.dart';
 
 @Entity(
   tableName: 'template_exercise_group',
   foreignKeys: [
+    ForeignKey(
+      childColumns: ['bar_id'],
+      parentColumns: ['bar_id'],
+      entity: Bar,
+    ),
     ForeignKey(
       childColumns: ['exercise_id'],
       parentColumns: ['exercise_id'],
@@ -28,6 +34,9 @@ class TemplateExerciseGroup extends Equatable {
   @PrimaryKey(autoGenerate: true)
   final int? templateExerciseGroupId;
 
+  @ColumnInfo(name: 'bar_id')
+  final int? barId;
+
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
 
@@ -36,6 +45,7 @@ class TemplateExerciseGroup extends Equatable {
 
   const TemplateExerciseGroup({
     this.templateExerciseGroupId,
+    required this.barId,
     required this.exerciseId,
     required this.templateId,
   });
@@ -43,17 +53,10 @@ class TemplateExerciseGroup extends Equatable {
   factory TemplateExerciseGroup.fromMap(Map<String, dynamic> json) {
     return TemplateExerciseGroup(
       templateExerciseGroupId: json['exerciseGroupId'] ,
+      barId: json['barId'] ,
       exerciseId: json['exerciseId'],
       templateId: json['templateId'],
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'exerciseGroupId': templateExerciseGroupId,
-      'exerciseId': exerciseId,
-      'templateId': templateId,
-    };
   }
 
   @override

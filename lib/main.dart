@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Maven/theme/m_themes.dart';
+import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,8 @@ import 'package:theme_provider/theme_provider.dart';
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
+import 'feature/equipment/model/bar.dart';
+import 'feature/equipment/model/plate.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
@@ -23,13 +26,20 @@ Future<List<Exercise>> _loadExerciseJson() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final callback = Callback(
+    onCreate: (database, version) { },
+    onOpen: (database) {},
+    onUpgrade: (database, startVersion, endVersion) {},
+  );
+
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db061.db')
+      .databaseBuilder('db066.db')
+      .addCallback(callback)
       .build();
 
-  /*database.plateDao.addPlates(getDefaultPlates());
+  database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
-  database.exerciseDao.addExercises(await _loadExerciseJson());*/
+  database.exerciseDao.addExercises(await _loadExerciseJson());
 
   runApp(
     MultiBlocProvider(

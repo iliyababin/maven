@@ -1,12 +1,11 @@
-import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
-import 'package:Maven/common/dialog/text_input_dialog.dart';
-import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/custom_scaffold.dart';
+import 'package:Maven/feature/exercise/dto/exercise_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../widget/custom_app_bar.dart';
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/dialog/text_input_dialog.dart';
+import '../../../theme/m_themes.dart';
 import '../../exercise/dto/exercise_set.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
@@ -14,7 +13,9 @@ import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
 
+/// Screen for creating a new [Template]
 class CreateTemplateScreen extends StatefulWidget {
+  /// Creates a screen for creating a new [Template]
   const CreateTemplateScreen({Key? key}) : super(key: key);
 
   @override
@@ -22,15 +23,18 @@ class CreateTemplateScreen extends StatefulWidget {
 }
 
 class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
-  List<ExerciseGroup> exerciseGroups = List.empty(growable: true);
+  List<ExerciseBlock> exerciseBlocks = [];
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        title: 'Create Template',
-        context: context,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Create Template',
+          style: TextStyle(
+            color: mt(context).text.primaryColor
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -43,7 +47,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                   onValueSubmit: (value) {
                     context.read<TemplateBloc>().add(TemplateCreate(
                       name: value,
-                      exerciseGroups: exerciseGroups,
+                      exerciseBlocks: exerciseBlocks,
                     ));
                     Navigator.pop(context);
                   },
@@ -61,36 +65,34 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         ],
       ),
       body: ListView.builder(
-        itemCount: exerciseGroups.length,
+        itemCount: exerciseBlocks.length,
         itemBuilder: (context, index) {
-          ExerciseGroup exerciseGroup = exerciseGroups[index];
+          ExerciseBlock exerciseBlock = exerciseBlocks[index];
           return ExerciseGroupWidget(
-            exercise: exerciseGroup.exercise,
-            exerciseGroup: exerciseGroup,
-            exerciseSets: exerciseGroup.exerciseSets,
+            exercise: exerciseBlock.exercise,
+            exerciseGroup: exerciseBlock.exerciseGroup,
+            exerciseSets: exerciseBlock.exerciseSets,
             onExerciseGroupUpdate: (value) {
-              print('updating');
-              int exerciseGroupIndex = exerciseGroups.indexWhere((exerciseGroup) => exerciseGroup.exerciseGroupId == value.exerciseGroupId);
               setState(() {
-                exerciseGroups[exerciseGroupIndex] = value;
+                exerciseBlocks[index].exerciseGroup = value;
               });
             },
             onExerciseSetAdd: () {
               setState(() {
-                exerciseGroup.exerciseSets.add(ExerciseSet(
+                exerciseBlocks[index].exerciseSets.add(ExerciseSet(
                   exerciseSetId: DateTime.now().millisecondsSinceEpoch,
                   option1: 0,
-                  option2: exerciseGroup.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
+                  option2: exerciseBlock.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
                 ));
               });
             },
             onExerciseSetUpdate: (value) {
-              int exerciseSetIndex = exerciseGroup.exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-              exerciseGroup.exerciseSets[exerciseSetIndex] = value;
+              int exerciseSetIndex = exerciseBlock.exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+              exerciseBlocks[index].exerciseSets[exerciseSetIndex] = value;
             },
             onExerciseSetDelete: (value) {
               setState(() {
-                exerciseGroup.exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                exerciseBlocks[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
               });
             },
           );
@@ -101,9 +103,12 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((value) {
             Exercise exercise = value;
             setState(() {
-              exerciseGroups.add(ExerciseGroup(
-                exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+              exerciseBlocks.add(ExerciseBlock(
                 exercise: exercise,
+                exerciseGroup: ExerciseGroup(
+                  exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+                  barId: exercise.barId,
+                ),
                 exerciseSets: [],
                 barId: exercise.barId
               ));

@@ -22,6 +22,17 @@ class WorkoutStartTemplate extends WorkoutEvent {
 
 class WorkoutStartEmpty extends WorkoutEvent {}
 
+class WorkoutUpdate extends WorkoutEvent {
+  const WorkoutUpdate({
+    required this.workout,
+  });
+
+  final Workout workout;
+
+  @override
+  List<Object> get props => [workout];
+}
+
 class WorkoutPause extends WorkoutEvent {}
 
 class WorkoutUnpause extends WorkoutEvent {
@@ -36,3 +47,44 @@ class WorkoutUnpause extends WorkoutEvent {
 }
 
 class WorkoutDelete extends WorkoutEvent {}
+
+class WorkoutStream extends WorkoutEvent {
+  const WorkoutStream({
+    this.workout,
+  });
+
+  final Workout? workout;
+}
+
+class WorkoutsPausedStream extends WorkoutEvent {
+  const WorkoutsPausedStream({
+    required this.pausedWorkouts,
+  });
+
+  final List<Workout> pausedWorkouts;
+
+  @override
+  List<Object> get props => [pausedWorkouts];
+}
+
+class WorkoutExerciseGroupStream extends WorkoutEvent {
+  const WorkoutExerciseGroupStream({
+    required this.workoutExerciseGroups,
+  });
+
+  final List<WorkoutExerciseGroup> workoutExerciseGroups;
+
+  @override
+  List<Object> get props => [workoutExerciseGroups];
+}
+
+class WorkoutExerciseSetStream extends WorkoutEvent {
+  const WorkoutExerciseSetStream({
+    required this.workoutExerciseSets,
+  });
+
+  final List<WorkoutExerciseSet> workoutExerciseSets;
+
+  @override
+  List<Object> get props => [workoutExerciseSets];
+}

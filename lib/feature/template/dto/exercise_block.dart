@@ -1,31 +1,33 @@
 
+import '../../exercise/dto/exercise_group.dart';
 import '../../exercise/dto/exercise_set.dart';
 import '../../exercise/model/exercise.dart';
 
-class ExerciseGroup {
-  ExerciseGroup({
-    required this.exerciseGroupId,
+class ExerciseBlock {
+  ExerciseBlock({
     required this.exercise,
+    required this.exerciseGroup,
     required this.exerciseSets,
     this.barId,
   });
 
-  final int? exerciseGroupId;
-  final Exercise exercise;
-  final List<ExerciseSet> exerciseSets;
-  final int? barId;
+  Exercise exercise;
+  ExerciseGroup exerciseGroup;
+  List<ExerciseSet> exerciseSets;
+  int? barId;
 
-  ExerciseGroup copyWith({
-    int? exerciseGroupId,
+  ExerciseBlock copyWith({
     Exercise? exercise,
+    ExerciseGroup? exerciseGroup,
     List<ExerciseSet>? exerciseSets,
     int? barId,
   }) {
-    return ExerciseGroup(
-      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
+    return ExerciseBlock(
       exercise: exercise ?? this.exercise,
+      exerciseGroup: exerciseGroup ?? this.exerciseGroup,
       exerciseSets: exerciseSets ?? this.exerciseSets,
       barId: barId ?? this.barId,
     );
   }
 }
+

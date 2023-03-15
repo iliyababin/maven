@@ -1,7 +1,5 @@
 import 'package:floor/floor.dart';
 
-import '../../template/model/template.dart';
-
 @Entity(tableName: 'workout')
 class Workout {
 
@@ -24,14 +22,6 @@ class Workout {
     required this.isPaused,
     required this.timestamp,
   });
-
-  static Workout fromTemplate(Template template){
-    return Workout(
-      name: template.name,
-      isPaused: 0,
-      timestamp: DateTime.now(),
-    );
-  }
 
   Workout copyWith({
     int? workoutId,

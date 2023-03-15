@@ -37,22 +37,6 @@ class Template extends Equatable {
     this.templateFolderId,
   });
 
- /* factory Template.fromMap(Map<String, dynamic> json) => Template(
-    templateId: json["templateId"],
-    name: json["name"],
-    sortOrder: json["sortOrder"],
-    templateFolderId: json["templateFolderId"],
-  );
-
-  Map<String, dynamic> toMap() {
-    return {
-      'templateId': templateId,
-      'name': name,
-      'sortOrder': sortOrder,
-      'templateFolderId': templateFolderId,
-    };
-  }
-*/
   Template copyWith({
     int? templateId,
     String? name,

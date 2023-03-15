@@ -11,15 +11,15 @@ class TemplateInitialize extends TemplateEvent {}
 
 class TemplateCreate extends TemplateEvent {
   final String name;
-  final List<ExerciseGroup> exerciseGroups;
+  final List<ExerciseBlock> exerciseBlocks;
 
   const TemplateCreate({
     required this.name,
-    required this.exerciseGroups
+    required this.exerciseBlocks
   });
 
   @override
-  List<Object> get props => [name, exerciseGroups];
+  List<Object> get props => [name, exerciseBlocks];
 }
 
 class TemplateReorder extends TemplateEvent {

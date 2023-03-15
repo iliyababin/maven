@@ -68,22 +68,18 @@ class _MKeyboardState extends State<MKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
+    return SizedBox(
       height: 300,
       child: Row(
         children: [
-
           Expanded(
-            child: Container(height: double.infinity, child: _buildScreen(_selectedTab)),
+            child: SizedBox(height: double.infinity, child: _buildScreen(_selectedTab)),
           ),
-
           Container(
             width: 1,
             color: mt(context).borderColor,
           ),
-
-          Container(
+          SizedBox(
             width: 70,
             child: Column(
               children: [

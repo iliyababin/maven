@@ -32,7 +32,7 @@ showTimerPickerDialog({
               ),
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           SizedBox(
             height: 180,
             child: CupertinoPicker(
@@ -67,7 +67,7 @@ showTimerPickerDialog({
       return Container(
         decoration: BoxDecoration(
             color: mt(context).backgroundColor,
-            borderRadius: BorderRadiusDirectional.only(topEnd: Radius.circular(15), topStart: Radius.circular(15))
+            borderRadius: const BorderRadiusDirectional.only(topEnd: Radius.circular(15), topStart: Radius.circular(15))
         ),
         height: 330,
         child: Padding(
@@ -107,7 +107,7 @@ showTimerPickerDialog({
                 ],
               ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -117,6 +117,11 @@ showTimerPickerDialog({
                     onPressed: (){
                       Navigator.pop(context);
                     },
+
+                    expand: true,
+                    height: 40,
+                    borderColor: mt(context).borderColor,
+                    backgroundColor: mt(context).backgroundColor,
                     child: Text(
                       'Cancel',
                       style: TextStyle(
@@ -125,18 +130,17 @@ showTimerPickerDialog({
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    expand: true,
-                    height: 40,
-                    borderColor: mt(context).borderColor,
-                    backgroundColor: mt(context).backgroundColor,
                   ),
 
-                  SizedBox(width: 16,),
+                  const SizedBox(width: 16,),
 
                   MButton(
                     onPressed: (){
                       Navigator.pop(context, timed);
                     },
+                    expand: true,
+                    height: 38,
+                    backgroundColor: mt(context).accentColor,
                     child: Text(
                       'Start',
                       style: TextStyle(
@@ -145,11 +149,7 @@ showTimerPickerDialog({
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    expand: true,
-                    height: 38,
-                    backgroundColor: mt(context).accentColor,
                   )
-
                 ],
               )
             ],

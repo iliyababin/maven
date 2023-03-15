@@ -1,7 +1,7 @@
 
-import 'package:Maven/feature/template/dto/exercise_block.dart';
 import 'package:floor/floor.dart';
 
+import '../../exercise/dto/exercise_group.dart';
 import '../../exercise/model/exercise.dart';
 import 'workout.dart';
 
@@ -38,18 +38,10 @@ class WorkoutExerciseGroup {
     required this.workoutId,
   });
 
-  static WorkoutExerciseGroup exerciseToActiveExerciseGroup(int exerciseId, int workoutId) {
-    return WorkoutExerciseGroup(
-      exerciseId: exerciseId,
-      workoutId: workoutId
-    );
-  }
-
-  ExerciseGroup toExerciseGroup(Exercise exercise) {
+  ExerciseGroup toExerciseGroup(int barId) {
     return ExerciseGroup(
-      exerciseGroupId: workoutExerciseGroupId,
-      exercise: exercise,
-      exerciseSets: [],
+      exerciseGroupId: workoutExerciseGroupId!,
+      barId: 0
     );
   }
 }

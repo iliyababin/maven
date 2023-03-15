@@ -4,17 +4,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/util/general_utils.dart';
 import '../../../theme/m_themes.dart';
-import '../../exercise/dao/exercise_dao.dart';
 import '../../home/screen/home_screen.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';
 import '../../template/screen/template_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
-import '../../workout/dao/workout_dao.dart';
-import '../../workout/dao/workout_exercise_group_dao.dart';
-import '../../workout/dao/workout_exercise_set_dao.dart';
 import '../../workout/screen/workout_screen.dart';
-import '../../workout/service/workout_service.dart';
 
 class Maven extends StatefulWidget {
   const Maven({super.key});
@@ -44,7 +39,8 @@ class _MavenState extends State<Maven> {
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
-            if(state.status == WorkoutStatus.active) {
+            print(state.workout);
+            if(state.workout != null) {
 
               return SlidingUpPanel(
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
@@ -87,25 +83,7 @@ class _MavenState extends State<Maven> {
                     ],
                   )
                 ),
-
-                panel: slidingPanelBackground(
-                  WorkoutScreen(
-                    isWorkoutActive: (p0) {
-                      if(!p0) {
-                        setState(() {
-                          panelPosition = 0;
-                        });
-                      }
-                    },
-                    workoutService: WorkoutService(
-                      workoutDao: context.read<WorkoutDao>(),
-                      workoutExerciseGroupDao: context.read<WorkoutExerciseGroupDao>(),
-                      workoutExerciseSetDao: context.read<WorkoutExerciseSetDao>(),
-                      exerciseDao: context.read<ExerciseDao>()
-                    ),
-                  )
-                )
-
+                panel: slidingPanelBackground(const WorkoutScreen()),
               );
             } else {
               return screens[_selectedIndex];

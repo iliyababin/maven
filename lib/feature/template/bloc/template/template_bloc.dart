@@ -76,20 +76,21 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolderId));
 
-    for (ExerciseGroup exerciseGroup in event.exerciseGroups) {
+    for (ExerciseBlock exerciseBlock in event.exerciseBlocks) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
-          exerciseId: exerciseGroup.exercise.exerciseId,
+          exerciseId: exerciseBlock.exercise.exerciseId,
           templateId: templateId,
+          barId: exerciseBlock.exerciseGroup.barId
         )
       );
-      for (var tempExerciseSet in exerciseGroup.exerciseSets) {
+      for (var exerciseSet in exerciseBlock.exerciseSets) {
         await templateExerciseSetDao.addTemplateExerciseSet(
           TemplateExerciseSet(
             templateId: templateId,
             exerciseGroupId: exerciseGroupId,
-            option1: tempExerciseSet.option1,
-            option2: tempExerciseSet.option2,
+            option1: exerciseSet.option1,
+            option2: exerciseSet.option2,
           )
         );
       }

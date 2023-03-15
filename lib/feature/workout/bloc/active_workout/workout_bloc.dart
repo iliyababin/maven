@@ -30,12 +30,23 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.workoutExerciseGroupDao,
     required this.workoutExerciseSetDao,
   }) : super(const WorkoutState()) {
+    workoutDao.getActiveWorkoutAsStream().listen((event) => add(WorkoutStream(workout: event)));
+    workoutDao.getPausedWorkoutsAsStream().listen((event) => add(WorkoutsPausedStream(pausedWorkouts: event)));
+    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupStream(workoutExerciseGroups: event)));
+    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetStream(workoutExerciseSets: event)));
+
+    on<WorkoutStream>(_workoutStream);
+    on<WorkoutsPausedStream>(_workoutsPausedStream);
+    on<WorkoutExerciseGroupStream>(_workoutExerciseGroupStream);
+    on<WorkoutExerciseSetStream>(_workoutExerciseSetStream);
+
     on<WorkoutInitialize>(_workoutInitialize);
     on<WorkoutStartTemplate>(_workoutStartTemplate);
-    on<WorkoutStartEmpty>(_workoutStartEmpty);
+    on<WorkoutUpdate>(_workoutUpdate);
+   /* on<WorkoutStartEmpty>(_workoutStartEmpty);
     on<WorkoutPause>(_workoutPause);
     on<WorkoutUnpause>(_workoutUnpause);
-    on<WorkoutDelete>(_workoutDelete);
+    on<WorkoutDelete>(_workoutDelete);*/
   }
 
   final ExerciseDao exerciseDao;
@@ -47,45 +58,72 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutExerciseGroupDao workoutExerciseGroupDao;
   final WorkoutExerciseSetDao workoutExerciseSetDao;
 
+  Future<void> _workoutStream(WorkoutStream event, emit) async {
+    if(event.workout != null) emit(state.copyWith(workout: () => event.workout!));
+  }
 
+  Future<void> _workoutsPausedStream(WorkoutsPausedStream event, emit) async {
+    state.copyWith(pausedWorkouts: () => event.pausedWorkouts);
+  }
+
+  Future<void> _workoutExerciseGroupStream(WorkoutExerciseGroupStream event, emit) async {
+    List<WorkoutExerciseGroup> workoutExerciseGroups = event.workoutExerciseGroups.where((workoutExerciseGroup){
+      return workoutExerciseGroup.workoutId == state.workout?.workoutId;
+    }).toList();
+    state.copyWith(workoutExerciseGroups: () => workoutExerciseGroups);
+  }
+
+  Future<void> _workoutExerciseSetStream(WorkoutExerciseSetStream event, emit) async {
+    List<WorkoutExerciseSet> workoutExerciseSets = event.workoutExerciseSets.where((workoutExerciseSet){
+      return workoutExerciseSet.workoutId == state.workout?.workoutId;
+    }).toList();
+    state.copyWith(workoutExerciseSets: () => workoutExerciseSets);
+  }
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
-    emit(state.copyWith(status: () => WorkoutStatus.loading));
-    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
-    Workout? workout = await workoutDao.getPausedWorkout();
-    if(workout == null) {
-      emit(state.copyWith(
-        status: () => WorkoutStatus.none,
-        pausedWorkouts: () => pausedWorkouts,
-      ));
-    } else {
-      emit(state.copyWith(
-        status: () => WorkoutStatus.active,
-        workout: () => workout,
-        pausedWorkouts: () => pausedWorkouts,
-      ));
-    }
+    emit(state.copyWith(status: () => WorkoutStatus.loaded));
   }
 
   Future<void> _workoutStartTemplate(WorkoutStartTemplate event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
 
-    Workout convertedWorkout = Workout.fromTemplate(event.template);
-    int workoutId = await workoutDao.addWorkout(convertedWorkout);
-    List<TemplateExerciseGroup> exerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
-    for (var exerciseGroup in exerciseGroups) {
-      int activeExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup.exerciseToActiveExerciseGroup(exerciseGroup.exerciseId, workoutId));
+    Workout convertedWorkout = Workout(
+      name: event.template.name,
+      isPaused: 0,
+      timestamp: DateTime.now(),
+    );
 
-      List<TemplateExerciseSet> exerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!);
-      for(var exerciseSet in exerciseSets){
-        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet.exerciseSetToWorkoutExerciseSet(exerciseSet, activeExerciseGroupId, workoutId));
+    int workoutId = await workoutDao.addWorkout(convertedWorkout);
+
+    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
+
+    for (var templateExerciseGroup in templateExerciseGroups) {
+      int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
+        exerciseId: templateExerciseGroup.exerciseId,
+        workoutId: workoutId,
+      ));
+
+      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
+
+      for(var templateExerciseSet in templateExerciseSets){
+        workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
+          workoutExerciseGroupId: workoutExerciseGroupId,
+          workoutId: workoutId,
+          option_1: templateExerciseSet.option1,
+          option_2: templateExerciseSet.option2,
+          checked: 0,
+        ));
       }
     }
 
-    emit(state.copyWith(status: () => WorkoutStatus.active,));
+    emit(state.copyWith(status: () => WorkoutStatus.loaded));
   }
 
-  Future<void> _workoutStartEmpty(WorkoutStartEmpty event, emit) async {
+  Future<void> _workoutUpdate(WorkoutUpdate event, emit) async {
+    workoutDao.updateWorkout(event.workout);
+  }
+
+  /*Future<void> _workoutStartEmpty(WorkoutStartEmpty event, emit) async {
     await workoutDao.addWorkout(
       Workout(
         name: 'Untitled Workout',
@@ -145,7 +183,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       pausedWorkouts: () => pausedWorkouts,
     ));
   }
-
+*/
   /*Future<void> _workoutAddExercise(WorkoutAddExercise event, emit) async {
     workoutExerciseGroupDao.addWorkoutExerciseGroup(
       WorkoutExerciseGroup.exerciseToActiveExerciseGroup(

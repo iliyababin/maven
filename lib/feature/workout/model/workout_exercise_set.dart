@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../template/model/template_exercise_set.dart';
 import 'workout.dart';
 import 'workout_exercise_group.dart';
 
@@ -69,15 +68,6 @@ class WorkoutExerciseSet extends Equatable {
     );
   }
 
-  static WorkoutExerciseSet exerciseSetToWorkoutExerciseSet(TemplateExerciseSet exerciseSet, int workoutExerciseGroupId, int workoutId) {
-    return WorkoutExerciseSet(
-      workoutExerciseGroupId: workoutExerciseGroupId,
-      workoutId: workoutId,
-      option_1: exerciseSet.option1,
-      option_2: exerciseSet.option2,
-      checked: 0,
-    );
-  }
 
   @override
   List<Object?> get props => [
