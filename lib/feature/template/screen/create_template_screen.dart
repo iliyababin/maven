@@ -83,6 +83,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                   exerciseSetId: DateTime.now().millisecondsSinceEpoch,
                   option1: 0,
                   option2: exerciseBlock.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
+                  exerciseGroupId: exerciseBlock.exerciseGroup.exerciseGroupId,
                 ));
               });
             },
@@ -107,6 +108,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                 exercise: exercise,
                 exerciseGroup: ExerciseGroup(
                   exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+                  exerciseId: exercise.exerciseId,
                   barId: exercise.barId,
                 ),
                 exerciseSets: [],

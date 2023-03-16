@@ -8,15 +8,10 @@ import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../../exercise/dto/exercise_set.dart';
-import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
-import '../model/workout_exercise_group.dart';
-import '../model/workout_exercise_set.dart';
-import '../service/workout_service.dart';
 import '../widget/exercise_timer_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -43,6 +38,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           return const Center(child: Text('erorr oops'));
         } else {
           Workout workout = state.workout!;
+          print(state.exercises.length);
 
           return Expanded(
             child: Column(
@@ -254,16 +250,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ),
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          childCount: state.workoutExerciseGroups.length,
+                          childCount: state.exerciseGroups.length,
                           (context, index) => ExerciseGroupWidget(
-                            exercise: state.exercises.firstWhere((exercise) => exercise.exerciseId == state.workoutExerciseGroups[index].exerciseId),
-                            exerciseGroup: state.workoutExerciseGroups[index].toExerciseGroup(),
-                            exerciseSets: ,
+                            exercise: state.exercises.firstWhere((exercise) => exercise.exerciseId == state.exerciseGroups[index].exerciseId),
+                            exerciseGroup: state.exerciseGroups[index],
+                            exerciseSets: state.exerciseSets.where((exerciseSet) => exerciseSet.exerciseGroupId == state.exerciseGroups[index].exerciseGroupId).toList(),
                             onExerciseGroupUpdate: (value) {
 
                             },
                             onExerciseSetAdd: () async {
-                              WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.addWorkoutExerciseSet(
+                             /* WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.addWorkoutExerciseSet(
                                 workoutId: workout.workoutId!,
                                 workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,
                               );
@@ -276,24 +272,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                       checked: workoutExerciseSet.checked,
                                     )
                                 );
-                              });
+                              });*/
                             },
                             onExerciseSetUpdate: (value) {
-                              int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                             /* int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                               workoutGroupDtos[index].exerciseSets[exerciseSetIndex] = value;
                               widget.workoutService.updateWorkoutExerciseSet(
                                 exerciseSet: value,
                                 workoutId: workout.workoutId!,
                                 workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,
-                              );
+                              );*/
                             },
                             onExerciseSetDelete: (value) {
-                              setState(() {
+                             /* setState(() {
                                 workoutGroupDtos[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                               });
                               widget.workoutService.deleteWorkoutExerciseSet(
                                   workoutExerciseSetId: value.exerciseSetId
-                              );
+                              );*/
                             },
                             checkboxEnabled: true,
                           ),

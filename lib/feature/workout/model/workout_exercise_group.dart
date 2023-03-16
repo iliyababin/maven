@@ -1,6 +1,8 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../equipment/model/bar.dart';
 import '../../exercise/dto/exercise_group.dart';
 import '../../exercise/model/exercise.dart';
 import 'workout.dart';
@@ -8,6 +10,11 @@ import 'workout.dart';
 @Entity(
   tableName: 'workout_exercise_group',
   foreignKeys: [
+    ForeignKey(
+      childColumns: ['bar_id'],
+      parentColumns: ['bar_id'],
+      entity: Bar,
+    ),
     ForeignKey(
       childColumns: ['exercise_id'],
       parentColumns: ['exercise_id'],
@@ -20,11 +27,20 @@ import 'workout.dart';
     ),
   ]
 )
-class WorkoutExerciseGroup {
+class WorkoutExerciseGroup extends Equatable{
+  const WorkoutExerciseGroup({
+    this.workoutExerciseGroupId,
+    required this.barId,
+    required this.exerciseId,
+    required this.workoutId,
+  });
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'workout_exercise_group_id')
-  int? workoutExerciseGroupId;
+  final int? workoutExerciseGroupId;
+
+  @ColumnInfo(name: 'bar_id')
+  final int? barId;
 
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
@@ -32,16 +48,19 @@ class WorkoutExerciseGroup {
   @ColumnInfo(name: 'workout_id')
   final int workoutId;
 
-  WorkoutExerciseGroup({
-    this.workoutExerciseGroupId,
-    required this.exerciseId,
-    required this.workoutId,
-  });
-
-  ExerciseGroup toExerciseGroup(int barId) {
+  ExerciseGroup toExerciseGroup() {
     return ExerciseGroup(
       exerciseGroupId: workoutExerciseGroupId!,
-      barId: 0
+      exerciseId: exerciseId,
+      barId: barId
     );
   }
+
+  @override
+  List<Object?> get props => [
+    workoutExerciseGroupId,
+    barId,
+    exerciseId,
+    workoutId,
+  ];
 }

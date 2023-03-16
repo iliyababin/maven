@@ -11,30 +11,34 @@ class WorkoutState extends Equatable {
   const WorkoutState({
     this.status = WorkoutStatus.initial,
     this.workout,
-    this.workoutExerciseGroups = const [],
-    this.workoutExerciseSets = const [],
+    this.exercises = const [],
+    this.exerciseGroups = const [],
+    this.exerciseSets = const [],
     this.pausedWorkouts = const [],
   });
 
   final WorkoutStatus status;
   final Workout? workout;
-  final List<WorkoutExerciseGroup> workoutExerciseGroups;
-  final List<WorkoutExerciseSet> workoutExerciseSets;
+  final List<Exercise> exercises;
+  final List<ExerciseGroup> exerciseGroups;
+  final List<ExerciseSet> exerciseSets;
   final List<Workout> pausedWorkouts;
 
 
   WorkoutState copyWith({
     WorkoutStatus Function()? status,
     Workout Function()? workout,
-    List<WorkoutExerciseGroup> Function()? workoutExerciseGroups,
-    List<WorkoutExerciseSet> Function()? workoutExerciseSets,
+    List<ExerciseGroup> Function()? exerciseGroups,
+    List<Exercise> Function()? exercises,
+    List<ExerciseSet> Function()? exerciseSets,
     List<Workout> Function()? pausedWorkouts,
   }) {
     return WorkoutState(
       status: status != null ? status() : this.status,
       workout: workout != null ? workout() : this.workout,
-      workoutExerciseGroups: workoutExerciseGroups != null ? workoutExerciseGroups() : this.workoutExerciseGroups,
-      workoutExerciseSets: workoutExerciseSets != null ? workoutExerciseSets() : this.workoutExerciseSets,
+      exercises: exercises != null ? exercises() : this.exercises,
+      exerciseGroups: exerciseGroups != null ? exerciseGroups() : this.exerciseGroups,
+      exerciseSets: exerciseSets != null ? exerciseSets() : this.exerciseSets,
       pausedWorkouts: pausedWorkouts != null ? pausedWorkouts() : this.pausedWorkouts,
     );
   }
@@ -43,8 +47,9 @@ class WorkoutState extends Equatable {
   List<Object?> get props => [
     status,
     workout,
-    workoutExerciseGroups,
-    workoutExerciseSets,
+    exercises,
+    exerciseGroups,
+    exerciseSets,
     pausedWorkouts,
   ];
 }

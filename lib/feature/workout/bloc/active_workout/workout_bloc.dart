@@ -4,6 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../exercise/dao/exercise_dao.dart';
+import '../../../exercise/dto/exercise_group.dart';
+import '../../../exercise/dto/exercise_set.dart';
+import '../../../exercise/model/exercise.dart';
 import '../../../template/dao/template_dao.dart';
 import '../../../template/dao/template_exercise_group_dao.dart';
 import '../../../template/dao/template_exercise_set_dao.dart';
@@ -67,17 +70,42 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _workoutExerciseGroupStream(WorkoutExerciseGroupStream event, emit) async {
+    List<Exercise> exercises = [];
+    List<ExerciseGroup> exerciseGroups = [];
+
     List<WorkoutExerciseGroup> workoutExerciseGroups = event.workoutExerciseGroups.where((workoutExerciseGroup){
       return workoutExerciseGroup.workoutId == state.workout?.workoutId;
     }).toList();
-    state.copyWith(workoutExerciseGroups: () => workoutExerciseGroups);
+
+    for(WorkoutExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
+      Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
+      exercises.add(exercise!);
+      exerciseGroups.add(ExerciseGroup(
+        exerciseGroupId: workoutExerciseGroup.workoutExerciseGroupId!,
+        exerciseId: exercise.exerciseId,
+        barId: workoutExerciseGroup.barId,
+      ));
+    }
+
+    emit(state.copyWith(
+      exercises: () => exercises,
+      exerciseGroups: () => exerciseGroups,
+    ));
   }
 
   Future<void> _workoutExerciseSetStream(WorkoutExerciseSetStream event, emit) async {
-    List<WorkoutExerciseSet> workoutExerciseSets = event.workoutExerciseSets.where((workoutExerciseSet){
+    List<ExerciseSet> exerciseSets = event.workoutExerciseSets.where((workoutExerciseSet){
       return workoutExerciseSet.workoutId == state.workout?.workoutId;
+    }).map((workoutExerciseSet) {
+      return ExerciseSet(
+        exerciseSetId: workoutExerciseSet.workoutExerciseSetId!,
+        option1: workoutExerciseSet.option_1,
+        option2: workoutExerciseSet.option_2,
+        checked: workoutExerciseSet.checked,
+        exerciseGroupId: workoutExerciseSet.workoutExerciseGroupId
+      );
     }).toList();
-    state.copyWith(workoutExerciseSets: () => workoutExerciseSets);
+    emit(state.copyWith(exerciseSets: () => exerciseSets));
   }
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
@@ -101,6 +129,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
+        barId: templateExerciseGroup.barId,
       ));
 
       List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
