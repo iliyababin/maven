@@ -127,11 +127,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 exerciseEquipment: widget.exercise.exerciseEquipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
-                  setState(() {
-                    var nice = exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
-                    exerciseSet = nice;
-                    widget.onExerciseSetUpdate(nice);
-                  });
+                  var nice = exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
+                  exerciseSet = nice;
+                  widget.onExerciseSetUpdate(nice);
                 },
               ),
               onClose: () {},
@@ -162,11 +160,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 exerciseEquipment: ExerciseEquipment.none,
                 value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {
-                  setState(() {
-                    var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
-                    exerciseSet = nice;
-                    widget.onExerciseSetUpdate(nice);
-                  });
+                  var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
+                  exerciseSet = nice;
+                  widget.onExerciseSetUpdate(nice);
                 },
               ),
             );

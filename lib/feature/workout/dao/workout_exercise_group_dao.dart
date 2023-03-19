@@ -23,4 +23,7 @@ abstract class WorkoutExerciseGroupDao {
   // TODO: Floor does not update streams using Query annotation
   @Query('DELETE * FROM workout_exercise_group WHERE workout_id = :workoutId')
   Future<void> deleteWorkoutExerciseGroupsByWorkoutId(int workoutId);
+
+  @update
+  Future<void> updateWorkoutExerciseGroup(WorkoutExerciseGroup workoutExerciseGroup);
 }

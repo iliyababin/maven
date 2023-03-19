@@ -33,6 +33,22 @@ class WorkoutUpdate extends WorkoutEvent {
   List<Object> get props => [workout];
 }
 
+class WorkoutItemsUpdate extends WorkoutEvent {
+  const WorkoutItemsUpdate({
+    this.exerciseGroups = const[],
+    this.exerciseSets = const[],
+  });
+
+  final List<ExerciseGroup> exerciseGroups;
+  final List<ExerciseSet> exerciseSets;
+
+  @override
+  List<Object> get props => [
+    exerciseGroups,
+    exerciseSets,
+  ];
+}
+
 class WorkoutPause extends WorkoutEvent {}
 
 class WorkoutUnpause extends WorkoutEvent {

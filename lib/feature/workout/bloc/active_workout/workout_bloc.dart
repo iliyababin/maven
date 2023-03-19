@@ -46,6 +46,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     on<WorkoutInitialize>(_workoutInitialize);
     on<WorkoutStartTemplate>(_workoutStartTemplate);
     on<WorkoutUpdate>(_workoutUpdate);
+    on<WorkoutItemsUpdate>(_workoutItemsUpdate);
    /* on<WorkoutStartEmpty>(_workoutStartEmpty);
     on<WorkoutPause>(_workoutPause);
     on<WorkoutUnpause>(_workoutUnpause);
@@ -149,7 +150,16 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _workoutUpdate(WorkoutUpdate event, emit) async {
-    workoutDao.updateWorkout(event.workout);
+    await workoutDao.updateWorkout(event.workout);
+  }
+
+  Future<void> _workoutItemsUpdate(WorkoutItemsUpdate event, emit) async {
+    for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
+      await workoutExerciseGroupDao.updateWorkoutExerciseGroup(exerciseGroup.toWorkoutExerciseGroup(state.workout!.workoutId!));
+    }
+    for(ExerciseSet exerciseSet in event.exerciseSets) {
+      await workoutExerciseSetDao.updateWorkoutExerciseSet(exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
+    }
   }
 
   /*Future<void> _workoutStartEmpty(WorkoutStartEmpty event, emit) async {

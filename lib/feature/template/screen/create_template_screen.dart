@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../theme/m_themes.dart';
-import '../../exercise/dto/exercise_set.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
@@ -77,19 +76,16 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                 exerciseBlocks[index].exerciseGroup = value;
               });
             },
-            onExerciseSetAdd: () {
+            onExerciseSetAdd: (value) {
               setState(() {
-                exerciseBlocks[index].exerciseSets.add(ExerciseSet(
-                  exerciseSetId: DateTime.now().millisecondsSinceEpoch,
-                  option1: 0,
-                  option2: exerciseBlock.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
-                  exerciseGroupId: exerciseBlock.exerciseGroup.exerciseGroupId,
-                ));
+                exerciseBlocks[index].exerciseSets.add(value);
               });
             },
             onExerciseSetUpdate: (value) {
-              int exerciseSetIndex = exerciseBlock.exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-              exerciseBlocks[index].exerciseSets[exerciseSetIndex] = value;
+              setState(() {
+                int exerciseSetIndex = exerciseBlocks[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                exerciseBlocks[index].exerciseSets[exerciseSetIndex] = value;
+              });
             },
             onExerciseSetDelete: (value) {
               setState(() {

@@ -1,3 +1,5 @@
+import 'package:Maven/feature/workout/model/workout_exercise_set.dart';
+
 class ExerciseSet {
   ExerciseSet({
     required this.exerciseSetId,
@@ -26,6 +28,17 @@ class ExerciseSet {
       option2: option2 ?? this.option2,
       checked: checked ?? this.checked,
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
+    );
+  }
+
+  WorkoutExerciseSet toWorkoutExerciseSet(int workoutId) {
+    return WorkoutExerciseSet(
+      workoutExerciseSetId: exerciseSetId,
+      option_1: option1,
+      option_2: option2,
+      checked: checked ?? 0,
+      workoutExerciseGroupId: exerciseGroupId,
+      workoutId: workoutId,
     );
   }
 }

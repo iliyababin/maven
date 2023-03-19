@@ -156,7 +156,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   } else if (state.status == WorkoutStatus.error) {
                     return SliverToBoxAdapter(
                       child: Text(
-                        'Something went wrong',
+                        'Something s wrong',
                         style: TextStyle(
                           color: mt(context).text.errorColor,
                         ),

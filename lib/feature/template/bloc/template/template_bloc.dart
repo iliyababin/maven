@@ -91,7 +91,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
             exerciseGroupId: exerciseGroupId,
             option1: exerciseSet.option1,
             option2: exerciseSet.option2,
-          )
+          ),
         );
       }
     }

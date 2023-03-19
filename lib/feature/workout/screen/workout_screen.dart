@@ -256,9 +256,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             exerciseGroup: state.exerciseGroups[index],
                             exerciseSets: state.exerciseSets.where((exerciseSet) => exerciseSet.exerciseGroupId == state.exerciseGroups[index].exerciseGroupId).toList(),
                             onExerciseGroupUpdate: (value) {
-
+                              context.read<WorkoutBloc>().add(WorkoutItemsUpdate(exerciseGroups: [value]));
                             },
-                            onExerciseSetAdd: () async {
+                            onExerciseSetAdd: (value) async {
                              /* WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.addWorkoutExerciseSet(
                                 workoutId: workout.workoutId!,
                                 workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,

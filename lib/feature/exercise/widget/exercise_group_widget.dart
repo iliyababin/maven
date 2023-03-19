@@ -38,7 +38,7 @@ class ExerciseGroupWidget extends StatefulWidget {
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
 
   /// A callback function that is called when a new [ExerciseSet] is added.
-  final VoidCallback onExerciseSetAdd;
+  final ValueChanged<ExerciseSet> onExerciseSetAdd;
 
   /// A callback function that is called when an [ExerciseSet] is updated.
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
@@ -142,7 +142,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           itemBuilder: (context, index) {
             return Dismissible(
               key: UniqueKey(),
-              onDismissed: (direction) => widget.onExerciseSetDelete(widget.exerciseSets[index]),
+              onDismissed: (direction) {
+                ExerciseSet exerciseSet = widget.exerciseSets[index];
+                widget.onExerciseSetDelete(exerciseSet);
+              },
               direction: DismissDirection.endToStart,
               background: Container(
                 color: Colors.redAccent,
@@ -152,7 +155,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 barId: widget.exerciseGroup.barId,
                 exercise: widget.exercise,
                 exerciseSet: widget.exerciseSets[index],
-                onExerciseSetUpdate: (value) => widget.onExerciseSetUpdate(value),
+                onExerciseSetUpdate: (value) {
+                  widget.onExerciseSetUpdate(value);
+                },
                 checkboxEnabled: widget.checkboxEnabled,
                 hintsEnabled: widget.hintsEnabled,
               ),
@@ -163,7 +168,16 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 4),
           child: MButton(
-            onPressed: () => widget.onExerciseSetAdd(),
+            onPressed: () {
+              ExerciseSet exerciseSet = ExerciseSet(
+                exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                option1: 0,
+                option2: widget.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
+                checked: 0,
+                exerciseGroupId: widget.exerciseGroup.exerciseGroupId,
+              );
+              widget.onExerciseSetAdd(exerciseSet);
+            },
             expand: false,
             leading: Icon(
               Icons.add_rounded,

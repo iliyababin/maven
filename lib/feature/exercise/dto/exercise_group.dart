@@ -1,3 +1,5 @@
+import 'package:Maven/feature/workout/model/workout_exercise_group.dart';
+
 class ExerciseGroup {
   const ExerciseGroup({
     required this.exerciseGroupId,
@@ -18,6 +20,14 @@ class ExerciseGroup {
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
       exerciseId: exerciseId ?? this.exerciseId,
       barId: barId ?? this.barId,
+    );
+  }
+
+  WorkoutExerciseGroup toWorkoutExerciseGroup(int workoutId) {
+    return WorkoutExerciseGroup(
+      barId: barId,
+      exerciseId: exerciseId,
+      workoutId: workoutId,
     );
   }
 }
