@@ -16,7 +16,7 @@ abstract class WorkoutExerciseGroupDao {
 
   @Query('SELECT * FROM workout_exercise_group')
   Stream<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsAsStream();
-
+  
   @delete
   Future<void> deleteWorkoutExerciseGroup(WorkoutExerciseGroup workoutExerciseGroup);
 

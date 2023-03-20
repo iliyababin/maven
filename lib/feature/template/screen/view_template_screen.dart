@@ -1,4 +1,4 @@
-import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/feature/exercise/dto/exercise_bundle.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../exercise/dao/exercise_dao.dart';
 import '../../exercise/model/exercise.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../bloc/template_detail/template_detail_bloc.dart';
 import '../dao/template_exercise_group_dao.dart';
 import '../dao/template_exercise_set_dao.dart';
 import '../model/template.dart';
@@ -24,25 +25,41 @@ class ViewTemplateScreen extends StatefulWidget {
 }
 
 class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.build(
-        title: "Template",
+        title: widget.template.name,
         context: context,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              widget.template.name,
-              style: TextStyle(
-                color: mt(context).text.primaryColor
-              ),
-            ),
-            //_listOfExercises(widget.template.templateId!)
-          ],
-        )
+      body: BlocBuilder<TemplateDetailBloc, TemplateDetailState>(
+        builder: (context, state) {
+          if(state.status.isLoading) {
+            return const Center(child: CircularProgressIndicator(),);
+          } else if(state.status.isLoaded) {
+            return ListView.builder(
+              itemCount: state.exerciseBundles.length,
+              itemBuilder: (context, index) {
+                ExerciseBundle exerciseBundle = state.exerciseBundles[index];
+                return ListTile(
+                  title: Text(exerciseBundle.exercise.name),
+                  subtitle: Text(exerciseBundle.exerciseSets.length.toString()),
+                );
+              }
+            );
+          } else {
+            return const Text(
+              'ERROR',
+            );
+          }
+        },
       ),
       persistentFooterButtons: [
         SizedBox(

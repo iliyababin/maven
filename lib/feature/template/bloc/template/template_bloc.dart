@@ -88,7 +88,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         await templateExerciseSetDao.addTemplateExerciseSet(
           TemplateExerciseSet(
             templateId: templateId,
-            exerciseGroupId: exerciseGroupId,
+            templateExerciseGroupId: exerciseGroupId,
             option1: exerciseSet.option1,
             option2: exerciseSet.option2,
           ),

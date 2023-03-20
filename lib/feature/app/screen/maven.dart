@@ -39,7 +39,6 @@ class _MavenState extends State<Maven> {
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
-            print(state.workout);
             if(state.workout != null) {
 
               return SlidingUpPanel(

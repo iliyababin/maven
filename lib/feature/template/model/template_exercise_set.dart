@@ -23,7 +23,7 @@ class TemplateExerciseSet {
     this.templateExerciseSetId,
     required this.option1,
     this.option2,
-    required this.exerciseGroupId,
+    required this.templateExerciseGroupId,
     required this.templateId,
   });
 
@@ -38,7 +38,7 @@ class TemplateExerciseSet {
   final int? option2;
 
   @ColumnInfo(name: 'template_exercise_group_id')
-  final int exerciseGroupId;
+  final int templateExerciseGroupId;
 
   @ColumnInfo(name: 'template_id')
   final int templateId;

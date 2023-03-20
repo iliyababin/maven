@@ -1,6 +1,9 @@
 import 'package:Maven/feature/workout/model/workout_exercise_group.dart';
+import 'package:equatable/equatable.dart';
 
-class ExerciseGroup {
+import '../../template/model/template_exercise_group.dart';
+
+class ExerciseGroup extends Equatable {
   const ExerciseGroup({
     required this.exerciseGroupId,
     required this.exerciseId,
@@ -30,4 +33,19 @@ class ExerciseGroup {
       workoutId: workoutId,
     );
   }
+
+  static ExerciseGroup from(TemplateExerciseGroup templateExerciseGroup) {
+    return ExerciseGroup(
+      exerciseGroupId: templateExerciseGroup.templateExerciseGroupId!,
+      exerciseId: templateExerciseGroup.exerciseId,
+      barId: templateExerciseGroup.barId,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    exerciseGroupId,
+    exerciseId,
+    barId,
+  ];
 }

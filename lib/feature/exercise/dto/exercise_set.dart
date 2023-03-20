@@ -1,6 +1,9 @@
 import 'package:Maven/feature/workout/model/workout_exercise_set.dart';
+import 'package:equatable/equatable.dart';
 
-class ExerciseSet {
+import '../../template/model/template_exercise_set.dart';
+
+class ExerciseSet extends Equatable {
   ExerciseSet({
     required this.exerciseSetId,
     required this.option1,
@@ -41,4 +44,23 @@ class ExerciseSet {
       workoutId: workoutId,
     );
   }
+
+  static ExerciseSet from(TemplateExerciseSet templateExerciseSet) {
+    return ExerciseSet(
+      exerciseSetId: templateExerciseSet.templateExerciseSetId!,
+      exerciseGroupId: templateExerciseSet.templateExerciseGroupId,
+      option1: templateExerciseSet.option1,
+      option2: templateExerciseSet.option2,
+      checked: 0,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    exerciseSetId,
+    option1,
+    option2,
+    checked,
+    exerciseGroupId,
+  ];
 }
