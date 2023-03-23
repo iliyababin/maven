@@ -8,6 +8,7 @@ import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/template/template_bloc.dart';
+import '../bloc/template_folder/template_folder_bloc.dart';
 import '../model/template.dart';
 import '../model/template_folder.dart';
 import 'template_card_widget.dart';
@@ -71,7 +72,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       _expandedController.toggle();
     }
     _expandedController.addListener(() async {
-      context.read<TemplateBloc>().add(TemplateFolderToggle(
+      context.read<TemplateFolderBloc>().add(TemplateFolderToggle(
         templateFolder: widget.templateFolder.copyWith(expanded: _expandedController.expanded ? 1 : 0),
       ));
     });
@@ -147,7 +148,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                         initialValue: widget.templateFolder.name,
                                         keyboardType: TextInputType.name,
                                         onValueSubmit: (value) {
-                                          context.read<TemplateBloc>().add(TemplateFolderUpdate(
+                                          context.read<TemplateFolderBloc>().add(TemplateFolderUpdate(
                                             templateFolder: widget.templateFolder.copyWith(name: value),
                                           ));
                                         },
@@ -196,7 +197,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                         confirmText: 'Delete',
                                         submitColor: mt(context).text.errorColor,
                                         onSubmit: () {
-                                          context.read<TemplateBloc>().add(TemplateFolderDelete(
+                                          context.read<TemplateFolderBloc>().add(TemplateFolderDelete(
                                             templateFolder: widget.templateFolder,
                                           ));
                                         },

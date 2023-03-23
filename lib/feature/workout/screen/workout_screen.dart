@@ -259,22 +259,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               context.read<WorkoutBloc>().add(WorkoutItemsUpdate(exerciseGroups: [value]));
                             },
                             onExerciseSetAdd: (value) async {
-                             /* WorkoutExerciseSet? workoutExerciseSet = await widget.workoutService.addWorkoutExerciseSet(
-                                workoutId: workout.workoutId!,
-                                workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,
-                              );
-                              setState(() {
-                                workoutGroupDtos[index].exerciseSets.add(
-                                    ExerciseSet(
-                                      exerciseSetId: workoutExerciseSet!.workoutExerciseSetId!,
-                                      option1: workoutExerciseSet.option_1,
-                                      option2: workoutExerciseSet.option_2,
-                                      checked: workoutExerciseSet.checked,
-                                    )
-                                );
-                              });*/
+                              context.read<WorkoutBloc>().add(WorkoutExerciseSetAdd(exerciseSet: value));
                             },
                             onExerciseSetUpdate: (value) {
+                              context.read<WorkoutBloc>().add(WorkoutExerciseSetUpdate(exerciseSet: value));
                              /* int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                               workoutGroupDtos[index].exerciseSets[exerciseSetIndex] = value;
                               widget.workoutService.updateWorkoutExerciseSet(
@@ -317,3 +305,5 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     Navigator.pop(context);
   }*/
 }
+
+

@@ -16,6 +16,7 @@ import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
+import 'feature/template/bloc/template_folder/template_folder_bloc.dart';
 import 'feature/workout/bloc/active_workout/workout_bloc.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
@@ -34,7 +35,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db069.db')
+      .databaseBuilder('db070.db')
       .addCallback(callback)
       .build();
 
@@ -54,6 +55,12 @@ void main() async {
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
         )..add(TemplateInitialize())),
+        BlocProvider(create: (context) => TemplateFolderBloc(
+          templateDao: database.templateDao,
+          templateFolderDao: database.templateFolderDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
+        )..add(TemplateFolderInitialize())),
         BlocProvider(create: (context) => TemplateDetailBloc(
           exerciseDao: database.exerciseDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,

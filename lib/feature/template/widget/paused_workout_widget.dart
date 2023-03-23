@@ -34,7 +34,7 @@ class PausedWorkoutWidget extends StatelessWidget {
               confirmText: 'Resume',
               onSubmit: () {
                 context.read<WorkoutBloc>().add(WorkoutDelete());
-                context.read<WorkoutBloc>().add(WorkoutUnpause(workout: workout));
+                context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));
               },
             ),
             onClose: (){}

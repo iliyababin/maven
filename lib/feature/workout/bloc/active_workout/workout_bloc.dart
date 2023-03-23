@@ -33,11 +33,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.workoutExerciseGroupDao,
     required this.workoutExerciseSetDao,
   }) : super(const WorkoutState()) {
-    workoutDao.getActiveWorkoutAsStream().listen((event) => add(WorkoutStream(workout: event)));
-    workoutDao.getPausedWorkoutsAsStream().listen((event) => add(WorkoutsPausedStream(pausedWorkouts: event)));
-    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupStream(workoutExerciseGroups: event)));
-    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetStream(workoutExerciseSets: event)));
-
     on<WorkoutStream>(_workoutStream);
     on<WorkoutsPausedStream>(_workoutsPausedStream);
     on<WorkoutExerciseGroupStream>(_workoutExerciseGroupStream);
@@ -47,7 +42,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     on<WorkoutStartTemplate>(_workoutStartTemplate);
     on<WorkoutUpdate>(_workoutUpdate);
     on<WorkoutItemsUpdate>(_workoutItemsUpdate);
-   /* on<WorkoutStartEmpty>(_workoutStartEmpty);
+   /*on<WorkoutStartEmpty>(_workoutStartEmpty);
     on<WorkoutPause>(_workoutPause);
     on<WorkoutUnpause>(_workoutUnpause);
     on<WorkoutDelete>(_workoutDelete);*/
@@ -110,6 +105,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
+    emit(state.copyWith(status: () => WorkoutStatus.loading));
+
+    workoutDao.getActiveWorkoutAsStream().listen((event) => add(WorkoutStream(workout: event)));
+    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupStream(workoutExerciseGroups: event)));
+    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetStream(workoutExerciseSets: event)));
+
+    workoutDao.getPausedWorkoutsAsStream().listen((event) => add(WorkoutsPausedStream(pausedWorkouts: event)));
+
     emit(state.copyWith(status: () => WorkoutStatus.loaded));
   }
 

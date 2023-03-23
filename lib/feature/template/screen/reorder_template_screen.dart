@@ -6,6 +6,7 @@ import '../../../theme/m_themes.dart';
 import '../../../widget/custom_app_bar.dart';
 import '../../../widget/custom_scaffold.dart';
 import '../bloc/template/template_bloc.dart';
+import '../bloc/template_folder/template_folder_bloc.dart';
 import '../model/template.dart';
 import '../model/template_folder.dart';
 
@@ -58,78 +59,83 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
 
         ]
       ),
-      body: BlocBuilder<TemplateBloc, TemplateState>(
+      body: BlocBuilder<TemplateFolderBloc, TemplateFolderState>(
         builder: (context, state) {
-          if(state.status == TemplateStatus.loading){
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else  {
-            List<TemplateFolder> templateFolders = state.templateFolders;
-            List<Template> templates = state.templates;
+          List<TemplateFolder> templateFolders = state.templateFolders;
 
-            _generateLists(templateFolders, templates);
+          return BlocBuilder<TemplateBloc, TemplateState>(
+            builder: (context, state) {
+              if(state.status == TemplateStatus.loading){
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else  {
+                List<Template> templates = state.templates;
 
-            return DragAndDropLists(
-              listGhostOpacity: 0,
-              itemGhostOpacity: 0,
-              itemDragOnLongPress: false,
-              constrainDraggingAxis: false,
-              itemDivider: const SizedBox(height: 8),
-              listPadding: const EdgeInsets.only(top: 15, bottom: 0, left: 15, right: 15),
-              lastListTargetSize: 100,
-              onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex,),
-              onListReorder: (oldListIndex, newListIndex) => _onReorderList(oldListIndex, newListIndex, templateFolders),
-              children: _lists,
-              itemDecorationWhileDragging: BoxDecoration(
-                color: mt(context).backgroundColor,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                boxShadow: [
-                  BoxShadow(
-                    color: mt(context).bottomNavigationBar.shadowColor,
-                    blurRadius: 4,
-                  )
-                ],
-              ),
-              listDecorationWhileDragging: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                boxShadow: [
-                  BoxShadow(color: mt(context).bottomNavigationBar.shadowColor, blurRadius: 4)
-                ],
-              ),
-              listDecoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.circular(8),
-                border: Border.all(
-                  color: mt(context).borderColor,
-                  width: 1
-                ),
-                color: mt(context).backgroundColor
-              ),
-              itemDragHandle: DragHandle(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Icon(
-                    Icons.drag_indicator_rounded,
-                    color: mt(context).icon.secondaryColor,
+                _generateLists(templateFolders, templates);
+
+                return DragAndDropLists(
+                  listGhostOpacity: 0,
+                  itemGhostOpacity: 0,
+                  itemDragOnLongPress: false,
+                  constrainDraggingAxis: false,
+                  itemDivider: const SizedBox(height: 8),
+                  listPadding: const EdgeInsets.only(top: 15, bottom: 0, left: 15, right: 15),
+                  lastListTargetSize: 100,
+                  onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex,),
+                  onListReorder: (oldListIndex, newListIndex) => _onReorderList(oldListIndex, newListIndex, templateFolders),
+                  children: _lists,
+                  itemDecorationWhileDragging: BoxDecoration(
+                    color: mt(context).backgroundColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: mt(context).bottomNavigationBar.shadowColor,
+                        blurRadius: 4,
+                      )
+                    ],
                   ),
-                ),
-              ),
-              listDragHandle: DragHandle(
-                verticalAlignment: DragHandleVerticalAlignment.top ,
-                child: Padding(
-
-                  padding: const EdgeInsets.only(top: 15, right: 15),
-                  child: Icon(
-                    Icons.drag_indicator_rounded,
-                    color: mt(context).icon.accentColor,
+                  listDecorationWhileDragging: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    boxShadow: [
+                      BoxShadow(color: mt(context).bottomNavigationBar.shadowColor, blurRadius: 4)
+                    ],
                   ),
-                ),
-              ),
-            );
-          }
+                  listDecoration: BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.circular(8),
+                      border: Border.all(
+                          color: mt(context).borderColor,
+                          width: 1
+                      ),
+                      color: mt(context).backgroundColor
+                  ),
+                  itemDragHandle: DragHandle(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.drag_indicator_rounded,
+                        color: mt(context).icon.secondaryColor,
+                      ),
+                    ),
+                  ),
+                  listDragHandle: DragHandle(
+                    verticalAlignment: DragHandleVerticalAlignment.top ,
+                    child: Padding(
+
+                      padding: const EdgeInsets.only(top: 15, right: 15),
+                      child: Icon(
+                        Icons.drag_indicator_rounded,
+                        color: mt(context).icon.accentColor,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          );
         },
-      ),
+      )
     );
   }
 
@@ -166,7 +172,9 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
 
     final movedList = templateFolders.removeAt(oldListIndex);
     templateFolders.insert(newListIndex, movedList);
-    context.read<TemplateBloc>().add(TemplateFolderReorder(templateFolders: templateFolders));
+    context.read<TemplateFolderBloc>().add(TemplateFolderReorder(
+      templateFolders: templateFolders,
+    ));
   }
 
   void _generateLists(

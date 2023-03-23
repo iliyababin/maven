@@ -66,60 +66,6 @@ class TemplateDelete extends TemplateEvent {
   List<Object> get props => [template];
 }
 
-class TemplateFolderAdd extends TemplateEvent {
-  final String name;
-
-  const TemplateFolderAdd({
-    required this.name,
-  });
-
-  @override
-  List<Object> get props => [name];
-}
-
-class TemplateFolderUpdate extends TemplateEvent {
-  final TemplateFolder templateFolder;
-
-  const TemplateFolderUpdate({
-    required this.templateFolder
-  });
-
-  @override
-  List<Object> get props => [templateFolder];
-}
-
-class TemplateFolderToggle extends TemplateEvent {
-  final TemplateFolder templateFolder;
-
-  const TemplateFolderToggle({
-    required this.templateFolder
-  });
-  @override
-  List<Object> get props => [templateFolder];
-}
-
-class TemplateFolderReorder extends TemplateEvent {
-  final List<TemplateFolder> templateFolders;
-
-  const TemplateFolderReorder({
-    required this.templateFolders,
-  });
-
-  @override
-  List<Object> get props => [templateFolders];
-}
-
-class TemplateFolderDelete extends TemplateEvent {
-  final TemplateFolder templateFolder;
-
-  const TemplateFolderDelete({
-    required this.templateFolder,
-  });
-
-  @override
-  List<Object> get props => [templateFolder];
-}
-
 class TemplateStreamUpdateTemplates extends TemplateEvent {
 
   final List<Template> templates;
@@ -132,13 +78,3 @@ class TemplateStreamUpdateTemplates extends TemplateEvent {
   List<Object> get props => [templates];
 }
 
-class TemplateStreamUpdateTemplateFolders extends TemplateEvent {
-  final List<TemplateFolder> templateFolders;
-
-  const TemplateStreamUpdateTemplateFolders({
-    required this.templateFolders,
-  });
-
-  @override
-  List<Object> get props => [templateFolders];
-}
