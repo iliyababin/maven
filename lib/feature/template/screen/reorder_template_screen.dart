@@ -82,7 +82,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
                   itemDivider: const SizedBox(height: 8),
                   listPadding: const EdgeInsets.only(top: 15, bottom: 0, left: 15, right: 15),
                   lastListTargetSize: 100,
-                  onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex,),
+                  onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) => _onReorderListItem(oldItemIndex, oldListIndex, newItemIndex, newListIndex, templateFolders),
                   onListReorder: (oldListIndex, newListIndex) => _onReorderList(oldListIndex, newListIndex, templateFolders),
                   children: _lists,
                   itemDecorationWhileDragging: BoxDecoration(
@@ -144,6 +144,7 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
       int oldListIndex,
       int newItemIndex,
       int newListIndex,
+      List<TemplateFolder> templateFolders,
   ) {
     setState(() {
       final rd = _lists[oldListIndex].children.removeAt(oldItemIndex);
@@ -154,7 +155,8 @@ class _ReorderTemplateScreenState extends State<ReorderTemplateScreen> {
       oldTemplateIndex: oldItemIndex,
       oldTemplateFolderIndex: oldListIndex,
       newTemplateIndex: newItemIndex,
-      newTemplateFolderIndex: newListIndex
+      newTemplateFolderIndex: newListIndex,
+      templateFolders: templateFolders,
     ));
   }
 

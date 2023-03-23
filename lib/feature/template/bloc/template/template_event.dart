@@ -38,12 +38,14 @@ class TemplateMoveToFolder extends TemplateEvent {
   final int oldTemplateFolderIndex;
   final int newTemplateIndex;
   final int newTemplateFolderIndex;
+  final List<TemplateFolder> templateFolders;
 
   const TemplateMoveToFolder({
     required this.oldTemplateIndex,
     required this.oldTemplateFolderIndex,
     required this.newTemplateIndex,
     required this.newTemplateFolderIndex,
+    required this.templateFolders,
   });
 
   @override
@@ -52,6 +54,7 @@ class TemplateMoveToFolder extends TemplateEvent {
     oldTemplateFolderIndex,
     newTemplateIndex,
     newTemplateFolderIndex,
+    templateFolders,
   ];
 }
 

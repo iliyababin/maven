@@ -107,8 +107,8 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _templateMoveToFolder(TemplateMoveToFolder event, emit) async {
-    /*final oldFolderId = state.templateFolders[event.oldTemplateFolderIndex].templateFolderId;
-    final newFolderId = state.templateFolders[event.newTemplateFolderIndex].templateFolderId;
+    final oldFolderId = event.templateFolders[event.oldTemplateFolderIndex].templateFolderId;
+    final newFolderId = event.templateFolders[event.newTemplateFolderIndex].templateFolderId;
     final templatesInOldFolder = _getTemplatesInFolder(oldFolderId!);
     final templatesInNewFolder = _getTemplatesInFolder(newFolderId!);
     if (event.oldTemplateFolderIndex == event.newTemplateFolderIndex) {
@@ -126,13 +126,11 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         templateDao.updateTemplate(template.copyWith(sortOrder: i));
       }
     }
-    await emit(state.copyWith(status: () => TemplateStatus.reorder));*/
+    await emit(state.copyWith(status: () => TemplateStatus.reorder));
   }
 
   List<Template> _getTemplatesInFolder(int folderId) {
     return state.templates.where((template) => template.templateFolderId == folderId).toList();
   }
-
-
 }
 

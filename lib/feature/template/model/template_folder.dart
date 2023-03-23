@@ -61,5 +61,10 @@ class TemplateFolder extends Equatable {
   }
 
   @override
-  List<Object?> get props => [templateFolderId, name, expanded, sortOrder];
+  List<Object?> get props => [
+    templateFolderId,
+    name,
+    expanded,
+    sortOrder,
+  ];
 }
