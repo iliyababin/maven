@@ -1,4 +1,4 @@
-import 'package:Maven/feature/exercise/dto/exercise_group.dart';
+import 'package:Maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';

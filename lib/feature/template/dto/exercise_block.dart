@@ -1,7 +1,7 @@
 
-import '../../exercise/dto/exercise_group.dart';
-import '../../exercise/dto/exercise_set.dart';
 import '../../exercise/model/exercise.dart';
+import '../../exercise/model/exercise_group.dart';
+import '../../exercise/model/exercise_set.dart';
 
 class ExerciseBlock {
   ExerciseBlock({

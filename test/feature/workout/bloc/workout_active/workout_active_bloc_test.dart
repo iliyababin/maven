@@ -1,8 +1,8 @@
 import 'package:Maven/feature/exercise/dao/exercise_dao.dart';
-import 'package:Maven/feature/exercise/dto/exercise_group.dart';
-import 'package:Maven/feature/exercise/dto/exercise_set.dart';
 import 'package:Maven/feature/exercise/model/exercise.dart';
 import 'package:Maven/feature/exercise/model/exercise_equipment.dart';
+import 'package:Maven/feature/exercise/model/exercise_group.dart';
+import 'package:Maven/feature/exercise/model/exercise_set.dart';
 import 'package:Maven/feature/exercise/model/exercise_type.dart';
 import 'package:Maven/feature/template/dao/template_dao.dart';
 import 'package:Maven/feature/template/dao/template_exercise_group_dao.dart';
@@ -50,9 +50,9 @@ void main() {
 
       when(() => workoutDao.getActiveWorkoutAsStream(),).thenAnswer((_) => Stream.value(mockActiveWorkout));
       when(() => workoutDao.getPausedWorkoutsAsStream(),).thenAnswer((_) => Stream.value([]));
-      when(() => workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream(),).thenAnswer((_) => Stream.value(mockWorkoutExerciseGroups));
+      when(() => workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream(),).thenAnswer((_) => Stream.value([]));
       when(() => workoutExerciseSetDao.getWorkoutExerciseSetsAsStream(),).thenAnswer((_) => Stream.value(mockWorkoutExerciseSets));
-      when(() => exerciseDao.getExercise(any())).thenAnswer((invocation) async { return mockExercise;} );
+      when(() => exerciseDao.getExercise(any())).thenAnswer((invocation) async { return exercise;} );
 
       registerFallbackValue(FakeWorkoutExerciseSet());
       registerFallbackValue(FakeWorkoutExerciseGroup());
@@ -126,7 +126,7 @@ void main() {
       );
 
       WorkoutExerciseSet workoutExerciseSet = WorkoutExerciseSet(
-        workoutExerciseSetId: null,
+        workoutExerciseSetId: 69420,
         option_1: 0,
         option_2: 0,
         checked: 1,
@@ -181,7 +181,6 @@ void main() {
       });
     });
 
-
     group('WorkoutExerciseGroup', () {
       ExerciseGroup exerciseGroup = const ExerciseGroup(
         exerciseGroupId: 1,
@@ -233,6 +232,7 @@ void main() {
         );
       });
     });
+
   });
 }
 
@@ -258,20 +258,7 @@ List<Workout> mockPausedWorkouts = [
   ),
 ];
 
-List<WorkoutExerciseGroup> mockWorkoutExerciseGroups = [
-  const WorkoutExerciseGroup(
-      workoutExerciseGroupId: 1,
-      barId: 99,
-      exerciseId: 99,
-      workoutId: 99
-  ),
-  const WorkoutExerciseGroup(
-      workoutExerciseGroupId: 2,
-      barId: 99,
-      exerciseId: 99,
-      workoutId: 99
-  ),
-];
+
 
 List<ExerciseGroup> mockExerciseGroups = [
   const ExerciseGroup(exerciseGroupId: 1, exerciseId: 99, barId: 99,),
@@ -295,8 +282,8 @@ List<WorkoutExerciseSet> mockWorkoutExerciseSets = [
   )
 ];
 
-Exercise mockExercise = const Exercise(
-  exerciseId: 99,
+Exercise exercise = const Exercise(
+  exerciseId: 85,
   name: 'jumping hack',
   muscle: 'whoops',
   picture: 'nice',

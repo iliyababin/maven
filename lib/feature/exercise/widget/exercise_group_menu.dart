@@ -101,19 +101,34 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
         ) : Container(),
         MButton.tiled(
-            onPressed: (){},
-            leading: Icon(
-              Icons.delete_rounded,
-              color: mt(context).icon.errorColor,
-              size: 24,
+          onPressed: (){},
+          leading: Icon(
+            Icons.timer,
+            color: mt(context).icon.errorColor,
+            size: 24,
+          ),
+          child: Text(
+            'Rest Timer',
+            style: TextStyle(
+              color: mt(context).text.errorColor,
+              fontSize: 17,
             ),
-            child: Text(
-              'Remove',
-              style: TextStyle(
-                color: mt(context).text.errorColor,
-                fontSize: 17,
-              ),
-            )
+          ),
+        ),
+        MButton.tiled(
+          onPressed: (){},
+          leading: Icon(
+            Icons.delete_rounded,
+            color: mt(context).icon.errorColor,
+            size: 24,
+          ),
+          child: Text(
+            'Remove',
+            style: TextStyle(
+              color: mt(context).text.errorColor,
+              fontSize: 17,
+            ),
+          ),
         ),
       ],
     );

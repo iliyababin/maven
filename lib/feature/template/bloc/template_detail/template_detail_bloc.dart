@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:Maven/feature/exercise/dto/exercise_bundle.dart';
+import 'package:Maven/feature/exercise/model/exercise_bundle.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../exercise/dao/exercise_dao.dart';
-import '../../../exercise/dto/exercise_group.dart';
-import '../../../exercise/dto/exercise_set.dart';
 import '../../../exercise/model/exercise.dart';
+import '../../../exercise/model/exercise_group.dart';
+import '../../../exercise/model/exercise_set.dart';
 import '../../dao/template_exercise_group_dao.dart';
 import '../../dao/template_exercise_set_dao.dart';
 import '../../model/template_exercise_group.dart';

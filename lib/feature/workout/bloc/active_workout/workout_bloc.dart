@@ -6,9 +6,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../exercise/dao/exercise_dao.dart';
-import '../../../exercise/dto/exercise_group.dart';
-import '../../../exercise/dto/exercise_set.dart';
 import '../../../exercise/model/exercise.dart';
+import '../../../exercise/model/exercise_group.dart';
+import '../../../exercise/model/exercise_set.dart';
 import '../../../template/dao/template_dao.dart';
 import '../../../template/dao/template_exercise_group_dao.dart';
 import '../../../template/dao/template_exercise_set_dao.dart';
@@ -80,11 +80,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     emit(state.copyWith(status: () => WorkoutStatus.loaded));
   }
 
-  /// --------------------------------------------
+  /// ------------------------------
   ///
-  /// Methods for managing workout exercise groups
+  /// Manage workout exercise groups
   ///
-  /// --------------------------------------------
+  /// ------------------------------
 
   /// Adds a workout exercise group to repository
   Future<void> _workoutExerciseGroupAdd(WorkoutExerciseGroupAdd event, Emitter<WorkoutState> emit) async {
@@ -96,11 +96,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     await workoutExerciseGroupDao.updateWorkoutExerciseGroup(event.exerciseGroup.toWorkoutExerciseGroup(state.workout!.workoutId!));
   }
 
-  /// ------------------------------------------
+  /// ----------------------------
   ///
-  /// Methods for managing workout exercise sets
+  /// Manage workout exercise sets
   ///
-  /// ------------------------------------------
+  /// ----------------------------
 
   /// Adds a workout exercise set to repository
   Future<void> _workoutExerciseSetAdd(WorkoutExerciseSetAdd event, Emitter<WorkoutState> emit) async {
@@ -117,15 +117,27 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     await workoutExerciseSetDao.deleteWorkoutExerciseSet(event.exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
   }
 
+  /// -----------------------------
+  ///
+  /// Update the state from streams
+  ///
+  /// -----------------------------
 
+  /// Updates the state with an active workout
   Future<void> _workoutStream(WorkoutStream event, emit) async {
-    if(event.workout != null) emit(state.copyWith(workout: () => event.workout!));
+    if(event.workout == null) {
+      /// No active workout so do nothing for now...
+    } else {
+      emit(state.copyWith(workout: () => event.workout!));
+    }
   }
 
+  /// Updates the state with a list of paused workouts
   Future<void> _workoutsPausedStream(WorkoutsPausedStream event, emit) async {
     state.copyWith(pausedWorkouts: () => event.pausedWorkouts);
   }
 
+  /// Updates the state with exercise groups
   Future<void> _workoutExerciseGroupStream(WorkoutExerciseGroupStream event, emit) async {
     List<Exercise> exercises = [];
     List<ExerciseGroup> exerciseGroups = [];
@@ -150,6 +162,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     ));
   }
 
+  /// Updates the state with exercise sets
   Future<void> _workoutExerciseSetStream(WorkoutExerciseSetStream event, emit) async {
     List<ExerciseSet> exerciseSets = event.workoutExerciseSets.where((workoutExerciseSet){
       return workoutExerciseSet.workoutId == state.workout?.workoutId;
@@ -165,6 +178,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     emit(state.copyWith(exerciseSets: () => exerciseSets));
   }
 
+  /// --------------
+  ///
+  /// Manage workout
+  ///
+  /// --------------
   Future<void> _workoutStartTemplate(WorkoutStartTemplate event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
 

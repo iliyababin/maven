@@ -7,8 +7,8 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../dto/exercise_set.dart';
 import '../model/exercise.dart';
+import '../model/exercise_set.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 

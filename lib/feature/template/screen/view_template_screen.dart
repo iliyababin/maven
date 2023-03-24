@@ -1,4 +1,4 @@
-import 'package:Maven/feature/exercise/dto/exercise_bundle.dart';
+import 'package:Maven/feature/exercise/model/exercise_bundle.dart';
 import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

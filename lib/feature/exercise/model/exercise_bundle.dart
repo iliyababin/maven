@@ -1,6 +1,6 @@
-import 'package:Maven/feature/exercise/dto/exercise_group.dart';
+import 'package:Maven/feature/exercise/model/exercise_group.dart';
 
-import '../../exercise/model/exercise.dart';
+import 'exercise.dart';
 import 'exercise_set.dart';
 
 

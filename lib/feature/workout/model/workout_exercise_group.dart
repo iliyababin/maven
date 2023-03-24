@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../../equipment/model/bar.dart';
-import '../../exercise/dto/exercise_group.dart';
 import '../../exercise/model/exercise.dart';
+import '../../exercise/model/exercise_group.dart';
 import 'workout.dart';
 
 @Entity(

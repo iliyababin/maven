@@ -4,9 +4,9 @@ import '../../../../theme/m_themes.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../dto/exercise_group.dart';
-import '../dto/exercise_set.dart';
 import '../model/exercise.dart';
+import '../model/exercise_group.dart';
+import '../model/exercise_set.dart';
 import 'exercise_group_menu.dart';
 import 'exercise_set_widget.dart';
 
