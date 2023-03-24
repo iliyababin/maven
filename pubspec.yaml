@@ -38,8 +38,6 @@ dependencies:
   build_runner: ^2.3.3
   flutter_shake_animated: ^0.0.5
   flutter_colorpicker: ^1.0.3
-  audioplayers: ^3.0.1
-  audioplayers_linux: ^1.0.4
   flutter_swipe_action_cell: ^3.1.0
   reorderables: ^0.6.0
 

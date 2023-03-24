@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,29 +35,88 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.workoutExerciseGroupDao,
     required this.workoutExerciseSetDao,
   }) : super(const WorkoutState()) {
+    on<WorkoutInitialize>(_workoutInitialize);
+
     on<WorkoutStream>(_workoutStream);
     on<WorkoutsPausedStream>(_workoutsPausedStream);
     on<WorkoutExerciseGroupStream>(_workoutExerciseGroupStream);
     on<WorkoutExerciseSetStream>(_workoutExerciseSetStream);
 
-    on<WorkoutInitialize>(_workoutInitialize);
+    on<WorkoutExerciseGroupAdd>(_workoutExerciseGroupAdd);
+    on<WorkoutExerciseGroupUpdate>(_workoutExerciseGroupUpdate);
+
+    on<WorkoutExerciseSetAdd>(_workoutExerciseSetAdd);
+    on<WorkoutExerciseSetUpdate>(_workoutExerciseSetUpdate);
+    on<WorkoutExerciseSetDelete>(_workoutExerciseSetDelete);
+
+
     on<WorkoutStartTemplate>(_workoutStartTemplate);
     on<WorkoutUpdate>(_workoutUpdate);
     on<WorkoutItemsUpdate>(_workoutItemsUpdate);
+    
    /*on<WorkoutStartEmpty>(_workoutStartEmpty);
     on<WorkoutPause>(_workoutPause);
     on<WorkoutUnpause>(_workoutUnpause);
     on<WorkoutDelete>(_workoutDelete);*/
   }
 
+  final WorkoutDao workoutDao;
+  final WorkoutExerciseGroupDao workoutExerciseGroupDao;
+  final WorkoutExerciseSetDao workoutExerciseSetDao;
   final ExerciseDao exerciseDao;
   final TemplateDao templateDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
-  final WorkoutDao workoutDao;
-  final WorkoutExerciseGroupDao workoutExerciseGroupDao;
-  final WorkoutExerciseSetDao workoutExerciseSetDao;
+  Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
+    emit(state.copyWith(status: () => WorkoutStatus.loading));
+
+    workoutDao.getActiveWorkoutAsStream().listen((event) => add(WorkoutStream(workout: event)));
+    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupStream(workoutExerciseGroups: event)));
+    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetStream(workoutExerciseSets: event)));
+
+    workoutDao.getPausedWorkoutsAsStream().listen((event) => add(WorkoutsPausedStream(pausedWorkouts: event)));
+
+    emit(state.copyWith(status: () => WorkoutStatus.loaded));
+  }
+
+  /// --------------------------------------------
+  ///
+  /// Methods for managing workout exercise groups
+  ///
+  /// --------------------------------------------
+
+  /// Adds a workout exercise group to repository
+  Future<void> _workoutExerciseGroupAdd(WorkoutExerciseGroupAdd event, Emitter<WorkoutState> emit) async {
+    await workoutExerciseGroupDao.addWorkoutExerciseGroup(event.exerciseGroup.toWorkoutExerciseGroup(state.workout!.workoutId!).copyWithNullId());
+  }
+
+  /// Updates a workout exercise group in repository
+  Future<void> _workoutExerciseGroupUpdate(WorkoutExerciseGroupUpdate event, Emitter<WorkoutState> emit) async {
+    await workoutExerciseGroupDao.updateWorkoutExerciseGroup(event.exerciseGroup.toWorkoutExerciseGroup(state.workout!.workoutId!));
+  }
+
+  /// ------------------------------------------
+  ///
+  /// Methods for managing workout exercise sets
+  ///
+  /// ------------------------------------------
+
+  /// Adds a workout exercise set to repository
+  Future<void> _workoutExerciseSetAdd(WorkoutExerciseSetAdd event, Emitter<WorkoutState> emit) async {
+    await workoutExerciseSetDao.addWorkoutExerciseSet(event.exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!).copyWithNullId());
+  }
+
+  /// Updates a workout exercise set in repository
+  Future<void> _workoutExerciseSetUpdate(WorkoutExerciseSetUpdate event, Emitter<WorkoutState> emit) async {
+    await workoutExerciseSetDao.updateWorkoutExerciseSet(event.exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
+  }
+
+  /// Deletes a workout exercise set in repository
+  Future<void> _workoutExerciseSetDelete(WorkoutExerciseSetDelete event, Emitter<WorkoutState> emit) async {
+    await workoutExerciseSetDao.deleteWorkoutExerciseSet(event.exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
+  }
+
 
   Future<void> _workoutStream(WorkoutStream event, emit) async {
     if(event.workout != null) emit(state.copyWith(workout: () => event.workout!));
@@ -102,18 +163,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       );
     }).toList();
     emit(state.copyWith(exerciseSets: () => exerciseSets));
-  }
-
-  Future<void> _workoutInitialize(WorkoutInitialize event, emit) async {
-    emit(state.copyWith(status: () => WorkoutStatus.loading));
-
-    workoutDao.getActiveWorkoutAsStream().listen((event) => add(WorkoutStream(workout: event)));
-    workoutExerciseGroupDao.getWorkoutExerciseGroupsAsStream().listen((event) => add(WorkoutExerciseGroupStream(workoutExerciseGroups: event)));
-    workoutExerciseSetDao.getWorkoutExerciseSetsAsStream().listen((event) => add(WorkoutExerciseSetStream(workoutExerciseSets: event)));
-
-    workoutDao.getPausedWorkoutsAsStream().listen((event) => add(WorkoutsPausedStream(pausedWorkouts: event)));
-
-    emit(state.copyWith(status: () => WorkoutStatus.loaded));
   }
 
   Future<void> _workoutStartTemplate(WorkoutStartTemplate event, emit) async {

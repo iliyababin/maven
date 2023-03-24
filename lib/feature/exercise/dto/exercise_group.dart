@@ -28,6 +28,7 @@ class ExerciseGroup extends Equatable {
 
   WorkoutExerciseGroup toWorkoutExerciseGroup(int workoutId) {
     return WorkoutExerciseGroup(
+      workoutExerciseGroupId: exerciseGroupId,
       barId: barId,
       exerciseId: exerciseId,
       workoutId: workoutId,

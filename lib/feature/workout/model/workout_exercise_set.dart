@@ -22,8 +22,8 @@ import 'workout_exercise_group.dart';
 
 class WorkoutExerciseSet extends Equatable {
 
-  @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'workout_exercise_set_id')
+  @PrimaryKey(autoGenerate: true)
   final int? workoutExerciseSetId;
 
   @ColumnInfo(name: 'option_1')
@@ -41,7 +41,7 @@ class WorkoutExerciseSet extends Equatable {
   @ColumnInfo(name: 'workout_id')
   final int workoutId;
 
-  WorkoutExerciseSet({
+  const WorkoutExerciseSet({
     this.workoutExerciseSetId,
     required this.option_1,
     this.option_2,
@@ -68,6 +68,17 @@ class WorkoutExerciseSet extends Equatable {
     );
   }
 
+  WorkoutExerciseSet copyWithNullId() {
+    return WorkoutExerciseSet(
+      workoutExerciseSetId: null,
+      option_1: option_1,
+      option_2: option_2,
+      checked: checked,
+      workoutExerciseGroupId: workoutExerciseGroupId,
+      workoutId: workoutId,
+    );
+  }
+
 
   @override
   List<Object?> get props => [
@@ -77,5 +88,4 @@ class WorkoutExerciseSet extends Equatable {
     option_2,
     checked,
   ];
-
 }

@@ -4,7 +4,6 @@ import '../model/workout_exercise_set.dart';
 
 @dao
 abstract class WorkoutExerciseSetDao {
-
   @insert
   Future<int> addWorkoutExerciseSet(WorkoutExerciseSet workoutExerciseSet);
 

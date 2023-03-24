@@ -51,11 +51,49 @@ class WorkoutItemsUpdate extends WorkoutEvent {
 
 class WorkoutDelete extends WorkoutEvent {}
 
+class WorkoutExerciseGroupAdd extends WorkoutEvent {
+  const WorkoutExerciseGroupAdd({
+    required this.exerciseGroup,
+  });
+
+  final ExerciseGroup exerciseGroup;
+
+  @override
+  List<Object> get props => [
+    exerciseGroup,
+  ];
+}
+
+class WorkoutExerciseGroupUpdate extends WorkoutEvent {
+  const WorkoutExerciseGroupUpdate({
+    required this.exerciseGroup,
+  });
+
+  final ExerciseGroup exerciseGroup;
+
+  @override
+  List<Object> get props => [
+    exerciseGroup,
+  ];
+}
 
 class WorkoutExerciseSetAdd extends WorkoutEvent {
+  const WorkoutExerciseSetAdd({
+    required this.exerciseSet,
+  });
+
   final ExerciseSet exerciseSet;
 
-  const WorkoutExerciseSetAdd({
+  @override
+  List<Object> get props => [
+    exerciseSet,
+  ];
+}
+
+class WorkoutExerciseSetUpdate extends WorkoutEvent {
+  final ExerciseSet exerciseSet;
+
+  const WorkoutExerciseSetUpdate({
     required this.exerciseSet
   });
 
@@ -65,10 +103,10 @@ class WorkoutExerciseSetAdd extends WorkoutEvent {
   ];
 }
 
-class WorkoutExerciseSetUpdate extends WorkoutEvent {
+class WorkoutExerciseSetDelete extends WorkoutEvent {
   final ExerciseSet exerciseSet;
 
-  const WorkoutExerciseSetUpdate({
+  const WorkoutExerciseSetDelete({
     required this.exerciseSet
   });
 

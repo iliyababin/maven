@@ -8,6 +8,8 @@ import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
+import '../../exercise/dto/exercise_group.dart';
+import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/active_workout/workout_bloc.dart';
@@ -38,7 +40,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           return const Center(child: Text('erorr oops'));
         } else {
           Workout workout = state.workout!;
-          print(state.exercises.length);
 
           return Expanded(
             child: Column(
@@ -61,18 +62,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   context,
                                   MaterialPageRoute(builder: (context) => const AddExerciseScreen()),
                                 ).then((value) async {
-                                  /*Exercise exercise = value;
-                                  int workoutExerciseGroupId = await widget.workoutService.addWorkoutExerciseGroup(workoutId: workout.workoutId!, exercise: exercise);
-                                  WorkoutExerciseGroup? workoutExerciseGroup = await widget.workoutService.getWorkoutExerciseGroup(workoutExerciseGroupId);
-                                  setState(() {
-                                    workoutGroupDtos.add(
-                                      WorkoutGroupDto(
-                                        workoutExerciseGroup: workoutExerciseGroup!,
-                                        exerciseSets: [],
-                                        exercise: exercise,
-                                      ),
-                                    );
-                                  });*/
+                                  Exercise exercise = value;
+                                  context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(
+                                    exerciseGroupId: -1,
+                                    exerciseId: exercise.exerciseId,
+                                    barId: exercise.barId,
+                                  )));
                                 });
                               },
                               leading: Icon(
@@ -263,21 +258,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             },
                             onExerciseSetUpdate: (value) {
                               context.read<WorkoutBloc>().add(WorkoutExerciseSetUpdate(exerciseSet: value));
-                             /* int exerciseSetIndex = workoutGroupDtos[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-                              workoutGroupDtos[index].exerciseSets[exerciseSetIndex] = value;
-                              widget.workoutService.updateWorkoutExerciseSet(
-                                exerciseSet: value,
-                                workoutId: workout.workoutId!,
-                                workoutExerciseGroupId: workoutGroupDtos[index].workoutExerciseGroup.workoutExerciseGroupId!,
-                              );*/
                             },
                             onExerciseSetDelete: (value) {
-                             /* setState(() {
-                                workoutGroupDtos[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-                              });
-                              widget.workoutService.deleteWorkoutExerciseSet(
-                                  workoutExerciseSetId: value.exerciseSetId
-                              );*/
+                              context.read<WorkoutBloc>().add(WorkoutExerciseSetDelete(exerciseSet: value));
                             },
                             checkboxEnabled: true,
                           ),

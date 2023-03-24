@@ -198,8 +198,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
                   setState(() {
                     _isChecked = !_isChecked;
-                    _updateExerciseSet();
                   });
+                  _updateExerciseSet();
 
 
 

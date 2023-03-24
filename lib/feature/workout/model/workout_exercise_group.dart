@@ -56,6 +56,30 @@ class WorkoutExerciseGroup extends Equatable{
     );
   }
 
+  WorkoutExerciseGroup copyWith({
+    int? workoutExerciseGroupId,
+    int? barId,
+    int? exerciseId,
+    int? workoutId,
+  }) {
+    return WorkoutExerciseGroup(
+      workoutExerciseGroupId: workoutExerciseGroupId ?? this.workoutExerciseGroupId,
+      barId: barId ?? this.barId,
+      exerciseId: exerciseId ?? this.exerciseId,
+      workoutId: workoutId ?? this.workoutId,
+    );
+  }
+
+  WorkoutExerciseGroup copyWithNullId() {
+    return WorkoutExerciseGroup(
+      workoutExerciseGroupId: null,
+      barId: barId,
+      exerciseId: exerciseId,
+      workoutId: workoutId,
+    );
+  }
+
+
   @override
   List<Object?> get props => [
     workoutExerciseGroupId,
@@ -63,4 +87,5 @@ class WorkoutExerciseGroup extends Equatable{
     exerciseId,
     workoutId,
   ];
+
 }

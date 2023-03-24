@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../template/model/template_exercise_set.dart';
 
 class ExerciseSet extends Equatable {
-  ExerciseSet({
+  const ExerciseSet({
     required this.exerciseSetId,
     required this.option1,
     this.option2,
