@@ -56,7 +56,9 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.expand = true,
-  }) : leadingPadding = const EdgeInsets.only();
+  }) :  leadingPadding = const EdgeInsets.only(),
+        trailingPadding = const EdgeInsets.only(),
+        trailing = null;
 
   /// Creates a button similar to [ListTile].
   /// 
@@ -65,6 +67,7 @@ class MButton extends StatelessWidget {
     required this.onPressed,
     required this.leading,
     required this.child,
+    this.trailing,
     this.height = 62,
     this.width = double.infinity,
     this.borderRadius = 0,
@@ -74,7 +77,8 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.expand = false,
-  }) : leadingPadding = const EdgeInsets.only(left: 30, right: 16);
+  }) : leadingPadding = const EdgeInsets.only(left: 30, right: 16),
+       trailingPadding = const EdgeInsets.only(right: 30);
 
   /// Called when the button is tapped.
   final VoidCallback onPressed;
@@ -86,6 +90,9 @@ class MButton extends StatelessWidget {
   ///
   /// Typically a [Text] widget.
   final Widget? child;
+
+  /// A widget to display after the [child].
+  final Widget? trailing;
 
   /// The height of the button.
   final double height;
@@ -109,6 +116,8 @@ class MButton extends StatelessWidget {
   final EdgeInsets padding;
 
   final EdgeInsets leadingPadding;
+
+  final EdgeInsets trailingPadding;
 
   /// Where all the widgets should be aligned in the row
   final MainAxisAlignment mainAxisAlignment;
@@ -150,13 +159,21 @@ class MButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
+
             children: [
               if(leading != null) Padding(
                 padding: leadingPadding,
                 child: leading!
               ),
               if(leading != null && child != null) const SizedBox(width: 2,),
-              if(child != null) Flexible(child: child!),
+              if(child != null) child!,
+              trailing != null ? Expanded(
+                child: Container(
+                  padding: trailingPadding,
+                  alignment: Alignment.centerRight,
+                  child: trailing,
+                ),
+              ) : Container(),
             ],
           ),
         ),

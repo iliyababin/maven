@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
+import '../../../common/model/timed.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
@@ -104,6 +105,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
                 exercise: exercise,
                 exerciseGroup: ExerciseGroup(
                   exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+                  restTimed: Timed.zero(),
                   exerciseId: exercise.exerciseId,
                   barId: exercise.barId,
                 ),

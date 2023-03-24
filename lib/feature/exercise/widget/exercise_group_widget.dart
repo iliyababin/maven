@@ -84,10 +84,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 showBottomSheetDialog(
                   context: context,
                   child: ExerciseGroupMenu(
-                    exerciseEquipment: widget.exercise.exerciseEquipment,
-                    barId: widget.exerciseGroup.barId,
-                    onBarChanged: (value) {
-                      widget.onExerciseGroupUpdate(widget.exerciseGroup.copyWith(barId: value));
+                    exercise: widget.exercise,
+                    exerciseGroup: widget.exerciseGroup,
+                    onExerciseGroupUpdate: (value) {
+                      widget.onExerciseGroupUpdate(value);
                     },
                   ),
                   onClose: (){}

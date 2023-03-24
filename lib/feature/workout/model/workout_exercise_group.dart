@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../../common/model/timed.dart';
 import '../../equipment/model/bar.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/model/exercise_group.dart';
@@ -30,6 +31,7 @@ import 'workout.dart';
 class WorkoutExerciseGroup extends Equatable{
   const WorkoutExerciseGroup({
     this.workoutExerciseGroupId,
+    required this.restTimed,
     required this.barId,
     required this.exerciseId,
     required this.workoutId,
@@ -38,6 +40,9 @@ class WorkoutExerciseGroup extends Equatable{
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'workout_exercise_group_id')
   final int? workoutExerciseGroupId;
+
+  @ColumnInfo(name: 'rest_timed')
+  final Timed restTimed;
 
   @ColumnInfo(name: 'bar_id')
   final int? barId;
@@ -51,6 +56,7 @@ class WorkoutExerciseGroup extends Equatable{
   ExerciseGroup toExerciseGroup() {
     return ExerciseGroup(
       exerciseGroupId: workoutExerciseGroupId!,
+      restTimed: restTimed,
       exerciseId: exerciseId,
       barId: barId
     );
@@ -58,12 +64,14 @@ class WorkoutExerciseGroup extends Equatable{
 
   WorkoutExerciseGroup copyWith({
     int? workoutExerciseGroupId,
+    Timed? restTimed,
     int? barId,
     int? exerciseId,
     int? workoutId,
   }) {
     return WorkoutExerciseGroup(
       workoutExerciseGroupId: workoutExerciseGroupId ?? this.workoutExerciseGroupId,
+      restTimed: restTimed ?? this.restTimed,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
       workoutId: workoutId ?? this.workoutId,
@@ -73,6 +81,7 @@ class WorkoutExerciseGroup extends Equatable{
   WorkoutExerciseGroup copyWithNullId() {
     return WorkoutExerciseGroup(
       workoutExerciseGroupId: null,
+      restTimed: restTimed,
       barId: barId,
       exerciseId: exerciseId,
       workoutId: workoutId,
@@ -83,9 +92,9 @@ class WorkoutExerciseGroup extends Equatable{
   @override
   List<Object?> get props => [
     workoutExerciseGroupId,
+    restTimed,
     barId,
     exerciseId,
     workoutId,
   ];
-
 }

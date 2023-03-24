@@ -28,6 +28,7 @@ import 'type_converter/color_convert.dart';
 import 'type_converter/date_time_converter.dart';
 import 'type_converter/exercise_equipment_converter.dart';
 import 'type_converter/exercise_type_converter.dart';
+import 'type_converter/timed_converter.dart';
 
 part 'database.g.dart';
 
@@ -51,6 +52,7 @@ part 'database.g.dart';
   ExerciseTypeConverter,
   ExerciseEquipmentConverter,
   ColorConverter,
+  TimedConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
   ExerciseDao get exerciseDao;

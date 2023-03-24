@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../../common/model/timed.dart';
 import '../../equipment/model/bar.dart';
 import '../../exercise/model/exercise.dart';
 import 'template.dart';
@@ -34,6 +35,9 @@ class TemplateExerciseGroup extends Equatable {
   @PrimaryKey(autoGenerate: true)
   final int? templateExerciseGroupId;
 
+  @ColumnInfo(name: 'rest_timed')
+  final Timed restTimed;
+
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
@@ -45,6 +49,7 @@ class TemplateExerciseGroup extends Equatable {
 
   const TemplateExerciseGroup({
     this.templateExerciseGroupId,
+    required this.restTimed,
     required this.barId,
     required this.exerciseId,
     required this.templateId,
@@ -53,6 +58,7 @@ class TemplateExerciseGroup extends Equatable {
   factory TemplateExerciseGroup.fromMap(Map<String, dynamic> json) {
     return TemplateExerciseGroup(
       templateExerciseGroupId: json['exerciseGroupId'] ,
+      restTimed: Timed.fromSeconds(json['rest_timed']),
       barId: json['barId'] ,
       exerciseId: json['exerciseId'],
       templateId: json['templateId'],
@@ -62,6 +68,8 @@ class TemplateExerciseGroup extends Equatable {
   @override
   List<Object?> get props => [
     templateExerciseGroupId,
+    restTimed,
+    barId,
     exerciseId,
     templateId,
   ];

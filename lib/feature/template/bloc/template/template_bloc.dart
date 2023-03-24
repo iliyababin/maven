@@ -68,6 +68,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     for (ExerciseBlock exerciseBlock in event.exerciseBlocks) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
+          restTimed: exerciseBlock.exerciseGroup.restTimed,
           exerciseId: exerciseBlock.exercise.exerciseId,
           templateId: templateId,
           barId: exerciseBlock.exerciseGroup.barId

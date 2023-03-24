@@ -75,7 +75,10 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
         :
     MButton(
       onPressed: () async {
-        showTimerPickerDialog(context: context).then((value) {
+        showTimerPickerDialog(
+          context: context,
+          initialValue: Timed.zero()
+        ).then((value) {
           if (value == null) return;
           widget.controller.startTimer(value);
         });

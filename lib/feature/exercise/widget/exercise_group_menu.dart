@@ -1,3 +1,4 @@
+import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,24 +7,26 @@ import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../../equipment/model/bar.dart';
+import '../model/exercise.dart';
 import '../model/exercise_equipment.dart';
+import '../model/exercise_group.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({Key? key,
-    required this.exerciseEquipment,
-    required this.barId,
-    required this.onBarChanged,
+    required this.exercise,
+    required this.exerciseGroup,
+    required this.onExerciseGroupUpdate,
   }) : super(key: key);
 
-  final ExerciseEquipment exerciseEquipment;
-  final int? barId;
-  final ValueChanged<int> onBarChanged;
+  final Exercise exercise;
+  final ExerciseGroup exerciseGroup;
+  final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        exerciseEquipment == ExerciseEquipment.barbell ? MButton.tiled(
+        exercise.exerciseEquipment == ExerciseEquipment.barbell ? MButton.tiled(
           onPressed: (){
             Navigator.pop(context);
             showBottomSheetDialog(
@@ -35,7 +38,6 @@ class ExerciseGroupMenu extends StatelessWidget {
                   } else {
                     List<Bar> bars = state.bars;
                     return SizedBox(
-                      height: 300,
                       child: Column(
                         children: [
                           Padding(
@@ -49,34 +51,35 @@ class ExerciseGroupMenu extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: bars.length,
-                              itemBuilder: (context, index) {
-                                Bar bar = bars[index];
-                                return MButton.tiled(
-                                  onPressed: (){
-                                    onBarChanged(bar.barId!);
-                                    Navigator.pop(context);
-                                  },
-                                  leading: barId == bar.barId ? Container(
-                                    width: 20,
-                                    alignment: Alignment.centerLeft,
-                                    child: Icon(
-                                      Icons.check,
-                                      color: mt(context).icon.accentColor,
-                                    ),
-                                  ) : Container(width: 20,),
-                                  child: Text(
-                                    bar.name,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: mt(context).text.primaryColor,
-                                    ),
+                          ListView.builder(
+                            itemCount: bars.length,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              Bar bar = bars[index];
+                              return MButton.tiled(
+                                onPressed: (){
+                                  onExerciseGroupUpdate(exerciseGroup.copyWith(barId: bar.barId));
+                                  Navigator.pop(context);
+                                },
+                                leading: exerciseGroup.barId == bar.barId ? Container(
+                                  width: 20,
+                                  alignment: Alignment.centerLeft,
+                                  child: Icon(
+                                    Icons.check,
+                                    color: mt(context).icon.accentColor,
                                   ),
-                                );
-                              },
-                            ),
+                                ) : Container(width: 20,),
+                                child: Text(
+                                  bar.name,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: mt(context).text.primaryColor,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -101,16 +104,32 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
         ) : Container(),
         MButton.tiled(
-          onPressed: (){},
+          onPressed: (){
+            showTimerPickerDialog(
+              context: context,
+              initialValue: exerciseGroup.restTimed,
+
+            ).then((value) {
+              if(value == null) return;
+              onExerciseGroupUpdate(exerciseGroup.copyWith(restTimed: value));
+            });
+          },
           leading: Icon(
             Icons.timer,
-            color: mt(context).icon.errorColor,
+            color: mt(context).icon.accentColor,
             size: 24,
+          ),
+          trailing: Text(
+            '(${exerciseGroup.restTimed.toString()})',
+            style: TextStyle(
+              color: mt(context).text.secondaryColor,
+              fontSize: 17,
+            ),
           ),
           child: Text(
             'Rest Timer',
             style: TextStyle(
-              color: mt(context).text.errorColor,
+              color: mt(context).text.primaryColor,
               fontSize: 17,
             ),
           ),

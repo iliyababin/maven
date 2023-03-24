@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
@@ -65,6 +66,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   Exercise exercise = value;
                                   context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(
                                     exerciseGroupId: -1,
+                                    restTimed: Timed.zero(),
                                     exerciseId: exercise.exerciseId,
                                     barId: exercise.barId,
                                   )));

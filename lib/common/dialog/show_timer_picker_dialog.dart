@@ -7,9 +7,10 @@ import '../model/timed.dart';
 
 showTimerPickerDialog({
   required BuildContext context,
+  required Timed initialValue,
 }) async {
 
-  Timed timed = Timed(hour: 0, minute: 0, second: 0);
+  Timed timed = initialValue;
 
   ///
   /// Widgets
@@ -18,6 +19,7 @@ showTimerPickerDialog({
     required Function(int) valueChanged,
     required String title,
     required int length,
+    required int initialValue,
   }) {
     return Expanded(
       child: Column(
@@ -36,6 +38,7 @@ showTimerPickerDialog({
           SizedBox(
             height: 180,
             child: CupertinoPicker(
+              scrollController: FixedExtentScrollController(initialItem: initialValue),
               magnification: 1.22,
               squeeze: 1.2,
               itemExtent: 32,
@@ -43,15 +46,15 @@ showTimerPickerDialog({
               onSelectedItemChanged: (int value) => valueChanged(value),
 
               children: List.generate(length, (index) =>
-                  Center(
-                      child: Text(
-                        index.toString(),
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: mt(context).text.primaryColor
-                        ),
-                      )
-                  )
+                Center(
+                  child: Text(
+                    index.toString(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: mt(context).text.primaryColor
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -86,7 +89,8 @@ showTimerPickerDialog({
                       timed.hour = value;
                     },
                     title: 'Hours',
-                    length: 24
+                    length: 24,
+                    initialValue: timed.hour,
                   ),
 
                   carousel(
@@ -94,7 +98,8 @@ showTimerPickerDialog({
                       timed.minute = value;
                     },
                     title: 'Minutes',
-                    length: 60
+                    length: 60,
+                    initialValue: timed.minute,
                   ),
 
                   carousel(
@@ -102,7 +107,8 @@ showTimerPickerDialog({
                       timed.second = value;
                     },
                     title: 'Seconds',
-                    length: 60
+                    length: 60,
+                    initialValue: timed.second,
                   ),
                 ],
               ),

@@ -151,8 +151,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       exercises.add(exercise!);
       exerciseGroups.add(ExerciseGroup(
         exerciseGroupId: workoutExerciseGroup.workoutExerciseGroupId!,
-        exerciseId: exercise.exerciseId,
+        restTimed: workoutExerciseGroup.restTimed,
         barId: workoutExerciseGroup.barId,
+        exerciseId: exercise.exerciseId,
       ));
     }
 
@@ -198,9 +199,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     for (var templateExerciseGroup in templateExerciseGroups) {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
+        restTimed: templateExerciseGroup.restTimed,
+        barId: templateExerciseGroup.barId,
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
-        barId: templateExerciseGroup.barId,
       ));
 
       List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
