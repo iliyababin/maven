@@ -17,7 +17,7 @@ class TemplateFolder extends Equatable {
   final String name;
 
   @ColumnInfo(name: 'expanded')
-  final int expanded;
+  final bool expanded;
 
   @ColumnInfo(name: 'sort_order')
   final int? sortOrder;
@@ -49,7 +49,7 @@ class TemplateFolder extends Equatable {
   TemplateFolder copyWith({
     int? templateFolderId,
     String? name,
-    int? expanded,
+    bool? expanded,
     int? sortOrder,
   }) {
     return TemplateFolder(

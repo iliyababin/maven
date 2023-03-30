@@ -54,7 +54,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     if(templateFolders.isEmpty) {
       TemplateFolder templateFolder = const TemplateFolder(
         name: 'Workouts',
-        expanded: 1,
+        expanded: true,
       );
       int templateFolderId = await templateFolderDao.addTemplateFolder(templateFolder);
       TemplateFolder? addedTemplateFolder = await templateFolderDao.getTemplateFolder(templateFolderId);

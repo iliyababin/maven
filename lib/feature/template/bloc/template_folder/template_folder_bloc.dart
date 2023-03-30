@@ -38,6 +38,8 @@ class TemplateFolderBloc extends Bloc<TemplateFolderEvent, TemplateFolderState> 
 
   void _templateFolderInitialize(TemplateFolderInitialize event, emit) {
     templateFolderDao.getTemplateFoldersAsStream().listen((event) => add(TemplateStreamUpdateTemplateFolders(templateFolders: event)));
+
+    emit(state.copyWith(status: () => TemplateFolderStatus.loaded));
   }
 
   Future<void> _templateFolderAdd(TemplateFolderAdd event, emit) async {
@@ -45,7 +47,7 @@ class TemplateFolderBloc extends Bloc<TemplateFolderEvent, TemplateFolderState> 
 
     await templateFolderDao.addTemplateFolder(TemplateFolder(
       name: event.name,
-      expanded: 1,
+      expanded: true,
       sortOrder: (await templateFolderDao.getHighestTemplateFolderSortOrder() ?? 0) + 1,
     ),);
 
@@ -61,18 +63,24 @@ class TemplateFolderBloc extends Bloc<TemplateFolderEvent, TemplateFolderState> 
   }
 
   Future<void> _templateFolderToggle(TemplateFolderToggle event, emit) async {
-    await emit(state.copyWith(status: () => TemplateFolderStatus.toggle));
+    emit(state.copyWith(status: () => TemplateFolderStatus.toggle));
 
     await templateFolderDao.updateTemplateFolder(event.templateFolder);
+
+    emit(state.copyWith(status: () => TemplateFolderStatus.loaded));
   }
 
   Future<void> _templateFolderReorder(event, emit) async {
+    emit(state.copyWith(status: () => TemplateFolderStatus.reordering));
+
     List<TemplateFolder> templateFolders = event.templateFolders;
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templateFolders.length; i++) {
       TemplateFolder templateFolder = templateFolders[i];
       templateFolderDao.updateTemplateFolder(templateFolder.copyWith(sortOrder: i));
     }
+
+    emit(state.copyWith(status: () => TemplateFolderStatus.loaded));
   }
 
   Future<void> _templateFolderDelete(TemplateFolderDelete event, emit) async {

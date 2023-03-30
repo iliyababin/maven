@@ -8,6 +8,7 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
+import '../../program/screen/program_builder_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
@@ -116,15 +117,17 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           ),
                           const SizedBox(width: 16),
                           MButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
+                            },
                             borderColor: mt(context).borderColor,
                             leading: Icon(
                               Icons.polyline,
                               size: 18,
                               color: mt(context).icon.accentColor,
                             ),
-                            onPressed: () {},
                             child: Text(
-                              'Template Builder',
+                              'Program Builder',
                               style: TextStyle(
                                 color: mt(context).text.accentColor,
                                 fontSize: 15,
@@ -179,7 +182,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         ),
                         alignment: FractionalOffset.center,
                         child: Text(
-                          'No paused workouts',
+                          'Empty',
                           style: TextStyle(
                             color: mt(context).text.secondaryColor,
                             fontSize: 14
@@ -288,71 +291,77 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return true;
                 },
                 builder: (context, state) {
-                  List<TemplateFolder> templateFolders = state.templateFolders;
-                  return BlocBuilder<TemplateBloc, TemplateState>(
-                    builder: (context, state) {
-                      if (state.status == TemplateStatus.loading) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 200,
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
-                        );
-                      } else {
-                        List<Template> templates = state.templates;
+                  if(state.status == TemplateFolderStatus.loading) {
+                    return SliverToBoxAdapter(child: CircularProgressIndicator(),);
+                  } else if (state.status == TemplateFolderStatus.loaded) {
+                    List<TemplateFolder> templateFolders = state.templateFolders;
+                    return BlocBuilder<TemplateBloc, TemplateState>(
+                      builder: (context, state) {
+                        if (state.status == TemplateStatus.loading) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 200,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                          );
+                        } else {
+                          List<Template> templates = state.templates;
 
-                        if(templateFolders.isEmpty) {
-                          return SliverToBoxAdapter(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadiusDirectional.circular(10),
-                                border: Border.all(
-                                  color: mt(context).borderColor,
+                          if(templateFolders.isEmpty) {
+                            return SliverToBoxAdapter(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadiusDirectional.circular(10),
+                                  border: Border.all(
+                                    color: mt(context).borderColor,
+                                  ),
+                                ),
+                                padding: const EdgeInsetsDirectional.all(100),
+                                alignment: FractionalOffset.center,
+                                child: Text(
+                                  'Empty',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: mt(context).text.secondaryColor,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
-                              padding: const EdgeInsetsDirectional.all(100),
-                              alignment: FractionalOffset.center,
-                              child: Text(
-                                'Empty',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: mt(context).text.secondaryColor,
-                                  fontSize: 14,
-                                ),
-                              ),
+                            );
+                          }
+
+                          return SliverList(
+                            /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
+                            ///
+                            /// Mimics a [ListView.separated] since there's no SliverList.separated
+                            ///
+                            /// [Source](https://stackoverflow.com/a/58176779)
+                            delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                final int itemIndex = index ~/ 2;
+                                if (index.isEven) {
+                                  return TemplateFolderWidget(
+                                    templateFolder: templateFolders[itemIndex],
+                                    templates: templates.where((template) => template.templateFolderId == templateFolders[itemIndex].templateFolderId).toList(),
+                                  );
+                                }
+                                return const SizedBox(height: 15);
+                              },
+                              semanticIndexCallback: (Widget widget, int localIndex) {
+                                if (localIndex.isEven) {
+                                  return localIndex ~/ 2;
+                                }
+                                return null;
+                              },
+                              childCount: max(0, templateFolders.length * 2 - 1),
                             ),
                           );
                         }
-
-                        return SliverList(
-                          /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
-                          ///
-                          /// Mimics a [ListView.separated] since there's no SliverList.separated
-                          ///
-                          /// [Source](https://stackoverflow.com/a/58176779)
-                          delegate: SliverChildBuilderDelegate(
-                                (BuildContext context, int index) {
-                              final int itemIndex = index ~/ 2;
-                              if (index.isEven) {
-                                return TemplateFolderWidget(
-                                  templateFolder: templateFolders[itemIndex],
-                                  templates: templates.where((template) => template.templateFolderId == templateFolders[itemIndex].templateFolderId).toList(),
-                                );
-                              }
-                              return const SizedBox(height: 15);
-                            },
-                            semanticIndexCallback: (Widget widget, int localIndex) {
-                              if (localIndex.isEven) {
-                                return localIndex ~/ 2;
-                              }
-                              return null;
-                            },
-                            childCount: max(0, templateFolders.length * 2 - 1),
-                          ),
-                        );
-                      }
-                    },
-                  );
+                      },
+                    );
+                  } else {
+                    return SliverToBoxAdapter();
+                  }
                 }
               ),
 

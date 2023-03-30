@@ -26,10 +26,11 @@ class TemplateCard extends StatelessWidget {
       expand: false,
       borderRadius: _borderRadius,
       borderColor: mt(context).borderColor,
+      mainAxisAlignment: MainAxisAlignment.start,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +57,7 @@ class TemplateCard extends StatelessWidget {
               height: 2,
             ),
             Text(
-              'Description: Doing stuff',
+              'Description: Doing stuffs',
               style: TextStyle(
                   fontSize: 13,
                   color: mt(context).text.secondaryColor

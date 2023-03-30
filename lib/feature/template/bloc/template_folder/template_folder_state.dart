@@ -3,7 +3,7 @@ part of 'template_folder_bloc.dart';
 enum TemplateFolderStatus {
   loading,
   loaded,
-  error, toggle,
+  error, toggle, reordering,
 }
 
 class TemplateFolderState extends Equatable {

@@ -68,15 +68,15 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
   
   @override
   void initState() {
-    if(widget.templateFolder.expanded == 1){
+    if(widget.templateFolder.expanded == true){
       _expandedController.toggle();
     }
+    super.initState();
     _expandedController.addListener(() async {
       context.read<TemplateFolderBloc>().add(TemplateFolderToggle(
-        templateFolder: widget.templateFolder.copyWith(expanded: _expandedController.expanded ? 1 : 0),
+        templateFolder: widget.templateFolder.copyWith(expanded: _expandedController.expanded),
       ));
     });
-    super.initState();
   }
 
   @override
@@ -116,135 +116,135 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                   useInkWell: false,
                 ),
                 header: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(_borderRadius),
-                  ),
-                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.templateFolder.name,
-                        style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                          fontSize: 18.5,
-                          fontWeight: FontWeight.w700
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(_borderRadius),
+                    ),
+                    padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.templateFolder.name,
+                          style: TextStyle(
+                              color: mt(context).text.primaryColor,
+                              fontSize: 18.5,
+                              fontWeight: FontWeight.w700
+                          ),
                         ),
-                      ),
-                      MButton(
-                        onPressed: (){
-                          showBottomSheetDialog(
-                            context: context,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const SizedBox(height: 6),
-                                MButton.tiled(
-                                  onPressed: (){
-                                    showBottomSheetDialog(
-                                      context: context,
-                                      child: TextInputDialog(
-                                        title: 'Enter a Folder Name',
-                                        initialValue: widget.templateFolder.name,
-                                        keyboardType: TextInputType.name,
-                                        onValueSubmit: (value) {
-                                          context.read<TemplateFolderBloc>().add(TemplateFolderUpdate(
-                                            templateFolder: widget.templateFolder.copyWith(name: value),
-                                          ));
-                                        },
+                        MButton(
+                          onPressed: (){
+                            showBottomSheetDialog(
+                              context: context,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const SizedBox(height: 6),
+                                  MButton.tiled(
+                                    onPressed: (){
+                                      showBottomSheetDialog(
+                                          context: context,
+                                          child: TextInputDialog(
+                                            title: 'Enter a Folder Name',
+                                            initialValue: widget.templateFolder.name,
+                                            keyboardType: TextInputType.name,
+                                            onValueSubmit: (value) {
+                                              context.read<TemplateFolderBloc>().add(TemplateFolderUpdate(
+                                                templateFolder: widget.templateFolder.copyWith(name: value),
+                                              ));
+                                            },
+                                          ),
+                                          onClose: (){
+                                            Navigator.pop(context);
+                                          }
+                                      );
+                                    },
+                                    leading: Icon(
+                                      Icons.edit_rounded,
+                                      color: mt(context).icon.accentColor,
+                                      size: 24,
+                                    ),
+                                    child: Text(
+                                      'Rename',
+                                      style: TextStyle(
+                                          color: mt(context).text.primaryColor,
+                                          fontSize: 17
                                       ),
-                                      onClose: (){
-                                        Navigator.pop(context);
-                                      }
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.edit_rounded,
-                                    color: mt(context).icon.accentColor,
-                                    size: 24,
+                                    ),
                                   ),
-                                  child: Text(
-                                    'Rename',
-                                    style: TextStyle(
+                                  MButton.tiled(
+                                    // TODO: Implement a way to share
+                                    onPressed: (){},
+                                    leading: Icon(
+                                      Icons.share_rounded,
+                                      color: mt(context).icon.accentColor,
+                                      size: 24,
+                                    ),
+                                    child: Text(
+                                      'Share',
+                                      style: TextStyle(
                                         color: mt(context).text.primaryColor,
-                                        fontSize: 17
-                                    ),
-                                  ),
-                                ),
-                                MButton.tiled(
-                                  // TODO: Implement a way to share
-                                  onPressed: (){},
-                                  leading: Icon(
-                                    Icons.share_rounded,
-                                    color: mt(context).icon.accentColor,
-                                    size: 24,
-                                  ),
-                                  child: Text(
-                                    'Share',
-                                    style: TextStyle(
-                                      color: mt(context).text.primaryColor,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                                MButton.tiled(
-                                  onPressed: (){
-                                    showBottomSheetDialog(
-                                      context: context,
-                                      child: ConfirmationDialog(
-                                        title: 'Delete Folder',
-                                        subtitle: 'This will also delete all the templates inside',
-                                        confirmText: 'Delete',
-                                        submitColor: mt(context).text.errorColor,
-                                        onSubmit: () {
-                                          context.read<TemplateFolderBloc>().add(TemplateFolderDelete(
-                                            templateFolder: widget.templateFolder,
-                                          ));
-                                        },
+                                        fontSize: 17,
                                       ),
-                                      onClose: (){
-                                        Navigator.pop(context);
-                                      },
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.delete_rounded,
-                                    color: mt(context).icon.errorColor,
-                                    size: 24,
-                                  ),
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                      color: mt(context).text.errorColor,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            onClose: (){},
-                          );
-                        },
-                        height: 40,
-                        width: 50,
-                        borderRadius: _borderRadius,
-                        backgroundColor: Colors.transparent,
-                        leading: Icon(
-                          Icons.more_horiz,
-                          color: mt(context).icon.accentColor,
+                                  MButton.tiled(
+                                    onPressed: (){
+                                      showBottomSheetDialog(
+                                        context: context,
+                                        child: ConfirmationDialog(
+                                          title: 'Delete Folder',
+                                          subtitle: 'This will also delete all the templates inside',
+                                          confirmText: 'Delete',
+                                          submitColor: mt(context).text.errorColor,
+                                          onSubmit: () {
+                                            context.read<TemplateFolderBloc>().add(TemplateFolderDelete(
+                                              templateFolder: widget.templateFolder,
+                                            ));
+                                          },
+                                        ),
+                                        onClose: (){
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                    leading: Icon(
+                                      Icons.delete_rounded,
+                                      color: mt(context).icon.errorColor,
+                                      size: 24,
+                                    ),
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                          color: mt(context).text.errorColor,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onClose: (){},
+                            );
+                          },
+                          height: 40,
+                          width: 50,
+                          borderRadius: _borderRadius,
+                          backgroundColor: Colors.transparent,
+                          leading: Icon(
+                            Icons.more_horiz,
+                            color: mt(context).icon.accentColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
+                      ],
+                    )
                 ),
                 collapsed: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
                   child: Text(
                     '${widget.templates.length.toString()} templates',
                     style: TextStyle(
-                      color: mt(context).text.primaryColor,
-                      fontSize: 16
+                        color: mt(context).text.primaryColor,
+                        fontSize: 16
                     ),
                   ),
                 ),
@@ -296,7 +296,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                           'This folder is empty.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: mt(context).text.secondaryColor
+                              color: mt(context).text.secondaryColor
                           ),
                         ),
                       ),

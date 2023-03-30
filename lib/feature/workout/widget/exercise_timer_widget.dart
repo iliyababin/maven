@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/dialog/show_timer_picker_dialog.dart';
+import '../../../common/dialog/timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
@@ -75,13 +76,16 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
         :
     MButton(
       onPressed: () async {
-        showTimerPickerDialog(
+        showBottomSheetDialog(
           context: context,
-          initialValue: Timed.zero()
-        ).then((value) {
-          if (value == null) return;
-          widget.controller.startTimer(value);
-        });
+          child: TimedPickerDialog(
+            initialValue: Timed.zero(),
+            onSubmit: (value) {
+              widget.controller.startTimer(value);
+            },
+          ),
+          onClose: (){},
+        );
       },
       leading: Icon(
         Icons.timer,

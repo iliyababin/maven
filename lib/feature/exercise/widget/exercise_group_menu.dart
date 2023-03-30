@@ -1,4 +1,4 @@
-import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
+import 'package:Maven/common/dialog/timer_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -105,14 +105,17 @@ class ExerciseGroupMenu extends StatelessWidget {
         ) : Container(),
         MButton.tiled(
           onPressed: (){
-            showTimerPickerDialog(
+            Navigator.pop(context);
+            showBottomSheetDialog(
               context: context,
-              initialValue: exerciseGroup.restTimed,
-
-            ).then((value) {
-              if(value == null) return;
-              onExerciseGroupUpdate(exerciseGroup.copyWith(restTimed: value));
-            });
+              child: TimedPickerDialog(
+                initialValue: exerciseGroup.restTimed,
+                onSubmit: (value) {
+                  onExerciseGroupUpdate(exerciseGroup.copyWith(restTimed: value));
+                },
+              ),
+              onClose: (){}
+            );
           },
           leading: Icon(
             Icons.timer,

@@ -35,7 +35,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db07.db')
+      .databaseBuilder('db10.db')
       .addCallback(callback)
       .build();
 
@@ -80,7 +80,7 @@ void main() async {
           barDao: database.barDao,
         )..add(EquipmentInitialize())),
       ],
-      child:  const Main(),
+      child: const Main(),
     )
   );
 }
