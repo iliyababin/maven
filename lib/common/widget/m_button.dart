@@ -74,11 +74,11 @@ class MButton extends StatelessWidget {
     this.backgroundColor,
     this.borderColor,
     this.splashColor,
+    this.leadingPadding = const EdgeInsets.only(left: 30, right: 16),
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.expand = false,
-  }) : leadingPadding = const EdgeInsets.only(left: 30, right: 16),
-       trailingPadding = const EdgeInsets.only(right: 30);
+  }) : trailingPadding = const EdgeInsets.only(right: 30);
 
   /// Called when the button is tapped.
   final VoidCallback onPressed;

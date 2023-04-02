@@ -1,7 +1,13 @@
+import 'package:Maven/common/util/general_utils.dart';
+import 'package:Maven/feature/program/screen/day_selector_screen.dart';
+import 'package:Maven/feature/program/widget/folder_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/widget/m_button.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
+import '../model/day.dart';
+import '../model/exercise_day.dart';
 import '../model/exercise_increment.dart';
 import '../widget/exercise_increment_widget.dart';
 
@@ -13,9 +19,13 @@ class ProgramBuilderScreen extends StatefulWidget {
 }
 
 class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
-  final TextEditingController nameController = TextEditingController(text: 'My Program');
-  final TextEditingController descriptionController = TextEditingController(text: 'Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci a scelerisque purus semper eget duis at tellus.');
+  int _weeks = 10;
 
+  List<ExerciseDay> exerciseDays = [
+    const ExerciseDay(day: Day.monday, exercises: []),
+    const ExerciseDay(day: Day.wednesday, exercises: []),
+    const ExerciseDay(day: Day.friday, exercises: []),
+  ];
   List<ExerciseIncrement> exerciseIncrements = [];
 
   SliverToBoxAdapter title(String title) => SliverToBoxAdapter(
@@ -51,7 +61,68 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           padding: EdgeInsets.all(mt(context).sidePadding),
           child: CustomScrollView(
             slivers: [
+              title('Basic'),
               SliverList(
+                delegate: SliverChildListDelegate([
+                  MButton.tiled(
+                    onPressed: (){
+
+                    },
+                    expand: false,
+                    leading: Icon(
+                      Icons.calendar_month_rounded,
+                      color: mt(context).icon.accentColor,
+                    ),
+                    borderRadius: 12,
+                    borderColor: mt(context).borderColor,
+                    trailing: Text(
+                      _weeks.toString(),
+                      style: TextStyle(
+                        color: mt(context).text.secondaryColor,
+                      ),
+                    ),
+                    child: Text(
+                      'Weeks',
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12,),
+                  MButton.tiled(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DaySelectorScreen(
+                        exerciseDays: exerciseDays,
+                        onSubmit: (List<ExerciseDay> value) {
+                          setState(() {
+                            exerciseDays = value.sortDays();
+                          });
+                        },
+                      )));
+                    },
+                    expand: false,
+                    leading: Icon(
+                      Icons.view_day_rounded,
+                      color: mt(context).icon.accentColor,
+                    ),
+                    borderRadius: 12,
+                    borderColor: mt(context).borderColor,
+                    trailing: Text(
+                      exerciseDays.getAbbreviations(),
+                      style: TextStyle(
+                        color: mt(context).text.secondaryColor,
+                      ),
+                    ),
+                    child: Text(
+                      'Days',
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+              /*SliverList(
                 delegate: SliverChildListDelegate([
                   TextFormField(
                     controller: nameController,
@@ -77,13 +148,29 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     maxLines: 5,
                   ),
                 ]),
-              ),
-              title('Exercises'),
+              ),*/
+              exerciseDays.isNotEmpty ? title('Exercises') : const SliverToBoxAdapter(),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 0,
+                  childCount: exerciseDays.length,
                   (context, index) {
-                    return Container();
+                    ExerciseDay exerciseDay = exerciseDays[index];
+                    
+                    return Container(
+                      margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
+                      child: FolderWidget(
+                        title: capitalize(exerciseDay.day.name),
+                        subtitle: 'exercises',
+                        children: exerciseDay.exercises.map((e) => Text(e.name, style: TextStyle(color: mt(context).text.primaryColor),)).toList(),
+                      ),
+                    );
+                    
+                    return Text(
+                      capitalize(exerciseDay.day.name),
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    );
                   },
                 ),
               ),

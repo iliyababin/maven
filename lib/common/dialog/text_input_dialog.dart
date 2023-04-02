@@ -62,6 +62,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
             child: TextFormField(
               onChanged: (value) {
                 if(widget.onValueChanged == null) return;
+                if(value.isEmpty) value = 0.toString();
                 widget.onValueChanged!(value);
               },
               validator: (value) {

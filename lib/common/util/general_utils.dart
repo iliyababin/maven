@@ -33,3 +33,7 @@ String secondsToTime(int seconds) {
   }
   return time;
 }
+
+String capitalize(String s) {
+  return s[0].toUpperCase() + s.substring(1);
+}
