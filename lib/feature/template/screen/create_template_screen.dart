@@ -1,29 +1,40 @@
 import 'package:Maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/add_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
-import '../bloc/template/template_bloc.dart';
 import '../dto/exercise_block.dart';
 
 /// Screen for creating a new [Template]
 class CreateTemplateScreen extends StatefulWidget {
   /// Creates a screen for creating a new [Template]
-  const CreateTemplateScreen({Key? key}) : super(key: key);
+  const CreateTemplateScreen({Key? key,
+    required this.onCreate,
+    this.exerciseBlocks,
+  }) : super(key: key);
+
+  final ValueChanged<List<ExerciseBlock>> onCreate;
+  final List<ExerciseBlock>? exerciseBlocks;
 
   @override
   State<CreateTemplateScreen> createState() => _CreateTemplateScreenState();
 }
 
 class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
-  List<ExerciseBlock> exerciseBlocks = [];
+  late List<ExerciseBlock> exerciseBlocks;
+
+  @override
+  void initState() {
+    if(widget.exerciseBlocks == null) {
+      exerciseBlocks = [];
+    } else {
+      exerciseBlocks = widget.exerciseBlocks!.map((e) => e.copyWith()).toList();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +49,8 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              showBottomSheetDialog(
-                context: context,
-                child: TextInputDialog(
-                  title: 'Enter a Workout Name',
-                  initialValue: '',
-                  keyboardType: TextInputType.name,
-                  onValueSubmit: (value) {
-                    context.read<TemplateBloc>().add(TemplateCreate(
-                      name: value,
-                      exerciseBlocks: exerciseBlocks,
-                    ));
-                    Navigator.pop(context);
-                  },
-                ),
-                onClose: () {}
-              );
+              widget.onCreate(exerciseBlocks);
+              Navigator.pop(context);
             },
             child: Text(
               'Save',

@@ -59,7 +59,7 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
               int i = exerciseDays.indexWhere((exerciseDay) => exerciseDay.day == day);
               setState(() {
                 if(i == -1) {
-                  exerciseDays.add(ExerciseDay(day: day, exercises: []));
+                  exerciseDays.add(ExerciseDay(day: day, exercises: [], exerciseBlocks: []));
                 } else {
                   exerciseDays.removeAt(i);
                 }

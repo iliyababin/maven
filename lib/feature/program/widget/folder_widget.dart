@@ -8,11 +8,13 @@ class FolderWidget extends StatefulWidget {
     required this.title,
     this.subtitle = 'items',
     required this.children,
+    required this.expandedEmpty,
   }) : super(key: key);
 
   final String title;
   final String subtitle;
   final List<Widget> children;
+  final Widget expandedEmpty;
 
   @override
   State<FolderWidget> createState() => _FolderWidgetState();
@@ -129,13 +131,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     proxyDecorator: proxyDecorator,
-                    children: widget.children.map((child) {
-                      return Padding(
-                        key: UniqueKey(),
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                        child: Text('YOLO'),
-                      );
-                    }).toList(),
+                    children: widget.children,
                     onReorder: (oldIndex, newIndex) {
                       setState(() {
                         if (newIndex > oldIndex) {
@@ -168,7 +164,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40)
+                      widget.expandedEmpty,
                     ],
                   ),
                 ),

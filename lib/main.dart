@@ -36,7 +36,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db1.db')
+      .databaseBuilder('db2.db')
       .addCallback(callback)
       .build();
 

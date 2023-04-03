@@ -99,7 +99,25 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         children: [
                           MButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTemplateScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
+                                onCreate: (exerciseBlocks) {
+                                  showBottomSheetDialog(
+                                      context: context,
+                                      child: TextInputDialog(
+                                        title: 'Enter a Workout Name',
+                                        initialValue: '',
+                                        keyboardType: TextInputType.name,
+                                        onValueSubmit: (value) {
+                                          context.read<TemplateBloc>().add(TemplateCreate(
+                                            name: value,
+                                            exerciseBlocks: exerciseBlocks,
+                                          ));
+                                        },
+                                      ),
+                                      onClose: () {}
+                                  );
+                                },
+                              )));
                             },
                             borderColor: mt(context).borderColor,
                             leading: Icon(

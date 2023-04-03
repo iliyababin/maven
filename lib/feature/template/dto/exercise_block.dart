@@ -25,7 +25,9 @@ class ExerciseBlock {
     return ExerciseBlock(
       exercise: exercise ?? this.exercise,
       exerciseGroup: exerciseGroup ?? this.exerciseGroup,
-      exerciseSets: exerciseSets ?? this.exerciseSets,
+      exerciseSets: exerciseSets != null
+          ? List<ExerciseSet>.from(exerciseSets.map((e) => e.copyWith()))
+          : List<ExerciseSet>.from(this.exerciseSets.map((e) => e.copyWith())),
       barId: barId ?? this.barId,
     );
   }

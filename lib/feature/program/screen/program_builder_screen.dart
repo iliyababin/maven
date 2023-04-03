@@ -1,6 +1,6 @@
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/feature/program/screen/day_selector_screen.dart';
-import 'package:Maven/feature/program/widget/folder_widget.dart';
+import 'package:Maven/feature/template/screen/create_template_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +22,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
   int _weeks = 10;
 
   List<ExerciseDay> exerciseDays = [
-    const ExerciseDay(day: Day.monday, exercises: []),
-    const ExerciseDay(day: Day.wednesday, exercises: []),
-    const ExerciseDay(day: Day.friday, exercises: []),
+    ExerciseDay(day: Day.monday, exercises: [], exerciseBlocks: []),
+    ExerciseDay(day: Day.wednesday, exercises: [], exerciseBlocks: []),
+    ExerciseDay(day: Day.friday, exercises: [], exerciseBlocks: []),
   ];
   List<ExerciseIncrement> exerciseIncrements = [];
 
@@ -149,19 +149,35 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                 ]),
               ),*/
-              exerciseDays.isNotEmpty ? title('Exercises') : const SliverToBoxAdapter(),
+              exerciseDays.isNotEmpty ? title('Templates') : const SliverToBoxAdapter(),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: exerciseDays.length,
                   (context, index) {
                     ExerciseDay exerciseDay = exerciseDays[index];
-                    
+
                     return Container(
                       margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
-                      child: FolderWidget(
-                        title: capitalize(exerciseDay.day.name),
-                        subtitle: 'exercises',
-                        children: exerciseDay.exercises.map((e) => Text(e.name, style: TextStyle(color: mt(context).text.primaryColor),)).toList(),
+                      child: MButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
+                            exerciseBlocks: exerciseDay.exerciseBlocks,
+                            onCreate: (value) {
+                              exerciseDays[index].exerciseBlocks = value;
+                            },
+                          ),));
+                        },
+                        expand: false,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        borderColor: mt(context).borderColor,
+                        borderRadius: 12,
+                        leading: const SizedBox(width: 16),
+                        child: Text(
+                          capitalize(exerciseDay.day.name),
+                          style: TextStyle(
+                            color: mt(context).text.primaryColor,
+                          ),
+                        ),
                       ),
                     );
                     
