@@ -8,6 +8,7 @@ import '../../../common/widget/m_button.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
 import '../model/exercise_increment.dart';
+import 'modifier_screen.dart';
 
 class ProgramBuilderScreen extends StatefulWidget {
   const ProgramBuilderScreen({Key? key}) : super(key: key);
@@ -20,9 +21,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
   int _weeks = 10;
 
   List<ExerciseDay> exerciseDays = [
-    ExerciseDay(day: Day.monday, exerciseBlocks: []),
-    ExerciseDay(day: Day.wednesday, exerciseBlocks: []),
-    ExerciseDay(day: Day.friday, exerciseBlocks: []),
+    ExerciseDay(day: Day.monday, exerciseBlocks: [], modifiers: []),
+    ExerciseDay(day: Day.wednesday, exerciseBlocks: [], modifiers: []),
+    ExerciseDay(day: Day.friday, exerciseBlocks: [], modifiers: []),
   ];
   List<ExerciseIncrement> exerciseIncrements = [];
 
@@ -214,7 +215,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   },
                 ),
               ),
-              title('Auto-Increment'),
+              title('Modifiers'),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: exerciseDays.length,
@@ -224,7 +225,12 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     return Container(
                       margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
                       child: MButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ModifierScreen(
+                            exercises: exerciseDay.exerciseBlocks.map((e) => e.exercise).toList(),
+                            modifiers: exerciseDay.modifiers,
+                          )));
+                        },
                         expand: false,
                         mainAxisAlignment: MainAxisAlignment.start,
                         borderColor: mt(context).borderColor,
@@ -241,7 +247,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                                 ),
                               ),
                               Text(
-                                '${exerciseDay.exerciseBlocks.length} modifiers',
+                                '${exerciseDay.modifiers.length} modifiers',
                                 style: TextStyle(
                                   color: mt(context).text.secondaryColor,
                                 ),

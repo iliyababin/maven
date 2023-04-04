@@ -1,8 +1,9 @@
 
 import '../../exercise/model/exercise.dart';
+import 'Modifier.dart';
 
-class ExerciseIncrement {
-  const ExerciseIncrement({
+class ExerciseIncrement extends Modifier {
+  ExerciseIncrement({
     required this.exercise,
     required this.incrementAmount,
   });
