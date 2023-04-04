@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/model/timed.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
-import '../../exercise/screen/add_exercise_screen.dart';
+import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../dto/exercise_block.dart';
 
@@ -41,22 +41,20 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Create Template',
+          '${widget.exerciseBlocks == null ? 'Create' : 'Edit'} Template',
           style: TextStyle(
             color: mt(context).text.primaryColor
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
+          IconButton(
+            onPressed: (){
               widget.onCreate(exerciseBlocks);
               Navigator.pop(context);
             },
-            child: Text(
-              'Save',
-              style: TextStyle(
-                color: mt(context).text.accentColor
-              ),
+            icon: Icon(
+              Icons.check_rounded,
+              color: mt(context).icon.accentColor,
             ),
           ),
         ],
@@ -95,7 +93,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((value) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen())).then((value) {
             Exercise exercise = value;
             setState(() {
               exerciseBlocks.add(ExerciseBlock(
