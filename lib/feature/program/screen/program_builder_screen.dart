@@ -5,11 +5,9 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
-import '../../exercise/screen/add_exercise_screen.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
 import '../model/exercise_increment.dart';
-import '../widget/exercise_increment_widget.dart';
 
 class ProgramBuilderScreen extends StatefulWidget {
   const ProgramBuilderScreen({Key? key}) : super(key: key);
@@ -22,9 +20,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
   int _weeks = 10;
 
   List<ExerciseDay> exerciseDays = [
-    ExerciseDay(day: Day.monday, exercises: [], exerciseBlocks: []),
-    ExerciseDay(day: Day.wednesday, exercises: [], exerciseBlocks: []),
-    ExerciseDay(day: Day.friday, exercises: [], exerciseBlocks: []),
+    ExerciseDay(day: Day.monday, exerciseBlocks: []),
+    ExerciseDay(day: Day.wednesday, exerciseBlocks: []),
+    ExerciseDay(day: Day.friday, exerciseBlocks: []),
   ];
   List<ExerciseIncrement> exerciseIncrements = [];
 
@@ -56,6 +54,17 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
               color: mt(context).text.primaryColor
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+
+              },
+              icon: Icon(
+                Icons.construction_rounded,
+                color: mt(context).icon.accentColor,
+              ),
+            )
+          ],
         ),
         body: Padding(
           padding: EdgeInsets.all(mt(context).sidePadding),
@@ -149,7 +158,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                 ]),
               ),*/
-              exerciseDays.isNotEmpty ? title('Templates') : const SliverToBoxAdapter(),
+              title('Templates'),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: exerciseDays.length,
@@ -163,7 +172,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
                             exerciseBlocks: exerciseDay.exerciseBlocks,
                             onCreate: (value) {
-                              exerciseDays[index].exerciseBlocks = value;
+                              setState(() {
+                                exerciseDays[index].exerciseBlocks = value;
+                              });
                             },
                           ),));
                         },
@@ -171,13 +182,26 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         borderColor: mt(context).borderColor,
                         borderRadius: 12,
-                        leading: const SizedBox(width: 16),
-                        child: Text(
-                          capitalize(exerciseDay.day.name),
-                          style: TextStyle(
-                            color: mt(context).text.primaryColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                        child: Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                capitalize(exerciseDay.day.name),
+                                style: TextStyle(
+                                  color: mt(context).text.primaryColor,
+                                ),
+                              ),
+                              Text(
+                                '${exerciseDay.exerciseBlocks.length} exercises',
+                                style: TextStyle(
+                                  color: mt(context).text.secondaryColor,
+                                ),
+                              )
+                            ],
                           ),
-                        ),
+                        )
                       ),
                     );
                     
@@ -191,58 +215,45 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                 ),
               ),
               title('Auto-Increment'),
-              SliverGrid(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200.0,
-                  mainAxisSpacing: 20.0,
-                  crossAxisSpacing: 20.0,
-                  childAspectRatio: 1.0,
-                ),
+              SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: exerciseIncrements.length + 1,
-                  (BuildContext context, int index) {
-                    if(index == exerciseIncrements.length) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExerciseScreen())).then((value) {
-                            setState(() {
-                              exerciseIncrements.add(ExerciseIncrement(
-                                exercise: value,
-                                incrementAmount: 5,
-                              ));
-                            });
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsetsDirectional.all(16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(15),
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.add_rounded,
-                              color: Colors.blue,
-                            ),
+                  childCount: exerciseDays.length,
+                  (context, index) {
+                    ExerciseDay exerciseDay = exerciseDays[index];
+
+                    return Container(
+                      margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
+                      child: MButton(
+                        onPressed: () {},
+                        expand: false,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        borderColor: mt(context).borderColor,
+                        borderRadius: 12,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                        child: Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                capitalize(exerciseDay.day.name),
+                                style: TextStyle(
+                                  color: mt(context).text.primaryColor,
+                                ),
+                              ),
+                              Text(
+                                '${exerciseDay.exerciseBlocks.length} modifiers',
+                                style: TextStyle(
+                                  color: mt(context).text.secondaryColor,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      );
-                    }
-
-                    return ExerciseIncrementWidget(
-                      exerciseIncrement: exerciseIncrements[index],
-                      onExerciseIncrementChanged: (value) {
-                        setState(() {
-                          exerciseIncrements[index] = value;
-                        });
-                      }
+                      ),
                     );
-                  },
+                  }
                 ),
-              )
+              ),
             ],
           ),
         )
@@ -250,3 +261,15 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
     );
   }
 }
+/*
+ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectExerciseScreen(
+                            exercises: exercises,
+                          ))).then((value) {
+                            if(value == null) return;
+                            setState(() {
+                              exerciseIncrements.add(ExerciseIncrement(
+                                exercise: value,
+                                incrementAmount: 5,
+                              ));
+                            });
+                          });*/

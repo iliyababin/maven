@@ -11,7 +11,7 @@ import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/model/exercise_group.dart';
-import '../../exercise/screen/add_exercise_screen.dart';
+import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/active_workout/workout_bloc.dart';
 import '../model/workout.dart';
@@ -61,7 +61,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const AddExerciseScreen()),
+                                  MaterialPageRoute(builder: (context) => const SelectExerciseScreen()),
                                 ).then((value) async {
                                   Exercise exercise = value;
                                   context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(

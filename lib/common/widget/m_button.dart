@@ -157,24 +157,27 @@ class MButton extends StatelessWidget {
           splashFactory: InkRipple.splashFactory,
           splashColor: splashColor,
           borderRadius: BorderRadius.circular(borderRadius),
-          child: Row(
-            mainAxisAlignment: mainAxisAlignment,
+          child: Padding(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: mainAxisAlignment,
 
-            children: [
-              if(leading != null) Padding(
-                padding: leadingPadding,
-                child: leading!
-              ),
-              if(leading != null && child != null) const SizedBox(width: 2,),
-              if(child != null) child!,
-              trailing != null ? Expanded(
-                child: Container(
-                  padding: trailingPadding,
-                  alignment: Alignment.centerRight,
-                  child: trailing,
+              children: [
+                if(leading != null) Padding(
+                  padding: leadingPadding,
+                  child: leading!
                 ),
-              ) : Container(),
-            ],
+                if(leading != null && child != null) const SizedBox(width: 2,),
+                if(child != null) child!,
+                trailing != null ? Expanded(
+                  child: Container(
+                    padding: trailingPadding,
+                    alignment: Alignment.centerRight,
+                    child: trailing,
+                  ),
+                ) : Container(),
+              ],
+            ),
           ),
         ),
       ),

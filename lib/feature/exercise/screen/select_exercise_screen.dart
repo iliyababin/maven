@@ -7,8 +7,12 @@ import '../../../widget/custom_scaffold.dart';
 import '../bloc/exercise_bloc.dart';
 import '../model/exercise.dart';
 
-class AddExerciseScreen extends StatelessWidget {
-  const AddExerciseScreen({Key? key}) : super(key: key);
+class SelectExerciseScreen extends StatelessWidget {
+  const SelectExerciseScreen({Key? key,
+    this.exercises,
+  }) : super(key: key);
+
+  final List<Exercise>? exercises;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class AddExerciseScreen extends StatelessWidget {
           if(state.status == ExerciseStatus.loading) {
             return const Center(child: CircularProgressIndicator(),);
           } else {
-            List<Exercise> exercises = state.exercises;
+            List<Exercise> exercises = this.exercises ?? state.exercises;
 
             return ListView.builder(
               itemCount: exercises.length,
