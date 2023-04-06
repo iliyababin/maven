@@ -1,3 +1,5 @@
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
+import 'package:Maven/common/dialog/text_input_dialog.dart';
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/feature/program/screen/day_selector_screen.dart';
 import 'package:Maven/feature/template/screen/create_template_screen.dart';
@@ -7,8 +9,6 @@ import 'package:flutter/material.dart';
 import '../../../common/widget/m_button.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
-import '../model/exercise_increment.dart';
-import 'modifier_screen.dart';
 
 class ProgramBuilderScreen extends StatefulWidget {
   const ProgramBuilderScreen({Key? key}) : super(key: key);
@@ -18,14 +18,14 @@ class ProgramBuilderScreen extends StatefulWidget {
 }
 
 class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
+  String _name = 'My Program';
   int _weeks = 10;
 
   List<ExerciseDay> exerciseDays = [
-    ExerciseDay(day: Day.monday, exerciseBlocks: [], modifiers: []),
-    ExerciseDay(day: Day.wednesday, exerciseBlocks: [], modifiers: []),
-    ExerciseDay(day: Day.friday, exerciseBlocks: [], modifiers: []),
+    ExerciseDay(day: Day.monday, exerciseBlocks: []),
+    ExerciseDay(day: Day.wednesday, exerciseBlocks: []),
+    ExerciseDay(day: Day.friday, exerciseBlocks: []),
   ];
-  List<ExerciseIncrement> exerciseIncrements = [];
 
   SliverToBoxAdapter title(String title) => SliverToBoxAdapter(
     child: Padding(
@@ -58,10 +58,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           actions: [
             IconButton(
               onPressed: () {
-
               },
               icon: Icon(
-                Icons.construction_rounded,
+                Icons.check_rounded,
                 color: mt(context).icon.accentColor,
               ),
             )
@@ -76,7 +75,57 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                 delegate: SliverChildListDelegate([
                   MButton.tiled(
                     onPressed: (){
-
+                      showBottomSheetDialog(
+                        context: context,
+                        child: TextInputDialog(
+                          title: 'Name',
+                          initialValue: _name,
+                          keyboardType: TextInputType.name,
+                          onValueSubmit: (value) {
+                            setState(() {
+                              _name = value;
+                            });
+                          },
+                        ),
+                        onClose: (){},
+                      );
+                    },
+                    expand: false,
+                    leading: Icon(
+                      Icons.drive_file_rename_outline_rounded,
+                      color: mt(context).icon.accentColor,
+                    ),
+                    borderRadius: 12,
+                    borderColor: mt(context).borderColor,
+                    trailing: Text(
+                      _name,
+                      style: TextStyle(
+                        color: mt(context).text.secondaryColor,
+                      ),
+                    ),
+                    child: Text(
+                      'Name',
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12,),
+                  MButton.tiled(
+                    onPressed: (){
+                      showBottomSheetDialog(
+                        context: context,
+                        child: TextInputDialog(
+                          title: 'Weeks',
+                          initialValue: _weeks.toString(),
+                          onValueSubmit: (value) {
+                            setState(() {
+                              _weeks = int.parse(value);
+                            });
+                          },
+                        ),
+                        onClose: (){},
+                      );
                     },
                     expand: false,
                     leading: Icon(
@@ -213,51 +262,6 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       ),
                     );
                   },
-                ),
-              ),
-              title('Modifiers'),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: exerciseDays.length,
-                  (context, index) {
-                    ExerciseDay exerciseDay = exerciseDays[index];
-
-                    return Container(
-                      margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
-                      child: MButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ModifierScreen(
-                            exercises: exerciseDay.exerciseBlocks.map((e) => e.exercise).toList(),
-                            modifiers: exerciseDay.modifiers,
-                          )));
-                        },
-                        expand: false,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        borderColor: mt(context).borderColor,
-                        borderRadius: 12,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                        child: Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                capitalize(exerciseDay.day.name),
-                                style: TextStyle(
-                                  color: mt(context).text.primaryColor,
-                                ),
-                              ),
-                              Text(
-                                '${exerciseDay.modifiers.length} modifiers',
-                                style: TextStyle(
-                                  color: mt(context).text.secondaryColor,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
                 ),
               ),
             ],

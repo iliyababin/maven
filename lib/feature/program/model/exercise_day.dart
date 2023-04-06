@@ -1,28 +1,23 @@
 
 import '../../template/dto/exercise_block.dart';
-import 'Modifier.dart';
 import 'day.dart';
 
 class ExerciseDay {
   ExerciseDay({
     required this.day,
     required this.exerciseBlocks,
-    required this.modifiers,
   });
 
   final Day day;
   List<ExerciseBlock> exerciseBlocks;
-  List<Modifier> modifiers;
 
   ExerciseDay copyWith({
     Day? day,
     List<ExerciseBlock>? exerciseBlocks,
-    List<Modifier>? modifiers,
   }) {
     return ExerciseDay(
       day: day ?? this.day,
       exerciseBlocks: exerciseBlocks ?? this.exerciseBlocks,
-      modifiers: modifiers ?? this.modifiers,
     );
   }
 }

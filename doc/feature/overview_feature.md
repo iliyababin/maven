@@ -24,8 +24,8 @@ A program is a collection of templates that are generated and stored in weekly f
 The builder assists the user in building their desired program by taking in parameters and outputting a full program.
 
 **Options:**
-- Duration: The length of the program in weeks.
-- Workout schedule: The days on which you intend to exercise.
+- Weeks: The duration of the program in weeks.
+- Days: The days on which you intend to exercise.
 - Templates: The specific workout plan to follow on each day.
 - Modifiers: Adjustments made to the exercises within a template, such as increasing weights or decreasing reps.
 
