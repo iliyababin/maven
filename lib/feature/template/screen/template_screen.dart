@@ -12,9 +12,8 @@ import '../../program/screen/program_builder_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
-import '../model/template.dart';
 import '../widget/paused_workout_widget.dart';
-import '../widget/template_card_widget.dart';
+import '../widget/templates_widget.dart';
 import 'create_template_screen.dart';
 
 /// Screen which manages templates and workouts
@@ -278,20 +277,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       )
                     );
                   } else if(state.status.isLoaded) {
-                    List<Template> templates = state.templates;
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        childCount: templates.length,
-                        (context, index) {
-                          Template template = templates[index];
-                          return Container(
-                            margin: const EdgeInsetsDirectional.only(bottom: 16),
-                            child: TemplateCard(
-                              template: template,
-                            ),
-                          );
-                        },
-                      ),
+                    return TemplateSliverListWidget(
+                      templates: state.templates,
                     );
                   } else {
                     return SliverToBoxAdapter(
