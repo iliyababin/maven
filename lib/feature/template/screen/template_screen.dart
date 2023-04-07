@@ -26,21 +26,18 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
-  Padding headerText(String title) => Padding(
-    padding: const EdgeInsets.only(bottom: 13, top: 13),
-    child: Text(
-      title,
-      style: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w900,
-        color: mt(context).text.primaryColor,
+  SliverToBoxAdapter title(String title, {double top = 32}) => SliverToBoxAdapter(
+    child: Padding(
+      padding: EdgeInsets.only(bottom: 13, top: top),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w900,
+          color: mt(context).text.primaryColor,
+        ),
       ),
     ),
-  );
-
-  /// **Note:** For consistency, make sure the surrounding widgets take up the least amount of space possible.
-  Widget divider() => const SliverToBoxAdapter(
-    child: SizedBox(height: 25),
   );
 
   @override
@@ -65,103 +62,95 @@ class _TemplateScreenState extends State<TemplateScreen> {
           padding: EdgeInsets.all(mt(context).sidePadding),
           child: CustomScrollView(
             slivers: [
-              // Quick start
-              SliverList(
-                delegate: SliverChildListDelegate([
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      headerText('Quick Start'),
-                      MButton(
-                        onPressed: () {
-                          context.read<WorkoutBloc>().add(WorkoutStartEmpty());
-                        },
-                        expand: false,
-                        width: double.infinity,
-                        backgroundColor: mt(context).accentColor,
-                        child: Text(
-                          'Start an Empty Workout',
-                          style: TextStyle(
-                            color: mt(context).text.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
+              title('Quick Start', top: 0),
+              SliverList(delegate: SliverChildListDelegate([
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MButton(
+                      onPressed: () {
+                        context.read<WorkoutBloc>().add(WorkoutStartEmpty());
+                      },
+                      expand: false,
+                      width: double.infinity,
+                      backgroundColor: mt(context).accentColor,
+                      child: Text(
+                        'Start an Empty Workout',
+                        style: TextStyle(
+                          color: mt(context).text.whiteColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        children: [
-                          MButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
-                                onCreate: (exerciseBlocks) {
-                                  showBottomSheetDialog(
-                                    context: context,
-                                    child: TextInputDialog(
-                                      title: 'Enter a Workout Name',
-                                      initialValue: '',
-                                      keyboardType: TextInputType.name,
-                                      onValueSubmit: (value) {
-                                        context.read<TemplateBloc>().add(TemplateCreate(
-                                          name: value,
-                                          exerciseBlocks: exerciseBlocks,
-                                        ));
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    onClose: () {},
-                                  );
-                                },
-                              )));
-                            },
-                            borderColor: mt(context).borderColor,
-                            leading: Icon(
-                              Icons.post_add,
-                              size: 20,
-                              color: mt(context).icon.accentColor,
-                            ),
-                            child: Text(
-                              'Create Template',
-                              style: TextStyle(
-                                color: mt(context).text.accentColor,
-                                fontSize: 15,
-                              ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        MButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
+                              onCreate: (exerciseBlocks) {
+                                showBottomSheetDialog(
+                                  context: context,
+                                  child: TextInputDialog(
+                                    title: 'Enter a Workout Name',
+                                    initialValue: '',
+                                    keyboardType: TextInputType.name,
+                                    onValueSubmit: (value) {
+                                      context.read<TemplateBloc>().add(TemplateCreate(
+                                        name: value,
+                                        exerciseBlocks: exerciseBlocks,
+                                      ));
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  onClose: () {},
+                                );
+                              },
+                            )));
+                          },
+                          borderColor: mt(context).borderColor,
+                          leading: Icon(
+                            Icons.post_add,
+                            size: 20,
+                            color: mt(context).icon.accentColor,
+                          ),
+                          child: Text(
+                            'Create Template',
+                            style: TextStyle(
+                              color: mt(context).text.accentColor,
+                              fontSize: 15,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          MButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
-                            },
-                            borderColor: mt(context).borderColor,
-                            leading: Icon(
-                              Icons.polyline,
-                              size: 18,
-                              color: mt(context).icon.accentColor,
+                        ),
+                        const SizedBox(width: 16),
+                        MButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
+                          },
+                          borderColor: mt(context).borderColor,
+                          leading: Icon(
+                            Icons.polyline,
+                            size: 18,
+                            color: mt(context).icon.accentColor,
+                          ),
+                          child: Text(
+                            'Program Builder',
+                            style: TextStyle(
+                              color: mt(context).text.accentColor,
+                              fontSize: 15,
                             ),
-                            child: Text(
-                              'Program Builder',
-                              style: TextStyle(
-                                color: mt(context).text.accentColor,
-                                fontSize: 15,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ]),
-              ),
-
-              divider(),
-
-              // Workouts
-              SliverToBoxAdapter(
-                child: headerText('In Progress'),
-              ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ]),),
+              
+              title('In Progress'),
               BlocBuilder<WorkoutBloc, WorkoutState>(
                 builder: (context, state) {
                   if(state.status == WorkoutStatus.loading) {
@@ -233,40 +222,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 },
               ),
 
-              divider(),
-
-              // Templates
-              SliverList(
-                delegate: SliverChildListDelegate([
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      headerText('Templates'),
-                      Row(
-                        children: [
-                          MButton(
-                            onPressed: () {
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => const ReorderTemplateScreen()));
-                            },
-                            width: 40,
-                            height: 40,
-                            expand: false,
-                            padding: const EdgeInsets.all(5),
-                            borderColor: mt(context).borderColor,
-                            leading: Icon(
-                              CupertinoIcons.arrow_up_arrow_down,
-                              size: 20,
-                              color: mt(context).icon.accentColor,
-                            ),
-                            backgroundColor: mt(context).templateFolder.backgroundColor,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5,)
-                ]),
-              ),
+              title('Templates'),
               BlocBuilder<TemplateBloc, TemplateState>(
                 builder: (context, state) {
                   if(state.status.isLoading) {
@@ -292,8 +248,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   }
                 },
               ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 180)),
             ],
           ),
         )
