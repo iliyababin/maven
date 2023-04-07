@@ -50,7 +50,6 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           IconButton(
             onPressed: (){
               widget.onCreate(exerciseBlocks);
-              Navigator.pop(context);
             },
             icon: Icon(
               Icons.check_rounded,

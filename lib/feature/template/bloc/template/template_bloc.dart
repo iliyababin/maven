@@ -23,16 +23,12 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
   }) : super(const TemplateState()) {
-    templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
-
-    on<TemplateStreamUpdateTemplates>(_templateStreamUpdateTemplates);
-
-    on<TemplateInitialize>(_templateInitialize);
-    on<TemplateCreate>(_templateCreate);
-    on<TemplateReorder>(_templateReorder);
-    on<TemplateDelete>(_templateDelete);
-    on<TemplateMoveToFolder>(_templateMoveToFolder);
-
+    on<TemplateInitialize>(_initialize);
+    on<TemplateCreate>(_create);
+    on<TemplateReorder>(_reorder);
+    on<TemplateDelete>(_delete);
+    on<TemplateMoveToFolder>(_moveToFolder);
+    on<TemplateStreamUpdateTemplates>(_updateTemplates);
   }
 
   final TemplateDao templateDao;
@@ -40,15 +36,19 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
-  Future<void> _templateStreamUpdateTemplates(TemplateStreamUpdateTemplates event, emit) async {
+  Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading,));
+
+    templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
+
+    emit(state.copyWith(status: () => TemplateStatus.loaded,));
+  }
+
+  Future<void> _updateTemplates(TemplateStreamUpdateTemplates event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(templates: () => event.templates));
   }
 
-  Future<void> _templateInitialize(TemplateInitialize event, Emitter emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loaded));
-  }
-
-  Future<void> _templateCreate(TemplateCreate event, emit) async {
+  Future<void> _create(TemplateCreate event, emit) async {
     List<TemplateFolder> templateFolders = await templateFolderDao.getTemplateFolders();
 
     if(templateFolders.isEmpty) {
@@ -89,7 +89,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     emit(state.copyWith(status: () => TemplateStatus.loaded));
   }
 
-  Future<void> _templateReorder(TemplateReorder event, emit) async {
+  Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
     List<Template> templates = event.templates;
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templates.length; i++) {
@@ -99,7 +99,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     state.copyWith(status: () => TemplateStatus.reorder);
   }
 
-  Future<void> _templateDelete(TemplateDelete event, emit) async {
+  Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
     await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
     await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
     await templateDao.deleteTemplate(event.template);
@@ -107,7 +107,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     emit(state.copyWith(status: () => TemplateStatus.delete));
   }
 
-  Future<void> _templateMoveToFolder(TemplateMoveToFolder event, emit) async {
+  Future<void> _moveToFolder(TemplateMoveToFolder event, Emitter<TemplateState> emit) async {
     final oldFolderId = event.templateFolders[event.oldTemplateFolderIndex].templateFolderId;
     final newFolderId = event.templateFolders[event.newTemplateFolderIndex].templateFolderId;
     final templatesInOldFolder = _getTemplatesInFolder(oldFolderId!);
@@ -127,7 +127,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         templateDao.updateTemplate(template.copyWith(sortOrder: i));
       }
     }
-    await emit(state.copyWith(status: () => TemplateStatus.reorder));
+    emit(state.copyWith(status: () => TemplateStatus.reorder));
   }
 
   List<Template> _getTemplatesInFolder(int folderId) {

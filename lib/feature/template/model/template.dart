@@ -1,3 +1,4 @@
+import 'package:Maven/feature/plan/model/plan.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
@@ -16,7 +17,7 @@ import 'template_folder.dart';
     'template_id',
   ],
 )
-class Template extends Equatable {
+class Template extends Equatable implements Plan {
   @ColumnInfo(name: 'template_id')
   @PrimaryKey(autoGenerate: true)
   final int? templateId;
@@ -50,6 +51,9 @@ class Template extends Equatable {
       templateFolderId: templateFolderId ?? this.templateFolderId,
     );
   }
+
+  @override
+  PlanType get planType => PlanType.template;
 
   @override
   List<Object?> get props => [templateId, name, sortOrder, templateFolderId];
