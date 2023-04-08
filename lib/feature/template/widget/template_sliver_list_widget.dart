@@ -7,9 +7,11 @@ import '../model/template.dart';
 class TemplateSliverListWidget extends StatefulWidget {
   const TemplateSliverListWidget({Key? key,
     required this.templates,
+    required this.onReorder,
   }) : super(key: key);
 
   final List<Template> templates;
+  final ValueChanged<List<Template>> onReorder;
 
   @override
   State<TemplateSliverListWidget> createState() => _TemplateSliverListWidgetState();
@@ -49,8 +51,8 @@ class _TemplateSliverListWidgetState extends State<TemplateSliverListWidget> {
         setState(() {
           Template template = templates.removeAt(oldIndex);
           templates.insert(newIndex, template);
+          widget.onReorder(templates);
         });
-        /*context.read<TemplateBloc>().add(TemplateReorder(templates: templates));*/
       },
     );
   }

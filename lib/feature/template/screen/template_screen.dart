@@ -14,7 +14,7 @@ import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
 import '../widget/paused_workout_widget.dart';
-import '../widget/templates_widget.dart';
+import '../widget/template_sliver_list_widget.dart';
 import 'edit_template_screen.dart';
 
 /// Screen which manages templates, workouts, and programs
@@ -226,6 +226,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return templates.isEmpty ? empty() :
                   TemplateSliverListWidget(
                     templates: state.templates,
+                    onReorder: (value) {
+                      context.read<TemplateBloc>().add(TemplateReorder(templates: value));
+                    }
                   );
                 } else {
                   return SliverToBoxAdapter(

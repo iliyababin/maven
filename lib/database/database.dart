@@ -13,11 +13,9 @@ import '../feature/exercise/model/exercise_equipment.dart';
 import '../feature/template/dao/template_dao.dart';
 import '../feature/template/dao/template_exercise_group_dao.dart';
 import '../feature/template/dao/template_exercise_set_dao.dart';
-import '../feature/template/dao/template_folder_dao.dart';
 import '../feature/template/model/template.dart';
 import '../feature/template/model/template_exercise_group.dart';
 import '../feature/template/model/template_exercise_set.dart';
-import '../feature/template/model/template_folder.dart';
 import '../feature/workout/dao/workout_dao.dart';
 import '../feature/workout/dao/workout_exercise_group_dao.dart';
 import '../feature/workout/dao/workout_exercise_set_dao.dart';
@@ -36,7 +34,6 @@ part 'database.g.dart';
   version: 1,
   entities: [
     Exercise,
-    TemplateFolder,
     Template,
     TemplateExerciseGroup,
     TemplateExerciseSet,
@@ -57,7 +54,6 @@ part 'database.g.dart';
 abstract class MavenDatabase extends FloorDatabase {
   ExerciseDao get exerciseDao;
 
-  TemplateFolderDao get templateFolderDao;
   TemplateDao get templateDao;
   TemplateExerciseGroupDao get templateExerciseGroupDao;
   TemplateExerciseSetDao get templateExerciseSetDao;
