@@ -1,8 +1,8 @@
-import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/custom_app_bar.dart';
-import 'package:Maven/widget/custom_scaffold.dart';
+
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+import '../../../theme/m_themes.dart';
 
 class ThemeScreen extends StatefulWidget {
   const ThemeScreen({Key? key}) : super(key: key);
@@ -22,23 +22,26 @@ class _ThemeScreenState extends State<ThemeScreen> {
     }
 
     List<AppTheme> themes = ThemeProvider.controllerOf(context).allThemes;
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        title: "Theme",
-        context: context
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Theme',
+          style: TextStyle(
+            color: mt(context).text.primaryColor,
+          ),
+        ),
       ),
       body: ListView(
         children: themes.map((theme) {
           return Theme(
             data: ThemeData(
-              unselectedWidgetColor: Colors.yellow
+                unselectedWidgetColor: Colors.yellow
             ),
             child: RadioListTile(
               title: Text(
                 theme.description,
                 style: TextStyle(
-                  color: mt(context).text.primaryColor
+                    color: mt(context).text.primaryColor
                 ),
               ),
               value: theme.id,

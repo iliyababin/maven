@@ -1,15 +1,13 @@
 import 'dart:math';
 
-import 'package:Maven/common/widget/m_button.dart';
-import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/custom_app_bar.dart';
-import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
+import '../../../common/widget/m_button.dart';
+import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 import '../model/plate.dart';
 
@@ -65,11 +63,8 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        context: context,
-        title: 'Edit Plate',
+    return Scaffold(
+      appBar: AppBar(
         actions: [
           MButton(
             onPressed: (){
@@ -89,13 +84,13 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             child: Text(
               'Save',
               style: TextStyle(
-                color: mt(context).text.accentColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500
+                  color: mt(context).text.accentColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500
               ),
             ),
           )
-        ]
+        ],
       ),
       body: ListView(
         children: [
@@ -129,13 +124,13 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             title: Text(
               'Amount',
               style: TextStyle(
-                  color: mt(context).text.primaryColor,
+                color: mt(context).text.primaryColor,
               ),
             ),
             subtitle: Text(
               '$amount plates',
               style: TextStyle(
-                  color: mt(context).text.secondaryColor,
+                color: mt(context).text.secondaryColor,
               ),
             ),
           ),
@@ -211,15 +206,15 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             title: Text(
               'Color',
               style: TextStyle(
-                color: mt(context).text.primaryColor,
-                fontSize: 18
+                  color: mt(context).text.primaryColor,
+                  fontSize: 18
               ),
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',
               style: TextStyle(
-                color: mt(context).text.secondaryColor,
-                fontSize: 16
+                  color: mt(context).text.secondaryColor,
+                  fontSize: 16
               ),
             ),
           ),

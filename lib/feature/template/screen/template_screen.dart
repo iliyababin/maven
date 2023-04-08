@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../common/widget/titled_scaffold.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/screen/program_builder_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
@@ -63,199 +63,184 @@ class _TemplateScreenState extends State<TemplateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: mt(context).backgroundColor,
-      child: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(
-                'Workout',
-                style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                ),
+    return TitledScaffold(
+      title: 'Workout',
+      body: Padding(
+        padding: EdgeInsets.all(mt(context).sidePadding),
+        child: CustomScrollView(
+          slivers: [
+            title('Quick Start', top: 12),
+            SliverList(delegate: SliverChildListDelegate([
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MButton(
+                    onPressed: () {
+                      context.read<WorkoutBloc>().add(WorkoutStartEmpty());
+                    },
+                    expand: false,
+                    width: double.infinity,
+                    backgroundColor: mt(context).accentColor,
+                    child: Text(
+                      'Start an Empty Workout',
+                      style: TextStyle(
+                        color: mt(context).text.whiteColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      MButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                            onSubmit: (exerciseBundles) {
+                              showBottomSheetDialog(
+                                context: context,
+                                child: TextInputDialog(
+                                  title: 'Enter a Workout Name',
+                                  initialValue: '',
+                                  keyboardType: TextInputType.name,
+                                  onValueSubmit: (value) {
+                                    context.read<TemplateBloc>().add(TemplateCreate(
+                                      template: Template(
+                                        name: value,
+                                      ),
+                                      exerciseBundles: exerciseBundles,
+                                    ));
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                onClose: () {},
+                              );
+                            },
+                          )));
+                        },
+                        borderColor: mt(context).borderColor,
+                        leading: Icon(
+                          Icons.post_add,
+                          size: 20,
+                          color: mt(context).icon.accentColor,
+                        ),
+                        child: Text(
+                          'Create Template',
+                          style: TextStyle(
+                            color: mt(context).text.accentColor,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      MButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
+                        },
+                        borderColor: mt(context).borderColor,
+                        leading: Icon(
+                          Icons.polyline,
+                          size: 18,
+                          color: mt(context).icon.accentColor,
+                        ),
+                        child: Text(
+                          'Program Builder',
+                          style: TextStyle(
+                            color: mt(context).text.accentColor,
+                            fontSize: 15,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-              backgroundColor: mt(context).sliverNavigationBarBackgroundColor,
-            )
-          ];
-        },
-        body: Padding(
-          padding: EdgeInsets.all(mt(context).sidePadding),
-          child: CustomScrollView(
-            slivers: [
-              title('Quick Start', top: 12),
-              SliverList(delegate: SliverChildListDelegate([
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MButton(
-                      onPressed: () {
-                        context.read<WorkoutBloc>().add(WorkoutStartEmpty());
+            ]),),
+
+            title('In Progress'),
+            BlocBuilder<WorkoutBloc, WorkoutState>(
+              builder: (context, state) {
+                if(state.status == WorkoutStatus.loading) {
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      height: 200,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (state.status == WorkoutStatus.error) {
+                  return SliverToBoxAdapter(
+                    child: Text(
+                      'Something s wrong',
+                      style: TextStyle(
+                        color: mt(context).text.errorColor,
+                      ),
+                    ),
+                  );
+                } else {
+                  List<Workout> workouts = state.pausedWorkouts;
+
+                  return workouts.isEmpty ? empty() :
+                  SliverList(
+                    /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
+                    ///
+                    /// Mimics a [ListView.separated] since there's no SliverList.separated
+                    ///
+                    /// [Source](https://stackoverflow.com/a/58176779)
+                    delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        final int itemIndex = index ~/ 2;
+                        if (index.isEven) {
+                          return PausedWorkoutWidget(workout: workouts[itemIndex]);
+                        }
+                        return const SizedBox(height: 15);
                       },
-                      expand: false,
-                      width: double.infinity,
-                      backgroundColor: mt(context).accentColor,
-                      child: Text(
-                        'Start an Empty Workout',
-                        style: TextStyle(
-                          color: mt(context).text.whiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      semanticIndexCallback: (Widget widget, int localIndex) {
+                        if (localIndex.isEven) {
+                          return localIndex ~/ 2;
+                        }
+                        return null;
+                      },
+                      childCount: max(0, workouts.length * 2 - 1),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        MButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
-                              onSubmit: (exerciseBundles) {
-                                showBottomSheetDialog(
-                                  context: context,
-                                  child: TextInputDialog(
-                                    title: 'Enter a Workout Name',
-                                    initialValue: '',
-                                    keyboardType: TextInputType.name,
-                                    onValueSubmit: (value) {
-                                      context.read<TemplateBloc>().add(TemplateCreate(
-                                        template: Template(
-                                          name: value,
-                                        ),
-                                        exerciseBundles: exerciseBundles,
-                                      ));
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  onClose: () {},
-                                );
-                              },
-                            )));
-                          },
-                          borderColor: mt(context).borderColor,
-                          leading: Icon(
-                            Icons.post_add,
-                            size: 20,
-                            color: mt(context).icon.accentColor,
-                          ),
-                          child: Text(
-                            'Create Template',
-                            style: TextStyle(
-                              color: mt(context).text.accentColor,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        MButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
-                          },
-                          borderColor: mt(context).borderColor,
-                          leading: Icon(
-                            Icons.polyline,
-                            size: 18,
-                            color: mt(context).icon.accentColor,
-                          ),
-                          child: Text(
-                            'Program Builder',
-                            style: TextStyle(
-                              color: mt(context).text.accentColor,
-                              fontSize: 15,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ]),),
-              
-              title('In Progress'),
-              BlocBuilder<WorkoutBloc, WorkoutState>(
-                builder: (context, state) {
-                  if(state.status == WorkoutStatus.loading) {
-                    return SliverToBoxAdapter(
-                      child: Container(
-                        height: 200,
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      ),
-                    );
-                  } else if (state.status == WorkoutStatus.error) {
-                    return SliverToBoxAdapter(
-                      child: Text(
-                        'Something s wrong',
-                        style: TextStyle(
-                          color: mt(context).text.errorColor,
-                        ),
-                      ),
-                    );
-                  } else {
-                    List<Workout> workouts = state.pausedWorkouts;
+                  );
+                }
+              },
+            ),
 
-                    return workouts.isEmpty ? empty() :
-                    SliverList(
-                      /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
-                      ///
-                      /// Mimics a [ListView.separated] since there's no SliverList.separated
-                      ///
-                      /// [Source](https://stackoverflow.com/a/58176779)
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          final int itemIndex = index ~/ 2;
-                          if (index.isEven) {
-                            return PausedWorkoutWidget(workout: workouts[itemIndex]);
-                          }
-                          return const SizedBox(height: 15);
-                        },
-                        semanticIndexCallback: (Widget widget, int localIndex) {
-                          if (localIndex.isEven) {
-                            return localIndex ~/ 2;
-                          }
-                          return null;
-                        },
-                        childCount: max(0, workouts.length * 2 - 1),
-                      ),
-                    );
-                  }
-                },
-              ),
-
-              title('Templates'),
-              BlocBuilder<TemplateBloc, TemplateState>(
-                builder: (context, state) {
-                  if(state.status.isLoading) {
-                    return const SliverToBoxAdapter(
+            title('Templates'),
+            BlocBuilder<TemplateBloc, TemplateState>(
+              builder: (context, state) {
+                if(state.status.isLoading) {
+                  return const SliverToBoxAdapter(
                       child: SizedBox(
                         height: 100,
                         child: CircularProgressIndicator(),
                       )
-                    );
-                  } else if(state.status.isLoaded) {
-                    List<Template> templates = state.templates;
+                  );
+                } else if(state.status.isLoaded) {
+                  List<Template> templates = state.templates;
 
-                    return templates.isEmpty ? empty() :
-                    TemplateSliverListWidget(
-                      templates: state.templates,
-                    );
-                  } else {
-                    return SliverToBoxAdapter(
-                      child: Text(
-                        'There was an error fetching the templates.',
-                        style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                        ),
+                  return templates.isEmpty ? empty() :
+                  TemplateSliverListWidget(
+                    templates: state.templates,
+                  );
+                } else {
+                  return SliverToBoxAdapter(
+                    child: Text(
+                      'There was an error fetching the templates.',
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
                       ),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-        )
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

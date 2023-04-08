@@ -2,8 +2,6 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../widget/custom_app_bar.dart';
-import '../../../widget/custom_scaffold.dart';
 import '../bloc/exercise_bloc.dart';
 import '../model/exercise.dart';
 
@@ -16,11 +14,14 @@ class SelectExerciseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        context: context,
-        title: 'Add Exercise'
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Add Exercise',
+          style: TextStyle(
+            color: mt(context).text.primaryColor,
+          ),
+        ),
       ),
       body: BlocBuilder<ExerciseBloc, ExerciseState>(
         builder: (context, state) {
@@ -39,7 +40,7 @@ class SelectExerciseScreen extends StatelessWidget {
                   title: Text(
                     exercise.name,
                     style: TextStyle(
-                      color: mt(context).text.primaryColor
+                        color: mt(context).text.primaryColor
                     ),
                   ),
                 );
@@ -47,7 +48,7 @@ class SelectExerciseScreen extends StatelessWidget {
             );
           }
         },
-      )
+      ),
     );
   }
 }

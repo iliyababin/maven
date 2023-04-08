@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../theme/m_themes.dart';
-import '../../exercise/dao/exercise_dao.dart';
-import '../../exercise/model/exercise.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';
 import '../bloc/template_detail/template_detail_bloc.dart';
-import '../dao/template_exercise_group_dao.dart';
-import '../dao/template_exercise_set_dao.dart';
 import '../dto/exercise_bundle.dart';
 import '../model/template.dart';
-import '../model/template_exercise_group.dart';
 import 'edit_template_screen.dart';
 
 class ViewTemplateScreen extends StatefulWidget {
@@ -26,14 +21,13 @@ class ViewTemplateScreen extends StatefulWidget {
 }
 
 class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
+  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
+
   @override
   void initState() {
     super.initState();
     loadTemplate();
-
   }
-
-  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
 
   @override
   Widget build(BuildContext context) {
@@ -156,63 +150,5 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
       *//*generateActiveTemplateTemplate(context, widget.templateId);*//*
       Navigator.pop(context);
     }*/
-  }
-
-  void _discardTemplate(BuildContext context) {
-    Navigator.of(context).pop(true);
-  }
-
-  void _cancel(BuildContext context) {
-    Navigator.of(context).pop(false);
-  }
-
-  ///
-  /// Widgets
-  ///
-
-  FutureBuilder _listOfExercises(int templateId) {
-    return FutureBuilder(
-      future: context.read<TemplateExerciseGroupDao>().getTemplateExerciseGroupsByTemplateId(widget.template.templateId!),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Text('Loading exercises');
-        List<TemplateExerciseGroup> exerciseGroups = snapshot.data;
-        return ListView.builder(
-          itemCount: exerciseGroups.length,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            TemplateExerciseGroup exerciseGroup = exerciseGroups[index];
-            return FutureBuilder(
-              future: context.read<ExerciseDao>().getExercise(exerciseGroup.exerciseId),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const Text('Loading exercise');
-                Exercise exercise = snapshot.data!;
-                return ListTile(
-                  onTap: () {},
-                  leading: Container(
-                    height: 50,
-                    child: Image.asset(
-                      'assets/squat.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: Text(exercise.name),
-                  subtitle: FutureBuilder(
-                    future: context.read<TemplateExerciseSetDao>().getTemplateExerciseSetsByTemplateExerciseGroupId(exerciseGroup.templateExerciseGroupId!),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return const Text('Loading exercise');
-                      int? length = snapshot.data?.length;
-                      return Text("$length sets x 10 reps");
-                    },
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
   }
 }
