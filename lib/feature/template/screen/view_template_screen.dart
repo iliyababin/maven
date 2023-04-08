@@ -73,7 +73,36 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                                 color: mt(context).icon.accentColor,
                               ),
                               title: 'Edit',
-                            )
+                            ),
+                            MButton.tiled(
+                              onPressed: (){},
+                              leading: Icon(
+                                Icons.share_rounded,
+                                color: mt(context).icon.accentColor,
+                              ),
+                              title: 'Share',
+                            ),
+                            MButton.tiled(
+                              onPressed: (){},
+                              leading: Icon(
+                                Icons.info_sharp,
+                                color: mt(context).icon.accentColor,
+                              ),
+                              title: 'Info',
+                            ),
+                            MButton.tiled(
+                              onPressed: (){},
+                              leading:Icon(
+                                Icons.delete_rounded,
+                                color: mt(context).icon.errorColor,
+                              ),
+                              title: 'Delete',
+                              textStyle: TextStyle(
+                                fontSize: 17,
+                                color: mt(context).text.errorColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
                         onClose: (){},

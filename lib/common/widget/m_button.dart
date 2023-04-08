@@ -59,7 +59,8 @@ class MButton extends StatelessWidget {
   }) :  leadingPadding = const EdgeInsets.only(),
         trailingPadding = const EdgeInsets.only(),
         trailing = null,
-        title = null;
+        title = null,
+        textStyle = null;
 
   /// Creates a button similar to [ListTile].
   /// 
@@ -68,6 +69,7 @@ class MButton extends StatelessWidget {
     required this.onPressed,
     required this.leading,
     required this.title,
+    this.textStyle,
     this.trailing,
     this.height = 62,
     this.width = double.infinity,
@@ -129,6 +131,8 @@ class MButton extends StatelessWidget {
 
   final String? title;
 
+  final TextStyle? textStyle;
+
   @override
   Widget build(BuildContext context) {
     if(width != double.infinity) {
@@ -172,7 +176,13 @@ class MButton extends StatelessWidget {
                   child: leading!
                 ),
                 if(leading != null && child != null) const SizedBox(width: 2,),
-                title != null ? Text(title!, style: TextStyle(fontSize: 18, color: mt(context).text.primaryColor),) : child!,
+                title != null ? Text(
+                  title!,
+                  style: textStyle ?? TextStyle(
+                    fontSize: 17,
+                    color: mt(context).text.primaryColor,
+                  ),
+                ) : child ?? Container(),
                 trailing != null ? Expanded(
                   child: Container(
                     padding: trailingPadding,
