@@ -235,14 +235,14 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                                 color: mt(context).text.primaryColor,
                               ),
                             ),
-                            SizedBox(height: 6,),
+                            const SizedBox(height: 6,),
                             Text(
                               '${exerciseDay.exerciseBundles.length} exercises',
                               style: TextStyle(
                                 color: mt(context).text.accentColor,
                               ),
                             ),
-                            SizedBox(height: 6,),
+                            const SizedBox(height: 6,),
                             Expanded(
                               child: ListView(
                                 children: exerciseDay.exerciseBundles.map((e) => Text(

@@ -166,6 +166,11 @@ List<AppTheme> getThemes(BuildContext context){
             ),
           ),
           scaffoldBackgroundColor: darkTheme().backgroundColor,
+          textTheme: TextTheme(
+            bodyMedium: TextStyle(
+              color: darkTheme().text.primaryColor,
+            ),
+          )
         ),
         options: darkTheme()
     ),

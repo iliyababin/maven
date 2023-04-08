@@ -58,7 +58,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body: exerciseBundles.isNotEmpty ? ListView.builder(
         itemCount: exerciseBundles.length,
         itemBuilder: (context, index) {
           ExerciseBundle exerciseBlock = exerciseBundles[index];
@@ -89,7 +89,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             },
           );
         },
-      ),
+      ) : Center(child: Text('Start by adding an exercise'),),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen())).then((value) {
