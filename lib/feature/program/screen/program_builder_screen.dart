@@ -194,50 +194,68 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                 ]),
               ),*/
               title('Templates'),
-              SliverList(
+              SliverGrid(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1,
+                ),
                 delegate: SliverChildBuilderDelegate(
                   childCount: exerciseDays.length,
                   (context, index) {
                     ExerciseDay exerciseDay = exerciseDays[index];
 
-                    return Container(
-                      margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
-                      child: MButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
-                            exerciseBundles: exerciseDay.exerciseBundles,
-                            onSubmit: (value) {
-                              setState(() {
-                                exerciseDays[index].exerciseBundles = value;
-                              });
-                            },
-                          ),));
-                        },
-                        expand: false,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        borderColor: mt(context).borderColor,
-                        borderRadius: 12,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                        child: Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                capitalize(exerciseDay.day.name),
-                                style: TextStyle(
-                                  color: mt(context).text.primaryColor,
-                                ),
+                    return MButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                          exerciseBundles: exerciseDay.exerciseBundles,
+                          onSubmit: (value) {
+                            setState(() {
+                              exerciseDays[index].exerciseBundles = value;
+                            });
+                            Navigator.pop(context);
+                          },
+                        ),));
+                      },
+                      expand: false,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      borderColor: mt(context).borderColor,
+                      borderRadius: 12,
+                      padding: const EdgeInsets.all(16),
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              capitalize(exerciseDay.day.name),
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: mt(context).text.primaryColor,
                               ),
-                              Text(
-                                '${exerciseDay.exerciseBundles.length} exercises',
-                                style: TextStyle(
-                                  color: mt(context).text.secondaryColor,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ),
+                            ),
+                            SizedBox(height: 6,),
+                            Text(
+                              '${exerciseDay.exerciseBundles.length} exercises',
+                              style: TextStyle(
+                                color: mt(context).text.accentColor,
+                              ),
+                            ),
+                            SizedBox(height: 6,),
+                            Expanded(
+                              child: ListView(
+                                children: exerciseDay.exerciseBundles.map((e) => Text(
+                                  '\u2022 ${e.exercise.name}',
+                                  style: TextStyle(
+                                    color: mt(context).text.secondaryColor,
+                                  ),
+                                )).toList(),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     );
                   },
                 ),
