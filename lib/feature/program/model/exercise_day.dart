@@ -1,23 +1,23 @@
 
-import '../../template/dto/exercise_block.dart';
+import '../../template/dto/exercise_bundle.dart';
 import 'day.dart';
 
 class ExerciseDay {
   ExerciseDay({
     required this.day,
-    required this.exerciseBlocks,
+    required this.exerciseBundles,
   });
 
   final Day day;
-  List<ExerciseBlock> exerciseBlocks;
+  List<ExerciseBundle> exerciseBundles;
 
   ExerciseDay copyWith({
     Day? day,
-    List<ExerciseBlock>? exerciseBlocks,
+    List<ExerciseBundle>? exerciseBundles,
   }) {
     return ExerciseDay(
       day: day ?? this.day,
-      exerciseBlocks: exerciseBlocks ?? this.exerciseBlocks,
+      exerciseBundles: exerciseBundles ?? this.exerciseBundles,
     );
   }
 }

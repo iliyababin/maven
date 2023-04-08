@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:Maven/feature/exercise/model/exercise_bundle.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,6 +9,7 @@ import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
 import '../../dao/template_exercise_group_dao.dart';
 import '../../dao/template_exercise_set_dao.dart';
+import '../../dto/exercise_bundle.dart';
 import '../../model/template_exercise_group.dart';
 import '../../model/template_exercise_set.dart';
 
@@ -43,7 +43,8 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
       exerciseBundles.add(ExerciseBundle(
         exercise: exercise!,
         exerciseGroup: ExerciseGroup.from(templateExerciseGroup),
-        exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList()
+        exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList(),
+        barId: templateExerciseGroup.barId
       ));
     }
 

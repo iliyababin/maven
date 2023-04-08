@@ -35,9 +35,8 @@ class _TemplateSliverListWidgetState extends State<TemplateSliverListWidget> {
       },
       delegate: R.ReorderableSliverChildBuilderDelegate(
         childCount: templates.length,
-            (BuildContext context, int index) {
+          (BuildContext context, int index) {
           Template template = templates[index];
-
           return Container(
               margin: const EdgeInsetsDirectional.only(bottom: 16,),
               child: TemplateCard(

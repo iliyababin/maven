@@ -6,32 +6,32 @@ import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
-import '../dto/exercise_block.dart';
+import '../dto/exercise_bundle.dart';
 
-/// Screen for creating a new [Template]
-class CreateTemplateScreen extends StatefulWidget {
-  /// Creates a screen for creating a new [Template]
-  const CreateTemplateScreen({Key? key,
-    required this.onCreate,
-    this.exerciseBlocks,
+/// Screen for creating and editing a [Template]
+class EditTemplateScreen extends StatefulWidget {
+  /// Creates a screen for creating and editing a [Template]
+  const EditTemplateScreen({Key? key,
+    this.exerciseBundles,
+    required this.onSubmit,
   }) : super(key: key);
 
-  final ValueChanged<List<ExerciseBlock>> onCreate;
-  final List<ExerciseBlock>? exerciseBlocks;
+  final List<ExerciseBundle>? exerciseBundles;
+  final ValueChanged<List<ExerciseBundle>> onSubmit;
 
   @override
-  State<CreateTemplateScreen> createState() => _CreateTemplateScreenState();
+  State<EditTemplateScreen> createState() => _EditTemplateScreenState();
 }
 
-class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
-  late List<ExerciseBlock> exerciseBlocks;
+class _EditTemplateScreenState extends State<EditTemplateScreen> {
+  late List<ExerciseBundle> exerciseBundles;
 
   @override
   void initState() {
-    if(widget.exerciseBlocks == null) {
-      exerciseBlocks = [];
+    if(widget.exerciseBundles == null) {
+      exerciseBundles = [];
     } else {
-      exerciseBlocks = widget.exerciseBlocks!.map((e) => e.copyWith()).toList();
+      exerciseBundles = widget.exerciseBundles!.map((e) => e.copyWith()).toList();
     }
     super.initState();
   }
@@ -41,7 +41,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.exerciseBlocks == null ? 'Create' : 'Edit'} Template',
+          '${widget.exerciseBundles == null ? 'Create' : 'Edit'} Template',
           style: TextStyle(
             color: mt(context).text.primaryColor
           ),
@@ -49,7 +49,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         actions: [
           IconButton(
             onPressed: (){
-              widget.onCreate(exerciseBlocks);
+              widget.onSubmit(exerciseBundles);
             },
             icon: Icon(
               Icons.check_rounded,
@@ -59,32 +59,32 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
         ],
       ),
       body: ListView.builder(
-        itemCount: exerciseBlocks.length,
+        itemCount: exerciseBundles.length,
         itemBuilder: (context, index) {
-          ExerciseBlock exerciseBlock = exerciseBlocks[index];
+          ExerciseBundle exerciseBlock = exerciseBundles[index];
           return ExerciseGroupWidget(
             exercise: exerciseBlock.exercise,
             exerciseGroup: exerciseBlock.exerciseGroup,
             exerciseSets: exerciseBlock.exerciseSets,
             onExerciseGroupUpdate: (value) {
               setState(() {
-                exerciseBlocks[index].exerciseGroup = value;
+                exerciseBundles[index].exerciseGroup = value;
               });
             },
             onExerciseSetAdd: (value) {
               setState(() {
-                exerciseBlocks[index].exerciseSets.add(value);
+                exerciseBundles[index].exerciseSets.add(value);
               });
             },
             onExerciseSetUpdate: (value) {
               setState(() {
-                int exerciseSetIndex = exerciseBlocks[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-                exerciseBlocks[index].exerciseSets[exerciseSetIndex] = value;
+                int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
               });
             },
             onExerciseSetDelete: (value) {
               setState(() {
-                exerciseBlocks[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
               });
             },
           );
@@ -95,7 +95,7 @@ class _CreateTemplateScreenState extends State<CreateTemplateScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen())).then((value) {
             Exercise exercise = value;
             setState(() {
-              exerciseBlocks.add(ExerciseBlock(
+              exerciseBundles.add(ExerciseBundle(
                 exercise: exercise,
                 exerciseGroup: ExerciseGroup(
                   exerciseGroupId: DateTime.now().millisecondsSinceEpoch,

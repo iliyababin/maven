@@ -1,17 +1,18 @@
-import 'package:Maven/feature/exercise/model/exercise_bundle.dart';
-import 'package:Maven/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../theme/m_themes.dart';
 import '../../exercise/dao/exercise_dao.dart';
 import '../../exercise/model/exercise.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../bloc/template/template_bloc.dart';
 import '../bloc/template_detail/template_detail_bloc.dart';
 import '../dao/template_exercise_group_dao.dart';
 import '../dao/template_exercise_set_dao.dart';
+import '../dto/exercise_bundle.dart';
 import '../model/template.dart';
 import '../model/template_exercise_group.dart';
-
+import 'edit_template_screen.dart';
 
 class ViewTemplateScreen extends StatefulWidget {
   final Template template;
@@ -25,34 +26,79 @@ class ViewTemplateScreen extends StatefulWidget {
 }
 
 class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
-
   @override
   void initState() {
     super.initState();
-    context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
+    loadTemplate();
+
   }
+
+  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar.build(
-        title: widget.template.name,
-        context: context,
-      ),
-      body: BlocBuilder<TemplateDetailBloc, TemplateDetailState>(
+    return BlocListener<TemplateBloc, TemplateState>(
+      listener: (context, state) {
+        loadTemplate();
+      },
+      child: BlocBuilder<TemplateDetailBloc, TemplateDetailState>(
         builder: (context, state) {
           if(state.status.isLoading) {
             return const Center(child: CircularProgressIndicator(),);
           } else if(state.status.isLoaded) {
-            return ListView.builder(
-              itemCount: state.exerciseBundles.length,
-              itemBuilder: (context, index) {
-                ExerciseBundle exerciseBundle = state.exerciseBundles[index];
-                return ListTile(
-                  title: Text(exerciseBundle.exercise.name),
-                  subtitle: Text(exerciseBundle.exerciseSets.length.toString()),
-                );
-              }
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  widget.template.name,
+                  style: TextStyle(
+                    color: mt(context).text.primaryColor,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                        exerciseBundles: state.exerciseBundles,
+                        onSubmit: (value) {
+                          context.read<TemplateBloc>().add(TemplateUpdate(template: widget.template, exerciseBundles: value));
+                          Navigator.pop(context);
+                        },
+                      )));
+                    },
+                    icon: Icon(
+                      Icons.mode_edit_rounded,
+                      color: mt(context).icon.accentColor,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){},
+                    icon: Icon(
+                      Icons.info_outline_rounded,
+                      color: mt(context).icon.accentColor,
+                    ),
+                  ),
+                ],
+              ),
+              body: ListView.builder(
+                itemCount: state.exerciseBundles.length,
+                itemBuilder: (context, index) {
+                  ExerciseBundle exerciseBundle = state.exerciseBundles[index];
+                  return ListTile(
+                    title: Text(
+                      exerciseBundle.exercise.name,
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    ),
+                    subtitle: Text(
+                      exerciseBundle.exerciseSets.length.toString(),
+                      style: TextStyle(
+                        color: mt(context).text.primaryColor,
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
           } else {
             return const Text(
@@ -61,15 +107,6 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
           }
         },
       ),
-      persistentFooterButtons: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            child: const Text('START'),
-            onPressed: () => _startTemplate(context),
-          ),
-        )
-      ],
     );
   }
 

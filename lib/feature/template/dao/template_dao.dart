@@ -5,7 +5,7 @@ import '../model/template.dart';
 @dao
 abstract class TemplateDao {
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> addTemplate(Template template);
 
   @insert

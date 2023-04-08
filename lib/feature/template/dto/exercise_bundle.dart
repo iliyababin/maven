@@ -3,12 +3,12 @@ import '../../exercise/model/exercise.dart';
 import '../../exercise/model/exercise_group.dart';
 import '../../exercise/model/exercise_set.dart';
 
-class ExerciseBlock {
-  ExerciseBlock({
+class ExerciseBundle {
+  ExerciseBundle({
     required this.exercise,
     required this.exerciseGroup,
     required this.exerciseSets,
-    this.barId,
+    required this.barId,
   });
 
   Exercise exercise;
@@ -16,13 +16,13 @@ class ExerciseBlock {
   List<ExerciseSet> exerciseSets;
   int? barId;
 
-  ExerciseBlock copyWith({
+  ExerciseBundle copyWith({
     Exercise? exercise,
     ExerciseGroup? exerciseGroup,
     List<ExerciseSet>? exerciseSets,
     int? barId,
   }) {
-    return ExerciseBlock(
+    return ExerciseBundle(
       exercise: exercise ?? this.exercise,
       exerciseGroup: exerciseGroup ?? this.exerciseGroup,
       exerciseSets: exerciseSets != null

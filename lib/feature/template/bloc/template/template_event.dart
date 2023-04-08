@@ -10,27 +10,39 @@ abstract class TemplateEvent extends Equatable {
 class TemplateInitialize extends TemplateEvent {}
 
 class TemplateCreate extends TemplateEvent {
-  final String name;
-  final List<ExerciseBlock> exerciseBlocks;
+  final Template template;
+  final List<ExerciseBundle> exerciseBundles;
 
   const TemplateCreate({
-    required this.name,
-    required this.exerciseBlocks
+    required this.template,
+    required this.exerciseBundles,
+  });
+}
+
+class TemplateUpdate extends TemplateEvent {
+  const TemplateUpdate({
+    required this.template,
+    required this.exerciseBundles
   });
 
-  @override
-  List<Object> get props => [name, exerciseBlocks];
+  final Template template;
+  final List<ExerciseBundle>? exerciseBundles;
+}
+
+class TemplateDelete extends TemplateEvent {
+  final Template template;
+
+  const TemplateDelete({
+    required this.template
+  });
 }
 
 class TemplateReorder extends TemplateEvent {
   final List<Template> templates;
 
   const TemplateReorder({
-    required this.templates
+    required this.templates,
   });
-
-  @override
-  List<Object> get props => [templates];
 }
 
 class TemplateMoveToFolder extends TemplateEvent {
@@ -47,26 +59,6 @@ class TemplateMoveToFolder extends TemplateEvent {
     required this.newTemplateFolderIndex,
     required this.templateFolders,
   });
-
-  @override
-  List<Object> get props => [
-    oldTemplateIndex,
-    oldTemplateFolderIndex,
-    newTemplateIndex,
-    newTemplateFolderIndex,
-    templateFolders,
-  ];
-}
-
-class TemplateDelete extends TemplateEvent {
-  final Template template;
-
-  const TemplateDelete({
-    required this.template
-  });
-
-  @override
-  List<Object> get props => [template];
 }
 
 class TemplateStreamUpdateTemplates extends TemplateEvent {
@@ -76,8 +68,5 @@ class TemplateStreamUpdateTemplates extends TemplateEvent {
   const TemplateStreamUpdateTemplates({
     required this.templates,
   });
-
-  @override
-  List<Object> get props => [templates];
 }
 

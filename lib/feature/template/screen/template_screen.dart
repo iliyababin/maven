@@ -12,13 +12,14 @@ import '../../program/screen/program_builder_screen.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
+import '../model/template.dart';
 import '../widget/paused_workout_widget.dart';
 import '../widget/templates_widget.dart';
-import 'create_template_screen.dart';
+import 'edit_template_screen.dart';
 
-/// Screen which manages templates and workouts
+/// Screen which manages templates, workouts, and programs
 class TemplateScreen extends StatefulWidget {
-  /// Creates a screen for managing templates and workouts
+  /// Creates a screen for managing templates, workouts, and programs
   const TemplateScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,6 +36,26 @@ class _TemplateScreenState extends State<TemplateScreen> {
           fontSize: 22,
           fontWeight: FontWeight.w900,
           color: mt(context).text.primaryColor,
+        ),
+      ),
+    ),
+  );
+
+  SliverToBoxAdapter empty() => SliverToBoxAdapter(
+    child: Container(
+      height: 100,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadiusDirectional.circular(10),
+          border: Border.all(
+              color: mt(context).borderColor
+          )
+      ),
+      alignment: FractionalOffset.center,
+      child: Text(
+        'Empty',
+        style: TextStyle(
+            color: mt(context).text.secondaryColor,
+            fontSize: 14
         ),
       ),
     ),
@@ -62,7 +83,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
           padding: EdgeInsets.all(mt(context).sidePadding),
           child: CustomScrollView(
             slivers: [
-              title('Quick Start', top: 0),
+              title('Quick Start', top: 12),
               SliverList(delegate: SliverChildListDelegate([
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +111,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       children: [
                         MButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
-                              onCreate: (exerciseBlocks) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                              onSubmit: (exerciseBundles) {
                                 showBottomSheetDialog(
                                   context: context,
                                   child: TextInputDialog(
@@ -100,8 +121,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                     keyboardType: TextInputType.name,
                                     onValueSubmit: (value) {
                                       context.read<TemplateBloc>().add(TemplateCreate(
-                                        name: value,
-                                        exerciseBlocks: exerciseBlocks,
+                                        template: Template(
+                                          name: value,
+                                        ),
+                                        exerciseBundles: exerciseBundles,
                                       ));
                                       Navigator.pop(context);
                                     },
@@ -173,28 +196,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   } else {
                     List<Workout> workouts = state.pausedWorkouts;
 
-                    return workouts.isEmpty
-                        ?
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.circular(10),
-                          border: Border.all(
-                            color: mt(context).borderColor
-                          )
-                        ),
-                        alignment: FractionalOffset.center,
-                        child: Text(
-                          'Empty',
-                          style: TextStyle(
-                            color: mt(context).text.secondaryColor,
-                            fontSize: 14
-                          ),
-                        ),
-                      ),
-                    )
-                      :
+                    return workouts.isEmpty ? empty() :
                     SliverList(
                       /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
                       ///
@@ -233,7 +235,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       )
                     );
                   } else if(state.status.isLoaded) {
-                    return TemplateSliverListWidget(
+                    List<Template> templates = state.templates;
+
+                    return templates.isEmpty ? empty() :
+                    TemplateSliverListWidget(
                       templates: state.templates,
                     );
                   } else {

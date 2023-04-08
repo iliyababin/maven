@@ -2,7 +2,7 @@ import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:Maven/common/dialog/text_input_dialog.dart';
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/feature/program/screen/day_selector_screen.dart';
-import 'package:Maven/feature/template/screen/create_template_screen.dart';
+import 'package:Maven/feature/template/screen/edit_template_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +22,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
   int _weeks = 10;
 
   List<ExerciseDay> exerciseDays = [
-    ExerciseDay(day: Day.monday, exerciseBlocks: []),
-    ExerciseDay(day: Day.wednesday, exerciseBlocks: []),
-    ExerciseDay(day: Day.friday, exerciseBlocks: []),
+    ExerciseDay(day: Day.monday, exerciseBundles: []),
+    ExerciseDay(day: Day.wednesday, exerciseBundles: []),
+    ExerciseDay(day: Day.friday, exerciseBundles: []),
   ];
 
   SliverToBoxAdapter title(String title) => SliverToBoxAdapter(
@@ -219,11 +219,11 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       margin: EdgeInsetsDirectional.only(bottom: exerciseDays.length == index+1 ? 0: 12),
                       child: MButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTemplateScreen(
-                            exerciseBlocks: exerciseDay.exerciseBlocks,
-                            onCreate: (value) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                            exerciseBundles: exerciseDay.exerciseBundles,
+                            onSubmit: (value) {
                               setState(() {
-                                exerciseDays[index].exerciseBlocks = value;
+                                exerciseDays[index].exerciseBundles = value;
                               });
                             },
                           ),));
@@ -244,7 +244,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                                 ),
                               ),
                               Text(
-                                '${exerciseDay.exerciseBlocks.length} exercises',
+                                '${exerciseDay.exerciseBundles.length} exercises',
                                 style: TextStyle(
                                   color: mt(context).text.secondaryColor,
                                 ),

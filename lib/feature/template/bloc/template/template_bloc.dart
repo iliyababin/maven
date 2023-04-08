@@ -7,7 +7,7 @@ import '../../dao/template_dao.dart';
 import '../../dao/template_exercise_group_dao.dart';
 import '../../dao/template_exercise_set_dao.dart';
 import '../../dao/template_folder_dao.dart';
-import '../../dto/exercise_block.dart';
+import '../../dto/exercise_bundle.dart';
 import '../../model/template.dart';
 import '../../model/template_exercise_group.dart';
 import '../../model/template_exercise_set.dart';
@@ -25,8 +25,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
     on<TemplateCreate>(_create);
-    on<TemplateReorder>(_reorder);
+    on<TemplateUpdate>(_update);
     on<TemplateDelete>(_delete);
+    on<TemplateReorder>(_reorder);
     on<TemplateMoveToFolder>(_moveToFolder);
     on<TemplateStreamUpdateTemplates>(_updateTemplates);
   }
@@ -63,9 +64,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     int templateFolderId = templateFolders.first.templateFolderId!;
 
-    int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolderId));
+    int templateId = await templateDao.addTemplate(event.template.copyWith(templateFolderId: templateFolderId));
 
-    for (ExerciseBlock exerciseBlock in event.exerciseBlocks) {
+    for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
           restTimed: exerciseBlock.exerciseGroup.restTimed,
@@ -87,6 +88,21 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     }
 
     emit(state.copyWith(status: () => TemplateStatus.loaded));
+  }
+
+  Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading));
+
+    await templateDao.updateTemplate(event.template);
+
+    if(event.exerciseBundles != null) {
+      await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
+      await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
+      await templateDao.deleteTemplate(event.template);
+      add(TemplateCreate(template: event.template, exerciseBundles: event.exerciseBundles!));
+    }
+
+    emit(state.copyWith(status: () => TemplateStatus.add));
   }
 
   Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {

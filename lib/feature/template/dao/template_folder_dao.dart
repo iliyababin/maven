@@ -5,7 +5,6 @@ import '../model/template_folder.dart';
 
 @dao
 abstract class TemplateFolderDao {
-
   @insert
   Future<int> addTemplateFolder(TemplateFolder templateFolder);
 

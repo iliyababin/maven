@@ -13,6 +13,9 @@ abstract class TemplateExerciseSetDao {
   @Query('SELECT * FROM template_exercise_set WHERE template_exercise_group_id = :templateExerciseGroupId')
   Future<List<TemplateExerciseSet>> getTemplateExerciseSetsByTemplateExerciseGroupId(int templateExerciseGroupId);
 
+  @update
+  Future<void> updateTemplateExerciseSet(TemplateExerciseSet templateExerciseSet);
+
   @delete
   Future<void> deleteTemplateExerciseSet(TemplateExerciseSet templateExerciseSet);
 
