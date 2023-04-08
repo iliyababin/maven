@@ -1,6 +1,8 @@
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';
@@ -51,23 +53,34 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                 actions: [
                   IconButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
-                        exerciseBundles: state.exerciseBundles,
-                        onSubmit: (value) {
-                          context.read<TemplateBloc>().add(TemplateUpdate(template: widget.template, exerciseBundles: value));
-                          Navigator.pop(context);
-                        },
-                      )));
+                      showBottomSheetDialog(
+                        context: context,
+                        child: Column(
+                          children: [
+                            MButton.tiled(
+                              onPressed: (){
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                                  exerciseBundles: state.exerciseBundles,
+                                  onSubmit: (value) {
+                                    context.read<TemplateBloc>().add(TemplateUpdate(template: widget.template, exerciseBundles: value));
+                                    Navigator.pop(context);
+                                  },
+                                )));
+                              },
+                              leading: Icon(
+                                Icons.edit_rounded,
+                                color: mt(context).icon.accentColor,
+                              ),
+                              title: 'Edit',
+                            )
+                          ],
+                        ),
+                        onClose: (){},
+                      );
                     },
                     icon: Icon(
-                      Icons.mode_edit_rounded,
-                      color: mt(context).icon.accentColor,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: (){},
-                    icon: Icon(
-                      Icons.info_outline_rounded,
+                      Icons.more_vert_rounded,
                       color: mt(context).icon.accentColor,
                     ),
                   ),

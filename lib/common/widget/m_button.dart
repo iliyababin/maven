@@ -58,7 +58,8 @@ class MButton extends StatelessWidget {
     this.expand = true,
   }) :  leadingPadding = const EdgeInsets.only(),
         trailingPadding = const EdgeInsets.only(),
-        trailing = null;
+        trailing = null,
+        title = null;
 
   /// Creates a button similar to [ListTile].
   /// 
@@ -66,7 +67,7 @@ class MButton extends StatelessWidget {
   const MButton.tiled({super.key,
     required this.onPressed,
     required this.leading,
-    required this.child,
+    required this.title,
     this.trailing,
     this.height = 62,
     this.width = double.infinity,
@@ -78,7 +79,8 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.expand = false,
-  }) : trailingPadding = const EdgeInsets.only(right: 30);
+  }) :  trailingPadding = const EdgeInsets.only(right: 30),
+        child = null;
 
   /// Called when the button is tapped.
   final VoidCallback onPressed;
@@ -125,6 +127,8 @@ class MButton extends StatelessWidget {
   /// Whether to use the expanded widget or not
   final bool expand;
 
+  final String? title;
+
   @override
   Widget build(BuildContext context) {
     if(width != double.infinity) {
@@ -168,7 +172,7 @@ class MButton extends StatelessWidget {
                   child: leading!
                 ),
                 if(leading != null && child != null) const SizedBox(width: 2,),
-                if(child != null) child!,
+                title != null ? Text(title!, style: TextStyle(fontSize: 18, color: mt(context).text.primaryColor),) : child!,
                 trailing != null ? Expanded(
                   child: Container(
                     padding: trailingPadding,

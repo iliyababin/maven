@@ -100,13 +100,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           color: mt(context).icon.accentColor,
                                           size: 26,
                                         ),
-                                        child: Text(
-                                          'Rename Workout',
-                                          style: TextStyle(
-                                              color: mt(context).text.primaryColor,
-                                              fontSize: 17
-                                          ),
-                                        ),
+                                        title: 'Rename Workout',
                                       ),
                                       MButton.tiled(
                                         onPressed: (){
@@ -118,13 +112,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           color: mt(context).icon.accentColor,
                                           size: 24,
                                         ),
-                                        child: Text(
-                                          'Reorder Exercises',
-                                          style: TextStyle(
-                                              color: mt(context).text.primaryColor,
-                                              fontSize: 17
-                                          ),
-                                        ),
+                                        title: 'Reorder Exercises',
                                       ),
                                       MButton.tiled(
                                         onPressed: () {
@@ -135,13 +123,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           color: mt(context).icon.accentColor,
                                           size: 26,
                                         ),
-                                        child: Text(
-                                          'Pause Workout',
-                                          style: TextStyle(
-                                              color: mt(context).text.primaryColor,
-                                              fontSize: 17
-                                          ),
-                                        ),
+                                        title: 'Pause Workout',
                                       ),
                                       MButton.tiled(
                                         onPressed: () {},
@@ -150,14 +132,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           color: mt(context).icon.errorColor,
                                           size: 26,
                                         ),
-                                        child: Text(
-                                          'Discard Workout',
-                                          style: TextStyle(
-                                              color: mt(context).text.errorColor,
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500
-                                          ),
-                                        ),
+                                        title: 'Discard Workout',
                                       ),
 
                                     ],

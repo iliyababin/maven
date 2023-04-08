@@ -103,12 +103,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         color: mt(context).text.secondaryColor,
                       ),
                     ),
-                    child: Text(
-                      'Name',
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
-                    ),
+                    title: 'Name',
                   ),
                   const SizedBox(height: 12,),
                   MButton.tiled(
@@ -140,12 +135,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         color: mt(context).text.secondaryColor,
                       ),
                     ),
-                    child: Text(
-                      'Weeks',
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
-                    ),
+                    title: 'Weeks',
                   ),
                   const SizedBox(height: 12,),
                   MButton.tiled(
@@ -172,12 +162,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         color: mt(context).text.secondaryColor,
                       ),
                     ),
-                    child: Text(
-                      'Days',
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
-                    ),
+                    title: 'Days',
                   ),
                 ]),
               ),
@@ -252,13 +237,6 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                             ],
                           ),
                         )
-                      ),
-                    );
-                    
-                    return Text(
-                      capitalize(exerciseDay.day.name),
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
                       ),
                     );
                   },

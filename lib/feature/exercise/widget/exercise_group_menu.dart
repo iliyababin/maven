@@ -71,13 +71,7 @@ class ExerciseGroupMenu extends StatelessWidget {
                                     color: mt(context).icon.accentColor,
                                   ),
                                 ) : Container(width: 20,),
-                                child: Text(
-                                  bar.name,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: mt(context).text.primaryColor,
-                                  ),
-                                ),
+                                title: bar.name,
                               );
                             },
                           ),
@@ -95,13 +89,7 @@ class ExerciseGroupMenu extends StatelessWidget {
             color: mt(context).icon.accentColor,
             size: 24,
           ),
-          child: Text(
-            'Bar Type',
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Bar Type',
         ) : Container(),
         MButton.tiled(
           onPressed: (){
@@ -129,13 +117,7 @@ class ExerciseGroupMenu extends StatelessWidget {
               fontSize: 17,
             ),
           ),
-          child: Text(
-            'Rest Timer',
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Rest Timer',
         ),
         MButton.tiled(
           onPressed: (){},
@@ -144,13 +126,7 @@ class ExerciseGroupMenu extends StatelessWidget {
             color: mt(context).icon.errorColor,
             size: 24,
           ),
-          child: Text(
-            'Remove',
-            style: TextStyle(
-              color: mt(context).text.errorColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Remove',
         ),
       ],
     );
