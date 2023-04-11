@@ -77,7 +77,7 @@ class _MKeyboardState extends State<MKeyboard> {
           ),
           Container(
             width: 1,
-            color: mt(context).borderColor,
+            color: mt(context).color.secondary,
           ),
           SizedBox(
             width: 70,

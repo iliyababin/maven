@@ -69,14 +69,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               height: 40,
               leading: const SizedBox(width: 12),
               mainAxisAlignment: MainAxisAlignment.start,
-              splashColor: mt(context).accentColor.withAlpha(50),
+              splashColor: mt(context).color.primary.withAlpha(50),
               child: Text(
                 widget.exercise.name,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: mt(context).text.accentColor,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: mt(context).textStyle.body1,
               ),
             ),
             MButton(
@@ -106,29 +102,29 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             set: Text(
               "SET",
               style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).text.primaryColor
+                fontSize: 13,
+                color: mt(context).color.primary,
               ),
             ),
             previous: Text(
               "PREVIOUS",
               style: TextStyle(
                   fontSize: 13,
-                  color: mt(context).text.primaryColor
+                  color: mt(context).color.primary,
               ),
             ),
             option1: Text(
               widget.exercise.exerciseType.exerciseTypeOption1.value,
               style: TextStyle(
                 fontSize: 13,
-                color: mt(context).text.primaryColor,
+                color: mt(context).color.primary,
               ),
             ),
             option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? Text(
               widget.exercise.exerciseType.exerciseTypeOption2!.value,
               style: TextStyle(
                 fontSize: 13,
-                color: mt(context).text.primaryColor,
+                color: mt(context).color.primary,
               ),
             ) : null,
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
@@ -187,7 +183,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             child: Text(
               'Add Set',
               style: TextStyle(
-                color: mt(context).text.accentColor,
+                color: mt(context).color.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

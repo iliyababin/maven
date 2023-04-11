@@ -42,9 +42,6 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       appBar: AppBar(
         title: Text(
           '${widget.exerciseBundles == null ? 'Create' : 'Edit'} Template',
-          style: TextStyle(
-            color: mt(context).text.primaryColor
-          ),
         ),
         actions: [
           IconButton(

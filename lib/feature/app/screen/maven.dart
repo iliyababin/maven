@@ -35,7 +35,7 @@ class _MavenState extends State<Maven> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mt(context).backgroundColor,
+      backgroundColor: mt(context).color.background,
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
@@ -60,22 +60,14 @@ class _MavenState extends State<Maven> {
                       const SizedBox(height: 10),
                       Text(
                         state.workout!.name,
-                        style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                        ),
+                        style: mt(context).textStyle.body1,
                       ),
                       StreamBuilder(
                         stream: Stream.periodic(Duration(seconds: 1)),
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                           return Text(
                             workoutDuration(state.workout?.timestamp ?? DateTime.now()),
-                            style: TextStyle(
-                              color: mt(context).text.secondaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                            ),
+                            style: mt(context).textStyle.subtitle1,
                           );
                         },
                       )
@@ -179,7 +171,7 @@ class _MavenState extends State<Maven> {
       height: 85,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: mt(context).backgroundColor,
+        color: mt(context).color.background,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),

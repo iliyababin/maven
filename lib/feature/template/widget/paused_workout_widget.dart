@@ -45,8 +45,8 @@ class PausedWorkoutWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                width: 1,
-                color: mt(context).borderColor
+              width: 1,
+              color: mt(context).color.secondary,
             ),
           ),
           child: Padding(
@@ -58,11 +58,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   children: [
                     Text(
                       workout.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: mt(context).text.primaryColor,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   ],
                 ),
@@ -72,9 +68,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       'Created ${timeago.format(workout.timestamp)}',
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor
-                      ),
+                      style: mt(context).textStyle.subtitle1,
                     );
                   },
                 )

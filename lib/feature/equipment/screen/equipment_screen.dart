@@ -11,11 +11,8 @@ class EquipmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Equipment',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
       ),
       body: ListView(
@@ -26,9 +23,7 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Plates',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
           ListTile(
@@ -37,18 +32,14 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Bars',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
           ListTile(
             onTap: () {},
             title: Text(
               'Machines',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
         ],

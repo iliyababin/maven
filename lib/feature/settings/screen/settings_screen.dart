@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import '../../../theme/m_themes.dart';
 import '../../equipment/screen/equipment_screen.dart';
 
 
@@ -15,15 +14,12 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Settings',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
       ),
       body: SettingsList(
-        lightTheme: SettingsThemeData(
+        /*lightTheme: SettingsThemeData(
           settingsSectionBackground: mt(context).foregroundColor,
           settingsListBackground: mt(context).backgroundColor,
           leadingIconsColor: mt(context).icon.secondaryColor,
@@ -31,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
           dividerColor: mt(context).borderColor,
           titleTextColor: mt(context).text.primaryColor,
           trailingTextColor: mt(context).text.secondaryColor,
-        ),
+        ),*/
         platform: DevicePlatform.iOS,
         sections: [
           SettingsSection(

@@ -60,7 +60,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
     weight = widget.plate.weight;
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,13 +81,8 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
               Navigator.pop(context);
             },
             width: 75,
-            child: Text(
+            child: const Text(
               'Save',
-              style: TextStyle(
-                  color: mt(context).text.accentColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500
-              ),
             ),
           )
         ],
@@ -123,15 +118,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Amount',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               '$amount plates',
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -151,33 +142,21 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Weight',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-                fontSize: 18,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               weight.toString(),
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-                fontSize: 16,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
             title: Text(
               'Size',
-              style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 18
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               height.toStringAsFixed(3),
-              style: TextStyle(
-                  color: mt(context).text.secondaryColor,
-                  fontSize: 16
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
             trailing: SizedBox(
               width: 200,
@@ -205,17 +184,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Color',
-              style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 18
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',
-              style: TextStyle(
-                  color: mt(context).text.secondaryColor,
-                  fontSize: 16
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
         ],

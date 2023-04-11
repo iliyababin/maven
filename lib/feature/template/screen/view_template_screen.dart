@@ -46,9 +46,6 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
               appBar: AppBar(
                 title: Text(
                   widget.template.name,
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor,
-                  ),
                 ),
                 actions: [
                   IconButton(
@@ -97,11 +94,7 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                                 color: mt(context).icon.errorColor,
                               ),
                               title: 'Delete',
-                              textStyle: TextStyle(
-                                fontSize: 17,
-                                color: mt(context).text.errorColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              textStyle: mt(context).textStyle.body1,
                             ),
                           ],
                         ),
@@ -122,15 +115,11 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                   return ListTile(
                     title: Text(
                       exerciseBundle.exercise.name,
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                     subtitle: Text(
                       exerciseBundle.exerciseSets.length.toString(),
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
+                      style: mt(context).textStyle.subtitle1,
                     ),
                   );
                 },

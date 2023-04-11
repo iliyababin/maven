@@ -44,7 +44,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Delete ${selectedBars.length} Bar(s)',
                       subtitle: 'This action cannot be undone',
-                      submitColor: mt(context).text.errorColor,
+                      submitColor: mt(context).color.error,
                       confirmText: 'Delete',
                       onSubmit: () {
                         setState(() {
@@ -68,7 +68,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Reset Bars',
                       subtitle: 'This will reset all bars to default',
-                      submitColor: mt(context).text.errorColor,
+                      submitColor: mt(context).color.error,
                       confirmText: 'Reset',
                       onSubmit: () {
                         setState(() {
@@ -128,7 +128,7 @@ class _BarScreenState extends State<BarScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditBarScreen(bar: bar)));
                         }
                       },
-                      splashColor: mt(context).borderColor,
+                      splashColor: mt(context).color.secondary,
                       onLongPress: () {
                         setState(() {
                           selectedBars.add(bar);
@@ -137,11 +137,11 @@ class _BarScreenState extends State<BarScreen> {
                       },
                       title: Text(
                         bar.name,
-                        style: mt(context).t.body1,
+                        style: mt(context).textStyle.body1,
                       ),
                       subtitle: Text(
                         bar.weight.toString(),
-                        style: mt(context).t.subtitle2,
+                        style: mt(context).textStyle.subtitle2,
                       ),
                       trailing: isSelecting ? null : Icon(
                         Icons.chevron_right_rounded,

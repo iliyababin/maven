@@ -153,13 +153,13 @@ class MButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? backgroundColor ?? mt(context).backgroundColor
+          color: borderColor ?? backgroundColor ?? mt(context).color.background,
         ),
         color: borderColor
       ),
       child: Material(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: backgroundColor ?? mt(context).backgroundColor,
+        color: backgroundColor ?? mt(context).color.background,
         child: InkWell(
           onTap: onPressed,
           splashFactory: InkRipple.splashFactory,
@@ -178,7 +178,7 @@ class MButton extends StatelessWidget {
                 if(leading != null && child != null) const SizedBox(width: 2,),
                 title != null ? Text(
                   title!,
-                  style: textStyle ?? mt(context).t.body1,
+                  style: textStyle ?? mt(context).textStyle.body1,
                 ) : child ?? Container(),
                 trailing != null ? Expanded(
                   child: Container(

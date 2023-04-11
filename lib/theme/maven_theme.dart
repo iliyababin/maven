@@ -13,14 +13,15 @@ class MavenTheme extends AppTheme {
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 1,
-        backgroundColor: options.backgroundColor,
+        backgroundColor: options.color.background,
         iconTheme: IconThemeData(
-          color: options.accentColor,
+          color: options.color.primary,
         ),
       ),
-      scaffoldBackgroundColor: options.backgroundColor,
+      scaffoldBackgroundColor: options.color.background,
     ),
     description: description,
     options: options
   );
 }
+

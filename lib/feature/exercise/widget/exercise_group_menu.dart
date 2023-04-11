@@ -45,7 +45,7 @@ class ExerciseGroupMenu extends StatelessWidget {
                             child: Text(
                               'Bar Type',
                               style: TextStyle(
-                                color: mt(context).text.primaryColor,
+                                color: mt(context).color.primary,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -112,10 +112,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
           trailing: Text(
             '(${exerciseGroup.restTimed.toString()})',
-            style: TextStyle(
-              color: mt(context).text.secondaryColor,
-              fontSize: 17,
-            ),
+            style: mt(context).textStyle.subtitle1,
           ),
           title: 'Rest Timer',
         ),

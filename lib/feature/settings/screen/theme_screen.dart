@@ -24,11 +24,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
     List<AppTheme> themes = ThemeProvider.controllerOf(context).allThemes;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Theme',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
       ),
       body: ListView(
@@ -40,9 +37,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
             child: RadioListTile(
               title: Text(
                 theme.description,
-                style: TextStyle(
-                    color: mt(context).text.primaryColor
-                ),
+                style: mt(context).textStyle.body1,
               ),
               value: theme.id,
               onChanged:(value) {

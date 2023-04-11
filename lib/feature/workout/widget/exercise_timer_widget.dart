@@ -47,8 +47,8 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           child: Stack(
             children: [
               LinearProgressIndicator(
-                backgroundColor: mt(context).foregroundColor,
-                color: mt(context).accentColor,
+                backgroundColor: mt(context).color.error,
+                color: mt(context).color.primary,
                 value: timeLeft / totalTime,
                 minHeight: 38,
               ),
@@ -56,7 +56,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                 child: Text(
                   secondsToTime(timeLeft),
                   style: TextStyle(
-                    color: timeLeft / totalTime > 0.5 ? mt(context).text.whiteColor : mt(context).text.primaryColor,
+                    color: timeLeft / totalTime > 0.5 ? mt(context).color.neutral : mt(context).color.primary,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),
@@ -90,12 +90,12 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
       leading: Icon(
         Icons.timer,
         size: 21,
-        color: mt(context).text.primaryColor,
+        color: mt(context).color.primary,
       ),
       height: 38,
       width: 38,
-      backgroundColor: mt(context).backgroundColor,
-      borderColor: mt(context).borderColor,
+      backgroundColor: mt(context).color.background,
+      borderColor: mt(context).color.secondary,
     );
   }
 }

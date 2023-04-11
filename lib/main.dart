@@ -1,7 +1,8 @@
 
 import 'dart:convert';
 
-import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/theme/theme/dark_theme.dart';
+import 'package:Maven/theme/theme/light_theme.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,10 @@ class Main extends StatelessWidget {
     return ThemeProvider(
       saveThemesOnChange: true,
       loadThemeOnInit: true,
-      themes: getThemes(context),
+      themes: [
+        LightTheme(),
+        DarkTheme(),
+      ],
       child: ThemeConsumer(
         child: Builder(
           builder: (themeContext) =>

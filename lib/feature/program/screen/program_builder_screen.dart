@@ -32,7 +32,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
       padding: const EdgeInsetsDirectional.only(top: 24, bottom: 12),
       child: Text(
         title,
-        style: mt(context).t.heading1,
+        style: mt(context).textStyle.heading1,
       ),
     ),
   );
@@ -45,11 +45,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Program Builder',
-            style: TextStyle(
-              color: mt(context).text.primaryColor
-            ),
           ),
           actions: [
             IconButton(
@@ -64,7 +61,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.all(mt(context).sidePadding),
+          padding: EdgeInsets.all(mt(context).padding.page),
           child: CustomScrollView(
             slivers: [
               title('Basic'),
@@ -93,10 +90,10 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
-                    borderColor: mt(context).borderColor,
+                    borderColor: mt(context).color.secondary,
                     trailing: Text(
                       _name,
-                      style: mt(context).t.subtitle1,
+                      style: mt(context).textStyle.subtitle1,
                     ),
                     title: 'Name',
                   ),
@@ -123,10 +120,10 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
-                    borderColor: mt(context).borderColor,
+                    borderColor: mt(context).color.secondary,
                     trailing: Text(
                       _weeks.toString(),
-                      style: mt(context).t.subtitle1,
+                      style: mt(context).textStyle.subtitle1,
                     ),
                     title: 'Weeks',
                   ),
@@ -148,10 +145,10 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
-                    borderColor: mt(context).borderColor,
+                    borderColor: mt(context).color.secondary,
                     trailing: Text(
                       exerciseDays.getAbbreviations(),
-                      style: mt(context).t.subtitle1,
+                      style: mt(context).textStyle.subtitle1,
                     ),
                     title: 'Days',
                   ),
@@ -211,7 +208,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       },
                       expand: false,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      borderColor: mt(context).borderColor,
+                      borderColor: mt(context).color.secondary,
                       borderRadius: 12,
                       padding: const EdgeInsets.all(16),
                       child: Expanded(
@@ -220,19 +217,19 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: mt(context).t.heading2,
+                              style: mt(context).textStyle.heading2,
                             ),
                             const SizedBox(height: 4,),
                             Text(
                               '${exerciseDay.exerciseBundles.length} exercises',
-                              style: mt(context).t.subtitle2,
+                              style: mt(context).textStyle.subtitle2,
                             ),
                             const SizedBox(height: 6,),
                             Expanded(
                               child: ListView(
                                 children: exerciseDay.exerciseBundles.map((e) => Text(
                                   '\u2022 ${e.exercise.name}',
-                                  style: mt(context).t.body1,
+                                  style: mt(context).textStyle.body1,
                                   maxLines: 1,
                                 )).toList(),
                               ),

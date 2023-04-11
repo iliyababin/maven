@@ -58,7 +58,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
         style: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w900,
-          color: mt(context).text.primaryColor,
+          color: mt(context).color.primary,
         ),
       ),
     );
@@ -79,22 +79,22 @@ class _NumPadWidgetState extends State<NumPadWidget> {
             decoration: InputDecoration(
                 hintText: '',
                 hintStyle: TextStyle(
-                  color: mt(context).text.primaryColor,
+                  color: mt(context).color.primary,
                   fontSize: 18
                 ),
                 enabledBorder: InputBorder.none,
                 border: InputBorder.none
             ),
             style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 18
+              color: mt(context).color.primary,
+              fontSize: 18,
             ),
           ),
         ),
 
         Container(
           height: 2,
-          color: mt(context).borderColor,
+          color: mt(context).color.secondary,
         ),
 
         Expanded(

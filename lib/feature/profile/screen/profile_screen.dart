@@ -11,8 +11,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TitledScaffold(
       title: 'Profile',
-      body:Padding(
-        padding: EdgeInsets.all(mt(context).sidePadding),
+      body: Padding(
+        padding: EdgeInsets.all(mt(context).padding.page),
         child: ListView(
           children: [
             ElevatedButton(

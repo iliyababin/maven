@@ -16,7 +16,7 @@ class TemplateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: mt(context).backgroundColor,
+      color: mt(context).color.background,
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTemplateScreen(
@@ -29,7 +29,7 @@ class TemplateCard extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_borderRadius),
               border: Border.all(
-                color: mt(context).borderColor,
+                color: mt(context).color.secondary,
               )
           ),
           padding: const EdgeInsets.all(15.0),
@@ -38,20 +38,20 @@ class TemplateCard extends StatelessWidget {
             children: [
               Text(
                 template.name,
-                style: mt(context).t.heading2,
+                style: mt(context).textStyle.heading2,
                 maxLines: 1,
               ),
               const SizedBox(height: 3,),
               Text(
                 'Chest, Triceps, Shoulders',
-                style: mt(context).t.subtitle2,
+                style: mt(context).textStyle.subtitle2,
               ),
               const SizedBox(
                 height: 3,
               ),
               Text(
                 'Description: Doing stuffs',
-                style: mt(context).t.subtitle1,
+                style: mt(context).textStyle.subtitle1,
               ),
             ],
           ),

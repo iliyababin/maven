@@ -26,11 +26,7 @@ class TimedPickerDialog extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
           const SizedBox(height: 8),
@@ -48,10 +44,7 @@ class TimedPickerDialog extends StatelessWidget {
                   Center(
                     child: Text(
                       index.toString(),
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: mt(context).text.primaryColor
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   ),
               ),
@@ -116,15 +109,11 @@ class TimedPickerDialog extends StatelessWidget {
 
                 expand: true,
                 height: 40,
-                borderColor: mt(context).borderColor,
-                backgroundColor: mt(context).backgroundColor,
+                backgroundColor: mt(context).color.background,
+                borderColor: mt(context).color.secondary,
                 child: Text(
                   'Cancel',
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: mt(context).textStyle.body1,
                 ),
               ),
 
@@ -137,16 +126,12 @@ class TimedPickerDialog extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 },
-                backgroundColor: mt(context).accentColor,
+                backgroundColor: mt(context).color.primary,
                 borderRadius: 12,
                 height: 50,
                 child: Text(
                   'Submit',
-                  style: TextStyle(
-                      color: mt(context).text.whiteColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
-                  ),
+                  style: mt(context).textStyle.body1,
                 ),
               ),
             ],

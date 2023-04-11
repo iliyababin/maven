@@ -14,7 +14,7 @@ class TitledScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: mt(context).backgroundColor,
+      backgroundColor: mt(context).color.background,
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -22,7 +22,7 @@ class TitledScaffold extends StatelessWidget {
               largeTitle: Text(
                 title,
                 style: TextStyle(
-                  color: mt(context).text.primaryColor,
+                  color: mt(context).color.primary,
                 ),
               ),
               backgroundColor: mt(context).sliverNavigationBarBackgroundColor,

@@ -16,11 +16,8 @@ class SelectExerciseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Add Exercise',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
       ),
       body: BlocBuilder<ExerciseBloc, ExerciseState>(
@@ -39,9 +36,7 @@ class SelectExerciseScreen extends StatelessWidget {
                   onTap: () => Navigator.pop(context, exercise),
                   title: Text(
                     exercise.name,
-                    style: TextStyle(
-                        color: mt(context).text.primaryColor
-                    ),
+                    style: mt(context).textStyle.body1,
                   ),
                 );
               },

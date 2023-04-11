@@ -32,7 +32,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
       padding: EdgeInsets.only(bottom: 13, top: top),
       child: Text(
         title,
-        style: mt(context).t.heading1,
+        style: mt(context).textStyle.heading1,
       ),
     ),
   );
@@ -43,13 +43,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
       decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.circular(10),
           border: Border.all(
-              color: mt(context).borderColor
+            color: mt(context).color.secondary,
           )
       ),
       alignment: FractionalOffset.center,
       child: Text(
         'Empty',
-        style: mt(context).t.subtitle1,
+        style: mt(context).textStyle.subtitle1,
       ),
     ),
   );
@@ -59,7 +59,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
     return TitledScaffold(
       title: 'Workout',
       body: Padding(
-        padding: EdgeInsets.all(mt(context).sidePadding),
+        padding: EdgeInsets.all(mt(context).padding.page),
         child: CustomScrollView(
           slivers: [
             title('Quick Start', top: 12),
@@ -73,14 +73,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     },
                     expand: false,
                     width: double.infinity,
-                    backgroundColor: mt(context).accentColor,
+                    backgroundColor: mt(context).color.secondary,
                     child: Text(
                       'Start an Empty Workout',
-                      style: TextStyle(
-                        color: mt(context).text.whiteColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   ),
                   const SizedBox(
@@ -113,7 +109,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             },
                           )));
                         },
-                        borderColor: mt(context).borderColor,
+                        borderColor: mt(context).color.secondary,
                         leading: Icon(
                           Icons.post_add,
                           size: 20,
@@ -121,7 +117,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         ),
                         child: Text(
                           'Create Template',
-                          style: mt(context).t.body2,
+                          style: mt(context).textStyle.body2,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -129,7 +125,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
                         },
-                        borderColor: mt(context).borderColor,
+                        borderColor: mt(context).color.secondary,
                         leading: Icon(
                           Icons.polyline,
                           size: 18,
@@ -137,7 +133,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         ),
                         child: Text(
                           'Program Builder',
-                          style: mt(context).t.body2,
+                          style: mt(context).textStyle.body2,
                         ),
                       )
                     ],
@@ -161,9 +157,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return SliverToBoxAdapter(
                     child: Text(
                       'Something s wrong',
-                      style: TextStyle(
-                        color: mt(context).text.errorColor,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   );
                 } else {
@@ -221,9 +215,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return SliverToBoxAdapter(
                     child: Text(
                       'There was an error fetching the templates.',
-                      style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   );
                 }

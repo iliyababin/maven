@@ -48,7 +48,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 Container(
                   padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
                   decoration: BoxDecoration(
-                    color: mt(context).backgroundColor,
+                    color: mt(context).color.background,
                     shape: BoxShape.rectangle,
                   ),
                   child: Row(
@@ -79,8 +79,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               height: 38,
                               width: 38,
-                              backgroundColor: mt(context).backgroundColor,
-                              borderColor: mt(context).borderColor,
+                              backgroundColor: mt(context).color.background,
+                              borderColor: mt(context).color.secondary,
                             ),
                             const SizedBox(width: 8,),
                             MButton(
@@ -147,8 +147,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               height: 38,
                               width: 38,
-                              backgroundColor: mt(context).backgroundColor,
-                              borderColor: mt(context).borderColor,
+                              backgroundColor: mt(context).color.background,
+                              borderColor: mt(context).color.secondary,
                             ),
                             const SizedBox(width: 8,),
                             ExerciseTimerWidget(
@@ -166,7 +166,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         child: Text(
                           'Finish',
                           style: TextStyle(
-                            color: mt(context).text.whiteColor,
+                            color: mt(context).color.primary,
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
                           ),
@@ -197,7 +197,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         hintText: 'Workout'
                                     ),
                                     style: TextStyle(
-                                      color: mt(context).text.primaryColor,
+                                      color: mt(context).color.primary,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 25,
                                     ),
@@ -208,10 +208,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                       return Text(
                                         workoutDuration(workout.timestamp),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: mt(context).text.secondaryColor
-                                        ),
+                                        style: mt(context).textStyle.subtitle1,
                                       );
                                     },
                                   )

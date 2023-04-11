@@ -1,4 +1,3 @@
-import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 class ProgramEditorScreen extends StatelessWidget {
@@ -8,11 +7,8 @@ class ProgramEditorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Program Editor',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
       ),
     );

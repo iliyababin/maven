@@ -48,7 +48,7 @@ class ConfirmationDialog extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: mt(context).text.primaryColor,
+              color: mt(context).color.primary,
               fontSize: 20,
               fontWeight: FontWeight.w700,
             ),
@@ -57,10 +57,7 @@ class ConfirmationDialog extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 16,
-            ),
+            style: mt(context).textStyle.body1,
           ),
           const SizedBox(height: 30),
           Row(
@@ -70,17 +67,13 @@ class ConfirmationDialog extends StatelessWidget {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                backgroundColor: cancelColor ?? mt(context).backgroundColor,
-                borderColor: mt(context).borderColor,
+                backgroundColor: cancelColor ?? mt(context).color.background,
+                borderColor: mt(context).color.secondary,
                 borderRadius: 12,
                 height: 50,
                 child: Text(
                   cancelText,
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: mt(context).textStyle.body1,
                 ),
               ),
               const SizedBox(width: 15),
@@ -89,16 +82,12 @@ class ConfirmationDialog extends StatelessWidget {
                   onSubmit();
                   Navigator.pop(context);
                 },
-                backgroundColor: submitColor ?? mt(context).accentColor,
+                backgroundColor: submitColor ?? mt(context).color.primary,
                 borderRadius: 12,
                 height: 50,
                 child: Text(
                   confirmText,
-                  style: TextStyle(
-                    color: mt(context).text.whiteColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: mt(context).textStyle.body1,
                 ),
               )
             ],

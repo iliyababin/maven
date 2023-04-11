@@ -33,9 +33,6 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
       appBar: AppBar(
         title: Text(
           'Days',
-          style: TextStyle(
-            color: mt(context).text.primaryColor,
-          ),
         ),
         actions: [
           IconButton(
@@ -76,9 +73,7 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
             ) ,
             title: Text(
               capitalize(day.name),
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           );
         },
