@@ -137,17 +137,11 @@ class _BarScreenState extends State<BarScreen> {
                       },
                       title: Text(
                         bar.name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: mt(context).text.primaryColor,
-                        ),
+                        style: mt(context).t.body1,
                       ),
                       subtitle: Text(
                         bar.weight.toString(),
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: mt(context).text.secondaryColor,
-                        ),
+                        style: mt(context).t.subtitle2,
                       ),
                       trailing: isSelecting ? null : Icon(
                         Icons.chevron_right_rounded,

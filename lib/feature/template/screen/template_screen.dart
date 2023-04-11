@@ -32,11 +32,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
       padding: EdgeInsets.only(bottom: 13, top: top),
       child: Text(
         title,
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w900,
-          color: mt(context).text.primaryColor,
-        ),
+        style: mt(context).t.heading1,
       ),
     ),
   );
@@ -53,10 +49,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
       alignment: FractionalOffset.center,
       child: Text(
         'Empty',
-        style: TextStyle(
-            color: mt(context).text.secondaryColor,
-            fontSize: 14
-        ),
+        style: mt(context).t.subtitle1,
       ),
     ),
   );
@@ -128,10 +121,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         ),
                         child: Text(
                           'Create Template',
-                          style: TextStyle(
-                            color: mt(context).text.accentColor,
-                            fontSize: 15,
-                          ),
+                          style: mt(context).t.body2,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -147,10 +137,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         ),
                         child: Text(
                           'Program Builder',
-                          style: TextStyle(
-                            color: mt(context).text.accentColor,
-                            fontSize: 15,
-                          ),
+                          style: mt(context).t.body2,
                         ),
                       )
                     ],

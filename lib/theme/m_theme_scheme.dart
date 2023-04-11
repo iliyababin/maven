@@ -10,10 +10,12 @@ import 'package:Maven/theme/widget/m_text_field_theme.dart';
 import 'package:Maven/theme/widget/m_text_theme.dart';
 import 'package:Maven/theme/widget/template_card_theme.dart';
 import 'package:Maven/theme/widget/template_folder_theme.dart';
+import 'package:Maven/theme/widget/text_style_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-class MThemeScheme implements AppThemeOptions {
-  MThemeScheme({
+class MavenThemeOptions implements AppThemeOptions  {
+  MavenThemeOptions({
     required this.sidePadding,
 
     required this.accentColor,
@@ -22,6 +24,7 @@ class MThemeScheme implements AppThemeOptions {
     required this.foregroundColor,
 
     required this.text,
+    required this.t,
     required this.bottomNavigationBar,
     required this.icon,
     required this.popupMenu,
@@ -35,7 +38,6 @@ class MThemeScheme implements AppThemeOptions {
 
     required this.sliverNavigationBarBackgroundColor,
     required this.handleBarColor,
-
   });
   
   final double sidePadding;
@@ -46,6 +48,7 @@ class MThemeScheme implements AppThemeOptions {
   final Color foregroundColor;
 
   final MTextTheme text;
+  final TextStyleTheme t;
   final MBottomNavigationBarTheme bottomNavigationBar;
   final MIconTheme icon;
   final MDialogTheme dialog;

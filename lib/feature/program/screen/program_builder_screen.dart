@@ -32,11 +32,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
       padding: const EdgeInsetsDirectional.only(top: 24, bottom: 12),
       child: Text(
         title,
-        style: TextStyle(
-          color: mt(context).text.primaryColor,
-          fontSize: 25,
-          fontWeight: FontWeight.w700,
-        ),
+        style: mt(context).t.heading1,
       ),
     ),
   );
@@ -58,6 +54,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           actions: [
             IconButton(
               onPressed: () {
+
               },
               icon: Icon(
                 Icons.check_rounded,
@@ -99,9 +96,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     borderColor: mt(context).borderColor,
                     trailing: Text(
                       _name,
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor,
-                      ),
+                      style: mt(context).t.subtitle1,
                     ),
                     title: 'Name',
                   ),
@@ -131,9 +126,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     borderColor: mt(context).borderColor,
                     trailing: Text(
                       _weeks.toString(),
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor,
-                      ),
+                      style: mt(context).t.subtitle1,
                     ),
                     title: 'Weeks',
                   ),
@@ -158,9 +151,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     borderColor: mt(context).borderColor,
                     trailing: Text(
                       exerciseDays.getAbbreviations(),
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor,
-                      ),
+                      style: mt(context).t.subtitle1,
                     ),
                     title: 'Days',
                   ),
@@ -229,27 +220,20 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w500,
-                                color: mt(context).text.primaryColor,
-                              ),
+                              style: mt(context).t.heading2,
                             ),
-                            const SizedBox(height: 6,),
+                            const SizedBox(height: 4,),
                             Text(
                               '${exerciseDay.exerciseBundles.length} exercises',
-                              style: TextStyle(
-                                color: mt(context).text.accentColor,
-                              ),
+                              style: mt(context).t.subtitle2,
                             ),
                             const SizedBox(height: 6,),
                             Expanded(
                               child: ListView(
                                 children: exerciseDay.exerciseBundles.map((e) => Text(
                                   '\u2022 ${e.exercise.name}',
-                                  style: TextStyle(
-                                    color: mt(context).text.secondaryColor,
-                                  ),
+                                  style: mt(context).t.body1,
+                                  maxLines: 1,
                                 )).toList(),
                               ),
                             )
