@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:Maven/common/widget/heading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,16 +28,6 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
-  SliverToBoxAdapter title(String title, {double top = 32}) => SliverToBoxAdapter(
-    child: Padding(
-      padding: EdgeInsets.only(bottom: 13, top: top),
-      child: Text(
-        title,
-        style: mt(context).textStyle.heading1,
-      ),
-    ),
-  );
-
   SliverToBoxAdapter empty() => SliverToBoxAdapter(
     child: Container(
       height: 100,
@@ -62,7 +53,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
         padding: EdgeInsets.all(mt(context).padding.page),
         child: CustomScrollView(
           slivers: [
-            title('Quick Start', top: 12),
+            const Heading(title: 'Quick Start', topPadding: false,),
             SliverList(delegate: SliverChildListDelegate([
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,10 +64,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     },
                     expand: false,
                     width: double.infinity,
-                    backgroundColor: mt(context).color.secondary,
+                    backgroundColor: mt(context).color.primary,
                     child: Text(
                       'Start an Empty Workout',
-                      style: mt(context).textStyle.body1,
+                      style: mt(context).textStyle.button1,
                     ),
                   ),
                   const SizedBox(
@@ -110,14 +101,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           )));
                         },
                         borderColor: mt(context).color.secondary,
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.post_add,
-                          size: 20,
-                          color: mt(context).icon.accentColor,
                         ),
                         child: Text(
                           'Create Template',
-                          style: mt(context).textStyle.body2,
+                          style: mt(context).textStyle.button2,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -126,14 +115,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
                         },
                         borderColor: mt(context).color.secondary,
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.polyline,
-                          size: 18,
-                          color: mt(context).icon.accentColor,
                         ),
                         child: Text(
                           'Program Builder',
-                          style: mt(context).textStyle.body2,
+                          style: mt(context).textStyle.button2,
                         ),
                       )
                     ],
@@ -142,7 +129,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
               ),
             ]),),
 
-            title('In Progress'),
+            const Heading(title: 'In Progress',),
             BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if(state.status == WorkoutStatus.loading) {
@@ -191,7 +178,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
               },
             ),
 
-            title('Templates'),
+            const Heading(title: 'Templates',),
             BlocBuilder<TemplateBloc, TemplateState>(
               builder: (context, state) {
                 if(state.status.isLoading) {

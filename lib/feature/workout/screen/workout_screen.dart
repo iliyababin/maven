@@ -74,8 +74,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               },
                               leading: Icon(
                                 Icons.add_rounded,
-                                size: 30,
-                                color: mt(context).icon.accentColor,
+                                color: mt(context).color.primary,
                               ),
                               height: 38,
                               width: 38,
@@ -97,8 +96,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         },
                                         leading: Icon(
                                           Icons.drive_file_rename_outline_rounded,
-                                          color: mt(context).icon.accentColor,
-                                          size: 26,
+                                          color: mt(context).color.primary,
                                         ),
                                         title: 'Rename Workout',
                                       ),
@@ -109,8 +107,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         },
                                         leading: Icon(
                                           CupertinoIcons.arrow_up_arrow_down,
-                                          color: mt(context).icon.accentColor,
-                                          size: 24,
+                                          color: mt(context).color.primary,
                                         ),
                                         title: 'Reorder Exercises',
                                       ),
@@ -120,8 +117,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         },
                                         leading: Icon(
                                           Icons.pause_circle_outline_rounded,
-                                          color: mt(context).icon.accentColor,
-                                          size: 26,
+                                          color: mt(context).color.primary,
                                         ),
                                         title: 'Pause Workout',
                                       ),
@@ -129,8 +125,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         onPressed: () {},
                                         leading: Icon(
                                           Icons.delete_rounded,
-                                          color: mt(context).icon.errorColor,
-                                          size: 26,
+                                          color: mt(context).color.error,
                                         ),
                                         title: 'Discard Workout',
                                       ),
@@ -140,10 +135,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   onClose: () {},
                                 );
                               },
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.more_horiz,
-                                size: 25,
-                                color: mt(context).icon.primaryColor,
                               ),
                               height: 38,
                               width: 38,

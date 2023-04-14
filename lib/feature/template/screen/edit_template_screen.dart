@@ -2,7 +2,6 @@ import 'package:Maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
-import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
@@ -48,9 +47,8 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             onPressed: (){
               widget.onSubmit(exerciseBundles);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.check_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
         ],

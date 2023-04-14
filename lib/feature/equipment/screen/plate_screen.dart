@@ -56,9 +56,8 @@ class _PlateScreenState extends State<PlateScreen> {
                 onClose: (){},
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.delete_outline_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
         ] : [
@@ -80,18 +79,16 @@ class _PlateScreenState extends State<PlateScreen> {
                 onClose: (){},
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.restart_alt_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
           IconButton(
             onPressed: () async {
               context.read<EquipmentBloc>().add(PlateAddEmpty());
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.add_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
         ]
@@ -151,9 +148,8 @@ class _PlateScreenState extends State<PlateScreen> {
                         color: mt(context).color.primary,
                       ),
                     ),
-                    trailing: isSelecting ? null : Icon(
+                    trailing: isSelecting ? null : const Icon(
                       Icons.chevron_right_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                   ),
                 );

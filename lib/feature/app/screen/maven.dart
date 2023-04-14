@@ -82,9 +82,6 @@ class _MavenState extends State<Maven> {
           },
         )
       ),
-      /*persistentFooterButtons: [
-        persistentFooterButtons()
-      ],*/
       bottomNavigationBar: bottomNavigationBar()
     );
   }
@@ -205,17 +202,7 @@ class _MavenState extends State<Maven> {
     return SizedBox(
       height: /*56 - 56 * panelPosition*/ 56,
       child: BottomNavigationBar(
-        backgroundColor: mt(context).bottomNavigationBar.backgroundColor,
-        selectedItemColor: mt(context).bottomNavigationBar.selectedItemColor,
-        unselectedItemColor: mt(context).bottomNavigationBar.unselectedItemColor,
-        type: BottomNavigationBarType.fixed,
-        // TODO: here unselectedIconTheme: const IconThemeData(),
-        selectedLabelStyle: const TextStyle(
-          fontSize: 12,
-        ),
         currentIndex: _selectedIndex,
-        elevation: 0,
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

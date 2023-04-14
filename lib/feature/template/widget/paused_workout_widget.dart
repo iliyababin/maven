@@ -22,7 +22,7 @@ class PausedWorkoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(10),
-      color: mt(context).templateFolder.backgroundColor,
+      color: mt(context).color.background,
       child: InkWell(
         onTap: () {
           showBottomSheetDialog(

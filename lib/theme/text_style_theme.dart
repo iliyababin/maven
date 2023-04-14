@@ -1,50 +1,53 @@
 import 'package:flutter/material.dart';
-
 class TextStyleTheme {
   TextStyleTheme({
     required Color heading1,
     required Color heading2,
+    required Color heading3,
     required Color body1,
-    required Color body2,
     required Color subtitle1,
     required Color subtitle2,
-  }) {
-    this.heading1 = TextStyle(
-      color: heading1,
-      fontSize: 24,
-      fontWeight: FontWeight.w700,
-    );
-    this.heading2 = TextStyle(
-      color: heading2,
-      fontSize: 19,
-      fontWeight: FontWeight.w600,
-      overflow: TextOverflow.ellipsis,
-    );
-    this.body1 = TextStyle(
-      color: body1,
-      fontSize: 15,
-      overflow: TextOverflow.ellipsis,
-    );
-    this.body2 = TextStyle(
-      color: body2,
-      fontSize: 15,
-      overflow: TextOverflow.ellipsis,
-    );
-    this.subtitle1 = TextStyle(
-      color: subtitle1,
-      fontSize: 14,
-    );
-    this.subtitle2 = TextStyle(
+    required Color button1,
+    required Color button2,
+  }) : heading1 = TextStyle(
+    color: heading2,
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+  ), heading2 = TextStyle(
+    color: heading2,
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+  ), heading3 = TextStyle(
+    color: heading3,
+    fontSize: 19,
+    fontWeight: FontWeight.w500,
+    overflow: TextOverflow.ellipsis,
+  ), body1 = TextStyle(
+    color: body1,
+    fontSize: 16,
+    overflow: TextOverflow.ellipsis,
+  ), subtitle1 = TextStyle(
+    color: subtitle1,
+    fontSize: 15,
+  ), subtitle2 = TextStyle(
       color: subtitle2,
-      fontSize: 15,
+      fontSize: 16,
       fontWeight: FontWeight.w500
-    );
-  }
+  ), button1 = TextStyle(
+    color: button1,
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+  ), button2 = TextStyle(
+    color: button2,
+    fontSize: 16,
+  );
 
-  late final TextStyle heading1;
-  late final TextStyle heading2;
-  late final TextStyle body1;
-  late final TextStyle body2;
-  late final TextStyle subtitle1;
-  late final TextStyle subtitle2;
+  final TextStyle heading1;
+  final TextStyle heading2;
+  final TextStyle heading3;
+  final TextStyle body1;
+  final TextStyle subtitle1;
+  final TextStyle subtitle2;
+  final TextStyle button1;
+  final TextStyle button2;
 }

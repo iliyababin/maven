@@ -92,7 +92,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.history_rounded,
-                    color: _selectedTab == 0 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                    color: _selectedTab == 0 ? null : mt(context).color.text,
                   ),
                 ),
                 ExerciseEquipment.barbell == widget.exerciseEquipment ? MButton(
@@ -104,7 +104,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.calculate_rounded,
-                    color: _selectedTab == 1 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                    color: _selectedTab == 1 ? null : mt(context).color.text,
                   ),
                 ) : Container(),
                 MButton(
@@ -116,7 +116,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.numbers_rounded,
-                    color: _selectedTab == 2 ? mt(context).icon.accentColor : mt(context).icon.primaryColor,
+                    color: _selectedTab == 2 ? null : mt(context).color.text,
                   ),
                 ),
                 MButton(
@@ -127,7 +127,6 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.check,
-                    color: mt(context).icon.completeColor,
                   ),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:Maven/feature/template/screen/edit_template_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/widget/heading.dart';
 import '../../../common/widget/m_button.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
@@ -27,16 +28,6 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
     ExerciseDay(day: Day.friday, exerciseBundles: []),
   ];
 
-  SliverToBoxAdapter title(String title) => SliverToBoxAdapter(
-    child: Padding(
-      padding: const EdgeInsetsDirectional.only(top: 24, bottom: 12),
-      child: Text(
-        title,
-        style: mt(context).textStyle.heading1,
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -53,9 +44,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
               onPressed: () {
 
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.check_rounded,
-                color: mt(context).icon.accentColor,
               ),
             )
           ],
@@ -64,7 +54,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           padding: EdgeInsets.all(mt(context).padding.page),
           child: CustomScrollView(
             slivers: [
-              title('Basic'),
+              const Heading(title: 'Basic', topPadding: false,),
               SliverList(
                 delegate: SliverChildListDelegate([
                   MButton.tiled(
@@ -85,9 +75,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       );
                     },
                     expand: false,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.drive_file_rename_outline_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
                     borderColor: mt(context).color.secondary,
@@ -115,9 +104,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       );
                     },
                     expand: false,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.calendar_month_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
                     borderColor: mt(context).color.secondary,
@@ -140,9 +128,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       )));
                     },
                     expand: false,
-                    leading: Icon(
+                    leading: const Icon(
                       Icons.view_day_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                     borderRadius: 12,
                     borderColor: mt(context).color.secondary,
@@ -181,7 +168,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                 ]),
               ),*/
-              title('Templates'),
+              const Heading(title: 'Templates',),
               SliverGrid(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
@@ -217,7 +204,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: mt(context).textStyle.heading2,
+                              style: mt(context).textStyle.heading3,
                             ),
                             const SizedBox(height: 4,),
                             Text(

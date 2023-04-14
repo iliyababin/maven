@@ -38,14 +38,14 @@ class TemplateCard extends StatelessWidget {
             children: [
               Text(
                 template.name,
-                style: mt(context).textStyle.heading2,
+                style: mt(context).textStyle.heading3,
                 maxLines: 1,
               ),
-              const SizedBox(height: 3,),
+              /*const SizedBox(height: 3,),
               Text(
                 'Chest, Triceps, Shoulders',
                 style: mt(context).textStyle.subtitle2,
-              ),
+              ),*/
               const SizedBox(
                 height: 3,
               ),

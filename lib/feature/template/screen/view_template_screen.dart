@@ -65,25 +65,22 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                                   },
                                 )));
                               },
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.edit_rounded,
-                                color: mt(context).icon.accentColor,
                               ),
                               title: 'Edit',
                             ),
                             MButton.tiled(
                               onPressed: (){},
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.share_rounded,
-                                color: mt(context).icon.accentColor,
                               ),
                               title: 'Share',
                             ),
                             MButton.tiled(
                               onPressed: (){},
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.info_sharp,
-                                color: mt(context).icon.accentColor,
                               ),
                               title: 'Info',
                             ),
@@ -91,7 +88,7 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                               onPressed: (){},
                               leading:Icon(
                                 Icons.delete_rounded,
-                                color: mt(context).icon.errorColor,
+                                color: mt(context).color.error,
                               ),
                               title: 'Delete',
                               textStyle: mt(context).textStyle.body1,
@@ -101,9 +98,8 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                         onClose: (){},
                       );
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_vert_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                   ),
                 ],

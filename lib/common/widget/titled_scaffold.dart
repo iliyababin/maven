@@ -22,10 +22,11 @@ class TitledScaffold extends StatelessWidget {
               largeTitle: Text(
                 title,
                 style: TextStyle(
-                  color: mt(context).color.primary,
+                  color: mt(context).textStyle.heading1.color,
+                  fontWeight: mt(context).textStyle.heading1.fontWeight,
                 ),
               ),
-              backgroundColor: mt(context).sliverNavigationBarBackgroundColor,
+              backgroundColor: mt(context).color.background,
             )
           ];
         },

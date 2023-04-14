@@ -18,7 +18,26 @@ class MavenTheme extends AppTheme {
           color: options.color.primary,
         ),
       ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: options.color.background,
+        selectedItemColor: options.color.primary,
+        unselectedItemColor: options.color.subtext,
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 14,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
+      iconTheme: IconThemeData(
+        color: options.color.primary,
+      ),
       scaffoldBackgroundColor: options.color.background,
+      listTileTheme: const ListTileThemeData(
+        contentPadding: EdgeInsets.only(left: 20)
+      )
     ),
     description: description,
     options: options

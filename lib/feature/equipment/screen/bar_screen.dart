@@ -55,9 +55,8 @@ class _BarScreenState extends State<BarScreen> {
                     onClose: (){},
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete_outline_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
             ] : [
@@ -79,18 +78,16 @@ class _BarScreenState extends State<BarScreen> {
                     onClose: (){},
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.restart_alt_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
               IconButton(
                 onPressed: () async {
                   context.read<EquipmentBloc>().add(BarAddEmpty());
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
             ]
@@ -143,9 +140,8 @@ class _BarScreenState extends State<BarScreen> {
                         bar.weight.toString(),
                         style: mt(context).textStyle.subtitle2,
                       ),
-                      trailing: isSelecting ? null : Icon(
+                      trailing: isSelecting ? null : const Icon(
                         Icons.chevron_right_rounded,
-                        color: mt(context).icon.accentColor,
                       ),
                     ),
                   );

@@ -4,14 +4,11 @@ import 'package:Maven/theme/m_theme_scheme.dart';
 import 'package:Maven/theme/maven_theme.dart';
 
 import '../widget/active_exercise_set_theme.dart';
-import '../widget/m_bottom_navigation_bar_theme.dart';
 import '../widget/m_dialog_theme.dart';
 import '../widget/m_flat_button_theme.dart';
-import '../widget/m_icon_theme.dart';
 import '../widget/m_popup_menu_theme.dart';
 import '../widget/m_text_field_theme.dart';
 import '../widget/template_card_theme.dart';
-import '../widget/template_folder_theme.dart';
 
 class DarkTheme extends MavenTheme {
   static const Color primary = Color(0xFF2196F3);
@@ -35,25 +32,6 @@ class DarkTheme extends MavenTheme {
       neutral: neutral,
       success: success,
       error: error,
-      bottomNavigationBar: MBottomNavigationBarTheme(
-        backgroundColor: const Color(0xFF121212),
-        selectedItemColor: const Color(0xFF2196F3),
-        unselectedItemColor: const Color(0xFF676767),
-        shadowColor: const Color(0xFF0C0C0C),
-      ),
-      icon: MIconTheme(
-        primaryColor: const Color(0xFFFFFFFF),
-        secondaryColor: const Color(0xFFB6B6B6),
-        tertiaryColor: const Color(0xFF797979),
-        accentColor: const Color(0xFF2196F3),
-        errorColor: const Color(0xFFDD614A),
-        completeColor: const Color(0xFF0BDA51),
-      ),
-      templateFolder: TemplateFolderTheme(
-          borderColor: const Color(0xFF333333),
-          dragShadowColor: const Color(0xFF838383),
-          backgroundColor: const Color(0xFF121212)
-      ),
       popupMenu: MPopupMenuTheme(
           backgroundColor: const Color(0xFF000000)
       ),
@@ -78,7 +56,6 @@ class DarkTheme extends MavenTheme {
       activeExerciseSet: ActiveExerciseSetTheme(
         completeColor: const Color(0xFF003000),
       ),
-      sliverNavigationBarBackgroundColor: const Color(0xFF121212),
       handleBarColor: const Color(0xFF505050),
     ),
   );

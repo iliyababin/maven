@@ -91,9 +91,8 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               },
               width: 45,
               height: 40,
-              child: Icon(
+              child: const Icon(
                 Icons.more_horiz_rounded,
-                color: mt(context).icon.accentColor,
               ),
             )
           ],
@@ -175,10 +174,8 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               widget.onExerciseSetAdd(exerciseSet);
             },
             expand: false,
-            leading: Icon(
+            leading: const Icon(
               Icons.add_rounded,
-              size: 24,
-              color: mt(context).icon.accentColor,
             ),
             child: Text(
               'Add Set',

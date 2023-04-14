@@ -66,9 +66,8 @@ class ExerciseGroupMenu extends StatelessWidget {
                                 leading: exerciseGroup.barId == bar.barId ? Container(
                                   width: 20,
                                   alignment: Alignment.centerLeft,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.check,
-                                    color: mt(context).icon.accentColor,
                                   ),
                                 ) : Container(width: 20,),
                                 title: bar.name,
@@ -84,10 +83,8 @@ class ExerciseGroupMenu extends StatelessWidget {
               onClose: (){},
             );
           },
-          leading: Icon(
+          leading: const Icon(
             Icons.fitness_center_rounded,
-            color: mt(context).icon.accentColor,
-            size: 24,
           ),
           title: 'Bar Type',
         ) : Container(),
@@ -105,10 +102,8 @@ class ExerciseGroupMenu extends StatelessWidget {
               onClose: (){}
             );
           },
-          leading: Icon(
+          leading: const Icon(
             Icons.timer,
-            color: mt(context).icon.accentColor,
-            size: 24,
           ),
           trailing: Text(
             '(${exerciseGroup.restTimed.toString()})',
@@ -118,10 +113,8 @@ class ExerciseGroupMenu extends StatelessWidget {
         ),
         MButton.tiled(
           onPressed: (){},
-          leading: Icon(
+          leading: const Icon(
             Icons.delete_rounded,
-            color: mt(context).icon.errorColor,
-            size: 24,
           ),
           title: 'Remove',
         ),

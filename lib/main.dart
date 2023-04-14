@@ -1,9 +1,11 @@
 
 import 'dart:convert';
 
+import 'package:Maven/dev/floating_dev_icon.dart';
 import 'package:Maven/theme/theme/dark_theme.dart';
 import 'package:Maven/theme/theme/light_theme.dart';
 import 'package:floor/floor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +38,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db12.db')
+      .databaseBuilder('maven_db_1.db')
       .addCallback(callback)
       .build();
 
@@ -99,7 +101,13 @@ class Main extends StatelessWidget {
               // TODO: Give user option to change this.
               scrollBehavior: CustomScrollBehavior(),
               title: "Maven",
-              home: const Maven(),
+              home: Stack(children: const [
+                Maven(),
+                Visibility(
+                  visible: kDebugMode,
+                  child: MavenDesignToolIcon(),
+                ),
+              ]),
             ),
         ),
       ),

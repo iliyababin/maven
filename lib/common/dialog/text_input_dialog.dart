@@ -50,11 +50,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         children: [
           Text(
             widget.title,
-            style: TextStyle(
-              color: mt(context).color.primary,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
+            style: mt(context).textStyle.heading2,
           ),
           const SizedBox(height: 30),
           Form(
@@ -66,7 +62,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 widget.onValueChanged!(value);
               },
               validator: (value) {
-                if(value == null || value.isEmpty) return "The input cannot be empty.";
+                if(value == null || value.isEmpty) return "The input cannot be empty. ";
                 return null;
               },
               controller: _textEditingController,
@@ -118,7 +114,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 height: 50,
                 child: Text(
                   'Cancel',
-                  style: mt(context).textStyle.body1,
+                  style: mt(context).textStyle.button2,
                 ),
               ),
               const SizedBox(width: 15,),
@@ -133,14 +129,9 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 },
                 backgroundColor: mt(context).color.primary,
                 borderRadius: 12,
-                height: 50,
                 child: Text(
                   'Submit',
-                  style: TextStyle(
-                      color: mt(context).color.neutral,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
-                  ),
+                  style: mt(context).textStyle.button1,
                 ),
               )
             ],

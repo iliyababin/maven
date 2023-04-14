@@ -31,7 +31,7 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Days',
         ),
         actions: [
@@ -40,9 +40,8 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
               widget.onSubmit(exerciseDays);
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.check_rounded,
-              color: mt(context).icon.accentColor,
             ),
           )
         ],
@@ -62,11 +61,11 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
                 }
               });
             },
-            leading: exerciseDays.getDays().contains(day) ? SizedBox(
+            leading: exerciseDays.getDays().contains(day) ? const SizedBox(
               width: 32,
               child: Icon(
                 Icons.check,
-                color: mt(context).icon.accentColor,
+                color: Colors.amber,
               ),
             ) : const SizedBox(
               width: 32,
