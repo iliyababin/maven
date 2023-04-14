@@ -1,16 +1,16 @@
-import 'package:Maven/dev/dev_options_screen.dart';
+import 'package:Maven/dev/screen/design_screem.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/m_themes.dart';
+import '../../theme/m_themes.dart';
 
-class MavenDesignToolIcon extends StatefulWidget {
-  const MavenDesignToolIcon({super.key});
+class DesignToolWidget extends StatefulWidget {
+  const DesignToolWidget({super.key});
 
   @override
   _FloatingIconState createState() => _FloatingIconState();
 }
 
-class _FloatingIconState extends State<MavenDesignToolIcon> {
+class _FloatingIconState extends State<DesignToolWidget> {
   OverlayEntry? _overlayEntry;
 
   @override

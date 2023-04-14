@@ -37,6 +37,11 @@ class MavenTheme extends AppTheme {
       scaffoldBackgroundColor: options.color.background,
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.only(left: 20)
+      ),
+      textTheme: TextTheme(
+        bodySmall: TextStyle(
+          color: Colors.red
+        )
       )
     ),
     description: description,

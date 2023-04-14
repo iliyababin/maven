@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 
-import 'package:Maven/dev/floating_dev_icon.dart';
+import 'package:Maven/dev/widget/design_tool_widget.dart';
 import 'package:Maven/theme/theme/dark_theme.dart';
 import 'package:Maven/theme/theme/light_theme.dart';
 import 'package:floor/floor.dart';
@@ -100,12 +100,12 @@ class Main extends StatelessWidget {
               theme: ThemeProvider.themeOf(themeContext).data,
               // TODO: Give user option to change this.
               scrollBehavior: CustomScrollBehavior(),
-              title: "Maven",
+              title: 'Maven',
               home: Stack(children: const [
                 Maven(),
                 Visibility(
                   visible: kDebugMode,
-                  child: MavenDesignToolIcon(),
+                  child: DesignToolWidget(),
                 ),
               ]),
             ),
