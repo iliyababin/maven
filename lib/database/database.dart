@@ -10,6 +10,8 @@ import '../feature/equipment/model/plate.dart';
 import '../feature/exercise/dao/exercise_dao.dart';
 import '../feature/exercise/model/exercise.dart';
 import '../feature/exercise/model/exercise_equipment.dart';
+import '../feature/program/dao/program_dao.dart';
+import '../feature/program/model/program.dart';
 import '../feature/template/dao/template_dao.dart';
 import '../feature/template/dao/template_exercise_group_dao.dart';
 import '../feature/template/dao/template_exercise_set_dao.dart';
@@ -42,6 +44,7 @@ part 'database.g.dart';
     WorkoutExerciseSet,
     Plate,
     Bar,
+    Program,
   ],
 )
 @TypeConverters([
@@ -64,4 +67,5 @@ abstract class MavenDatabase extends FloorDatabase {
 
   PlateDao get plateDao;
   BarDao get barDao;
+  ProgramDao get programDao;
 }
