@@ -8,10 +8,18 @@ import 'package:floor/floor.dart';
 )
 class Program {
   const Program({
-    required this.programId,
+    this.programId,
+    required this.name,
+    required this.weeks,
   });
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'program_id')
-  final int programId;
+  final int? programId;
+
+  @ColumnInfo(name: 'name')
+  final String name;
+
+  @ColumnInfo(name: 'weeks')
+  final int weeks;
 }

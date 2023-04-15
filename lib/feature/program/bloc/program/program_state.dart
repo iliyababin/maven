@@ -5,6 +5,14 @@ enum ProgramStatus {
   loading,
   loaded,
 }
+
+extension ProgramStatusExtension on ProgramStatus {
+  bool get isInitial => this == ProgramStatus.initial;
+  bool get isLoading => this == ProgramStatus.loading;
+  bool get isLoaded => this == ProgramStatus.loaded;
+}
+
+
 class ProgramState extends Equatable {
   const ProgramState({
     this.status = ProgramStatus.initial,

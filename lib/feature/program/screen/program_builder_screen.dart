@@ -1,13 +1,16 @@
 import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:Maven/common/dialog/text_input_dialog.dart';
 import 'package:Maven/common/util/general_utils.dart';
+import 'package:Maven/feature/program/model/program.dart';
 import 'package:Maven/feature/program/screen/day_selector_screen.dart';
 import 'package:Maven/feature/template/screen/edit_template_screen.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/heading.dart';
 import '../../../common/widget/m_button.dart';
+import '../bloc/program/program_bloc.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
 
@@ -42,7 +45,13 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           actions: [
             IconButton(
               onPressed: () {
-
+                context.read<ProgramBloc>().add(ProgramBuild(
+                  program: Program(
+                    name: _name,
+                    weeks: _weeks,
+                  ),
+                  exerciseDays: exerciseDays,
+                ));
               },
               icon: const Icon(
                 Icons.check_rounded,

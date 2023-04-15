@@ -14,6 +14,9 @@ abstract class ProgramDao {
   @Query('SELECT * FROM program')
   Future<List<Program>> getPrograms();
 
+  @Query('SELECT * FROM program')
+  Stream<List<Program>> getProgramsAsStream();
+
   @update
   Future<int> updateProgram(Program program);
 

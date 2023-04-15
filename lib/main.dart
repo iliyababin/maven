@@ -18,6 +18,7 @@ import 'feature/equipment/model/bar.dart';
 import 'feature/equipment/model/plate.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/exercise/model/exercise.dart';
+import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
 import 'feature/workout/bloc/active_workout/workout_bloc.dart';
@@ -38,7 +39,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_2.db')
+      .databaseBuilder('maven_db_6.db')
       .addCallback(callback)
       .build();
 
@@ -75,6 +76,13 @@ void main() async {
           plateDao: database.plateDao,
           barDao: database.barDao,
         )..add(EquipmentInitialize())),
+        BlocProvider(create: (context) => ProgramBloc(
+          programDao: database.programDao,
+          folderDao: database.folderDao,
+          trackedTemplateDao: database.trackedTemplateDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
+        )..add(ProgramInitialize())),
       ],
       child: const Main(),
     )

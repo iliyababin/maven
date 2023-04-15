@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Maven/feature/program/dao/tracked_template_dao.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
@@ -10,8 +11,11 @@ import '../feature/equipment/model/plate.dart';
 import '../feature/exercise/dao/exercise_dao.dart';
 import '../feature/exercise/model/exercise.dart';
 import '../feature/exercise/model/exercise_equipment.dart';
+import '../feature/program/dao/folder_dao.dart';
 import '../feature/program/dao/program_dao.dart';
+import '../feature/program/model/folder.dart';
 import '../feature/program/model/program.dart';
+import '../feature/program/model/tracked_template.dart';
 import '../feature/template/dao/template_dao.dart';
 import '../feature/template/dao/template_exercise_group_dao.dart';
 import '../feature/template/dao/template_exercise_set_dao.dart';
@@ -45,6 +49,8 @@ part 'database.g.dart';
     Plate,
     Bar,
     Program,
+    Folder,
+    TrackedTemplate,
   ],
 )
 @TypeConverters([
@@ -68,4 +74,6 @@ abstract class MavenDatabase extends FloorDatabase {
   PlateDao get plateDao;
   BarDao get barDao;
   ProgramDao get programDao;
+  FolderDao get folderDao;
+  TrackedTemplateDao get trackedTemplateDao;
 }

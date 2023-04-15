@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:Maven/common/widget/heading.dart';
+import 'package:Maven/feature/template/widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,12 +11,13 @@ import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/screen/program_builder_screen.dart';
+import '../../program/widget/program_list_widget.dart';
 import '../../workout/bloc/active_workout/workout_bloc.dart';
 import '../../workout/model/workout.dart';
 import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
 import '../widget/paused_workout_widget.dart';
-import '../widget/template_sliver_list_widget.dart';
+import '../widget/template_list_widget.dart';
 import 'edit_template_screen.dart';
 
 /// Screen which manages templates, workouts, and programs
@@ -28,22 +30,7 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
-  SliverToBoxAdapter empty() => SliverToBoxAdapter(
-    child: Container(
-      height: 100,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadiusDirectional.circular(10),
-          border: Border.all(
-            color: mt(context).color.secondary,
-          )
-      ),
-      alignment: FractionalOffset.center,
-      child: Text(
-        'Empty',
-        style: mt(context).textStyle.subtitle1,
-      ),
-    ),
-  );
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,28 +64,31 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     children: [
                       MButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
-                            onSubmit: (exerciseBundles) {
-                              showBottomSheetDialog(
-                                context: context,
-                                child: TextInputDialog(
-                                  title: 'Enter a Workout Name',
-                                  initialValue: '',
-                                  keyboardType: TextInputType.name,
-                                  onValueSubmit: (value) {
-                                    context.read<TemplateBloc>().add(TemplateCreate(
-                                      template: Template(
-                                        name: value,
-                                      ),
-                                      exerciseBundles: exerciseBundles,
-                                    ));
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                onClose: () {},
-                              );
-                            },
-                          )));
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) =>
+                              EditTemplateScreen(
+                                onSubmit: (exerciseBundles) {
+                                  showBottomSheetDialog(
+                                    context: context,
+                                    child: TextInputDialog(
+                                      title: 'Enter a Workout Name',
+                                      initialValue: '',
+                                      keyboardType: TextInputType.name,
+                                      onValueSubmit: (value) {
+                                        context.read<TemplateBloc>().add(
+                                            TemplateCreate(
+                                              template: Template(
+                                                name: value,
+                                              ),
+                                              exerciseBundles: exerciseBundles,
+                                            ));
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    onClose: () {},
+                                  );
+                                },
+                              )));
                         },
                         borderColor: mt(context).color.secondary,
                         leading: const Icon(
@@ -112,7 +102,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       const SizedBox(width: 16),
                       MButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProgramBuilderScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context) => const ProgramBuilderScreen()));
                         },
                         borderColor: mt(context).color.secondary,
                         leading: const Icon(
@@ -132,7 +123,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
             const Heading(title: 'In Progress',),
             BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
-                if(state.status == WorkoutStatus.loading) {
+                if (state.status == WorkoutStatus.loading) {
                   return SliverToBoxAdapter(
                     child: Container(
                       height: 200,
@@ -150,8 +141,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 } else {
                   List<Workout> workouts = state.pausedWorkouts;
 
-                  return workouts.isEmpty ? empty() :
+                  return workouts.isEmpty ? const EmptyWidget() :
                   SliverList(
+
                     /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
                     ///
                     /// Mimics a [ListView.separated] since there's no SliverList.separated
@@ -161,7 +153,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           (BuildContext context, int index) {
                         final int itemIndex = index ~/ 2;
                         if (index.isEven) {
-                          return PausedWorkoutWidget(workout: workouts[itemIndex]);
+                          return PausedWorkoutWidget(
+                              workout: workouts[itemIndex]);
                         }
                         return const SizedBox(height: 15);
                       },
@@ -179,35 +172,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
             ),
 
             const Heading(title: 'Templates',),
-            BlocBuilder<TemplateBloc, TemplateState>(
-              builder: (context, state) {
-                if(state.status.isLoading) {
-                  return const SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 100,
-                        child: CircularProgressIndicator(),
-                      )
-                  );
-                } else if(state.status.isLoaded) {
-                  List<Template> templates = state.templates;
+            const TemplateListWidget(),
 
-                  return templates.isEmpty ? empty() :
-                  TemplateSliverListWidget(
-                    templates: state.templates,
-                    onReorder: (value) {
-                      context.read<TemplateBloc>().add(TemplateReorder(templates: value));
-                    }
-                  );
-                } else {
-                  return SliverToBoxAdapter(
-                    child: Text(
-                      'There was an error fetching the templates.',
-                      style: mt(context).textStyle.body1,
-                    ),
-                  );
-                }
-              },
-            ),
+            const Heading(title: 'Programs',),
+            const ProgramListWidget(),
           ],
         ),
       ),
