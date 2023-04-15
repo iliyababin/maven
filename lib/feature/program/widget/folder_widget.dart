@@ -1,35 +1,25 @@
-/*
-import 'package:Maven/common/dialog/confirmation_dialog.dart';
-import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
+
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/dialog/text_input_dialog.dart';
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../bloc/template/template_bloc.dart';
-import '../bloc/template_folder/template_folder_bloc.dart';
-import '../model/template.dart';
-import '../model/template_folder.dart';
-import 'template_card_widget.dart';
+import '../model/tracked_template.dart';
 
-/// Displays a folder with list of [Template]s inside
-class TemplateFolderWidget extends StatefulWidget {
-  /// Creates a folder with [Template]s
-  const TemplateFolderWidget({Key? key,
-    required this.templateFolder,
-    required this.templates
+class FolderWidget extends StatefulWidget {
+  const FolderWidget({Key? key,
+    required this.trackedTemplates,
   }) : super(key: key);
 
-  final TemplateFolder templateFolder;
-  final List<Template> templates;
+  final List<TrackedTemplate> trackedTemplates;
 
   @override
-  State<TemplateFolderWidget> createState() => _TemplateFolderWidgetState();
+  State<FolderWidget> createState() => _FolderWidgetState();
 }
 
-class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
+class _FolderWidgetState extends State<FolderWidget> {
   final ExpandableController _expandedController = ExpandableController();
 
   final double _borderRadius = 10;
@@ -55,7 +45,6 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                 child: Material(
                   borderRadius: BorderRadius.circular(_borderRadius),
                   elevation: 5,
-                  shadowColor: mt(context).templateFolder.dragShadowColor,
                 ),
               ),
               child!,
@@ -69,7 +58,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
   
   @override
   void initState() {
-    if(widget.templateFolder.expanded == true){
+   /* if(widget.templateFolder.expanded == true){
       _expandedController.toggle();
     }
     super.initState();
@@ -77,7 +66,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
       context.read<TemplateFolderBloc>().add(TemplateFolderToggle(
         templateFolder: widget.templateFolder.copyWith(expanded: _expandedController.expanded),
       ));
-    });
+    });*/
   }
 
   @override
@@ -87,11 +76,11 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
         borderRadius: BorderRadius.circular(_borderRadius),
         border: Border.all(
           width: 1,
-          color: mt(context).templateFolder.borderColor,
+          color: mt(context).color.secondary,
         ),
       ),
       child: Material(
-        color: mt(context).templateFolder.backgroundColor,
+        color: mt(context).color.background,
         borderRadius: BorderRadius.circular(_borderRadius),
         child: InkWell(
           onTap: (){
@@ -108,7 +97,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
               child: ExpandablePanel(
                 controller: _expandedController,
                 theme: ExpandableThemeData(
-                  iconColor: mt(context).accentColor,
+                  iconColor: mt(context).color.primary,
                   iconPlacement: ExpandablePanelIconPlacement.right,
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   iconPadding: const EdgeInsets.fromLTRB(0, 8, 8, 0),
@@ -125,12 +114,8 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.templateFolder.name,
-                          style: TextStyle(
-                              color: mt(context).text.primaryColor,
-                              fontSize: 18.5,
-                              fontWeight: FontWeight.w700
-                          ),
+                          'nice',
+                          style: mt(context).textStyle.heading3,
                         ),
                         MButton(
                           onPressed: (){
@@ -140,7 +125,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   const SizedBox(height: 6),
-                                  MButton.tiled(
+                                  /*MButton.tiled(
                                     onPressed: (){
                                       showBottomSheetDialog(
                                           context: context,
@@ -221,7 +206,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                                           fontWeight: FontWeight.w500
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               onClose: (){},
@@ -233,7 +218,6 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                           backgroundColor: Colors.transparent,
                           leading: Icon(
                             Icons.more_horiz,
-                            color: mt(context).icon.accentColor,
                           ),
                         ),
                       ],
@@ -242,27 +226,22 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                 collapsed: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
                   child: Text(
-                    '${widget.templates.length.toString()} templates',
-                    style: TextStyle(
-                        color: mt(context).text.primaryColor,
-                        fontSize: 16
-                    ),
+                    '${500} templates',
+                    style: mt(context).textStyle.subtitle1,
                   ),
                 ),
-                expanded: widget.templates.isNotEmpty ? Padding(
+                expanded: widget.trackedTemplates.isNotEmpty ? Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
                   child: ReorderableListView(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     proxyDecorator: proxyDecorator,
-                    children: widget.templates.map((template) {
+                    children: widget.trackedTemplates.map((template) {
                       return Padding(
                         key: UniqueKey(),
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                        child: TemplateCard(
-                          template: template,
-                        ),
+                        child: Text('HIIII'),
                       );
                     }).toList(),
                     onReorder: (oldIndex, newIndex) {
@@ -270,7 +249,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                         if (newIndex > oldIndex) {
                           newIndex -= 1;
                         }
-                        List<Template> templates = widget.templates;
+                       /* List<Template> templates = widget.templates;
 
                         final Template item = templates.elementAt(oldIndex);
                         templates.removeAt(oldIndex);
@@ -278,7 +257,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
 
                         context.read<TemplateBloc>().add(TemplateReorder(
                             templates: templates
-                        ));
+                        ));*/
                       });
                     },
                   ),
@@ -286,9 +265,8 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
-                      Icon(
+                      const Icon(
                         Icons.folder_copy_rounded,
-                        color: mt(context).icon.accentColor,
                         size: 60,
                       ),
                       Padding(
@@ -296,9 +274,7 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
                         child: Text(
                           'This folder is empty.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: mt(context).text.secondaryColor
-                          ),
+                          style: mt(context).textStyle.subtitle1,
                         ),
                       ),
                       const SizedBox(height: 40)
@@ -313,4 +289,3 @@ class _TemplateFolderWidgetState extends State<TemplateFolderWidget> {
     );
   }
 }
-*/

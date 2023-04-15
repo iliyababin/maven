@@ -11,6 +11,7 @@ class Program {
     this.programId,
     required this.name,
     required this.weeks,
+    required this.createdAt,
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -22,4 +23,7 @@ class Program {
 
   @ColumnInfo(name: 'weeks')
   final int weeks;
+
+  @ColumnInfo(name: 'created_at')
+  final DateTime createdAt;
 }

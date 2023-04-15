@@ -31,11 +31,8 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
             children: templates,
             itemBuilder: (context, index) {
               Template template = templates[index];
-              return Padding(
-                padding: EdgeInsetsDirectional.only(bottom: index == templates.length-1 ? 0 : 12),
-                child: TemplateCard(
-                  template: template,
-                ),
+              return TemplateCard(
+                template: template,
               );
             },
             onReorder: (oldIndex, newIndex) {

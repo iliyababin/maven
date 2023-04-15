@@ -28,7 +28,12 @@ class _ReorderSliverListState extends State<ReorderSliverList> {
       },
       delegate: ReorderableSliverChildBuilderDelegate(
         childCount: widget.children.length,
-        widget.itemBuilder,
+          (BuildContext context, int index) {
+          return Padding(
+            padding: EdgeInsetsDirectional.only(bottom: index == widget.children.length - 1 ? 0 : 12),
+            child: widget.itemBuilder(context, index),
+          );
+        },
       ),
       onReorder: (oldIndex, newIndex) {
         widget.onReorder(oldIndex, newIndex);

@@ -5,11 +5,11 @@ import 'package:equatable/equatable.dart';
 
 import '../../../exercise/dao/exercise_dao.dart';
 import '../../../exercise/model/exercise.dart';
+import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
 import '../../dao/template_exercise_group_dao.dart';
 import '../../dao/template_exercise_set_dao.dart';
-import '../../dto/exercise_bundle.dart';
 import '../../model/template_exercise_group.dart';
 import '../../model/template_exercise_set.dart';
 

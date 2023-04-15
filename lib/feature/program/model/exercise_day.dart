@@ -1,5 +1,5 @@
 
-import '../../template/dto/exercise_bundle.dart';
+import '../../exercise/model/exercise_bundle.dart';
 import 'day.dart';
 
 class ExerciseDay {

@@ -119,7 +119,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 ],
               ),
             ]),),
-
             const Heading(title: 'In Progress',),
             BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
@@ -170,10 +169,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 }
               },
             ),
-
             const Heading(title: 'Templates',),
             const TemplateListWidget(),
-
             const Heading(title: 'Programs',),
             const ProgramListWidget(),
           ],

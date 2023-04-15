@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
 import '../../exercise/model/exercise.dart';
+import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
-import '../dto/exercise_bundle.dart';
 
 /// Screen for creating and editing a [Template]
 class EditTemplateScreen extends StatefulWidget {

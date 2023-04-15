@@ -37,3 +37,10 @@ String secondsToTime(int seconds) {
 String capitalize(String s) {
   return s[0].toUpperCase() + s.substring(1);
 }
+
+String formatDate(DateTime dateTime) {
+  final month = dateTime.month.toString().padLeft(2, '0');
+  final day = dateTime.day.toString().padLeft(2, '0');
+  final year = dateTime.year.toString();
+  return '$month/$day/$year';
+}

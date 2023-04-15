@@ -53,7 +53,7 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
     for(int i = 1; i <= event.program.weeks; i++) {
       // Create folder
       int folderId = await folderDao.addFolder(Folder(
-        name: i.toString(),
+        name: 'Week ${i.toString()}',
         programId: programId,
       ));
 

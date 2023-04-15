@@ -49,6 +49,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   program: Program(
                     name: _name,
                     weeks: _weeks,
+                    createdAt: DateTime.now(),
                   ),
                   exerciseDays: exerciseDays,
                 ));

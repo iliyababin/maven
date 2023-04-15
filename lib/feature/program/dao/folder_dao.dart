@@ -6,4 +6,7 @@ import '../model/folder.dart';
 abstract class FolderDao {
   @insert
   Future<int> addFolder(Folder folder);
+
+  @Query('SELECT * FROM folder WHERE program_id = :programId')
+  Future<List<Folder>> getFoldersByProgramId(int programId);
 }

@@ -1,3 +1,4 @@
+import 'package:Maven/feature/program/widget/program_widget.dart';
 import 'package:Maven/feature/template/widget/empty_widget.dart';
 import 'package:Maven/feature/template/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,8 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
             children: programs,
             itemBuilder: (context, index) {
               Program program = programs[index];
-              return Text(
-                program.name,
-                style: mt(context).textStyle.body1,
+              return ProgramWidget(
+                program: program,
               );
             },
             onReorder: (oldIndex, newIndex) {
