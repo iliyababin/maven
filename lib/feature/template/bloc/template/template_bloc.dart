@@ -62,7 +62,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
           restTimed: exerciseBlock.exerciseGroup.restTimed,
           exerciseId: exerciseBlock.exercise.exerciseId,
           templateId: templateId,
-          barId: exerciseBlock.exerciseGroup.barId
+          barId: exerciseBlock.exerciseGroup.barId,
         )
       );
       for (var exerciseSet in exerciseBlock.exerciseSets) {

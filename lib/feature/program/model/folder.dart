@@ -1,6 +1,7 @@
-import 'package:Maven/feature/program/model/tracked_template.dart';
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../template/model/template.dart';
 import 'program.dart';
 
 @Entity(
@@ -16,12 +17,12 @@ import 'program.dart';
     ),
   ],
 )
-class Folder {
+class Folder extends Equatable {
   const Folder({
     this.folderId,
     required this.name,
     required this.programId,
-    this.trackedTemplates = const [],
+    this.templates = const [],
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -35,19 +36,27 @@ class Folder {
   final int programId;
 
   @ignore
-  final List<TrackedTemplate> trackedTemplates;
+  final List<Template> templates;
 
   Folder copyWith({
     int? folderId,
     String? name,
     int? programId,
-    List<TrackedTemplate>? trackedTemplates,
+    List<Template>? templates,
   }) {
     return Folder(
       folderId: folderId ?? this.folderId,
       name: name ?? this.name,
       programId: programId ?? this.programId,
-      trackedTemplates: trackedTemplates ?? this.trackedTemplates,
+      templates: templates ?? this.templates,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    folderId,
+    name,
+    programId,
+    templates,
+  ];
 }

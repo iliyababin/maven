@@ -30,31 +30,41 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Program Details',
+          'Details',
         ),
       ),
-      body: BlocBuilder<ProgramDetailBloc, ProgramDetailState>(
-        builder: (context, state) {
-          if(state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.status.isLoaded) {
-            List<Folder> folders = state.folders;
-            return ListView.builder(
-              itemCount: folders.length,
-              itemBuilder: (context, index) {
-                Folder folder = folders[index];
-                return FolderWidget(trackedTemplates: folder.trackedTemplates);
-              },
-            );
-          } else {
-            return Text(
-              'eror',
-              style: mt(context).textStyle.subtitle2,
-            );
-          }
-        },
+      body: Padding(
+        padding: EdgeInsets.all(mt(context).padding.page,),
+        child: BlocBuilder<ProgramDetailBloc, ProgramDetailState>(
+          builder: (context, state) {
+            if(state.status.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state.status.isLoaded) {
+              List<Folder> folders = state.folders;
+              return ListView.separated(
+                itemCount: folders.length,
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 16,);
+                },
+                itemBuilder: (context, index) {
+                  Folder folder = folders[index];
+
+                  return FolderWidget(
+                    folder: folder,
+                    templates: folder.templates,
+                  );
+                },
+              );
+            } else {
+              return Text(
+                'eror',
+                style: mt(context).textStyle.subtitle2,
+              );
+            }
+          },
+        ),
       ),
     );
   }

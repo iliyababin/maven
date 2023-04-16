@@ -17,6 +17,7 @@ class TemplateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: mt(context).color.background,
+      borderRadius: BorderRadius.circular(_borderRadius),
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTemplateScreen(

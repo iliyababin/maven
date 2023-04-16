@@ -40,7 +40,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_8.db')
+      .databaseBuilder('maven_db_10.db')
       .addCallback(callback)
       .build();
 
@@ -80,13 +80,15 @@ void main() async {
         BlocProvider(create: (context) => ProgramBloc(
           programDao: database.programDao,
           folderDao: database.folderDao,
-          trackedTemplateDao: database.trackedTemplateDao,
+          templateDao: database.templateDao,
+          templateTrackerDao: database.trackedTemplateDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
         )..add(ProgramInitialize())),
         BlocProvider(create: (context) => ProgramDetailBloc(
           programDao: database.programDao,
           folderDao: database.folderDao,
+          templateDao: database.templateDao,
           trackedTemplateDao: database.trackedTemplateDao,
         )..add(ProgramDetailInitialize())),
       ],

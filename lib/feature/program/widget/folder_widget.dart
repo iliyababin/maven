@@ -1,19 +1,23 @@
 
 
+import 'package:Maven/feature/template/widget/template_card_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
-import '../model/tracked_template.dart';
+import '../../template/model/template.dart';
+import '../model/folder.dart';
 
 class FolderWidget extends StatefulWidget {
   const FolderWidget({Key? key,
-    required this.trackedTemplates,
+    required this.folder,
+    required this.templates,
   }) : super(key: key);
 
-  final List<TrackedTemplate> trackedTemplates;
+  final Folder folder;
+  final List<Template> templates;
 
   @override
   State<FolderWidget> createState() => _FolderWidgetState();
@@ -114,7 +118,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'nice',
+                          widget.folder.name,
                           style: mt(context).textStyle.heading3,
                         ),
                         MButton(
@@ -123,8 +127,8 @@ class _FolderWidgetState extends State<FolderWidget> {
                               context: context,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  const SizedBox(height: 6),
+                                children: const [
+                                  SizedBox(height: 6),
                                   /*MButton.tiled(
                                     onPressed: (){
                                       showBottomSheetDialog(
@@ -226,22 +230,24 @@ class _FolderWidgetState extends State<FolderWidget> {
                 collapsed: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
                   child: Text(
-                    '${500} templates',
+                    '0/7 complete',
                     style: mt(context).textStyle.subtitle1,
                   ),
                 ),
-                expanded: widget.trackedTemplates.isNotEmpty ? Padding(
+                expanded: widget.templates.isNotEmpty ? Padding(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
                   child: ReorderableListView(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     proxyDecorator: proxyDecorator,
-                    children: widget.trackedTemplates.map((template) {
+                    children: widget.templates.map((template) {
                       return Padding(
                         key: UniqueKey(),
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
-                        child: Text('HIIII'),
+                        padding: EdgeInsetsDirectional.only(bottom: 12),
+                        child: TemplateCard(
+                          template: template,
+                        ),
                       );
                     }).toList(),
                     onReorder: (oldIndex, newIndex) {

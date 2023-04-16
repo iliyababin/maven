@@ -4,15 +4,16 @@ import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/feature/program/dao/program_dao.dart';
 import 'package:Maven/feature/program/model/folder.dart';
 import 'package:Maven/feature/template/dao/template_exercise_group_dao.dart';
+import 'package:Maven/feature/template/model/template.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../template/dao/template_dao.dart';
 import '../../../template/dao/template_exercise_set_dao.dart';
 import '../../dao/folder_dao.dart';
-import '../../dao/tracked_template_dao.dart';
+import '../../dao/template_tracker_dao.dart';
 import '../../model/exercise_day.dart';
 import '../../model/program.dart';
-import '../../model/tracked_template.dart';
 
 part 'program_event.dart';
 part 'program_state.dart';
@@ -21,7 +22,8 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
   ProgramBloc({
     required this.programDao,
     required this.folderDao,
-    required this.trackedTemplateDao,
+    required this.templateDao,
+    required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
   }) : super(const ProgramState()) {
@@ -32,7 +34,8 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
 
   final ProgramDao programDao;
   final FolderDao folderDao;
-  final TrackedTemplateDao trackedTemplateDao;
+  final TemplateDao templateDao;
+  final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
@@ -61,7 +64,7 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
         ExerciseDay exerciseDay = event.exerciseDays[j];
 
         // Create template
-        int trackedTemplateId = await trackedTemplateDao.addTrackedTemplate(TrackedTemplate(
+        int templateId = await templateDao.addTemplate(Template(
           name: capitalize(exerciseDay.day.name),
           sortOrder: j + 1,
           folderId: folderId,
