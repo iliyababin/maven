@@ -2,8 +2,8 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../database/model/exercise.dart';
 import '../bloc/exercise_bloc.dart';
-import '../model/exercise.dart';
 
 class SelectExerciseScreen extends StatelessWidget {
   const SelectExerciseScreen({Key? key,

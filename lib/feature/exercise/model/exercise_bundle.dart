@@ -1,5 +1,5 @@
 
-import 'exercise.dart';
+import '../../../database/model/exercise.dart';
 import 'exercise_group.dart';
 import 'exercise_set.dart';
 

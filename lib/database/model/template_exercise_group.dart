@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../../common/model/timed.dart';
-import '../../equipment/model/bar.dart';
-import '../../exercise/model/exercise.dart';
+import '../../common/model/timed.dart';
+import 'bar.dart';
+import 'exercise.dart';
 import 'template.dart';
 
 @Entity(

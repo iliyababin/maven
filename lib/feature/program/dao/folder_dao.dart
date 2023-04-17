@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../model/folder.dart';
+import '../../../database/model/folder.dart';
 
 @dao
 abstract class FolderDao {

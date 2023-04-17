@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 
-import '../../template/model/template.dart';
 import 'folder.dart';
+import 'template.dart';
 
 @Entity(
   tableName: 'template_tracker',

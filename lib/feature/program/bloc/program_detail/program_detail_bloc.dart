@@ -4,13 +4,13 @@ import 'package:Maven/feature/program/dao/template_tracker_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../database/model/folder.dart';
+import '../../../../database/model/program.dart';
+import '../../../../database/model/template.dart';
+import '../../../../database/model/template_tracker.dart';
 import '../../../template/dao/template_dao.dart';
-import '../../../template/model/template.dart';
 import '../../dao/folder_dao.dart';
 import '../../dao/program_dao.dart';
-import '../../model/folder.dart';
-import '../../model/program.dart';
-import '../../model/template_tracker.dart';
 
 part 'program_detail_event.dart';
 part 'program_detail_state.dart';

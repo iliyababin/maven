@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
+import '../../../database/model/program.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/program/program_bloc.dart';
-import '../model/program.dart';
 
 class ProgramListWidget extends StatefulWidget {
   const ProgramListWidget({Key? key}) : super(key: key);

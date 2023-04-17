@@ -8,13 +8,13 @@ import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/exercise.dart';
+import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
-import '../../exercise/model/exercise.dart';
 import '../../exercise/model/exercise_group.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/active_workout/workout_bloc.dart';
-import '../model/workout.dart';
 import '../widget/exercise_timer_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {

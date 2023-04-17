@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 
-import '../model/plate.dart';
+import '../../../database/model/plate.dart';
+
 
 @dao
 abstract class PlateDao {

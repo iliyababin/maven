@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/bar.dart';
+import '../../../database/model/exercise.dart';
 import '../../../theme/m_themes.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
-import '../../equipment/model/bar.dart';
-import '../model/exercise.dart';
 import '../model/exercise_equipment.dart';
 import '../model/exercise_group.dart';
 

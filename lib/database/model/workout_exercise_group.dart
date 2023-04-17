@@ -2,10 +2,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../../common/model/timed.dart';
-import '../../equipment/model/bar.dart';
-import '../../exercise/model/exercise.dart';
-import '../../exercise/model/exercise_group.dart';
+import '../../common/model/timed.dart';
+import '../../feature/exercise/model/exercise_group.dart';
+import 'bar.dart';
+import 'exercise.dart';
 import 'workout.dart';
 
 @Entity(

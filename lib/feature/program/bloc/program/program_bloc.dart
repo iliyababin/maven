@@ -1,20 +1,20 @@
 import 'dart:async';
 
 import 'package:Maven/common/util/general_utils.dart';
+import 'package:Maven/database/model/folder.dart';
+import 'package:Maven/database/model/template.dart';
 import 'package:Maven/feature/program/dao/program_dao.dart';
-import 'package:Maven/feature/program/model/folder.dart';
-import 'package:Maven/feature/program/model/template_tracker.dart';
 import 'package:Maven/feature/template/dao/template_exercise_group_dao.dart';
-import 'package:Maven/feature/template/model/template.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../database/model/program.dart';
+import '../../../../database/model/template_tracker.dart';
 import '../../../template/dao/template_dao.dart';
 import '../../../template/dao/template_exercise_set_dao.dart';
 import '../../dao/folder_dao.dart';
 import '../../dao/template_tracker_dao.dart';
 import '../../model/exercise_day.dart';
-import '../../model/program.dart';
 
 part 'program_event.dart';
 part 'program_state.dart';

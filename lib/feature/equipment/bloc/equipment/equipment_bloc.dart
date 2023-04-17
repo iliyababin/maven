@@ -5,10 +5,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../database/model/bar.dart';
+import '../../../../database/model/plate.dart';
 import '../../dao/bar_dao.dart';
 import '../../dao/plate_dao.dart';
-import '../../model/bar.dart';
-import '../../model/plate.dart';
 
 part 'equipment_event.dart';
 part 'equipment_state.dart';

@@ -5,9 +5,9 @@ import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import '../../../../theme/m_themes.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/exercise.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/exercise.dart';
 import '../model/exercise_set.dart';
 
 class ExerciseSetWidget extends StatefulWidget {

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/bar.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/bar.dart';
 
 class EditBarScreen extends StatefulWidget {
   const EditBarScreen({Key? key,

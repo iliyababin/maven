@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../model/workout.dart';
+import '../../../database/model/workout.dart';
 
 @dao
 abstract class WorkoutDao {

@@ -7,9 +7,9 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/plate.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/plate.dart';
 
 class EditPlateScreen extends StatefulWidget {
   const EditPlateScreen({Key? key,

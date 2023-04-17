@@ -1,8 +1,8 @@
-import 'package:Maven/feature/program/model/template_tracker.dart';
+import 'package:Maven/database/model/template_tracker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../program/model/folder.dart';
+import 'folder.dart';
 
 
 @Entity(

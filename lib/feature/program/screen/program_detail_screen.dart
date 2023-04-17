@@ -3,8 +3,8 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../database/model/folder.dart';
 import '../bloc/program_detail/program_detail_bloc.dart';
-import '../model/folder.dart';
 
 class ProgramDetailScreen extends StatefulWidget {
   const ProgramDetailScreen({Key? key,

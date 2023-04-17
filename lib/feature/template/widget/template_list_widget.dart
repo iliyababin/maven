@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
+import '../../../database/model/template.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/template/template_bloc.dart';
-import '../model/template.dart';
 import 'template_widget.dart';
 
 class TemplateListWidget extends StatefulWidget {

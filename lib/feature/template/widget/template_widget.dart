@@ -2,9 +2,9 @@ import 'package:Maven/common/widget/m_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../database/model/template.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/bloc/program_detail/program_detail_bloc.dart';
-import '../model/template.dart';
 import '../screen/view_template_screen.dart';
 
 class TemplateWidget extends StatefulWidget {

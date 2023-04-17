@@ -2,7 +2,7 @@ import 'package:Maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
-import '../../exercise/model/exercise.dart';
+import '../../../database/model/exercise.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';

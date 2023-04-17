@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../database/model/exercise.dart';
 import '../dao/exercise_dao.dart';
-import '../model/exercise.dart';
 
 part 'exercise_event.dart';
 part 'exercise_state.dart';

@@ -3,7 +3,7 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../model/program.dart';
+import '../../../database/model/program.dart';
 
 class ProgramWidget extends StatelessWidget {
   const ProgramWidget({Key? key,

@@ -4,9 +4,9 @@ import 'package:Maven/feature/template/widget/template_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../database/model/folder.dart';
+import '../../../database/model/template.dart';
 import '../../../theme/m_themes.dart';
-import '../../template/model/template.dart';
-import '../model/folder.dart';
 
 class FolderWidget extends StatefulWidget {
   const FolderWidget({Key? key,
