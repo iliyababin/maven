@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:Maven/feature/program/model/template_tracker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../exercise/model/exercise_bundle.dart';
+import '../../../program/dao/template_tracker_dao.dart';
 import '../../dao/template_dao.dart';
 import '../../dao/template_exercise_group_dao.dart';
 import '../../dao/template_exercise_set_dao.dart';
@@ -17,6 +19,7 @@ part 'template_state.dart';
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   TemplateBloc({
     required this.templateDao,
+    required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
   }) : super(const TemplateState()) {
@@ -29,6 +32,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   final TemplateDao templateDao;
+  final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
@@ -47,14 +51,11 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   Future<void> _create(TemplateCreate event, emit) async {
     emit(state.copyWith(status: () => TemplateStatus.loading));
 
-    List<int> highestSortOrder = await templateDao.getHighestSortOrder();
-    int largestInt;
-    if (highestSortOrder.isNotEmpty) {
-      largestInt = highestSortOrder.reduce((value, element) => value > element ? value : element) + 1;
-    } else {
-      largestInt = 1; // or whatever default value you want to use
+    int templateId = await templateDao.addTemplate(event.template);
+
+    if (event.templateTracker != null) {
+      await templateTrackerDao.addTemplateTracker(event.templateTracker!.copyWith(templateId: templateId));
     }
-    int templateId = await templateDao.addTemplate(event.template.copyWith(sortOrder: largestInt));
 
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
@@ -84,10 +85,12 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     await templateDao.updateTemplate(event.template);
 
     if(event.exerciseBundles != null) {
-      // await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
-      // await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
       await templateDao.deleteTemplate(event.template);
-      add(TemplateCreate(template: event.template, exerciseBundles: event.exerciseBundles!));
+      add(TemplateCreate(
+        template: event.template,
+        templateTracker: event.template.templateTracker,
+        exerciseBundles: event.exerciseBundles!,
+      ));
     }
   }
 

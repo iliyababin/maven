@@ -2,21 +2,32 @@ part of 'template_bloc.dart';
 
 abstract class TemplateEvent extends Equatable {
   const TemplateEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class TemplateInitialize extends TemplateEvent {}
+class TemplateInitialize extends TemplateEvent {
+  const TemplateInitialize();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class TemplateCreate extends TemplateEvent {
-  final Template template;
-  final List<ExerciseBundle> exerciseBundles;
-
   const TemplateCreate({
     required this.template,
     required this.exerciseBundles,
+    this.templateTracker,
   });
+
+  final Template template;
+  final List<ExerciseBundle> exerciseBundles;
+  final TemplateTracker? templateTracker;
+
+  @override
+  List<Object?> get props => [
+    template,
+    exerciseBundles,
+    templateTracker,
+  ];
 }
 
 class TemplateUpdate extends TemplateEvent {
@@ -27,30 +38,50 @@ class TemplateUpdate extends TemplateEvent {
 
   final Template template;
   final List<ExerciseBundle>? exerciseBundles;
+
+  @override
+  List<Object?> get props => [
+    template,
+    exerciseBundles,
+  ];
 }
 
 class TemplateDelete extends TemplateEvent {
-  final Template template;
-
   const TemplateDelete({
     required this.template
   });
+
+  final Template template;
+
+  @override
+  List<Object?> get props => [
+    template,
+  ];
 }
 
 class TemplateReorder extends TemplateEvent {
-  final List<Template> templates;
-
   const TemplateReorder({
     required this.templates,
   });
-}
-
-class TemplateStreamUpdateTemplates extends TemplateEvent {
 
   final List<Template> templates;
 
+  @override
+  List<Object?> get props => [
+    templates,
+  ];
+}
+
+class TemplateStreamUpdateTemplates extends TemplateEvent {
   const TemplateStreamUpdateTemplates({
     required this.templates,
   });
+
+  final List<Template> templates;
+
+  @override
+  List<Object?> get props => [
+    templates,
+  ];
 }
 

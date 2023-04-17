@@ -40,7 +40,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_15.db')
+      .databaseBuilder('maven_db_16.db')
       .addCallback(callback)
       .build();
 
@@ -56,9 +56,10 @@ void main() async {
         )..add(ExerciseInitialize())),
         BlocProvider(create: (context) => TemplateBloc(
           templateDao: database.templateDao,
+          templateTrackerDao: database.templateTrackerDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
-        )..add(TemplateInitialize())),
+        )..add(const TemplateInitialize())),
         BlocProvider(create: (context) => TemplateDetailBloc(
           exerciseDao: database.exerciseDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
