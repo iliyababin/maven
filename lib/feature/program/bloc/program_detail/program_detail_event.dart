@@ -21,3 +21,16 @@ class ProgramDetailLoad extends ProgramDetailEvent {
     programId,
   ];
 }
+
+class ProgramDetailTemplateTrackerUpdate extends ProgramDetailEvent {
+  const ProgramDetailTemplateTrackerUpdate({
+    required this.templateTracker,
+  });
+
+  final TemplateTracker templateTracker;
+
+  @override
+  List<Object?> get props => [
+    templateTracker,
+  ];
+}

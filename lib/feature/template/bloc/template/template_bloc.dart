@@ -84,8 +84,8 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     await templateDao.updateTemplate(event.template);
 
     if(event.exerciseBundles != null) {
-      await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
-      await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
+      // await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
+      // await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
       await templateDao.deleteTemplate(event.template);
       add(TemplateCreate(template: event.template, exerciseBundles: event.exerciseBundles!));
     }

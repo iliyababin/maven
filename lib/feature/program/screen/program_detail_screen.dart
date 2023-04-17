@@ -25,6 +25,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
     super.initState();
     loadProgram();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

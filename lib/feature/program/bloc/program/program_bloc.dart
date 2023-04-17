@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/feature/program/dao/program_dao.dart';
 import 'package:Maven/feature/program/model/folder.dart';
+import 'package:Maven/feature/program/model/template_tracker.dart';
 import 'package:Maven/feature/template/dao/template_exercise_group_dao.dart';
 import 'package:Maven/feature/template/model/template.dart';
 import 'package:bloc/bloc.dart';
@@ -39,28 +40,37 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
-  FutureOr<void> _initialize(ProgramInitialize event, Emitter<ProgramState> emit) {
-    emit(state.copyWith(status: () => ProgramStatus.loading,));
+  FutureOr<void> _initialize(
+      ProgramInitialize event, Emitter<ProgramState> emit) {
+    emit(state.copyWith(
+      status: () => ProgramStatus.loading,
+    ));
 
-    programDao.getProgramsAsStream().listen((event) => add(ProgramStream(programs: event)));
+    programDao
+        .getProgramsAsStream()
+        .listen((event) => add(ProgramStream(programs: event)));
 
-    emit(state.copyWith(status: () => ProgramStatus.loaded,));
+    emit(state.copyWith(
+      status: () => ProgramStatus.loaded,
+    ));
   }
 
   Future<void> _build(ProgramBuild event, Emitter<ProgramState> emit) async {
-    emit(state.copyWith(status: () => ProgramStatus.loading,));
+    emit(state.copyWith(
+      status: () => ProgramStatus.loading,
+    ));
 
     // Create program
     int programId = await programDao.addProgram(event.program);
 
-    for(int i = 1; i <= event.program.weeks; i++) {
+    for (int i = 1; i <= event.program.weeks; i++) {
       // Create folder
       int folderId = await folderDao.addFolder(Folder(
         name: 'Week ${i.toString()}',
         programId: programId,
       ));
 
-      for(int j = 0; j < event.exerciseDays.length; j++) {
+      for (int j = 0; j < event.exerciseDays.length; j++) {
         ExerciseDay exerciseDay = event.exerciseDays[j];
 
         // Create template
@@ -69,14 +79,23 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
           sortOrder: j + 1,
           folderId: folderId,
         ));
+
+        await templateTrackerDao.addTemplateTracker(TemplateTracker(
+          templateId: templateId,
+          folderId: folderId,
+        ));
       }
     }
 
-    emit(state.copyWith(status: () => ProgramStatus.loaded,));
+    emit(state.copyWith(
+      status: () => ProgramStatus.loaded,
+    ));
   }
 
   Future<void> _stream(ProgramStream event, Emitter<ProgramState> emit) async {
     print(event.programs);
-    emit(state.copyWith(programs: () => event.programs,));
+    emit(state.copyWith(
+      programs: () => event.programs,
+    ));
   }
 }

@@ -75,5 +75,5 @@ abstract class MavenDatabase extends FloorDatabase {
   BarDao get barDao;
   ProgramDao get programDao;
   FolderDao get folderDao;
-  TemplateTrackerDao get trackedTemplateDao;
+  TemplateTrackerDao get templateTrackerDao;
 }

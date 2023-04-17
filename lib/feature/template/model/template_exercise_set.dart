@@ -10,11 +10,13 @@ import 'template_exercise_group.dart';
       childColumns: ['template_exercise_group_id'],
       parentColumns: ['template_exercise_group_id'],
       entity: TemplateExerciseGroup,
+      onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
       childColumns: ['template_id'],
       parentColumns: ['template_id'],
       entity: Template,
+      onDelete: ForeignKeyAction.cascade,
     ),
   ]
 )

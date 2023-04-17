@@ -8,6 +8,12 @@ abstract class TemplateTrackerDao {
   @insert
   Future<int> addTemplateTracker(TemplateTracker templateTracker);
 
-  @Query('SELECT * FROM tracked_template WHERE folder_id = :folderId')
+  @Query('SELECT * FROM template_tracker WHERE folder_id = :folderId')
   Future<List<TemplateTracker>> getTemplateTrackersByFolderId(int folderId);
+
+  @Query('SELECT * FROM template_tracker WHERE template_id = :templateId')
+  Future<TemplateTracker?> getTemplateTrackerByTemplateId(int templateId);
+
+  @update
+  Future<int> updateTemplateTracker(TemplateTracker templateTracker);
 }

@@ -7,7 +7,7 @@ import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/template/template_bloc.dart';
 import '../model/template.dart';
-import 'template_card_widget.dart';
+import 'template_widget.dart';
 
 class TemplateListWidget extends StatefulWidget {
   const TemplateListWidget({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
             children: templates,
             itemBuilder: (context, index) {
               Template template = templates[index];
-              return TemplateCard(
+              return TemplateWidget(
                 template: template,
               );
             },

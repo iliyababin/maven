@@ -10,6 +10,7 @@ import '../../dao/folder_dao.dart';
 import '../../dao/program_dao.dart';
 import '../../model/folder.dart';
 import '../../model/program.dart';
+import '../../model/template_tracker.dart';
 
 part 'program_detail_event.dart';
 part 'program_detail_state.dart';
@@ -19,16 +20,17 @@ class ProgramDetailBloc extends Bloc<ProgramDetailEvent, ProgramDetailState> {
     required this.programDao,
     required this.folderDao,
     required this.templateDao,
-    required this.trackedTemplateDao,
+    required this.templateTrackerDao,
   }) : super(const ProgramDetailState()) {
     on<ProgramDetailInitialize>(_initialize);
     on<ProgramDetailLoad>(_load);
+    on<ProgramDetailTemplateTrackerUpdate>(_templateTrackerUpdate);
   }
 
   final ProgramDao programDao;
   final FolderDao folderDao;
   final TemplateDao templateDao;
-  final TemplateTrackerDao trackedTemplateDao;
+  final TemplateTrackerDao templateTrackerDao;
 
   Future<void> _initialize(ProgramDetailInitialize event, Emitter<ProgramDetailState> emit) async {
     emit(state.copyWith(status: () => ProgramDetailStatus.loading,));
@@ -50,16 +52,33 @@ class ProgramDetailBloc extends Bloc<ProgramDetailEvent, ProgramDetailState> {
 
     for(int i = 0; i < folders.length; i++) {
       List<Template> templates = await templateDao.getTemplatesByFolderId(folders[i].folderId!);
-      folders[i] = folders[i].copyWith(templates: templates);
 
-      /*List<TemplateTracker> trackedTemplates = await trackedTemplateDao.getTemplateTrackersByFolderId(folders[i].folderId!);
-      folders[i] = folders[i].copyWith(trackedTemplates: trackedTemplates);*/
+      for (int j = 0; j < templates.length; j++) {
+        TemplateTracker? templateTracker = await templateTrackerDao.getTemplateTrackerByTemplateId(templates[j].templateId!);
+        templates[j] = templates[j].copyWith(templateTracker: templateTracker);
+      }
+
+      folders[i] = folders[i].copyWith(templates: templates);
     }
 
     emit(state.copyWith(
       status: () => ProgramDetailStatus.loaded,
       program: () => program,
       folders: () => folders,
+    ));
+  }
+  
+  Future<void> _templateTrackerUpdate(ProgramDetailTemplateTrackerUpdate event, Emitter<ProgramDetailState> emit) async {
+    await templateTrackerDao.updateTemplateTracker(event.templateTracker);
+    emit(state.copyWith(
+      folders: () => state.folders.map((folder) {
+        return folder.copyWith(templates: folder.templates.map((template) {
+          if(template.templateId == event.templateTracker.templateId) {
+            return template.copyWith(templateTracker: event.templateTracker);
+          }
+          return template;
+        }).toList());
+      }).toList(),
     ));
   }
 }
