@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../database/dao/exercise_dao.dart';
+import '../../../../database/dao/template_exercise_group_dao.dart';
+import '../../../../database/dao/template_exercise_set_dao.dart';
 import '../../../../database/model/exercise.dart';
 import '../../../../database/model/template_exercise_group.dart';
 import '../../../../database/model/template_exercise_set.dart';
-import '../../../exercise/dao/exercise_dao.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
-import '../../dao/template_exercise_group_dao.dart';
-import '../../dao/template_exercise_set_dao.dart';
 
 part 'template_detail_event.dart';
 part 'template_detail_state.dart';

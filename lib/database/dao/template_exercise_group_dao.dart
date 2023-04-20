@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../../../database/model/template_exercise_group.dart';
+import '../model/template_exercise_group.dart';
 
 
 @dao

@@ -12,9 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
-import 'database/model/bar.dart';
-import 'database/model/exercise.dart';
-import 'database/model/plate.dart';
+import 'database/model/model.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';

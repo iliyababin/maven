@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../../../database/model/program.dart';
+import '../model/program.dart';
 
 @dao
 abstract class ProgramDao {
