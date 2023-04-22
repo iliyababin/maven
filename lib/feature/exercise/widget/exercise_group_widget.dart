@@ -72,7 +72,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               splashColor: mt(context).color.primary.withAlpha(50),
               child: Text(
                 widget.exercise.name,
-                style: mt(context).textStyle.body1,
+                style: mt(context).textStyle.subtitle2,
               ),
             ),
             MButton(
@@ -100,31 +100,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ActiveExerciseRow.build(
             set: Text(
               "SET",
-              style: TextStyle(
-                fontSize: 13,
-                color: mt(context).color.primary,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             previous: Text(
               "PREVIOUS",
-              style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).color.primary,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             option1: Text(
               widget.exercise.exerciseType.exerciseTypeOption1.value,
-              style: TextStyle(
-                fontSize: 13,
-                color: mt(context).color.primary,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? Text(
               widget.exercise.exerciseType.exerciseTypeOption2!.value,
-              style: TextStyle(
-                fontSize: 13,
-                color: mt(context).color.primary,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ) : null,
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),

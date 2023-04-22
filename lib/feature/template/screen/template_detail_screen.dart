@@ -6,23 +6,23 @@ import '../../../common/widget/m_button.dart';
 import '../../../database/model/template.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise_bundle.dart';
-import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/bloc/workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';
 import '../bloc/template_detail/template_detail_bloc.dart';
 import 'edit_template_screen.dart';
 
-class ViewTemplateScreen extends StatefulWidget {
+class TemplateDetailScreen extends StatefulWidget {
   final Template template;
 
-  const ViewTemplateScreen({Key? key,
+  const TemplateDetailScreen({Key? key,
     required this.template
   }) : super(key: key);
 
   @override
-  State<ViewTemplateScreen> createState() => _ViewTemplateScreenState();
+  State<TemplateDetailScreen> createState() => _TemplateDetailScreenState();
 }
 
-class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
+class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
   void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
 
   @override
@@ -120,6 +120,22 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
                   );
                 },
               ),
+              persistentFooterButtons: [
+                MButton(
+                  onPressed: () {
+                    context.read<WorkoutBloc>().add(WorkoutStart(
+                      template: widget.template,
+                    ));
+                    Navigator.pop(context);
+                  },
+                  expand: false,
+                  backgroundColor: mt(context).color.primary,
+                  child: Text(
+                    'Start',
+                    style: mt(context).textStyle.button1,
+                  ),
+                ),
+              ],
             );
           } else {
             return const Text(
@@ -129,53 +145,5 @@ class _ViewTemplateScreenState extends State<ViewTemplateScreen> {
         },
       ),
     );
-  }
-
-  ///
-  /// Functions
-  ///
-
-  void _startTemplate(BuildContext context) async {
-    // TODO: Fix
-
-    context.read<WorkoutBloc>().add(WorkoutStartTemplate(template: widget.template));
-    Navigator.pop(context);
-    /*if (currentTemplateIdPref != -1) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Template in progress'),
-            content: const Text(
-              'You already have a template in progress, would you like to discard it?'
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Discard',
-                  style:
-                  TextStyle(
-                    color: mt(context).text.errorColor
-                  ),
-                ),
-                onPressed: () => _discardTemplate(context),
-              ),
-              TextButton(
-                child: const Text("Cancel"),
-                onPressed: () => _cancel(context),
-              ),
-            ],
-          );
-        },
-      ).then((value) async {
-
-      });
-    } else {
-      context.read<ActiveTemplateBloc>().add(ConvertTemplateToTemplate(
-        template: widget.template
-      ));
-      *//*generateActiveTemplateTemplate(context, widget.templateId);*//*
-      Navigator.pop(context);
-    }*/
   }
 }

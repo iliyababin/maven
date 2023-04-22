@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../feature/exercise/model/exercise_set.dart';
 import 'workout.dart';
 import 'workout_exercise_group.dart';
 
@@ -10,7 +11,8 @@ import 'workout_exercise_group.dart';
     ForeignKey(
       childColumns: ['workout_exercise_group_id'],
       parentColumns: ['workout_exercise_group_id'],
-      entity: WorkoutExerciseGroup
+      entity: WorkoutExerciseGroup,
+      onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
       childColumns: ['workout_id'],
@@ -21,7 +23,6 @@ import 'workout_exercise_group.dart';
 )
 
 class WorkoutExerciseSet extends Equatable {
-
   @ColumnInfo(name: 'workout_exercise_set_id')
   @PrimaryKey(autoGenerate: true)
   final int? workoutExerciseSetId;
@@ -49,6 +50,16 @@ class WorkoutExerciseSet extends Equatable {
     required this.workoutExerciseGroupId,
     required this.workoutId,
   });
+
+  ExerciseSet toExerciseSet() {
+    return ExerciseSet(
+      exerciseSetId: workoutExerciseSetId!,
+      option1: option_1,
+      option2: option_2,
+      checked: checked,
+      exerciseGroupId: workoutExerciseGroupId,
+    );
+  }
 
   WorkoutExerciseSet copyWith({
     int? workoutExerciseSetId,
@@ -78,7 +89,6 @@ class WorkoutExerciseSet extends Equatable {
       workoutId: workoutId,
     );
   }
-
 
   @override
   List<Object?> get props => [

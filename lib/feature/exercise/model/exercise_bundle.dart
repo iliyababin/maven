@@ -31,5 +31,27 @@ class ExerciseBundle {
       barId: barId ?? this.barId,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ExerciseBundle &&
+          runtimeType == other.runtimeType &&
+          exercise == other.exercise &&
+          exerciseGroup == other.exerciseGroup &&
+          exerciseSets == other.exerciseSets &&
+          barId == other.barId;
+
+  @override
+  int get hashCode =>
+      exercise.hashCode ^
+      exerciseGroup.hashCode ^
+      exerciseSets.hashCode ^
+      barId.hashCode;
+
+  @override
+  String toString() {
+    return 'ExerciseBundle{exercise: $exercise, exerciseGroup: $exerciseGroup, exerciseSets: $exerciseSets, barId: $barId}';
+  }
 }
 

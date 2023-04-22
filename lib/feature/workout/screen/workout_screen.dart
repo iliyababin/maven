@@ -1,20 +1,21 @@
 import 'dart:async';
 
+import 'package:Maven/common/dialog/confirmation_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
-import '../../exercise/model/exercise_group.dart';
+import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/screen/select_exercise_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
-import '../bloc/active_workout/workout_bloc.dart';
+import '../bloc/workout/workout_bloc.dart';
+import '../bloc/workout_detail/workout_detail_bloc.dart';
 import '../widget/exercise_timer_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -31,15 +32,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WorkoutBloc, WorkoutState>(
+    return BlocBuilder<WorkoutDetailBloc, WorkoutDetailState>(
       builder: (context, state) {
-        if(state.status == WorkoutStatus.loading) {
+        if(state.status.isLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state.workout == null){
-          return const Center(child: Text('There is no active workoout'));
-        } else if (state.status == WorkoutStatus.error){
-          return const Center(child: Text('erorr oops'));
-        } else {
+        } else if (state.status.isLoaded){
           Workout workout = state.workout!;
 
           return Expanded(
@@ -64,12 +61,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   MaterialPageRoute(builder: (context) => const SelectExerciseScreen()),
                                 ).then((value) async {
                                   Exercise exercise = value;
-                                  context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(
+                                  /*context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(
                                     exerciseGroupId: -1,
                                     restTimed: Timed.zero(),
                                     exerciseId: exercise.exerciseId,
                                     barId: exercise.barId,
-                                  )));
+                                  )));*/
                                 });
                               },
                               leading: Icon(
@@ -122,7 +119,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         title: 'Pause Workout',
                                       ),
                                       MButton.tiled(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          showBottomSheetDialog(
+                                            context: context,
+                                            child: ConfirmationDialog(
+                                              title: 'Delete Workout',
+                                              subtitle: 'All progress will be lost.',
+                                              confirmText: 'Delete',
+                                              confirmColor: mt(context).color.error,
+                                              onSubmit: () {
+                                                context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
+                                              },
+                                            ),
+                                            onClose: () {  },
+                                          );
+                                        },
                                         leading: Icon(
                                           Icons.delete_rounded,
                                           color: mt(context).color.error,
@@ -135,8 +147,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   onClose: () {},
                                 );
                               },
-                              leading: const Icon(
+                              leading: Icon(
                                 Icons.more_horiz,
+                                color: mt(context).color.text,
                               ),
                               height: 38,
                               width: 38,
@@ -152,17 +165,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ),
                       const SizedBox(width: 8,),
                       MButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          context.read<WorkoutDetailBloc>().add(const WorkoutDetailUpdate(
+                              exerciseBundles: []
+                          ));
+                        },
                         height: 38,
                         width: 84,
-                        backgroundColor: mt(context).flatButton.completeColor,
+                        backgroundColor: mt(context).color.success,
                         child: Text(
                           'Finish',
-                          style: TextStyle(
-                            color: mt(context).color.primary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
+                          style: mt(context).textStyle.button1,
                         ),
                       ),
                     ],
@@ -189,11 +202,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     decoration: const InputDecoration.collapsed(
                                         hintText: 'Workout'
                                     ),
-                                    style: TextStyle(
-                                      color: mt(context).color.primary,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 25,
-                                    ),
+                                    style: mt(context).textStyle.heading2,
                                   ),
                                   const SizedBox(height: 4,),
                                   StreamBuilder(
@@ -212,25 +221,29 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ),
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          childCount: state.exerciseGroups.length,
-                          (context, index) => ExerciseGroupWidget(
-                            exercise: state.exercises.firstWhere((exercise) => exercise.exerciseId == state.exerciseGroups[index].exerciseId),
-                            exerciseGroup: state.exerciseGroups[index],
-                            exerciseSets: state.exerciseSets.where((exerciseSet) => exerciseSet.exerciseGroupId == state.exerciseGroups[index].exerciseGroupId).toList(),
-                            onExerciseGroupUpdate: (value) {
-                              context.read<WorkoutBloc>().add(WorkoutItemsUpdate(exerciseGroups: [value]));
-                            },
-                            onExerciseSetAdd: (value) async {
-                              context.read<WorkoutBloc>().add(WorkoutExerciseSetAdd(exerciseSet: value));
-                            },
-                            onExerciseSetUpdate: (value) {
-                              context.read<WorkoutBloc>().add(WorkoutExerciseSetUpdate(exerciseSet: value));
-                            },
-                            onExerciseSetDelete: (value) {
-                              context.read<WorkoutBloc>().add(WorkoutExerciseSetDelete(exerciseSet: value));
-                            },
-                            checkboxEnabled: true,
-                          ),
+                          childCount: state.exerciseBundles.length,
+                          (context, index) {
+                            ExerciseBundle exerciseBundle = state.exerciseBundles[index];
+
+                            return ExerciseGroupWidget(
+                              exercise: exerciseBundle.exercise,
+                              exerciseGroup: exerciseBundle.exerciseGroup,
+                              exerciseSets: exerciseBundle.exerciseSets,
+                              onExerciseGroupUpdate: (value) {
+                                //context.read<WorkoutBloc>().add(WorkoutItemsUpdate(exerciseGroups: [value]));
+                              },
+                              onExerciseSetAdd: (value) async {
+                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetAdd(exerciseSet: value));
+                              },
+                              onExerciseSetUpdate: (value) {
+                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetUpdate(exerciseSet: value));
+                              },
+                              onExerciseSetDelete: (value) {
+                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetDelete(exerciseSet: value));
+                              },
+                              checkboxEnabled: true,
+                            );
+                          },
                         ),
                       ),
                       SliverList(
@@ -244,6 +257,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               ],
             ),
           );
+
+        } else {
+          return const Center(child: Text('erorr oops'));
         }
       },
     );

@@ -14,7 +14,7 @@ import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/screen/program_builder_screen.dart';
 import '../../program/widget/program_list_widget.dart';
-import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/bloc/workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';
 import '../widget/paused_workout_widget.dart';
 import '../widget/template_list_widget.dart';
@@ -47,7 +47,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 children: [
                   MButton(
                     onPressed: () {
-                      context.read<WorkoutBloc>().add(WorkoutStartEmpty());
+                      /*context.read<WorkoutBloc>().add(const WorkoutStart());*/
                     },
                     expand: false,
                     width: double.infinity,
@@ -138,7 +138,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     ),
                   );
                 } else {
-                  List<Workout> workouts = state.pausedWorkouts;
+                  List<Workout> workouts = [];
 
                   return workouts.isEmpty ? const EmptyWidget() :
                   SliverList(

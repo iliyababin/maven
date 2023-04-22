@@ -38,7 +38,11 @@ flutter packages pub run build_runner build
 ```
 
 # Structure
-N/A
+In this section, you will learn about the app's structure and how to navigate through the codebase.
+
+### Overview
+
+
 
 # Design
 In this section, you will learn about Maven's design philosophy and how to use the Maven Design Tool. 

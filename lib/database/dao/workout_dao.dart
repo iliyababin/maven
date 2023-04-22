@@ -14,16 +14,15 @@ abstract class WorkoutDao {
   @Query('SELECT * FROM workout')
   Future<List<Workout>> getWorkouts();
 
-  @Query('SELECT * FROM workout WHERE is_paused = 0')
+  @Query('SELECT * FROM workout WHERE is_active = true')
   Stream<Workout?> getActiveWorkoutAsStream();
 
-  @Query('SELECT * FROM workout WHERE is_paused = 1')
+  @Query('SELECT * FROM workout WHERE is_active = false')
   Stream<List<Workout>> getPausedWorkoutsAsStream();
 
   @update
   Future<void> updateWorkout(Workout workout);
 
-  @Query('DELETE * FROM workout WHERE workout_id = :workoutId')
-  Future<void> deleteWorkout(int workoutId);
-
+  @delete
+  Future<int> deleteWorkout(Workout workout);
 }

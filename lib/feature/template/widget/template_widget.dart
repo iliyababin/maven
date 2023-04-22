@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../database/model/template.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/bloc/program_detail/program_detail_bloc.dart';
-import '../screen/view_template_screen.dart';
+import '../screen/template_detail_screen.dart';
 
 class TemplateWidget extends StatefulWidget {
   const TemplateWidget({Key? key,
@@ -35,7 +35,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
       borderRadius: BorderRadius.circular(_borderRadius),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTemplateScreen(
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TemplateDetailScreen(
             template: widget.template,
           )));
         },

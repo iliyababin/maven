@@ -44,7 +44,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Delete ${selectedBars.length} Bar(s)',
                       subtitle: 'This action cannot be undone',
-                      submitColor: mt(context).color.error,
+                      confirmColor: mt(context).color.error,
                       confirmText: 'Delete',
                       onSubmit: () {
                         setState(() {
@@ -67,7 +67,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Reset Bars',
                       subtitle: 'This will reset all bars to default',
-                      submitColor: mt(context).color.error,
+                      confirmColor: mt(context).color.error,
                       confirmText: 'Reset',
                       onSubmit: () {
                         setState(() {

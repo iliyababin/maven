@@ -25,8 +25,9 @@ import 'workout.dart';
       childColumns: ['workout_id'],
       parentColumns: ['workout_id'],
       entity: Workout,
+      onDelete: ForeignKeyAction.cascade,
     ),
-  ]
+  ],
 )
 class WorkoutExerciseGroup extends Equatable{
   const WorkoutExerciseGroup({
@@ -57,8 +58,8 @@ class WorkoutExerciseGroup extends Equatable{
     return ExerciseGroup(
       exerciseGroupId: workoutExerciseGroupId!,
       restTimed: restTimed,
+      barId: barId,
       exerciseId: exerciseId,
-      barId: barId
     );
   }
 

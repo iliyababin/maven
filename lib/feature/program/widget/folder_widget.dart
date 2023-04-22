@@ -134,7 +134,6 @@ class _FolderWidgetState extends State<FolderWidget> {
                     physics: const ClampingScrollPhysics(),
                     itemCount: widget.templates.length,
                     itemBuilder: (context, index) {
-                      print('Folder: ${widget.folder.name} - Template: ${widget.templates[index].name}  ${widget.templates[index].sortOrder.toString()}');
                       return TemplateWidget(
                         template: widget.templates[index],
                       );

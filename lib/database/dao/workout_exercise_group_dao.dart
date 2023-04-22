@@ -14,6 +14,9 @@ abstract class WorkoutExerciseGroupDao {
   @Query('SELECT * FROM workout_exercise_group')
   Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroups();
 
+  @Query('SELECT * FROM workout_exercise_group WHERE workout_id = :workoutId')
+  Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsByWorkoutId(int workoutId);
+
   @Query('SELECT * FROM workout_exercise_group')
   Stream<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsAsStream();
   

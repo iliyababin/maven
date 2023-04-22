@@ -20,7 +20,8 @@ import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/program/bloc/program_detail/program_detail_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
-import 'feature/workout/bloc/active_workout/workout_bloc.dart';
+import 'feature/workout/bloc/workout/workout_bloc.dart';
+import 'feature/workout/bloc/workout_detail/workout_detail_bloc.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
@@ -38,9 +39,10 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_16.db')
+      .databaseBuilder('maven_db_26.db')
       .addCallback(callback)
       .build();
+
 
   database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
@@ -64,14 +66,18 @@ void main() async {
           templateExerciseSetDao: database.templateExerciseSetDao,
         )),
         BlocProvider(create: (context) => WorkoutBloc(
-          exerciseDao: database.exerciseDao,
-          templateDao: database.templateDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
           workoutDao: database.workoutDao,
           workoutExerciseGroupDao: database.workoutExerciseGroupDao,
           workoutExerciseSetDao: database.workoutExerciseSetDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
         )..add(WorkoutInitialize())),
+        BlocProvider(create: (context) => WorkoutDetailBloc(
+          workoutDao: database.workoutDao,
+          workoutExerciseGroupDao: database.workoutExerciseGroupDao,
+          workoutExerciseSetDao: database.workoutExerciseSetDao,
+          exerciseDao: database.exerciseDao,
+        )..add(const WorkoutDetailInitialize())),
         BlocProvider(create: (context) => EquipmentBloc(
           plateDao: database.plateDao,
           barDao: database.barDao,

@@ -45,7 +45,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
-                  submitColor: mt(context).color.error,
+                  confirmColor: mt(context).color.error,
                   confirmText: 'Delete',
                   onSubmit: () {
                     setState(() {
@@ -68,7 +68,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Reset Plates',
                   subtitle: 'This will reset all plates to default',
-                  submitColor: mt(context).color.error,
+                  confirmColor: mt(context).color.error,
                   confirmText: 'Reset',
                   onSubmit: () {
                     setState(() {
