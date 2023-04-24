@@ -77,11 +77,12 @@ class _MavenState extends State<Maven> {
                               borderRadius: BorderRadius.circular(100)
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 8),
                         Text(
                           state.workout!.name,
-                          style: mt(context).textStyle.body1,
+                          style: mt(context).textStyle.heading3,
                         ),
+                        const SizedBox(height: 1),
                         StreamBuilder(
                           stream: Stream.periodic(Duration(seconds: 1)),
                           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

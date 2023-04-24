@@ -26,17 +26,49 @@ class WorkoutDetailLoad extends WorkoutDetailEvent {
 
 class WorkoutDetailUpdate extends WorkoutDetailEvent {
   const WorkoutDetailUpdate({
-    this.workout,
-    this.exerciseBundles = const []
+    this.exerciseGroup,
+    this.exerciseSet,
   });
 
-  final Workout? workout;
-  final List<ExerciseBundle> exerciseBundles;
+  final ExerciseGroup? exerciseGroup;
+  final ExerciseSet? exerciseSet;
 
   @override
   List<Object?> get props => [
-    workout,
-    exerciseBundles,
+    exerciseGroup,
+    exerciseSet,
+  ];
+}
+
+class WorkoutDetailAdd extends WorkoutDetailEvent {
+  const WorkoutDetailAdd({
+    this.exercise,
+    this.exerciseSet,
+  });
+
+  final Exercise? exercise;
+  final ExerciseSet? exerciseSet;
+
+  @override
+  List<Object?> get props => [
+    exercise,
+    exerciseSet,
+  ];
+}
+
+class WorkoutDetailDelete extends WorkoutDetailEvent {
+  const WorkoutDetailDelete({
+    this.exerciseGroup,
+    this.exerciseSet,
+  });
+
+  final ExerciseGroup? exerciseGroup;
+  final ExerciseSet? exerciseSet;
+
+  @override
+  List<Object?> get props => [
+    exerciseGroup,
+    exerciseSet,
   ];
 }
 

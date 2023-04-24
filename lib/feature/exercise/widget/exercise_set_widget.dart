@@ -18,6 +18,7 @@ class ExerciseSetWidget extends StatefulWidget {
     required this.exercise,
     required this.exerciseSet,
     required this.onExerciseSetUpdate,
+    this.onExerciseSetToggled,
     required this.checkboxEnabled,
     required this.hintsEnabled,
   }) : super(key: key);
@@ -27,6 +28,7 @@ class ExerciseSetWidget extends StatefulWidget {
   final Exercise exercise;
   final ExerciseSet exerciseSet;
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
+  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
   final bool checkboxEnabled;
   final bool hintsEnabled;
 
@@ -191,10 +193,10 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   setState(() {
                     _isChecked = !_isChecked;
                   });
-                  _updateExerciseSet();
 
-
-
+                  if(widget.onExerciseSetToggled != null) {
+                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
+                  }
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
                     const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).color.secondary

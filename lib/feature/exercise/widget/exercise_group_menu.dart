@@ -16,11 +16,13 @@ class ExerciseGroupMenu extends StatelessWidget {
     required this.exercise,
     required this.exerciseGroup,
     required this.onExerciseGroupUpdate,
+    required this.onExerciseGroupDelete,
   }) : super(key: key);
 
   final Exercise exercise;
   final ExerciseGroup exerciseGroup;
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
+  final Function() onExerciseGroupDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +114,10 @@ class ExerciseGroupMenu extends StatelessWidget {
           title: 'Rest Timer',
         ),
         MButton.tiled(
-          onPressed: (){},
+          onPressed: (){
+            onExerciseGroupDelete();
+            Navigator.pop(context);
+          },
           leading: const Icon(
             Icons.delete_rounded,
           ),

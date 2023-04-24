@@ -66,6 +66,11 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                 exerciseBundles[index].exerciseGroup = value;
               });
             },
+            onExerciseGroupDelete: () {
+              setState(() {
+                exerciseBundles.removeAt(index);
+              });
+            },
             onExerciseSetAdd: (value) {
               setState(() {
                 exerciseBundles[index].exerciseSets.add(value);

@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../common/model/timed.dart';
 import '../../../../database/dao/dao.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
+import '../../../exercise/model/exercise_group.dart';
+import '../../../exercise/model/exercise_set.dart';
 
 part 'workout_detail_event.dart';
 part 'workout_detail_state.dart';
@@ -19,7 +22,10 @@ class WorkoutDetailBloc extends Bloc<WorkoutDetailEvent, WorkoutDetailState> {
   }) : super(const WorkoutDetailState()) {
     on<WorkoutDetailInitialize>(_initialize);
     on<WorkoutDetailLoad>(_load);
+
+    on<WorkoutDetailAdd>(_add);
     on<WorkoutDetailUpdate>(_update);
+    on<WorkoutDetailDelete>(_delete);
   }
 
   final WorkoutDao workoutDao;
@@ -59,15 +65,47 @@ class WorkoutDetailBloc extends Bloc<WorkoutDetailEvent, WorkoutDetailState> {
     ));
   }
 
+  Future<void> _add(WorkoutDetailAdd event, Emitter<WorkoutDetailState> emit) async {
+    if(event.exercise != null) {
+      Exercise exercise = event.exercise!;
+
+      await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
+        restTimed: Timed(hour: 0, minute: 0, second: 0),
+        barId: exercise.barId,
+        exerciseId: exercise.exerciseId,
+        workoutId: state.workout!.workoutId!,
+      ));
+
+      add(WorkoutDetailLoad(workoutId: state.workout!.workoutId!));
+    } else if (event.exerciseSet != null) {
+      ExerciseSet exerciseSet = event.exerciseSet!;
+
+      await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
+        option_1: exerciseSet.option1,
+        option_2: exerciseSet.option2,
+        checked: exerciseSet.checked ?? 0,
+        workoutExerciseGroupId: exerciseSet.exerciseGroupId,
+        workoutId: state.workout!.workoutId!,
+      ));
+
+    } else {
+
+    }
+  }
+
   Future<void> _update(WorkoutDetailUpdate event, Emitter<WorkoutDetailState> emit) async {
-    List<ExerciseBundle> eventExerciseBundles = event.exerciseBundles;
-    List<ExerciseBundle> stateExerciseBundles = state.exerciseBundles;
+    
+  }
 
-    for (ExerciseBundle exerciseBundle in eventExerciseBundles) {
-      if (stateExerciseBundles.contains(exerciseBundle)) {
-        print(exerciseBundle);
+  FutureOr<void> _delete(WorkoutDetailDelete event, Emitter<WorkoutDetailState> emit) async {
+    if (event.exerciseGroup != null) {
+      WorkoutExerciseGroup? workoutExerciseGroup = await workoutExerciseGroupDao.getWorkoutExerciseGroup(event.exerciseGroup!.exerciseGroupId);
+      await workoutExerciseGroupDao.deleteWorkoutExerciseGroup(workoutExerciseGroup!);
+    } else if (event.exerciseSet != null) {
+      WorkoutExerciseSet? workoutExerciseSet = await workoutExerciseSetDao.getWorkoutExerciseSet(event.exerciseSet!.exerciseSetId);
+      await workoutExerciseSetDao.deleteWorkoutExerciseSet(workoutExerciseSet!);
+    } else {
 
-      }
     }
   }
 }

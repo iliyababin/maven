@@ -18,8 +18,10 @@ class ExerciseGroupWidget extends StatefulWidget {
     required this.exerciseGroup,
     required this.exerciseSets,
     required this.onExerciseGroupUpdate,
+    required this.onExerciseGroupDelete,
     required this.onExerciseSetAdd,
     required this.onExerciseSetUpdate,
+    this.onExerciseSetToggled,
     required this.onExerciseSetDelete,
     this.checkboxEnabled = false,
     this.hintsEnabled = false,
@@ -37,6 +39,9 @@ class ExerciseGroupWidget extends StatefulWidget {
   /// A callback function that is called when the [ExerciseGroup] is updated.
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
 
+  /// A callback function that is called when the [ExerciseGroup] is deleted.
+  final Function() onExerciseGroupDelete;
+
   /// A callback function that is called when a new [ExerciseSet] is added.
   final ValueChanged<ExerciseSet> onExerciseSetAdd;
 
@@ -45,6 +50,9 @@ class ExerciseGroupWidget extends StatefulWidget {
 
   /// A callback function that is called when an [ExerciseSet] is deleted.
   final ValueChanged<ExerciseSet> onExerciseSetDelete;
+
+  /// A callback function that is called when an [ExerciseSet] is toggled.
+  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
 
   /// Indicates whether or not checkboxes should be enabled for the [ExerciseSet]'s.
   final bool checkboxEnabled;
@@ -85,6 +93,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     onExerciseGroupUpdate: (value) {
                       widget.onExerciseGroupUpdate(value);
                     },
+                    onExerciseGroupDelete: () {
+                      widget.onExerciseGroupDelete();
+                    }
                   ),
                   onClose: (){}
                 );
@@ -140,6 +151,11 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 exerciseSet: widget.exerciseSets[index],
                 onExerciseSetUpdate: (value) {
                   widget.onExerciseSetUpdate(value);
+                },
+                onExerciseSetToggled: (value) {
+                  if(widget.onExerciseSetToggled != null) {
+                    widget.onExerciseSetToggled!(value);
+                  }
                 },
                 checkboxEnabled: widget.checkboxEnabled,
                 hintsEnabled: widget.hintsEnabled,

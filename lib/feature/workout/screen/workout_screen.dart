@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
-import '../../../database/model/exercise.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise_bundle.dart';
@@ -38,6 +37,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           return const Center(child: CircularProgressIndicator());
         } else if (state.status.isLoaded){
           Workout workout = state.workout!;
+          List<ExerciseBundle> exerciseBundles = state.exerciseBundles;
 
           return Expanded(
             child: Column(
@@ -60,7 +60,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   context,
                                   MaterialPageRoute(builder: (context) => const SelectExerciseScreen()),
                                 ).then((value) async {
-                                  Exercise exercise = value;
+                                  context.read<WorkoutDetailBloc>().add(WorkoutDetailAdd(
+                                    exercise: value,
+                                  ));
                                   /*context.read<WorkoutBloc>().add(WorkoutExerciseGroupAdd(exerciseGroup: ExerciseGroup(
                                     exerciseGroupId: -1,
                                     restTimed: Timed.zero(),
@@ -166,9 +168,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       const SizedBox(width: 8,),
                       MButton(
                         onPressed: (){
-                          context.read<WorkoutDetailBloc>().add(const WorkoutDetailUpdate(
-                              exerciseBundles: []
-                          ));
+                          /*context.read<WorkoutDetailBloc>().add(const WorkoutDetailUpdate(
+                              exerciseBundles: [],
+                          ));*/
                         },
                         height: 38,
                         width: 84,
@@ -221,25 +223,52 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ),
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          childCount: state.exerciseBundles.length,
+                          childCount: exerciseBundles.length,
                           (context, index) {
-                            ExerciseBundle exerciseBundle = state.exerciseBundles[index];
+                            ExerciseBundle exerciseBundle = exerciseBundles[index];
 
                             return ExerciseGroupWidget(
                               exercise: exerciseBundle.exercise,
                               exerciseGroup: exerciseBundle.exerciseGroup,
                               exerciseSets: exerciseBundle.exerciseSets,
                               onExerciseGroupUpdate: (value) {
-                                //context.read<WorkoutBloc>().add(WorkoutItemsUpdate(exerciseGroups: [value]));
+                                setState(() {
+                                  exerciseBundles[index].exerciseGroup = value;
+                                });
                               },
-                              onExerciseSetAdd: (value) async {
-                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetAdd(exerciseSet: value));
+                              onExerciseGroupDelete: () {
+                                setState(() {
+                                  exerciseBundles.removeAt(index);
+                                });
+                                context.read<WorkoutDetailBloc>().add(WorkoutDetailDelete(
+                                  exerciseGroup: exerciseBundle.exerciseGroup,
+                                ));
+                              },
+                              onExerciseSetAdd: (value) {
+                                setState(() {
+                                  exerciseBundles[index].exerciseSets.add(value);
+                                });
+                                context.read<WorkoutDetailBloc>().add(WorkoutDetailAdd(
+                                  exerciseSet: value,
+                                ));
                               },
                               onExerciseSetUpdate: (value) {
-                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetUpdate(exerciseSet: value));
+                                setState(() {
+                                  int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                                  exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
+                                });
+                              },
+                              onExerciseSetToggled: (value) {
+                                int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                                exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
                               },
                               onExerciseSetDelete: (value) {
-                                //context.read<WorkoutBloc>().add(WorkoutExerciseSetDelete(exerciseSet: value));
+                                setState(() {
+                                  exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                                });
+                                context.read<WorkoutDetailBloc>().add(WorkoutDetailDelete(
+                                  exerciseSet: value,
+                                ));
                               },
                               checkboxEnabled: true,
                             );

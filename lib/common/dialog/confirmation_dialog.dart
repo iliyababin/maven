@@ -65,8 +65,6 @@ class ConfirmationDialog extends StatelessWidget {
                 },
                 backgroundColor: cancelColor ?? mt(context).color.background,
                 borderColor: mt(context).color.secondary,
-                borderRadius: 12,
-                height: 50,
                 child: Text(
                   cancelText,
                   style: mt(context).textStyle.body1,
@@ -79,8 +77,6 @@ class ConfirmationDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 backgroundColor: confirmColor ?? mt(context).color.primary,
-                borderRadius: 12,
-                height: 50,
                 child: Text(
                   confirmText,
                   style: mt(context).textStyle.button1,
