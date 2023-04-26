@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
+import '../../../database/model/bar.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/bar.dart';
 import 'edit_bar_screen.dart';
 
 
@@ -44,7 +44,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Delete ${selectedBars.length} Bar(s)',
                       subtitle: 'This action cannot be undone',
-                      submitColor: mt(context).text.errorColor,
+                      confirmColor: mt(context).color.error,
                       confirmText: 'Delete',
                       onSubmit: () {
                         setState(() {
@@ -55,9 +55,8 @@ class _BarScreenState extends State<BarScreen> {
                     onClose: (){},
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete_outline_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
             ] : [
@@ -68,7 +67,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Reset Bars',
                       subtitle: 'This will reset all bars to default',
-                      submitColor: mt(context).text.errorColor,
+                      confirmColor: mt(context).color.error,
                       confirmText: 'Reset',
                       onSubmit: () {
                         setState(() {
@@ -79,18 +78,16 @@ class _BarScreenState extends State<BarScreen> {
                     onClose: (){},
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.restart_alt_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
               IconButton(
                 onPressed: () async {
                   context.read<EquipmentBloc>().add(BarAddEmpty());
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_rounded,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
             ]
@@ -128,7 +125,7 @@ class _BarScreenState extends State<BarScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditBarScreen(bar: bar)));
                         }
                       },
-                      splashColor: mt(context).borderColor,
+                      splashColor: mt(context).color.secondary,
                       onLongPress: () {
                         setState(() {
                           selectedBars.add(bar);
@@ -137,21 +134,14 @@ class _BarScreenState extends State<BarScreen> {
                       },
                       title: Text(
                         bar.name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: mt(context).text.primaryColor,
-                        ),
+                        style: mt(context).textStyle.body1,
                       ),
                       subtitle: Text(
                         bar.weight.toString(),
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: mt(context).text.secondaryColor,
-                        ),
+                        style: mt(context).textStyle.subtitle2,
                       ),
-                      trailing: isSelecting ? null : Icon(
+                      trailing: isSelecting ? null : const Icon(
                         Icons.chevron_right_rounded,
-                        color: mt(context).icon.accentColor,
                       ),
                     ),
                   );

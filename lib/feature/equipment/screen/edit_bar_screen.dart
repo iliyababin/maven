@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/bar.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/bar.dart';
 
 class EditBarScreen extends StatefulWidget {
   const EditBarScreen({Key? key,
@@ -42,11 +42,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             width: 75,
             child: Text(
               'Save',
-              style: TextStyle(
-                color: mt(context).text.accentColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
         ],
@@ -74,15 +70,11 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             title: Text(
               'Name',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               _bar.name,
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -101,15 +93,11 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             title: Text(
               'Weight',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               _bar.weight.toString(),
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
         ],

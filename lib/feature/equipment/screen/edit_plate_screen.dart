@@ -1,17 +1,15 @@
 import 'dart:math';
 
-import 'package:Maven/common/widget/m_button.dart';
-import 'package:Maven/theme/m_themes.dart';
-import 'package:Maven/widget/custom_app_bar.dart';
-import 'package:Maven/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
+import '../../../common/widget/m_button.dart';
+import '../../../database/model/plate.dart';
+import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/plate.dart';
 
 class EditPlateScreen extends StatefulWidget {
   const EditPlateScreen({Key? key,
@@ -62,14 +60,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
     weight = widget.plate.weight;
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        context: context,
-        title: 'Edit Plate',
+    return Scaffold(
+      appBar: AppBar(
         actions: [
           MButton(
             onPressed: (){
@@ -86,16 +81,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
               Navigator.pop(context);
             },
             width: 75,
-            child: Text(
+            child: const Text(
               'Save',
-              style: TextStyle(
-                color: mt(context).text.accentColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500
-              ),
             ),
           )
-        ]
+        ],
       ),
       body: ListView(
         children: [
@@ -128,15 +118,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Amount',
-              style: TextStyle(
-                  color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               '$amount plates',
-              style: TextStyle(
-                  color: mt(context).text.secondaryColor,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -156,33 +142,21 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Weight',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-                fontSize: 18,
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               weight.toString(),
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-                fontSize: 16,
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
             title: Text(
               'Size',
-              style: TextStyle(
-                  color: mt(context).text.primaryColor,
-                  fontSize: 18
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               height.toStringAsFixed(3),
-              style: TextStyle(
-                  color: mt(context).text.secondaryColor,
-                  fontSize: 16
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
             trailing: SizedBox(
               width: 200,
@@ -210,17 +184,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Color',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-                fontSize: 18
-              ),
+              style: mt(context).textStyle.body1,
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',
-              style: TextStyle(
-                color: mt(context).text.secondaryColor,
-                fontSize: 16
-              ),
+              style: mt(context).textStyle.subtitle1,
             ),
           ),
         ],

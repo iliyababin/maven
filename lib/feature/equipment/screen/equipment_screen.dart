@@ -1,8 +1,6 @@
-import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widget/custom_app_bar.dart';
-import '../../../widget/custom_scaffold.dart';
+import '../../../theme/m_themes.dart';
 import 'bar_screen.dart';
 import 'plate_screen.dart';
 
@@ -11,11 +9,11 @@ class EquipmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold.build(
-      context: context,
-      appBar: CustomAppBar.build(
-        context: context,
-        title: 'Equipment'
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Equipment',
+        ),
       ),
       body: ListView(
         children: [
@@ -25,9 +23,7 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Plates',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
           ListTile(
@@ -36,22 +32,18 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Bars',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
           ListTile(
             onTap: () {},
             title: Text(
               'Machines',
-              style: TextStyle(
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }

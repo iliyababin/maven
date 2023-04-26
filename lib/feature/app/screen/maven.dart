@@ -8,7 +8,8 @@ import '../../home/screen/home_screen.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';
 import '../../template/screen/template_screen.dart';
-import '../../workout/bloc/active_workout/workout_bloc.dart';
+import '../../workout/bloc/workout/workout_bloc.dart';
+import '../../workout/bloc/workout_detail/workout_detail_bloc.dart';
 import '../../workout/screen/workout_screen.dart';
 
 class Maven extends StatefulWidget {
@@ -35,64 +36,109 @@ class _MavenState extends State<Maven> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mt(context).backgroundColor,
+      backgroundColor: mt(context).color.background,
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
-            if(state.workout != null) {
-
+            if(state.status.isLoading) {
+              return const Center(child: CircularProgressIndicator(),);
+            } else if(state.status.isNone) {
+              return screens[_selectedIndex];
+            } else if(state.status.isActive) {
+              context.read<WorkoutDetailBloc>().add(WorkoutDetailLoad(
+                workoutId: state.workout!.workoutId!,
+              ));
               return SlidingUpPanel(
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
-                minHeight: 85,
+                minHeight: 70,
                 maxHeight: MediaQuery.of(context).size.height,
                 backdropEnabled: true,
                 controller: panelController,
                 onPanelSlide: (position) {
-                  setState(() {
+                  /*setState(() {
                     panelPosition = position;
-                  });
+                  });*/
                 },
+
                 body: screens[_selectedIndex],
-                collapsed: slidingPanelBackground(
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                collapsed: IgnorePointer(
+                  child: Container(
+                    height: 70,
+                    color: mt(context).color.background,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 7),
+                        Container(
+                          height: 6,
+                          width: 48,
+                          decoration: BoxDecoration(
+                              color: mt(context).handleBarColor,
+                              borderRadius: BorderRadius.circular(100)
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          state.workout!.name,
+                          style: mt(context).textStyle.heading3,
+                        ),
+                        const SizedBox(height: 1),
+                        StreamBuilder(
+                          stream: Stream.periodic(Duration(seconds: 1)),
+                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                            return Text(
+                              workoutDuration(state.workout?.timestamp ?? DateTime.now()),
+                              style: mt(context).textStyle.subtitle1,
+                            );
+                          },
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                panel: Container(
+                  height: 85,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: mt(context).color.background,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        blurRadius: 1,
+                        offset: const Offset(0, 4), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Column(
                     children: [
-                      const SizedBox(height: 10),
-                      Text(
-                        state.workout!.name,
-                        style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
+                      const SizedBox(height: 7),
+                      Container(
+                        height: 6,
+                        width: 48,
+                        decoration: BoxDecoration(
+                            color: mt(context).handleBarColor,
+                            borderRadius: BorderRadius.circular(100)
                         ),
                       ),
-                      StreamBuilder(
-                        stream: Stream.periodic(Duration(seconds: 1)),
-                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                          return Text(
-                            workoutDuration(state.workout?.timestamp ?? DateTime.now()),
-                            style: TextStyle(
-                              color: mt(context).text.secondaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          );
-                        },
-                      )
+                      const WorkoutScreen(),
                     ],
-                  )
+                  ),
                 ),
-                panel: slidingPanelBackground(const WorkoutScreen()),
               );
             } else {
-              return screens[_selectedIndex];
+              return Text(
+                'Naughty Error',
+                style: mt(context).textStyle.body1,
+              );
             }
           },
         )
       ),
-      /*persistentFooterButtons: [
-        persistentFooterButtons()
-      ],*/
       bottomNavigationBar: bottomNavigationBar()
     );
   }
@@ -170,60 +216,12 @@ class _MavenState extends State<Maven> {
       ),
     ];*/
 
-  ///
-  /// Widgets
-  ///
-
-  Container slidingPanelBackground(Widget widget) {
-    return Container(
-      height: 85,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: mt(context).backgroundColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 1,
-            offset: const Offset(0, 4), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 7),
-          Container(
-            height: 6,
-            width: 48,
-            decoration: BoxDecoration(
-              color: mt(context).handleBarColor,
-              borderRadius: BorderRadius.circular(100)
-            ),
-          ),
-          widget
-        ],
-      ),
-    );
-  }
   
   SizedBox bottomNavigationBar() {
     return SizedBox(
       height: /*56 - 56 * panelPosition*/ 56,
       child: BottomNavigationBar(
-        backgroundColor: mt(context).bottomNavigationBar.backgroundColor,
-        selectedItemColor: mt(context).bottomNavigationBar.selectedItemColor,
-        unselectedItemColor: mt(context).bottomNavigationBar.unselectedItemColor,
-        type: BottomNavigationBarType.fixed,
-        // TODO: here unselectedIconTheme: const IconThemeData(),
-        selectedLabelStyle: const TextStyle(
-          fontSize: 12,
-        ),
         currentIndex: _selectedIndex,
-        elevation: 0,
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

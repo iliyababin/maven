@@ -1,23 +1,27 @@
+
 import 'dart:convert';
 
-import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/dev/widget/design_tool_widget.dart';
+import 'package:Maven/theme/theme/dark_theme.dart';
+import 'package:Maven/theme/theme/light_theme.dart';
 import 'package:floor/floor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
+import 'database/model/model.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
-import 'feature/equipment/model/bar.dart';
-import 'feature/equipment/model/plate.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
-import 'feature/exercise/model/exercise.dart';
+import 'feature/program/bloc/program/program_bloc.dart';
+import 'feature/program/bloc/program_detail/program_detail_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
-import 'feature/template/bloc/template_folder/template_folder_bloc.dart';
-import 'feature/workout/bloc/active_workout/workout_bloc.dart';
+import 'feature/workout/bloc/workout/workout_bloc.dart';
+import 'feature/workout/bloc/workout_detail/workout_detail_bloc.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
@@ -35,9 +39,10 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('db07.db')
+      .databaseBuilder('maven_db_26.db')
       .addCallback(callback)
       .build();
+
 
   database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
@@ -51,36 +56,48 @@ void main() async {
         )..add(ExerciseInitialize())),
         BlocProvider(create: (context) => TemplateBloc(
           templateDao: database.templateDao,
-          templateFolderDao: database.templateFolderDao,
+          templateTrackerDao: database.templateTrackerDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
-        )..add(TemplateInitialize())),
-        BlocProvider(create: (context) => TemplateFolderBloc(
-          templateDao: database.templateDao,
-          templateFolderDao: database.templateFolderDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
-        )..add(TemplateFolderInitialize())),
+        )..add(const TemplateInitialize())),
         BlocProvider(create: (context) => TemplateDetailBloc(
           exerciseDao: database.exerciseDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
         )),
         BlocProvider(create: (context) => WorkoutBloc(
-          exerciseDao: database.exerciseDao,
-          templateDao: database.templateDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
           workoutDao: database.workoutDao,
           workoutExerciseGroupDao: database.workoutExerciseGroupDao,
           workoutExerciseSetDao: database.workoutExerciseSetDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
         )..add(WorkoutInitialize())),
+        BlocProvider(create: (context) => WorkoutDetailBloc(
+          workoutDao: database.workoutDao,
+          workoutExerciseGroupDao: database.workoutExerciseGroupDao,
+          workoutExerciseSetDao: database.workoutExerciseSetDao,
+          exerciseDao: database.exerciseDao,
+        )..add(const WorkoutDetailInitialize())),
         BlocProvider(create: (context) => EquipmentBloc(
           plateDao: database.plateDao,
           barDao: database.barDao,
         )..add(EquipmentInitialize())),
+        BlocProvider(create: (context) => ProgramBloc(
+          programDao: database.programDao,
+          folderDao: database.folderDao,
+          templateDao: database.templateDao,
+          templateTrackerDao: database.templateTrackerDao,
+          templateExerciseGroupDao: database.templateExerciseGroupDao,
+          templateExerciseSetDao: database.templateExerciseSetDao,
+        )..add(ProgramInitialize())),
+        BlocProvider(create: (context) => ProgramDetailBloc(
+          programDao: database.programDao,
+          folderDao: database.folderDao,
+          templateDao: database.templateDao,
+          templateTrackerDao: database.templateTrackerDao,
+        )..add(ProgramDetailInitialize())),
       ],
-      child:  const Main(),
+      child: const Main(),
     )
   );
 }
@@ -93,7 +110,10 @@ class Main extends StatelessWidget {
     return ThemeProvider(
       saveThemesOnChange: true,
       loadThemeOnInit: true,
-      themes: getThemes(context),
+      themes: [
+        LightTheme(),
+        DarkTheme(),
+      ],
       child: ThemeConsumer(
         child: Builder(
           builder: (themeContext) =>
@@ -101,8 +121,14 @@ class Main extends StatelessWidget {
               theme: ThemeProvider.themeOf(themeContext).data,
               // TODO: Give user option to change this.
               scrollBehavior: CustomScrollBehavior(),
-              title: "Maven",
-              home: const Maven(),
+              title: 'Maven',
+              home: Stack(children: const [
+                Maven(),
+                Visibility(
+                  visible: kDebugMode,
+                  child: DesignToolWidget(),
+                ),
+              ]),
             ),
         ),
       ),

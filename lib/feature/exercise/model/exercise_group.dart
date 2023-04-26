@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../common/model/timed.dart';
-import '../../template/model/template_exercise_group.dart';
-import '../../workout/model/workout_exercise_group.dart';
+import '../../../database/model/template_exercise_group.dart';
+import '../../../database/model/workout_exercise_group.dart';
 
 class ExerciseGroup extends Equatable {
   const ExerciseGroup({

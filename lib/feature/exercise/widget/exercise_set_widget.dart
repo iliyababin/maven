@@ -5,9 +5,9 @@ import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import '../../../../theme/m_themes.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/exercise.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/exercise.dart';
 import '../model/exercise_set.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
@@ -18,6 +18,7 @@ class ExerciseSetWidget extends StatefulWidget {
     required this.exercise,
     required this.exerciseSet,
     required this.onExerciseSetUpdate,
+    this.onExerciseSetToggled,
     required this.checkboxEnabled,
     required this.hintsEnabled,
   }) : super(key: key);
@@ -27,6 +28,7 @@ class ExerciseSetWidget extends StatefulWidget {
   final Exercise exercise;
   final ExerciseSet exerciseSet;
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
+  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
   final bool checkboxEnabled;
   final bool hintsEnabled;
 
@@ -74,7 +76,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     return AnimatedContainer(
       duration: _animationSpeed,
       height: 44,
-      color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).backgroundColor,
+      color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
         set: MButton(
@@ -87,7 +89,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w900,
-              color: mt(context).text.accentColor,
+              color: mt(context).color.primary,
             ),
           ),
         ),
@@ -101,11 +103,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: Colors.transparent,
           child: Text(
             '-',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: mt(context).text.secondaryColor,
-            ),
+            style: mt(context).textStyle.subtitle1,
           ),
         ),
 
@@ -115,9 +113,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
           child: Text(
             exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
-            style: TextStyle(
-              color: mt(context).text.primaryColor
-            ),
+            style: mt(context).textStyle.body1,
           ),
           onPressed: () {
             showBottomSheetDialog(
@@ -144,9 +140,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
           child: Text(
             exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
-            style: TextStyle(
-                color: mt(context).text.primaryColor
-            ),
+            style: mt(context).textStyle.body1,
           ),
           onPressed: () {
             showBottomSheetDialog(
@@ -199,13 +193,13 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   setState(() {
                     _isChecked = !_isChecked;
                   });
-                  _updateExerciseSet();
 
-
-
+                  if(widget.onExerciseSetToggled != null) {
+                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
+                  }
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                    const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).borderColor
+                    const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).color.secondary
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),

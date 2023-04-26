@@ -1,17 +1,17 @@
 import 'dart:async';
 
+import 'package:Maven/database/model/template_tracker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../dao/template_dao.dart';
-import '../../dao/template_exercise_group_dao.dart';
-import '../../dao/template_exercise_set_dao.dart';
-import '../../dao/template_folder_dao.dart';
-import '../../dto/exercise_block.dart';
-import '../../model/template.dart';
-import '../../model/template_exercise_group.dart';
-import '../../model/template_exercise_set.dart';
-import '../../model/template_folder.dart';
+import '../../../../database/dao/template_dao.dart';
+import '../../../../database/dao/template_exercise_group_dao.dart';
+import '../../../../database/dao/template_exercise_set_dao.dart';
+import '../../../../database/dao/template_tracker_dao.dart';
+import '../../../../database/model/template.dart';
+import '../../../../database/model/template_exercise_group.dart';
+import '../../../../database/model/template_exercise_set.dart';
+import '../../../exercise/model/exercise_bundle.dart';
 
 part 'template_event.dart';
 part 'template_state.dart';
@@ -19,59 +19,51 @@ part 'template_state.dart';
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   TemplateBloc({
     required this.templateDao,
-    required this.templateFolderDao,
+    required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
   }) : super(const TemplateState()) {
-    templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
-
-    on<TemplateStreamUpdateTemplates>(_templateStreamUpdateTemplates);
-
-    on<TemplateInitialize>(_templateInitialize);
-    on<TemplateCreate>(_templateCreate);
-    on<TemplateReorder>(_templateReorder);
-    on<TemplateDelete>(_templateDelete);
-    on<TemplateMoveToFolder>(_templateMoveToFolder);
-
+    on<TemplateInitialize>(_initialize);
+    on<TemplateCreate>(_create);
+    on<TemplateUpdate>(_update);
+    on<TemplateDelete>(_delete);
+    on<TemplateReorder>(_reorder);
+    on<TemplateStreamUpdateTemplates>(_updateTemplates);
   }
 
   final TemplateDao templateDao;
-  final TemplateFolderDao templateFolderDao;
+  final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
 
-  Future<void> _templateStreamUpdateTemplates(TemplateStreamUpdateTemplates event, emit) async {
+  Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading,));
+
+    templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
+
+    emit(state.copyWith(status: () => TemplateStatus.loaded,));
+  }
+
+  Future<void> _updateTemplates(TemplateStreamUpdateTemplates event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(templates: () => event.templates));
   }
 
-  Future<void> _templateInitialize(TemplateInitialize event, Emitter emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loaded));
-  }
+  Future<void> _create(TemplateCreate event, emit) async {
+    emit(state.copyWith(status: () => TemplateStatus.loading));
 
-  Future<void> _templateCreate(TemplateCreate event, emit) async {
-    List<TemplateFolder> templateFolders = await templateFolderDao.getTemplateFolders();
+    int templateId = await templateDao.addTemplate(event.template);
 
-    if(templateFolders.isEmpty) {
-      TemplateFolder templateFolder = const TemplateFolder(
-        name: 'Workouts',
-        expanded: 1,
-      );
-      int templateFolderId = await templateFolderDao.addTemplateFolder(templateFolder);
-      TemplateFolder? addedTemplateFolder = await templateFolderDao.getTemplateFolder(templateFolderId);
-      templateFolders.add(addedTemplateFolder!);
+    if (event.templateTracker != null) {
+      await templateTrackerDao.addTemplateTracker(event.templateTracker!.copyWith(templateId: templateId));
     }
 
-    int templateFolderId = templateFolders.first.templateFolderId!;
-
-    int templateId = await templateDao.addTemplate(Template(name: event.name, templateFolderId: templateFolderId));
-
-    for (ExerciseBlock exerciseBlock in event.exerciseBlocks) {
+    for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
           restTimed: exerciseBlock.exerciseGroup.restTimed,
           exerciseId: exerciseBlock.exercise.exerciseId,
           templateId: templateId,
-          barId: exerciseBlock.exerciseGroup.barId
+          barId: exerciseBlock.exerciseGroup.barId,
         )
       );
       for (var exerciseSet in exerciseBlock.exerciseSets) {
@@ -89,49 +81,32 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     emit(state.copyWith(status: () => TemplateStatus.loaded));
   }
 
-  Future<void> _templateReorder(TemplateReorder event, emit) async {
+  Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
+    await templateDao.updateTemplate(event.template);
+
+    if(event.exerciseBundles != null) {
+      await templateDao.deleteTemplate(event.template);
+      add(TemplateCreate(
+        template: event.template,
+        templateTracker: event.template.templateTracker,
+        exerciseBundles: event.exerciseBundles!,
+      ));
+    }
+  }
+
+  Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
     List<Template> templates = event.templates;
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templates.length; i++) {
       Template template = templates[i];
-      templateDao.updateTemplate(template.copyWith(sortOrder: i));
+      templateDao.updateTemplate(template.copyWith(sortOrder: i + 1));
     }
-    state.copyWith(status: () => TemplateStatus.reorder);
   }
 
-  Future<void> _templateDelete(TemplateDelete event, emit) async {
+  Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
     await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
     await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
     await templateDao.deleteTemplate(event.template);
-
-    emit(state.copyWith(status: () => TemplateStatus.delete));
-  }
-
-  Future<void> _templateMoveToFolder(TemplateMoveToFolder event, emit) async {
-    final oldFolderId = event.templateFolders[event.oldTemplateFolderIndex].templateFolderId;
-    final newFolderId = event.templateFolders[event.newTemplateFolderIndex].templateFolderId;
-    final templatesInOldFolder = _getTemplatesInFolder(oldFolderId!);
-    final templatesInNewFolder = _getTemplatesInFolder(newFolderId!);
-    if (event.oldTemplateFolderIndex == event.newTemplateFolderIndex) {
-      final removedTemplate = templatesInOldFolder.removeAt(event.oldTemplateIndex);
-      templatesInOldFolder.insert(event.newTemplateIndex, removedTemplate);
-      for (int i = 0; i < templatesInOldFolder.length; i++) {
-        Template template = templatesInOldFolder[i];
-        templateDao.updateTemplate(template.copyWith(sortOrder: i));
-      }
-    } else {
-      final removedTemplate = templatesInOldFolder.removeAt(event.oldTemplateIndex);
-      templatesInNewFolder.insert(event.newTemplateIndex, removedTemplate.copyWith(templateFolderId: newFolderId));
-      for (int i = 0; i < templatesInNewFolder.length; i++) {
-        Template template = templatesInNewFolder[i];
-        templateDao.updateTemplate(template.copyWith(sortOrder: i));
-      }
-    }
-    await emit(state.copyWith(status: () => TemplateStatus.reorder));
-  }
-
-  List<Template> _getTemplatesInFolder(int folderId) {
-    return state.templates.where((template) => template.templateFolderId == folderId).toList();
   }
 }
 

@@ -1,13 +1,13 @@
-import 'package:Maven/common/dialog/show_timer_picker_dialog.dart';
+import 'package:Maven/common/dialog/timer_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/bar.dart';
+import '../../../database/model/exercise.dart';
 import '../../../theme/m_themes.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
-import '../../equipment/model/bar.dart';
-import '../model/exercise.dart';
 import '../model/exercise_equipment.dart';
 import '../model/exercise_group.dart';
 
@@ -16,11 +16,13 @@ class ExerciseGroupMenu extends StatelessWidget {
     required this.exercise,
     required this.exerciseGroup,
     required this.onExerciseGroupUpdate,
+    required this.onExerciseGroupDelete,
   }) : super(key: key);
 
   final Exercise exercise;
   final ExerciseGroup exerciseGroup;
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
+  final Function() onExerciseGroupDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class ExerciseGroupMenu extends StatelessWidget {
                             child: Text(
                               'Bar Type',
                               style: TextStyle(
-                                color: mt(context).text.primaryColor,
+                                color: mt(context).color.primary,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -66,18 +68,11 @@ class ExerciseGroupMenu extends StatelessWidget {
                                 leading: exerciseGroup.barId == bar.barId ? Container(
                                   width: 20,
                                   alignment: Alignment.centerLeft,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.check,
-                                    color: mt(context).icon.accentColor,
                                   ),
                                 ) : Container(width: 20,),
-                                child: Text(
-                                  bar.name,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: mt(context).text.primaryColor,
-                                  ),
-                                ),
+                                title: bar.name,
                               );
                             },
                           ),
@@ -90,64 +85,43 @@ class ExerciseGroupMenu extends StatelessWidget {
               onClose: (){},
             );
           },
-          leading: Icon(
+          leading: const Icon(
             Icons.fitness_center_rounded,
-            color: mt(context).icon.accentColor,
-            size: 24,
           ),
-          child: Text(
-            'Bar Type',
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Bar Type',
         ) : Container(),
         MButton.tiled(
           onPressed: (){
-            showTimerPickerDialog(
+            Navigator.pop(context);
+            showBottomSheetDialog(
               context: context,
-              initialValue: exerciseGroup.restTimed,
-
-            ).then((value) {
-              if(value == null) return;
-              onExerciseGroupUpdate(exerciseGroup.copyWith(restTimed: value));
-            });
+              child: TimedPickerDialog(
+                initialValue: exerciseGroup.restTimed,
+                onSubmit: (value) {
+                  onExerciseGroupUpdate(exerciseGroup.copyWith(restTimed: value));
+                },
+              ),
+              onClose: (){}
+            );
           },
-          leading: Icon(
+          leading: const Icon(
             Icons.timer,
-            color: mt(context).icon.accentColor,
-            size: 24,
           ),
           trailing: Text(
             '(${exerciseGroup.restTimed.toString()})',
-            style: TextStyle(
-              color: mt(context).text.secondaryColor,
-              fontSize: 17,
-            ),
+            style: mt(context).textStyle.subtitle1,
           ),
-          child: Text(
-            'Rest Timer',
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Rest Timer',
         ),
         MButton.tiled(
-          onPressed: (){},
-          leading: Icon(
+          onPressed: (){
+            onExerciseGroupDelete();
+            Navigator.pop(context);
+          },
+          leading: const Icon(
             Icons.delete_rounded,
-            color: mt(context).icon.errorColor,
-            size: 24,
           ),
-          child: Text(
-            'Remove',
-            style: TextStyle(
-              color: mt(context).text.errorColor,
-              fontSize: 17,
-            ),
-          ),
+          title: 'Remove',
         ),
       ],
     );

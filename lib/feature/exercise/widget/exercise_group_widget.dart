@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../theme/m_themes.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/exercise.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/exercise.dart';
 import '../model/exercise_group.dart';
 import '../model/exercise_set.dart';
 import 'exercise_group_menu.dart';
@@ -18,8 +18,10 @@ class ExerciseGroupWidget extends StatefulWidget {
     required this.exerciseGroup,
     required this.exerciseSets,
     required this.onExerciseGroupUpdate,
+    required this.onExerciseGroupDelete,
     required this.onExerciseSetAdd,
     required this.onExerciseSetUpdate,
+    this.onExerciseSetToggled,
     required this.onExerciseSetDelete,
     this.checkboxEnabled = false,
     this.hintsEnabled = false,
@@ -37,6 +39,9 @@ class ExerciseGroupWidget extends StatefulWidget {
   /// A callback function that is called when the [ExerciseGroup] is updated.
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
 
+  /// A callback function that is called when the [ExerciseGroup] is deleted.
+  final Function() onExerciseGroupDelete;
+
   /// A callback function that is called when a new [ExerciseSet] is added.
   final ValueChanged<ExerciseSet> onExerciseSetAdd;
 
@@ -45,6 +50,9 @@ class ExerciseGroupWidget extends StatefulWidget {
 
   /// A callback function that is called when an [ExerciseSet] is deleted.
   final ValueChanged<ExerciseSet> onExerciseSetDelete;
+
+  /// A callback function that is called when an [ExerciseSet] is toggled.
+  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
 
   /// Indicates whether or not checkboxes should be enabled for the [ExerciseSet]'s.
   final bool checkboxEnabled;
@@ -69,14 +77,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               height: 40,
               leading: const SizedBox(width: 12),
               mainAxisAlignment: MainAxisAlignment.start,
-              splashColor: mt(context).accentColor.withAlpha(50),
+              splashColor: mt(context).color.primary.withAlpha(50),
               child: Text(
                 widget.exercise.name,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: mt(context).text.accentColor,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: mt(context).textStyle.subtitle2,
               ),
             ),
             MButton(
@@ -89,15 +93,17 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     onExerciseGroupUpdate: (value) {
                       widget.onExerciseGroupUpdate(value);
                     },
+                    onExerciseGroupDelete: () {
+                      widget.onExerciseGroupDelete();
+                    }
                   ),
                   onClose: (){}
                 );
               },
               width: 45,
               height: 40,
-              child: Icon(
+              child: const Icon(
                 Icons.more_horiz_rounded,
-                color: mt(context).icon.accentColor,
               ),
             )
           ],
@@ -105,31 +111,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ActiveExerciseRow.build(
             set: Text(
               "SET",
-              style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).text.primaryColor
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             previous: Text(
               "PREVIOUS",
-              style: TextStyle(
-                  fontSize: 13,
-                  color: mt(context).text.primaryColor
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             option1: Text(
               widget.exercise.exerciseType.exerciseTypeOption1.value,
-              style: TextStyle(
-                fontSize: 13,
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ),
             option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? Text(
               widget.exercise.exerciseType.exerciseTypeOption2!.value,
-              style: TextStyle(
-                fontSize: 13,
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
             ) : null,
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
@@ -158,6 +152,11 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 onExerciseSetUpdate: (value) {
                   widget.onExerciseSetUpdate(value);
                 },
+                onExerciseSetToggled: (value) {
+                  if(widget.onExerciseSetToggled != null) {
+                    widget.onExerciseSetToggled!(value);
+                  }
+                },
                 checkboxEnabled: widget.checkboxEnabled,
                 hintsEnabled: widget.hintsEnabled,
               ),
@@ -179,15 +178,13 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               widget.onExerciseSetAdd(exerciseSet);
             },
             expand: false,
-            leading: Icon(
+            leading: const Icon(
               Icons.add_rounded,
-              size: 24,
-              color: mt(context).icon.accentColor,
             ),
             child: Text(
               'Add Set',
               style: TextStyle(
-                color: mt(context).text.accentColor,
+                color: mt(context).color.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

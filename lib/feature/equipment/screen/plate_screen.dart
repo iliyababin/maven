@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
+import '../../../database/model/plate.dart';
 import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
-import '../model/plate.dart';
 import 'edit_plate_screen.dart';
 
 
@@ -45,7 +45,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
-                  submitColor: mt(context).text.errorColor,
+                  confirmColor: mt(context).color.error,
                   confirmText: 'Delete',
                   onSubmit: () {
                     setState(() {
@@ -56,9 +56,8 @@ class _PlateScreenState extends State<PlateScreen> {
                 onClose: (){},
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.delete_outline_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
         ] : [
@@ -69,7 +68,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Reset Plates',
                   subtitle: 'This will reset all plates to default',
-                  submitColor: mt(context).text.errorColor,
+                  confirmColor: mt(context).color.error,
                   confirmText: 'Reset',
                   onSubmit: () {
                     setState(() {
@@ -80,18 +79,16 @@ class _PlateScreenState extends State<PlateScreen> {
                 onClose: (){},
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.restart_alt_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
           IconButton(
             onPressed: () async {
               context.read<EquipmentBloc>().add(PlateAddEmpty());
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.add_rounded,
-              color: mt(context).icon.accentColor,
             ),
           ),
         ]
@@ -129,7 +126,7 @@ class _PlateScreenState extends State<PlateScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
                       }
                     },
-                    splashColor: mt(context).borderColor,
+                    splashColor: mt(context).color.secondary,
                     onLongPress: () {
                       setState(() {
                         selectedPlates.add(plate);
@@ -148,12 +145,11 @@ class _PlateScreenState extends State<PlateScreen> {
                       plate.weight.toString(),
                       style: TextStyle(
                         fontSize: 18,
-                        color: mt(context).text.primaryColor,
+                        color: mt(context).color.primary,
                       ),
                     ),
-                    trailing: isSelecting ? null : Icon(
+                    trailing: isSelecting ? null : const Icon(
                       Icons.chevron_right_rounded,
-                      color: mt(context).icon.accentColor,
                     ),
                   ),
                 );

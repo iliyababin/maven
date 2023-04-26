@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
-import '../../workout/bloc/active_workout/workout_bloc.dart';
-import '../../workout/model/workout.dart';
 
 /// Widget that displays a paused workout
 class PausedWorkoutWidget extends StatelessWidget {
@@ -22,7 +20,7 @@ class PausedWorkoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(10),
-      color: mt(context).templateFolder.backgroundColor,
+      color: mt(context).color.background,
       child: InkWell(
         onTap: () {
           showBottomSheetDialog(
@@ -33,8 +31,8 @@ class PausedWorkoutWidget extends StatelessWidget {
               cancelText: 'Cancel',
               confirmText: 'Resume',
               onSubmit: () {
-                context.read<WorkoutBloc>().add(WorkoutDelete());
-                context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));
+                /*context.read<WorkoutBloc>().add(WorkoutDelete());
+                context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));*/
               },
             ),
             onClose: (){}
@@ -45,8 +43,8 @@ class PausedWorkoutWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                width: 1,
-                color: mt(context).borderColor
+              width: 1,
+              color: mt(context).color.secondary,
             ),
           ),
           child: Padding(
@@ -58,11 +56,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   children: [
                     Text(
                       workout.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: mt(context).text.primaryColor,
-                      ),
+                      style: mt(context).textStyle.body1,
                     ),
                   ],
                 ),
@@ -72,9 +66,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       'Created ${timeago.format(workout.timestamp)}',
-                      style: TextStyle(
-                        color: mt(context).text.secondaryColor
-                      ),
+                      style: mt(context).textStyle.subtitle1,
                     );
                   },
                 )

@@ -1,7 +1,7 @@
-import 'package:Maven/feature/workout/model/workout_exercise_set.dart';
+import 'package:Maven/database/model/workout_exercise_set.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../template/model/template_exercise_set.dart';
+import '../../../database/model/template_exercise_set.dart';
 
 class ExerciseSet extends Equatable {
   const ExerciseSet({

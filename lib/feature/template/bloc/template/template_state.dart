@@ -1,7 +1,7 @@
 part of 'template_bloc.dart';
 
 enum TemplateStatus {
-  error,
+  initial,
   loading,
   loaded,
   add,
@@ -9,27 +9,36 @@ enum TemplateStatus {
   delete,
   reorder,
   toggle,
+  error,
+}
+
+extension TemplateStatusExtension on TemplateStatus {
+  bool get isInitial => this == TemplateStatus.initial;
+  bool get isLoading => this == TemplateStatus.loading;
+  bool get isLoaded => this == TemplateStatus.loaded;
+  bool get isAdd => this == TemplateStatus.add;
+  bool get isUpdate => this == TemplateStatus.update;
+  bool get isDelete => this == TemplateStatus.delete;
+  bool get isReorder => this == TemplateStatus.reorder;
+  bool get isToggle => this == TemplateStatus.toggle;
+  bool get isError => this == TemplateStatus.error;
 }
 
 class TemplateState extends Equatable {
   const TemplateState({
-    this.status = TemplateStatus.loading,
-    this.statusMessage = "",
+    this.status = TemplateStatus.initial,
     this.templates = const [],
   });
 
   final TemplateStatus status;
-  final String statusMessage;
   final List<Template> templates;
 
   TemplateState copyWith({
     TemplateStatus Function()? status,
-    String Function()? statusMessage,
     List<Template> Function()? templates,
   }) {
     return TemplateState(
       status: status != null ? status() : this.status,
-      statusMessage: statusMessage != null ? statusMessage() : this.statusMessage,
       templates: templates != null ? templates() : this.templates,
     );
   }
@@ -37,7 +46,6 @@ class TemplateState extends Equatable {
   @override
   List<Object?> get props => [
     status,
-    statusMessage,
     templates,
   ];
 }

@@ -38,7 +38,7 @@ class ActiveExerciseRow {
         ],
 
         if(checkbox != null) ...[
-          const SizedBox(width: SPACER_SIZE),
+          const SizedBox(width: 2),
           SizedBox(width: 46, child: checkbox),
           const SizedBox(width: SPACER_SIZE)
         ] else const SizedBox(width: SPACER_SIZE),

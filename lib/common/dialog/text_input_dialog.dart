@@ -50,11 +50,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         children: [
           Text(
             widget.title,
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
+            style: mt(context).textStyle.heading2,
           ),
           const SizedBox(height: 30),
           Form(
@@ -62,32 +58,28 @@ class _TextInputDialogState extends State<TextInputDialog> {
             child: TextFormField(
               onChanged: (value) {
                 if(widget.onValueChanged == null) return;
+                if(value.isEmpty) value = 0.toString();
                 widget.onValueChanged!(value);
               },
               validator: (value) {
-                if(value == null || value.isEmpty) return "The input cannot be empty.";
+                if(value == null || value.isEmpty) return "The input cannot be empty. ";
                 return null;
               },
               controller: _textEditingController,
               keyboardType: widget.keyboardType,
-              style: TextStyle(
-                fontSize: 18,
-                color: mt(context).text.primaryColor,
-              ),
+              style: mt(context).textStyle.body1,
               decoration: InputDecoration(
                 hintText: widget.hintText,
-                hintStyle: TextStyle(
-                  color: mt(context).text.secondaryColor
-                ),
+                hintStyle: mt(context).textStyle.subtitle1,
                 errorStyle: TextStyle(
                   color: mt(context).textField.errorOutlineColor,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   borderSide: BorderSide(
-                      width: 3,
-                      style: BorderStyle.solid,
-                      color: mt(context).borderColor
+                    width: 3,
+                    style: BorderStyle.solid,
+                    color: mt(context).color.secondary,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -95,7 +87,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: mt(context).accentColor,
+                    color: mt(context).color.primary,
                   ),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
@@ -116,17 +108,13 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                backgroundColor: mt(context).backgroundColor,
-                borderColor: mt(context).borderColor,
+                backgroundColor: mt(context).color.background,
+                borderColor: mt(context).color.secondary,
                 borderRadius: 12,
                 height: 50,
                 child: Text(
                   'Cancel',
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: mt(context).textStyle.button2,
                 ),
               ),
               const SizedBox(width: 15,),
@@ -139,16 +127,11 @@ class _TextInputDialogState extends State<TextInputDialog> {
                     Navigator.pop(context);
                   }
                 },
-                backgroundColor: mt(context).accentColor,
+                backgroundColor: mt(context).color.primary,
                 borderRadius: 12,
-                height: 50,
                 child: Text(
                   'Submit',
-                  style: TextStyle(
-                      color: mt(context).text.whiteColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
-                  ),
+                  style: mt(context).textStyle.button1,
                 ),
               )
             ],

@@ -2,82 +2,86 @@ part of 'template_bloc.dart';
 
 abstract class TemplateEvent extends Equatable {
   const TemplateEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class TemplateInitialize extends TemplateEvent {}
+class TemplateInitialize extends TemplateEvent {
+  const TemplateInitialize();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class TemplateCreate extends TemplateEvent {
-  final String name;
-  final List<ExerciseBlock> exerciseBlocks;
-
   const TemplateCreate({
-    required this.name,
-    required this.exerciseBlocks
+    required this.template,
+    required this.exerciseBundles,
+    this.templateTracker,
   });
 
+  final Template template;
+  final List<ExerciseBundle> exerciseBundles;
+  final TemplateTracker? templateTracker;
+
   @override
-  List<Object> get props => [name, exerciseBlocks];
+  List<Object?> get props => [
+    template,
+    exerciseBundles,
+    templateTracker,
+  ];
 }
 
-class TemplateReorder extends TemplateEvent {
-  final List<Template> templates;
-
-  const TemplateReorder({
-    required this.templates
+class TemplateUpdate extends TemplateEvent {
+  const TemplateUpdate({
+    required this.template,
+    required this.exerciseBundles
   });
 
-  @override
-  List<Object> get props => [templates];
-}
-
-class TemplateMoveToFolder extends TemplateEvent {
-  final int oldTemplateIndex;
-  final int oldTemplateFolderIndex;
-  final int newTemplateIndex;
-  final int newTemplateFolderIndex;
-  final List<TemplateFolder> templateFolders;
-
-  const TemplateMoveToFolder({
-    required this.oldTemplateIndex,
-    required this.oldTemplateFolderIndex,
-    required this.newTemplateIndex,
-    required this.newTemplateFolderIndex,
-    required this.templateFolders,
-  });
+  final Template template;
+  final List<ExerciseBundle>? exerciseBundles;
 
   @override
-  List<Object> get props => [
-    oldTemplateIndex,
-    oldTemplateFolderIndex,
-    newTemplateIndex,
-    newTemplateFolderIndex,
-    templateFolders,
+  List<Object?> get props => [
+    template,
+    exerciseBundles,
   ];
 }
 
 class TemplateDelete extends TemplateEvent {
-  final Template template;
-
   const TemplateDelete({
     required this.template
   });
 
+  final Template template;
+
   @override
-  List<Object> get props => [template];
+  List<Object?> get props => [
+    template,
+  ];
 }
 
-class TemplateStreamUpdateTemplates extends TemplateEvent {
+class TemplateReorder extends TemplateEvent {
+  const TemplateReorder({
+    required this.templates,
+  });
 
   final List<Template> templates;
 
+  @override
+  List<Object?> get props => [
+    templates,
+  ];
+}
+
+class TemplateStreamUpdateTemplates extends TemplateEvent {
   const TemplateStreamUpdateTemplates({
     required this.templates,
   });
 
+  final List<Template> templates;
+
   @override
-  List<Object> get props => [templates];
+  List<Object?> get props => [
+    templates,
+  ];
 }
 

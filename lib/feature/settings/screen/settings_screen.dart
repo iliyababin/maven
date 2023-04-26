@@ -1,11 +1,11 @@
-import 'package:Maven/feature/equipment/screen/equipment_screen.dart';
+
 import 'package:Maven/feature/settings/screen/theme_screen.dart';
-import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import '../../../widget/custom_app_bar.dart';
+import '../../equipment/screen/equipment_screen.dart';
+
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -13,12 +13,13 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(
-        title: "Settings",
-        context: context,
+      appBar: AppBar(
+        title: const Text(
+          'Settings',
+        ),
       ),
       body: SettingsList(
-        lightTheme: SettingsThemeData(
+        /*lightTheme: SettingsThemeData(
           settingsSectionBackground: mt(context).foregroundColor,
           settingsListBackground: mt(context).backgroundColor,
           leadingIconsColor: mt(context).icon.secondaryColor,
@@ -26,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
           dividerColor: mt(context).borderColor,
           titleTextColor: mt(context).text.primaryColor,
           trailingTextColor: mt(context).text.secondaryColor,
-        ),
+        ),*/
         platform: DevicePlatform.iOS,
         sections: [
           SettingsSection(

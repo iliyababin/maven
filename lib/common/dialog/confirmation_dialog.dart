@@ -13,7 +13,7 @@ class ConfirmationDialog extends StatelessWidget {
     required this.subtitle,
     this.confirmText = 'Submit',
     this.cancelText = 'Cancel',
-    this.submitColor,
+    this.confirmColor,
     this.cancelColor,
     required this.onSubmit,
   }) : super(key: key);
@@ -31,7 +31,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String cancelText;
 
   /// The color painted behind the confirm action.
-  final Color? submitColor;
+  final Color? confirmColor;
 
   /// The color painted behind the cancel action.
   final Color? cancelColor;
@@ -47,20 +47,13 @@ class ConfirmationDialog extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
+            style: mt(context).textStyle.heading3,
           ),
           const SizedBox(height: 22),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: mt(context).text.primaryColor,
-              fontSize: 16,
-            ),
+            style: mt(context).textStyle.body1,
           ),
           const SizedBox(height: 30),
           Row(
@@ -70,17 +63,11 @@ class ConfirmationDialog extends StatelessWidget {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                backgroundColor: cancelColor ?? mt(context).backgroundColor,
-                borderColor: mt(context).borderColor,
-                borderRadius: 12,
-                height: 50,
+                backgroundColor: cancelColor ?? mt(context).color.background,
+                borderColor: mt(context).color.secondary,
                 child: Text(
                   cancelText,
-                  style: TextStyle(
-                    color: mt(context).text.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: mt(context).textStyle.body1,
                 ),
               ),
               const SizedBox(width: 15),
@@ -89,16 +76,10 @@ class ConfirmationDialog extends StatelessWidget {
                   onSubmit();
                   Navigator.pop(context);
                 },
-                backgroundColor: submitColor ?? mt(context).accentColor,
-                borderRadius: 12,
-                height: 50,
+                backgroundColor: confirmColor ?? mt(context).color.primary,
                 child: Text(
                   confirmText,
-                  style: TextStyle(
-                    color: mt(context).text.whiteColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: mt(context).textStyle.button1,
                 ),
               )
             ],

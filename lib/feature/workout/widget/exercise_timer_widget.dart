@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:Maven/common/util/general_utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/dialog/show_timer_picker_dialog.dart';
+import '../../../common/dialog/timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../theme/m_themes.dart';
@@ -46,8 +47,8 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           child: Stack(
             children: [
               LinearProgressIndicator(
-                backgroundColor: mt(context).foregroundColor,
-                color: mt(context).accentColor,
+                backgroundColor: mt(context).color.error,
+                color: mt(context).color.primary,
                 value: timeLeft / totalTime,
                 minHeight: 38,
               ),
@@ -55,7 +56,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                 child: Text(
                   secondsToTime(timeLeft),
                   style: TextStyle(
-                    color: timeLeft / totalTime > 0.5 ? mt(context).text.whiteColor : mt(context).text.primaryColor,
+                    color: timeLeft / totalTime > 0.5 ? mt(context).color.neutral : mt(context).color.primary,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),
@@ -75,23 +76,26 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
         :
     MButton(
       onPressed: () async {
-        showTimerPickerDialog(
+        showBottomSheetDialog(
           context: context,
-          initialValue: Timed.zero()
-        ).then((value) {
-          if (value == null) return;
-          widget.controller.startTimer(value);
-        });
+          child: TimedPickerDialog(
+            initialValue: Timed.zero(),
+            onSubmit: (value) {
+              widget.controller.startTimer(value);
+            },
+          ),
+          onClose: (){},
+        );
       },
       leading: Icon(
         Icons.timer,
         size: 21,
-        color: mt(context).text.primaryColor,
+        color: mt(context).color.text,
       ),
       height: 38,
       width: 38,
-      backgroundColor: mt(context).backgroundColor,
-      borderColor: mt(context).borderColor,
+      backgroundColor: mt(context).color.background,
+      borderColor: mt(context).color.secondary,
     );
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/m_themes.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/model/plate.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
-import '../../equipment/model/plate.dart';
 import '../../equipment/screen/equipment_screen.dart';
 import '../../equipment/service/equipment_service.dart';
 
@@ -47,7 +47,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             child: Text(
               removeDecimalZeroFormat(barWeight),
               style: TextStyle(
-                color: mt(context).text.whiteColor
+                color: mt(context).color.neutral,
               ),
             ),
           ));
@@ -108,26 +108,22 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     Text(
                       'Plate Calculator',
                       style: TextStyle(
-                          color: mt(context).text.primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900
+                        color: mt(context).color.primary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                     const SizedBox(height: 5,),
                     Text(
                       'Target: ${weight.toString()} | Possible: $possibleWeight ',
-                      style: TextStyle(
-                          color: mt(context).text.secondaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500
-                      ),
+                      style: mt(context).textStyle.subtitle1,
                     ),
                   ],
                 ),
               ),
               Container(
                 height: 2,
-                color: mt(context).borderColor,
+                color: mt(context).color.secondary,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -139,7 +135,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
               ),
               Container(
                 height: 2,
-                color: mt(context).borderColor,
+                color: mt(context).color.secondary,
               ),
               MButton(
                 onPressed: (){
@@ -147,9 +143,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 },
                 width: 50,
                 borderRadius: 0,
-                leading: Icon(
+                leading: const Icon(
                   Icons.settings,
-                  color: mt(context).icon.accentColor,
                 ),
               ),
             ],

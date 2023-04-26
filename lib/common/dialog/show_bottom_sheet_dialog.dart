@@ -5,7 +5,7 @@ import '../../theme/m_themes.dart';
 void showBottomSheetDialog({
   required BuildContext context,
   Alignment alignment = Alignment.center,
-  EdgeInsets padding = const EdgeInsets.all(15),
+  EdgeInsets padding = const EdgeInsets.all(18),
   required Widget child,
   required VoidCallback onClose,
   double height = 330,
@@ -26,7 +26,7 @@ void showBottomSheetDialog({
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: mt(context).backgroundColor,
+                  color: mt(context).color.background,
                 ),
                 child: child,
               ),

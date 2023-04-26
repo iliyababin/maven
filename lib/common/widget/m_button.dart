@@ -47,7 +47,7 @@ class MButton extends StatelessWidget {
     required this.onPressed,
     this.leading,
     this.child,
-    this.height = 42,
+    this.height = 48,
     this.width = double.infinity,
     this.borderRadius = 8,
     this.backgroundColor,
@@ -58,7 +58,9 @@ class MButton extends StatelessWidget {
     this.expand = true,
   }) :  leadingPadding = const EdgeInsets.only(),
         trailingPadding = const EdgeInsets.only(),
-        trailing = null;
+        trailing = null,
+        title = null,
+        textStyle = null;
 
   /// Creates a button similar to [ListTile].
   /// 
@@ -66,7 +68,8 @@ class MButton extends StatelessWidget {
   const MButton.tiled({super.key,
     required this.onPressed,
     required this.leading,
-    required this.child,
+    required this.title,
+    this.textStyle,
     this.trailing,
     this.height = 62,
     this.width = double.infinity,
@@ -74,11 +77,12 @@ class MButton extends StatelessWidget {
     this.backgroundColor,
     this.borderColor,
     this.splashColor,
+    this.leadingPadding = const EdgeInsets.only(left: 30, right: 16),
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.expand = false,
-  }) : leadingPadding = const EdgeInsets.only(left: 30, right: 16),
-       trailingPadding = const EdgeInsets.only(right: 30);
+  }) :  trailingPadding = const EdgeInsets.only(right: 30),
+        child = null;
 
   /// Called when the button is tapped.
   final VoidCallback onPressed;
@@ -125,6 +129,10 @@ class MButton extends StatelessWidget {
   /// Whether to use the expanded widget or not
   final bool expand;
 
+  final String? title;
+
+  final TextStyle? textStyle;
+
   @override
   Widget build(BuildContext context) {
     if(width != double.infinity) {
@@ -142,39 +150,47 @@ class MButton extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(
-          color: borderColor ?? backgroundColor ?? mt(context).backgroundColor
-        ),
-        color: borderColor
-      ),
       child: Material(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: backgroundColor ?? mt(context).backgroundColor,
+        color: backgroundColor ?? mt(context).color.background,
         child: InkWell(
           onTap: onPressed,
           splashFactory: InkRipple.splashFactory,
           splashColor: splashColor,
           borderRadius: BorderRadius.circular(borderRadius),
-          child: Row(
-            mainAxisAlignment: mainAxisAlignment,
-
-            children: [
-              if(leading != null) Padding(
-                padding: leadingPadding,
-                child: leading!
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(borderRadius),
+              border: Border.all(
+                color: borderColor ?? backgroundColor ?? mt(context).color.background,
+                width: borderColor == null ? 0 : 1,
               ),
-              if(leading != null && child != null) const SizedBox(width: 2,),
-              if(child != null) child!,
-              trailing != null ? Expanded(
-                child: Container(
-                  padding: trailingPadding,
-                  alignment: Alignment.centerRight,
-                  child: trailing,
-                ),
-              ) : Container(),
-            ],
+            ),
+            child: Padding(
+              padding: padding,
+              child: Row(
+                mainAxisAlignment: mainAxisAlignment,
+
+                children: [
+                  if(leading != null) Padding(
+                    padding: leadingPadding,
+                    child: leading!
+                  ),
+                  if(leading != null && child != null) const SizedBox(width: 2,),
+                  title != null ? Text(
+                    title!,
+                    style: mt(context).textStyle.body1,
+                  ) : child ?? Container(),
+                  trailing != null ? Expanded(
+                    child: Container(
+                      padding: trailingPadding,
+                      alignment: Alignment.centerRight,
+                      child: trailing,
+                    ),
+                  ) : Container(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:Maven/feature/exercise/model/exercise_bundle.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../exercise/dao/exercise_dao.dart';
-import '../../../exercise/model/exercise.dart';
+import '../../../../database/dao/exercise_dao.dart';
+import '../../../../database/dao/template_exercise_group_dao.dart';
+import '../../../../database/dao/template_exercise_set_dao.dart';
+import '../../../../database/model/exercise.dart';
+import '../../../../database/model/template_exercise_group.dart';
+import '../../../../database/model/template_exercise_set.dart';
+import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
-import '../../dao/template_exercise_group_dao.dart';
-import '../../dao/template_exercise_set_dao.dart';
-import '../../model/template_exercise_group.dart';
-import '../../model/template_exercise_set.dart';
 
 part 'template_detail_event.dart';
 part 'template_detail_state.dart';
@@ -43,7 +43,8 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
       exerciseBundles.add(ExerciseBundle(
         exercise: exercise!,
         exerciseGroup: ExerciseGroup.from(templateExerciseGroup),
-        exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList()
+        exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList(),
+        barId: templateExerciseGroup.barId
       ));
     }
 
