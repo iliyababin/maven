@@ -54,17 +54,28 @@ class _MavenState extends State<Maven> {
                 maxHeight: MediaQuery.of(context).size.height,
                 backdropEnabled: true,
                 controller: panelController,
+                color: mt(context).color.background,
                 onPanelSlide: (position) {
                   /*setState(() {
                     panelPosition = position;
                   });*/
                 },
+                boxShadow: [
+                  BoxShadow(
+                    color: mt(context).color.shadow,
+                    blurRadius: 3,
 
+                  ),
+                ],
                 body: screens[_selectedIndex],
                 collapsed: IgnorePointer(
                   child: Container(
                     height: 70,
-                    color: mt(context).color.background,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+                      color: mt(context).color.background,
+
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -73,8 +84,8 @@ class _MavenState extends State<Maven> {
                           height: 6,
                           width: 48,
                           decoration: BoxDecoration(
-                              color: mt(context).handleBarColor,
-                              borderRadius: BorderRadius.circular(100)
+                            color: mt(context).color.secondary,
+                            borderRadius: BorderRadius.circular(100),
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -106,13 +117,6 @@ class _MavenState extends State<Maven> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        blurRadius: 1,
-                        offset: const Offset(0, 4), // changes position of shadow
-                      ),
-                    ],
                   ),
                   child: Column(
                     children: [
@@ -121,8 +125,8 @@ class _MavenState extends State<Maven> {
                         height: 6,
                         width: 48,
                         decoration: BoxDecoration(
-                            color: mt(context).handleBarColor,
-                            borderRadius: BorderRadius.circular(100)
+                          color: mt(context).color.secondary,
+                          borderRadius: BorderRadius.circular(100),
                         ),
                       ),
                       const WorkoutScreen(),

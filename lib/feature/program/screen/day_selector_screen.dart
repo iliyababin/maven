@@ -52,24 +52,32 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
           Day day = Day.values[index];
           return ListTile(
             onTap: () {
-              int i = exerciseDays.indexWhere((exerciseDay) => exerciseDay.day == day);
-              setState(() {
-                if(i == -1) {
-                  exerciseDays.add(ExerciseDay(day: day, exerciseBundles: []));
-                } else {
-                  exerciseDays.removeAt(i);
-                }
-              });
+
             },
-            leading: exerciseDays.getDays().contains(day) ? const SizedBox(
-              width: 32,
-              child: Icon(
-                Icons.check,
-                color: Colors.amber,
+            trailing: Transform.scale(
+              scale: 1.2,
+              child: Checkbox(
+                shape: CircleBorder(
+                  side: BorderSide(
+                    color: Colors.black,
+                    width: 1,
+                    style: BorderStyle.solid,
+
+                  )
+                ),
+                value: exerciseDays.getDays().contains(day),
+                onChanged: (value) {
+                  int i = exerciseDays.indexWhere((exerciseDay) => exerciseDay.day == day);
+                  setState(() {
+                    if(i == -1) {
+                      exerciseDays.add(ExerciseDay(day: day, exerciseBundles: []));
+                    } else {
+                      exerciseDays.removeAt(i);
+                    }
+                  });
+                },
               ),
-            ) : const SizedBox(
-              width: 32,
-            ) ,
+            ),
             title: Text(
               capitalize(day.name),
               style: mt(context).textStyle.body1,

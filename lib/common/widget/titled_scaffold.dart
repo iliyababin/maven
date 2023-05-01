@@ -27,7 +27,7 @@ class TitledScaffold extends StatelessWidget {
                 ),
               ),
               backgroundColor: mt(context).color.background,
-            )
+            ),
           ];
         },
         body: body,

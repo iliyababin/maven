@@ -15,7 +15,7 @@ class TextStyleTheme {
     fontWeight: FontWeight.w700,
   ), heading2 = TextStyle(
     color: heading2,
-    fontSize: 24,
+    fontSize: 17,
     fontWeight: FontWeight.w600,
   ), heading3 = TextStyle(
     color: heading3,
@@ -35,11 +35,11 @@ class TextStyleTheme {
       fontWeight: FontWeight.w500
   ), button1 = TextStyle(
     color: button1,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
   ), button2 = TextStyle(
     color: button2,
-    fontSize: 16,
+    fontSize: 15,
   );
 
   final TextStyle heading1;

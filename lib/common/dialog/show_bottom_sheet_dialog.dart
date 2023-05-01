@@ -15,24 +15,27 @@ void showBottomSheetDialog({
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return Wrap(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: mt(context).color.background,
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: mt(context).color.background,
+                  ),
+                  child: child,
                 ),
-                child: child,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     },
   ).whenComplete(() => onClose());

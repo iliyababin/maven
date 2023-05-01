@@ -15,7 +15,7 @@ class Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.only(bottom: 15, top: topPadding ? 36 : 0),
+        padding: EdgeInsets.only(bottom: 12, top: topPadding ? 36 : 0),
         child: Text(
           title,
           style: mt(context).textStyle.heading2,

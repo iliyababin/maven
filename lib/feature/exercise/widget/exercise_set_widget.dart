@@ -76,7 +76,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     return AnimatedContainer(
       duration: _animationSpeed,
       height: 44,
-      color: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).color.background,
+      color: _isChecked ? mt(context).color.success.withAlpha(35)  : mt(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
         set: MButton(
@@ -110,7 +110,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         option1: MButton(
           height: 30,
           expand: false,
-          backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
+          backgroundColor: _isChecked ? Colors.transparent : mt(context).color.secondary,
           child: Text(
             exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
             style: mt(context).textStyle.body1,
@@ -137,7 +137,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MButton(
           height: 30,
           expand: false,
-          backgroundColor: _isChecked ? mt(context).activeExerciseSet.completeColor : mt(context).textField.backgroundColor,
+          backgroundColor: _isChecked ? Colors.transparent : mt(context).color.secondary,
           child: Text(
             exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
             style: mt(context).textStyle.body1,
@@ -199,7 +199,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   }
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                    const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).color.secondary
+                  const Color(0XFF2FCD71)) : MaterialStateProperty.all<Color>(mt(context).color.secondary
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),

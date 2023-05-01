@@ -2,8 +2,7 @@
 import 'dart:convert';
 
 import 'package:Maven/dev/widget/design_tool_widget.dart';
-import 'package:Maven/theme/theme/dark_theme.dart';
-import 'package:Maven/theme/theme/light_theme.dart';
+import 'package:Maven/theme/maven_theme.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,7 @@ import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'feature/workout/bloc/workout_detail/workout_detail_bloc.dart';
+import 'theme/theme_options.dart';
 
 Future<List<Exercise>> _loadExerciseJson() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
@@ -111,8 +111,36 @@ class Main extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: true,
       themes: [
-        LightTheme(),
-        DarkTheme(),
+        MavenTheme(
+          id: 'light_theme',
+          description: 'Light Theme',
+          options: ThemeOptions(
+            primary: const Color(0xFF2196F3),
+            secondary: const Color(0xFFEAEAEA),
+            background: const Color(0xffffffff),
+            text: const Color(0xff000000),
+            subtext: const Color(0xFF808080),
+            neutral: const Color(0xFFFFFFFF),
+            success: const Color(0xFF2DCD70),
+            error: const Color(0xFFDD614A),
+            shadow: const Color(0xFFC1C1C1),
+          )
+        ),
+        MavenTheme(
+          id: 'dark_theme',
+          description: 'Dark Theme',
+          options: ThemeOptions(
+            primary: const Color(0xFF2196F3),
+            secondary: const Color(0xFF333333),
+            background: const Color(0xff121212),
+            text: const Color(0xffffffff),
+            subtext: const Color(0xFF808080),
+            neutral: const Color(0xFFFFFFFF),
+            success: const Color(0xFF2DCD70),
+            error: const Color(0xFFDD614A),
+            shadow: const Color(0xFF353535),
+          ),
+        ),
       ],
       child: ThemeConsumer(
         child: Builder(

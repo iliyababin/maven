@@ -58,7 +58,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 8,
                   ),
                   Row(
                     children: [
@@ -99,7 +99,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           style: mt(context).textStyle.button2,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 8),
                       MButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (

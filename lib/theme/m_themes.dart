@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-import 'm_theme_scheme.dart';
+import 'theme_options.dart';
 
-MavenThemeOptions mt(BuildContext context){
-  return ThemeProvider.optionsOf<MavenThemeOptions>(context);
+ThemeOptions mt(BuildContext context){
+  return ThemeProvider.optionsOf<ThemeOptions>(context);
 }

@@ -108,7 +108,6 @@ class TimedPickerDialog extends StatelessWidget {
                 },
 
                 expand: true,
-                height: 40,
                 backgroundColor: mt(context).color.background,
                 borderColor: mt(context).color.secondary,
                 child: Text(
@@ -128,10 +127,9 @@ class TimedPickerDialog extends StatelessWidget {
                 },
                 backgroundColor: mt(context).color.primary,
                 borderRadius: 12,
-                height: 50,
                 child: Text(
-                  'Submit',
-                  style: mt(context).textStyle.body1,
+                  'Start',
+                  style: mt(context).textStyle.button1,
                 ),
               ),
             ],

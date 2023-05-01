@@ -72,7 +72,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 hintText: widget.hintText,
                 hintStyle: mt(context).textStyle.subtitle1,
                 errorStyle: TextStyle(
-                  color: mt(context).textField.errorOutlineColor,
+                  color: mt(context).color.error,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -95,7 +95,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: mt(context).textField.errorOutlineColor,
+                    color: mt(context).color.error,
                   ),
                 ),
               ),
@@ -110,8 +110,6 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 },
                 backgroundColor: mt(context).color.background,
                 borderColor: mt(context).color.secondary,
-                borderRadius: 12,
-                height: 50,
                 child: Text(
                   'Cancel',
                   style: mt(context).textStyle.button2,
@@ -128,7 +126,6 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   }
                 },
                 backgroundColor: mt(context).color.primary,
-                borderRadius: 12,
                 child: Text(
                   'Submit',
                   style: mt(context).textStyle.button1,

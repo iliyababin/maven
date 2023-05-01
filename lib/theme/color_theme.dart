@@ -10,6 +10,7 @@ class ColorTheme {
     required this.neutral,
     required this.success,
     required this.error,
+    required this.shadow,
   });
 
   final Color primary;
@@ -20,4 +21,5 @@ class ColorTheme {
   final Color neutral;
   final Color success;
   final Color error;
+  final Color shadow;
 }

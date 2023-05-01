@@ -1,4 +1,4 @@
-import 'package:Maven/theme/m_theme_scheme.dart';
+import 'package:Maven/theme/theme_options.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -6,7 +6,7 @@ class MavenTheme extends AppTheme {
   MavenTheme({
     required final String id,
     required final String description,
-    required final MavenThemeOptions options,
+    required final ThemeOptions options,
   }) : super(
     id: id,
     data: ThemeData(
@@ -14,6 +14,7 @@ class MavenTheme extends AppTheme {
         centerTitle: true,
         elevation: 1,
         backgroundColor: options.color.background,
+        foregroundColor: options.color.text,
         iconTheme: IconThemeData(
           color: options.color.primary,
         ),
@@ -38,10 +39,16 @@ class MavenTheme extends AppTheme {
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.only(left: 20)
       ),
-      textTheme: TextTheme(
-        bodySmall: TextStyle(
-          color: Colors.red
-        )
+
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith((states) {
+          if(states.contains(MaterialState.selected)) {
+            return options.color.primary;
+          } else {
+            return options.color.secondary;
+          }
+        }),
+        checkColor: MaterialStateProperty.all(options.color.background),
       )
     ),
     description: description,

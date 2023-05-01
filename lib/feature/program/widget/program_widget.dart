@@ -45,7 +45,7 @@ class ProgramWidget extends StatelessWidget {
                 height: 5,
               ),
               Text(
-                '10 weeks | ${formatDate(program.createdAt)} - ${formatDate(program.createdAt.add(Duration(days: program.weeks * 7)))}',
+                '${program.weeks} weeks | ${formatDate(program.createdAt)} - ${formatDate(program.createdAt.add(Duration(days: program.weeks * 7)))}',
                 style: mt(context).textStyle.subtitle2,
               ),
               /*const SizedBox(
