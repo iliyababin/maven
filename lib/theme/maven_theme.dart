@@ -19,6 +19,7 @@ class MavenTheme extends AppTheme {
           color: options.color.primary,
         ),
       ),
+
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
@@ -32,10 +33,13 @@ class MavenTheme extends AppTheme {
           fontSize: 14,
         ),
       ),
+
       iconTheme: IconThemeData(
         color: options.color.primary,
       ),
+
       scaffoldBackgroundColor: options.color.background,
+
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.only(left: 20)
       ),
@@ -49,6 +53,29 @@ class MavenTheme extends AppTheme {
           }
         }),
         checkColor: MaterialStateProperty.all(options.color.background),
+      ),
+
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(
+          color: options.color.subtext,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: options.color.secondary,
+            width: 2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: options.color.primary,
+            width: 2,
+          ),
+        ),
+      ),
+
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+
       )
     ),
     description: description,

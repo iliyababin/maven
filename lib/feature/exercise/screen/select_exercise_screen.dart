@@ -5,39 +5,140 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../database/model/exercise.dart';
 import '../bloc/exercise_bloc.dart';
 
-class SelectExerciseScreen extends StatelessWidget {
-  const SelectExerciseScreen({Key? key,
-    this.exercises,
-  }) : super(key: key);
+class SelectExerciseScreen extends StatefulWidget {
+  const SelectExerciseScreen({Key? key,}) : super(key: key);
 
-  final List<Exercise>? exercises;
+  @override
+  State<SelectExerciseScreen> createState() => _SelectExerciseScreenState();
+}
+
+class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
+  final List<Exercise> _selectedExercises = [];
+
+  final FocusNode _searchNode = FocusNode();
+  
+  final TextEditingController _searchTextEditingController = TextEditingController();
+
+  bool typing = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Add Exercise',
+        title: typing ? TextField(
+          focusNode: _searchNode,
+          style: TextStyle(
+            color: mt(context).color.text,
+          ),
+          controller: _searchTextEditingController,
+          onSubmitted: (value) {
+            if(value.isEmpty) {
+              setState(() {
+                typing = false;
+                _searchNode.unfocus();
+              });
+            }
+          },
+          onChanged: (value) {
+            setState(() {
+
+            });
+          },
+          decoration: const InputDecoration(
+            hintText: 'Search exercise',
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+          ),
+        ) : Text(
+          _selectedExercises.isEmpty
+          ? 'Select Exercise(s)'
+          : '${_selectedExercises.length} Exercise${_selectedExercises.length > 1 ? 's' : ''}',
         ),
+        actions: [
+          typing ? IconButton(
+            onPressed: () {
+              setState(() {
+                typing = false;
+                _searchTextEditingController.clear();
+              });
+            },
+            icon: const Icon(
+              Icons.close,
+            )
+          ) :IconButton(
+            onPressed: (){
+              setState(() {
+                typing = true;
+                _searchNode.requestFocus();
+              });
+            },
+            icon: const Icon(
+              Icons.search,
+            ),
+          ),
+          Visibility(
+            visible: _selectedExercises.isNotEmpty,
+            child: IconButton(
+              onPressed: (){
+                Navigator.pop(context, _selectedExercises);
+              },
+              icon: const Icon(
+                Icons.check,
+              ),
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder<ExerciseBloc, ExerciseState>(
         builder: (context, state) {
           if(state.status == ExerciseStatus.loading) {
             return const Center(child: CircularProgressIndicator(),);
           } else {
-            List<Exercise> exercises = this.exercises ?? state.exercises;
+            List<Exercise> exercises = state.exercises;
+            if(_searchTextEditingController.text.isNotEmpty) {
+              exercises = exercises.where((exercise) => exercise.name.toLowerCase().contains(_searchTextEditingController.text.toLowerCase())).toList();
+            }
 
             return ListView.builder(
               itemCount: exercises.length,
               itemBuilder: (context, index) {
                 Exercise exercise = exercises[index];
+                bool isSelected = _selectedExercises.contains(exercise);
 
                 return ListTile(
-                  onTap: () => Navigator.pop(context, exercise),
+                  onTap: () {
+                    setState(() {
+                      if (!_selectedExercises.remove(exercise)) {
+                        _selectedExercises.add(exercise);
+                      }
+                    });
+                  },
+                  tileColor: isSelected ? mt(context).color.primary.withAlpha(30) : null,
+                  leading: CircleAvatar(
+                    child: Text(
+                      exercise.name.substring(0, 1),
+                    )
+                  ),
                   title: Text(
                     exercise.name,
                     style: mt(context).textStyle.body1,
                   ),
+                  subtitle: Text(
+                    exercise.muscle,
+                    style: mt(context).textStyle.subtitle1,
+                  ),
+                  trailing: isSelected ? IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: mt(context).color.primary,
+                    ),
+                    onPressed: null,
+                  ) : null,
                 );
               },
             );

@@ -173,6 +173,11 @@ class _TemplateScreenState extends State<TemplateScreen> {
             const TemplateListWidget(),
             const Heading(title: 'Programs',),
             const ProgramListWidget(),
+            const SliverToBoxAdapter(
+             child: SizedBox(
+               height: 150,
+             ),
+            ),
           ],
         ),
       ),

@@ -124,7 +124,7 @@ class Main extends StatelessWidget {
             success: const Color(0xFF2DCD70),
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFFC1C1C1),
-          )
+          ),
         ),
         MavenTheme(
           id: 'dark_theme',
