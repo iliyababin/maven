@@ -89,11 +89,14 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             },
           );
         },
-      ) : Center(child: Text('Start by adding an exercise'),),
+      ) : const Center(
+        child: Text('Start by adding an exercise'),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen())).then((value) {
-            Exercise exercise = value;
+        onPressed: () async {
+          List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen()));
+
+          for (Exercise exercise in exercises ?? []) {
             setState(() {
               exerciseBundles.add(ExerciseBundle(
                 exercise: exercise,
@@ -104,10 +107,10 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   barId: exercise.barId,
                 ),
                 exerciseSets: [],
-                barId: exercise.barId
+                barId: exercise.barId,
               ));
             });
-          });
+          }
         },
         child: const Icon(Icons.add),
       ),

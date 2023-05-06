@@ -109,6 +109,11 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                 itemBuilder: (context, index) {
                   ExerciseBundle exerciseBundle = state.exerciseBundles[index];
                   return ListTile(
+                    leading: CircleAvatar(
+                        child: Text(
+                          exerciseBundle.exercise.name.substring(0, 1),
+                        )
+                    ),
                     title: Text(
                       exerciseBundle.exercise.name,
                       style: mt(context).textStyle.body1,

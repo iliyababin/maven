@@ -5,8 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../database/model/exercise.dart';
 import '../bloc/exercise_bloc.dart';
 
+/// Screen for selecting an [Exercise]
 class SelectExerciseScreen extends StatefulWidget {
-  const SelectExerciseScreen({Key? key,}) : super(key: key);
+  /// Creates a screen for selecting an [Exercise]
+  const SelectExerciseScreen({Key? key,
+    this.single = false,
+  }) : super(key: key);
+
+  /// Whether to select a single exercise or multiple exercises
+  final bool single;
 
   @override
   State<SelectExerciseScreen> createState() => _SelectExerciseScreenState();
@@ -56,7 +63,7 @@ class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
           ),
         ) : Text(
           _selectedExercises.isEmpty
-          ? 'Select Exercise(s)'
+          ? 'Select Exercise${widget.single ? '' : '(s)'}'
           : '${_selectedExercises.length} Exercise${_selectedExercises.length > 1 ? 's' : ''}',
         ),
         actions: [
@@ -114,7 +121,9 @@ class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
                   onTap: () {
                     setState(() {
                       if (!_selectedExercises.remove(exercise)) {
-                        _selectedExercises.add(exercise);
+                        if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                          _selectedExercises.add(exercise);
+                        }
                       }
                     });
                   },

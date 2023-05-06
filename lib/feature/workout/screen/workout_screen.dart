@@ -27,7 +27,7 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
   final FocusNode _workoutNameNode = FocusNode();
 
-  ExerciseTimerController timerController = ExerciseTimerController();
+  ExerciseTimerController exerciseTimerController = ExerciseTimerController();
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             ),
                             const SizedBox(width: 8,),
                             ExerciseTimerWidget(
-                              controller: timerController,
+                              controller: exerciseTimerController,
                             ),
                           ],
                         ),
@@ -201,10 +201,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     },
                                     focusNode: _workoutNameNode,
                                     initialValue: workout.name,
-                                    decoration: const InputDecoration.collapsed(
-                                        hintText: 'Workout'
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.all(0),
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      hintText: 'Workout',
                                     ),
-                                    style: mt(context).textStyle.heading2,
+                                    style: mt(context).textStyle.heading1,
                                   ),
                                   const SizedBox(height: 4,),
                                   StreamBuilder(
@@ -231,6 +234,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               exercise: exerciseBundle.exercise,
                               exerciseGroup: exerciseBundle.exerciseGroup,
                               exerciseSets: exerciseBundle.exerciseSets,
+                              controller: exerciseTimerController,
                               onExerciseGroupUpdate: (value) {
                                 setState(() {
                                   exerciseBundles[index].exerciseGroup = value;

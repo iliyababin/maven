@@ -73,4 +73,13 @@ class Exercise extends Equatable {
   ];
 }
 
-
+List<Exercise> getDefaultExercises() => [
+  Exercise(
+    exerciseId: exerciseId,
+    name: name,
+    muscle: muscle,
+    picture: picture,
+    exerciseType: exerciseType,
+    exerciseEquipment: exerciseEquipment,
+  )
+]

@@ -1,3 +1,4 @@
+import 'package:Maven/feature/workout/widget/exercise_timer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../theme/m_themes.dart';
@@ -17,6 +18,7 @@ class ExerciseGroupWidget extends StatefulWidget {
     required this.exercise,
     required this.exerciseGroup,
     required this.exerciseSets,
+    this.controller,
     required this.onExerciseGroupUpdate,
     required this.onExerciseGroupDelete,
     required this.onExerciseSetAdd,
@@ -35,6 +37,9 @@ class ExerciseGroupWidget extends StatefulWidget {
 
   /// The list of [ExerciseSet]'s within this [ExerciseGroup].
   final List<ExerciseSet> exerciseSets;
+
+  /// The [ExerciseTimerController] for this [ExerciseGroup].
+  final ExerciseTimerController? controller;
 
   /// A callback function that is called when the [ExerciseGroup] is updated.
   final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
@@ -155,6 +160,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 onExerciseSetToggled: (value) {
                   if(widget.onExerciseSetToggled != null) {
                     widget.onExerciseSetToggled!(value);
+                    if(value.checked == 1 && widget.controller != null) {
+                      widget.controller!.startTimer(widget.exerciseGroup.restTimed);
+                    }
                   }
                 },
                 checkboxEnabled: widget.checkboxEnabled,
