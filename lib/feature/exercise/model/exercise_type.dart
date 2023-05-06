@@ -15,9 +15,6 @@ class ExerciseTypeOption {
 }
 
 class ExerciseType extends Equatable {
-
-  final int exerciseTypeId;
-
   final String name;
 
   final ExerciseTypeOption exerciseTypeOption1;
@@ -25,7 +22,6 @@ class ExerciseType extends Equatable {
   final ExerciseTypeOption? exerciseTypeOption2;
 
   const ExerciseType({
-    required this.exerciseTypeId,
     required this.name,
     required this.exerciseTypeOption1,
     this.exerciseTypeOption2,
@@ -33,51 +29,56 @@ class ExerciseType extends Equatable {
 
   @override
   List<Object?> get props => [
-    exerciseTypeId,
-    name
+    name,
+    exerciseTypeOption1,
+    exerciseTypeOption2,
   ];
-
 }
 
-List<ExerciseType> getExerciseTypes() => [
-  const ExerciseType(
-    exerciseTypeId: 1,
+class ExerciseTypes {
+  static const assistedBodyweight = ExerciseType(
     name: 'Assisted Body-weight',
     exerciseTypeOption1: ExerciseTypeOption.subtractWeight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 2,
+  );
+  static const bodyweightReps = ExerciseType(
     name: 'Body-weight Reps',
     exerciseTypeOption1: ExerciseTypeOption.reps,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 3,
+  );
+  static const distanceAndDuration = ExerciseType(
     name: 'Distance and Duration',
     exerciseTypeOption1: ExerciseTypeOption.distance,
     exerciseTypeOption2: ExerciseTypeOption.duration,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 4,
+  );
+  static const duration = ExerciseType(
     name: 'Duration',
     exerciseTypeOption1: ExerciseTypeOption.duration,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 5,
+  );
+  static const weightAndDistance = ExerciseType(
     name: 'Weight and Distance',
     exerciseTypeOption1: ExerciseTypeOption.weight,
     exerciseTypeOption2: ExerciseTypeOption.distance,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 6,
-    name: 'Weight and reps',
+  );
+  static const weightAndReps = ExerciseType(
+    name: 'Weight and Reps',
     exerciseTypeOption1: ExerciseTypeOption.weight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
-  ),
-  const ExerciseType(
-    exerciseTypeId: 7,
-    name: 'Weighted body-weight',
+  );
+  static const weightedBodyweight = ExerciseType(
+    name: 'Weighted Body-weight',
     exerciseTypeOption1: ExerciseTypeOption.addWeight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
-  ),
-];
+  );
+
+  static final _exerciseTypes = {
+    'Assisted Body-weight': assistedBodyweight,
+    'Body-weight Reps': bodyweightReps,
+    'Distance and Duration': distanceAndDuration,
+    'Duration': duration,
+    'Weight and Distance': weightAndDistance,
+    'Weight and Reps': weightAndReps,
+    'Weighted Body-weight': weightedBodyweight,
+  };
+
+  static ExerciseType? fromName(String name) => _exerciseTypes[name];
+}

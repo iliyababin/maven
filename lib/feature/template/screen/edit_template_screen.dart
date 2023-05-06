@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/model/timed.dart';
 import '../../../database/model/exercise.dart';
 import '../../exercise/model/exercise_bundle.dart';
-import '../../exercise/screen/select_exercise_screen.dart';
+import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 
 /// Screen for creating and editing a [Template]
@@ -94,7 +94,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectExerciseScreen()));
+          List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
 
           for (Exercise exercise in exercises ?? []) {
             setState(() {
@@ -103,7 +103,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                 exerciseGroup: ExerciseGroup(
                   exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
                   restTimed: Timed.zero(),
-                  exerciseId: exercise.exerciseId,
+                  exerciseId: exercise.exerciseId!,
                   barId: exercise.barId,
                 ),
                 exerciseSets: [],

@@ -1,25 +1,31 @@
+import 'package:Maven/common/extension.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/model/exercise.dart';
 import '../bloc/exercise_bloc.dart';
+import 'exercise_detail_screen.dart';
 
 /// Screen for selecting an [Exercise]
-class SelectExerciseScreen extends StatefulWidget {
+class ExerciseSelectionScreen extends StatefulWidget {
   /// Creates a screen for selecting an [Exercise]
-  const SelectExerciseScreen({Key? key,
+  const ExerciseSelectionScreen({Key? key,
     this.single = false,
+    this.selection = true,
   }) : super(key: key);
 
   /// Whether to select a single exercise or multiple exercises
   final bool single;
 
+  /// Whether to select exercises or just view them
+  final bool selection;
+
   @override
-  State<SelectExerciseScreen> createState() => _SelectExerciseScreenState();
+  State<ExerciseSelectionScreen> createState() => _ExerciseSelectionScreenState();
 }
 
-class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
+class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
   final List<Exercise> _selectedExercises = [];
 
   final FocusNode _searchNode = FocusNode();
@@ -62,9 +68,9 @@ class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
             focusedBorder: InputBorder.none,
           ),
         ) : Text(
-          _selectedExercises.isEmpty
-          ? 'Select Exercise${widget.single ? '' : '(s)'}'
-          : '${_selectedExercises.length} Exercise${_selectedExercises.length > 1 ? 's' : ''}',
+          !widget.selection ? 'Exercises' : _selectedExercises.isEmpty
+              ? 'Select Exercise${widget.single ? '' : '(s)'}'
+              : '${_selectedExercises.length} Exercise${_selectedExercises.length > 1 ? 's' : ''}',
         ),
         actions: [
           typing ? IconButton(
@@ -119,13 +125,24 @@ class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
 
                 return ListTile(
                   onTap: () {
-                    setState(() {
-                      if (!_selectedExercises.remove(exercise)) {
-                        if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
-                          _selectedExercises.add(exercise);
+                    if(widget.selection) {
+                      setState(() {
+                        if (!_selectedExercises.remove(exercise)) {
+                          if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                            _selectedExercises.add(exercise);
+                          }
                         }
-                      }
-                    });
+                      });
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExerciseDetailScreen(
+                            exercise: exercise,
+                          )
+                        ),
+                      );
+                    }
                   },
                   tileColor: isSelected ? mt(context).color.primary.withAlpha(30) : null,
                   leading: CircleAvatar(
@@ -138,7 +155,7 @@ class _SelectExerciseScreenState extends State<SelectExerciseScreen> {
                     style: mt(context).textStyle.body1,
                   ),
                   subtitle: Text(
-                    exercise.muscle,
+                    '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
                     style: mt(context).textStyle.subtitle1,
                   ),
                   trailing: isSelected ? IconButton(

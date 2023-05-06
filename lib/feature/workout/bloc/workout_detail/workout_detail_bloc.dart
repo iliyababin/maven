@@ -72,7 +72,7 @@ class WorkoutDetailBloc extends Bloc<WorkoutDetailEvent, WorkoutDetailState> {
       await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
         restTimed: Timed(hour: 0, minute: 0, second: 0),
         barId: exercise.barId,
-        exerciseId: exercise.exerciseId,
+        exerciseId: exercise.exerciseId!,
         workoutId: state.workout!.workoutId!,
       ));
 

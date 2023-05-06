@@ -4,6 +4,8 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../feature/exercise/model/exercise_equipment.dart';
+import '../feature/exercise/model/muscle.dart';
+import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
 import 'model/model.dart';
