@@ -1,5 +1,6 @@
 
 import 'package:Maven/feature/settings/screen/theme_screen.dart';
+import 'package:Maven/l10n/screen/language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -59,6 +60,18 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
             ],
+          ),
+          SettingsSection(
+              title: const Text('LOCALIZATION'),
+              tiles: <SettingsTile>[
+                SettingsTile.navigation(
+                  onPressed: (context) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageScreen()));
+                  },
+                  leading: const Icon(Icons.language),
+                  title: const Text('Language'),
+                ),
+              ]
           ),
         ],
       ),

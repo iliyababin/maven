@@ -40,8 +40,10 @@ class MavenTheme extends AppTheme {
 
       scaffoldBackgroundColor: options.color.background,
 
-      listTileTheme: const ListTileThemeData(
-        contentPadding: EdgeInsets.only(left: 20)
+      listTileTheme: ListTileThemeData(
+        contentPadding: EdgeInsets.only(left: 20),
+        iconColor: options.color.primary,
+        textColor: options.color.text,
       ),
 
       checkboxTheme: CheckboxThemeData(

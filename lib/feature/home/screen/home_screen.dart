@@ -3,6 +3,7 @@ import 'package:Maven/common/widget/titled_scaffold.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../generated/l10n.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: const Icon(Icons.sports_gymnastics),
               borderColor: mt(context).color.secondary,
               child: Text(
-                'Exercises',
+                S.current.exercises,
                 style: mt(context).textStyle.body1,
               ),
             )

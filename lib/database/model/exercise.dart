@@ -18,7 +18,7 @@ import 'bar.dart';
       parentColumns: ['bar_id'],
       entity: Bar,
     ),
-  ]
+  ],
 )
 class Exercise extends Equatable {
   const Exercise({
@@ -27,7 +27,7 @@ class Exercise extends Equatable {
     required this.muscle,
     required this.muscleGroup,
     required this.exerciseType,
-    required this.exerciseEquipment,
+    required this.equipment,
     this.barId,
   });
 
@@ -48,7 +48,7 @@ class Exercise extends Equatable {
   final ExerciseType exerciseType;
 
   @ColumnInfo(name: 'exercise_equipment')
-  final ExerciseEquipment exerciseEquipment;
+  final Equipment equipment;
 
   @ColumnInfo(name: 'bar_id')
   final int? barId;
@@ -60,7 +60,7 @@ class Exercise extends Equatable {
     muscle,
     muscleGroup,
     exerciseType,
-    exerciseEquipment,
+    equipment,
     barId,
   ];
 }
@@ -71,7 +71,7 @@ List<Exercise> getDefaultExercises() => [
     muscle: Muscle.quadriceps,
     muscleGroup: MuscleGroup.legs,
     exerciseType: ExerciseTypes.weightAndReps,
-    exerciseEquipment: ExerciseEquipment.barbell,
+    equipment: Equipment.barbell,
     barId: 1,
   ),
   const Exercise(
@@ -79,7 +79,7 @@ List<Exercise> getDefaultExercises() => [
     muscle: Muscle.pectoralisMajor,
     muscleGroup: MuscleGroup.chest,
     exerciseType: ExerciseTypes.weightAndReps,
-    exerciseEquipment: ExerciseEquipment.barbell,
+    equipment: Equipment.barbell,
     barId: 1,
   ),
   const Exercise(
@@ -87,20 +87,20 @@ List<Exercise> getDefaultExercises() => [
     muscle: Muscle.latissimusDorsi,
     muscleGroup: MuscleGroup.back,
     exerciseType: ExerciseTypes.bodyweightReps,
-    exerciseEquipment: ExerciseEquipment.bodyWeight,
+    equipment: Equipment.bodyWeight,
   ),
   const Exercise(
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,
     exerciseType: ExerciseTypes.assistedBodyweight,
-    exerciseEquipment: ExerciseEquipment.machine,
+    equipment: Equipment.machine,
   ),
   const Exercise(
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
     muscleGroup: MuscleGroup.arms,
     exerciseType: ExerciseTypes.weightAndReps,
-    exerciseEquipment: ExerciseEquipment.dumbbell,
+    equipment: Equipment.dumbbell,
   ),
 ];

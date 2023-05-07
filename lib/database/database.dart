@@ -32,7 +32,7 @@ part 'database.g.dart';
 @TypeConverters([
   DateTimeConverter,
   ExerciseTypeConverter,
-  ExerciseEquipmentConverter,
+  EquipmentConverter,
   ColorConverter,
   TimedConverter,
 ])

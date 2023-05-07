@@ -16,13 +16,13 @@ enum MKeyboardType {
 class MKeyboard extends StatefulWidget {
   const MKeyboard({Key? key,
     this.barId,
-    required this.exerciseEquipment,
+    required this.equipment,
     required this.value,
     required this.onValueChanged,
   }) : super(key: key);
 
   final int? barId;
-  final ExerciseEquipment exerciseEquipment;
+  final Equipment equipment;
   final String value;
   final Function(String) onValueChanged;
 
@@ -95,7 +95,7 @@ class _MKeyboardState extends State<MKeyboard> {
                     color: _selectedTab == 0 ? null : mt(context).color.text,
                   ),
                 ),
-                ExerciseEquipment.barbell == widget.exerciseEquipment ? MButton(
+                Equipment.barbell == widget.equipment ? MButton(
                   onPressed: (){
                     setState(() {
                       _selectedTab = 1;

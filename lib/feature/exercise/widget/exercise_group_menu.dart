@@ -28,7 +28,7 @@ class ExerciseGroupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        exercise.exerciseEquipment == ExerciseEquipment.barbell ? MButton.tiled(
+        exercise.equipment == Equipment.barbell ? MButton.tiled(
           onPressed: (){
             Navigator.pop(context);
             showBottomSheetDialog(

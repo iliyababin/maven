@@ -5,6 +5,8 @@ import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
@@ -18,6 +20,7 @@ import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'feature/workout/bloc/workout_detail/workout_detail_bloc.dart';
+import 'generated/l10n.dart';
 import 'theme/theme_options.dart';
 
 /*Future<List<Exercise>> _loadExerciseJson() async {
@@ -43,7 +46,13 @@ void main() async {
 
   database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
-  database.exerciseDao.addExercises(getDefaultExercises());
+  //database.exerciseDao.addExercises(getDefaultExercises());
+
+  final prefs = await SharedPreferences.getInstance();
+  String? locale = prefs.getString('language');
+  List<String> parts = locale!.split('_');
+  String languageCode = parts[0];   // 'ru'
+  String countryCode = parts[1];
 
   runApp(
     MultiBlocProvider(
@@ -94,13 +103,20 @@ void main() async {
           templateTrackerDao: database.templateTrackerDao,
         )..add(ProgramDetailInitialize())),
       ],
-      child: const Main(),
+      child: Main(
+        locale: Locale(languageCode, countryCode),
+      ),
     )
   );
 }
 
 class Main extends StatelessWidget {
-  const Main({super.key});
+  const Main({super.key,
+    required this.locale,
+  });
+
+
+  final Locale locale;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +163,14 @@ class Main extends StatelessWidget {
               // TODO: Give user option to change this.
               scrollBehavior: CustomScrollBehavior(),
               title: 'Maven',
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              locale: locale,
+              supportedLocales: S.delegate.supportedLocales,
               home: Stack(children: const [
                 Maven(),
                 Visibility(

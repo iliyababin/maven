@@ -120,7 +120,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               context: context,
               child: MKeyboard(
                 barId: widget.barId,
-                exerciseEquipment: widget.exercise.exerciseEquipment,
+                equipment: widget.exercise.equipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
                   var nice = exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
@@ -151,7 +151,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               height: 300,
               child: MKeyboard(
                 barId: widget.barId,
-                exerciseEquipment: ExerciseEquipment.none,
+                equipment: Equipment.none,
                 value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
                 onValueChanged: (p0) {
                   var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));

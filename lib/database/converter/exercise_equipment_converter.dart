@@ -2,14 +2,14 @@ import 'package:floor/floor.dart';
 
 import '../../feature/exercise/model/exercise_equipment.dart';
 
-class ExerciseEquipmentConverter extends TypeConverter<ExerciseEquipment, int> {
+class EquipmentConverter extends TypeConverter<Equipment, int> {
   @override
-  ExerciseEquipment decode(int databaseValue) {
-    return getExerciseEquipmentById(databaseValue)!;
+  Equipment decode(int databaseValue) {
+    return getEquipmentById(databaseValue)!;
   }
 
   @override
-  int encode(ExerciseEquipment value) {
-    return value.exerciseEquipmentId;
+  int encode(Equipment value) {
+    return value.equipmentId;
   }
 }
