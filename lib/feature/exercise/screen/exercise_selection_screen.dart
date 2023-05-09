@@ -1,4 +1,5 @@
 import 'package:Maven/common/extension.dart';
+import 'package:Maven/common/widget/m_button.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,69 +108,114 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<ExerciseBloc, ExerciseState>(
-        builder: (context, state) {
-          if(state.status == ExerciseStatus.loading) {
-            return const Center(child: CircularProgressIndicator(),);
-          } else {
-            List<Exercise> exercises = state.exercises;
-            if(_searchTextEditingController.text.isNotEmpty) {
-              exercises = exercises.where((exercise) => exercise.name.toLowerCase().contains(_searchTextEditingController.text.toLowerCase())).toList();
-            }
-
-            return ListView.builder(
-              itemCount: exercises.length,
-              itemBuilder: (context, index) {
-                Exercise exercise = exercises[index];
-                bool isSelected = _selectedExercises.contains(exercise);
-
-                return ListTile(
-                  onTap: () {
-                    if(widget.selection) {
-                      setState(() {
-                        if (!_selectedExercises.remove(exercise)) {
-                          if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
-                            _selectedExercises.add(exercise);
-                          }
-                        }
-                      });
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ExerciseDetailScreen(
-                            exercise: exercise,
-                          )
-                        ),
-                      );
-                    }
-                  },
-                  tileColor: isSelected ? mt(context).color.primary.withAlpha(30) : null,
-                  leading: CircleAvatar(
-                    child: Text(
-                      exercise.name.substring(0, 1),
-                    )
-                  ),
-                  title: Text(
-                    exercise.name,
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: mt(context).padding.page,
+              vertical: 5,
+            ),
+            child: Row(
+              children: [
+                MButton(
+                  onPressed: () {},
+                  height: 36,
+                  borderColor: mt(context).color.secondary,
+                  child: Text(
+                    'Muscle',
                     style: mt(context).textStyle.body1,
                   ),
-                  subtitle: Text(
-                    '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
-                    style: mt(context).textStyle.subtitle1,
+                ),
+                const SizedBox(width: 10,),
+                MButton(
+                  onPressed: () {},
+                  height: 36,
+                  borderColor: mt(context).color.secondary,
+                  child: Text(
+                    'Group',
+                    style: mt(context).textStyle.body1,
                   ),
-                  trailing: isSelected ? IconButton(
-                    icon: Icon(
-                      Icons.check,
-                      color: mt(context).color.primary,
-                    ),
-                    onPressed: null,
-                  ) : null,
-                );
+                ),
+                const SizedBox(width: 10,),
+                MButton(
+                  onPressed: () {},
+                  height: 36,
+                  borderColor: mt(context).color.secondary,
+                  child: Text(
+                    'Equipment',
+                    style: mt(context).textStyle.body1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<ExerciseBloc, ExerciseState>(
+              builder: (context, state) {
+                if(state.status == ExerciseStatus.loading) {
+                  return const Center(child: CircularProgressIndicator(),);
+                } else {
+                  List<Exercise> exercises = state.exercises;
+                  if(_searchTextEditingController.text.isNotEmpty) {
+                    exercises = exercises.where((exercise) => exercise.name.toLowerCase().contains(_searchTextEditingController.text.toLowerCase())).toList();
+                  }
+
+                  return ListView.builder(
+                    itemCount: exercises.length,
+                    itemBuilder: (context, index) {
+                      Exercise exercise = exercises[index];
+                      bool isSelected = _selectedExercises.contains(exercise);
+
+                      return ListTile(
+                        onTap: () {
+                          if(widget.selection) {
+                            setState(() {
+                              if (!_selectedExercises.remove(exercise)) {
+                                if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                                  _selectedExercises.add(exercise);
+                                }
+                              }
+                            });
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ExerciseDetailScreen(
+                                  exercise: exercise,
+                                )
+                              ),
+                            );
+                          }
+                        },
+                        tileColor: isSelected ? mt(context).color.primary.withAlpha(30) : null,
+                        leading: CircleAvatar(
+                          child: Text(
+                            exercise.name.substring(0, 1),
+                          )
+                        ),
+                        title: Text(
+                          exercise.name,
+                          style: mt(context).textStyle.body1,
+                        ),
+                        subtitle: Text(
+                          '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
+                          style: mt(context).textStyle.subtitle1,
+                        ),
+                        trailing: isSelected ? IconButton(
+                          icon: Icon(
+                            Icons.check,
+                            color: mt(context).color.primary,
+                          ),
+                          onPressed: null,
+                        ) : null,
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }

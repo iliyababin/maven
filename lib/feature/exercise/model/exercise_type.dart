@@ -37,16 +37,16 @@ class ExerciseType extends Equatable {
 
 class ExerciseTypes {
   static const assistedBodyweight = ExerciseType(
-    name: 'Assisted | Body-weight',
+    name: 'Assisted · Body-weight',
     exerciseTypeOption1: ExerciseTypeOption.subtractWeight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
   );
   static const bodyweightReps = ExerciseType(
-    name: 'Body-weight | Reps',
+    name: 'Body-weight · Reps',
     exerciseTypeOption1: ExerciseTypeOption.reps,
   );
   static const distanceAndDuration = ExerciseType(
-    name: 'Distance | Duration',
+    name: 'Distance · Duration',
     exerciseTypeOption1: ExerciseTypeOption.distance,
     exerciseTypeOption2: ExerciseTypeOption.duration,
   );
@@ -55,29 +55,29 @@ class ExerciseTypes {
     exerciseTypeOption1: ExerciseTypeOption.duration,
   );
   static const weightAndDistance = ExerciseType(
-    name: 'Weight | Distance',
+    name: 'Weight · Distance',
     exerciseTypeOption1: ExerciseTypeOption.weight,
     exerciseTypeOption2: ExerciseTypeOption.distance,
   );
   static const weightAndReps = ExerciseType(
-    name: 'Weight | Reps',
+    name: 'Weight · Reps',
     exerciseTypeOption1: ExerciseTypeOption.weight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
   );
   static const weightedBodyweight = ExerciseType(
-    name: 'Weighted | Body-weight',
+    name: 'Weighted · Body-weight',
     exerciseTypeOption1: ExerciseTypeOption.addWeight,
     exerciseTypeOption2: ExerciseTypeOption.reps,
   );
 
   static final _exerciseTypes = {
-    'Assisted | Body-weight': assistedBodyweight,
-    'Body-weight | Reps': bodyweightReps,
-    'Distance | Duration': distanceAndDuration,
+    'Assisted · Body-weight': assistedBodyweight,
+    'Body-weight · Reps': bodyweightReps,
+    'Distance · Duration': distanceAndDuration,
     'Duration': duration,
-    'Weight | Distance': weightAndDistance,
-    'Weight | Reps': weightAndReps,
-    'Weighted | Body-weight': weightedBodyweight,
+    'Weight · Distance': weightAndDistance,
+    'Weight · Reps': weightAndReps,
+    'Weighted · Body-weight': weightedBodyweight,
   };
 
   static ExerciseType? fromName(String name) => _exerciseTypes[name];

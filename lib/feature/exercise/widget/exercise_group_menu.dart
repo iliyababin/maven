@@ -118,8 +118,9 @@ class ExerciseGroupMenu extends StatelessWidget {
             onExerciseGroupDelete();
             Navigator.pop(context);
           },
-          leading: const Icon(
+          leading: Icon(
             Icons.delete_rounded,
+            color: mt(context).color.error,
           ),
           title: 'Remove',
         ),

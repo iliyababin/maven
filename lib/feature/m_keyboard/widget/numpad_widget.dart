@@ -55,11 +55,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
       borderRadius: 0,
       child: Text(
         number.toString(),
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w900,
-          color: mt(context).color.primary,
-        ),
+        style: mt(context).textStyle.heading3,
       ),
     );
   }
@@ -77,18 +73,12 @@ class _NumPadWidgetState extends State<NumPadWidget> {
             focusNode: _focusNode,
             keyboardType: TextInputType.none,
             decoration: InputDecoration(
-                hintText: '',
-                hintStyle: TextStyle(
-                  color: mt(context).color.primary,
-                  fontSize: 18
-                ),
-                enabledBorder: InputBorder.none,
-                border: InputBorder.none
+              hintText: '',
+              hintStyle: mt(context).textStyle.subtitle1,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
             ),
-            style: TextStyle(
-              color: mt(context).color.primary,
-              fontSize: 18,
-            ),
+            style: mt(context).textStyle.body1,
           ),
         ),
 

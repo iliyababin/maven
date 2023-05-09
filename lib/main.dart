@@ -1,12 +1,12 @@
 
 import 'package:Maven/dev/widget/design_tool_widget.dart';
+import 'package:Maven/l10n/bloc/language_bloc/language_bloc.dart';
 import 'package:Maven/theme/maven_theme.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
@@ -33,26 +33,21 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final callback = Callback(
-    onCreate: (database, version) { },
+    onCreate: (database, version) {
+      database.rawInsert('INSERT INTO setting (id, language_code, country_code) VALUES (1, "en", "US")');
+    },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_28.db')
+      .databaseBuilder('maven_db_30.db')
       .addCallback(callback)
       .build();
-
 
   database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
   //database.exerciseDao.addExercises(getDefaultExercises());
-
-  final prefs = await SharedPreferences.getInstance();
-  String? locale = prefs.getString('language');
-  List<String> parts = locale!.split('_');
-  String languageCode = parts[0];   // 'ru'
-  String countryCode = parts[1];
 
   runApp(
     MultiBlocProvider(
@@ -102,21 +97,18 @@ void main() async {
           templateDao: database.templateDao,
           templateTrackerDao: database.templateTrackerDao,
         )..add(ProgramDetailInitialize())),
+        BlocProvider(create: (context) => LanguageBloc(
+          settingDao: database.settingDao,
+        )..add(const LanguageInitialize())),
       ],
-      child: Main(
-        locale: Locale(languageCode, countryCode),
-      ),
+      child: const Main(),
     )
   );
 }
 
 class Main extends StatelessWidget {
-  const Main({super.key,
-    required this.locale,
-  });
+  const Main({super.key});
 
-
-  final Locale locale;
 
   @override
   Widget build(BuildContext context) {
@@ -157,28 +149,33 @@ class Main extends StatelessWidget {
       ],
       child: ThemeConsumer(
         child: Builder(
-          builder: (themeContext) =>
-            MaterialApp(
-              theme: ThemeProvider.themeOf(themeContext).data,
-              // TODO: Give user option to change this.
-              scrollBehavior: CustomScrollBehavior(),
-              title: 'Maven',
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              locale: locale,
-              supportedLocales: S.delegate.supportedLocales,
-              home: Stack(children: const [
-                Maven(),
-                Visibility(
-                  visible: kDebugMode,
-                  child: DesignToolWidget(),
-                ),
-              ]),
-            ),
+          builder: (themeContext) {
+            return BlocBuilder<LanguageBloc, LanguageState>(
+              builder: (context, state) {
+                return MaterialApp(
+                  theme: ThemeProvider.themeOf(themeContext).data,
+                  // TODO: Give user option to change this.
+                  scrollBehavior: CustomScrollBehavior(),
+                  title: 'Maven',
+                  localizationsDelegates: const [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  locale: state.locale,
+                  supportedLocales: S.delegate.supportedLocales,
+                  home: Stack(children: const [
+                    Maven(),
+                    Visibility(
+                      visible: kDebugMode,
+                      child: DesignToolWidget(),
+                    ),
+                  ]),
+                );
+              },
+            );
+          }
         ),
       ),
     );

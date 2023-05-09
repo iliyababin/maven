@@ -1,8 +1,9 @@
 import 'package:Maven/common/extension.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
+import '../bloc/language_bloc/language_bloc.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class LanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Language',
         ),
       ),
@@ -21,12 +22,9 @@ class LanguageScreen extends StatelessWidget {
           Locale locale = S.delegate.supportedLocales[index];
           return ListTile(
             onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-
-              print(locale.toString());
-              prefs.setString('language', locale.toString());
-              S.delegate.load(locale);
-              Navigator.pop(context);
+              context.read<LanguageBloc>().add(LanguageLoad(
+                locale: locale,
+              ));
             },
             tileColor: Localizations.localeOf(context) == locale
                 ? Theme.of(context).colorScheme.secondary

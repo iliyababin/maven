@@ -10,6 +10,8 @@ class MavenTheme extends AppTheme {
   }) : super(
     id: id,
     data: ThemeData(
+
+
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 1,
@@ -56,6 +58,8 @@ class MavenTheme extends AppTheme {
         }),
         checkColor: MaterialStateProperty.all(options.color.background),
       ),
+
+
 
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(

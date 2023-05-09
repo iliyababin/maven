@@ -8,7 +8,9 @@ import '../feature/exercise/model/muscle.dart';
 import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
+import 'dao/setting_dao.dart';
 import 'model/model.dart';
+import 'model/setting.dart';
 
 part 'database.g.dart';
 
@@ -27,6 +29,7 @@ part 'database.g.dart';
     Program,
     Folder,
     TemplateTracker,
+    Setting,
   ],
 )
 @TypeConverters([
@@ -49,4 +52,5 @@ abstract class MavenDatabase extends FloorDatabase {
   ProgramDao get programDao;
   FolderDao get folderDao;
   TemplateTrackerDao get templateTrackerDao;
+  SettingDao get settingDao;
 }

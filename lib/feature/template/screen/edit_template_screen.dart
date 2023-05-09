@@ -1,4 +1,5 @@
 import 'package:Maven/feature/exercise/model/exercise_group.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
@@ -25,6 +26,8 @@ class EditTemplateScreen extends StatefulWidget {
 class _EditTemplateScreenState extends State<EditTemplateScreen> {
   late List<ExerciseBundle> exerciseBundles;
 
+  bool _isReorder = false;
+
   @override
   void initState() {
     if(widget.exerciseBundles == null) {
@@ -45,6 +48,16 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         actions: [
           IconButton(
             onPressed: (){
+              setState(() {
+                _isReorder = !_isReorder;
+              });
+            },
+            icon: Icon(
+              _isReorder ? Icons.format_list_bulleted : CupertinoIcons.arrow_up_arrow_down,
+            ),
+          ),
+          IconButton(
+            onPressed: (){
               widget.onSubmit(exerciseBundles);
             },
             icon: const Icon(
@@ -53,11 +66,40 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
           ),
         ],
       ),
-      body: exerciseBundles.isNotEmpty ? ListView.builder(
+      body: _isReorder ?
+      ReorderableListView(
+        onReorder: (oldIndex, newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final ExerciseBundle item = exerciseBundles.removeAt(oldIndex);
+            exerciseBundles.insert(newIndex, item);
+          });
+        },
+        proxyDecorator: (widget, index, animation) {
+          return Material(
+            child: widget,
+            color: Colors.transparent,
+          );
+        },
+        children: exerciseBundles.map((e) => ReorderableDragStartListener(
+          key: UniqueKey(),
+          index: exerciseBundles.indexOf(e),
+            child: ListTile(
+              title: Text(e.exercise.name),
+              leading: Icon(Icons.drag_indicator_rounded),
+            ),
+          ),
+        ).toList(),
+      )
+          :
+      ListView.builder(
         itemCount: exerciseBundles.length,
         itemBuilder: (context, index) {
           ExerciseBundle exerciseBlock = exerciseBundles[index];
           return ExerciseGroupWidget(
+            key: UniqueKey(),
             exercise: exerciseBlock.exercise,
             exerciseGroup: exerciseBlock.exerciseGroup,
             exerciseSets: exerciseBlock.exerciseSets,
@@ -89,8 +131,6 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             },
           );
         },
-      ) : const Center(
-        child: Text('Start by adding an exercise'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

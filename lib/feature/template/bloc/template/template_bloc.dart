@@ -104,8 +104,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
-    await templateExerciseSetDao.deleteExerciseSetsByTemplateId(event.template.templateId!);
-    await templateExerciseGroupDao.deleteTemplateExerciseGroupsByTemplateId(event.template.templateId!);
     await templateDao.deleteTemplate(event.template);
   }
 }

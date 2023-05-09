@@ -127,6 +127,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.check,
+                    color: mt(context).color.text,
                   ),
                 ),
               ],

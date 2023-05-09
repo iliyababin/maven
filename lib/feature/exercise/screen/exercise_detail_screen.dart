@@ -52,7 +52,7 @@ class ExerciseDetailScreen extends StatelessWidget {
               ],
             ),
             title: Text(
-              'Muscle Group',
+              'Group',
               style: mt(context).textStyle.body1,
             ),
             subtitle: Text(

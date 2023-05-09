@@ -1,3 +1,4 @@
+import 'package:Maven/common/dialog/confirmation_dialog.dart';
 import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +86,23 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                               title: 'Info',
                             ),
                             MButton.tiled(
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.pop(context);
+                                showBottomSheetDialog(
+                                  context: context,
+                                  child: ConfirmationDialog(
+                                    title: 'Delete Template',
+                                    subtitle: 'This action cannot be undone',
+                                    confirmColor: mt(context).color.error,
+                                    onSubmit: () {
+                                      context.read<TemplateBloc>().add(TemplateDelete(template: widget.template));
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  onClose: () {},
+                                );
+
+                              },
                               leading:Icon(
                                 Icons.delete_rounded,
                                 color: mt(context).color.error,
@@ -126,18 +143,21 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                 },
               ),
               persistentFooterButtons: [
-                MButton(
-                  onPressed: () {
-                    context.read<WorkoutBloc>().add(WorkoutStart(
-                      template: widget.template,
-                    ));
-                    Navigator.pop(context);
-                  },
-                  expand: false,
-                  backgroundColor: mt(context).color.primary,
-                  child: Text(
-                    'Start',
-                    style: mt(context).textStyle.button1,
+                Padding(
+                  padding: EdgeInsets.all(mt(context).padding.page),
+                  child: MButton(
+                    onPressed: () {
+                      context.read<WorkoutBloc>().add(WorkoutStart(
+                        template: widget.template,
+                      ));
+                      Navigator.pop(context);
+                    },
+                    expand: false,
+                    backgroundColor: mt(context).color.primary,
+                    child: Text(
+                      'Start',
+                      style: mt(context).textStyle.button1,
+                    ),
                   ),
                 ),
               ],
