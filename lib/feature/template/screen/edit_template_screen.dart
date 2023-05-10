@@ -54,6 +54,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             },
             icon: Icon(
               _isReorder ? Icons.format_list_bulleted : CupertinoIcons.arrow_up_arrow_down,
+              size: _isReorder ? 24 : 20,
             ),
           ),
           IconButton(
@@ -132,27 +133,33 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          onPressed: () async {
+            List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
 
-          for (Exercise exercise in exercises ?? []) {
-            setState(() {
-              exerciseBundles.add(ExerciseBundle(
-                exercise: exercise,
-                exerciseGroup: ExerciseGroup(
-                  exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
-                  restTimed: Timed.zero(),
-                  exerciseId: exercise.exerciseId!,
+            for (Exercise exercise in exercises ?? []) {
+              setState(() {
+                exerciseBundles.add(ExerciseBundle(
+                  exercise: exercise,
+                  exerciseGroup: ExerciseGroup(
+                    exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+                    restTimed: Timed.zero(),
+                    exerciseId: exercise.exerciseId!,
+                    barId: exercise.barId,
+                  ),
+                  exerciseSets: [],
                   barId: exercise.barId,
-                ),
-                exerciseSets: [],
-                barId: exercise.barId,
-              ));
-            });
-          }
-        },
-        child: const Icon(Icons.add),
+                ));
+              });
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

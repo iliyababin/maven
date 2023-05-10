@@ -19,15 +19,8 @@ import 'feature/program/bloc/program_detail/program_detail_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
-import 'feature/workout/bloc/workout_detail/workout_detail_bloc.dart';
 import 'generated/l10n.dart';
 import 'theme/theme_options.dart';
-
-/*Future<List<Exercise>> _loadExerciseJson() async {
-  String jsonString = await rootBundle.loadString('assets/exercises.json');
-  List<Map<String, dynamic>> jsonList = List<Map<String, dynamic>>.from(jsonDecode(jsonString));
-  return jsonList.map((json) => Exercise.fromMap(json)).toList();
-}*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +34,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_30.db')
+      .databaseBuilder('maven_db_31.db')
       .addCallback(callback)
       .build();
 
@@ -67,18 +60,13 @@ void main() async {
           templateExerciseSetDao: database.templateExerciseSetDao,
         )),
         BlocProvider(create: (context) => WorkoutBloc(
+          exerciseDao: database.exerciseDao,
           workoutDao: database.workoutDao,
           workoutExerciseGroupDao: database.workoutExerciseGroupDao,
           workoutExerciseSetDao: database.workoutExerciseSetDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
         )..add(WorkoutInitialize())),
-        BlocProvider(create: (context) => WorkoutDetailBloc(
-          workoutDao: database.workoutDao,
-          workoutExerciseGroupDao: database.workoutExerciseGroupDao,
-          workoutExerciseSetDao: database.workoutExerciseSetDao,
-          exerciseDao: database.exerciseDao,
-        )..add(const WorkoutDetailInitialize())),
         BlocProvider(create: (context) => EquipmentBloc(
           plateDao: database.plateDao,
           barDao: database.barDao,
@@ -142,6 +130,21 @@ class Main extends StatelessWidget {
             subtext: const Color(0xFF808080),
             neutral: const Color(0xFFFFFFFF),
             success: const Color(0xFF2DCD70),
+            error: const Color(0xFFDD614A),
+            shadow: const Color(0xFF353535),
+          ),
+        ),
+        MavenTheme(
+          id: 'meteorite_mauve_theme',
+          description: 'Meteorite Mauve Theme',
+          options: ThemeOptions(
+            primary: const Color(0xFF7521F3),
+            secondary: const Color(0xFF333333),
+            background: const Color(0xff121212),
+            text: const Color(0xffffffff),
+            subtext: const Color(0xFF808080),
+            neutral: const Color(0xFFFFFFFF),
+            success: const Color(0xFF922DCD),
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFF353535),
           ),

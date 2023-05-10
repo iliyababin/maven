@@ -20,18 +20,22 @@ class WorkoutState extends Equatable {
   const WorkoutState({
     this.status = WorkoutStatus.initial,
     this.workout,
+    this.exerciseBundles = const [],
   });
 
   final WorkoutStatus status;
   final Workout? workout;
+  final List<ExerciseBundle> exerciseBundles;
 
   WorkoutState copyWith({
     WorkoutStatus Function()? status,
     Workout Function()? workout,
+    List<ExerciseBundle> Function()? exerciseBundles,
   }) {
     return WorkoutState(
       status: status != null ? status() : this.status,
       workout: workout != null ? workout() : this.workout,
+      exerciseBundles: exerciseBundles != null ? exerciseBundles() : this.exerciseBundles,
     );
   }
 
@@ -39,5 +43,6 @@ class WorkoutState extends Equatable {
   List<Object?> get props => [
     status,
     workout,
+    exerciseBundles,
   ];
 }

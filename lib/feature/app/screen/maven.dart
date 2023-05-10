@@ -9,7 +9,6 @@ import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';
 import '../../template/screen/template_screen.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
-import '../../workout/bloc/workout_detail/workout_detail_bloc.dart';
 import '../../workout/screen/workout_screen.dart';
 
 class Maven extends StatefulWidget {
@@ -45,9 +44,7 @@ class _MavenState extends State<Maven> {
             } else if(state.status.isNone) {
               return screens[_selectedIndex];
             } else if(state.status.isActive) {
-              context.read<WorkoutDetailBloc>().add(WorkoutDetailLoad(
-                workoutId: state.workout!.workoutId!,
-              ));
+
               return SlidingUpPanel(
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
                 minHeight: 70,
@@ -129,7 +126,10 @@ class _MavenState extends State<Maven> {
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
-                      const WorkoutScreen(),
+                       WorkoutScreen(
+                         workout: state.workout!,
+                         exerciseBundles: state.exerciseBundles,
+                       ),
                     ],
                   ),
                 ),

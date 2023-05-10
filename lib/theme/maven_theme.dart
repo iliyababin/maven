@@ -81,8 +81,9 @@ class MavenTheme extends AppTheme {
       ),
 
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-
-      )
+        backgroundColor: options.color.primary,
+        foregroundColor: options.color.background,
+      ),
     ),
     description: description,
     options: options
