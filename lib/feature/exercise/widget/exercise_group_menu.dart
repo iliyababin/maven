@@ -42,17 +42,6 @@ class ExerciseGroupMenu extends StatelessWidget {
                     return SizedBox(
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30, bottom: 10),
-                            child: Text(
-                              'Bar Type',
-                              style: TextStyle(
-                                color: mt(context).color.primary,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
                           ListView.builder(
                             itemCount: bars.length,
                             scrollDirection: Axis.vertical,

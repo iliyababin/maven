@@ -9,6 +9,7 @@ import '../../../database/model/exercise.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../model/exercise_set.dart';
+import '../model/set_type.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
@@ -80,17 +81,44 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
         set: MButton(
-          onPressed: () {},
+          onPressed: () {
+            showBottomSheetDialog(
+              context: context,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: SetType.values.length,
+                itemBuilder: (context, index) {
+                  SetType setType = SetType.values[index];
+                  return MButton.tiled(
+                    onPressed: (){
+                      setState(() {
+                        exerciseSet = exerciseSet.copyWith(setType: setType);
+                      });
+                      widget.onExerciseSetUpdate(exerciseSet.copyWith(setType: setType));
+                      Navigator.pop(context);
+                    },
+                    leading: Container(
+                      alignment: Alignment.center,
+                      height: 36,
+                      width: 30,
+                      child: Text(
+                        setType.abbreviated,
+                        style: mt(context).textStyle.subtitle2.copyWith(color: setType.color(context)),
+                      ),
+                    ),
+                    title: setType.name,
+                  );
+                },
+              ),
+              onClose: (){},
+            );
+          },
           expand: false,
           height: 35,
           backgroundColor: Colors.transparent,
           child: Text(
-            widget.index.toString(),
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-              color: mt(context).color.primary,
-            ),
+            widget.exerciseSet.setType == SetType.regular ? widget.index.toString() : widget.exerciseSet.setType.abbreviated,
+            style: mt(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.setType.color(context)),
           ),
         ),
 

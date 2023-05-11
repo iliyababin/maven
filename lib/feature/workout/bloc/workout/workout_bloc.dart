@@ -85,6 +85,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           option_1: templateExerciseSet.option1,
           option_2: templateExerciseSet.option2,
           checked: 0,
+          setType: templateExerciseSet.setType,
         ));
       }
     }

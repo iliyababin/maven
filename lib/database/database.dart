@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:Maven/database/converter/set_type_converter.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import '../feature/exercise/model/exercise_equipment.dart';
 import '../feature/exercise/model/muscle.dart';
 import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
@@ -38,6 +38,7 @@ part 'database.g.dart';
   EquipmentConverter,
   ColorConverter,
   TimedConverter,
+  SetTypeConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
   ExerciseDao get exerciseDao;

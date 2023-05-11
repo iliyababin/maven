@@ -27,12 +27,12 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
 
   @override
   void initState() {
-    /*widget.controller.addListener(() {
+    widget.controller.addListener(() {
       setState(() {
         timeLeft = widget.controller.timeLeft.toInt();
         totalTime = widget.controller.totalTime.toInt();
       });
-    });*/
+    });
     super.initState();
   }
 

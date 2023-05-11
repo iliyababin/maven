@@ -2,6 +2,7 @@ import 'package:Maven/database/model/workout_exercise_set.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../database/model/template_exercise_set.dart';
+import 'set_type.dart';
 
 class ExerciseSet extends Equatable {
   const ExerciseSet({
@@ -9,6 +10,7 @@ class ExerciseSet extends Equatable {
     required this.option1,
     this.option2,
     this.checked,
+    this.setType = SetType.regular,
     required this.exerciseGroupId,
   });
 
@@ -16,6 +18,7 @@ class ExerciseSet extends Equatable {
   final int option1;
   final int? option2;
   final int? checked;
+  final SetType setType;
   final int exerciseGroupId;
 
   ExerciseSet copyWith({
@@ -23,6 +26,7 @@ class ExerciseSet extends Equatable {
     int? option1,
     int? option2,
     int? checked,
+    SetType? setType,
     int? exerciseGroupId,
   }) {
     return ExerciseSet(
@@ -30,6 +34,7 @@ class ExerciseSet extends Equatable {
       option1: option1 ?? this.option1,
       option2: option2 ?? this.option2,
       checked: checked ?? this.checked,
+      setType: setType ?? this.setType,
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
     );
   }
@@ -40,6 +45,7 @@ class ExerciseSet extends Equatable {
       option_1: option1,
       option_2: option2,
       checked: checked ?? 0,
+      setType: setType,
       workoutExerciseGroupId: exerciseGroupId,
       workoutId: workoutId,
     );

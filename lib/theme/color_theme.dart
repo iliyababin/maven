@@ -11,6 +11,9 @@ class ColorTheme {
     required this.success,
     required this.error,
     required this.shadow,
+    required this.warmup,
+    required this.drop,
+    required this.cooldown,
   });
 
   final Color primary;
@@ -22,4 +25,7 @@ class ColorTheme {
   final Color success;
   final Color error;
   final Color shadow;
+  final Color warmup;
+  final Color drop;
+  final Color cooldown;
 }

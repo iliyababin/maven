@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 
+import '../../feature/exercise/model/set_type.dart';
 import 'template.dart';
 import 'template_exercise_group.dart';
 
@@ -25,6 +26,7 @@ class TemplateExerciseSet {
     this.templateExerciseSetId,
     required this.option1,
     this.option2,
+    required this.setType,
     required this.templateExerciseGroupId,
     required this.templateId,
   });
@@ -38,6 +40,9 @@ class TemplateExerciseSet {
 
   @ColumnInfo(name: 'option_2')
   final int? option2;
+
+  @ColumnInfo(name: 'set_type')
+  final SetType setType;
 
   @ColumnInfo(name: 'template_exercise_group_id')
   final int templateExerciseGroupId;

@@ -19,6 +19,9 @@ class ThemeOptions implements AppThemeOptions  {
     required Color success,
     required Color error,
     required Color shadow,
+    required Color warmup,
+    required Color drop,
+    required Color cooldown,
   }) {
     color = ColorTheme(
       primary: primary,
@@ -31,6 +34,9 @@ class ThemeOptions implements AppThemeOptions  {
       success: success,
       error: error,
       shadow: shadow,
+      warmup: warmup,
+      drop: drop,
+      cooldown: cooldown,
     );
     textStyle = TextStyleTheme(
       heading1: text,

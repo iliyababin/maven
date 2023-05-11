@@ -34,7 +34,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_32.db')
+      .databaseBuilder('maven_db_35.db')
       .addCallback(callback)
       .build();
 
@@ -117,6 +117,9 @@ class Main extends StatelessWidget {
             success: const Color(0xFF2DCD70),
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFFC1C1C1),
+            warmup: const Color(0xFFFFAE00),
+            drop: const Color(0xFFBD4ADD),
+            cooldown: const Color(0xFF21F3F3),
           ),
         ),
         MavenTheme(
@@ -132,9 +135,12 @@ class Main extends StatelessWidget {
             success: const Color(0xFF2DCD70),
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFF353535),
+            warmup: const Color(0xFFFFAE00),
+            drop: const Color(0xFFBD4ADD),
+            cooldown: const Color(0xFF21F3F3),
           ),
         ),
-        MavenTheme(
+        /*MavenTheme(
           id: 'meteorite_mauve_theme',
           description: 'Meteorite Mauve Theme',
           options: ThemeOptions(
@@ -147,8 +153,9 @@ class Main extends StatelessWidget {
             success: const Color(0xFF922DCD),
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFF353535),
+            warmup: const Color(0xFFFFAE00),
           ),
-        ),
+        ),*/
       ],
       child: ThemeConsumer(
         child: Builder(

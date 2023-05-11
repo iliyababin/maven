@@ -1,3 +1,4 @@
+import 'package:Maven/feature/exercise/model/set_type.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
@@ -23,6 +24,16 @@ import 'workout_exercise_group.dart';
 )
 
 class WorkoutExerciseSet extends Equatable {
+  const WorkoutExerciseSet({
+    this.workoutExerciseSetId,
+    required this.option_1,
+    this.option_2,
+    required this.checked,
+    required this.setType,
+    required this.workoutExerciseGroupId,
+    required this.workoutId,
+  });
+
   @ColumnInfo(name: 'workout_exercise_set_id')
   @PrimaryKey(autoGenerate: true)
   final int? workoutExerciseSetId;
@@ -36,20 +47,14 @@ class WorkoutExerciseSet extends Equatable {
   @ColumnInfo(name: 'checked')
   final int checked;
 
+  @ColumnInfo(name: 'set_type')
+  final SetType setType;
+
   @ColumnInfo(name: 'workout_exercise_group_id')
   final int workoutExerciseGroupId;
 
   @ColumnInfo(name: 'workout_id')
   final int workoutId;
-
-  const WorkoutExerciseSet({
-    this.workoutExerciseSetId,
-    required this.option_1,
-    this.option_2,
-    required this.checked,
-    required this.workoutExerciseGroupId,
-    required this.workoutId,
-  });
 
   ExerciseSet toExerciseSet() {
     return ExerciseSet(
@@ -57,6 +62,7 @@ class WorkoutExerciseSet extends Equatable {
       option1: option_1,
       option2: option_2,
       checked: checked,
+      setType: setType,
       exerciseGroupId: workoutExerciseGroupId,
     );
   }
@@ -66,6 +72,7 @@ class WorkoutExerciseSet extends Equatable {
     int? option_1,
     int? option_2,
     int? checked,
+    SetType? setType,
     int? workoutExerciseGroupId,
     int? workoutId,
   }) {
@@ -74,6 +81,7 @@ class WorkoutExerciseSet extends Equatable {
       option_1: option_1 ?? this.option_1,
       option_2: option_2 ?? this.option_2,
       checked: checked ?? this.checked,
+      setType: setType ?? this.setType,
       workoutExerciseGroupId: workoutExerciseGroupId ?? this.workoutExerciseGroupId,
       workoutId: workoutId ?? this.workoutId,
     );
@@ -85,6 +93,7 @@ class WorkoutExerciseSet extends Equatable {
       option_1: option_1,
       option_2: option_2,
       checked: checked,
+      setType: setType,
       workoutExerciseGroupId: workoutExerciseGroupId,
       workoutId: workoutId,
     );
@@ -92,10 +101,12 @@ class WorkoutExerciseSet extends Equatable {
 
   @override
   List<Object?> get props => [
-    workoutExerciseGroupId,
-    workoutId,
+    workoutExerciseSetId,
     option_1,
     option_2,
     checked,
+    setType,
+    workoutExerciseGroupId,
+    workoutId,
   ];
 }
