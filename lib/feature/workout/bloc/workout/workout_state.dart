@@ -21,21 +21,26 @@ class WorkoutState extends Equatable {
     this.status = WorkoutStatus.initial,
     this.workout,
     this.exerciseBundles = const [],
+    this.pausedWorkouts = const [],
   });
 
   final WorkoutStatus status;
   final Workout? workout;
   final List<ExerciseBundle> exerciseBundles;
 
+  final List<Workout> pausedWorkouts;
+
   WorkoutState copyWith({
     WorkoutStatus Function()? status,
     Workout Function()? workout,
     List<ExerciseBundle> Function()? exerciseBundles,
+    List<Workout> Function()? pausedWorkouts,
   }) {
     return WorkoutState(
       status: status != null ? status() : this.status,
       workout: workout != null ? workout() : this.workout,
       exerciseBundles: exerciseBundles != null ? exerciseBundles() : this.exerciseBundles,
+      pausedWorkouts: pausedWorkouts != null ? pausedWorkouts() : this.pausedWorkouts,
     );
   }
 
@@ -44,5 +49,6 @@ class WorkoutState extends Equatable {
     status,
     workout,
     exerciseBundles,
+    pausedWorkouts,
   ];
 }

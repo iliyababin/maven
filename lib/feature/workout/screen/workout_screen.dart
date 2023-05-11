@@ -113,7 +113,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     Icons.drive_file_rename_outline_rounded,
                                     color: mt(context).color.primary,
                                   ),
-                                  title: 'Rename Workout',
+                                  title: 'Rename',
                                 ),
                                 MButton.tiled(
                                   onPressed: (){
@@ -124,17 +124,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     CupertinoIcons.arrow_up_arrow_down,
                                     color: mt(context).color.primary,
                                   ),
-                                  title: 'Reorder Exercises',
+                                  title: 'Reorder',
                                 ),
                                 MButton.tiled(
                                   onPressed: () {
-                                    /*_pauseWorkout(context);*/
+                                    context.read<WorkoutBloc>().add(WorkoutToggle(
+                                      workout: workout.copyWith(isActive: false),
+                                    ));
+                                    Navigator.pop(context);
                                   },
                                   leading: Icon(
                                     Icons.pause_circle_outline_rounded,
                                     color: mt(context).color.primary,
                                   ),
-                                  title: 'Pause Workout',
+                                  title: 'Pause',
                                 ),
                                 MButton.tiled(
                                   onPressed: () {
@@ -142,7 +145,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     showBottomSheetDialog(
                                       context: context,
                                       child: ConfirmationDialog(
-                                        title: 'Delete Workout',
+                                        title: 'Delete',
                                         subtitle: 'All progress will be lost.',
                                         confirmText: 'Delete',
                                         confirmColor: mt(context).color.error,

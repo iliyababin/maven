@@ -50,7 +50,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         children: [
           Text(
             widget.title,
-            style: mt(context).textStyle.heading2,
+            style: mt(context).textStyle.heading3,
           ),
           const SizedBox(height: 30),
           Form(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
+import '../bloc/workout/workout_bloc.dart';
 
 /// Widget that displays a paused workout
 class PausedWorkoutWidget extends StatelessWidget {
@@ -27,10 +29,12 @@ class PausedWorkoutWidget extends StatelessWidget {
             context: context,
             child: ConfirmationDialog(
               title: 'Resume Workout',
-              subtitle: 'Any active workouts will be discarded.',
+              subtitle: 'Current workout will be deleted',
               cancelText: 'Cancel',
               confirmText: 'Resume',
               onSubmit: () {
+                print('subbed');
+                context.read<WorkoutBloc>().add(WorkoutToggle(workout: workout.copyWith(isActive: true)));
                 /*context.read<WorkoutBloc>().add(WorkoutDelete());
                 context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));*/
               },

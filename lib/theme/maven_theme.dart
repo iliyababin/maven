@@ -11,7 +11,6 @@ class MavenTheme extends AppTheme {
     id: id,
     data: ThemeData(
 
-
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 1,

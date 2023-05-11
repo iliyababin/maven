@@ -93,7 +93,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.bodyWeight,
   ),
   const Exercise(
-    exerciseId: 5,
+    exerciseId: 4,
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,

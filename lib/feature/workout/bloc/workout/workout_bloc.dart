@@ -25,6 +25,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
+    on<WorkoutUpdate>(_update);
+    on<WorkoutToggle>(_toggle);
     on<WorkoutDelete>(_delete);
 
     on<WorkoutExerciseAdd>(_exerciseAdd);
@@ -44,9 +46,12 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     Workout? workout = await workoutDao.getActiveWorkout();
 
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
+
     if(workout == null) {
       emit(state.copyWith(
         status: () => WorkoutStatus.none,
+        pausedWorkouts: () => pausedWorkouts,
       ));
     } else {
       List<ExerciseBundle> exerciseBundles = await _fetch(workout.workoutId!);
@@ -55,6 +60,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         status: () => WorkoutStatus.active,
         workout: () => workout,
         exerciseBundles: () => exerciseBundles,
+        pausedWorkouts: () => pausedWorkouts,
       ));
     }
   }
@@ -131,6 +137,35 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       for(var exerciseSet in event.exerciseSets!) {
         await workoutExerciseSetDao.addWorkoutExerciseSet(exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
       }
+    }
+  }
+  
+  Future<void> _update(WorkoutUpdate event, Emitter<WorkoutState> emit) async {
+    await workoutDao.updateWorkout(event.workout);
+  }
+
+  Future<void> _toggle(WorkoutToggle event, Emitter<WorkoutState> emit) async {
+    if(state.status.isActive && event.workout.isActive) {
+      await workoutDao.deleteWorkout(event.workout);
+    }
+
+    await workoutDao.updateWorkout(event.workout);
+
+    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
+
+    if(event.workout.isActive) {
+      List<ExerciseBundle> exerciseBundles = await _fetch(event.workout.workoutId!);
+      emit(state.copyWith(
+        status: () => WorkoutStatus.active,
+        workout: () => event.workout,
+        pausedWorkouts: () => pausedWorkouts,
+        exerciseBundles: () => exerciseBundles,
+      ));
+    } else {
+      emit(state.copyWith(
+        status: () => WorkoutStatus.none,
+        pausedWorkouts: () => pausedWorkouts,
+      ));
     }
   }
 
