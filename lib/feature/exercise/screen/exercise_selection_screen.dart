@@ -113,7 +113,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: mt(context).padding.page,
-              vertical: 5,
+              vertical: 16,
             ),
             child: Row(
               children: [

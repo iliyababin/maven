@@ -34,13 +34,13 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_31.db')
+      .databaseBuilder('maven_db_32.db')
       .addCallback(callback)
       .build();
 
   database.plateDao.addPlates(getDefaultPlates());
   database.barDao.addBars(getDefaultBars());
-  //database.exerciseDao.addExercises(getDefaultExercises());
+  database.exerciseDao.addExercises(getDefaultExercises());
 
   runApp(
     MultiBlocProvider(

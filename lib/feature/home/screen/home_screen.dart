@@ -21,22 +21,32 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Dashboard',
       body: Padding(
         padding: EdgeInsets.all(mt(context).padding.page),
-        child: ListView(
+        child: Column(
           children: [
-            MButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen(
-                  selection: false,
-                )));
-              },
-              expand: false,
-              leading: const Icon(Icons.sports_gymnastics),
-              borderColor: mt(context).color.secondary,
-              child: Text(
-                S.current.exercises,
-                style: mt(context).textStyle.body1,
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  MButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen(
+                        selection: false,
+                      )));
+                    },
+                    expand: true,
+                    height: double.infinity,
+                    leading: const Icon(Icons.sports_gymnastics),
+                    borderColor: mt(context).color.secondary,
+                    child: Text(
+                      S.current.exercises,
+                      style: mt(context).textStyle.body1,
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

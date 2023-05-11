@@ -34,3 +34,51 @@ class WorkoutDelete extends WorkoutEvent {
     workout,
   ];
 }
+
+class WorkoutExerciseAdd extends WorkoutEvent {
+  const WorkoutExerciseAdd({
+    this.exerciseGroups,
+    this.exerciseSets,
+  });
+
+  final List<ExerciseGroup>? exerciseGroups;
+  final List<ExerciseSet>? exerciseSets;
+
+  @override
+  List<Object?> get props => [
+    exerciseGroups,
+    exerciseSets,
+  ];
+}
+
+class WorkoutExerciseUpdate extends WorkoutEvent {
+  const WorkoutExerciseUpdate({
+    this.exerciseGroup,
+    this.exerciseSet,
+  });
+
+  final ExerciseGroup? exerciseGroup;
+  final ExerciseSet? exerciseSet;
+
+  @override
+  List<Object?> get props => [
+    exerciseGroup,
+    exerciseSet,
+  ];
+}
+
+class WorkoutExerciseDelete extends WorkoutEvent {
+  const WorkoutExerciseDelete({
+    this.exerciseGroup,
+    this.exerciseSet,
+  });
+
+  final ExerciseGroup? exerciseGroup;
+  final ExerciseSet? exerciseSet;
+
+  @override
+  List<Object?> get props => [
+    exerciseGroup,
+    exerciseSet,
+  ];
+}

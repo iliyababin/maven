@@ -132,7 +132,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             ) : null,
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
-        const SizedBox(height: 3),
+        const SizedBox(height: 6),
         ListView.builder(
           itemCount: widget.exerciseSets.length,
           scrollDirection: Axis.vertical,

@@ -67,6 +67,7 @@ class Exercise extends Equatable {
 
 List<Exercise> getDefaultExercises() => [
   const Exercise(
+    exerciseId: 1,
     name: 'Barbell Squat',
     muscle: Muscle.quadriceps,
     muscleGroup: MuscleGroup.legs,
@@ -75,6 +76,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
   ),
   const Exercise(
+    exerciseId: 2,
     name: 'Barbell Bench Press',
     muscle: Muscle.pectoralisMajor,
     muscleGroup: MuscleGroup.chest,
@@ -83,6 +85,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
   ),
   const Exercise(
+    exerciseId: 3,
     name: 'Pull-up',
     muscle: Muscle.latissimusDorsi,
     muscleGroup: MuscleGroup.back,
@@ -90,6 +93,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.bodyWeight,
   ),
   const Exercise(
+    exerciseId: 5,
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,
@@ -97,6 +101,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.machine,
   ),
   const Exercise(
+    exerciseId: 5,
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
     muscleGroup: MuscleGroup.arms,

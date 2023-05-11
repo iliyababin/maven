@@ -17,6 +17,7 @@ import '../../exercise/model/exercise_group.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 import '../bloc/workout/workout_bloc.dart';
+import '../widget/exercise_timer_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key,
@@ -34,7 +35,7 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
   final FocusNode _workoutNameNode = FocusNode();
 
-  //ExerciseTimerController exerciseTimerController = ExerciseTimerController();
+  ExerciseTimerController exerciseTimerController = ExerciseTimerController();
 
   late Workout workout;
   late List<ExerciseBundle> exerciseBundles;
@@ -68,20 +69,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           List<Exercise>? exercises = await Navigator.push(context,
                               MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
                           if(exercises != null) {
-                            setState(() {
-                              exerciseBundles.addAll(exercises.map((exercise) => ExerciseBundle(
-                                exercise: exercise,
+                            List<ExerciseBundle> exerciseBundles = exercises.map((exercise) => ExerciseBundle(
+                              exercise: exercise,
+                              barId: exercise.barId,
+                              exerciseSets: [],
+                              exerciseGroup: ExerciseGroup(
+                                exerciseGroupId: DateTime.now().microsecondsSinceEpoch,
+                                exerciseId: exercise.exerciseId!,
                                 barId: exercise.barId,
-                                exerciseSets: [],
-                                exerciseGroup: ExerciseGroup(
-                                  exerciseGroupId: DateTime.now().microsecondsSinceEpoch,
-                                  exerciseId: exercise.exerciseId!,
-                                  barId: exercise.barId,
-                                  restTimed: Timed(hour: 0, minute: 0, second: 0),
-                                ),
+                                restTimed: Timed(hour: 0, minute: 0, second: 0),
+                            ))).toList();
 
-                              )).toList());
+                            setState(() {
+                              exerciseBundles.addAll(exerciseBundles);
                             });
+
+                            context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles.map((e) => e.exerciseGroup).toList()));
                           }
                         },
                         leading: Icon(
@@ -172,9 +175,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         borderColor: mt(context).color.secondary,
                       ),
                       const SizedBox(width: 8,),
-                      /*ExerciseTimerWidget(
+                      ExerciseTimerWidget(
                               controller: exerciseTimerController,
-                            ),*/
+                            ),
                     ],
                   ),
                 ),
@@ -244,39 +247,42 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         exercise: exerciseBundle.exercise,
                         exerciseGroup: exerciseBundle.exerciseGroup,
                         exerciseSets: exerciseBundle.exerciseSets,
-                        /*controller: exerciseTimerController,*/
+                        controller: exerciseTimerController,
                         onExerciseGroupUpdate: (value) {
                           setState(() {
                             exerciseBundles[index].exerciseGroup = value;
                           });
+                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseGroup: value));
                         },
                         onExerciseGroupDelete: () {
                           setState(() {
                             exerciseBundles.removeAt(index);
                           });
+                          context.read<WorkoutBloc>().add(WorkoutExerciseDelete(exerciseGroup: exerciseBundle.exerciseGroup));
                         },
                         onExerciseSetAdd: (value) {
                           setState(() {
                             exerciseBundles[index].exerciseSets.add(value);
                           });
+                          context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseSets: [value]));
                         },
                         onExerciseSetUpdate: (value) {
                           setState(() {
                             int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                             exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
                           });
+                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
                         },
                         onExerciseSetToggled: (value) {
                           int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                           exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
+                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
                         },
                         onExerciseSetDelete: (value) {
                           setState(() {
                             exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
                           });
-                          /* context.read<WorkoutDetailBloc>().add(WorkoutDetailDelete(
-                                  exerciseSet: value,
-                                ));*/
+                          context.read<WorkoutBloc>().add(WorkoutExerciseDelete(exerciseSet: value));
                         },
                         checkboxEnabled: true,
                       );
