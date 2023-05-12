@@ -1,8 +1,9 @@
-import 'package:Maven/dev/screen/color_screen.dart';
-import 'package:Maven/dev/screen/padding_screen.dart';
-import 'package:Maven/dev/screen/text_style_screen.dart';
-import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/m_themes.dart';
+import 'color_screen.dart';
+import 'padding_screen.dart';
+import 'text_style_screen.dart';
 
 class DesignScreen extends StatelessWidget {
   const DesignScreen({Key? key}) : super(key: key);

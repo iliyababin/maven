@@ -12,6 +12,7 @@ import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
+import '../../complete/bloc/complete_bloc/complete_bloc.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/model/exercise_group.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
@@ -38,7 +39,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   ExerciseTimerController exerciseTimerController = ExerciseTimerController();
 
   late Workout workout;
-  late List<ExerciseBundle> exerciseBundles;
+  late List<ExerciseBundle> exerciseBundles = [];
 
   @override
   void initState() {
@@ -187,6 +188,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 const SizedBox(width: 8,),
                 MButton(
                   onPressed: (){
+                    context.read<CompleteBloc>().add(CompleteAdd(
+                      workout: workout,
+                      exerciseBundles: exerciseBundles,
+                    ));
+                    context.read<WorkoutBloc>().add(WorkoutFinish());
                     /*context.read<WorkoutDetailBloc>().add(const WorkoutDetailUpdate(
                               exerciseBundles: [],
                           ));*/

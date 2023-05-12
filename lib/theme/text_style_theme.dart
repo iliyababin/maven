@@ -13,11 +13,11 @@ class TextStyleTheme {
     color: heading2,
     fontSize: 32,
     fontWeight: FontWeight.w700,
-  ), heading2 = TextStyle(
+  ), heading3 = TextStyle(
     color: heading2,
     fontSize: 17,
     fontWeight: FontWeight.w600,
-  ), heading3 = TextStyle(
+  ), heading2 = TextStyle(
     color: heading3,
     fontSize: 19,
     fontWeight: FontWeight.w500,
@@ -43,11 +43,22 @@ class TextStyleTheme {
   );
 
   final TextStyle heading1;
-  final TextStyle heading2;
   final TextStyle heading3;
+  final TextStyle heading2;
   final TextStyle body1;
   final TextStyle subtitle1;
   final TextStyle subtitle2;
   final TextStyle button1;
   final TextStyle button2;
+
+  Map<String, TextStyle> get  namedStyles => {
+    'Heading 1': heading1,
+    'Heading 2': heading2,
+    'Heading 3': heading3,
+    'Body 1': body1,
+    'Subtitle 1': subtitle1,
+    'Subtitle 2': subtitle2,
+    'Button 1': button1,
+    'Button 2': button2,
+  };
 }

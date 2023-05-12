@@ -22,9 +22,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.workoutExerciseSetDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
+    required this.completeDao,
+    required this.completeExerciseGroupDao,
+    required this.completeExerciseSetDao,
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
+    on<WorkoutFinish>(_finish);
     on<WorkoutUpdate>(_update);
     on<WorkoutToggle>(_toggle);
     on<WorkoutDelete>(_delete);
@@ -40,6 +44,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutExerciseSetDao workoutExerciseSetDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
+  final CompleteDao completeDao;
+  final CompleteExerciseGroupDao completeExerciseGroupDao;
+  final CompleteExerciseSetDao completeExerciseSetDao;
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(status: () => WorkoutStatus.loading));
@@ -105,6 +112,10 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       workout: () => workout!,
       exerciseBundles: () => exerciseBundles,
     ));
+  }
+
+  Future<void> _finish(WorkoutFinish event, Emitter<WorkoutState> emit) async {
+    emit(state.copyWith(status: () => WorkoutStatus.none));
   }
 
   Future<List<ExerciseBundle>> _fetch(int workoutId) async {

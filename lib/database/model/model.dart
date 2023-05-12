@@ -1,4 +1,7 @@
 export 'bar.dart';
+export 'complete.dart';
+export 'complete_exercise_group.dart';
+export 'complete_exercise_set.dart';
 export 'exercise.dart';
 export 'folder.dart';
 export 'plate.dart';

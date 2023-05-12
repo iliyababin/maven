@@ -24,6 +24,9 @@ part 'database.g.dart';
     Workout,
     WorkoutExerciseGroup,
     WorkoutExerciseSet,
+    Complete,
+    CompleteExerciseGroup,
+    CompleteExerciseSet,
     Plate,
     Bar,
     Program,
@@ -48,6 +51,10 @@ abstract class MavenDatabase extends FloorDatabase {
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
+  CompleteDao get completeDao;
+  CompleteExerciseGroupDao get completeExerciseGroupDao;
+  CompleteExerciseSetDao get completeExerciseSetDao;
+
   PlateDao get plateDao;
   BarDao get barDao;
   ProgramDao get programDao;

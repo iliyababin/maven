@@ -83,7 +83,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 children: [
                   Text(
                     widget.template.name,
-                    style: mt(context).textStyle.heading3,
+                    style: mt(context).textStyle.heading2,
                     maxLines: 1,
                   ),
                   /*const SizedBox(height: 3,),

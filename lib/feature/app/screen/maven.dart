@@ -88,7 +88,7 @@ class _MavenState extends State<Maven> {
                         const SizedBox(height: 8),
                         Text(
                           state.workout!.name,
-                          style: mt(context).textStyle.heading3,
+                          style: mt(context).textStyle.heading2,
                         ),
                         const SizedBox(height: 1),
                         StreamBuilder(

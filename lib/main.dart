@@ -1,7 +1,8 @@
 
-import 'package:Maven/dev/widget/design_tool_widget.dart';
+import 'package:Maven/feature/complete/bloc/complete_bloc/complete_bloc.dart';
 import 'package:Maven/l10n/bloc/language_bloc/language_bloc.dart';
 import 'package:Maven/theme/maven_theme.dart';
+import 'package:Maven/tools/widget/design_tool_widget.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ void main() async {
   );
 
   final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_36.db')
+      .databaseBuilder('maven_db_39.db')
       .addCallback(callback)
       .build();
 
@@ -69,6 +70,9 @@ void main() async {
           workoutExerciseSetDao: database.workoutExerciseSetDao,
           templateExerciseGroupDao: database.templateExerciseGroupDao,
           templateExerciseSetDao: database.templateExerciseSetDao,
+          completeDao: database.completeDao,
+          completeExerciseGroupDao: database.completeExerciseGroupDao,
+          completeExerciseSetDao: database.completeExerciseSetDao,
         )..add(WorkoutInitialize())),
         BlocProvider(create: (context) => EquipmentBloc(
           plateDao: database.plateDao,
@@ -91,6 +95,12 @@ void main() async {
         BlocProvider(create: (context) => LanguageBloc(
           settingDao: database.settingDao,
         )..add(const LanguageInitialize())),
+        BlocProvider(create: (context) => CompleteBloc(
+          completeDao: database.completeDao,
+          completeExerciseGroupDao: database.completeExerciseGroupDao,
+          completeExerciseSetDao: database.completeExerciseSetDao,
+          workoutDao: database.workoutDao,
+        )..add(CompleteInitialize())),
       ],
       child: const Main(),
     )
@@ -143,7 +153,7 @@ class Main extends StatelessWidget {
             cooldown: const Color(0xFF21F3F3),
           ),
         ),
-        /*MavenTheme(
+        MavenTheme(
           id: 'meteorite_mauve_theme',
           description: 'Meteorite Mauve Theme',
           options: ThemeOptions(
@@ -157,8 +167,10 @@ class Main extends StatelessWidget {
             error: const Color(0xFFDD614A),
             shadow: const Color(0xFF353535),
             warmup: const Color(0xFFFFAE00),
+            drop: const Color(0xFFBD4ADD),
+            cooldown: const Color(0xFF21F3F3),
           ),
-        ),*/
+        ),
       ],
       child: ThemeConsumer(
         child: Builder(

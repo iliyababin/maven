@@ -22,6 +22,11 @@ class WorkoutStart extends WorkoutEvent {
   ];
 }
 
+class WorkoutFinish extends WorkoutEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class WorkoutUpdate extends WorkoutEvent {
   const WorkoutUpdate({
     required this.workout,

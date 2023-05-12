@@ -115,7 +115,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                       children: [
                         Text(
                           widget.folder.name,
-                          style: mt(context).textStyle.heading3,
+                          style: mt(context).textStyle.heading2,
                         ),
                       ],
                     )
