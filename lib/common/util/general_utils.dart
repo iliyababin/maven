@@ -34,6 +34,21 @@ String secondsToTime(int seconds) {
   return time;
 }
 
+/// method which takes in duration and outputs how long it took like 1h 30m 10s
+String durationToTime(Duration duration) {
+  String time = "";
+  if(duration.inHours != 0) {
+    time += "${duration.inHours}h ";
+  }
+  if(duration.inMinutes % 60 != 0) {
+    time += "${duration.inMinutes % 60}m";
+  }
+  if(duration.inSeconds % 60 != 0) {
+    time += " ${duration.inSeconds % 60}s";
+  }
+  return time;
+}
+
 String capitalize(String s) {
   return s[0].toUpperCase() + s.substring(1);
 }

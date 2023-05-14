@@ -39,6 +39,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
   @override
   void dispose() {
     widget.controller.dispose();
+    widget.controller.stop();
     super.dispose();
   }
 
@@ -125,6 +126,11 @@ class ExerciseTimerController extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void stop() {
+    timer?.cancel();
+    notifyListeners();
   }
 }
 

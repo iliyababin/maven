@@ -1,12 +1,14 @@
+import 'package:Maven/common/util/general_utils.dart';
 import 'package:Maven/common/widget/heading.dart';
 import 'package:Maven/common/widget/titled_scaffold.dart';
 import 'package:Maven/feature/template/widget/empty_widget.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-import '../../../database/model/complete.dart';
 import '../../complete/bloc/complete_bloc/complete_bloc.dart';
+import '../../complete/model/complete_bundle.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({Key? key}) : super(key: key);
@@ -27,10 +29,79 @@ class ProgressScreen extends StatelessWidget {
                 } else if(state.status.isLoaded) {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      childCount: state.completes.length,
+                      childCount: state.completeBundles.length,
                       (context, index) {
-                        Complete complete  = state.completes[index];
-                        return Text(complete.name);
+                        CompleteBundle completeBundle  = state.completeBundles[index];
+                        return Padding(
+                          padding: EdgeInsetsDirectional.only(bottom: index == state.completeBundles.length - 1 ? 0 : 12),
+                          child: Material(
+                            color: mt(context).color.background,
+                            borderRadius: BorderRadius.circular(12),
+                            child: InkWell(
+                              onTap: () {
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: mt(context).color.secondary,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      completeBundle.complete.name,
+                                      style: mt(context).textStyle.heading2,
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Text(
+                                      DateFormat.yMMMMEEEEd().format(completeBundle.complete.timestamp).toString(),
+                                      style: mt(context).textStyle.subtitle2,
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.timer,
+                                          color: mt(context).color.secondary,
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          durationToTime(completeBundle.complete.duration),
+                                          style: mt(context).textStyle.body1,
+                                        ),
+                                        SizedBox(width: 20,),
+                                        Icon(
+                                          Icons.monitor_weight,
+                                          color: mt(context).color.secondary,
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          '10,000 lbs',
+                                          style: mt(context).textStyle.body1,
+                                        ),
+                                        SizedBox(width: 20,),
+                                        Icon(
+                                          Icons.fitness_center,
+                                          color: mt(context).color.secondary,
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          '${completeBundle.completeExerciseGroups.length}',
+                                          style: mt(context).textStyle.body1,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       },
                     ),
                   );

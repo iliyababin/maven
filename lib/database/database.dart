@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Maven/database/converter/duration_converter.dart';
 import 'package:Maven/database/converter/set_type_converter.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -42,6 +43,7 @@ part 'database.g.dart';
   ColorConverter,
   TimedConverter,
   SetTypeConverter,
+  DurationConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
   ExerciseDao get exerciseDao;

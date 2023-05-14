@@ -22,8 +22,6 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   void _initialize(LanguageInitialize event, Emitter<LanguageState> emit) async {
     Setting? setting = await settingDao.getSetting();
 
-    print(setting);
-
     String? languageCode = await settingDao.getLanguageCode();
     String? countryCode = await settingDao.getCountryCode();
 

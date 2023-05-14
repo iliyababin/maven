@@ -33,7 +33,6 @@ class PausedWorkoutWidget extends StatelessWidget {
               cancelText: 'Cancel',
               confirmText: 'Resume',
               onSubmit: () {
-                print('subbed');
                 context.read<WorkoutBloc>().add(WorkoutToggle(workout: workout.copyWith(isActive: true)));
                 /*context.read<WorkoutBloc>().add(WorkoutDelete());
                 context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));*/

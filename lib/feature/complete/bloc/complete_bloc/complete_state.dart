@@ -17,25 +17,25 @@ extension CompleteStatusExtension on CompleteStatus {
 class CompleteState extends Equatable {
   const CompleteState({
     this.status = CompleteStatus.initial,
-    this.completes = const [],
+    this.completeBundles = const [],
   });
 
   final CompleteStatus status;
-  final List<Complete> completes;
+  final List<CompleteBundle> completeBundles;
 
   CompleteState copyWith({
     CompleteStatus Function()? status,
-    List<Complete> Function()? completes,
+    List<CompleteBundle> Function()? completeBundles,
   }) {
     return CompleteState(
       status: status != null ? status() : this.status,
-      completes: completes != null ? completes() : this.completes,
+      completeBundles: completeBundles != null ? completeBundles() : this.completeBundles,
     );
   }
 
   @override
   List<Object?> get props => [
     status,
-    completes,
+    completeBundles,
   ];
 }

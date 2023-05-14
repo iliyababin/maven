@@ -11,6 +11,7 @@ class Complete extends Equatable{
   const Complete({
     this.completeId,
     required this.name,
+    required this.duration,
     required this.timestamp,
   });
 
@@ -20,6 +21,9 @@ class Complete extends Equatable{
   @ColumnInfo(name: 'name')
   final String name;
 
+  @ColumnInfo(name: 'duration')
+  final Duration duration;
+
   @ColumnInfo(name: 'timestamp')
   final DateTime timestamp;
 
@@ -27,6 +31,7 @@ class Complete extends Equatable{
   List<Object?> get props => [
     completeId,
     name,
+    duration,
     timestamp,
   ];
 }

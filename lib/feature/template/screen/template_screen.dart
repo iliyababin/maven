@@ -138,7 +138,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     ),
                   );
                 } else {
-                  print('nice');
                   List<Workout> workouts = state.pausedWorkouts;
 
                   return workouts.isEmpty ? const EmptyWidget() :
