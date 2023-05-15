@@ -80,7 +80,6 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
     List<CompleteBundle> completeBundles = [];
 
     List<Complete> completes = await completeDao.getCompletes();
-    print(completes.length);
     for (Complete complete in completes) {
       List<CompleteExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getCompleteExerciseGroupsByCompleteId(complete.completeId!);
       List<CompleteExerciseSet> completeExerciseSets = [];
