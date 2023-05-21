@@ -8,6 +8,7 @@ import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_set.dart';
 import '../../model/complete_bundle.dart';
+import '../../model/complete_exercise_bundle.dart';
 
 part 'complete_event.dart';
 part 'complete_state.dart';
@@ -15,6 +16,7 @@ part 'complete_state.dart';
 class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
   CompleteBloc({
     required this.completeDao,
+    required this.exerciseDao,
     required this.completeExerciseGroupDao,
     required this.completeExerciseSetDao,
     required this.workoutDao,
@@ -24,6 +26,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
   }
 
   final CompleteDao completeDao;
+  final ExerciseDao exerciseDao;
   final CompleteExerciseGroupDao completeExerciseGroupDao;
   final CompleteExerciseSetDao completeExerciseSetDao;
   final WorkoutDao workoutDao;
@@ -48,6 +51,13 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
 
     for (int i = 0; i < event.exerciseBundles.length; i++) {
       ExerciseBundle exerciseBundle = event.exerciseBundles[i];
+
+      int count = 0;
+      for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
+        if (exerciseSet.checked != 0) count++;
+      }
+      if(count == 0) continue;
+
       int completeExerciseGroupId = await completeExerciseGroupDao.addCompleteExerciseGroup(CompleteExerciseGroup(
         order: i + 1,
         exerciseId: exerciseBundle.exercise.exerciseId!,
@@ -56,13 +66,15 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
       ));
 
       for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
-        await completeExerciseSetDao.addCompleteExerciseSet(CompleteExerciseSet(
-          option1: exerciseSet.option1,
-          option2: exerciseSet.option2,
-          setType: exerciseSet.setType,
-          completeExerciseGroupId: completeExerciseGroupId,
-          completeId: completeId,
-        ));
+        if(exerciseSet.checked == 1) {
+          await completeExerciseSetDao.addCompleteExerciseSet(CompleteExerciseSet(
+            option1: exerciseSet.option1,
+            option2: exerciseSet.option2,
+            setType: exerciseSet.setType,
+            completeExerciseGroupId: completeExerciseGroupId,
+            completeId: completeId,
+          ));
+        }
       }
     }
 
@@ -81,17 +93,23 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
 
     List<Complete> completes = await completeDao.getCompletes();
     for (Complete complete in completes) {
-      List<CompleteExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getCompleteExerciseGroupsByCompleteId(complete.completeId!);
-      List<CompleteExerciseSet> completeExerciseSets = [];
+      List<CompleteExerciseBundle> completeExerciseBundles = [];
 
+      List<CompleteExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getCompleteExerciseGroupsByCompleteId(complete.completeId!);
       for (CompleteExerciseGroup completeExerciseGroup in completeExerciseGroups) {
-        completeExerciseSets = await completeExerciseSetDao.getCompleteExerciseSetsByCompleteExerciseGroupId(completeExerciseGroup.completeExerciseGroupId!);
+        Exercise? exercise = await exerciseDao.getExercise(completeExerciseGroup.exerciseId);
+        List<CompleteExerciseSet> completeExerciseSets = await completeExerciseSetDao.getCompleteExerciseSetsByCompleteExerciseGroupId(completeExerciseGroup.completeExerciseGroupId!);
+
+        completeExerciseBundles.add(CompleteExerciseBundle(
+          exercise: exercise!,
+          completeExerciseGroup: completeExerciseGroup,
+          completeExerciseSets: completeExerciseSets,
+        ));
       }
 
       completeBundles.add(CompleteBundle(
         complete: complete,
-        completeExerciseGroups: completeExerciseGroups,
-        completeExerciseSets: completeExerciseSets,
+        completeExerciseBundles: completeExerciseBundles,
       ));
     }
 

@@ -97,6 +97,7 @@ void main() async {
         )..add(const LanguageInitialize())),
         BlocProvider(create: (context) => CompleteBloc(
           completeDao: database.completeDao,
+          exerciseDao: database.exerciseDao,
           completeExerciseGroupDao: database.completeExerciseGroupDao,
           completeExerciseSetDao: database.completeExerciseSetDao,
           workoutDao: database.workoutDao,

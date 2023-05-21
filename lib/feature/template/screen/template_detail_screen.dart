@@ -153,7 +153,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                       Navigator.pop(context);
                     },
                     expand: false,
-                    backgroundColor: mt(context).color.primary,
+                    backgroundColor: mt(context).color.secondary,
                     child: Text(
                       'Start',
                       style: mt(context).textStyle.button1,
