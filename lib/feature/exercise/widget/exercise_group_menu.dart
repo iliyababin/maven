@@ -93,7 +93,7 @@ class ExerciseGroupMenu extends StatelessWidget {
               onClose: (){}
             );
           },
-          leading: const Icon(
+          leading: Icon(
             Icons.timer,
           ),
           trailing: Text(

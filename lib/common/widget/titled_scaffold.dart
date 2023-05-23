@@ -19,6 +19,7 @@ class TitledScaffold extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             CupertinoSliverNavigationBar(
+              border: Border.all(style: BorderStyle.none),
               largeTitle: Text(
                 title,
                 style: TextStyle(

@@ -13,7 +13,7 @@ class MavenTheme extends AppTheme {
 
       appBarTheme: AppBarTheme(
         centerTitle: true,
-        elevation: 1,
+        elevation: 0,
         backgroundColor: options.color.background,
         foregroundColor: options.color.text,
         iconTheme: IconThemeData(
@@ -40,6 +40,7 @@ class MavenTheme extends AppTheme {
       ),
 
       scaffoldBackgroundColor: options.color.background,
+
 
       listTileTheme: ListTileThemeData(
         contentPadding: EdgeInsets.only(left: 20),

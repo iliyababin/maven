@@ -43,6 +43,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   shared_preferences: ^2.1.0
   image_picker: ^0.8.7+4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

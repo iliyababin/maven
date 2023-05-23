@@ -90,15 +90,21 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
 
   Future<List<CompleteBundle>> _fetchCompleteBundles() async {
     List<CompleteBundle> completeBundles = [];
+    double volume = 0;
 
     List<Complete> completes = await completeDao.getCompletes();
     for (Complete complete in completes) {
+      volume = 0;
       List<CompleteExerciseBundle> completeExerciseBundles = [];
 
       List<CompleteExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getCompleteExerciseGroupsByCompleteId(complete.completeId!);
       for (CompleteExerciseGroup completeExerciseGroup in completeExerciseGroups) {
         Exercise? exercise = await exerciseDao.getExercise(completeExerciseGroup.exerciseId);
         List<CompleteExerciseSet> completeExerciseSets = await completeExerciseSetDao.getCompleteExerciseSetsByCompleteExerciseGroupId(completeExerciseGroup.completeExerciseGroupId!);
+
+        for(CompleteExerciseSet completeExerciseSet in completeExerciseSets) {
+          volume += completeExerciseSet.option1 * (completeExerciseSet.option2 ?? 0);
+        }
 
         completeExerciseBundles.add(CompleteExerciseBundle(
           exercise: exercise!,
@@ -110,6 +116,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
       completeBundles.add(CompleteBundle(
         complete: complete,
         completeExerciseBundles: completeExerciseBundles,
+        volume: volume,
       ));
     }
 

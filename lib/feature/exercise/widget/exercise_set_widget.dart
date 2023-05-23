@@ -218,13 +218,17 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     }
                   }*/
 
-                  setState(() {
-                    _isChecked = !_isChecked;
-                  });
-
-                  if(widget.onExerciseSetToggled != null) {
-                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
+                  if(exerciseSet.option1 != 0) {
+                    setState(() {
+                      _isChecked = !_isChecked;
+                    });
+                    if(widget.onExerciseSetToggled != null) {
+                      widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
+                    }
                   }
+
+
+
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
                     mt(context).color.success) : MaterialStateProperty.all<Color>(mt(context).color.secondary
