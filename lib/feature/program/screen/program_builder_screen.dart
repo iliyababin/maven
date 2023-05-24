@@ -214,7 +214,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: mt(context).textStyle.heading2,
+                              style: mt(context).textStyle.heading3,
                             ),
                             const SizedBox(height: 4,),
                             Text(

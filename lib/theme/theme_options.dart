@@ -42,6 +42,7 @@ class ThemeOptions implements AppThemeOptions  {
       heading1: text,
       heading2: text,
       heading3: text,
+      heading4: text,
       body1: text,
       subtitle1: subtext,
       subtitle2: primary,

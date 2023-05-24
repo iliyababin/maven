@@ -41,7 +41,16 @@ flutter packages pub run build_runner build
 ```
 
 ## Structure
-In this section, you will learn about the app's structure and how to navigate through the codebase.
+This section covers the app's structure and how to navigate through the codebase.
+
+#### Code
+
+
+#### Pages 
+Theres is 4 main pages in the app, each with a different purpose.
+- **Home** 
+
+
 
 **TODO**
 

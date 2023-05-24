@@ -26,7 +26,7 @@ class TimedPickerDialog extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: mt(context).textStyle.heading3,
+              style: mt(context).textStyle.heading4,
             ),
           ),
           const SizedBox(height: 8),

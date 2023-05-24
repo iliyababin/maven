@@ -55,7 +55,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
       borderRadius: 0,
       child: Text(
         number.toString(),
-        style: mt(context).textStyle.heading2,
+        style: mt(context).textStyle.heading3,
       ),
     );
   }

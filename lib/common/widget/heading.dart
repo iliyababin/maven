@@ -18,7 +18,7 @@ class Heading extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 12, top: topPadding ? 36 : 0),
         child: Text(
           title,
-          style: mt(context).textStyle.heading3,
+          style: mt(context).textStyle.heading4,
         ),
       ),
     );

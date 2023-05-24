@@ -56,7 +56,7 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.expand = true,
-  }) :  leadingPadding = const EdgeInsets.only(),
+  }) :  leadingPadding = const EdgeInsets.only(right: 4),
         trailingPadding = const EdgeInsets.only(),
         trailing = null,
         title = null,

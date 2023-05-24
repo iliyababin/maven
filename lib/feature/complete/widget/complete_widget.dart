@@ -40,7 +40,7 @@ class CompleteWidget extends StatelessWidget {
             children: [
               Text(
                 completeBundle.complete.name,
-                style: mt(context).textStyle.heading2,
+                style: mt(context).textStyle.heading3,
               ),
               SizedBox(height: 5,),
               Text(
