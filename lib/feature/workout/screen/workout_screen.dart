@@ -70,7 +70,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           List<Exercise>? exercises = await Navigator.push(context,
                               MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
                           if(exercises != null) {
-                            List<ExerciseBundle> exerciseBundles = exercises.map((exercise) => ExerciseBundle(
+                            List<ExerciseBundle> exerciseBundles1 = exercises.map((exercise) => ExerciseBundle(
                               exercise: exercise,
                               barId: exercise.barId,
                               exerciseSets: [],
@@ -82,13 +82,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             ))).toList();
 
                             setState(() {
-                              exerciseBundles.addAll(exerciseBundles);
+                              exerciseBundles.addAll(exerciseBundles1);
                             });
 
-                            context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles.map((e) => e.exerciseGroup).toList()));
+                            context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles1.map((e) => e.exerciseGroup).toList()));
                           }
                         },
-                        leading: Icon(
+                        child: Icon(
                           Icons.add_rounded,
                           color: mt(context).color.primary,
                         ),
@@ -169,7 +169,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             onClose: () {},
                           );
                         },
-                        leading: Icon(
+                        child: Icon(
                           Icons.more_horiz,
                           color: mt(context).color.text,
                         ),

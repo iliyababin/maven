@@ -94,7 +94,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           onClose: (){},
         );
       },
-      leading: Icon(
+      child: Icon(
         Icons.timer,
         size: 21,
         color: mt(context).color.text,
