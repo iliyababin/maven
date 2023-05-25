@@ -59,6 +59,7 @@ flutter:
   generate: false
   assets:
     - assets/
+    - assets/image/
     - assets/squat.png
 flutter_intl:
   enabled: true

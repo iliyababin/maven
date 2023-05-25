@@ -21,35 +21,70 @@ class _ThemeScreenState extends State<ThemeScreen> {
       selectedThemeId = ThemeProvider.themeOf(context).id;
     }
 
-    List<AppTheme> themes = ThemeProvider.controllerOf(context).allThemes;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Theme',
         ),
       ),
-      body: ListView(
-        children: themes.map((theme) {
-          return Theme(
-            data: ThemeData(
-                unselectedWidgetColor: Colors.yellow
-            ),
-            child: RadioListTile(
-              title: Text(
-                theme.description,
-                style: mt(context).textStyle.body1,
-              ),
-              value: theme.id,
-              onChanged:(value) {
+      body: Padding(
+        padding: EdgeInsets.all(mt(context).padding.page),
+        child: GridView.builder(
+          itemCount: ThemeProvider.controllerOf(context).allThemes.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 4,
+            mainAxisSpacing: 8,
+            childAspectRatio: 0.85,
+          ),
+          itemBuilder: (context, index) {
+            AppTheme theme = ThemeProvider.controllerOf(context).allThemes[index];
+            return GestureDetector(
+              onTap: () {
                 setState(() {
-                  selectedThemeId = value!;
-                  ThemeProvider.controllerOf(context).setTheme(theme.id);
+                  selectedThemeId = theme.id;
                 });
+
+                ThemeProvider.controllerOf(context).setTheme(theme.id);
               },
-              groupValue: selectedThemeId,
-            ),
-          );
-        }).toList(),
+              child: Container(
+                height: 1,
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    width: 3,
+                    color: ThemeProvider.controllerOf(context).currentThemeId == theme.id ? mt(context).color.primary : Colors.transparent,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      height: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          theme.id,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      left: 0,
+                      bottom: 18,
+                      child: Text(
+                        theme.description,
+                        textAlign: TextAlign.center,
+                        style: mt(context).textStyle.button1,
+                      ),
+                    ),
+                  ]
+                ),
+              ),
+            );
+          }
+        ),
       ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
-import '../../exercise/screen/exercise_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   MButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen(
-                        selection: false,
-                      )));
+
                     },
                     expand: true,
                     height: double.infinity,
