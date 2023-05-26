@@ -3,13 +3,21 @@ part of 'equipment_bloc.dart';
 abstract class EquipmentEvent extends Equatable {
   const EquipmentEvent();
 
+}
+
+class EquipmentInitialize extends EquipmentEvent {
+  const EquipmentInitialize();
+
   @override
   List<Object?> get props => [];
 }
 
-class EquipmentInitialize extends EquipmentEvent {}
+class PlateAddEmpty extends EquipmentEvent {
+  const PlateAddEmpty();
 
-class PlateAddEmpty extends EquipmentEvent {}
+  @override
+  List<Object?> get props => [];
+}
 
 class PlateUpdate extends EquipmentEvent {
   const PlateUpdate({
@@ -31,7 +39,12 @@ class PlateDelete extends EquipmentEvent {
   List<Object?> get props => [plates];
 }
 
-class PlateReset extends EquipmentEvent {}
+class PlateReset extends EquipmentEvent {
+  const PlateReset();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class PlateStreamUpdatePlates extends EquipmentEvent {
   const PlateStreamUpdatePlates({
@@ -64,9 +77,19 @@ class BarUpdate extends EquipmentEvent {
   List<Object?> get props => [bar];
 }
 
-class BarReset extends EquipmentEvent {}
+class BarReset extends EquipmentEvent {
+  const BarReset();
 
-class BarAddEmpty extends EquipmentEvent {}
+  @override
+  List<Object?> get props => [];
+}
+
+class BarAddEmpty extends EquipmentEvent {
+  const BarAddEmpty();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class BarStreamUpdateBars extends EquipmentEvent {
   const BarStreamUpdateBars({

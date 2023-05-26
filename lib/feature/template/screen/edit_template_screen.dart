@@ -124,39 +124,39 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    onChanged: (value) {
-                      template = template.copyWith(name: value);
-                    },
-                    initialValue: template.name,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      hintText: 'Workout',
-                    ),
-                    style: mt(context).textStyle.heading1,
+            padding: EdgeInsets.only(
+              left: mt(context).padding.page,
+              right: mt(context).padding.page,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                TextFormField(
+                  onChanged: (value) {
+                    template = template.copyWith(name: value);
+                  },
+                  initialValue: template.name,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(0),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: 'Workout',
                   ),
-                  TextFormField(
-                    onChanged: (value) {
-                      template = template.copyWith(description: value);
-                    },
-                    initialValue: template.description,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.only(top: -15, bottom: 0, left: 0, right: 0),
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      hintText: 'Description',
-                    ),
-                    style: mt(context).textStyle.subtitle1,
+                  style: mt(context).textStyle.heading1,
+                ),
+                TextFormField(
+                  onChanged: (value) {
+                    template = template.copyWith(description: value);
+                  },
+                  initialValue: template.description,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.only(top: -25, bottom: 0, left: 0, right: 0),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: 'Description',
                   ),
-                ],
-              ),
+                  style: mt(context).textStyle.subtitle1,
+                ),
+              ]),
             ),
           ),
           SliverList(

@@ -5,6 +5,8 @@ abstract class ProgramEvent extends Equatable {
 }
 
 class ProgramInitialize extends ProgramEvent {
+  const ProgramInitialize();
+
   @override
   List<Object?> get props => [];
 }

@@ -95,7 +95,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                     height: 3,
                   ),
                   Text(
-                    'Description: Doing stuffs',
+                    widget.template.description,
                     style: mt(context).textStyle.subtitle1,
                   ),
                 ],

@@ -3,7 +3,6 @@ import 'package:Maven/feature/complete/bloc/complete_bloc/complete_bloc.dart';
 import 'package:Maven/l10n/bloc/language_bloc/language_bloc.dart';
 import 'package:Maven/theme/maven_theme.dart';
 import 'package:Maven/tools/widget/design_tool_widget.dart';
-import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import 'database/database.dart';
-import 'database/model/model.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
@@ -26,82 +24,65 @@ import 'theme/theme_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final callback = Callback(
-    onCreate: (database, version) {
-      database.rawInsert('INSERT INTO setting (id, language_code, country_code) VALUES (1, "en", "US")');
-    },
-    onOpen: (database) {},
-    onUpgrade: (database, startVersion, endVersion) {},
-  );
-
-  final MavenDatabase database = await $FloorMavenDatabase
-      .databaseBuilder('maven_db_42.db')
-      .addCallback(callback)
-      .build();
-
-  database.plateDao.addPlates(getDefaultPlates());
-  database.barDao.addBars(getDefaultBars());
-  database.exerciseDao.addExercises(getDefaultExercises());
-
-  final test = await database.workoutDao.getWorkouts();
-  print(test);
+  final MavenDatabase db = await MavenDatabase.initialize();
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ExerciseBloc(
-          exerciseDao: database.exerciseDao,
-        )..add(ExerciseInitialize())),
+          exerciseDao: db.exerciseDao,
+        )..add(const ExerciseInitialize())),
         BlocProvider(create: (context) => TemplateBloc(
-          templateDao: database.templateDao,
-          templateTrackerDao: database.templateTrackerDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
+          templateDao: db.templateDao,
+          templateTrackerDao: db.templateTrackerDao,
+          templateExerciseGroupDao: db.templateExerciseGroupDao,
+          templateExerciseSetDao: db.templateExerciseSetDao,
         )..add(const TemplateInitialize())),
         BlocProvider(create: (context) => TemplateDetailBloc(
-          exerciseDao: database.exerciseDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
+          templateDao: db.templateDao,
+          exerciseDao: db.exerciseDao,
+          templateExerciseGroupDao: db.templateExerciseGroupDao,
+          templateExerciseSetDao: db.templateExerciseSetDao,
         )),
         BlocProvider(create: (context) => WorkoutBloc(
-          exerciseDao: database.exerciseDao,
-          workoutDao: database.workoutDao,
-          workoutExerciseGroupDao: database.workoutExerciseGroupDao,
-          workoutExerciseSetDao: database.workoutExerciseSetDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
-          completeDao: database.completeDao,
-          completeExerciseGroupDao: database.completeExerciseGroupDao,
-          completeExerciseSetDao: database.completeExerciseSetDao,
-        )..add(WorkoutInitialize())),
+          exerciseDao: db.exerciseDao,
+          workoutDao: db.workoutDao,
+          workoutExerciseGroupDao: db.workoutExerciseGroupDao,
+          workoutExerciseSetDao: db.workoutExerciseSetDao,
+          templateExerciseGroupDao: db.templateExerciseGroupDao,
+          templateExerciseSetDao: db.templateExerciseSetDao,
+          completeDao: db.completeDao,
+          completeExerciseGroupDao: db.completeExerciseGroupDao,
+          completeExerciseSetDao: db.completeExerciseSetDao,
+        )..add(const WorkoutInitialize())),
         BlocProvider(create: (context) => EquipmentBloc(
-          plateDao: database.plateDao,
-          barDao: database.barDao,
-        )..add(EquipmentInitialize())),
+          plateDao: db.plateDao,
+          barDao: db.barDao,
+        )..add(const EquipmentInitialize())),
         BlocProvider(create: (context) => ProgramBloc(
-          programDao: database.programDao,
-          folderDao: database.folderDao,
-          templateDao: database.templateDao,
-          templateTrackerDao: database.templateTrackerDao,
-          templateExerciseGroupDao: database.templateExerciseGroupDao,
-          templateExerciseSetDao: database.templateExerciseSetDao,
-        )..add(ProgramInitialize())),
+          programDao: db.programDao,
+          folderDao: db.folderDao,
+          templateDao: db.templateDao,
+          templateTrackerDao: db.templateTrackerDao,
+          templateExerciseGroupDao: db.templateExerciseGroupDao,
+          templateExerciseSetDao: db.templateExerciseSetDao,
+        )..add(const ProgramInitialize())),
         BlocProvider(create: (context) => ProgramDetailBloc(
-          programDao: database.programDao,
-          folderDao: database.folderDao,
-          templateDao: database.templateDao,
-          templateTrackerDao: database.templateTrackerDao,
+          programDao: db.programDao,
+          folderDao: db.folderDao,
+          templateDao: db.templateDao,
+          templateTrackerDao: db.templateTrackerDao,
         )..add(ProgramDetailInitialize())),
         BlocProvider(create: (context) => LanguageBloc(
-          settingDao: database.settingDao,
+          settingDao: db.settingDao,
         )..add(const LanguageInitialize())),
         BlocProvider(create: (context) => CompleteBloc(
-          completeDao: database.completeDao,
-          exerciseDao: database.exerciseDao,
-          completeExerciseGroupDao: database.completeExerciseGroupDao,
-          completeExerciseSetDao: database.completeExerciseSetDao,
-          workoutDao: database.workoutDao,
-        )..add(CompleteInitialize())),
+          completeDao: db.completeDao,
+          exerciseDao: db.exerciseDao,
+          completeExerciseGroupDao: db.completeExerciseGroupDao,
+          completeExerciseSetDao: db.completeExerciseSetDao,
+          workoutDao: db.workoutDao,
+        )..add(const CompleteInitialize())),
       ],
       child: const Main(),
     )
@@ -110,7 +91,6 @@ void main() async {
 
 class Main extends StatelessWidget {
   const Main({super.key});
-
 
   @override
   Widget build(BuildContext context) {

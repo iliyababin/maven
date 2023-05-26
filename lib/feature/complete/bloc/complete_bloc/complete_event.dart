@@ -5,6 +5,8 @@ abstract class CompleteEvent extends Equatable {
 }
 
 class CompleteInitialize extends CompleteEvent {
+  const CompleteInitialize();
+
   @override
   List<Object?> get props => [];
 }

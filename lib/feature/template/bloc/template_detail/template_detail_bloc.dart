@@ -3,12 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../database/dao/exercise_dao.dart';
-import '../../../../database/dao/template_exercise_group_dao.dart';
-import '../../../../database/dao/template_exercise_set_dao.dart';
-import '../../../../database/model/exercise.dart';
-import '../../../../database/model/template_exercise_group.dart';
-import '../../../../database/model/template_exercise_set.dart';
+import '../../../../database/dao/dao.dart';
+import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
@@ -18,6 +14,7 @@ part 'template_detail_state.dart';
 
 class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> {
   TemplateDetailBloc({
+    required this.templateDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
     required this.exerciseDao,
@@ -25,6 +22,7 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
     on<TemplateDetailLoad>(_templateDetailLoad);
   }
 
+  final TemplateDao templateDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
   final ExerciseDao exerciseDao;
@@ -48,7 +46,10 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
       ));
     }
 
+    Template? template = await templateDao.getTemplate(event.templateId);
+
     emit(state.copyWith(
+      template: () => template ?? const Template.empty(),
       status: () => TemplateDetailStatus.loaded,
       exerciseBundles: () => exerciseBundles,
     ));

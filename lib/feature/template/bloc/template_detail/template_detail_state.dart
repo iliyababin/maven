@@ -17,18 +17,22 @@ extension TemplateDetailStatusExtension on TemplateDetailStatus {
 class TemplateDetailState extends Equatable {
   const TemplateDetailState({
     this.status = TemplateDetailStatus.initial,
+    this.template = const Template.empty(),
     this.exerciseBundles = const [],
   });
 
   final TemplateDetailStatus status;
+  final Template template;
   final List<ExerciseBundle> exerciseBundles;
 
   TemplateDetailState copyWith({
     TemplateDetailStatus Function()? status,
+    Template Function()? template,
     List<ExerciseBundle> Function()? exerciseBundles,
   }) {
     return TemplateDetailState(
       status: status != null ? status() : this.status,
+      template: template != null ? template() : this.template,
       exerciseBundles: exerciseBundles != null ? exerciseBundles() : this.exerciseBundles,
     );
   }
@@ -36,6 +40,7 @@ class TemplateDetailState extends Equatable {
   @override
   List<Object?> get props => [
     status,
+    template,
     exerciseBundles,
   ];
 }

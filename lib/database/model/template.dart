@@ -28,6 +28,12 @@ class Template extends Equatable {
     this.templateTracker,
   });
 
+  const Template.empty() : this(
+    templateId: null,
+    name: 'Error: Empty Template',
+    description: 'Error: Empty Template',
+  );
+
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'template_id')
   final int? templateId;

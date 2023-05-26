@@ -13,11 +13,11 @@ import '../bloc/template_detail/template_detail_bloc.dart';
 import 'edit_template_screen.dart';
 
 class TemplateDetailScreen extends StatefulWidget {
-  final Template template;
-
   const TemplateDetailScreen({Key? key,
     required this.template
   }) : super(key: key);
+
+  final Template template;
 
   @override
   State<TemplateDetailScreen> createState() => _TemplateDetailScreenState();
@@ -43,10 +43,12 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
           if(state.status.isLoading) {
             return const Center(child: CircularProgressIndicator(),);
           } else if(state.status.isLoaded) {
+            Template template = state.template;
+
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  widget.template.name,
+                  template.name,
                 ),
                 actions: [
                   IconButton(
@@ -59,9 +61,13 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                               onPressed: (){
                                 Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
+                                  template: template,
                                   exerciseBundles: state.exerciseBundles,
                                   onSubmit: (template, exerciseBundles) {
-                                    context.read<TemplateBloc>().add(TemplateUpdate(template: template, exerciseBundles: exerciseBundles));
+                                    context.read<TemplateBloc>().add(TemplateUpdate(
+                                      template: template,
+                                      exerciseBundles: exerciseBundles,
+                                    ));
                                     Navigator.pop(context);
                                   },
                                 )));
@@ -95,7 +101,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                     subtitle: 'This action cannot be undone',
                                     confirmColor: mt(context).color.error,
                                     onSubmit: () {
-                                      context.read<TemplateBloc>().add(TemplateDelete(template: widget.template));
+                                      context.read<TemplateBloc>().add(TemplateDelete(template: template));
                                       Navigator.pop(context);
                                     },
                                   ),
@@ -148,7 +154,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                   child: MButton(
                     onPressed: () {
                       context.read<WorkoutBloc>().add(WorkoutStart(
-                        template: widget.template,
+                        template: template,
                       ));
                       Navigator.pop(context);
                     },

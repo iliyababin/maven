@@ -5,6 +5,8 @@ abstract class WorkoutEvent extends Equatable {
 }
 
 class WorkoutInitialize extends WorkoutEvent {
+  const WorkoutInitialize();
+
   @override
   List<Object?> get props => [];
 }

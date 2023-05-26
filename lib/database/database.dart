@@ -63,4 +63,19 @@ abstract class MavenDatabase extends FloorDatabase {
   FolderDao get folderDao;
   TemplateTrackerDao get templateTrackerDao;
   SettingDao get settingDao;
+
+  static final Callback _callback = Callback(
+    onCreate: (database, version) {
+      database.rawInsert('INSERT INTO setting (id, language_code, country_code) VALUES (1, "en", "US")');
+    },
+    onOpen: (database) {},
+    onUpgrade: (database, startVersion, endVersion) {},
+  );
+
+  static Future<MavenDatabase> initialize() async {
+    return await $FloorMavenDatabase
+        .databaseBuilder('maven_db_42.db')
+        .addCallback(_callback)
+        .build();
+  }
 }
