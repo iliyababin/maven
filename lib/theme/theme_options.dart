@@ -3,27 +3,42 @@ import 'dart:ui';
 import 'package:Maven/theme/padding_theme.dart';
 import 'package:Maven/theme/text_style_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:theme_provider/theme_provider.dart';
 
 import 'color_theme.dart';
 
 
-class ThemeOptions implements AppThemeOptions  {
-  ThemeOptions({
-    required Color primary,
-    required Color secondary,
-    required Color background,
-    required Color text,
-    required Color subtext,
-    required Color neutral,
-    required Color success,
-    required Color error,
-    required Color shadow,
-    required Color warmup,
-    required Color drop,
-    required Color cooldown,
-  }) {
-    color = ColorTheme(
+class ThemeOptions {
+  const ThemeOptions({
+    required this.primary,
+    required this.secondary,
+    required this.background,
+    required this.text,
+    required this.subtext,
+    required this.neutral,
+    required this.success,
+    required this.error,
+    required this.shadow,
+    required this.warmup,
+    required this.drop,
+    required this.cooldown,
+  });
+
+  final Color primary;
+  final Color secondary;
+  final Color background;
+  final Color text;
+  final Color subtext;
+  final Color neutral;
+  final Color success;
+  final Color error;
+  final Color shadow;
+  final Color warmup;
+  final Color drop;
+  final Color cooldown;
+
+
+  ColorTheme get color {
+    return ColorTheme(
       primary: primary,
       secondary: secondary,
       background:
@@ -38,7 +53,10 @@ class ThemeOptions implements AppThemeOptions  {
       drop: drop,
       cooldown: cooldown,
     );
-    textStyle = TextStyleTheme(
+  }
+
+  TextStyleTheme get textStyle {
+    return TextStyleTheme(
       heading1: text,
       heading2: text,
       heading3: text,
@@ -49,13 +67,12 @@ class ThemeOptions implements AppThemeOptions  {
       button1: neutral,
       button2: primary,
     );
-    padding = const PaddingTheme(
+  }
+
+  PaddingTheme get padding {
+    return const PaddingTheme(
       page: 20,
     );
   }
-
-  late final ColorTheme color;
-  late final TextStyleTheme textStyle;
-  late final PaddingTheme padding;
 }
 

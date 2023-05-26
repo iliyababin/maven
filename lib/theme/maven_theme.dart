@@ -1,16 +1,19 @@
 import 'package:Maven/theme/theme_options.dart';
 import 'package:flutter/material.dart';
-import 'package:theme_provider/theme_provider.dart';
 
-class MavenTheme extends AppTheme {
-  MavenTheme({
-    required final String id,
-    required final String description,
-    required final ThemeOptions options,
-  }) : super(
-    id: id,
-    data: ThemeData(
+class MavenTheme {
+  final String id;
+  final String description;
+  final ThemeOptions options;
 
+  const MavenTheme({
+    required this.id,
+    required this.description,
+    required this.options,
+  });
+
+  ThemeData get data {
+    return ThemeData(
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -20,7 +23,6 @@ class MavenTheme extends AppTheme {
           color: options.color.primary,
         ),
       ),
-
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
@@ -34,59 +36,140 @@ class MavenTheme extends AppTheme {
           fontSize: 14,
         ),
       ),
+      // Other theme data configurations
+    );
+  }
 
-      iconTheme: IconThemeData(
-        color: options.color.primary,
-      ),
+  static const MavenTheme blank = MavenTheme(
+    id: 'assets/image/dark.jpg',
+    description: 'Dark',
+    options: ThemeOptions(
+      primary: Color(0xFF2196F3),
+      secondary: Color(0xFF333333),
+      background: Color(0xff121212),
+      text: Color(0xffffffff),
+      subtext: Color(0xFF808080),
+      neutral: Color(0xFFFFFFFF),
+      success: Color(0xFF2DCD70),
+      error: Color(0xFFDD614A),
+      shadow: Color(0xFF353535),
+      warmup: Color(0xFFFFAE00),
+      drop: Color(0xFFBD4ADD),
+      cooldown: Color(0xFF21F3F3),
+    ),
+  );
 
-      scaffoldBackgroundColor: options.color.background,
-
-
-      listTileTheme: ListTileThemeData(
-        contentPadding: EdgeInsets.only(left: 20),
-        iconColor: options.color.primary,
-        textColor: options.color.text,
-      ),
-
-      checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if(states.contains(MaterialState.selected)) {
-            return options.color.primary;
-          } else {
-            return options.color.secondary;
-          }
-        }),
-        checkColor: MaterialStateProperty.all(options.color.background),
-      ),
-
-
-
-      inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(
-          color: options.color.subtext,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: options.color.secondary,
-            width: 2,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: options.color.primary,
-            width: 2,
-          ),
-        ),
-      ),
-
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: options.color.primary,
-        foregroundColor: options.color.background,
+  static const List<MavenTheme> defaultThemes = [
+    MavenTheme(
+      id: 'assets/image/light.jpg',
+      description: 'Light',
+      options: ThemeOptions(
+        primary: Color(0xFF2196F3),
+        secondary: Color(0xFFEAEAEA),
+        background: Color(0xffffffff),
+        text: Color(0xff000000),
+        subtext: Color(0xFF808080),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFF2DCD70),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFFC1C1C1),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
       ),
     ),
-    description: description,
-    options: options
-  );
+    MavenTheme(
+      id: 'assets/image/dark.jpg',
+      description: 'Dark',
+      options: ThemeOptions(
+        primary: Color(0xFF2196F3),
+        secondary: Color(0xFF333333),
+        background: Color(0xff121212),
+        text: Color(0xffffffff),
+        subtext: Color(0xFF808080),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFF2DCD70),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFF353535),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
+      ),
+    ),
+    MavenTheme(
+      id: 'assets/image/solar_flare.jpg',
+      description: 'Solar flare',
+      options: ThemeOptions(
+        primary: Color(0xFFFFAE00),
+        secondary: Color(0xFF333333),
+        background: Color(0xff232323),
+        text: Color(0xffffffff),
+        subtext: Color(0xFF808080),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFF922DCD),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFF353535),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
+      ),
+    ),
+    MavenTheme(
+      id: 'assets/image/nature.jpg',
+      description: 'Nature',
+      options: ThemeOptions(
+        primary: Color(0xFF4CAF50),
+        secondary: Color(0xFF8BC34A),
+        background: Color(0xFFE8F5E9),
+        text: Color(0xFF212121),
+        subtext: Color(0xFF757575),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFF4CAF50),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFFBDBDBD),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
+      ),
+    ),
+    MavenTheme(
+      id: 'assets/image/rose_gold.jpg',
+      description: 'Rose Gold',
+      options: ThemeOptions(
+        primary: Color(0xFFE91E63),
+        secondary: Color(0xFFFFDF9F),
+        background: Color(0xFFFAF0E6),
+        text: Color(0xFF212121),
+        subtext: Color(0xFF757575),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFFAF4C4C),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFFBDBDBD),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
+      ),
+    ),
+    MavenTheme(
+      id: 'assets/image/custom.jpg',
+      description: 'Custom',
+      options: ThemeOptions(
+        primary: Color(0xFF2196F3),
+        secondary: Color(0xFFEAEAEA),
+        background: Color(0xffffffff),
+        text: Color(0xff000000),
+        subtext: Color(0xFF808080),
+        neutral: Color(0xFFFFFFFF),
+        success: Color(0xFF2DCD70),
+        error: Color(0xFFDD614A),
+        shadow: Color(0xFFC1C1C1),
+        warmup: Color(0xFFFFAE00),
+        drop: Color(0xFFBD4ADD),
+        cooldown: Color(0xFF21F3F3),
+      ),
+    ),
+  ];
 }
+
+
 

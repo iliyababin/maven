@@ -1,6 +1,4 @@
 import 'package:Maven/feature/equipment/screen/equipment_screen.dart';
-import 'package:Maven/feature/settings/screen/settings_screen.dart';
-import 'package:Maven/feature/settings/screen/theme_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,6 +7,8 @@ import '../../../common/widget/titled_scaffold.dart';
 import '../../../l10n/screen/language_screen.dart';
 import '../../../theme/m_themes.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
+import '../../setting/screen/settings_screen.dart';
+import '../../setting/screen/theme_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

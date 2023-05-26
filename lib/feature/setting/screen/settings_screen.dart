@@ -1,11 +1,11 @@
 
-import 'package:Maven/feature/settings/screen/theme_screen.dart';
 import 'package:Maven/l10n/screen/language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 import '../../equipment/screen/equipment_screen.dart';
+import 'theme_screen.dart';
 
 
 class SettingsScreen extends StatelessWidget {
