@@ -22,6 +22,7 @@ class Template extends Equatable {
   const Template({
     this.templateId,
     required this.name,
+    required this.description,
     this.sortOrder,
     this.folderId,
     this.templateTracker,
@@ -33,6 +34,9 @@ class Template extends Equatable {
 
   @ColumnInfo(name: 'name')
   final String name;
+
+  @ColumnInfo(name: 'description')
+  final String description;
 
   @ColumnInfo(name: 'sort_order')
   final int? sortOrder;
@@ -46,6 +50,7 @@ class Template extends Equatable {
   Template copyWith({
     int? templateId,
     String? name,
+    String? description,
     int? sortOrder,
     int? folderId,
     TemplateTracker? templateTracker,
@@ -53,6 +58,7 @@ class Template extends Equatable {
     return Template(
       templateId: templateId ?? this.templateId,
       name: name ?? this.name,
+      description: description ?? this.description,
       sortOrder: sortOrder ?? this.sortOrder,
       folderId: folderId ?? this.folderId,
       templateTracker: templateTracker ?? this.templateTracker,
@@ -61,13 +67,14 @@ class Template extends Equatable {
 
   @override
   String toString() {
-    return 'Template(templateId: $templateId, name: $name, sortOrder: $sortOrder, folderId: $folderId, templateTracker: $templateTracker)';
+    return 'Template{templateId: $templateId, name: $name, description: $description, sortOrder: $sortOrder, folderId: $folderId, templateTracker: $templateTracker}';
   }
 
   @override
   List<Object?> get props => [
     templateId,
     name,
+    description,
     sortOrder,
     folderId,
     templateTracker,

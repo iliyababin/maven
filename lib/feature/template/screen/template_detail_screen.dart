@@ -60,8 +60,8 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                 Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
                                   exerciseBundles: state.exerciseBundles,
-                                  onSubmit: (value) {
-                                    context.read<TemplateBloc>().add(TemplateUpdate(template: widget.template, exerciseBundles: value));
+                                  onSubmit: (template, exerciseBundles) {
+                                    context.read<TemplateBloc>().add(TemplateUpdate(template: template, exerciseBundles: exerciseBundles));
                                     Navigator.pop(context);
                                   },
                                 )));

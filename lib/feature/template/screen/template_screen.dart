@@ -5,11 +5,8 @@ import 'package:Maven/feature/template/widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
-import '../../../database/model/template.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/m_themes.dart';
 import '../../program/screen/program_builder_screen.dart';
@@ -67,26 +64,14 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) =>
                               EditTemplateScreen(
-                                onSubmit: (exerciseBundles) {
-                                  showBottomSheetDialog(
-                                    context: context,
-                                    child: TextInputDialog(
-                                      title: 'Enter a Workout Name',
-                                      initialValue: '',
-                                      keyboardType: TextInputType.name,
-                                      onValueSubmit: (value) {
-                                        context.read<TemplateBloc>().add(
-                                            TemplateCreate(
-                                              template: Template(
-                                                name: value,
-                                              ),
-                                              exerciseBundles: exerciseBundles,
-                                            ));
-                                        Navigator.pop(context);
-                                      },
+                                onSubmit: (template, exerciseBundles) {
+                                  context.read<TemplateBloc>().add(
+                                    TemplateCreate(
+                                      template: template,
+                                      exerciseBundles: exerciseBundles,
                                     ),
-                                    onClose: () {},
                                   );
+                                  Navigator.pop(context);
                                 },
                               )));
                         },

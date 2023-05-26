@@ -7,7 +7,7 @@ void showBottomSheetDialog({
   Alignment alignment = Alignment.center,
   EdgeInsets padding = const EdgeInsets.all(18),
   required Widget child,
-  required VoidCallback onClose,
+  VoidCallback? onClose,
   double height = 330,
 }) {
   showModalBottomSheet(
@@ -38,5 +38,7 @@ void showBottomSheetDialog({
         ),
       );
     },
-  ).whenComplete(() => onClose());
+  ).whenComplete(() {
+    if(onClose != null) onClose();
+  });
 }

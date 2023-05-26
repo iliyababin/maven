@@ -3,27 +3,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
-import '../../../database/model/exercise.dart';
+import '../../../database/model/model.dart';
+import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise_bundle.dart';
+import '../../exercise/model/exercise_set.dart';
+import '../../exercise/model/set_type.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
+
+typedef TemplateEditCallback = void Function(Template template, List<ExerciseBundle> bundles);
 
 /// Screen for creating and editing a [Template]
 class EditTemplateScreen extends StatefulWidget {
   /// Creates a screen for creating and editing a [Template]
   const EditTemplateScreen({Key? key,
+    this.template,
     this.exerciseBundles,
     required this.onSubmit,
   }) : super(key: key);
 
+  final Template? template;
   final List<ExerciseBundle>? exerciseBundles;
-  final ValueChanged<List<ExerciseBundle>> onSubmit;
+  final TemplateEditCallback onSubmit;
 
   @override
   State<EditTemplateScreen> createState() => _EditTemplateScreenState();
 }
 
 class _EditTemplateScreenState extends State<EditTemplateScreen> {
+  late Template template;
   late List<ExerciseBundle> exerciseBundles;
 
   bool _isReorder = false;
@@ -35,6 +43,14 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
     } else {
       exerciseBundles = widget.exerciseBundles!.map((e) => e.copyWith()).toList();
     }
+    if(widget.template == null) {
+      template = const Template(
+        name: 'Untitled',
+        description: 'Enter a description',
+      );
+    } else {
+      template = widget.template!.copyWith();
+    }
     super.initState();
   }
 
@@ -43,7 +59,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.exerciseBundles == null ? 'Create' : 'Edit'} Template',
+          widget.exerciseBundles == null ? 'Create' : 'Edit',
         ),
         actions: [
           IconButton(
@@ -59,7 +75,17 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
           ),
           IconButton(
             onPressed: (){
-              widget.onSubmit(exerciseBundles);
+              if(template.name.isEmpty || template.description.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Please fill in all fields',
+                    ),
+                  ),
+                );
+                return;
+              }
+              widget.onSubmit(template, exerciseBundles);
             },
             icon: const Icon(
               Icons.check_rounded,
@@ -95,43 +121,85 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         ).toList(),
       )
           :
-      ListView.builder(
-        itemCount: exerciseBundles.length,
-        itemBuilder: (context, index) {
-          ExerciseBundle exerciseBlock = exerciseBundles[index];
-          return ExerciseGroupWidget(
-            key: UniqueKey(),
-            exercise: exerciseBlock.exercise,
-            exerciseGroup: exerciseBlock.exerciseGroup,
-            exerciseSets: exerciseBlock.exerciseSets,
-            onExerciseGroupUpdate: (value) {
-              setState(() {
-                exerciseBundles[index].exerciseGroup = value;
-              });
-            },
-            onExerciseGroupDelete: () {
-              setState(() {
-                exerciseBundles.removeAt(index);
-              });
-            },
-            onExerciseSetAdd: (value) {
-              setState(() {
-                exerciseBundles[index].exerciseSets.add(value);
-              });
-            },
-            onExerciseSetUpdate: (value) {
-              setState(() {
-                int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-                exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
-              });
-            },
-            onExerciseSetDelete: (value) {
-              setState(() {
-                exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
-              });
-            },
-          );
-        },
+      CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    onChanged: (value) {
+                      template = template.copyWith(name: value);
+                    },
+                    initialValue: template.name,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintText: 'Workout',
+                    ),
+                    style: mt(context).textStyle.heading1,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      template = template.copyWith(description: value);
+                    },
+                    initialValue: template.description,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.only(top: -15, bottom: 0, left: 0, right: 0),
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintText: 'Description',
+                    ),
+                    style: mt(context).textStyle.subtitle1,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: exerciseBundles.length,
+              (context, index) {
+                ExerciseBundle exerciseBlock = exerciseBundles[index];
+                return ExerciseGroupWidget(
+                  key: UniqueKey(),
+                  exercise: exerciseBlock.exercise,
+                  exerciseGroup: exerciseBlock.exerciseGroup,
+                  exerciseSets: exerciseBlock.exerciseSets,
+                  onExerciseGroupUpdate: (value) {
+                    setState(() {
+                      exerciseBundles[index].exerciseGroup = value;
+                    });
+                  },
+                  onExerciseGroupDelete: () {
+                    setState(() {
+                      exerciseBundles.removeAt(index);
+                    });
+                  },
+                  onExerciseSetAdd: (value) {
+                    setState(() {
+                      exerciseBundles[index].exerciseSets.add(value);
+                    });
+                  },
+                  onExerciseSetUpdate: (value) {
+                    setState(() {
+                      int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                      exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
+                    });
+                  },
+                  onExerciseSetDelete: (value) {
+                    setState(() {
+                      exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                    });
+                  },
+                );
+              },
+            ),
+          )
+        ],
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -144,15 +212,24 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
 
             for (Exercise exercise in exercises ?? []) {
               setState(() {
+                int exerciseGroupId = DateTime.now().millisecondsSinceEpoch;
                 exerciseBundles.add(ExerciseBundle(
                   exercise: exercise,
                   exerciseGroup: ExerciseGroup(
-                    exerciseGroupId: DateTime.now().millisecondsSinceEpoch,
+                    exerciseGroupId: exerciseGroupId,
                     restTimed: Timed.zero(),
                     exerciseId: exercise.exerciseId!,
                     barId: exercise.barId,
                   ),
-                  exerciseSets: [],
+                  exerciseSets: [
+                    ExerciseSet(
+                      exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                      option1: 0,
+                      option2: 0,
+                      exerciseGroupId: exerciseGroupId,
+                      setType: SetType.regular,
+                    )
+                  ],
                   barId: exercise.barId,
                 ));
               });

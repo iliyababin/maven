@@ -76,6 +76,7 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
         // Create template
         int templateId = await templateDao.addTemplate(Template(
           name: capitalize(exerciseDay.day.name),
+          description: 'No description',
           sortOrder: j + 1,
           folderId: folderId,
         ));

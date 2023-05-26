@@ -1,9 +1,7 @@
-import 'package:Maven/common/widget/m_button.dart';
+import 'package:Maven/common/widget/heading.dart';
 import 'package:Maven/common/widget/titled_scaffold.dart';
 import 'package:Maven/theme/m_themes.dart';
 import 'package:flutter/material.dart';
-
-import '../../../generated/l10n.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,35 +15,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return TitledScaffold(
-      title: 'Dashboard',
+      title: 'Home',
       body: Padding(
         padding: EdgeInsets.all(mt(context).padding.page),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 100,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  MButton(
-                    onPressed: (){
-
-                    },
-                    expand: true,
-                    height: double.infinity,
-                    leading: const Icon(Icons.sports_gymnastics),
-                    borderColor: mt(context).color.secondary,
-                    child: Text(
-                      S.current.exercises,
-                      style: mt(context).textStyle.body1,
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                ],
-              ),
-            ),
+        child: const CustomScrollView(
+          slivers: [
+            Heading(title: 'Dashboard', topPadding: false,)
           ],
-        ),
+        )
       ),
     );
   }

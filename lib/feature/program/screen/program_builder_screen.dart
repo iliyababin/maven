@@ -60,130 +60,124 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
             )
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.all(mt(context).padding.page),
-          child: CustomScrollView(
-            slivers: [
-              const Heading(title: 'Basic', topPadding: false,),
-              SliverList(
-                delegate: SliverChildListDelegate([
-                  MButton.tiled(
-                    onPressed: (){
-                      showBottomSheetDialog(
-                        context: context,
-                        child: TextInputDialog(
-                          title: 'Name',
-                          initialValue: _name,
-                          keyboardType: TextInputType.name,
-                          onValueSubmit: (value) {
-                            setState(() {
-                              _name = value;
-                            });
-                          },
-                        ),
-                        onClose: (){},
-                      );
-                    },
-                    expand: false,
-                    leading: const Icon(
-                      Icons.drive_file_rename_outline_rounded,
-                    ),
-                    borderRadius: 12,
-                    borderColor: mt(context).color.secondary,
-                    trailing: Text(
-                      _name,
-                      style: mt(context).textStyle.subtitle1,
-                    ),
-                    title: 'Name',
-                  ),
-                  const SizedBox(height: 12,),
-                  MButton.tiled(
-                    onPressed: (){
-                      showBottomSheetDialog(
-                        context: context,
-                        child: TextInputDialog(
-                          title: 'Weeks',
-                          initialValue: _weeks.toString(),
-                          onValueSubmit: (value) {
-                            setState(() {
-                              _weeks = int.parse(value);
-                            });
-                          },
-                        ),
-                        onClose: (){},
-                      );
-                    },
-                    expand: false,
-                    leading: const Icon(
-                      Icons.calendar_month_rounded,
-                    ),
-                    borderRadius: 12,
-                    borderColor: mt(context).color.secondary,
-                    trailing: Text(
-                      _weeks.toString(),
-                      style: mt(context).textStyle.subtitle1,
-                    ),
-                    title: 'Weeks',
-                  ),
-                  const SizedBox(height: 12,),
-                  MButton.tiled(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DaySelectorScreen(
-                        exerciseDays: exerciseDays,
-                        onSubmit: (List<ExerciseDay> value) {
+        body: CustomScrollView(
+          slivers: [
+            const Heading(title: 'Basic', topPadding: false, side: true,),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                MButton.tiled(
+                  onPressed: (){
+                    showBottomSheetDialog(
+                      context: context,
+                      child: TextInputDialog(
+                        title: 'Name',
+                        initialValue: _name,
+                        keyboardType: TextInputType.name,
+                        onValueSubmit: (value) {
                           setState(() {
-                            exerciseDays = value.sortDays();
+                            _name = value;
                           });
                         },
-                      )));
-                    },
-                    expand: false,
-                    leading: const Icon(
-                      Icons.view_day_rounded,
-                    ),
-                    borderRadius: 12,
-                    borderColor: mt(context).color.secondary,
-                    trailing: Text(
-                      exerciseDays.getAbbreviations(),
-                      style: mt(context).textStyle.subtitle1,
-                    ),
-                    title: 'Days',
+                      ),
+                      onClose: (){},
+                    );
+                  },
+                  expand: false,
+                  leading: const Icon(
+                    Icons.drive_file_rename_outline_rounded,
                   ),
-                ]),
-              ),
-              /*SliverList(
-                delegate: SliverChildListDelegate([
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'Program',
-                    ),
-                    style: TextStyle(
-                      color: mt(context).text.primaryColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25,
-                    ),
+                  trailing: Text(
+                    _name,
+                    style: mt(context).textStyle.subtitle1,
                   ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'Program',
-                    ),
-                    style: TextStyle(
-                      color: mt(context).text.secondaryColor,
-                    ),
-                    minLines: 1,
-                    maxLines: 5,
+                  title: 'Name',
+                ),
+                const SizedBox(height: 12,),
+                MButton.tiled(
+                  onPressed: (){
+                    showBottomSheetDialog(
+                      context: context,
+                      child: TextInputDialog(
+                        title: 'Weeks',
+                        initialValue: _weeks.toString(),
+                        onValueSubmit: (value) {
+                          setState(() {
+                            _weeks = int.parse(value);
+                          });
+                        },
+                      ),
+                      onClose: (){},
+                    );
+                  },
+                  expand: false,
+                  leading: const Icon(
+                    Icons.calendar_month_rounded,
                   ),
-                ]),
-              ),*/
-              const Heading(title: 'Templates',),
-              SliverGrid(
+                  trailing: Text(
+                    _weeks.toString(),
+                    style: mt(context).textStyle.subtitle1,
+                  ),
+                  title: 'Weeks',
+                ),
+                const SizedBox(height: 12,),
+                MButton.tiled(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DaySelectorScreen(
+                      exerciseDays: exerciseDays,
+                      onSubmit: (List<ExerciseDay> value) {
+                        setState(() {
+                          exerciseDays = value.sortDays();
+                        });
+                      },
+                    )));
+                  },
+                  expand: false,
+                  leading: const Icon(
+                    Icons.view_day_rounded,
+                  ),
+                  trailing: Text(
+                    exerciseDays.getAbbreviations(),
+                    style: mt(context).textStyle.subtitle1,
+                  ),
+                  title: 'Days',
+                ),
+              ]),
+            ),
+            /*SliverList(
+              delegate: SliverChildListDelegate([
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Program',
+                  ),
+                  style: TextStyle(
+                    color: mt(context).text.primaryColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Program',
+                  ),
+                  style: TextStyle(
+                    color: mt(context).text.secondaryColor,
+                  ),
+                  minLines: 1,
+                  maxLines: 5,
+                ),
+              ]),
+            ),*/
+            const Heading(title: 'Templates', side: true,),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: mt(context).padding.page),
+              sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
                   childAspectRatio: 1,
                 ),
                 delegate: SliverChildBuilderDelegate(
@@ -195,9 +189,9 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
                           exerciseBundles: exerciseDay.exerciseBundles,
-                          onSubmit: (value) {
+                          onSubmit: (template, exerciseBundles) {
                             setState(() {
-                              exerciseDays[index].exerciseBundles = value;
+                              exerciseDays[index].exerciseBundles = exerciseBundles;
                             });
                             Navigator.pop(context);
                           },
@@ -238,8 +232,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         )
       ),
     );
