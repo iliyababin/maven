@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../theme/m_themes.dart';
-
 class TitledScaffold extends StatelessWidget {
   const TitledScaffold({Key? key,
     required this.title,

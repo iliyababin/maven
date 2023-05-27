@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../theme/m_themes.dart';
-import '../../../theme/maven_theme.dart';
+import '../../../theme/theme.dart';
 import '../bloc/setting_bloc.dart';
 
 class ThemeScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
         child: BlocBuilder<SettingBloc, SettingState>(
           builder: (context, state) {
             final List<MavenTheme> themes = state.themes;
-            final String selectedThemeId = state.theme.id;
+            final int selectedThemeId = state.currentTheme.id;
 
             return GridView.builder(
               itemCount: themes.length,
@@ -38,13 +37,12 @@ class _ThemeScreenState extends State<ThemeScreen> {
                 childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
-                print(index);
                 final MavenTheme theme = themes[index];
 
                 return GestureDetector(
                   onTap: () {
                     context.read<SettingBloc>().add(SettingChangeTheme(
-                      id: theme.id,
+                      id: theme.id
                     ),);
                   },
                   child: Container(
@@ -64,7 +62,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                theme.id,
+                                theme.path,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -74,7 +72,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                             left: 0,
                             bottom: 18,
                             child: Text(
-                              theme.description,
+                              theme.name,
                               textAlign: TextAlign.center,
                               style: mt(context).textStyle.button1,
                             ),

@@ -16,10 +16,23 @@ class SettingChangeTheme extends SettingEvent {
     required this.id,
   });
 
-  final String id;
+  final int id;
 
   @override
   List<Object?> get props => [
     id,
+  ];
+}
+
+class SettingChangeLocale extends SettingEvent {
+  const SettingChangeLocale({
+    required this.locale,
+  });
+
+  final Locale locale;
+
+  @override
+  List<Object?> get props => [
+    locale,
   ];
 }

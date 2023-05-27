@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
 import '../../../database/model/model.dart';
-import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/model/exercise_set.dart';
 import '../../exercise/model/set_type.dart';

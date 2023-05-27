@@ -8,7 +8,6 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/plate.dart';
-import '../../../theme/m_themes.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 
 class EditPlateScreen extends StatefulWidget {

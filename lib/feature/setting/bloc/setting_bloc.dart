@@ -1,11 +1,13 @@
 import 'dart:async';
 
-import 'package:Maven/theme/maven_theme.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../database/dao/setting_dao.dart';
 import '../../../database/model/setting.dart';
+import '../../../generated/l10n.dart';
+import '../../../theme/theme.dart';
 
 part 'setting_event.dart';
 part 'setting_state.dart';
@@ -16,21 +18,27 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   }) : super(const SettingState()) {
     on<SettingInitialize>(_initialize);
     on<SettingChangeTheme>(_changeTheme);
+    on<SettingChangeLocale>(_changeLocale);
   }
 
   final SettingDao settingDao;
 
   Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
-    String themeId = await settingDao.getThemeId() ?? 'light';
+    String languageCode = await settingDao.getLanguageCode() ?? 'en';
+    String countryCode = await settingDao.getCountryCode() ?? 'US';
+    int? themeId = await settingDao.getThemeId() ?? 0;
+    Iterable<MavenTheme> theme = MavenTheme.defaultThemes.where((element) => element.id == themeId);
 
     emit(state.copyWith(
-      theme: MavenTheme.defaultThemes.firstWhere((element) => element.id == themeId),
+      status: SettingStatus.loaded,
+      currentTheme: theme.isNotEmpty ? theme.first : null,
       themes: MavenTheme.defaultThemes,
+      locale: Locale(languageCode, countryCode),
     ));
   }
 
   Future<void> _changeTheme(SettingChangeTheme event, Emitter<SettingState> emit) async {
-    if (state.theme.id == event.id) return;
+    if (state.currentTheme.id == event.id) return;
     if (!MavenTheme.defaultThemes.map((e) => e.id).contains(event.id)) return;
 
     Setting? setting = await settingDao.getSetting();
@@ -42,7 +50,22 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     MavenTheme theme = MavenTheme.defaultThemes.firstWhere((element) => element.id == event.id);
 
     emit(state.copyWith(
-      theme: theme,
+      status: SettingStatus.loaded,
+      currentTheme: theme,
+    ));
+  }
+
+  Future<void> _changeLocale(SettingChangeLocale event, Emitter<SettingState> emit) async {
+    if (state.locale == event.locale) return;
+    emit(state.copyWith(status: SettingStatus.loading));
+
+    S.load(event.locale);
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    emit(state.copyWith(
+      status: SettingStatus.loaded,
+      locale: event.locale,
     ));
   }
 }

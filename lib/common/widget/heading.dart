@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/m_themes.dart';
-
 class Heading extends StatelessWidget {
   const Heading({Key? key,
     required this.title,

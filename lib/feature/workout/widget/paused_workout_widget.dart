@@ -5,7 +5,6 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../database/model/workout.dart';
-import '../../../theme/m_themes.dart';
 import '../bloc/workout/workout_bloc.dart';
 
 /// Widget that displays a paused workout

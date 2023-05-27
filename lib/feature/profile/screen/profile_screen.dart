@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
+import '../../../generated/l10n.dart';
 import '../../../l10n/screen/language_screen.dart';
-import '../../../theme/m_themes.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../setting/screen/settings_screen.dart';
 import '../../setting/screen/theme_screen.dart';
@@ -71,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
                   leading: const Icon(
                     Icons.sports_gymnastics,
                   ),
-                  title: 'Exercises',
+                  title: S.current.exercises,
                 ),
                 MButton.tiled(
                   onPressed: (){

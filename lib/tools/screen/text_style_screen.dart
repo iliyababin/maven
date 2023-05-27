@@ -1,4 +1,4 @@
-import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/theme/model/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TextStyleScreen extends StatefulWidget {
@@ -18,10 +18,10 @@ class _TextStyleScreenState extends State<TextStyleScreen> {
         ),
       ),
       body: ListView.builder(
-        itemCount: mt(context).textStyle.namedStyles.length,
+        itemCount: T.current.textStyle.namedStyles.length,
         itemBuilder: (context, index) {
-          String textStyleName =  mt(context).textStyle.namedStyles.keys.elementAt(index);
-          TextStyle textStyle = mt(context).textStyle.namedStyles.values.elementAt(index);
+          String textStyleName =  T.current.textStyle.namedStyles.keys.elementAt(index);
+          TextStyle textStyle = T.current.textStyle.namedStyles.values.elementAt(index);
           return ListTile(
             onTap: (){},
             title: Text(

@@ -66,7 +66,7 @@ abstract class MavenDatabase extends FloorDatabase {
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {
-      database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", "assets/image/light.jpg")');
+      database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", 2)');
     },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},
@@ -74,7 +74,7 @@ abstract class MavenDatabase extends FloorDatabase {
 
   static Future<MavenDatabase> initialize() async {
     return await $FloorMavenDatabase
-        .databaseBuilder('maven_db_45.db')
+        .databaseBuilder('maven_db_53.db')
         .addCallback(_callback)
         .build();
   }

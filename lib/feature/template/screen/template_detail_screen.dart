@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/template.dart';
-import '../../../theme/m_themes.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';

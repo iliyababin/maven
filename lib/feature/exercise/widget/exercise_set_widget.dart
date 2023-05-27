@@ -2,7 +2,6 @@ import 'package:Maven/feature/exercise/model/exercise_equipment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
-import '../../../../theme/m_themes.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';

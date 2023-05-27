@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../../database/model/folder.dart';
 import '../../../database/model/template.dart';
-import '../../../theme/m_themes.dart';
 
 class FolderWidget extends StatefulWidget {
   const FolderWidget({Key? key,

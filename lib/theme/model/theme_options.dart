@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:Maven/theme/padding_theme.dart';
-import 'package:Maven/theme/text_style_theme.dart';
+import 'package:Maven/theme/model/padding_theme.dart';
+import 'package:Maven/theme/model/text_style_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'color_theme.dart';

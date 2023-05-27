@@ -1,4 +1,4 @@
-import 'package:Maven/theme/m_themes.dart';
+import 'package:Maven/theme/model/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ColorScreen extends StatefulWidget {
@@ -23,11 +23,11 @@ class _ColorScreenState extends State<ColorScreen> {
     ),
     title: Text(
       name,
-      style: mt(context).textStyle.body1,
+      style: T.current.textStyle.body1,
     ),
     subtitle: description.isNotEmpty ? Text(
       description,
-      style: mt(context).textStyle.subtitle1,
+      style: T.current.textStyle.subtitle1,
     ) : null,
   );
 
@@ -41,42 +41,42 @@ class _ColorScreenState extends State<ColorScreen> {
         children: [
           color(
             'Primary',
-            mt(context).color.primary,
+            T.current.color.primary,
             'Text and Icons',
           ),
           color(
             'Secondary',
-            mt(context).color.secondary,
+            T.current.color.secondary,
             'Borders',
           ),
           color(
             'Background',
-            mt(context).color.background,
+            T.current.color.background,
             '',
           ),
           color(
             'Text',
-            mt(context).color.text,
+            T.current.color.text,
             '',
           ),
           color(
             'Subtext',
-            mt(context).color.subtext,
+            T.current.color.subtext,
             '',
           ),
           color(
             'Neutral',
-            mt(context).color.neutral,
+            T.current.color.neutral,
             'White',
           ),
           color(
             'Success',
-            mt(context).color.success,
+            T.current.color.success,
             '',
           ),
           color(
             'Error',
-            mt(context).color.error,
+            T.current.color.error,
             '',
           ),
         ],

@@ -21,7 +21,6 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
 
   final ExerciseDao exerciseDao;
 
-
   Future<void> _exerciseInitialize(ExerciseInitialize event, emit) async {
     emit(state.copyWith(status: () => ExerciseStatus.loaded));
   }

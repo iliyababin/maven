@@ -26,13 +26,13 @@ class Setting extends Equatable {
   final String countryCode;
 
   @ColumnInfo(name: 'theme_id')
-  final String themeId;
+  final int themeId;
 
   Setting copyWith({
     int? id,
     String? languageCode,
     String? countryCode,
-    String? themeId,
+    int? themeId,
   }) {
     return Setting(
       id: id ?? this.id,

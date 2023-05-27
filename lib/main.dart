@@ -1,7 +1,7 @@
 
 import 'package:Maven/feature/complete/bloc/complete_bloc/complete_bloc.dart';
 import 'package:Maven/feature/setting/bloc/setting_bloc.dart';
-import 'package:Maven/l10n/bloc/language_bloc/language_bloc.dart';
+import 'package:Maven/theme/theme.dart';
 import 'package:Maven/tools/widget/design_tool_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  T.current.textStyle;
   final MavenDatabase db = await MavenDatabase.initialize();
 
   runApp(
@@ -71,9 +72,6 @@ void main() async {
           templateDao: db.templateDao,
           templateTrackerDao: db.templateTrackerDao,
         )..add(ProgramDetailInitialize())),
-        BlocProvider(create: (context) => LanguageBloc(
-          settingDao: db.settingDao,
-        )..add(const LanguageInitialize())),
         BlocProvider(create: (context) => CompleteBloc(
           completeDao: db.completeDao,
           exerciseDao: db.exerciseDao,
@@ -95,33 +93,35 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageBloc, LanguageState>(
+    return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
-        return BlocBuilder<SettingBloc, SettingState>(
-          builder: (context, state2) {
-            return MaterialApp(
-              theme: state2.theme.data,
-              // TODO: Give user option to change this.
-              scrollBehavior: CustomScrollBehavior(),
-              title: 'Maven',
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              locale: state.locale,
-              supportedLocales: S.delegate.supportedLocales,
-              home: Stack(children: const [
-                Maven(),
-                Visibility(
-                  visible: kDebugMode,
-                  child: DesignToolWidget(),
-                ),
-              ]),
-            );
-          },
-        );
+        if(state.status.isLoading) {
+          return const Center(
+              child: CircularProgressIndicator()
+          );
+        } else {
+          return MaterialApp(
+            theme: state.currentTheme.data,
+            // TODO: Give user option to change this.
+            scrollBehavior: CustomScrollBehavior(),
+            title: 'Maven',
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            locale: state.locale,
+            supportedLocales: S.delegate.supportedLocales,
+            home: Stack(children: const [
+              Maven(),
+              Visibility(
+                visible: kDebugMode,
+                child: DesignToolWidget(),
+              ),
+            ]),
+          );
+        }
       },
     );
   }

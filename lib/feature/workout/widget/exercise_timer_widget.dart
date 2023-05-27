@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../common/dialog/timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
-import '../../../theme/m_themes.dart';
+import '../../../theme/theme.dart';
 
 class ExerciseTimerWidget extends StatefulWidget {
   const ExerciseTimerWidget({Key? key,
@@ -54,8 +54,8 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           child: Stack(
             children: [
               LinearProgressIndicator(
-                backgroundColor: mt(context).color.error,
-                color: mt(context).color.primary,
+                backgroundColor: T.current.color.error,
+                color: T.current.color.primary,
                 value: timeLeft / totalTime,
                 minHeight: 38,
               ),
@@ -63,7 +63,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                 child: Text(
                   secondsToTime(timeLeft),
                   style: TextStyle(
-                    color: timeLeft / totalTime > 0.5 ? mt(context).color.neutral : mt(context).color.primary,
+                    color: timeLeft / totalTime > 0.5 ? T.current.color.neutral : T.current.color.primary,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),
@@ -97,12 +97,12 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
       child: Icon(
         Icons.timer,
         size: 21,
-        color: mt(context).color.text,
+        color: T.current.color.text,
       ),
       height: 38,
       width: 38,
-      backgroundColor: mt(context).color.background,
-      borderColor: mt(context).color.secondary,
+      backgroundColor: T.current.color.background,
+      borderColor: T.current.color.secondary,
     );
   }
 }

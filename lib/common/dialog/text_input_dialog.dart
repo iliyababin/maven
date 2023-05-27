@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/m_themes.dart';
 import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to enter some text.

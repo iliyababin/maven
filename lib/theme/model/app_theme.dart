@@ -1,16 +1,24 @@
-import 'package:Maven/theme/theme_options.dart';
+import 'package:Maven/theme/model/text_style_theme.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MavenTheme {
-  final String id;
-  final String description;
-  final ThemeOptions options;
+import '../../feature/setting/bloc/setting_bloc.dart';
+import 'color_theme.dart';
+import 'theme_options.dart';
 
+class MavenTheme extends Equatable {
   const MavenTheme({
     required this.id,
-    required this.description,
+    required this.name,
+    required this.path,
     required this.options,
   });
+
+  final int id;
+  final String name;
+  final String path;
+  final ThemeOptions options;
 
   ThemeData get data {
     return ThemeData(
@@ -36,13 +44,62 @@ class MavenTheme {
           fontSize: 14,
         ),
       ),
-      // Other theme data configurations
+      iconTheme: IconThemeData(
+        color: options.color.primary,
+      ),
+      scaffoldBackgroundColor: options.color.background,
+      listTileTheme: ListTileThemeData(
+        contentPadding: EdgeInsets.only(left: 20),
+        iconColor: options.color.primary,
+        textColor: options.color.text,
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith((states) {
+          if(states.contains(MaterialState.selected)) {
+            return options.color.primary;
+          } else {
+            return options.color.secondary;
+          }
+        }),
+        checkColor: MaterialStateProperty.all(options.color.background),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(
+          color: options.color.subtext,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: options.color.secondary,
+            width: 2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: options.color.primary,
+            width: 2,
+          ),
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: options.color.primary,
+        foregroundColor: options.color.background,
+      ),
     );
   }
 
-  static const MavenTheme blank = MavenTheme(
-    id: 'assets/image/dark.jpg',
-    description: 'Dark',
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    path,
+    options,
+  ];
+
+  static const MavenTheme dark = MavenTheme(
+    id: 0,
+    name: 'assets/image/light.jpg',
+    path: 'N/A',
     options: ThemeOptions(
       primary: Color(0xFF2196F3),
       secondary: Color(0xFF333333),
@@ -61,8 +118,9 @@ class MavenTheme {
 
   static const List<MavenTheme> defaultThemes = [
     MavenTheme(
-      id: 'assets/image/light.jpg',
-      description: 'Light',
+      id: 1,
+      name: 'Light',
+      path: 'assets/image/light.jpg',
       options: ThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFFEAEAEA),
@@ -79,8 +137,9 @@ class MavenTheme {
       ),
     ),
     MavenTheme(
-      id: 'assets/image/dark.jpg',
-      description: 'Dark',
+      id: 2,
+      name: 'Dark',
+      path: 'assets/image/dark.jpg',
       options: ThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFF333333),
@@ -97,8 +156,9 @@ class MavenTheme {
       ),
     ),
     MavenTheme(
-      id: 'assets/image/solar_flare.jpg',
-      description: 'Solar flare',
+      id: 3,
+      name: 'Solar flare',
+      path: 'assets/image/solar_flare.jpg',
       options: ThemeOptions(
         primary: Color(0xFFFFAE00),
         secondary: Color(0xFF333333),
@@ -115,8 +175,9 @@ class MavenTheme {
       ),
     ),
     MavenTheme(
-      id: 'assets/image/nature.jpg',
-      description: 'Nature',
+      id: 4,
+      name: 'Nature',
+      path: 'assets/image/nature.jpg',
       options: ThemeOptions(
         primary: Color(0xFF4CAF50),
         secondary: Color(0xFF8BC34A),
@@ -133,8 +194,9 @@ class MavenTheme {
       ),
     ),
     MavenTheme(
-      id: 'assets/image/rose_gold.jpg',
-      description: 'Rose Gold',
+      id: 5,
+      name: 'Rose Gold',
+      path: 'assets/image/rose_gold.jpg',
       options: ThemeOptions(
         primary: Color(0xFFE91E63),
         secondary: Color(0xFFFFDF9F),
@@ -151,8 +213,9 @@ class MavenTheme {
       ),
     ),
     MavenTheme(
-      id: 'assets/image/custom.jpg',
-      description: 'Custom',
+      id: 6,
+      name: 'Custom',
+      path: 'assets/image/custom.jpg',
       options: ThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFFEAEAEA),
@@ -171,5 +234,30 @@ class MavenTheme {
   ];
 }
 
+class T {
+  T(this._context);
+
+  static T? _current;
+
+  final BuildContext _context;
+
+  static T get current {
+    assert(_current != null,
+    'No instance of T was loaded. Try to initialize the S delegate before accessing S.current.');
+    return _current!;
+  }
+
+  static load(BuildContext context) {
+    _current = T(context);
+  }
+
+  TextStyleTheme get textStyle {
+    return _context.read<SettingBloc>().state.currentTheme.options.textStyle;
+  }
+
+  ColorTheme get color {
+    return _context.read<SettingBloc>().state.currentTheme.options.color;
+  }
 
 
+}

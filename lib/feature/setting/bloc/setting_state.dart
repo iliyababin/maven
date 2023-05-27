@@ -1,28 +1,50 @@
 part of 'setting_bloc.dart';
 
+enum SettingStatus {
+  initial,
+  loading,
+  loaded,
+}
+
+extension SettingStatusX on SettingStatus {
+  bool get isInitial => this == SettingStatus.initial;
+  bool get isLoading => this == SettingStatus.loading;
+  bool get isLoaded => this == SettingStatus.loaded;
+}
+
 class SettingState extends Equatable {
   const SettingState({
-    this.theme = MavenTheme.blank,
-    this.themes = const [MavenTheme.blank],
+    this.status = SettingStatus.initial,
+    this.currentTheme = MavenTheme.dark,
+    this.themes = const [],
+    this.locale = const Locale('en', 'US'),
   });
 
-  final MavenTheme theme;
+  final SettingStatus status;
+  final MavenTheme currentTheme;
   final List<MavenTheme> themes;
+  final Locale locale;
 
   SettingState copyWith({
-    MavenTheme? theme,
+    SettingStatus? status,
+    MavenTheme? currentTheme,
     List<MavenTheme>? themes,
+    Locale? locale,
   }) {
     return SettingState(
-      theme: theme ?? this.theme,
+      status: status ?? this.status,
+      currentTheme: currentTheme ?? this.currentTheme,
       themes: themes ?? this.themes,
+      locale: locale ?? this.locale,
     );
   }
 
   @override
   List<Object?> get props => [
-    theme,
+    status,
+    currentTheme,
     themes,
+    locale,
   ];
 }
 
