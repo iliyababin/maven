@@ -1,14 +1,16 @@
-import 'package:Maven/theme/model/text_style_theme.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../feature/setting/bloc/setting_bloc.dart';
-import 'color_theme.dart';
+import 'app_theme_options.dart';
+import 'color_options.dart';
+import 'padding_options.dart';
+import 'text_style_options.dart';
 import 'theme_options.dart';
 
-class MavenTheme extends Equatable {
-  const MavenTheme({
+class AppTheme extends Equatable {
+  const AppTheme({
     required this.id,
     required this.name,
     required this.path,
@@ -18,7 +20,7 @@ class MavenTheme extends Equatable {
   final int id;
   final String name;
   final String path;
-  final ThemeOptions options;
+  final AppThemeOptions options;
 
   ThemeData get data {
     return ThemeData(
@@ -55,7 +57,7 @@ class MavenTheme extends Equatable {
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith((states) {
-          if(states.contains(MaterialState.selected)) {
+          if (states.contains(MaterialState.selected)) {
             return options.color.primary;
           } else {
             return options.color.secondary;
@@ -90,17 +92,17 @@ class MavenTheme extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    path,
-    options,
-  ];
+        id,
+        name,
+        path,
+        options,
+      ];
 
-  static const MavenTheme dark = MavenTheme(
-    id: 0,
+  static const AppTheme dark = AppTheme(
+    id: 2,
     name: 'assets/image/light.jpg',
     path: 'N/A',
-    options: ThemeOptions(
+    options: AppThemeOptions(
       primary: Color(0xFF2196F3),
       secondary: Color(0xFF333333),
       background: Color(0xff121212),
@@ -116,12 +118,12 @@ class MavenTheme extends Equatable {
     ),
   );
 
-  static const List<MavenTheme> defaultThemes = [
-    MavenTheme(
+  static const List<AppTheme> defaultThemes = [
+    AppTheme(
       id: 1,
       name: 'Light',
       path: 'assets/image/light.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFFEAEAEA),
         background: Color(0xffffffff),
@@ -136,11 +138,11 @@ class MavenTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-    MavenTheme(
+    AppTheme(
       id: 2,
       name: 'Dark',
       path: 'assets/image/dark.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFF333333),
         background: Color(0xff121212),
@@ -155,11 +157,11 @@ class MavenTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-    MavenTheme(
+    AppTheme(
       id: 3,
       name: 'Solar flare',
       path: 'assets/image/solar_flare.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFFFFAE00),
         secondary: Color(0xFF333333),
         background: Color(0xff232323),
@@ -174,11 +176,11 @@ class MavenTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-    MavenTheme(
+    AppTheme(
       id: 4,
       name: 'Nature',
       path: 'assets/image/nature.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFF4CAF50),
         secondary: Color(0xFF8BC34A),
         background: Color(0xFFE8F5E9),
@@ -193,11 +195,11 @@ class MavenTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-    MavenTheme(
+    AppTheme(
       id: 5,
       name: 'Rose Gold',
       path: 'assets/image/rose_gold.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFFE91E63),
         secondary: Color(0xFFFFDF9F),
         background: Color(0xFFFAF0E6),
@@ -212,11 +214,11 @@ class MavenTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-    MavenTheme(
+    AppTheme(
       id: 6,
       name: 'Custom',
       path: 'assets/image/custom.jpg',
-      options: ThemeOptions(
+      options: AppThemeOptions(
         primary: Color(0xFF2196F3),
         secondary: Color(0xFFEAEAEA),
         background: Color(0xffffffff),
@@ -234,7 +236,13 @@ class MavenTheme extends Equatable {
   ];
 }
 
-class T {
+/// Convenient singleton to access the current [ThemeOptions] from [SettingBloc] state.
+///
+/// Example:
+/// ```dart
+/// T.current.textStyle.headline1
+/// ```
+class T implements ThemeOptions {
   T(this._context);
 
   static T? _current;
@@ -242,8 +250,7 @@ class T {
   final BuildContext _context;
 
   static T get current {
-    assert(_current != null,
-    'No instance of T was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null, 'No instance of T was loaded. Try to initialize the T delegate before accessing T.current.');
     return _current!;
   }
 
@@ -251,13 +258,18 @@ class T {
     _current = T(context);
   }
 
-  TextStyleTheme get textStyle {
+  @override
+  TextStyleOptions get textStyle {
     return _context.read<SettingBloc>().state.currentTheme.options.textStyle;
   }
 
-  ColorTheme get color {
+  @override
+  ColorOptions get color {
     return _context.read<SettingBloc>().state.currentTheme.options.color;
   }
 
-
+  @override
+  PaddingOptions get padding {
+    return _context.read<SettingBloc>().state.currentTheme.options.padding;
+  }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../database/model/program.dart';
+import '../../../theme/theme.dart';
 import '../bloc/program/program_bloc.dart';
 
 class ProgramListWidget extends StatefulWidget {
@@ -41,7 +42,7 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
           return SliverToBoxAdapter(
             child: Text(
               'There was an error fetching the programs.',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
           );
         }

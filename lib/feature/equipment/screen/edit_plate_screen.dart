@@ -8,6 +8,7 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/plate.dart';
+import '../../../theme/theme.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 
 class EditPlateScreen extends StatefulWidget {
@@ -117,11 +118,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Amount',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
             subtitle: Text(
               '$amount plates',
-              style: mt(context).textStyle.subtitle1,
+              style: T.current.textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -141,21 +142,21 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Weight',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
             subtitle: Text(
               weight.toString(),
-              style: mt(context).textStyle.subtitle1,
+              style: T.current.textStyle.subtitle1,
             ),
           ),
           ListTile(
             title: Text(
               'Size',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
             subtitle: Text(
               height.toStringAsFixed(3),
-              style: mt(context).textStyle.subtitle1,
+              style: T.current.textStyle.subtitle1,
             ),
             trailing: SizedBox(
               width: 200,
@@ -183,11 +184,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Color',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',
-              style: mt(context).textStyle.subtitle1,
+              style: T.current.textStyle.subtitle1,
             ),
           ),
         ],

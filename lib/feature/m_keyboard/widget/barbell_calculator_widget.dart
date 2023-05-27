@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/plate.dart';
+import '../../../theme/theme.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../../equipment/screen/equipment_screen.dart';
 import '../../equipment/service/equipment_service.dart';
@@ -46,7 +47,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             child: Text(
               removeDecimalZeroFormat(barWeight),
               style: TextStyle(
-                color: mt(context).color.neutral,
+                color: T.current.color.neutral,
               ),
             ),
           ));
@@ -107,7 +108,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     Text(
                       'Plate Calculator',
                       style: TextStyle(
-                        color: mt(context).color.primary,
+                        color: T.current.color.primary,
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
                       ),
@@ -115,14 +116,14 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     const SizedBox(height: 5,),
                     Text(
                       'Target: ${weight.toString()} | Possible: $possibleWeight ',
-                      style: mt(context).textStyle.subtitle1,
+                      style: T.current.textStyle.subtitle1,
                     ),
                   ],
                 ),
               ),
               Container(
                 height: 2,
-                color: mt(context).color.secondary,
+                color: T.current.color.secondary,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -134,7 +135,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
               ),
               Container(
                 height: 2,
-                color: mt(context).color.secondary,
+                color: T.current.color.secondary,
               ),
               MButton(
                 onPressed: (){

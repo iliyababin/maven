@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/model/folder.dart';
+import '../../../theme/theme.dart';
 import '../bloc/program_detail/program_detail_bloc.dart';
 
 class ProgramDetailScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(mt(context).padding.page,),
+        padding: EdgeInsets.all(T.current.padding.page,),
         child: BlocBuilder<ProgramDetailBloc, ProgramDetailState>(
           builder: (context, state) {
             if(state.status.isLoading) {
@@ -60,7 +61,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
             } else {
               return Text(
                 'eror',
-                style: mt(context).textStyle.subtitle2,
+                style: T.current.textStyle.subtitle2,
               );
             }
           },

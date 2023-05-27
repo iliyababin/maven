@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/model/exercise.dart';
+import '../../../theme/theme.dart';
 import '../bloc/exercise_bloc.dart';
 import 'exercise_detail_screen.dart';
 
@@ -46,7 +47,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
         title: typing ? TextField(
           focusNode: _searchNode,
           style: TextStyle(
-            color: mt(context).color.text,
+            color: T.current.color.text,
           ),
           controller: _searchTextEditingController,
           onSubmitted: (value) {
@@ -111,7 +112,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: mt(context).padding.page,
+              horizontal: T.current.padding.page,
               vertical: 16,
             ),
             child: Row(
@@ -119,30 +120,30 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: mt(context).color.secondary,
+                  borderColor: T.current.color.secondary,
                   child: Text(
                     'Muscle',
-                    style: mt(context).textStyle.body1,
+                    style: T.current.textStyle.body1,
                   ),
                 ),
                 const SizedBox(width: 10,),
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: mt(context).color.secondary,
+                  borderColor: T.current.color.secondary,
                   child: Text(
                     'Group',
-                    style: mt(context).textStyle.body1,
+                    style: T.current.textStyle.body1,
                   ),
                 ),
                 const SizedBox(width: 10,),
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: mt(context).color.secondary,
+                  borderColor: T.current.color.secondary,
                   child: Text(
                     'Equipment',
-                    style: mt(context).textStyle.body1,
+                    style: T.current.textStyle.body1,
                   ),
                 ),
               ],
@@ -186,7 +187,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                             );
                           }
                         },
-                        tileColor: isSelected ? mt(context).color.primary.withAlpha(30) : null,
+                        tileColor: isSelected ? T.current.color.primary.withAlpha(30) : null,
                         leading: CircleAvatar(
                           child: Text(
                             exercise.name.substring(0, 1),
@@ -194,16 +195,16 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                         ),
                         title: Text(
                           exercise.name,
-                          style: mt(context).textStyle.body1,
+                          style: T.current.textStyle.body1,
                         ),
                         subtitle: Text(
                           '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
-                          style: mt(context).textStyle.subtitle1,
+                          style: T.current.textStyle.subtitle1,
                         ),
                         trailing: isSelected ? IconButton(
                           icon: Icon(
                             Icons.check,
-                            color: mt(context).color.primary,
+                            color: T.current.color.primary,
                           ),
                           onPressed: null,
                         ) : null,

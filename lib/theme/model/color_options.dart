@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ColorTheme {
-  ColorTheme({
+class ColorOptions {
+  ColorOptions({
     required this.primary,
     required this.secondary,
     required this.background,
@@ -28,4 +28,19 @@ class ColorTheme {
   final Color warmup;
   final Color drop;
   final Color cooldown;
+
+  Map<String, Color> get colors => {
+    'primary': primary,
+    'secondary': secondary,
+    'background': background,
+    'text': text,
+    'subtext': subtext,
+    'neutral': neutral,
+    'success': success,
+    'error': error,
+    'shadow': shadow,
+    'warmup': warmup,
+    'drop': drop,
+    'cooldown': cooldown,
+  };
 }

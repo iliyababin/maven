@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../database/model/plate.dart';
+import '../../../theme/theme.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 import 'edit_plate_screen.dart';
 
@@ -44,7 +45,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
-                  confirmColor: mt(context).color.error,
+                  confirmColor: T.current.color.error,
                   confirmText: 'Delete',
                   onSubmit: () {
                     setState(() {
@@ -67,7 +68,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Reset Plates',
                   subtitle: 'This will reset all plates to default',
-                  confirmColor: mt(context).color.error,
+                  confirmColor: T.current.color.error,
                   confirmText: 'Reset',
                   onSubmit: () {
                     setState(() {
@@ -125,7 +126,7 @@ class _PlateScreenState extends State<PlateScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
                       }
                     },
-                    splashColor: mt(context).color.secondary,
+                    splashColor: T.current.color.secondary,
                     onLongPress: () {
                       setState(() {
                         selectedPlates.add(plate);
@@ -144,7 +145,7 @@ class _PlateScreenState extends State<PlateScreen> {
                       plate.weight.toString(),
                       style: TextStyle(
                         fontSize: 18,
-                        color: mt(context).color.primary,
+                        color: T.current.color.primary,
                       ),
                     ),
                     trailing: isSelecting ? null : const Icon(

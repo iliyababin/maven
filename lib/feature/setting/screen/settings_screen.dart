@@ -21,13 +21,13 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: SettingsList(
         /*lightTheme: SettingsThemeData(
-          settingsSectionBackground: mt(context).foregroundColor,
-          settingsListBackground: mt(context).backgroundColor,
-          leadingIconsColor: mt(context).icon.secondaryColor,
-          settingsTileTextColor: mt(context).text.primaryColor,
-          dividerColor: mt(context).borderColor,
-          titleTextColor: mt(context).text.primaryColor,
-          trailingTextColor: mt(context).text.secondaryColor,
+          settingsSectionBackground: T.current.foregroundColor,
+          settingsListBackground: T.current.backgroundColor,
+          leadingIconsColor: T.current.icon.secondaryColor,
+          settingsTileTextColor: T.current.text.primaryColor,
+          dividerColor: T.current.borderColor,
+          titleTextColor: T.current.text.primaryColor,
+          trailingTextColor: T.current.text.secondaryColor,
         ),*/
         platform: DevicePlatform.iOS,
         sections: [

@@ -15,20 +15,20 @@ extension SettingStatusX on SettingStatus {
 class SettingState extends Equatable {
   const SettingState({
     this.status = SettingStatus.initial,
-    this.currentTheme = MavenTheme.dark,
+    this.currentTheme = AppTheme.dark,
     this.themes = const [],
     this.locale = const Locale('en', 'US'),
   });
 
   final SettingStatus status;
-  final MavenTheme currentTheme;
-  final List<MavenTheme> themes;
+  final AppTheme currentTheme;
+  final List<AppTheme> themes;
   final Locale locale;
 
   SettingState copyWith({
     SettingStatus? status,
-    MavenTheme? currentTheme,
-    List<MavenTheme>? themes,
+    AppTheme? currentTheme,
+    List<AppTheme>? themes,
     Locale? locale,
   }) {
     return SettingState(

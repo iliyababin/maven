@@ -1,6 +1,7 @@
 import 'package:Maven/common/widget/m_button.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../theme/theme.dart';
 import '../model/timed.dart';
 
 class TimedPickerDialog extends StatelessWidget {
@@ -25,7 +26,7 @@ class TimedPickerDialog extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: mt(context).textStyle.heading4,
+              style: T.current.textStyle.heading4,
             ),
           ),
           const SizedBox(height: 8),
@@ -43,7 +44,7 @@ class TimedPickerDialog extends StatelessWidget {
                   Center(
                     child: Text(
                       index.toString(),
-                      style: mt(context).textStyle.body1,
+                      style: T.current.textStyle.body1,
                     ),
                   ),
               ),
@@ -107,11 +108,11 @@ class TimedPickerDialog extends StatelessWidget {
                 },
 
                 expand: true,
-                backgroundColor: mt(context).color.background,
-                borderColor: mt(context).color.secondary,
+                backgroundColor: T.current.color.background,
+                borderColor: T.current.color.secondary,
                 child: Text(
                   'Cancel',
-                  style: mt(context).textStyle.body1,
+                  style: T.current.textStyle.body1,
                 ),
               ),
 
@@ -124,11 +125,11 @@ class TimedPickerDialog extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 },
-                backgroundColor: mt(context).color.primary,
+                backgroundColor: T.current.color.primary,
                 borderRadius: 12,
                 child: Text(
                   'Start',
-                  style: mt(context).textStyle.button1,
+                  style: T.current.textStyle.button1,
                 ),
               ),
             ],

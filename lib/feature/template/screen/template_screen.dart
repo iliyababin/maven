@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/model/workout.dart';
+import '../../../theme/theme.dart';
 import '../../program/screen/program_builder_screen.dart';
 import '../../program/widget/program_list_widget.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
@@ -33,7 +34,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
     return TitledScaffold(
       title: 'Workout',
       body: Padding(
-        padding: EdgeInsets.all(mt(context).padding.page),
+        padding: EdgeInsets.all(T.current.padding.page),
         child: CustomScrollView(
           slivers: [
             const Heading(title: 'Quick Start', topPadding: false,),
@@ -47,10 +48,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     },
                     expand: false,
                     width: double.infinity,
-                    backgroundColor: mt(context).color.primary,
+                    backgroundColor: T.current.color.primary,
                     child: Text(
                       'Start an Empty Workout',
-                      style: mt(context).textStyle.button1,
+                      style: T.current.textStyle.button1,
                     ),
                   ),
                   const SizedBox(
@@ -74,13 +75,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                 },
                               )));
                         },
-                        borderColor: mt(context).color.secondary,
+                        borderColor: T.current.color.secondary,
                         leading: const Icon(
                           Icons.post_add,
                         ),
                         child: Text(
                           'Create Template',
-                          style: mt(context).textStyle.button2,
+                          style: T.current.textStyle.button2,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -89,13 +90,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (
                               context) => const ProgramBuilderScreen()));
                         },
-                        borderColor: mt(context).color.secondary,
+                        borderColor: T.current.color.secondary,
                         leading: const Icon(
                           Icons.polyline,
                         ),
                         child: Text(
                           'Program Builder',
-                          style: mt(context).textStyle.button2,
+                          style: T.current.textStyle.button2,
                         ),
                       )
                     ],
@@ -118,7 +119,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return SliverToBoxAdapter(
                     child: Text(
                       'Something s wrong',
-                      style: mt(context).textStyle.body1,
+                      style: T.current.textStyle.body1,
                     ),
                   );
                 } else {

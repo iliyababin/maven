@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../database/model/bar.dart';
+import '../../../theme/theme.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 import 'edit_bar_screen.dart';
 
@@ -43,7 +44,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Delete ${selectedBars.length} Bar(s)',
                       subtitle: 'This action cannot be undone',
-                      confirmColor: mt(context).color.error,
+                      confirmColor: T.current.color.error,
                       confirmText: 'Delete',
                       onSubmit: () {
                         setState(() {
@@ -66,7 +67,7 @@ class _BarScreenState extends State<BarScreen> {
                     child: ConfirmationDialog(
                       title: 'Reset Bars',
                       subtitle: 'This will reset all bars to default',
-                      confirmColor: mt(context).color.error,
+                      confirmColor: T.current.color.error,
                       confirmText: 'Reset',
                       onSubmit: () {
                         setState(() {
@@ -124,7 +125,7 @@ class _BarScreenState extends State<BarScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditBarScreen(bar: bar)));
                         }
                       },
-                      splashColor: mt(context).color.secondary,
+                      splashColor: T.current.color.secondary,
                       onLongPress: () {
                         setState(() {
                           selectedBars.add(bar);
@@ -133,11 +134,11 @@ class _BarScreenState extends State<BarScreen> {
                       },
                       title: Text(
                         bar.name,
-                        style: mt(context).textStyle.body1,
+                        style: T.current.textStyle.body1,
                       ),
                       subtitle: Text(
                         bar.weight.toString(),
-                        style: mt(context).textStyle.subtitle2,
+                        style: T.current.textStyle.subtitle2,
                       ),
                       trailing: isSelecting ? null : const Icon(
                         Icons.chevron_right_rounded,

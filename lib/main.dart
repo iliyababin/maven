@@ -22,7 +22,6 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  T.current.textStyle;
   final MavenDatabase db = await MavenDatabase.initialize();
 
   runApp(
@@ -93,6 +92,8 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    T.load(context);
+
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
         if(state.status.isLoading) {

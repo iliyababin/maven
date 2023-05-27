@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
+import '../../../theme/theme.dart';
 import '../../exercise/model/exercise_equipment.dart';
 import 'barbell_calculator_widget.dart';
 import 'numpad_widget.dart';
@@ -76,7 +77,7 @@ class _MKeyboardState extends State<MKeyboard> {
           ),
           Container(
             width: 1,
-            color: mt(context).color.secondary,
+            color: T.current.color.secondary,
           ),
           SizedBox(
             width: 70,
@@ -91,7 +92,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.history_rounded,
-                    color: _selectedTab == 0 ? null : mt(context).color.text,
+                    color: _selectedTab == 0 ? null : T.current.color.text,
                   ),
                 ),
                 Equipment.barbell == widget.equipment ? MButton(
@@ -103,7 +104,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.calculate_rounded,
-                    color: _selectedTab == 1 ? null : mt(context).color.text,
+                    color: _selectedTab == 1 ? null : T.current.color.text,
                   ),
                 ) : Container(),
                 MButton(
@@ -115,7 +116,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.numbers_rounded,
-                    color: _selectedTab == 2 ? null : mt(context).color.text,
+                    color: _selectedTab == 2 ? null : T.current.color.text,
                   ),
                 ),
                 MButton(
@@ -126,7 +127,7 @@ class _MKeyboardState extends State<MKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.check,
-                    color: mt(context).color.text,
+                    color: T.current.color.text,
                   ),
                 ),
               ],

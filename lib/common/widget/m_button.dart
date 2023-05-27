@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/theme.dart';
+
 /// A Maven Style Button.
 ///
 /// Creates a clickable widget that displays text and icons gracefully.
@@ -151,7 +153,7 @@ class MButton extends StatelessWidget {
       width: width,
       child: Material(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: backgroundColor ?? mt(context).color.background,
+        color: backgroundColor ?? T.current.color.background,
         child: InkWell(
           onTap: onPressed,
           splashFactory: InkRipple.splashFactory,
@@ -161,7 +163,7 @@ class MButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
               border: Border.all(
-                color: borderColor ?? backgroundColor ?? mt(context).color.background,
+                color: borderColor ?? backgroundColor ?? T.current.color.background,
                 width: borderColor == null ? 0 : 1,
               ),
             ),
@@ -178,7 +180,7 @@ class MButton extends StatelessWidget {
                   if(leading != null && child != null) const SizedBox(width: 2,),
                   title != null ? Text(
                     title!,
-                    style: mt(context).textStyle.body1,
+                    style: T.current.textStyle.body1,
                   ) : child ?? Container(),
                   trailing != null ? Expanded(
                     child: Container(

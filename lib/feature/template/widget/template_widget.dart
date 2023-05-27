@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/model/template.dart';
+import '../../../theme/theme.dart';
 import '../../program/bloc/program_detail/program_detail_bloc.dart';
 import '../screen/template_detail_screen.dart';
 
@@ -30,7 +31,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: mt(context).color.background,
+      color: T.current.color.background,
       borderRadius: BorderRadius.circular(_borderRadius),
       child: InkWell(
         onTap: () {
@@ -44,7 +45,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(_borderRadius),
             border: Border.all(
-              color: mt(context).color.secondary,
+              color: T.current.color.secondary,
             ),
           ),
           padding: const EdgeInsets.all(15.0),
@@ -68,11 +69,11 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                   expand: false,
                   child: _completed! ? Icon(
                     Icons.check_circle_outline_outlined,
-                    color: mt(context).color.success,
+                    color: T.current.color.success,
                     size: 28,
                   ) : Icon(
                     Icons.circle_outlined,
-                    color: mt(context).color.secondary,
+                    color: T.current.color.secondary,
                     size: 28,
                   )
                 ),
@@ -82,20 +83,20 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 children: [
                   Text(
                     widget.template.name,
-                    style: mt(context).textStyle.heading3,
+                    style: T.current.textStyle.heading3,
                     maxLines: 1,
                   ),
                   /*const SizedBox(height: 3,),
                   Text(
                     'Chest, Triceps, Shoulders',
-                    style: mt(context).textStyle.subtitle2,
+                    style: T.current.textStyle.subtitle2,
                   ),*/
                   const SizedBox(
                     height: 3,
                   ),
                   Text(
                     widget.template.description,
-                    style: mt(context).textStyle.subtitle1,
+                    style: T.current.textStyle.subtitle1,
                   ),
                 ],
               ),

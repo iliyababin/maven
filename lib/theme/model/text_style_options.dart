@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-class TextStyleTheme {
-  TextStyleTheme({
+
+class TextStyleOptions {
+  TextStyleOptions({
     required Color heading1,
     required Color heading2,
     required Color heading3,
@@ -57,7 +58,7 @@ class TextStyleTheme {
   final TextStyle button1;
   final TextStyle button2;
 
-  Map<String, TextStyle> get  namedStyles => {
+  Map<String, TextStyle> get textStyles => {
     'Heading 1': heading1,
     'Heading 2': heading2,
     'Heading 3': heading3,

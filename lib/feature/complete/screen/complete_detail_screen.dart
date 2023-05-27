@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../database/model/model.dart';
+import '../../../theme/theme.dart';
 import '../model/complete_bundle.dart';
 import '../model/complete_exercise_bundle.dart';
 
@@ -21,9 +22,9 @@ class CompleteDetailScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.only(
-          left: mt(context).padding.page,
-          right: mt(context).padding.page,
-          top: mt(context).padding.page,
+          left: T.current.padding.page,
+          right: T.current.padding.page,
+          top: T.current.padding.page,
         ),
         child: ListView.separated(
           itemCount: completeBundle.completeExerciseBundles.length,
@@ -35,7 +36,7 @@ class CompleteDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   completeExerciseBundle.exercise.name,
-                  style: mt(context).textStyle.body1,
+                  style: T.current.textStyle.body1,
                 ),
                 SizedBox(height: 2,),
                 ListView.builder(
@@ -45,11 +46,11 @@ class CompleteDetailScreen extends StatelessWidget {
                     CompleteExerciseSet completeExerciseSet = completeExerciseBundle.completeExerciseSets[index];
                     return RichText(
                       text: TextSpan(
-                        style: mt(context).textStyle.subtitle1,
+                        style: T.current.textStyle.subtitle1,
                         children: <TextSpan>[
                           TextSpan(
                             text: '${index + 1}',
-                            style: mt(context).textStyle.body1.copyWith(color: completeExerciseSet.setType.color(context)),
+                            style: T.current.textStyle.body1.copyWith(color: completeExerciseSet.setType.color(context)),
                           ),
                           const TextSpan(
                             text: '  ',
@@ -63,7 +64,7 @@ class CompleteDetailScreen extends StatelessWidget {
                     );
                     return Text(
                       ' ${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
-                      style: mt(context).textStyle.body1,
+                      style: T.current.textStyle.body1,
                     );
                   },
                 ),

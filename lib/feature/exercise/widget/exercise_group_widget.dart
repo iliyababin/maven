@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
+import '../../../theme/theme.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../model/exercise_group.dart';
 import '../model/exercise_set.dart';
@@ -81,10 +82,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               height: 40,
               leading: const SizedBox(width: 12),
               mainAxisAlignment: MainAxisAlignment.start,
-              splashColor: mt(context).color.primary.withAlpha(50),
+              splashColor: T.current.color.primary.withAlpha(50),
               child: Text(
                 widget.exercise.name,
-                style: mt(context).textStyle.subtitle2,
+                style: T.current.textStyle.subtitle2,
               ),
             ),
             MButton(
@@ -115,19 +116,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ActiveExerciseRow.build(
             set: Text(
               "SET",
-              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T.current.textStyle.body1.copyWith(fontSize: 13),
             ),
             previous: Text(
               "PREVIOUS",
-              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T.current.textStyle.body1.copyWith(fontSize: 13),
             ),
             option1: Text(
               widget.exercise.exerciseType.exerciseTypeOption1.value,
-              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T.current.textStyle.body1.copyWith(fontSize: 13),
             ),
             option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? Text(
               widget.exercise.exerciseType.exerciseTypeOption2!.value,
-              style: mt(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T.current.textStyle.body1.copyWith(fontSize: 13),
             ) : null,
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
@@ -191,7 +192,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             child: Text(
               'Add Set',
               style: TextStyle(
-                color: mt(context).color.primary,
+                color: T.current.color.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

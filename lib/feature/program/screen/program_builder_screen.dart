@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/heading.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../theme/theme.dart';
 import '../bloc/program/program_bloc.dart';
 import '../model/day.dart';
 import '../model/exercise_day.dart';
@@ -87,7 +88,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                   trailing: Text(
                     _name,
-                    style: mt(context).textStyle.subtitle1,
+                    style: T.current.textStyle.subtitle1,
                   ),
                   title: 'Name',
                 ),
@@ -114,7 +115,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                   trailing: Text(
                     _weeks.toString(),
-                    style: mt(context).textStyle.subtitle1,
+                    style: T.current.textStyle.subtitle1,
                   ),
                   title: 'Weeks',
                 ),
@@ -136,7 +137,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                   ),
                   trailing: Text(
                     exerciseDays.getAbbreviations(),
-                    style: mt(context).textStyle.subtitle1,
+                    style: T.current.textStyle.subtitle1,
                   ),
                   title: 'Days',
                 ),
@@ -150,7 +151,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     hintText: 'Program',
                   ),
                   style: TextStyle(
-                    color: mt(context).text.primaryColor,
+                    color: T.current.text.primaryColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 25,
                   ),
@@ -162,7 +163,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     hintText: 'Program',
                   ),
                   style: TextStyle(
-                    color: mt(context).text.secondaryColor,
+                    color: T.current.text.secondaryColor,
                   ),
                   minLines: 1,
                   maxLines: 5,
@@ -171,7 +172,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
             ),*/
             const Heading(title: 'Templates', side: true,),
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: mt(context).padding.page),
+              padding: EdgeInsets.symmetric(horizontal: T.current.padding.page),
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
@@ -198,7 +199,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                       },
                       expand: false,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      borderColor: mt(context).color.secondary,
+                      borderColor: T.current.color.secondary,
                       borderRadius: 12,
                       padding: const EdgeInsets.all(16),
                       child: Expanded(
@@ -207,19 +208,19 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: mt(context).textStyle.heading3,
+                              style: T.current.textStyle.heading3,
                             ),
                             const SizedBox(height: 4,),
                             Text(
                               '${exerciseDay.exerciseBundles.length} exercises',
-                              style: mt(context).textStyle.subtitle2,
+                              style: T.current.textStyle.subtitle2,
                             ),
                             const SizedBox(height: 6,),
                             Expanded(
                               child: ListView(
                                 children: exerciseDay.exerciseBundles.map((e) => Text(
                                   '\u2022 ${e.exercise.name}',
-                                  style: mt(context).textStyle.body1,
+                                  style: T.current.textStyle.body1,
                                   maxLines: 1,
                                 )).toList(),
                               ),

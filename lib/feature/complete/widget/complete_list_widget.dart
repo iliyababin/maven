@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/LoadingSkeleton.dart';
+import '../../../theme/theme.dart';
 import '../../template/widget/empty_widget.dart';
 import '../bloc/complete_bloc/complete_bloc.dart';
 import '../model/complete_bundle.dart';
@@ -27,7 +28,7 @@ class CompleteListWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: mt(context).color.background,
+                      color: T.current.color.background,
                     ),
                   ),
                 ),

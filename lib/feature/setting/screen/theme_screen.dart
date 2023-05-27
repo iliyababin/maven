@@ -22,10 +22,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(mt(context).padding.page),
+        padding: EdgeInsets.all(T.current.padding.page),
         child: BlocBuilder<SettingBloc, SettingState>(
           builder: (context, state) {
-            final List<MavenTheme> themes = state.themes;
+            final List<AppTheme> themes = state.themes;
             final int selectedThemeId = state.currentTheme.id;
 
             return GridView.builder(
@@ -37,7 +37,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                 childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
-                final MavenTheme theme = themes[index];
+                final AppTheme theme = themes[index];
 
                 return GestureDetector(
                   onTap: () {
@@ -52,7 +52,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         width: 3,
-                        color: selectedThemeId == theme.id ? mt(context).color.primary : Colors.transparent,
+                        color: selectedThemeId == theme.id ? T.current.color.primary : Colors.transparent,
                       ),
                     ),
                     child: Stack(
@@ -74,7 +74,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                             child: Text(
                               theme.name,
                               textAlign: TextAlign.center,
-                              style: mt(context).textStyle.button1,
+                              style: T.current.textStyle.button1,
                             ),
                           ),
                         ]

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/model/timed.dart';
 import '../../../database/model/model.dart';
+import '../../../theme/theme.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/model/exercise_set.dart';
 import '../../exercise/model/set_type.dart';
@@ -124,8 +125,8 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         slivers: [
           SliverPadding(
             padding: EdgeInsets.only(
-              left: mt(context).padding.page,
-              right: mt(context).padding.page,
+              left: T.current.padding.page,
+              right: T.current.padding.page,
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
@@ -140,7 +141,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     focusedBorder: InputBorder.none,
                     hintText: 'Workout',
                   ),
-                  style: mt(context).textStyle.heading1,
+                  style: T.current.textStyle.heading1,
                 ),
                 TextFormField(
                   onChanged: (value) {
@@ -153,7 +154,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     focusedBorder: InputBorder.none,
                     hintText: 'Description',
                   ),
-                  style: mt(context).textStyle.subtitle1,
+                  style: T.current.textStyle.subtitle1,
                 ),
               ]),
             ),

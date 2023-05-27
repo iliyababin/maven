@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/template.dart';
+import '../../../theme/theme.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../bloc/template/template_bloc.dart';
@@ -98,7 +99,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                   child: ConfirmationDialog(
                                     title: 'Delete Template',
                                     subtitle: 'This action cannot be undone',
-                                    confirmColor: mt(context).color.error,
+                                    confirmColor: T.current.color.error,
                                     onSubmit: () {
                                       context.read<TemplateBloc>().add(TemplateDelete(template: template));
                                       Navigator.pop(context);
@@ -110,10 +111,10 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                               },
                               leading:Icon(
                                 Icons.delete_rounded,
-                                color: mt(context).color.error,
+                                color: T.current.color.error,
                               ),
                               title: 'Delete',
-                              textStyle: mt(context).textStyle.body1,
+                              textStyle: T.current.textStyle.body1,
                             ),
                           ],
                         ),
@@ -138,18 +139,18 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                     ),
                     title: Text(
                       exerciseBundle.exercise.name,
-                      style: mt(context).textStyle.body1,
+                      style: T.current.textStyle.body1,
                     ),
                     subtitle: Text(
                       exerciseBundle.exerciseSets.length.toString(),
-                      style: mt(context).textStyle.subtitle1,
+                      style: T.current.textStyle.subtitle1,
                     ),
                   );
                 },
               ),
               persistentFooterButtons: [
                 Padding(
-                  padding: EdgeInsets.all(mt(context).padding.page),
+                  padding: EdgeInsets.all(T.current.padding.page),
                   child: MButton(
                     onPressed: () {
                       context.read<WorkoutBloc>().add(WorkoutStart(
@@ -158,10 +159,10 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                       Navigator.pop(context);
                     },
                     expand: false,
-                    backgroundColor: mt(context).color.secondary,
+                    backgroundColor: T.current.color.secondary,
                     child: Text(
                       'Start',
-                      style: mt(context).textStyle.button1,
+                      style: T.current.textStyle.button1,
                     ),
                   ),
                 ),

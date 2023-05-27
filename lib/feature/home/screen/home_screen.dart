@@ -2,6 +2,8 @@ import 'package:Maven/common/widget/heading.dart';
 import 'package:Maven/common/widget/titled_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return TitledScaffold(
       title: 'Home',
       body: Padding(
-        padding: EdgeInsets.all(mt(context).padding.page),
+        padding: EdgeInsets.all(T.current.padding.page),
         child: const CustomScrollView(
           slivers: [
             Heading(title: 'Dashboard', topPadding: false,)

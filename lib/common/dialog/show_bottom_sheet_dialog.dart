@@ -28,7 +28,7 @@ void showBottomSheetDialog({
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: mt(context).color.background,
+                    color: T.current.color.background,
                   ),
                   child: child,
                 ),

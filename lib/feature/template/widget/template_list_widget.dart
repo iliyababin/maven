@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../database/model/template.dart';
+import '../../../theme/theme.dart';
 import '../bloc/template/template_bloc.dart';
 import 'template_widget.dart';
 
@@ -46,7 +47,7 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
           return SliverToBoxAdapter(
             child: Text(
               'There was an error fetching the templates.',
-              style: mt(context).textStyle.body1,
+              style: T.current.textStyle.body1,
             ),
           );
         }
