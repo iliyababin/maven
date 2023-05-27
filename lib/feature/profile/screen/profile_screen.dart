@@ -1,4 +1,3 @@
-import 'package:Maven/feature/equipment/screen/equipment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -7,8 +6,8 @@ import '../../../common/widget/titled_scaffold.dart';
 import '../../../generated/l10n.dart';
 import '../../../l10n/screen/language_screen.dart';
 import '../../../theme/theme.dart';
+import '../../equipment/screen/equipment_screen.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
-import '../../setting/screen/settings_screen.dart';
 import '../../setting/screen/theme_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -106,7 +105,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 MButton.tiled(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
                   },
                   leading: const Icon(Icons.tag,),
                   title: 'Units',
