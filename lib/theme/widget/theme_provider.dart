@@ -1,4 +1,4 @@
-import 'package:Maven/theme/widget/inherited_theme_widget.dart';
+import 'package:maven/theme/widget/inherited_theme_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../model/app_theme.dart' as app;

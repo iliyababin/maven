@@ -1,4 +1,4 @@
-import 'package:Maven/database/model/template_tracker.dart';
+import 'package:maven/database/model/template_tracker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 

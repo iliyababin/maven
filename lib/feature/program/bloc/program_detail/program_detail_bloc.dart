@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Maven/database/dao/template_tracker_dao.dart';
+import 'package:maven/database/dao/template_tracker_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

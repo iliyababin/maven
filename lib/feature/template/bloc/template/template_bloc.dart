@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Maven/database/model/template_tracker.dart';
+import 'package:maven/database/model/template_tracker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

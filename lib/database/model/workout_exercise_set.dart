@@ -1,4 +1,4 @@
-import 'package:Maven/feature/exercise/model/set_type.dart';
+import 'package:maven/feature/exercise/model/set_type.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 

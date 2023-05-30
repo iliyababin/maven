@@ -1,4 +1,4 @@
-import 'package:Maven/feature/exercise/model/exercise_group.dart';
+import 'package:maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

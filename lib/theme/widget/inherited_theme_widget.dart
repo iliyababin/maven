@@ -1,4 +1,4 @@
-import 'package:Maven/theme/model/theme_options.dart';
+import 'package:maven/theme/model/theme_options.dart';
 import 'package:flutter/material.dart';
 
 import '../model/app_theme.dart';

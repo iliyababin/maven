@@ -1,5 +1,5 @@
-import 'package:Maven/common/dialog/confirmation_dialog.dart';
-import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
+import 'package:maven/common/dialog/confirmation_dialog.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

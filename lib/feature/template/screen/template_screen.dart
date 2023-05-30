@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:Maven/common/widget/heading.dart';
-import 'package:Maven/feature/template/widget/empty_widget.dart';
+import 'package:maven/common/widget/heading.dart';
+import 'package:maven/feature/template/widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

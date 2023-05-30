@@ -1,4 +1,4 @@
-import 'package:Maven/database/model/workout_exercise_set.dart';
+import 'package:maven/database/model/workout_exercise_set.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../database/model/template_exercise_set.dart';

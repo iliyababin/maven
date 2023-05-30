@@ -1,4 +1,4 @@
-import 'package:Maven/common/extension.dart';
+import 'package:maven/common/extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../database/model/model.dart';

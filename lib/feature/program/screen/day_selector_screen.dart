@@ -1,4 +1,4 @@
-import 'package:Maven/feature/program/model/exercise_day.dart';
+import 'package:maven/feature/program/model/exercise_day.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/util/general_utils.dart';

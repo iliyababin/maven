@@ -1,9 +1,9 @@
-import 'package:Maven/common/dialog/show_bottom_sheet_dialog.dart';
-import 'package:Maven/common/dialog/text_input_dialog.dart';
-import 'package:Maven/common/util/general_utils.dart';
-import 'package:Maven/database/model/program.dart';
-import 'package:Maven/feature/program/screen/day_selector_screen.dart';
-import 'package:Maven/feature/template/screen/edit_template_screen.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
+import 'package:maven/common/dialog/text_input_dialog.dart';
+import 'package:maven/common/util/general_utils.dart';
+import 'package:maven/database/model/program.dart';
+import 'package:maven/feature/program/screen/day_selector_screen.dart';
+import 'package:maven/feature/template/screen/edit_template_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

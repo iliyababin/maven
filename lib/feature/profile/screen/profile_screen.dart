@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
@@ -28,10 +27,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final XFile? image = await picker.pickImage(source: ImageSource.camera);
-                        },
+                        onTap: () {},
                         child: const CircleAvatar(
                           minRadius: 25,
                           child: Text('A'),

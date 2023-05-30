@@ -1,6 +1,6 @@
 
 
-import 'package:Maven/feature/template/widget/template_widget.dart';
+import 'package:maven/feature/template/widget/template_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 

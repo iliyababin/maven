@@ -1,4 +1,4 @@
-import 'package:Maven/theme/model/color_options.dart';
+import 'package:maven/theme/model/color_options.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 

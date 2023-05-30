@@ -1,6 +1,5 @@
-import 'package:Maven/feature/exercise/model/exercise_equipment.dart';
+import 'package:maven/feature/exercise/model/exercise_equipment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
@@ -191,17 +190,13 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           },
         ) : null,
 
-        checkbox: widget.checkboxEnabled ? ShakeWidget(
-          shakeConstant: ShakeHorizontalConstant2(),
-          duration: const Duration(milliseconds: 2000),
-          autoPlay: _shake,
-          child: SizedBox(
-            height: 38,
-            child: Transform.scale(
-              scale: 1.8,
-              child: Checkbox(
-                value: _isChecked,
-                onChanged: (value) async {
+        checkbox: widget.checkboxEnabled ? SizedBox(
+          height: 38,
+          child: Transform.scale(
+            scale: 1.8,
+            child: Checkbox(
+              value: _isChecked,
+              onChanged: (value) async {
                 /*  if(exerciseSet.option2 == null) {
                     if(option1EditingController.text.isEmpty) {
                       setState(() {_shake = true;});
@@ -218,24 +213,23 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     }
                   }*/
 
-                  if(exerciseSet.option1 != 0) {
-                    setState(() {
-                      _isChecked = !_isChecked;
-                    });
-                    if(widget.onExerciseSetToggled != null) {
-                      widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
-                    }
+                if(exerciseSet.option1 != 0) {
+                  setState(() {
+                    _isChecked = !_isChecked;
+                  });
+                  if(widget.onExerciseSetToggled != null) {
+                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
                   }
+                }
 
 
 
-                },
-                fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                    T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.secondary
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
+              },
+              fillColor: _isChecked ? MaterialStateProperty.all<Color>(
+                  T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.secondary
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
               ),
             ),
           ),

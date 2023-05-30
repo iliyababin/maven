@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:Maven/common/util/general_utils.dart';
-import 'package:Maven/database/model/folder.dart';
-import 'package:Maven/database/model/template.dart';
+import 'package:maven/common/util/general_utils.dart';
+import 'package:maven/database/model/folder.dart';
+import 'package:maven/database/model/template.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

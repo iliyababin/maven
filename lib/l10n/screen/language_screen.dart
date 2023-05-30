@@ -1,5 +1,5 @@
-import 'package:Maven/common/extension.dart';
-import 'package:Maven/feature/setting/bloc/setting_bloc.dart';
+import 'package:maven/common/extension.dart';
+import 'package:maven/feature/setting/bloc/setting_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

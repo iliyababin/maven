@@ -1,4 +1,4 @@
-import 'package:Maven/feature/program/screen/program_detail_screen.dart';
+import 'package:maven/feature/program/screen/program_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/util/general_utils.dart';

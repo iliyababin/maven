@@ -1,6 +1,6 @@
-import 'package:Maven/common/widget/heading.dart';
-import 'package:Maven/common/widget/titled_scaffold.dart';
-import 'package:Maven/feature/complete/widget/complete_list_widget.dart';
+import 'package:maven/common/widget/heading.dart';
+import 'package:maven/common/widget/titled_scaffold.dart';
+import 'package:maven/feature/complete/widget/complete_list_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/widget/inherited_theme_widget.dart';

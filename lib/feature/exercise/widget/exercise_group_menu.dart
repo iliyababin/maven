@@ -1,4 +1,4 @@
-import 'package:Maven/common/dialog/timer_picker_dialog.dart';
+import 'package:maven/common/dialog/timer_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

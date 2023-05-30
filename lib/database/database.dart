@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:Maven/database/converter/duration_converter.dart';
-import 'package:Maven/database/converter/set_type_converter.dart';
+import 'package:maven/database/converter/duration_converter.dart';
+import 'package:maven/database/converter/set_type_converter.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 

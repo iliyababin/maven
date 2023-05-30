@@ -1,4 +1,4 @@
-import 'package:Maven/feature/workout/widget/exercise_timer_widget.dart';
+import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
