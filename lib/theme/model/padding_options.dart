@@ -6,6 +6,6 @@ class PaddingOptions {
   final double page;
 
   Map<String, double> get paddings => {
-    'page': page,
-  };
+        'page': page,
+      };
 }

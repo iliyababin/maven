@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
-import '../screen/design_screem.dart';
+import '../screen/design_screen.dart';
+import 'inherited_theme_widget.dart';
 
 class DesignToolWidget extends StatefulWidget {
   const DesignToolWidget({Key? key}) : super(key: key);
@@ -19,17 +19,13 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _overlayWidth = _getOverlayWidth(context);
       _overlayHeight = _getOverlayHeight(context);
       _overlayEntry = _createOverlayEntry();
-      Overlay.of(context)!.insert(_overlayEntry);
-      _offset = Offset(
-          MediaQuery.of(context).size.width - 50,
-          MediaQuery.of(context).size.height/2
-      );
+      Overlay.of(context).insert(_overlayEntry);
+      _offset = Offset(MediaQuery.of(context).size.width - 50, MediaQuery.of(context).size.height / 2);
     });
-
   }
 
   @override
@@ -53,11 +49,8 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
                 );
               });
             },
-            onTap: () {
-            },
-            onTapUp: (details) {
-
-            },
+            onTap: () {},
+            onTapUp: (details) {},
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.push(
@@ -67,7 +60,10 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
               },
               backgroundColor: T(context).color.background,
               mini: true,
-              child: const Icon(Icons.more_horiz_rounded),
+              child: const Icon(
+                Icons.more_horiz_rounded,
+                color: Colors.red,
+              ),
             ),
           ),
         );
@@ -76,14 +72,14 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
   }
 
   double _getOverlayWidth(BuildContext context) {
-    final double iconSize = 40;
-    final double margin = 8;
+    const double iconSize = 40;
+    const double margin = 8;
     return iconSize + 2 * margin;
   }
 
   double _getOverlayHeight(BuildContext context) {
-    final double iconSize = 40;
-    final double margin = 8;
+    const double iconSize = 40;
+    const double margin = 8;
     return iconSize + 2 * margin;
   }
 

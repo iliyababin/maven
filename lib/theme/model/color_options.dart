@@ -30,17 +30,17 @@ class ColorOptions {
   final Color cooldown;
 
   Map<String, Color> get colors => {
-    'primary': primary,
-    'secondary': secondary,
-    'background': background,
-    'text': text,
-    'subtext': subtext,
-    'neutral': neutral,
-    'success': success,
-    'error': error,
-    'shadow': shadow,
-    'warmup': warmup,
-    'drop': drop,
-    'cooldown': cooldown,
-  };
+        'primary': primary,
+        'secondary': secondary,
+        'background': background,
+        'text': text,
+        'subtext': subtext,
+        'neutral': neutral,
+        'success': success,
+        'error': error,
+        'shadow': shadow,
+        'warmup': warmup,
+        'drop': drop,
+        'cooldown': cooldown,
+      };
 }

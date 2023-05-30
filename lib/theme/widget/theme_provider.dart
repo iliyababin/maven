@@ -3,15 +3,35 @@ import 'package:flutter/material.dart';
 import '../model/app_theme.dart';
 import 'inherited_theme_widget.dart';
 
+/// A widget that provides a theme to descendant widgets.
+///
+/// Example:
+/// ```dart
+/// @override
+/// Widget build(BuildContext context) {
+///   return ThemeProvider(
+///     theme: AppTheme.dark,
+///     themes: AppTheme.themes,
+///     child: const App(),
+///   );
+/// }
+/// ```
 class ThemeProvider extends StatefulWidget {
-  const ThemeProvider({Key? key,
+  /// Create a [ThemeProvider] widget.
+  const ThemeProvider({
+    Key? key,
     required this.child,
     required this.theme,
     required this.themes,
   }) : super(key: key);
 
+  /// The widget below this widget in the tree.
   final Widget child;
+
+  /// The theme to be used.
   final AppTheme theme;
+
+  /// The list of themes which can be used.
   final List<AppTheme> themes;
 
   @override
@@ -19,17 +39,17 @@ class ThemeProvider extends StatefulWidget {
 }
 
 class _ThemeProviderState extends State<ThemeProvider> {
-  AppTheme theme = AppTheme.dark;
+  AppTheme _theme = AppTheme.dark;
 
   @override
   Widget build(BuildContext context) {
     return InheritedThemeWidget(
-      theme: theme,
+      theme: _theme,
       setTheme: (int id) {
         for (AppTheme element in widget.themes) {
-          if(element.id == id) {
+          if (element.id == id) {
             setState(() {
-              theme = element;
+              _theme = element;
             });
           }
         }

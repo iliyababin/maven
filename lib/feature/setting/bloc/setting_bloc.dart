@@ -27,19 +27,19 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     String languageCode = await settingDao.getLanguageCode() ?? 'en';
     String countryCode = await settingDao.getCountryCode() ?? 'US';
     int? themeId = await settingDao.getThemeId() ?? 0;
-    Iterable<AppTheme> theme = AppTheme.defaultThemes.where((element) => element.id == themeId);
+    Iterable<AppTheme> theme = AppTheme.themes.where((element) => element.id == themeId);
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
       currentTheme: theme.isNotEmpty ? theme.first : null,
-      themes: AppTheme.defaultThemes,
+      themes: AppTheme.themes,
       locale: Locale(languageCode, countryCode),
     ));
   }
 
   Future<void> _changeTheme(SettingChangeTheme event, Emitter<SettingState> emit) async {
     if (state.currentTheme.id == event.id) return;
-    if (!AppTheme.defaultThemes.map((e) => e.id).contains(event.id)) return;
+    if (!AppTheme.themes.map((e) => e.id).contains(event.id)) return;
 
     Setting? setting = await settingDao.getSetting();
 
@@ -47,7 +47,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       themeId: event.id,
     ));
 
-    AppTheme theme = AppTheme.defaultThemes.firstWhere((element) => element.id == event.id);
+    AppTheme theme = AppTheme.themes.firstWhere((element) => element.id == event.id);
 
     emit(state.copyWith(
       status: SettingStatus.loaded,

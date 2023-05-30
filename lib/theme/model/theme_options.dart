@@ -2,7 +2,7 @@ import 'color_options.dart';
 import 'padding_options.dart';
 import 'text_style_options.dart';
 
-class ThemeOptions  {
+class ThemeOptions {
   const ThemeOptions({
     required ColorOptions color,
   }) : _colorOptions = color;
@@ -46,4 +46,3 @@ class ThemeOptions  {
     );
   }
 }
-

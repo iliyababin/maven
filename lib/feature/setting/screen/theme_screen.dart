@@ -22,7 +22,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
       body: Padding(
         padding: EdgeInsets.all(T(context).padding.page),
         child: GridView.builder(
-          itemCount: AppTheme.defaultThemes.length,
+          itemCount: AppTheme.themes.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 4,
@@ -30,7 +30,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
             childAspectRatio: 0.85,
           ),
           itemBuilder: (context, index) {
-            final AppTheme theme = AppTheme.defaultThemes[index];
+            final AppTheme theme = AppTheme.themes[index];
 
             return GestureDetector(
               onTap: () {

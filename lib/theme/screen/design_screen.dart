@@ -20,7 +20,12 @@ class DesignScreen extends StatelessWidget {
         children: [
           ListTile(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ColorScreen(),));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ColorScreen(),
+                ),
+              );
             },
             title: Text(
               'Color',
@@ -29,7 +34,12 @@ class DesignScreen extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TextStyleScreen(),));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TextStyleScreen(),
+                ),
+              );
             },
             title: Text(
               'Text Style',
@@ -38,7 +48,12 @@ class DesignScreen extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PaddingScreen(),));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PaddingScreen(),
+                ),
+              );
             },
             title: Text(
               'Padding',
