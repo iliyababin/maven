@@ -1,7 +1,7 @@
-import 'package:maven/theme/model/theme_options.dart';
 import 'package:flutter/material.dart';
 
 import '../model/app_theme.dart';
+import '../model/theme_options.dart';
 
 class InheritedThemeWidget extends InheritedWidget {
   final AppTheme _theme;

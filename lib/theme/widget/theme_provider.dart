@@ -1,7 +1,7 @@
-import 'package:maven/theme/widget/inherited_theme_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../model/app_theme.dart' as app;
+import '../model/app_theme.dart';
+import 'inherited_theme_widget.dart';
 
 class ThemeProvider extends StatefulWidget {
   const ThemeProvider({Key? key,
@@ -11,22 +11,22 @@ class ThemeProvider extends StatefulWidget {
   }) : super(key: key);
 
   final Widget child;
-  final app.AppTheme theme;
-  final List<app.AppTheme> themes;
+  final AppTheme theme;
+  final List<AppTheme> themes;
 
   @override
   State<ThemeProvider> createState() => _ThemeProviderState();
 }
 
 class _ThemeProviderState extends State<ThemeProvider> {
-  app.AppTheme theme = app.AppTheme.dark;
+  AppTheme theme = AppTheme.dark;
 
   @override
   Widget build(BuildContext context) {
     return InheritedThemeWidget(
       theme: theme,
       setTheme: (int id) {
-        for (app.AppTheme element in widget.themes) {
+        for (AppTheme element in widget.themes) {
           if(element.id == id) {
             setState(() {
               theme = element;
