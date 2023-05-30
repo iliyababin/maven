@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../model/complete_bundle.dart';
 import '../model/complete_exercise_bundle.dart';
 import '../screen/complete_detail_screen.dart';
@@ -17,7 +17,7 @@ class CompleteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: T.current.color.background,
+      color: T(context).color.background,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
@@ -31,7 +31,7 @@ class CompleteWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: T.current.color.secondary,
+              color: T(context).color.secondary,
             ),
           ),
           padding: const EdgeInsets.all(15.0),
@@ -40,34 +40,34 @@ class CompleteWidget extends StatelessWidget {
             children: [
               Text(
                 completeBundle.complete.name,
-                style: T.current.textStyle.heading3,
+                style: T(context).textStyle.heading3,
               ),
               SizedBox(height: 5,),
               Text(
                 DateFormat.yMMMMEEEEd().format(completeBundle.complete.timestamp).toString(),
-                style: T.current.textStyle.subtitle2,
+                style: T(context).textStyle.subtitle2,
               ),
               SizedBox(height: 10,),
               Row(
                 children: [
                   Icon(
                     Icons.timer,
-                    color: T.current.color.subtext,
+                    color: T(context).color.subtext,
                   ),
                   SizedBox(width: 5,),
                   Text(
                     durationToTime(completeBundle.complete.duration),
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ),
                   SizedBox(width: 20,),
                   Icon(
                     Icons.monitor_weight,
-                    color: T.current.color.subtext,
+                    color: T(context).color.subtext,
                   ),
                   SizedBox(width: 5,),
                   Text(
                     completeBundle.volume.toString(),
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ),
                   SizedBox(width: 20,),
 
@@ -81,12 +81,12 @@ class CompleteWidget extends StatelessWidget {
                   CompleteExerciseBundle completeExerciseBundle = completeBundle.completeExerciseBundles[index];
                   return Text(
                     '${completeExerciseBundle.completeExerciseSets.length} x ${completeExerciseBundle.exercise.name}',
-                    style: T.current.textStyle.subtitle1,
+                    style: T(context).textStyle.subtitle1,
                   );
                 },
               ) : Text(
                 'None',
-                style: T.current.textStyle.subtitle1,
+                style: T(context).textStyle.subtitle1,
               ),
             ],
           ),

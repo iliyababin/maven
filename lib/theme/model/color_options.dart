@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorOptions {
-  ColorOptions({
+  const ColorOptions({
     required this.primary,
     required this.secondary,
     required this.background,

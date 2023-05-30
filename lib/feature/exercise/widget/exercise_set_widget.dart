@@ -5,7 +5,7 @@ import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../m_keyboard/widget/m_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../model/exercise_set.dart';
@@ -77,7 +77,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     return AnimatedContainer(
       duration: _animationSpeed,
       height: 44,
-      color: _isChecked ? T.current.color.success.withAlpha(35)  : T.current.color.background,
+      color: _isChecked ? T(context).color.success.withAlpha(35)  : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ActiveExerciseRow.build(
         set: MButton(
@@ -103,7 +103,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                       width: 30,
                       child: Text(
                         setType.abbreviated,
-                        style: T.current.textStyle.subtitle2.copyWith(color: setType.color(context)),
+                        style: T(context).textStyle.subtitle2.copyWith(color: setType.color(context)),
                       ),
                     ),
                     title: setType.name,
@@ -118,7 +118,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: Colors.transparent,
           child: Text(
             widget.exerciseSet.setType == SetType.regular ? widget.index.toString() : widget.exerciseSet.setType.abbreviated,
-            style: T.current.textStyle.subtitle2.copyWith(color: widget.exerciseSet.setType.color(context)),
+            style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.setType.color(context)),
           ),
         ),
 
@@ -131,17 +131,17 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: Colors.transparent,
           child: Text(
             '-',
-            style: T.current.textStyle.subtitle1,
+            style: T(context).textStyle.subtitle1,
           ),
         ),
 
         option1: MButton(
           height: 30,
           expand: false,
-          backgroundColor: _isChecked ? Colors.transparent : T.current.color.secondary,
+          backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
           child: Text(
             exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
-            style: T.current.textStyle.body1,
+            style: T(context).textStyle.body1,
           ),
           onPressed: () {
             showBottomSheetDialog(
@@ -165,10 +165,10 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MButton(
           height: 30,
           expand: false,
-          backgroundColor: _isChecked ? Colors.transparent : T.current.color.secondary,
+          backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
           child: Text(
             exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
-            style: T.current.textStyle.body1,
+            style: T(context).textStyle.body1,
           ),
           onPressed: () {
             showBottomSheetDialog(
@@ -231,7 +231,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
                 },
                 fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                    T.current.color.success) : MaterialStateProperty.all<Color>(T.current.color.secondary
+                    T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.secondary
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),

@@ -6,7 +6,7 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/bar.dart';
 import '../../../database/model/exercise.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../model/exercise_equipment.dart';
 import '../model/exercise_group.dart';
@@ -98,7 +98,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
           trailing: Text(
             '(${exerciseGroup.restTimed.toString()})',
-            style: T.current.textStyle.subtitle1,
+            style: T(context).textStyle.subtitle1,
           ),
           title: 'Rest Timer',
         ),
@@ -109,7 +109,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           },
           leading: Icon(
             Icons.delete_rounded,
-            color: T.current.color.error,
+            color: T(context).color.error,
           ),
           title: 'Remove',
         ),

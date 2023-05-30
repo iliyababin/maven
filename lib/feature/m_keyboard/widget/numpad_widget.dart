@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class NumPadWidget extends StatefulWidget {
   const NumPadWidget({Key? key,
@@ -55,7 +55,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
       borderRadius: 0,
       child: Text(
         number.toString(),
-        style: T.current.textStyle.heading3,
+        style: T(context).textStyle.heading3,
       ),
     );
   }
@@ -74,17 +74,17 @@ class _NumPadWidgetState extends State<NumPadWidget> {
             keyboardType: TextInputType.none,
             decoration: InputDecoration(
               hintText: '',
-              hintStyle: T.current.textStyle.subtitle1,
+              hintStyle: T(context).textStyle.subtitle1,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
-            style: T.current.textStyle.body1,
+            style: T(context).textStyle.body1,
           ),
         ),
 
         Container(
           height: 2,
-          color: T.current.color.secondary,
+          color: T(context).color.secondary,
         ),
 
         Expanded(
@@ -150,7 +150,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
                         borderRadius: 0,
                         leading: Icon(
                           Icons.backspace_rounded,
-                          color: T.current.color.text,
+                          color: T(context).color.text,
                         ),
                       )
                     ],

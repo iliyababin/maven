@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class SetType {
   final String name;
@@ -18,15 +18,15 @@ class SetType {
   Color color(BuildContext context) {
     switch (this) {
       case SetType.regular:
-        return T.current.color.primary;
+        return T(context).color.primary;
       case SetType.warmup:
-        return T.current.color.warmup;
+        return T(context).color.warmup;
       case SetType.failure:
-        return T.current.color.error;
+        return T(context).color.error;
       case SetType.drop:
-        return T.current.color.drop;
+        return T(context).color.drop;
       case SetType.cooldown:
-        return T.current.color.cooldown;
+        return T(context).color.cooldown;
     }
     return Colors.transparent;
   }

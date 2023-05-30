@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../database/model/folder.dart';
 import '../../../database/model/template.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class FolderWidget extends StatefulWidget {
   const FolderWidget({Key? key,
@@ -76,11 +76,11 @@ class _FolderWidgetState extends State<FolderWidget> {
         borderRadius: BorderRadius.circular(_borderRadius),
         border: Border.all(
           width: 1,
-          color: T.current.color.secondary,
+          color: T(context).color.secondary,
         ),
       ),
       child: Material(
-        color: T.current.color.background,
+        color: T(context).color.background,
         borderRadius: BorderRadius.circular(_borderRadius),
         child: InkWell(
           onTap: (){
@@ -97,7 +97,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               child: ExpandablePanel(
                 controller: _expandedController,
                 theme: ExpandableThemeData(
-                  iconColor: T.current.color.primary,
+                  iconColor: T(context).color.primary,
                   iconPlacement: ExpandablePanelIconPlacement.right,
                   headerAlignment: ExpandablePanelHeaderAlignment.center,
                   iconPadding: const EdgeInsets.fromLTRB(0, 12, 12, 8),
@@ -115,7 +115,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                       children: [
                         Text(
                           widget.folder.name,
-                          style: T.current.textStyle.heading3,
+                          style: T(context).textStyle.heading3,
                         ),
                       ],
                     )
@@ -124,7 +124,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                   padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
                   child: Text(
                     '$_completedAmount / ${widget.templates.length}',
-                    style: T.current.textStyle.subtitle1,
+                    style: T(context).textStyle.subtitle1,
                   ),
                 )*/ Container(),
                 expanded: widget.templates.isNotEmpty ? Padding(
@@ -153,7 +153,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                         child: Text(
                           'This folder is empty.',
                           textAlign: TextAlign.center,
-                          style: T.current.textStyle.subtitle1,
+                          style: T(context).textStyle.subtitle1,
                         ),
                       ),
                       const SizedBox(height: 40)

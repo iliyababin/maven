@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import 'bar_screen.dart';
 import 'plate_screen.dart';
 
@@ -23,7 +23,7 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Plates',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
           ListTile(
@@ -32,14 +32,14 @@ class EquipmentScreen extends StatelessWidget {
             },
             title: Text(
               'Bars',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
           ListTile(
             onTap: () {},
             title: Text(
               'Machines',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to enter some text.
@@ -50,7 +50,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         children: [
           Text(
             widget.title,
-            style: T.current.textStyle.heading3,
+            style: T(context).textStyle.heading3,
           ),
           const SizedBox(height: 30),
           Form(
@@ -67,19 +67,19 @@ class _TextInputDialogState extends State<TextInputDialog> {
               },
               controller: _textEditingController,
               keyboardType: widget.keyboardType,
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
               decoration: InputDecoration(
                 hintText: widget.hintText,
-                hintStyle: T.current.textStyle.subtitle1,
+                hintStyle: T(context).textStyle.subtitle1,
                 errorStyle: TextStyle(
-                  color: T.current.color.error,
+                  color: T(context).color.error,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: T.current.color.secondary,
+                    color: T(context).color.secondary,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -87,7 +87,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: T.current.color.primary,
+                    color: T(context).color.primary,
                   ),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
@@ -95,7 +95,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: T.current.color.error,
+                    color: T(context).color.error,
                   ),
                 ),
               ),
@@ -108,11 +108,11 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                backgroundColor: T.current.color.background,
-                borderColor: T.current.color.secondary,
+                backgroundColor: T(context).color.background,
+                borderColor: T(context).color.secondary,
                 child: Text(
                   'Cancel',
-                  style: T.current.textStyle.button2,
+                  style: T(context).textStyle.button2,
                 ),
               ),
               const SizedBox(width: 15,),
@@ -125,10 +125,10 @@ class _TextInputDialogState extends State<TextInputDialog> {
                     Navigator.pop(context);
                   }
                 },
-                backgroundColor: T.current.color.primary,
+                backgroundColor: T(context).color.primary,
                 child: Text(
                   'Submit',
-                  style: T.current.textStyle.button1,
+                  style: T(context).textStyle.button1,
                 ),
               )
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 
 class Heading extends StatelessWidget {
   const Heading({Key? key,
@@ -19,12 +19,12 @@ class Heading extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(
           bottom: 12, top: topPadding ? 36 : 0,
-          left: side ? T.current.padding.page : 0,
-          right: side ? T.current.padding.page : 0,
+          left: side ? T(context).padding.page : 0,
+          right: side ? T(context).padding.page : 0,
         ),
         child: Text(
           title,
-          style: T.current.textStyle.heading4,
+          style: T(context).textStyle.heading4,
         ),
       ),
     );

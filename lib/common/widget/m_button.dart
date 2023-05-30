@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 
 /// A Maven Style Button.
 ///
@@ -153,7 +153,7 @@ class MButton extends StatelessWidget {
       width: width,
       child: Material(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: backgroundColor ?? T.current.color.background,
+        color: backgroundColor ?? T(context).color.background,
         child: InkWell(
           onTap: onPressed,
           splashFactory: InkRipple.splashFactory,
@@ -163,7 +163,7 @@ class MButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
               border: Border.all(
-                color: borderColor ?? backgroundColor ?? T.current.color.background,
+                color: borderColor ?? backgroundColor ?? T(context).color.background,
                 width: borderColor == null ? 0 : 1,
               ),
             ),
@@ -180,7 +180,7 @@ class MButton extends StatelessWidget {
                   if(leading != null && child != null) const SizedBox(width: 2,),
                   title != null ? Text(
                     title!,
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ) : child ?? Container(),
                   trailing != null ? Expanded(
                     child: Container(

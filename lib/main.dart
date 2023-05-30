@@ -92,8 +92,6 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    T.load(context);
-
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
         if(state.status.isLoading) {
@@ -101,26 +99,34 @@ class Main extends StatelessWidget {
               child: CircularProgressIndicator()
           );
         } else {
-          return MaterialApp(
-            theme: state.currentTheme.data,
-            // TODO: Give user option to change this.
-            scrollBehavior: CustomScrollBehavior(),
-            title: 'Maven',
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            locale: state.locale,
-            supportedLocales: S.delegate.supportedLocales,
-            home: Stack(children: const [
-              Maven(),
-              Visibility(
-                visible: kDebugMode,
-                child: DesignToolWidget(),
-              ),
-            ]),
+          return ThemeProvider(
+            theme: AppTheme.dark,
+            themes: AppTheme.defaultThemes,
+            child: Builder(
+              builder: (context) {
+                return MaterialApp(
+                  theme: InheritedThemeWidget.of(context).theme.data,
+                  // TODO: Give user option to change this.
+                  scrollBehavior: CustomScrollBehavior(),
+                  title: 'Maven',
+                  localizationsDelegates: const [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  locale: state.locale,
+                  supportedLocales: S.delegate.supportedLocales,
+                  home: Stack(children: const [
+                    Maven(),
+                    Visibility(
+                      visible: kDebugMode,
+                      child: DesignToolWidget(),
+                    ),
+                  ]),
+                );
+              },
+            )
           );
         }
       },

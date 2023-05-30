@@ -1,7 +1,7 @@
 import 'package:Maven/common/widget/m_button.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 import '../model/timed.dart';
 
 class TimedPickerDialog extends StatelessWidget {
@@ -26,7 +26,7 @@ class TimedPickerDialog extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: T.current.textStyle.heading4,
+              style: T(context).textStyle.heading4,
             ),
           ),
           const SizedBox(height: 8),
@@ -44,7 +44,7 @@ class TimedPickerDialog extends StatelessWidget {
                   Center(
                     child: Text(
                       index.toString(),
-                      style: T.current.textStyle.body1,
+                      style: T(context).textStyle.body1,
                     ),
                   ),
               ),
@@ -108,11 +108,11 @@ class TimedPickerDialog extends StatelessWidget {
                 },
 
                 expand: true,
-                backgroundColor: T.current.color.background,
-                borderColor: T.current.color.secondary,
+                backgroundColor: T(context).color.background,
+                borderColor: T(context).color.secondary,
                 child: Text(
                   'Cancel',
-                  style: T.current.textStyle.body1,
+                  style: T(context).textStyle.body1,
                 ),
               ),
 
@@ -125,11 +125,11 @@ class TimedPickerDialog extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 },
-                backgroundColor: T.current.color.primary,
+                backgroundColor: T(context).color.primary,
                 borderRadius: 12,
                 child: Text(
                   'Start',
-                  style: T.current.textStyle.button1,
+                  style: T(context).textStyle.button1,
                 ),
               ),
             ],

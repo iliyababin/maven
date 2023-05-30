@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/model/app_theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 import '../screen/design_screem.dart';
 
 class DesignToolWidget extends StatefulWidget {
@@ -65,7 +65,7 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
                   MaterialPageRoute(builder: (context) => const DesignScreen()),
                 );
               },
-              backgroundColor: T.current.color.background,
+              backgroundColor: T(context).color.background,
               mini: true,
               child: const Icon(Icons.more_horiz_rounded),
             ),

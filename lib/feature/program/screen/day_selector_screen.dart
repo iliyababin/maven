@@ -2,7 +2,7 @@ import 'package:Maven/feature/program/model/exercise_day.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../model/day.dart';
 
 class DaySelectorScreen extends StatefulWidget {
@@ -80,7 +80,7 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
             ),
             title: Text(
               capitalize(day.name),
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           );
         },

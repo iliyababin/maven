@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({Key? key}) : super(key: key);
@@ -13,13 +13,13 @@ class EmptyWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadiusDirectional.circular(10),
             border: Border.all(
-              color: T.current.color.secondary,
+              color: T(context).color.secondary,
             )
         ),
         alignment: FractionalOffset.center,
         child: Text(
           'Empty',
-          style: T.current.textStyle.subtitle1,
+          style: T(context).textStyle.subtitle1,
         ),
       ),
     );

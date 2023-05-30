@@ -3,7 +3,7 @@ import 'package:Maven/common/widget/titled_scaffold.dart';
 import 'package:Maven/feature/complete/widget/complete_list_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class ProgressScreen extends StatelessWidget {
     return TitledScaffold(
       title: 'Progress',
       body: Padding(
-        padding: EdgeInsets.all(T.current.padding.page),
+        padding: EdgeInsets.all(T(context).padding.page),
         child: const CustomScrollView(
           slivers: [
             Heading(title: 'History', topPadding: false,),

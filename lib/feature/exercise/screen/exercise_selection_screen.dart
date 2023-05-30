@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/model/exercise.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../bloc/exercise_bloc.dart';
 import 'exercise_detail_screen.dart';
 
@@ -47,7 +47,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
         title: typing ? TextField(
           focusNode: _searchNode,
           style: TextStyle(
-            color: T.current.color.text,
+            color: T(context).color.text,
           ),
           controller: _searchTextEditingController,
           onSubmitted: (value) {
@@ -112,7 +112,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: T.current.padding.page,
+              horizontal: T(context).padding.page,
               vertical: 16,
             ),
             child: Row(
@@ -120,30 +120,30 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: T.current.color.secondary,
+                  borderColor: T(context).color.secondary,
                   child: Text(
                     'Muscle',
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ),
                 ),
                 const SizedBox(width: 10,),
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: T.current.color.secondary,
+                  borderColor: T(context).color.secondary,
                   child: Text(
                     'Group',
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ),
                 ),
                 const SizedBox(width: 10,),
                 MButton(
                   onPressed: () {},
                   height: 36,
-                  borderColor: T.current.color.secondary,
+                  borderColor: T(context).color.secondary,
                   child: Text(
                     'Equipment',
-                    style: T.current.textStyle.body1,
+                    style: T(context).textStyle.body1,
                   ),
                 ),
               ],
@@ -187,7 +187,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                             );
                           }
                         },
-                        tileColor: isSelected ? T.current.color.primary.withAlpha(30) : null,
+                        tileColor: isSelected ? T(context).color.primary.withAlpha(30) : null,
                         leading: CircleAvatar(
                           child: Text(
                             exercise.name.substring(0, 1),
@@ -195,16 +195,16 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                         ),
                         title: Text(
                           exercise.name,
-                          style: T.current.textStyle.body1,
+                          style: T(context).textStyle.body1,
                         ),
                         subtitle: Text(
                           '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
-                          style: T.current.textStyle.subtitle1,
+                          style: T(context).textStyle.subtitle1,
                         ),
                         trailing: isSelected ? IconButton(
                           icon: Icon(
                             Icons.check,
-                            color: T.current.color.primary,
+                            color: T(context).color.primary,
                           ),
                           onPressed: null,
                         ) : null,

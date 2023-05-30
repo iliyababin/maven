@@ -5,7 +5,7 @@ import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../generated/l10n.dart';
 import '../../../l10n/screen/language_screen.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/screen/equipment_screen.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../setting/screen/theme_screen.dart';
@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: T.current.padding.page, right: T.current.padding.page, top: T.current.padding.page),
+                  padding: EdgeInsets.only(left: InheritedThemeWidget.of(context).theme.options.padding.page, right: InheritedThemeWidget.of(context).theme.options.padding.page, top: InheritedThemeWidget.of(context).theme.options.padding.page),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -43,12 +43,12 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           Text(
                             'John Doe',
-                            style: T.current.textStyle.heading2,
+                            style: InheritedThemeWidget.of(context).theme.options.textStyle.heading2,
                           ),
                           const SizedBox(height: 2),
                           Text(
                             'Weight Lifiting',
-                            style: T.current.textStyle.subtitle1,
+                            style: InheritedThemeWidget.of(context).theme.options.textStyle.subtitle1,
                           ),
                         ],
                       ),
@@ -56,10 +56,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: T.current.padding.page, left: T.current.padding.page, bottom: 12, top: 36 ),
+                  padding: EdgeInsets.only(right: InheritedThemeWidget.of(context).theme.options.padding.page, left: InheritedThemeWidget.of(context).theme.options.padding.page, bottom: 12, top: 36 ),
                   child: Text(
                     'Basic',
-                    style: T.current.textStyle.heading4,
+                    style: InheritedThemeWidget.of(context).theme.options.textStyle.heading4,
                   ),
                 ),
                 MButton.tiled(
@@ -90,10 +90,10 @@ class ProfileScreen extends StatelessWidget {
                   title: 'Measure',
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: T.current.padding.page, left: T.current.padding.page, bottom: 12, top: 36 ),
+                  padding: EdgeInsets.only(right: InheritedThemeWidget.of(context).theme.options.padding.page, left: InheritedThemeWidget.of(context).theme.options.padding.page, bottom: 12, top: 36 ),
                   child: Text(
                     'Appearance',
-                    style: T.current.textStyle.heading4,
+                    style: InheritedThemeWidget.of(context).theme.options.textStyle.heading4,
                   ),
                 ),
                 MButton.tiled(

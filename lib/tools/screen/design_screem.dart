@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/model/app_theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 import 'color_screen.dart';
 import 'padding_screen.dart';
 import 'text_style_screen.dart';
@@ -24,7 +24,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Color',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
           ListTile(
@@ -33,7 +33,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Text Style',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
           ListTile(
@@ -42,7 +42,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Padding',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
           ),
         ],

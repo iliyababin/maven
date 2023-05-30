@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to confirm an action before proceeding.
@@ -47,13 +47,13 @@ class ConfirmationDialog extends StatelessWidget {
         children: [
           Text(
             title,
-            style: T.current.textStyle.heading3,
+            style: T(context).textStyle.heading3,
           ),
           const SizedBox(height: 22),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: T.current.textStyle.body1,
+            style: T(context).textStyle.body1,
           ),
           const SizedBox(height: 30),
           Row(
@@ -63,11 +63,11 @@ class ConfirmationDialog extends StatelessWidget {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                backgroundColor: cancelColor ?? T.current.color.background,
-                borderColor: T.current.color.secondary,
+                backgroundColor: cancelColor ?? T(context).color.background,
+                borderColor: T(context).color.secondary,
                 child: Text(
                   cancelText,
-                  style: T.current.textStyle.body1,
+                  style: T(context).textStyle.body1,
                 ),
               ),
               const SizedBox(width: 15),
@@ -76,10 +76,10 @@ class ConfirmationDialog extends StatelessWidget {
                   onSubmit();
                   Navigator.pop(context);
                 },
-                backgroundColor: confirmColor ?? T.current.color.primary,
+                backgroundColor: confirmColor ?? T(context).color.primary,
                 child: Text(
                   confirmText,
-                  style: T.current.textStyle.button1,
+                  style: T(context).textStyle.button1,
                 ),
               )
             ],

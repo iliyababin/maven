@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/model/app_theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 
 void showBottomSheetDialog({
   required BuildContext context,
@@ -28,7 +28,7 @@ void showBottomSheetDialog({
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: T.current.color.background,
+                    color: T(context).color.background,
                   ),
                   child: child,
                 ),

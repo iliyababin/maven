@@ -43,11 +43,11 @@
 //               child: _collapseFolders ? Icon(
 //                 key: const Key('icon1'),
 //                 Icons.unfold_more_rounded,
-//                 color: T.current.icon.accentColor,
+//                 color: T(context).icon.accentColor,
 //               ) : Icon(
 //                 key: UniqueKey(),
 //                 Icons.unfold_less_rounded,
-//                 color: T.current.icon.accentColor,
+//                 color: T(context).icon.accentColor,
 //               )
 //             ),
 //             onPressed: () {
@@ -86,11 +86,11 @@
 //                   onListReorder: (oldListIndex, newListIndex) => _onReorderList(oldListIndex, newListIndex, templateFolders),
 //                   children: _lists,
 //                   itemDecorationWhileDragging: BoxDecoration(
-//                     color: T.current.backgroundColor,
+//                     color: T(context).backgroundColor,
 //                     borderRadius: const BorderRadius.all(Radius.circular(8)),
 //                     boxShadow: [
 //                       BoxShadow(
-//                         color: T.current.bottomNavigationBar.shadowColor,
+//                         color: T(context).bottomNavigationBar.shadowColor,
 //                         blurRadius: 4,
 //                       )
 //                     ],
@@ -99,23 +99,23 @@
 //                     color: Colors.white,
 //                     borderRadius: const BorderRadius.all(Radius.circular(8)),
 //                     boxShadow: [
-//                       BoxShadow(color: T.current.bottomNavigationBar.shadowColor, blurRadius: 4)
+//                       BoxShadow(color: T(context).bottomNavigationBar.shadowColor, blurRadius: 4)
 //                     ],
 //                   ),
 //                   listDecoration: BoxDecoration(
 //                       borderRadius: BorderRadiusDirectional.circular(8),
 //                       border: Border.all(
-//                           color: T.current.borderColor,
+//                           color: T(context).borderColor,
 //                           width: 1
 //                       ),
-//                       color: T.current.backgroundColor
+//                       color: T(context).backgroundColor
 //                   ),
 //                   itemDragHandle: DragHandle(
 //                     child: Padding(
 //                       padding: const EdgeInsets.only(right: 10),
 //                       child: Icon(
 //                         Icons.drag_indicator_rounded,
-//                         color: T.current.icon.secondaryColor,
+//                         color: T(context).icon.secondaryColor,
 //                       ),
 //                     ),
 //                   ),
@@ -126,7 +126,7 @@
 //                       padding: const EdgeInsets.only(top: 15, right: 15),
 //                       child: Icon(
 //                         Icons.drag_indicator_rounded,
-//                         color: T.current.icon.accentColor,
+//                         color: T(context).icon.accentColor,
 //                       ),
 //                     ),
 //                   ),
@@ -196,7 +196,7 @@
 //               Text(
 //                 templateFolder.name,
 //                 style: TextStyle(
-//                     color: T.current.text.primaryColor,
+//                     color: T(context).text.primaryColor,
 //                     fontSize: 18.5,
 //                     fontWeight: FontWeight.w700
 //                 ),
@@ -214,7 +214,7 @@
 //                 textAlign: TextAlign.center,
 //
 //                 style: TextStyle(
-//                     color: T.current.text.secondaryColor
+//                     color: T(context).text.secondaryColor
 //                 ),
 //               ),
 //             ) : Container()
@@ -228,7 +228,7 @@
 //             decoration: BoxDecoration(
 //               borderRadius: BorderRadiusDirectional.circular(10),
 //               border: Border.all(
-//                   color: T.current.borderColor,
+//                   color: T(context).borderColor,
 //                   width: 1
 //               ),
 //             ),
@@ -240,7 +240,7 @@
 //                   style: TextStyle(
 //                       fontSize: 16,
 //                       fontWeight: FontWeight.w500,
-//                       color: T.current.text.primaryColor
+//                       color: T(context).text.primaryColor
 //                   ),
 //                 ),
 //               ],

@@ -2,7 +2,7 @@ import 'package:Maven/common/extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../database/model/model.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 
 class ExerciseDetailScreen extends StatelessWidget {
   const ExerciseDetailScreen({Key? key,
@@ -34,11 +34,11 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             title: Text(
               'Muscle',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
             subtitle: Text(
               exercise.muscle.name.parseMuscleToString(),
-              style: T.current.textStyle.subtitle1,
+              style: T(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -53,11 +53,11 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             title: Text(
               'Group',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
             subtitle: Text(
               exercise.muscleGroup.name.capitalize(),
-              style: T.current.textStyle.subtitle1,
+              style: T(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -72,11 +72,11 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             title: Text(
               'Equipment',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
             subtitle: Text(
               exercise.equipment.name.capitalize(),
-              style: T.current.textStyle.subtitle1,
+              style: T(context).textStyle.subtitle1,
             ),
           ),
           ListTile(
@@ -91,11 +91,11 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             title: Text(
               'Type',
-              style: T.current.textStyle.body1,
+              style: T(context).textStyle.body1,
             ),
             subtitle: Text(
               exercise.exerciseType.name,
-              style: T.current.textStyle.subtitle1,
+              style: T(context).textStyle.subtitle1,
             ),
           ),
         ],

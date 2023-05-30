@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/widget/inherited_theme_widget.dart';
 
 class TitledScaffold extends StatelessWidget {
   const TitledScaffold({Key? key,
@@ -14,7 +14,7 @@ class TitledScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: T.current.color.background,
+      backgroundColor: T(context).color.background,
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -23,11 +23,11 @@ class TitledScaffold extends StatelessWidget {
               largeTitle: Text(
                 title,
                 style: TextStyle(
-                  color: T.current.textStyle.heading1.color,
-                  fontWeight: T.current.textStyle.heading1.fontWeight,
+                  color: T(context).textStyle.heading1.color,
+                  fontWeight: T(context).textStyle.heading1.fontWeight,
                 ),
               ),
-              backgroundColor: T.current.color.background,
+              backgroundColor: T(context).color.background,
             ),
           ];
         },

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../database/model/plate.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../bloc/equipment/equipment_bloc.dart';
 import 'edit_plate_screen.dart';
 
@@ -45,7 +45,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
-                  confirmColor: T.current.color.error,
+                  confirmColor: T(context).color.error,
                   confirmText: 'Delete',
                   onSubmit: () {
                     setState(() {
@@ -68,7 +68,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Reset Plates',
                   subtitle: 'This will reset all plates to default',
-                  confirmColor: T.current.color.error,
+                  confirmColor: T(context).color.error,
                   confirmText: 'Reset',
                   onSubmit: () {
                     setState(() {
@@ -126,7 +126,7 @@ class _PlateScreenState extends State<PlateScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
                       }
                     },
-                    splashColor: T.current.color.secondary,
+                    splashColor: T(context).color.secondary,
                     onLongPress: () {
                       setState(() {
                         selectedPlates.add(plate);
@@ -145,7 +145,7 @@ class _PlateScreenState extends State<PlateScreen> {
                       plate.weight.toString(),
                       style: TextStyle(
                         fontSize: 18,
-                        color: T.current.color.primary,
+                        color: T(context).color.primary,
                       ),
                     ),
                     trailing: isSelecting ? null : const Icon(

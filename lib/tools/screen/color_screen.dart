@@ -1,5 +1,6 @@
-import 'package:Maven/theme/model/app_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/widget/inherited_theme_widget.dart';
 
 class ColorScreen extends StatefulWidget {
   const ColorScreen({Key? key}) : super(key: key);
@@ -23,11 +24,11 @@ class _ColorScreenState extends State<ColorScreen> {
     ),
     title: Text(
       name,
-      style: T.current.textStyle.body1,
+      style: T(context).textStyle.body1,
     ),
     subtitle: description.isNotEmpty ? Text(
       description,
-      style: T.current.textStyle.subtitle1,
+      style: T(context).textStyle.subtitle1,
     ) : null,
   );
 
@@ -41,42 +42,42 @@ class _ColorScreenState extends State<ColorScreen> {
         children: [
           color(
             'Primary',
-            T.current.color.primary,
+            T(context).color.primary,
             'Text and Icons',
           ),
           color(
             'Secondary',
-            T.current.color.secondary,
+            T(context).color.secondary,
             'Borders',
           ),
           color(
             'Background',
-            T.current.color.background,
+            T(context).color.background,
             '',
           ),
           color(
             'Text',
-            T.current.color.text,
+            T(context).color.text,
             '',
           ),
           color(
             'Subtext',
-            T.current.color.subtext,
+            T(context).color.subtext,
             '',
           ),
           color(
             'Neutral',
-            T.current.color.neutral,
+            T(context).color.neutral,
             'White',
           ),
           color(
             'Success',
-            T.current.color.success,
+            T(context).color.success,
             '',
           ),
           color(
             'Error',
-            T.current.color.error,
+            T(context).color.error,
             '',
           ),
         ],

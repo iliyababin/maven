@@ -11,7 +11,7 @@ import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/workout.dart';
-import '../../../theme/theme.dart';
+import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../complete/bloc/complete_bloc/complete_bloc.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/model/exercise_group.dart';
@@ -56,7 +56,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           Container(
             padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
             decoration: BoxDecoration(
-              color: T.current.color.background,
+              color: T(context).color.background,
               shape: BoxShape.rectangle,
             ),
             child: Row(
@@ -90,12 +90,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         },
                         child: Icon(
                           Icons.add_rounded,
-                          color: T.current.color.primary,
+                          color: T(context).color.primary,
                         ),
                         height: 38,
                         width: 38,
-                        backgroundColor: T.current.color.background,
-                        borderColor: T.current.color.secondary,
+                        backgroundColor: T(context).color.background,
+                        borderColor: T(context).color.secondary,
                       ),
                       const SizedBox(width: 8,),
                       MButton(
@@ -112,7 +112,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   },
                                   leading: Icon(
                                     Icons.drive_file_rename_outline_rounded,
-                                    color: T.current.color.primary,
+                                    color: T(context).color.primary,
                                   ),
                                   title: 'Rename',
                                 ),
@@ -123,7 +123,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   },
                                   leading: Icon(
                                     CupertinoIcons.arrow_up_arrow_down,
-                                    color: T.current.color.primary,
+                                    color: T(context).color.primary,
                                   ),
                                   title: 'Reorder',
                                 ),
@@ -136,7 +136,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   },
                                   leading: Icon(
                                     Icons.pause_circle_outline_rounded,
-                                    color: T.current.color.primary,
+                                    color: T(context).color.primary,
                                   ),
                                   title: 'Pause',
                                 ),
@@ -149,7 +149,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         title: 'Delete',
                                         subtitle: 'All progress will be lost.',
                                         confirmText: 'Delete',
-                                        confirmColor: T.current.color.error,
+                                        confirmColor: T(context).color.error,
                                         onSubmit: () {
                                           context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
                                         },
@@ -159,7 +159,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   },
                                   leading: Icon(
                                     Icons.delete_rounded,
-                                    color: T.current.color.error,
+                                    color: T(context).color.error,
                                   ),
                                   title: 'Discard Workout',
                                 ),
@@ -171,12 +171,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         },
                         child: Icon(
                           Icons.more_horiz,
-                          color: T.current.color.text,
+                          color: T(context).color.text,
                         ),
                         height: 38,
                         width: 38,
-                        backgroundColor: T.current.color.background,
-                        borderColor: T.current.color.secondary,
+                        backgroundColor: T(context).color.background,
+                        borderColor: T(context).color.secondary,
                       ),
                       const SizedBox(width: 8,),
                       ExerciseTimerWidget(
@@ -199,10 +199,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   },
                   height: 38,
                   width: 84,
-                  backgroundColor: T.current.color.success,
+                  backgroundColor: T(context).color.success,
                   child: Text(
                     'Finish',
-                    style: T.current.textStyle.button1,
+                    style: T(context).textStyle.button1,
                   ),
                 ),
               ],
@@ -229,7 +229,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 focusedBorder: InputBorder.none,
                                 hintText: 'Workout',
                               ),
-                              style: T.current.textStyle.heading1,
+                              style: T(context).textStyle.heading1,
                             ),
                             const SizedBox(height: 4,),
                             StreamBuilder(
@@ -237,7 +237,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                 return Text(
                                   workoutDuration(workout.timestamp),
-                                  style: T.current.textStyle.subtitle1,
+                                  style: T(context).textStyle.subtitle1,
                                 );
                               },
                             )
