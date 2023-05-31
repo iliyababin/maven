@@ -1,5 +1,6 @@
-import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
@@ -70,6 +71,7 @@ class ExerciseGroupWidget extends StatefulWidget {
 }
 
 class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -139,15 +141,30 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return Dismissible(
+            return Slidable(
               key: UniqueKey(),
-              onDismissed: (direction) {
-                ExerciseSet exerciseSet = widget.exerciseSets[index];
-                widget.onExerciseSetDelete(exerciseSet);
-              },
-              direction: DismissDirection.endToStart,
-              background: Container(
-                color: Colors.redAccent,
+              endActionPane: ActionPane(
+                extentRatio: 0.3,
+                motion: const BehindMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (BuildContext context) {
+                      // TODO: Implement inline timer
+                    },
+                    icon: Icons.timer,
+                    foregroundColor: T(context).color.primary,
+                    backgroundColor: T(context).color.background.withAlpha(255),
+                  ),
+                  SlidableAction(
+                    onPressed: (BuildContext context) {
+                      ExerciseSet exerciseSet = widget.exerciseSets[index];
+                      widget.onExerciseSetDelete(exerciseSet);
+                    },
+                    icon: Icons.delete,
+                    foregroundColor: T(context).color.error,
+                    backgroundColor: T(context).color.background.withAlpha(255),
+                  ),
+                ],
               ),
               child: ExerciseSetWidget(
                 index: index + 1,
@@ -167,7 +184,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 },
                 checkboxEnabled: widget.checkboxEnabled,
                 hintsEnabled: widget.hintsEnabled,
-              ),
+              )
             );
           },
         ),
