@@ -153,6 +153,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   
   Future<void> _update(WorkoutUpdate event, Emitter<WorkoutState> emit) async {
     await workoutDao.updateWorkout(event.workout);
+    emit(state.copyWith(
+      workout: () => event.workout,
+    ));
   }
 
   Future<void> _toggle(WorkoutToggle event, Emitter<WorkoutState> emit) async {

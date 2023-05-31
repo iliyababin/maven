@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:maven/common/dialog/confirmation_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/confirmation_dialog.dart';
 
 import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
@@ -88,14 +88,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles1.map((e) => e.exerciseGroup).toList()));
                           }
                         },
-                        child: Icon(
-                          Icons.add_rounded,
-                          color: T(context).color.primary,
-                        ),
                         height: 38,
                         width: 38,
                         backgroundColor: T(context).color.background,
                         borderColor: T(context).color.secondary,
+                        child: Icon(
+                          Icons.add_rounded,
+                          color: T(context).color.primary,
+                        ),
                       ),
                       const SizedBox(width: 8,),
                       MButton(
@@ -169,14 +169,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                             onClose: () {},
                           );
                         },
-                        child: Icon(
-                          Icons.more_horiz,
-                          color: T(context).color.text,
-                        ),
                         height: 38,
                         width: 38,
                         backgroundColor: T(context).color.background,
                         borderColor: T(context).color.secondary,
+                        child: Icon(
+                          Icons.more_horiz,
+                          color: T(context).color.text,
+                        ),
                       ),
                       const SizedBox(width: 8,),
                       ExerciseTimerWidget(
@@ -220,6 +220,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           children: [
                             TextFormField(
                               onChanged: (value) {
+                                context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
                               },
                               focusNode: _workoutNameNode,
                               initialValue: workout.name,
