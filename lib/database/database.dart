@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:floor/floor.dart';
 import 'package:maven/database/converter/duration_converter.dart';
 import 'package:maven/database/converter/set_type_converter.dart';
-import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../feature/exercise/model/muscle.dart';
@@ -73,9 +73,13 @@ abstract class MavenDatabase extends FloorDatabase {
   );
 
   static Future<MavenDatabase> initialize() async {
-    return await $FloorMavenDatabase
+    MavenDatabase db = await $FloorMavenDatabase
         .databaseBuilder('maven_db_53.db')
         .addCallback(_callback)
         .build();
+    db.plateDao.addPlates(getDefaultPlates());
+    db.barDao.addBars(getDefaultBars());
+    db.exerciseDao.addExercises(getDefaultExercises());
+    return db;
   }
 }
