@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/complete/bloc/complete_bloc/complete_bloc.dart';
+import 'feature/complete/bloc/complete_exercise/complete_exercise_bloc.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
@@ -84,6 +85,12 @@ void main() async {
                 completeExerciseSetDao: db.completeExerciseSetDao,
                 workoutDao: db.workoutDao,
               )..add(const CompleteInitialize())),
+      BlocProvider(
+          create: (context) => CompleteExerciseBloc(
+                completeDao: db.completeDao,
+                completeExerciseGroupDao: db.completeExerciseGroupDao,
+                completeExerciseSetDao: db.completeExerciseSetDao,
+              )..add(const CompleteExerciseInitialize())),
       BlocProvider(
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,

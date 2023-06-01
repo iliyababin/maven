@@ -63,6 +63,14 @@ class Exercise extends Equatable {
     equipment,
     barId,
   ];
+
+  static Exercise empty = const Exercise(
+    name: 'Empty',
+    muscle: Muscle.trapezius,
+    muscleGroup: MuscleGroup.arms,
+    exerciseType: ExerciseTypes.assistedBodyweight,
+    equipment: Equipment.none,
+  );
 }
 
 List<Exercise> getDefaultExercises() => [

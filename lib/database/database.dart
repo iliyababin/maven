@@ -13,6 +13,9 @@ import 'dao/setting_dao.dart';
 import 'model/model.dart';
 import 'model/setting.dart';
 
+export 'dao/dao.dart';
+export 'model/model.dart';
+
 part 'database.g.dart';
 
 @Database(
@@ -74,7 +77,7 @@ abstract class MavenDatabase extends FloorDatabase {
 
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_53.db')
+        .databaseBuilder('maven_db_54.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

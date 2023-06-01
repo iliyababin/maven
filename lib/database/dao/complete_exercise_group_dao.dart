@@ -17,8 +17,11 @@ abstract class CompleteExerciseGroupDao {
   @Query('SELECT * FROM complete_exercise_group WHERE complete_id = :completeId')
   Future<List<CompleteExerciseGroup>> getCompleteExerciseGroupsByCompleteId(int completeId);
 
+  @Query('SELECT * FROM complete_exercise_group WHERE exercise_id = :exerciseId')
+  Future<List<CompleteExerciseGroup>> getCompleteExerciseGroupsByExerciseId(int exerciseId);
+
   @update
-  Future<int> updateCompleteExerciseGroup(CompleteExerciseGroup completeExerciseGroup);
+  Future<int> updateCompleteExerciseGroup(CompleteExerciseGroup exerciseId);
 
   @delete
   Future<int> deleteCompleteExerciseGroup(CompleteExerciseGroup completeExerciseGroup);

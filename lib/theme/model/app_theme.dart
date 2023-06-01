@@ -29,6 +29,18 @@ class AppTheme extends Equatable {
           color: options.color.primary,
         ),
       ),
+      tabBarTheme: TabBarTheme(
+        unselectedLabelStyle: options.textStyle.body1,
+        labelStyle: options.textStyle.body1,
+        labelColor: options.color.text,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+            color: options.color.primary,
+            width: 2,
+          ),
+        ),
+      ),
+
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
@@ -47,7 +59,7 @@ class AppTheme extends Equatable {
       ),
       scaffoldBackgroundColor: options.color.background,
       listTileTheme: ListTileThemeData(
-        contentPadding: EdgeInsets.only(left: 20),
+        contentPadding: const EdgeInsets.only(left: 20),
         iconColor: options.color.primary,
         textColor: options.color.text,
       ),
