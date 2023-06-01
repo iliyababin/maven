@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/extension.dart';
+import 'package:maven/feature/complete/widget/complete_exercise_history_list_widget.dart';
 import 'package:maven/main.dart';
 
 import '../../../database/model/model.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../complete/bloc/complete_exercise/complete_exercise_bloc.dart';
-import '../../complete/model/complete_bundle.dart';
-import '../../complete/widget/complete_exercise_widget.dart';
 import '../bloc/exercise_bloc.dart';
+import '../widget/exercise_detail_widget.dart';
 
-class ExerciseDetailScreen extends StatelessWidget {
+class ExerciseDetailScreen extends StatefulWidget {
   const ExerciseDetailScreen({
     Key? key,
     required this.exercise,
@@ -20,159 +17,61 @@ class ExerciseDetailScreen extends StatelessWidget {
   final Exercise exercise;
 
   @override
+  State<ExerciseDetailScreen> createState() => _ExerciseDetailScreenState();
+}
+
+class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
+  @override
   Widget build(BuildContext context) {
+    print('building');
     return BlocBuilder<ExerciseBloc, ExerciseState>(
       builder: (context, state) {
-        final int exerciseId = exercise.exerciseId!;
-
-        context.read<CompleteExerciseBloc>().add(CompleteExerciseLoad(exerciseId: exerciseId));
-
-        return DefaultTabController(
-          length: 4,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                exercise.name,
-              ),
-              bottom: const TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                tabs: [
-                  Tab(
-                    text: 'Details',
-                  ),
-                  Tab(
-                    text: 'History',
-                  ),
-                  Tab(
-                    text: 'Records',
-                  ),
-                  Tab(
-                    text: 'Charts',
-                  ),
-                ],
-              ),
-            ),
-            body: TabBarView(
-              physics: CustomScrollBehavior().getScrollPhysics(context),
-              children: [
-                ListView(
-                  children: [
-                    ListTile(
-                      onTap: () {},
-                      leading: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.health_and_safety,
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        'Group',
-                        style: T(context).textStyle.body1,
-                      ),
-                      subtitle: Text(
-                        exercise.muscleGroup.name.capitalize(),
-                        style: T(context).textStyle.subtitle1,
-                      ),
+        if (state.status.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (state.status.isLoaded) {
+          final Exercise exercise = state.exercises.firstWhere((element) => element.exerciseId == widget.exercise.exerciseId);
+          
+          return DefaultTabController(
+            length: 4,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  exercise.name,
+                ),
+                bottom: const TabBar(
+                  indicatorSize: TabBarIndicatorSize.label,
+                  tabs: [
+                    Tab(
+                      text: 'Details',
                     ),
-                    ListTile(
-                      onTap: () {},
-                      leading: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.monitor_heart,
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        'Muscle',
-                        style: T(context).textStyle.body1,
-                      ),
-                      subtitle: Text(
-                        exercise.muscle.name.parseMuscleToString(),
-                        style: T(context).textStyle.subtitle1,
-                      ),
+                    Tab(
+                      text: 'History',
                     ),
-                    ListTile(
-                      onTap: () {},
-                      leading: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.category,
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        'Equipment',
-                        style: T(context).textStyle.body1,
-                      ),
-                      subtitle: Text(
-                        exercise.equipment.name.capitalize(),
-                        style: T(context).textStyle.subtitle1,
-                      ),
+                    Tab(
+                      text: 'Records',
                     ),
-                    ListTile(
-                      onTap: () {},
-                      leading: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.tune,
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        'Type',
-                        style: T(context).textStyle.body1,
-                      ),
-                      subtitle: Text(
-                        exercise.exerciseType.name,
-                        style: T(context).textStyle.subtitle1,
-                      ),
+                    Tab(
+                      text: 'Charts',
                     ),
                   ],
                 ),
-                BlocBuilder<CompleteExerciseBloc, CompleteExerciseState>(
-                  builder: (context, state) {
-                    if (state.status.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state.status.isLoaded) {
-                      return Padding(
-                        padding: EdgeInsets.all(T(context).padding.page),
-                        child: ListView.separated(
-                          itemCount: state.completeBundles.length,
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 10,
-                            );
-                          },
-                          itemBuilder: (context, index) {
-                            final CompleteBundle completeBundle = state.completeBundles[index];
-                            return CompleteExerciseWidget(
-                              complete: completeBundle.complete,
-                              completeExerciseSets: completeBundle.completeExerciseBundles[0].completeExerciseSets,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('Error'),
-                      );
-                    }
-                  },
-                ),
-                ListView(),
-                ListView(),
-              ],
+              ),
+              body: TabBarView(
+                physics: CustomScrollBehavior().getScrollPhysics(context),
+                children: [
+                  ExerciseDetailWidget(exercise: exercise),
+                  CompleteExerciseHistoryListWidget(exercise: exercise),
+                  ListView(),
+                  ListView(),
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return const Center(
+            child: Text('Error'),
+          );
+        }
       },
     );
   }

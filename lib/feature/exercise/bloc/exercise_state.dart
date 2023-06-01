@@ -1,14 +1,20 @@
 part of 'exercise_bloc.dart';
 
 enum ExerciseStatus {
-  error,
+  initial,
   loading,
   loaded,
 }
 
+extension ExerciseStatusExtension on ExerciseStatus {
+  bool get isInitial => this == ExerciseStatus.initial;
+  bool get isLoading => this == ExerciseStatus.loading;
+  bool get isLoaded => this == ExerciseStatus.loaded;
+}
+
 class ExerciseState extends Equatable {
   const ExerciseState({
-    this.status = ExerciseStatus.loading,
+    this.status = ExerciseStatus.initial,
     this.exercises = const [],
   });
 

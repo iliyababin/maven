@@ -10,14 +10,3 @@ class ExerciseInitialize extends ExerciseEvent {
   @override
   List<Object?> get props => [];
 }
-
-class ExerciseStreamUpdateExercises extends ExerciseEvent {
-  const ExerciseStreamUpdateExercises({
-    required this.exercises,
-  });
-
-  final List<Exercise> exercises;
-
-  @override
-  List<Object?> get props => [exercises];
-}

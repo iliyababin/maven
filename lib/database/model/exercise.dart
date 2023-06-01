@@ -28,6 +28,7 @@ class Exercise extends Equatable {
     required this.muscleGroup,
     required this.exerciseType,
     required this.equipment,
+    required this.videoPath,
     this.barId,
   });
 
@@ -50,6 +51,9 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'exercise_equipment')
   final Equipment equipment;
 
+  @ColumnInfo(name: 'video_path')
+  final String videoPath;
+
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
@@ -70,6 +74,7 @@ class Exercise extends Equatable {
     muscleGroup: MuscleGroup.arms,
     exerciseType: ExerciseTypes.assistedBodyweight,
     equipment: Equipment.none,
+    videoPath: 'Empty',
   );
 }
 
@@ -81,6 +86,7 @@ List<Exercise> getDefaultExercises() => [
     muscleGroup: MuscleGroup.legs,
     exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.barbell,
+    videoPath: 'assets/exercises/videos/barbell_squat.mp4',
     barId: 1,
   ),
   const Exercise(
@@ -90,6 +96,7 @@ List<Exercise> getDefaultExercises() => [
     muscleGroup: MuscleGroup.chest,
     exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.barbell,
+    videoPath: 'assets/exercises/videos/barbell_bench_press.mp4',
     barId: 1,
   ),
   const Exercise(
@@ -99,6 +106,7 @@ List<Exercise> getDefaultExercises() => [
     muscleGroup: MuscleGroup.back,
     exerciseType: ExerciseTypes.bodyweightReps,
     equipment: Equipment.bodyWeight,
+    videoPath: 'assets/exercises/videos/pull_up.mp4',
   ),
   const Exercise(
     exerciseId: 4,
@@ -107,6 +115,7 @@ List<Exercise> getDefaultExercises() => [
     muscleGroup: MuscleGroup.arms,
     exerciseType: ExerciseTypes.assistedBodyweight,
     equipment: Equipment.machine,
+    videoPath: 'assets/exercises/videos/barbell_squat.mp4',
   ),
   const Exercise(
     exerciseId: 5,
@@ -115,5 +124,6 @@ List<Exercise> getDefaultExercises() => [
     muscleGroup: MuscleGroup.arms,
     exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.dumbbell,
+    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
   ),
 ];

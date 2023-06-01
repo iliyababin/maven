@@ -31,6 +31,7 @@ dependencies:
   reorderables: ^0.6.0
   shimmer: ^3.0.0
   flutter_slidable: ^3.0.0
+  video_player: ^2.6.1
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +43,7 @@ flutter:
   generate: false
   assets:
     - assets/images/
+    - assets/exercises/videos/
 
 flutter_intl:
   enabled: true
