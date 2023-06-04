@@ -109,9 +109,9 @@ class Main extends StatelessWidget {
       builder: (context, state) {
         if (state.status.isLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else {
+        } else if (state.status.isLoaded) {
           return ThemeProvider(
-            theme: AppTheme.dark,
+            theme: AppTheme.themes.firstWhere((element) => element.id == state.themeId),
             themes: AppTheme.themes,
             child: Builder(
               builder: (context) {
@@ -139,6 +139,8 @@ class Main extends StatelessWidget {
               },
             ),
           );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

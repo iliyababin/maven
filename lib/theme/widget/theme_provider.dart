@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../feature/setting/bloc/setting_bloc.dart';
 import '../model/app_theme.dart';
 import 'inherited_theme_widget.dart';
 
@@ -39,7 +41,13 @@ class ThemeProvider extends StatefulWidget {
 }
 
 class _ThemeProviderState extends State<ThemeProvider> {
-  AppTheme _theme = AppTheme.dark;
+  late AppTheme _theme;
+
+  @override
+  void initState() {
+    _theme = widget.theme;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +59,7 @@ class _ThemeProviderState extends State<ThemeProvider> {
             setState(() {
               _theme = element;
             });
+            context.read<SettingBloc>().add(SettingChangeTheme(id: id));
           }
         }
       },

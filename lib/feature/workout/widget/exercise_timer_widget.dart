@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:maven/common/util/general_utils.dart';
-import 'package:flutter/material.dart';
 
 import '../../../common/dialog/timer_picker_dialog.dart';
 import '../../../common/model/timed.dart';
@@ -54,7 +54,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           child: Stack(
             children: [
               LinearProgressIndicator(
-                backgroundColor: T(context).color.error,
+                backgroundColor: T(context).color.secondary,
                 color: T(context).color.primary,
                 value: timeLeft / totalTime,
                 minHeight: 38,
