@@ -49,7 +49,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final CompleteExerciseSetDao completeExerciseSetDao;
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
-    emit(state.copyWith(status: () => WorkoutStatus.loading));
+    emit(state.copyWith(
+        status: () => WorkoutStatus.loading),
+    );
 
     Workout? workout = await workoutDao.getActiveWorkout();
 
@@ -73,6 +75,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _start(WorkoutStart event, Emitter<WorkoutState> emit) async {
+    if(state.status.isActive) {
+      workoutDao.deleteWorkout(state.workout!);
+      emit(state.copyWith(status: () => WorkoutStatus.none));
+    }
+
     int workoutId = await workoutDao.addWorkout(Workout(
       name: event.template.name,
       isActive: true,

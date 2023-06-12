@@ -1,7 +1,7 @@
-import 'package:maven/common/dialog/confirmation_dialog.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/confirmation_dialog.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/template.dart';
@@ -153,10 +153,19 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                   padding: EdgeInsets.all(T(context).padding.page),
                   child: MButton(
                     onPressed: () {
-                      context.read<WorkoutBloc>().add(WorkoutStart(
-                        template: template,
-                      ));
-                      Navigator.pop(context);
+                      showBottomSheetDialog(
+                        context: context,
+                        child: ConfirmationDialog(
+                          title: 'Start Workout',
+                          subtitle: 'This will delete any current workout.',
+                          confirmText: 'Start',
+                          onSubmit: () {
+                            context.read<WorkoutBloc>().add(WorkoutStart(template: template));
+                            Navigator.pop(context);
+                          },
+                        ),
+                        onClose: () {},
+                      );
                     },
                     expand: false,
                     backgroundColor: T(context).color.secondary,
