@@ -39,7 +39,6 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
   @override
   void dispose() {
     widget.controller.dispose();
-    widget.controller.stop();
     super.dispose();
   }
 
@@ -115,6 +114,9 @@ class ExerciseTimerController extends ChangeNotifier {
   int totalTime = 0;
 
   void startTimer(Timed timed) {
+    if(timer != null) {
+      timer!.cancel();
+    }
     timeLeft = timed.toSeconds();
     totalTime = timed.toSeconds();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -130,7 +132,12 @@ class ExerciseTimerController extends ChangeNotifier {
 
   void stop() {
     timer?.cancel();
-    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }
 

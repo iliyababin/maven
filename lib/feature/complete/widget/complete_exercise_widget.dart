@@ -47,7 +47,12 @@ class CompleteExerciseWidget extends StatelessWidget {
                 DateFormat.yMMMMEEEEd().format(complete.timestamp).toString(),
                 style: T(context).textStyle.subtitle2,
               ),
-              const SizedBox(height: 6,),
+              const SizedBox(height: 12,),
+              Text(
+                'Sets Performed',
+                style: T(context).textStyle.body1,
+              ),
+              const SizedBox(height: 4,),
               ListView.separated(
                 itemCount: completeExerciseSets.length,
                 shrinkWrap: true,

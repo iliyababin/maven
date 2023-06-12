@@ -49,6 +49,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   }
 
   @override
+  void dispose() {
+    _workoutNameNode.dispose();
+    exerciseTimerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
