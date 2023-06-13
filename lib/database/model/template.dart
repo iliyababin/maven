@@ -1,88 +1,47 @@
-import 'package:maven/database/model/template_tracker.dart';
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import 'folder.dart';
-
+import 'routine.dart';
 
 @Entity(
   tableName: 'template',
   primaryKeys: [
-    'template_id',
-  ],
-  foreignKeys: [
-    ForeignKey(
-      childColumns: ['folder_id'],
-      parentColumns: ['folder_id'],
-      entity: Folder,
-    ),
+    'id',
   ],
 )
-class Template extends Equatable {
+class Template extends Routine {
   const Template({
-    this.templateId,
-    required this.name,
-    required this.description,
-    this.sortOrder,
-    this.folderId,
-    this.templateTracker,
+    super.id,
+    required super.name,
+    required super.description,
+    required super.timestamp,
+    required this.sort,
   });
 
-  const Template.empty() : this(
-    templateId: null,
-    name: 'Error: Empty Template',
-    description: 'Error: Empty Template',
-  );
+  final int sort;
 
-  @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'template_id')
-  final int? templateId;
-
-  @ColumnInfo(name: 'name')
-  final String name;
-
-  @ColumnInfo(name: 'description')
-  final String description;
-
-  @ColumnInfo(name: 'sort_order')
-  final int? sortOrder;
-
-  @ColumnInfo(name: 'folder_id')
-  final int? folderId;
-
-  @ignore
-  final TemplateTracker? templateTracker;
-
+  @override
   Template copyWith({
-    int? templateId,
+    int? id,
     String? name,
     String? description,
-    int? sortOrder,
-    int? folderId,
-    TemplateTracker? templateTracker,
+    DateTime? timestamp,
+    int? sort,
   }) {
     return Template(
-      templateId: templateId ?? this.templateId,
+      id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      sortOrder: sortOrder ?? this.sortOrder,
-      folderId: folderId ?? this.folderId,
-      templateTracker: templateTracker ?? this.templateTracker,
+      timestamp: timestamp ?? this.timestamp,
+      sort: sort ?? this.sort,
     );
   }
 
   @override
-  String toString() {
-    return 'Template{templateId: $templateId, name: $name, description: $description, sortOrder: $sortOrder, folderId: $folderId, templateTracker: $templateTracker}';
-  }
-
-  @override
   List<Object?> get props => [
-    templateId,
+    id,
     name,
     description,
-    sortOrder,
-    folderId,
-    templateTracker,
+    timestamp,
+    sort,
   ];
 }

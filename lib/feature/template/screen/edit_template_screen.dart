@@ -1,6 +1,6 @@
-import 'package:maven/feature/exercise/model/exercise_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/feature/exercise/model/exercise_group.dart';
 
 import '../../../common/model/timed.dart';
 import '../../../database/model/model.dart';
@@ -44,9 +44,11 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       exerciseBundles = widget.exerciseBundles!.map((e) => e.copyWith()).toList();
     }
     if(widget.template == null) {
-      template = const Template(
+      template =  Template(
         name: 'Untitled',
-        description: 'Enter a description',
+        description: 'A workout template',
+        sort: -1,
+        timestamp: DateTime.now(),
       );
     } else {
       template = widget.template!.copyWith();

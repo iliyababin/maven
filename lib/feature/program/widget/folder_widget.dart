@@ -1,8 +1,8 @@
 
 
-import 'package:maven/feature/template/widget/template_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/feature/template/widget/template_widget.dart';
 
 import '../../../database/model/folder.dart';
 import '../../../database/model/template.dart';
@@ -62,7 +62,7 @@ class _FolderWidgetState extends State<FolderWidget> {
   
   @override
   void initState() {
-    _completedAmount = widget.templates.where((element) => element.templateTracker?.completed == true).length;
+    //_completedAmount = widget.templates.where((element) => element.templateTracker?.completed == true).length;
     if(_completedAmount != widget.templates.length) {
       _expandedController.toggle();
     }

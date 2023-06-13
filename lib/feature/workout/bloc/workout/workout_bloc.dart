@@ -86,7 +86,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       timestamp: DateTime.now(),
     ));
 
-    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.templateId!);
+    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.id!);
 
     for (var templateExerciseGroup in templateExerciseGroups) {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(

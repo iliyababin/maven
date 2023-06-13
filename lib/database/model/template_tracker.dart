@@ -7,8 +7,8 @@ import 'template.dart';
   tableName: 'template_tracker',
   foreignKeys: [
     ForeignKey(
-      childColumns: ['template_id'],
-      parentColumns: ['template_id'],
+      childColumns: ['id'],
+      parentColumns: ['id'],
       entity: Template,
       onDelete: ForeignKeyAction.cascade,
     ),
@@ -34,7 +34,7 @@ class TemplateTracker {
   @ColumnInfo(name: 'completed')
   final bool completed;
 
-  @ColumnInfo(name: 'template_id')
+  @ColumnInfo(name: 'id')
   final int templateId;
 
   @ColumnInfo(name: 'folder_id')

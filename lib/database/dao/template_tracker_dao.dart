@@ -11,7 +11,7 @@ abstract class TemplateTrackerDao {
   @Query('SELECT * FROM template_tracker WHERE folder_id = :folderId')
   Future<List<TemplateTracker>> getTemplateTrackersByFolderId(int folderId);
 
-  @Query('SELECT * FROM template_tracker WHERE template_id = :templateId')
+  @Query('SELECT * FROM template_tracker WHERE id = :templateId')
   Future<TemplateTracker?> getTemplateTrackerByTemplateId(int templateId);
 
   @update

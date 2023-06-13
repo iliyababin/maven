@@ -24,7 +24,7 @@ class TemplateDetailScreen extends StatefulWidget {
 }
 
 class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
-  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.templateId!));
+  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.id!));
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
           if(state.status.isLoading) {
             return const Center(child: CircularProgressIndicator(),);
           } else if(state.status.isLoaded) {
-            Template template = state.template;
+            Template template = state.template!;
 
             return Scaffold(
               appBar: AppBar(

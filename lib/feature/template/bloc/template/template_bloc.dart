@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:maven/database/model/template_tracker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:maven/database/model/template_tracker.dart';
 
 import '../../../../database/dao/template_dao.dart';
 import '../../../../database/dao/template_exercise_group_dao.dart';
@@ -28,7 +28,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     on<TemplateUpdate>(_update);
     on<TemplateDelete>(_delete);
     on<TemplateReorder>(_reorder);
-    on<TemplateStreamUpdateTemplates>(_updateTemplates);
   }
 
   final TemplateDao templateDao;
@@ -39,14 +38,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(status: () => TemplateStatus.loading,));
 
-    templateDao.getTemplatesAsStream().listen((event) => add(TemplateStreamUpdateTemplates(templates: event)));
-
     emit(state.copyWith(status: () => TemplateStatus.loaded,));
   }
 
-  Future<void> _updateTemplates(TemplateStreamUpdateTemplates event, Emitter<TemplateState> emit) async {
-    emit(state.copyWith(templates: () => event.templates));
-  }
 
   Future<void> _create(TemplateCreate event, emit) async {
     emit(state.copyWith(status: () => TemplateStatus.loading));
@@ -79,7 +73,11 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       }
     }
 
-    emit(state.copyWith(status: () => TemplateStatus.loaded));
+    List<Template> templates = await templateDao.getTemplates();
+    emit(state.copyWith(
+      status: () => TemplateStatus.loaded,
+      templates: () => templates,
+    ));
   }
 
   Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
@@ -89,7 +87,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       await templateDao.deleteTemplate(event.template);
       add(TemplateCreate(
         template: event.template,
-        templateTracker: event.template.templateTracker,
         exerciseBundles: event.exerciseBundles!,
       ));
     }
@@ -100,7 +97,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templates.length; i++) {
       Template template = templates[i];
-      templateDao.updateTemplate(template.copyWith(sortOrder: i + 1));
+      templateDao.updateTemplate(template.copyWith(sort: i + 1));
     }
   }
 

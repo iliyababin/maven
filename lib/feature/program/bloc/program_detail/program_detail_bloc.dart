@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:maven/database/dao/template_tracker_dao.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:maven/database/dao/template_tracker_dao.dart';
 
 import '../../../../database/dao/folder_dao.dart';
 import '../../../../database/dao/program_dao.dart';
@@ -51,11 +51,11 @@ class ProgramDetailBloc extends Bloc<ProgramDetailEvent, ProgramDetailState> {
     List<Folder> folders = await folderDao.getFoldersByProgramId(program.programId!);
 
     for(int i = 0; i < folders.length; i++) {
-      List<Template> templates = await templateDao.getTemplatesByFolderId(folders[i].folderId!);
+      List<Template> templates = await templateDao.getTemplates();
 
       for (int j = 0; j < templates.length; j++) {
-        TemplateTracker? templateTracker = await templateTrackerDao.getTemplateTrackerByTemplateId(templates[j].templateId!);
-        templates[j] = templates[j].copyWith(templateTracker: templateTracker);
+        TemplateTracker? templateTracker = await templateTrackerDao.getTemplateTrackerByTemplateId(templates[j].id!);
+        //templates[j] = templates[j].copyWith(templateTracker: templateTracker);
       }
 
       folders[i] = folders[i].copyWith(templates: templates);
@@ -73,9 +73,9 @@ class ProgramDetailBloc extends Bloc<ProgramDetailEvent, ProgramDetailState> {
     emit(state.copyWith(
       folders: () => state.folders.map((folder) {
         return folder.copyWith(templates: folder.templates.map((template) {
-          if(template.templateId == event.templateTracker.templateId) {
+          /*if(template.templateId == event.templateTracker.templateId) {
             return template.copyWith(templateTracker: event.templateTracker);
-          }
+          }*/
           return template;
         }).toList());
       }).toList(),

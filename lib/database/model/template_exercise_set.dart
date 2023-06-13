@@ -14,8 +14,8 @@ import 'template_exercise_group.dart';
       onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
-      childColumns: ['template_id'],
-      parentColumns: ['template_id'],
+      childColumns: ['id'],
+      parentColumns: ['id'],
       entity: Template,
       onDelete: ForeignKeyAction.cascade,
     ),
@@ -47,6 +47,6 @@ class TemplateExerciseSet {
   @ColumnInfo(name: 'template_exercise_group_id')
   final int templateExerciseGroupId;
 
-  @ColumnInfo(name: 'template_id')
+  @ColumnInfo(name: 'id')
   final int templateId;
 }

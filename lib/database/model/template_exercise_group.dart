@@ -20,8 +20,8 @@ import 'template.dart';
       entity: Exercise,
     ),
     ForeignKey(
-      childColumns: ['template_id'],
-      parentColumns: ['template_id'],
+      childColumns: ['id'],
+      parentColumns: ['id'],
       entity: Template,
       onDelete: ForeignKeyAction.cascade,
     ),
@@ -45,7 +45,7 @@ class TemplateExerciseGroup extends Equatable {
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
 
-  @ColumnInfo(name: 'template_id')
+  @ColumnInfo(name: 'id')
   final int templateId;
 
   const TemplateExerciseGroup({

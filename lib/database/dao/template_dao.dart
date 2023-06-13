@@ -11,17 +11,13 @@ abstract class TemplateDao {
   @insert
   Future<void> addTemplates(List<Template> templates);
 
-  @Query('SELECT * FROM template WHERE template_id = :templateId')
+  @Query('SELECT * FROM template WHERE id = :templateId')
   Future<Template?> getTemplate(int templateId);
 
-  @Query('SELECT * FROM template ORDER BY sort_order ASC')
+  // ORDER BY order ASC
+  @Query('SELECT * FROM template')
   Future<List<Template>> getTemplates();
 
-  @Query('SELECT * FROM template WHERE folder_id = :folderId ORDER BY sort_order ASC ')
-  Future<List<Template>> getTemplatesByFolderId(int folderId);
-
-  @Query('SELECT * FROM template WHERE folder_id is null ORDER BY sort_order ASC')
-  Stream<List<Template>> getTemplatesAsStream();
 
   @Query('SELECT sort_order FROM template')
   Future<List<int>> getHighestSortOrder();

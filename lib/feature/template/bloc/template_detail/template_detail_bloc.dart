@@ -28,7 +28,7 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
   final ExerciseDao exerciseDao;
 
   Future<void> _templateDetailLoad(TemplateDetailLoad event, emit) async {
-    emit(state.copyWith(status: () => TemplateDetailStatus.loading));
+    emit(state.copyWith(status: TemplateDetailStatus.loading));
 
     List<ExerciseBundle> exerciseBundles = [];
 
@@ -49,9 +49,9 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
     Template? template = await templateDao.getTemplate(event.templateId);
 
     emit(state.copyWith(
-      template: () => template ?? const Template.empty(),
-      status: () => TemplateDetailStatus.loaded,
-      exerciseBundles: () => exerciseBundles,
+      template: template,
+      status: TemplateDetailStatus.loaded,
+      exerciseBundles: exerciseBundles,
     ));
   }
 }

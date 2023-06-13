@@ -1,10 +1,8 @@
-import 'package:maven/common/widget/m_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/m_button.dart';
 
 import '../../../database/model/template.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../program/bloc/program_detail/program_detail_bloc.dart';
 import '../screen/template_detail_screen.dart';
 
 class TemplateWidget extends StatefulWidget {
@@ -24,7 +22,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
 
   @override
   void initState() {
-    _completed = widget.template.templateTracker?.completed;
+    _completed = null;
     super.initState();
   }
 
@@ -58,11 +56,11 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                     setState(() {
                       _completed = !_completed!;
                     });
-                    context.read<ProgramDetailBloc>().add(ProgramDetailTemplateTrackerUpdate(
+                    /*context.read<ProgramDetailBloc>().add(ProgramDetailTemplateTrackerUpdate(
                       templateTracker: widget.template.templateTracker!.copyWith(
                         completed: _completed,
                       ),
-                    ));
+                    ));*/
                   },
                   width: 40,
                   height: 40,

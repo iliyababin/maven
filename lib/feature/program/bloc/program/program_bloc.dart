@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:maven/common/util/general_utils.dart';
 import 'package:maven/database/model/folder.dart';
 import 'package:maven/database/model/template.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../../../database/dao/folder_dao.dart';
 import '../../../../database/dao/program_dao.dart';
@@ -77,8 +77,9 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
         int templateId = await templateDao.addTemplate(Template(
           name: capitalize(exerciseDay.day.name),
           description: 'No description',
-          sortOrder: j + 1,
-          folderId: folderId,
+          sort: j + 1,
+          timestamp: DateTime.now(),
+          //folderId: folderId,
         ));
 
         await templateTrackerDao.addTemplateTracker(TemplateTracker(
