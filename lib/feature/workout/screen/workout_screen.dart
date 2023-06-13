@@ -137,7 +137,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 MButton.tiled(
                                   onPressed: () {
                                     context.read<WorkoutBloc>().add(WorkoutToggle(
-                                      workout: workout.copyWith(isActive: false),
+                                      workout: workout.copyWith(active: false),
                                     ));
                                     Navigator.pop(context);
                                   },

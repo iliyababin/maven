@@ -1,38 +1,47 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'workout')
-class Workout {
-  Workout({
-    this.workoutId,
-    required this.name,
-    required this.isActive,
-    required this.timestamp,
+import 'routine.dart';
+
+@Entity(
+  tableName: 'workout',
+  primaryKeys: [
+    'id',
+  ],
+)
+class Workout extends Routine {
+  const Workout({
+    super.id,
+    required super.name,
+    required super.description,
+    required super.timestamp,
+    required this.active,
   });
-  
-  @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'workout_id')
-  int? workoutId;
 
-  @ColumnInfo(name: 'name')
-  String name;
+  final bool active;
 
-  @ColumnInfo(name: 'is_active')
-  bool isActive;
-  
-  @ColumnInfo(name: 'timestamp')
-  DateTime timestamp;
-  
+  @override
   Workout copyWith({
-    int? workoutId,
+    int? id,
     String? name,
-    bool? isActive,
+    String? description,
     DateTime? timestamp,
+    bool? active,
   }) {
     return Workout(
-      workoutId: workoutId ?? this.workoutId,
+      id: id ?? this.id,
       name: name ?? this.name,
-      isActive: isActive ?? this.isActive,
+      description: description ?? this.description,
       timestamp: timestamp ?? this.timestamp,
+      active: active ?? this.active,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    description,
+    timestamp,
+    active,
+  ];
 }

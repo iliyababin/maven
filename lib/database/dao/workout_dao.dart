@@ -8,20 +8,20 @@ abstract class WorkoutDao {
   @insert
   Future<int> addWorkout(Workout workout);
 
-  @Query('SELECT * FROM workout WHERE workout_id = :workoutId')
+  @Query('SELECT * FROM workout WHERE id = :workoutId')
   Future<Workout?> getWorkout(int workoutId);
 
   @Query('SELECT * FROM workout')
   Future<List<Workout>> getWorkouts();
 
-  @Query('SELECT * FROM workout WHERE is_active = true')
+  @Query('SELECT * FROM workout WHERE active = true')
   Future<Workout?> getActiveWorkout();
 
-  @Query('SELECT * FROM workout WHERE is_active = false')
+  @Query('SELECT * FROM workout WHERE active = false')
   Future<List<Workout>> getPausedWorkouts();
 
   @update
-  Future<void> updateWorkout(Workout workout);
+  Future<int> updateWorkout(Workout workout);
 
   @delete
   Future<int> deleteWorkout(Workout workout);

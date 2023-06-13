@@ -1,6 +1,6 @@
-import 'package:maven/feature/exercise/model/set_type.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
+import 'package:maven/feature/exercise/model/set_type.dart';
 
 import '../../feature/exercise/model/exercise_set.dart';
 import 'workout.dart';
@@ -16,8 +16,8 @@ import 'workout_exercise_group.dart';
       onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
-      childColumns: ['workout_id'],
-      parentColumns: ['workout_id'],
+      childColumns: ['id'],
+      parentColumns: ['id'],
       entity: Workout,
     ),
   ]
@@ -53,7 +53,7 @@ class WorkoutExerciseSet extends Equatable {
   @ColumnInfo(name: 'workout_exercise_group_id')
   final int workoutExerciseGroupId;
 
-  @ColumnInfo(name: 'workout_id')
+  @ColumnInfo(name: 'id')
   final int workoutId;
 
   ExerciseSet toExerciseSet() {

@@ -26,7 +26,7 @@ abstract class WorkoutExerciseSetDao {
   Future<void> deleteWorkoutExerciseSet(WorkoutExerciseSet workoutExerciseSet);
 
   // TODO: Floor doesn't update streams with @Query, waiting for update
-  @Query('DELETE FROM workout_exercise_set WHERE workout_id = :workoutId')
+  @Query('DELETE FROM workout_exercise_set WHERE id = :workoutId')
   Future<void> deleteWorkoutExerciseSetsByWorkoutId(int workoutId);
 
 }

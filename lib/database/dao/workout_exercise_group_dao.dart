@@ -14,7 +14,7 @@ abstract class WorkoutExerciseGroupDao {
   @Query('SELECT * FROM workout_exercise_group')
   Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroups();
 
-  @Query('SELECT * FROM workout_exercise_group WHERE workout_id = :workoutId')
+  @Query('SELECT * FROM workout_exercise_group WHERE id = :workoutId')
   Future<List<WorkoutExerciseGroup>> getWorkoutExerciseGroupsByWorkoutId(int workoutId);
 
   @Query('SELECT * FROM workout_exercise_group')
@@ -24,7 +24,7 @@ abstract class WorkoutExerciseGroupDao {
   Future<void> deleteWorkoutExerciseGroup(WorkoutExerciseGroup workoutExerciseGroup);
 
   // TODO: Floor does not update streams using Query annotation
-  @Query('DELETE * FROM workout_exercise_group WHERE workout_id = :workoutId')
+  @Query('DELETE * FROM workout_exercise_group WHERE id = :workoutId')
   Future<void> deleteWorkoutExerciseGroupsByWorkoutId(int workoutId);
 
   @update

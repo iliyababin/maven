@@ -63,7 +63,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         pausedWorkouts: () => pausedWorkouts,
       ));
     } else {
-      List<ExerciseBundle> exerciseBundles = await _fetch(workout.workoutId!);
+      List<ExerciseBundle> exerciseBundles = await _fetch(workout.id!);
 
       emit(state.copyWith(
         status: () => WorkoutStatus.active,
@@ -82,7 +82,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     int workoutId = await workoutDao.addWorkout(Workout(
       name: event.template.name,
-      isActive: true,
+      description: event.template.description,
+      active: true,
       timestamp: DateTime.now(),
     ));
 
@@ -147,13 +148,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseAdd(WorkoutExerciseAdd event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroups != null) {
       for(var exerciseGroup in event.exerciseGroups!) {
-        await workoutExerciseGroupDao.addWorkoutExerciseGroup(exerciseGroup.toWorkoutExerciseGroup(state.workout!.workoutId!));
+        await workoutExerciseGroupDao.addWorkoutExerciseGroup(exerciseGroup.toWorkoutExerciseGroup(state.workout!.id!));
       }
     }
 
     if(event.exerciseSets != null) {
       for(var exerciseSet in event.exerciseSets!) {
-        await workoutExerciseSetDao.addWorkoutExerciseSet(exerciseSet.toWorkoutExerciseSet(state.workout!.workoutId!));
+        await workoutExerciseSetDao.addWorkoutExerciseSet(exerciseSet.toWorkoutExerciseSet(state.workout!.id!));
       }
     }
   }
@@ -166,7 +167,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _toggle(WorkoutToggle event, Emitter<WorkoutState> emit) async {
-    if(state.status.isActive && event.workout.isActive) {
+    if(state.status.isActive && event.workout.active) {
       await workoutDao.deleteWorkout(event.workout);
     }
 
@@ -174,8 +175,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
 
-    if(event.workout.isActive) {
-      List<ExerciseBundle> exerciseBundles = await _fetch(event.workout.workoutId!);
+    if(event.workout.active) {
+      List<ExerciseBundle> exerciseBundles = await _fetch(event.workout.id!);
       emit(state.copyWith(
         status: () => WorkoutStatus.active,
         workout: () => event.workout,
@@ -199,13 +200,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseUpdate(WorkoutExerciseUpdate event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroup != null) {
       await workoutExerciseGroupDao.updateWorkoutExerciseGroup(
-        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.workoutId!),
+        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.id!),
       );
     }
 
     if(event.exerciseSet != null) {
       await workoutExerciseSetDao.updateWorkoutExerciseSet(
-        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.workoutId!),
+        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.id!),
       );
     }
   }
@@ -213,13 +214,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseDelete(WorkoutExerciseDelete event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroup != null) {
       await workoutExerciseGroupDao.deleteWorkoutExerciseGroup(
-        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.workoutId!),
+        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.id!),
       );
     }
 
     if(event.exerciseSet != null) {
       await workoutExerciseSetDao.deleteWorkoutExerciseSet(
-        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.workoutId!),
+        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.id!),
       );
     }
   }
