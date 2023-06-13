@@ -43,7 +43,7 @@ class CompleteDetailScreen extends StatelessWidget {
                   itemCount: completeExerciseBundle.completeExerciseSets.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    CompleteExerciseSet completeExerciseSet = completeExerciseBundle.completeExerciseSets[index];
+                    SessionExerciseSet completeExerciseSet = completeExerciseBundle.completeExerciseSets[index];
                     return RichText(
                       text: TextSpan(
                         style: T(context).textStyle.subtitle1,

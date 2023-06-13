@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/dao/dao.dart';
 import '../../../../database/model/model.dart';
+import '../../../../database/model/routine_group.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
@@ -44,9 +45,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutExerciseSetDao workoutExerciseSetDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
-  final CompleteDao completeDao;
-  final CompleteExerciseGroupDao completeExerciseGroupDao;
-  final CompleteExerciseSetDao completeExerciseSetDao;
+  final SessionDao completeDao;
+  final SessionExerciseGroupDao completeExerciseGroupDao;
+  final SessionExerciseSetDao completeExerciseSetDao;
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(
@@ -91,13 +92,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     for (var templateExerciseGroup in templateExerciseGroups) {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
-        restTimed: templateExerciseGroup.restTimed,
+        timer: templateExerciseGroup.timer,
         barId: templateExerciseGroup.barId,
+        weightUnit: WeightUnit.lb,
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
       ));
 
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
+      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
 
       for(var templateExerciseSet in templateExerciseSets){
         int t = await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
@@ -133,11 +135,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     for(WorkoutExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
-      List<WorkoutExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.workoutExerciseGroupId!);
+      List<WorkoutExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.id!);
 
       exerciseBundles.add(ExerciseBundle(
           exercise: exercise!,
-          exerciseGroup: workoutExerciseGroup.toExerciseGroup(),
+          exerciseGroup: workoutExerciseGroup,
           exerciseSets: workoutExerciseSets.map((workoutExerciseSet) => workoutExerciseSet.toExerciseSet()).toList(),
           barId: workoutExerciseGroup.barId
       ));

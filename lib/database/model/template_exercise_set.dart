@@ -9,12 +9,12 @@ import 'template_exercise_group.dart';
   foreignKeys: [
     ForeignKey(
       childColumns: ['template_exercise_group_id'],
-      parentColumns: ['template_exercise_group_id'],
+      parentColumns: ['id'],
       entity: TemplateExerciseGroup,
       onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
-      childColumns: ['id'],
+      childColumns: ['template_id'],
       parentColumns: ['id'],
       entity: Template,
       onDelete: ForeignKeyAction.cascade,
@@ -47,6 +47,6 @@ class TemplateExerciseSet {
   @ColumnInfo(name: 'template_exercise_group_id')
   final int templateExerciseGroupId;
 
-  @ColumnInfo(name: 'id')
+  @ColumnInfo(name: 'template_id')
   final int templateId;
 }

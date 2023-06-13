@@ -15,7 +15,7 @@ part 'complete_state.dart';
 
 class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
   CompleteBloc({
-    required this.completeDao,
+    required this.sessionDao,
     required this.exerciseDao,
     required this.completeExerciseGroupDao,
     required this.completeExerciseSetDao,
@@ -25,10 +25,10 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
     on<CompleteAdd>(_add);
   }
 
-  final CompleteDao completeDao;
+  final SessionDao sessionDao;
   final ExerciseDao exerciseDao;
-  final CompleteExerciseGroupDao completeExerciseGroupDao;
-  final CompleteExerciseSetDao completeExerciseSetDao;
+  final SessionExerciseGroupDao completeExerciseGroupDao;
+  final SessionExerciseSetDao completeExerciseSetDao;
   final WorkoutDao workoutDao;
 
   Future<void> _initialize(CompleteInitialize event, Emitter<CompleteState> emit) async {
@@ -43,8 +43,9 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
   }
 
   Future<void> _add(CompleteAdd event, Emitter<CompleteState> emit) async {
-    int completeId = await completeDao.addComplete(Complete(
+    int completeId = await sessionDao.addSession(Session(
       name: event.workout.name,
+      description: event.workout.description,
       duration: DateTime.now().difference(event.workout.timestamp),
       timestamp: DateTime.now(),
     ));
@@ -58,21 +59,23 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
       }
       if(count == 0) continue;
 
-      int completeExerciseGroupId = await completeExerciseGroupDao.addCompleteExerciseGroup(CompleteExerciseGroup(
+      int completeExerciseGroupId = await completeExerciseGroupDao.addSessionExerciseGroup(SessionExerciseGroup(
         order: i + 1,
         exerciseId: exerciseBundle.exercise.exerciseId!,
         barId: exerciseBundle.barId,
-        completeId: completeId,
+        sessionId: completeId,
+        timer: exerciseBundle.exerciseGroup.timer,
+        weightUnit: exerciseBundle.exerciseGroup.weightUnit,
       ));
 
       for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
         if(exerciseSet.checked == 1) {
-          await completeExerciseSetDao.addCompleteExerciseSet(CompleteExerciseSet(
+          await completeExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
             option1: exerciseSet.option1,
             option2: exerciseSet.option2,
             setType: exerciseSet.setType,
-            completeExerciseGroupId: completeExerciseGroupId,
-            completeId: completeId,
+            sessionExerciseGroupId: completeExerciseGroupId,
+            sessionId: completeId,
           ));
         }
       }
@@ -92,17 +95,17 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
     List<CompleteBundle> completeBundles = [];
     double volume = 0;
 
-    List<Complete> completes = await completeDao.getCompletes();
-    for (Complete complete in completes) {
+    List<Session> completes = await sessionDao.getSessions();
+    for (Session complete in completes) {
       volume = 0;
       List<CompleteExerciseBundle> completeExerciseBundles = [];
 
-      List<CompleteExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getCompleteExerciseGroupsByCompleteId(complete.completeId!);
-      for (CompleteExerciseGroup completeExerciseGroup in completeExerciseGroups) {
+      List<SessionExerciseGroup> completeExerciseGroups = await completeExerciseGroupDao.getSessionExerciseGroupsBySessionId(complete.id!);
+      for (SessionExerciseGroup completeExerciseGroup in completeExerciseGroups) {
         Exercise? exercise = await exerciseDao.getExercise(completeExerciseGroup.exerciseId);
-        List<CompleteExerciseSet> completeExerciseSets = await completeExerciseSetDao.getCompleteExerciseSetsByCompleteExerciseGroupId(completeExerciseGroup.completeExerciseGroupId!);
+        List<SessionExerciseSet> completeExerciseSets = await completeExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(completeExerciseGroup.id!);
 
-        for(CompleteExerciseSet completeExerciseSet in completeExerciseSets) {
+        for(SessionExerciseSet completeExerciseSet in completeExerciseSets) {
           volume += completeExerciseSet.option1 * (completeExerciseSet.option2 ?? 0);
         }
 

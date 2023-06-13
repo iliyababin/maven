@@ -1,11 +1,11 @@
 export 'bar.dart';
-export 'complete.dart';
-export 'complete_exercise_group.dart';
-export 'complete_exercise_set.dart';
 export 'exercise.dart';
 export 'folder.dart';
 export 'plate.dart';
 export 'program.dart';
+export 'session.dart';
+export 'session_exercise_group.dart';
+export 'session_exercise_set.dart';
 export 'template.dart';
 export 'template_exercise_group.dart';
 export 'template_exercise_set.dart';

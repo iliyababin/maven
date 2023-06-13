@@ -11,12 +11,12 @@ import 'workout_exercise_group.dart';
   foreignKeys: [
     ForeignKey(
       childColumns: ['workout_exercise_group_id'],
-      parentColumns: ['workout_exercise_group_id'],
+      parentColumns: ['id'],
       entity: WorkoutExerciseGroup,
       onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
-      childColumns: ['id'],
+      childColumns: ['workout_id'],
       parentColumns: ['id'],
       entity: Workout,
     ),
@@ -53,7 +53,7 @@ class WorkoutExerciseSet extends Equatable {
   @ColumnInfo(name: 'workout_exercise_group_id')
   final int workoutExerciseGroupId;
 
-  @ColumnInfo(name: 'id')
+  @ColumnInfo(name: 'workout_id')
   final int workoutId;
 
   ExerciseSet toExerciseSet() {

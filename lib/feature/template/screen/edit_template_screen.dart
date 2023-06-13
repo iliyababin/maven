@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/feature/exercise/model/exercise_group.dart';
+import 'package:maven/database/model/routine_group.dart';
 
 import '../../../common/model/timed.dart';
 import '../../../database/model/model.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_bundle.dart';
+import '../../exercise/model/exercise_group.dart';
 import '../../exercise/model/exercise_set.dart';
 import '../../exercise/model/set_type.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
@@ -218,10 +219,11 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                 exerciseBundles.add(ExerciseBundle(
                   exercise: exercise,
                   exerciseGroup: ExerciseGroup(
-                    exerciseGroupId: exerciseGroupId,
-                    restTimed: Timed.zero(),
+                    id: exerciseGroupId,
+                    timer: Timed.zero(),
                     exerciseId: exercise.exerciseId!,
                     barId: exercise.barId,
+                    weightUnit: WeightUnit.lb,
                   ),
                   exerciseSets: [
                     ExerciseSet(

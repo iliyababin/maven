@@ -10,8 +10,8 @@ class CompleteExerciseBundle extends Equatable{
   });
 
   final Exercise exercise;
-  final CompleteExerciseGroup completeExerciseGroup;
-  final List<CompleteExerciseSet> completeExerciseSets;
+  final SessionExerciseGroup completeExerciseGroup;
+  final List<SessionExerciseSet> completeExerciseSets;
 
   @override
   List<Object?> get props => [

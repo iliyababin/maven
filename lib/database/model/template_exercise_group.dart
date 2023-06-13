@@ -1,13 +1,17 @@
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
+import 'package:maven/feature/exercise/model/exercise_group.dart';
 
 import '../../common/model/timed.dart';
 import 'bar.dart';
 import 'exercise.dart';
+import 'routine_group.dart';
 import 'template.dart';
 
 @Entity(
   tableName: 'template_exercise_group',
+  primaryKeys: [
+    'id',
+  ],
   foreignKeys: [
     ForeignKey(
       childColumns: ['bar_id'],
@@ -20,56 +24,50 @@ import 'template.dart';
       entity: Exercise,
     ),
     ForeignKey(
-      childColumns: ['id'],
+      childColumns: ['template_id'],
       parentColumns: ['id'],
       entity: Template,
       onDelete: ForeignKeyAction.cascade,
     ),
   ],
-  primaryKeys: [
-    'template_exercise_group_id',
-  ],
 )
-class TemplateExerciseGroup extends Equatable {
-  
-  @ColumnInfo(name: 'template_exercise_group_id')
-  @PrimaryKey(autoGenerate: true)
-  final int? templateExerciseGroupId;
-
-  @ColumnInfo(name: 'rest_timed')
-  final Timed restTimed;
-
-  @ColumnInfo(name: 'bar_id')
-  final int? barId;
-
-  @ColumnInfo(name: 'exercise_id')
-  final int exerciseId;
-
-  @ColumnInfo(name: 'id')
-  final int templateId;
-
+class TemplateExerciseGroup extends ExerciseGroup {
   const TemplateExerciseGroup({
-    this.templateExerciseGroupId,
-    required this.restTimed,
-    required this.barId,
-    required this.exerciseId,
+    super.id,
+    required super.timer,
+    required super.weightUnit,
+    required super.barId,
+    required super.exerciseId,
     required this.templateId,
   });
 
-  factory TemplateExerciseGroup.fromMap(Map<String, dynamic> json) {
+  @ColumnInfo(name: 'template_id')
+  final int templateId;
+
+  @override
+  TemplateExerciseGroup copyWith({
+    int? id,
+    Timed? timer,
+    WeightUnit? weightUnit,
+    int? barId,
+    int? exerciseId,
+    int? templateId,
+  }) {
     return TemplateExerciseGroup(
-      templateExerciseGroupId: json['exerciseGroupId'] ,
-      restTimed: Timed.fromSeconds(json['rest_timed']),
-      barId: json['barId'] ,
-      exerciseId: json['exerciseId'],
-      templateId: json['templateId'],
+      id: id ?? this.id,
+      timer: timer ?? this.timer,
+      weightUnit: weightUnit ?? this.weightUnit,
+      barId: barId ?? this.barId,
+      exerciseId: exerciseId ?? this.exerciseId,
+      templateId: templateId ?? this.templateId,
     );
   }
 
   @override
   List<Object?> get props => [
-    templateExerciseGroupId,
-    restTimed,
+    id,
+    timer,
+    weightUnit,
     barId,
     exerciseId,
     templateId,

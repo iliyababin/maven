@@ -12,7 +12,7 @@ abstract class TemplateExerciseGroupDao {
   @Query('SELECT * FROM template_exercise_group')
   Future<List<TemplateExerciseGroup>> getTemplateExerciseGroups();
 
-  @Query('SELECT * FROM template_exercise_group WHERE id = :templateId')
+  @Query('SELECT * FROM template_exercise_group WHERE template_id = :templateId')
   Future<List<TemplateExerciseGroup>> getTemplateExerciseGroupsByTemplateId(int templateId);
 
   @update

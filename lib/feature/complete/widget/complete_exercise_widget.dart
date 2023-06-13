@@ -11,8 +11,8 @@ class CompleteExerciseWidget extends StatelessWidget {
     required this.completeExerciseSets,
   }) : super(key: key);
 
-  final Complete complete;
-  final List<CompleteExerciseSet> completeExerciseSets;
+  final Session complete;
+  final List<SessionExerciseSet> completeExerciseSets;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class CompleteExerciseWidget extends StatelessWidget {
                   return const SizedBox(height: 1,);
                 },
                 itemBuilder: (context, index) {
-                  final CompleteExerciseSet completeExerciseSet = completeExerciseSets[index];
+                  final SessionExerciseSet completeExerciseSet = completeExerciseSets[index];
 
                   final Color? color = completeExerciseSet.setType == SetType.regular ? null : completeExerciseSet.setType.color(context);
                   return Row(

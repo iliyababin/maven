@@ -1,15 +1,18 @@
 
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../../common/model/timed.dart';
 import '../../feature/exercise/model/exercise_group.dart';
 import 'bar.dart';
 import 'exercise.dart';
+import 'routine_group.dart';
 import 'workout.dart';
 
 @Entity(
   tableName: 'workout_exercise_group',
+  primaryKeys: [
+    'id',
+  ],
   foreignKeys: [
     ForeignKey(
       childColumns: ['bar_id'],
@@ -22,57 +25,39 @@ import 'workout.dart';
       entity: Exercise,
     ),
     ForeignKey(
-      childColumns: ['id'],
+      childColumns: ['workout_id'],
       parentColumns: ['id'],
       entity: Workout,
       onDelete: ForeignKeyAction.cascade,
     ),
   ],
 )
-class WorkoutExerciseGroup extends Equatable{
+class WorkoutExerciseGroup extends ExerciseGroup {
   const WorkoutExerciseGroup({
-    this.workoutExerciseGroupId,
-    required this.restTimed,
-    required this.barId,
-    required this.exerciseId,
+    super.id,
+    required super.timer,
+    required super.weightUnit,
+    required super.barId,
+    required super.exerciseId,
     required this.workoutId,
   });
 
-  @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'workout_exercise_group_id')
-  final int? workoutExerciseGroupId;
-
-  @ColumnInfo(name: 'rest_timed')
-  final Timed restTimed;
-
-  @ColumnInfo(name: 'bar_id')
-  final int? barId;
-
-  @ColumnInfo(name: 'exercise_id')
-  final int exerciseId;
-
-  @ColumnInfo(name: 'id')
+  @ColumnInfo(name: 'workout_id')
   final int workoutId;
 
-  ExerciseGroup toExerciseGroup() {
-    return ExerciseGroup(
-      exerciseGroupId: workoutExerciseGroupId!,
-      restTimed: restTimed,
-      barId: barId,
-      exerciseId: exerciseId,
-    );
-  }
-
+  @override
   WorkoutExerciseGroup copyWith({
-    int? workoutExerciseGroupId,
-    Timed? restTimed,
+    int? id,
+    Timed? timer,
+    WeightUnit? weightUnit,
     int? barId,
     int? exerciseId,
     int? workoutId,
   }) {
     return WorkoutExerciseGroup(
-      workoutExerciseGroupId: workoutExerciseGroupId ?? this.workoutExerciseGroupId,
-      restTimed: restTimed ?? this.restTimed,
+      id: id ?? this.id,
+      timer: timer ?? this.timer,
+      weightUnit: weightUnit ?? this.weightUnit,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
       workoutId: workoutId ?? this.workoutId,
@@ -81,19 +66,20 @@ class WorkoutExerciseGroup extends Equatable{
 
   WorkoutExerciseGroup copyWithNullId() {
     return WorkoutExerciseGroup(
-      workoutExerciseGroupId: null,
-      restTimed: restTimed,
+      id: null,
+      timer: timer,
+      weightUnit: weightUnit,
       barId: barId,
       exerciseId: exerciseId,
       workoutId: workoutId,
     );
   }
 
-
   @override
   List<Object?> get props => [
-    workoutExerciseGroupId,
-    restTimed,
+    id,
+    timer,
+    weightUnit,
     barId,
     exerciseId,
     workoutId,

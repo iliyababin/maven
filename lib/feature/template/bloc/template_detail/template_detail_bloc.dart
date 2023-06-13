@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../database/dao/dao.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
-import '../../../exercise/model/exercise_group.dart';
 import '../../../exercise/model/exercise_set.dart';
 
 part 'template_detail_event.dart';
@@ -36,11 +35,11 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
 
     for(TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.templateExerciseGroupId!);
+      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
 
       exerciseBundles.add(ExerciseBundle(
         exercise: exercise!,
-        exerciseGroup: ExerciseGroup.from(templateExerciseGroup),
+        exerciseGroup: templateExerciseGroup,
         exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList(),
         barId: templateExerciseGroup.barId
       ));

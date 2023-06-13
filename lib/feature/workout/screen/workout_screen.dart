@@ -10,6 +10,7 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
+import '../../../database/model/routine_group.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../complete/bloc/complete_bloc/complete_bloc.dart';
@@ -82,10 +83,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               barId: exercise.barId,
                               exerciseSets: [],
                               exerciseGroup: ExerciseGroup(
-                                exerciseGroupId: DateTime.now().microsecondsSinceEpoch,
+                                id: DateTime.now().microsecondsSinceEpoch,
                                 exerciseId: exercise.exerciseId!,
                                 barId: exercise.barId,
-                                restTimed: Timed(hour: 0, minute: 0, second: 0),
+                                timer: Timed(hour: 0, minute: 0, second: 0),
+                                weightUnit: WeightUnit.lb,
                             ))).toList();
 
                             setState(() {

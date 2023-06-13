@@ -1,31 +1,29 @@
-import 'package:equatable/equatable.dart';
 
 import '../../../common/model/timed.dart';
-import '../../../database/model/template_exercise_group.dart';
-import '../../../database/model/workout_exercise_group.dart';
+import '../../../database/database.dart';
+import '../../../database/model/routine_group.dart';
 
-class ExerciseGroup extends Equatable {
+class ExerciseGroup extends RoutineGroup {
   const ExerciseGroup({
-    required this.exerciseGroupId,
-    required this.restTimed,
-    required this.exerciseId,
-    required this.barId,
+    required super.id,
+    required super.timer,
+    required super.weightUnit,
+    required super.exerciseId,
+    super.barId,
   });
 
-  final int exerciseGroupId;
-  final Timed restTimed;
-  final int exerciseId;
-  final int? barId;
-
+  @override
   ExerciseGroup copyWith({
-    int? exerciseGroupId,
-    Timed? restTimed,
+    int? id,
+    Timed? timer,
+    WeightUnit? weightUnit,
     int? exerciseId,
     int? barId,
   }) {
     return ExerciseGroup(
-      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
-      restTimed: restTimed ?? this.restTimed,
+      id: id ?? this.id,
+      timer: timer ?? this.timer,
+      weightUnit: weightUnit ?? this.weightUnit,
       exerciseId: exerciseId ?? this.exerciseId,
       barId: barId ?? this.barId,
     );
@@ -33,28 +31,21 @@ class ExerciseGroup extends Equatable {
 
   WorkoutExerciseGroup toWorkoutExerciseGroup(int workoutId) {
     return WorkoutExerciseGroup(
-      workoutExerciseGroupId: exerciseGroupId,
-      restTimed: restTimed,
+      id: id,
+      timer: timer,
+      weightUnit: WeightUnit.lb,
       barId: barId,
       exerciseId: exerciseId,
       workoutId: workoutId,
     );
   }
 
-  static ExerciseGroup from(TemplateExerciseGroup templateExerciseGroup) {
-    return ExerciseGroup(
-      exerciseGroupId: templateExerciseGroup.templateExerciseGroupId!,
-      restTimed: templateExerciseGroup.restTimed,
-      barId: templateExerciseGroup.barId,
-      exerciseId: templateExerciseGroup.exerciseId,
-    );
-  }
-
   @override
   List<Object?> get props => [
-    exerciseGroupId,
-    restTimed,
-    barId,
+    id,
+    timer,
+    weightUnit,
     exerciseId,
+    barId,
   ];
 }

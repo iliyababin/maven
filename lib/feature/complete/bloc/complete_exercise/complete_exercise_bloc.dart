@@ -12,10 +12,10 @@ part 'complete_exercise_state.dart';
 
 class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseState> {
   CompleteExerciseBloc({
-    required CompleteDao completeDao,
-    required CompleteExerciseGroupDao completeExerciseGroupDao,
-    required CompleteExerciseSetDao completeExerciseSetDao,
-  })  : _completeDao = completeDao,
+    required SessionDao completeDao,
+    required SessionExerciseGroupDao completeExerciseGroupDao,
+    required SessionExerciseSetDao completeExerciseSetDao,
+  })  : _sessionDao = completeDao,
         _completeExerciseGroupDao = completeExerciseGroupDao,
         _completeExerciseSetDao = completeExerciseSetDao,
         super(const CompleteExerciseState()) {
@@ -23,9 +23,9 @@ class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseS
     on<CompleteExerciseLoad>(_load);
   }
 
-  final CompleteDao _completeDao;
-  final CompleteExerciseGroupDao _completeExerciseGroupDao;
-  final CompleteExerciseSetDao _completeExerciseSetDao;
+  final SessionDao _sessionDao;
+  final SessionExerciseGroupDao _completeExerciseGroupDao;
+  final SessionExerciseSetDao _completeExerciseSetDao;
 
   void _initialize(CompleteExerciseInitialize event, Emitter<CompleteExerciseState> emit) {
     emit(state.copyWith(status: CompleteExerciseStatus.loading));
@@ -35,15 +35,15 @@ class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseS
   Future<void> _load(CompleteExerciseLoad event, Emitter<CompleteExerciseState> emit) async {
     emit(state.copyWith(status: CompleteExerciseStatus.loading));
 
-    List<CompleteExerciseGroup> completeExerciseGroups = await _completeExerciseGroupDao.getCompleteExerciseGroupsByExerciseId(event.exerciseId);
+    List<SessionExerciseGroup> completeExerciseGroups = await _completeExerciseGroupDao.getSessionExerciseGroupsByExerciseId(event.exerciseId);
 
     List<CompleteBundle> completeBundles = [];
 
-    for (CompleteExerciseGroup completeExerciseGroup in completeExerciseGroups) {
-      Complete? complete = await _completeDao.getComplete(completeExerciseGroup.completeId);
+    for (SessionExerciseGroup completeExerciseGroup in completeExerciseGroups) {
+      Session? complete = await _sessionDao.getSession(completeExerciseGroup.sessionId);
       if (complete == null) continue;
-      List<CompleteExerciseSet> completeExerciseSets =
-          await _completeExerciseSetDao.getCompleteExerciseSetsByCompleteExerciseGroupId(completeExerciseGroup.completeExerciseGroupId!);
+      List<SessionExerciseSet> completeExerciseSets =
+          await _completeExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(completeExerciseGroup.id!);
       completeBundles.add(CompleteBundle(
         complete: complete,
         completeExerciseBundles: [

@@ -11,7 +11,7 @@ class CompleteBundle extends Equatable {
     required this.volume,
   });
 
-  final Complete complete;
+  final Session complete;
   final List<CompleteExerciseBundle> completeExerciseBundles;
   final double volume;
 

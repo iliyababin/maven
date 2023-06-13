@@ -102,7 +102,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     },
                     onExerciseGroupDelete: () {
                       widget.onExerciseGroupDelete();
-                    }
+                    },
                   ),
                   onClose: (){}
                 );
@@ -178,7 +178,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   if(widget.onExerciseSetToggled != null) {
                     widget.onExerciseSetToggled!(value);
                     if(value.checked == 1 && widget.controller != null) {
-                      widget.controller!.startTimer(widget.exerciseGroup.restTimed);
+                      widget.controller!.startTimer(widget.exerciseGroup.timer);
                     }
                   }
                 },
@@ -198,7 +198,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 option1: 0,
                 option2: widget.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
                 checked: 0,
-                exerciseGroupId: widget.exerciseGroup.exerciseGroupId,
+                exerciseGroupId: widget.exerciseGroup.id!,
               );
               widget.onExerciseSetAdd(exerciseSet);
             },

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:maven/database/model/routine_group.dart';
 import 'package:maven/database/model/template_tracker.dart';
 
 import '../../../../database/dao/template_dao.dart';
@@ -54,8 +55,10 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
-          restTimed: exerciseBlock.exerciseGroup.restTimed,
+
+          timer: exerciseBlock.exerciseGroup.timer,
           exerciseId: exerciseBlock.exercise.exerciseId!,
+          weightUnit: WeightUnit.lb,
           templateId: templateId,
           barId: exerciseBlock.exerciseGroup.barId,
         )

@@ -8,11 +8,6 @@ import '../model/exercise.dart';
 
 
 
-
-
-
-
-
 @Entity(
   tableName: 'session',
   primaryKeys: [

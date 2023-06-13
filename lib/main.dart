@@ -79,7 +79,7 @@ void main() async {
               )..add(ProgramDetailInitialize())),
       BlocProvider(
           create: (context) => CompleteBloc(
-                completeDao: db.completeDao,
+                sessionDao: db.completeDao,
                 exerciseDao: db.exerciseDao,
                 completeExerciseGroupDao: db.completeExerciseGroupDao,
                 completeExerciseSetDao: db.completeExerciseSetDao,

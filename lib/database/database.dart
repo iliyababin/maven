@@ -11,6 +11,7 @@ import 'converter/converter.dart';
 import 'dao/dao.dart';
 import 'dao/setting_dao.dart';
 import 'model/model.dart';
+import 'model/routine_group.dart';
 import 'model/setting.dart';
 
 export 'dao/dao.dart';
@@ -28,9 +29,9 @@ part 'database.g.dart';
     Workout,
     WorkoutExerciseGroup,
     WorkoutExerciseSet,
-    Complete,
-    CompleteExerciseGroup,
-    CompleteExerciseSet,
+    Session,
+    SessionExerciseGroup,
+    SessionExerciseSet,
     Plate,
     Bar,
     Program,
@@ -56,9 +57,9 @@ abstract class MavenDatabase extends FloorDatabase {
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
-  CompleteDao get completeDao;
-  CompleteExerciseGroupDao get completeExerciseGroupDao;
-  CompleteExerciseSetDao get completeExerciseSetDao;
+  SessionDao get completeDao;
+  SessionExerciseGroupDao get completeExerciseGroupDao;
+  SessionExerciseSetDao get completeExerciseSetDao;
 
   PlateDao get plateDao;
   BarDao get barDao;
@@ -74,10 +75,10 @@ abstract class MavenDatabase extends FloorDatabase {
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},
   );
-
+  
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_72.db')
+        .databaseBuilder('maven_db_82.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());
