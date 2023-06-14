@@ -73,7 +73,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
           await completeExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
             option1: exerciseSet.option1,
             option2: exerciseSet.option2,
-            setType: exerciseSet.setType,
+            setType: exerciseSet.type,
             sessionExerciseGroupId: completeExerciseGroupId,
             sessionId: completeId,
           ));

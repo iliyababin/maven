@@ -7,8 +7,7 @@ class ActiveExerciseRow {
   static Row build({
     required Widget set,
     required Widget previous,
-    required Widget option1,
-    Widget? option2,
+    required List<Widget> options,
     Widget? rpe,
     Widget? checkbox,
   }) {
@@ -25,12 +24,7 @@ class ActiveExerciseRow {
 
         const SizedBox(width: SPACER_SIZE),
 
-        Expanded(child: Container(alignment: Alignment.center, child: option1)),
-
-        if(option2 != null) ...[
-          const SizedBox(width: SPACER_SIZE),
-          Expanded(child: Container(alignment: Alignment.center, child: option2))
-        ],
+        Expanded(child: Container(alignment: Alignment.center, child: Row(children: options))),
 
         if(rpe != null) ...[
           const SizedBox(width: SPACER_SIZE),

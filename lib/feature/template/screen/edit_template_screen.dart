@@ -189,13 +189,13 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   },
                   onExerciseSetUpdate: (value) {
                     setState(() {
-                      int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                      int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
                       exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
                     });
                   },
                   onExerciseSetDelete: (value) {
                     setState(() {
-                      exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                      exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
                     });
                   },
                 );
@@ -227,11 +227,11 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   ),
                   exerciseSets: [
                     ExerciseSet(
-                      exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                      id: DateTime.now().millisecondsSinceEpoch,
                       option1: 0,
                       option2: 0,
                       exerciseGroupId: exerciseGroupId,
-                      setType: SetType.regular,
+                      type: SetType.regular,
                     )
                   ],
                   barId: exercise.barId,

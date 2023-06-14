@@ -124,14 +124,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               "PREVIOUS",
               style: T(context).textStyle.body1.copyWith(fontSize: 13),
             ),
-            option1: Text(
+            options: [Text(
               widget.exercise.exerciseType.exerciseTypeOption1.value,
               style: T(context).textStyle.body1.copyWith(fontSize: 13),
-            ),
-            option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? Text(
-              widget.exercise.exerciseType.exerciseTypeOption2!.value,
-              style: T(context).textStyle.body1.copyWith(fontSize: 13),
-            ) : null,
+            )],
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
         const SizedBox(height: 6),
@@ -194,10 +190,10 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           child: MButton(
             onPressed: () {
               ExerciseSet exerciseSet = ExerciseSet(
-                exerciseSetId: DateTime.now().millisecondsSinceEpoch,
+                id: DateTime.now().millisecondsSinceEpoch,
                 option1: 0,
                 option2: widget.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
-                checked: 0,
+                checked: false,
                 exerciseGroupId: widget.exerciseGroup.id!,
               );
               widget.onExerciseSetAdd(exerciseSet);

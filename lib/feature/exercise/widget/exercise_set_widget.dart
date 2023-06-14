@@ -1,4 +1,3 @@
-import 'package:maven/feature/exercise/model/exercise_equipment.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
@@ -37,44 +36,20 @@ class ExerciseSetWidget extends StatefulWidget {
 }
 
 class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
-
   late ExerciseSet exerciseSet;
-
-  static const Duration _animationSpeed = Duration(milliseconds: 250);
-
   bool _isChecked = false;
-
-  final TextEditingController option2EditingController = TextEditingController();
-
-  bool _shake = false;
-
-
-  void _updateExerciseSet() {
-    widget.onExerciseSetUpdate(exerciseSet.copyWith(
-      option2: option2EditingController.text.isEmpty ? 0 : int.parse(option2EditingController.text),
-      checked: widget.checkboxEnabled ? _isChecked ? 1 : 0 : null
-    ));
-  }
 
   @override
   void initState() {
-    exerciseSet = widget.exerciseSet;
-    option2EditingController.text = exerciseSet.option2 == null ? '' : exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString();
-    _isChecked = exerciseSet.checked == 1 ? true : false;
-    option2EditingController.addListener(() => _updateExerciseSet());
+    exerciseSet = widget.exerciseSet.copyWith();
+    _isChecked = exerciseSet.checked ?? false;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    option2EditingController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: _animationSpeed,
+      duration: const Duration(milliseconds: 250),
       height: 44,
       color: _isChecked ? T(context).color.success.withAlpha(35)  : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
@@ -91,9 +66,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   return MButton.tiled(
                     onPressed: (){
                       setState(() {
-                        exerciseSet = exerciseSet.copyWith(setType: setType);
+                        exerciseSet = exerciseSet.copyWith(type: setType);
                       });
-                      widget.onExerciseSetUpdate(exerciseSet.copyWith(setType: setType));
+                      widget.onExerciseSetUpdate(exerciseSet.copyWith(type: setType));
                       Navigator.pop(context);
                     },
                     leading: Container(
@@ -116,8 +91,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           height: 35,
           backgroundColor: Colors.transparent,
           child: Text(
-            widget.exerciseSet.setType == SetType.regular ? widget.index.toString() : widget.exerciseSet.setType.abbreviated,
-            style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.setType.color(context)),
+            widget.exerciseSet.type == SetType.regular ? widget.index.toString() : widget.exerciseSet.type.abbreviated,
+            style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.type.color(context)),
           ),
         ),
 
@@ -134,12 +109,12 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           ),
         ),
 
-        option1: MButton(
+        options: exerciseSet.options.map((e) => MButton(
           height: 30,
-          expand: false,
+          expand: true,
           backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
           child: Text(
-            exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
+            e.value,
             style: T(context).textStyle.body1,
           ),
           onPressed: () {
@@ -150,45 +125,13 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 equipment: widget.exercise.equipment,
                 value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
                 onValueChanged: (p0) {
-                  var nice = exerciseSet.copyWith(option1: p0.isEmpty ? 0 : int.parse(p0));
-                  exerciseSet = nice;
-                  widget.onExerciseSetUpdate(nice);
+
                 },
               ),
               onClose: () {},
             );
           },
-        ),
-
-
-        option2: widget.exercise.exerciseType.exerciseTypeOption2 != null ? MButton(
-          height: 30,
-          expand: false,
-          backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
-          child: Text(
-            exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
-            style: T(context).textStyle.body1,
-          ),
-          onPressed: () {
-            showBottomSheetDialog(
-              context: context,
-              onClose: () {
-                print('closed');
-              },
-              height: 300,
-              child: MKeyboard(
-                barId: widget.barId,
-                equipment: Equipment.none,
-                value: exerciseSet.option2 == 0 ? '' : exerciseSet.option2.toString(),
-                onValueChanged: (p0) {
-                  var nice = exerciseSet.copyWith(option2: p0.isEmpty ? 0 : int.parse(p0));
-                  exerciseSet = nice;
-                  widget.onExerciseSetUpdate(nice);
-                },
-              ),
-            );
-          },
-        ) : null,
+        ),).toList(),
 
         checkbox: widget.checkboxEnabled ? SizedBox(
           height: 38,
@@ -218,7 +161,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     _isChecked = !_isChecked;
                   });
                   if(widget.onExerciseSetToggled != null) {
-                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: _isChecked ? 1 : 0));
+                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: exerciseSet.checked));
                   }
                 }
 

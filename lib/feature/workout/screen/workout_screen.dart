@@ -287,19 +287,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         },
                         onExerciseSetUpdate: (value) {
                           setState(() {
-                            int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                            int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
                             exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
                           });
                           context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
                         },
                         onExerciseSetToggled: (value) {
-                          int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                          int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
                           exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
                           context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
                         },
                         onExerciseSetDelete: (value) {
                           setState(() {
-                            exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.exerciseSetId == value.exerciseSetId);
+                            exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
                           });
                           context.read<WorkoutBloc>().add(WorkoutExerciseDelete(exerciseSet: value));
                         },

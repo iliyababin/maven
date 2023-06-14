@@ -55,7 +55,7 @@ class RepsOption extends ExerciseSetOption<int> {
   final int reps;
 
   @override
-  get value => super.exerciseSetId.toString();
+  get value => reps.toString();
 
   @override
   ExerciseSetOptionType get type => ExerciseSetOptionType.reps;
