@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
+import '../../../database/TEST_ZONE/exercise_group.dart';
+import '../../../database/model/exercise_field.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_equipment.dart';
 import 'barbell_calculator_widget.dart';
@@ -13,34 +15,25 @@ enum MKeyboardType {
   time,
 }
 
-class MKeyboard extends StatefulWidget {
-  const MKeyboard({Key? key,
+class MultiKeyboard extends StatefulWidget {
+  const MultiKeyboard({Key? key,
     this.barId,
     required this.equipment,
-    required this.value,
+    required this.option,
     required this.onValueChanged,
   }) : super(key: key);
 
   final int? barId;
   final Equipment equipment;
-  final String value;
-  final Function(String) onValueChanged;
+  final ExerciseSetOption option;
+  final Function(ExerciseSetOption) onValueChanged;
 
   @override
-  State<MKeyboard> createState() => _MKeyboardState();
+  State<MultiKeyboard> createState() => _MultiKeyboardState();
 }
 
-class _MKeyboardState extends State<MKeyboard> {
-
+class _MultiKeyboardState extends State<MultiKeyboard> {
   int _selectedTab = 2;
-
-  late String values;
-
-  @override
-  void initState() {
-    values = widget.value;
-    super.initState();
-  }
 
   Widget _buildScreen(int selectedTab) {
     switch (selectedTab) {
@@ -49,21 +42,23 @@ class _MKeyboardState extends State<MKeyboard> {
       case 1:
         return BarbellCalculatorWidget(
           barId: widget.barId ?? 0,
-          weight: values.isEmpty ? 0 : int.parse(values).toDouble(),
+          weight: double.parse(widget.option.value),
         );
       default:
-        return NumPadWidget(
-          value: values,
-          onValueChanged: (value) {
-            setState(() {
-              values = value;
-            });
-            widget.onValueChanged(value);
-          },
-        );
+        switch (widget.option.type) {
+          case ExerciseFieldType.weight:
+            return NumPadWidget(
+              value: double.parse(widget.option.value),
+              onValueChanged: (value) {
+                widget.option.set(value);
+                widget.onValueChanged(widget.option);
+              },
+            );
+          default:
+            return Container();
+        }
     }
   }
-
 
 
   @override
@@ -132,12 +127,9 @@ class _MKeyboardState extends State<MKeyboard> {
                 ),
               ],
             ),
-          )
-
+          ),
         ],
       ),
     );
   }
-
-
 }

@@ -161,7 +161,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             style: T(context).textStyle.body1,
           ),
           subtitle: Text(
-            widget.exercise.exerciseType.name,
+            widget.exercise.name,
             style: T(context).textStyle.subtitle1,
           ),
         ),

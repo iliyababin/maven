@@ -71,8 +71,9 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
       for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
         if(exerciseSet.checked == 1) {
           await completeExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
-            option1: exerciseSet.option1,
-            option2: exerciseSet.option2,
+            //TODO HJERE
+            option1: -99,
+            option2: -99,
             setType: exerciseSet.type,
             sessionExerciseGroupId: completeExerciseGroupId,
             sessionId: completeId,

@@ -1,6 +1,6 @@
-import 'package:maven/common/util/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/util/general_utils.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/plate.dart';

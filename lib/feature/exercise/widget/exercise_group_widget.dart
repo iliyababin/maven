@@ -4,6 +4,7 @@ import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/TEST_ZONE/exercise_group.dart';
 import '../../../database/model/exercise.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../workout/widget/active_exercise_row.dart';
@@ -124,10 +125,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               "PREVIOUS",
               style: T(context).textStyle.body1.copyWith(fontSize: 13),
             ),
-            options: [Text(
-              widget.exercise.exerciseType.exerciseTypeOption1.value,
-              style: T(context).textStyle.body1.copyWith(fontSize: 13),
-            )],
+            options: widget.exercise.fields.map((e) => Expanded(child: Text(e.type.name, style: T(context).textStyle.body1,))).toList(),
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
         const SizedBox(height: 6),
@@ -145,7 +143,6 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 children: [
                   SlidableAction(
                     onPressed: (BuildContext context) {
-                      // TODO: Implement inline timer
                     },
                     icon: Icons.timer,
                     foregroundColor: T(context).color.primary,
@@ -191,11 +188,11 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             onPressed: () {
               ExerciseSet exerciseSet = ExerciseSet(
                 id: DateTime.now().millisecondsSinceEpoch,
-                option1: 0,
-                option2: widget.exercise.exerciseType.exerciseTypeOption2 == null ? null : 0,
                 checked: false,
                 exerciseGroupId: widget.exerciseGroup.id!,
+                options: widget.exercise.fields.map((e) => getOptionByType(e.type, widget.exercise.exerciseId!)).toList(),
               );
+
               widget.onExerciseSetAdd(exerciseSet);
             },
             expand: false,
@@ -216,5 +213,4 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
       ],
     );
   }
-
 }

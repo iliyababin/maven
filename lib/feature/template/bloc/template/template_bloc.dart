@@ -68,8 +68,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
           TemplateExerciseSet(
             templateId: templateId,
             templateExerciseGroupId: exerciseGroupId,
-            option1: exerciseSet.option1,
-            option2: exerciseSet.option2,
+            ///TODO THIS
+            option1: -99,
+            option2: -99,
             setType: exerciseSet.type,
           ),
         );

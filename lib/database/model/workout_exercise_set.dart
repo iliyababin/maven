@@ -59,11 +59,10 @@ class WorkoutExerciseSet extends Equatable {
   ExerciseSet toExerciseSet() {
     return ExerciseSet(
       id: workoutExerciseSetId!,
-      option1: option_1,
-      option2: option_2,
       checked: checked == 1 ? true : false,
       type: setType,
       exerciseGroupId: workoutExerciseGroupId,
+      options: [],
     );
   }
 

@@ -1,15 +1,8 @@
 import 'package:floor/floor.dart';
 
-import '../../feature/exercise/model/set_type.dart';
+import '../model/exercise_field.dart';
 
-enum ExerciseSetOptionType {
-  assisted,
-  reps,
-  distance,
-  duration,
-  weight,
-  weighted,
-}
+
 
 abstract class ExerciseSetOption<T> {
   const ExerciseSetOption({
@@ -26,58 +19,207 @@ abstract class ExerciseSetOption<T> {
 
   String get value;
 
-  ExerciseSetOptionType get type;
+  ExerciseFieldType get type;
+
+  void set(T value);
+
+  ExerciseSetOption<T> copyWith({
+    int? id,
+    int? exerciseSetId,
+    T? value,
+  });
+
+  @override
+  String toString() {
+    return 'ExerciseSetOption(id: $id, exerciseSetId: $exerciseSetId, value: $value, type: $type)';
+  }
 }
 
-class AssistanceOption extends ExerciseSetOption<int> {
-  const AssistanceOption({
+ExerciseSetOption getOptionByType(ExerciseFieldType type, int exerciseSetId) {
+  switch (type) {
+    case ExerciseFieldType.assisted:
+      return AssistanceOption(
+        exerciseSetId: exerciseSetId,
+      );
+    case ExerciseFieldType.reps:
+      return RepsOption(
+        exerciseSetId: exerciseSetId,
+      );
+    case ExerciseFieldType.duration:
+      return DurationOption(
+        exerciseSetId: exerciseSetId,
+      );
+    case ExerciseFieldType.weight:
+      return WeightOption(
+        exerciseSetId: exerciseSetId,
+    );
+    case ExerciseFieldType.bodyWeight:
+      return BodyWeightOption(
+        exerciseSetId: exerciseSetId,
+      );
+    default:
+      throw Exception('Invalid type');
+  }
+}
+
+class AssistanceOption extends ExerciseSetOption<double> {
+  AssistanceOption({
     super.id,
     required super.exerciseSetId,
     this.assistance = 0.0,
   });
 
-  final double assistance;
+  @ColumnInfo(name: 'assistance')
+  double assistance;
 
   @override
   get value => super.exerciseSetId.toString();
 
   @override
-  ExerciseSetOptionType get type => ExerciseSetOptionType.assisted;
+  ExerciseFieldType get type => ExerciseFieldType.assisted;
+  
+  @override
+  void set(double value) => assistance = value;
+
+  @override
+  ExerciseSetOption<double> copyWith({
+    int? id,
+    int? exerciseSetId,
+    double? value,
+  }) => AssistanceOption(
+    id: id ?? this.id,
+    exerciseSetId: exerciseSetId ?? this.exerciseSetId,
+    assistance: value ?? assistance,
+  );
 }
 
 class RepsOption extends ExerciseSetOption<int> {
-  const RepsOption({
-    super.id,
-    required super.exerciseSetId,
+  RepsOption({
+    int? id,
+    required int exerciseSetId,
     this.reps = 0,
-  });
+  }) : super(id: id, exerciseSetId: exerciseSetId);
 
-  final int reps;
-
-  @override
-  get value => reps.toString();
+  @ColumnInfo(name: 'reps')
+  int reps;
 
   @override
-  ExerciseSetOptionType get type => ExerciseSetOptionType.reps;
+  String get value => reps.toString();
+
+  @override
+  ExerciseFieldType get type => ExerciseFieldType.reps;
+
+  @override
+  void set(int value) => reps = value;
+
+  @override
+  RepsOption copyWith({
+    int? id,
+    int? exerciseSetId,
+    int? value,
+  }) {
+    return RepsOption(
+      id: id ?? this.id,
+      exerciseSetId: exerciseSetId ?? this.exerciseSetId,
+      reps: value ?? reps,
+    );
+  }
 }
 
 class DurationOption extends ExerciseSetOption<Duration> {
-  const DurationOption({
+  DurationOption({
     super.id,
     required super.exerciseSetId,
     this.duration = Duration.zero,
   });
 
-  final Duration duration;
+  @ColumnInfo(name: 'duration')
+  Duration duration;
 
   @override
   get value => duration.toString();
 
   @override
-  ExerciseSetOptionType get type => ExerciseSetOptionType.duration;
+  ExerciseFieldType get type => ExerciseFieldType.duration;
+
+  @override
+  void set(Duration value) => duration = value;
+
+  @override
+  ExerciseSetOption<Duration> copyWith({
+    int? id,
+    int? exerciseSetId,
+    Duration? value,
+  }) => DurationOption(
+    id: id ?? this.id,
+    exerciseSetId: exerciseSetId ?? this.exerciseSetId,
+    duration: value ?? duration,
+  );
 }
 
+class WeightOption extends ExerciseSetOption<double> {
+  WeightOption({
+    super.id,
+    required super.exerciseSetId,
+    this.weight = 0.0,
+  });
 
+  @ColumnInfo(name: 'weight')
+  double weight;
+
+  @override
+  get value => weight.toString();
+
+  @override
+  ExerciseFieldType get type => ExerciseFieldType.weight;
+  
+  @override
+  void set(double value) => weight = value;
+
+  @override
+  ExerciseSetOption<double> copyWith({
+    int? id,
+    int? exerciseSetId,
+    double? value,
+  }) => WeightOption(
+    id: id ?? this.id,
+    exerciseSetId: exerciseSetId ?? this.exerciseSetId,
+    weight: value ?? weight,
+  );
+}
+
+class BodyWeightOption extends ExerciseSetOption<double> {
+  const BodyWeightOption({
+    super.id,
+    required super.exerciseSetId,
+    this.bodyWeight = 0.0,
+  });
+
+  @ColumnInfo(name: 'body_weight')
+  final double bodyWeight;
+
+  @override
+  get value => bodyWeight.toString();
+
+  @override
+  ExerciseFieldType get type => ExerciseFieldType.bodyWeight;
+
+  @override
+  void set(double value) => UnimplementedError('Cannot set body weight');
+
+  @override
+  ExerciseSetOption<double> copyWith({
+    int? id,
+    int? exerciseSetId,
+    double? value,
+  }) => BodyWeightOption(
+    id: id ?? this.id,
+    exerciseSetId: exerciseSetId ?? this.exerciseSetId,
+    bodyWeight: value ?? bodyWeight,
+  );
+}
+
+/*
 class ExerciseSet {
   const ExerciseSet({
     this.id,
@@ -111,7 +253,7 @@ class ExerciseSet {
       options: options ?? this.options,
     );
   }
-}
+}*/
 
 
 /*

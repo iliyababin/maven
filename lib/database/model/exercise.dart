@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../../feature/exercise/model/exercise_equipment.dart';
-import '../../feature/exercise/model/exercise_type.dart';
 import '../../feature/exercise/model/muscle.dart';
 import '../../feature/exercise/model/muscle_group.dart';
 import 'bar.dart';
+import 'exercise_field.dart';
 
 @Entity(
   tableName: 'exercise',
@@ -26,10 +26,10 @@ class Exercise extends Equatable {
     required this.name,
     required this.muscle,
     required this.muscleGroup,
-    required this.exerciseType,
     required this.equipment,
     required this.videoPath,
     this.barId,
+    this.fields = const [],
   });
 
   @ColumnInfo(name: 'exercise_id')
@@ -45,9 +45,6 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'muscle_group')
   final MuscleGroup muscleGroup;
 
-  @ColumnInfo(name: 'exercise_type')
-  final ExerciseType exerciseType;
-
   @ColumnInfo(name: 'exercise_equipment')
   final Equipment equipment;
 
@@ -57,13 +54,15 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
+  @ignore
+  final List<ExerciseField> fields;
+
   @override
   List<Object?> get props => [
     exerciseId,
     name,
     muscle,
     muscleGroup,
-    exerciseType,
     equipment,
     barId,
   ];
@@ -72,10 +71,31 @@ class Exercise extends Equatable {
     name: 'Empty',
     muscle: Muscle.trapezius,
     muscleGroup: MuscleGroup.arms,
-    exerciseType: ExerciseTypes.assistedBodyweight,
     equipment: Equipment.none,
     videoPath: 'Empty',
   );
+
+  Exercise copyWith({
+    int? exerciseId,
+    String? name,
+    Muscle? muscle,
+    MuscleGroup? muscleGroup,
+    Equipment? equipment,
+    String? videoPath,
+    int? barId,
+    List<ExerciseField>? fields,
+  }) {
+    return Exercise(
+      exerciseId: exerciseId ?? this.exerciseId,
+      name: name ?? this.name,
+      muscle: muscle ?? this.muscle,
+      muscleGroup: muscleGroup ?? this.muscleGroup,
+      equipment: equipment ?? this.equipment,
+      videoPath: videoPath ?? this.videoPath,
+      barId: barId ?? this.barId,
+      fields: fields ?? this.fields,
+    );
+  }
 }
 
 List<Exercise> getDefaultExercises() => [
@@ -84,7 +104,6 @@ List<Exercise> getDefaultExercises() => [
     name: 'Barbell Squat',
     muscle: Muscle.quadriceps,
     muscleGroup: MuscleGroup.legs,
-    exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.barbell,
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
     barId: 1,
@@ -94,7 +113,6 @@ List<Exercise> getDefaultExercises() => [
     name: 'Barbell Bench Press',
     muscle: Muscle.pectoralisMajor,
     muscleGroup: MuscleGroup.chest,
-    exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.barbell,
     videoPath: 'assets/exercises/videos/barbell_bench_press.mp4',
     barId: 1,
@@ -104,7 +122,6 @@ List<Exercise> getDefaultExercises() => [
     name: 'Pull-up',
     muscle: Muscle.latissimusDorsi,
     muscleGroup: MuscleGroup.back,
-    exerciseType: ExerciseTypes.bodyweightReps,
     equipment: Equipment.bodyWeight,
     videoPath: 'assets/exercises/videos/pull_up.mp4',
   ),
@@ -113,7 +130,6 @@ List<Exercise> getDefaultExercises() => [
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,
-    exerciseType: ExerciseTypes.assistedBodyweight,
     equipment: Equipment.machine,
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
   ),
@@ -122,7 +138,6 @@ List<Exercise> getDefaultExercises() => [
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
     muscleGroup: MuscleGroup.arms,
-    exerciseType: ExerciseTypes.weightAndReps,
     equipment: Equipment.dumbbell,
     videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
   ),

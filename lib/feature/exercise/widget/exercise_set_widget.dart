@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:maven/database/model/exercise_field.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../m_keyboard/widget/m_keyboard.dart';
+import '../../multi_keyboard/widget/multi_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import '../model/exercise_set.dart';
 import '../model/set_type.dart';
@@ -41,7 +42,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
 
   @override
   void initState() {
-    exerciseSet = widget.exerciseSet.copyWith();
+    exerciseSet = widget.exerciseSet;
     _isChecked = exerciseSet.checked ?? false;
     super.initState();
   }
@@ -95,11 +96,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.type.color(context)),
           ),
         ),
-
         previous: MButton(
-          onPressed: () {
-
-          },
+          onPressed: () {},
           expand: false,
           height: 35,
           backgroundColor: Colors.transparent,
@@ -108,8 +106,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.subtitle1,
           ),
         ),
-
-        options: exerciseSet.options.map((e) => MButton(
+        options: exerciseSet.options.where((e) => e.type != ExerciseFieldType.bodyWeight).map((e) => MButton(
           height: 30,
           expand: true,
           backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
@@ -120,19 +117,26 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           onPressed: () {
             showBottomSheetDialog(
               context: context,
-              child: MKeyboard(
+              child: MultiKeyboard(
                 barId: widget.barId,
                 equipment: widget.exercise.equipment,
-                value: exerciseSet.option1 == 0 ? '' : exerciseSet.option1.toString(),
-                onValueChanged: (p0) {
-
+                option: e,
+                onValueChanged: (value) {
+                  widget.onExerciseSetUpdate(
+                    exerciseSet/*.copyWith(
+                      options: exerciseSet.options.map(
+                              (e) => e.id == value.id ? value : e
+                      ).toList(),
+                    ),*/
+                  );
                 },
               ),
-              onClose: () {},
+              onClose: () {
+
+              },
             );
           },
         ),).toList(),
-
         checkbox: widget.checkboxEnabled ? SizedBox(
           height: 38,
           child: Transform.scale(
@@ -155,18 +159,15 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                       return;
                     }
                   }*/
-
-                if(exerciseSet.option1 != 0) {
+                //TODO WHATEVER
+                /*if(exerciseSet.option1 != 0) {
                   setState(() {
                     _isChecked = !_isChecked;
                   });
                   if(widget.onExerciseSetToggled != null) {
                     widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: exerciseSet.checked));
                   }
-                }
-
-
-
+                }*/
               },
               fillColor: _isChecked ? MaterialStateProperty.all<Color>(
                   T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.secondary
@@ -177,7 +178,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             ),
           ),
         ) : null,
-
       ),
     );
   }

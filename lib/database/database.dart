@@ -9,7 +9,9 @@ import '../feature/exercise/model/muscle.dart';
 import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
+import 'dao/exercise_field_dao.dart';
 import 'dao/setting_dao.dart';
+import 'model/exercise_field.dart';
 import 'model/model.dart';
 import 'model/routine_group.dart';
 import 'model/setting.dart';
@@ -38,6 +40,7 @@ part 'database.g.dart';
     Folder,
     TemplateTracker,
     Setting,
+    ExerciseField,
   ],
 )
 @TypeConverters([
@@ -68,6 +71,8 @@ abstract class MavenDatabase extends FloorDatabase {
   TemplateTrackerDao get templateTrackerDao;
   SettingDao get settingDao;
 
+  ExerciseFieldDao get exerciseFieldDao;
+
   static final Callback _callback = Callback(
     onCreate: (database, version) {
       database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", 2)');
@@ -78,12 +83,13 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_82.db')
+        .databaseBuilder('maven_db_84.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());
     db.barDao.addBars(getDefaultBars());
     db.exerciseDao.addExercises(getDefaultExercises());
+    db.exerciseFieldDao.addExerciseFields(getDefaults());
     return db;
   }
 }

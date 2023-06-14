@@ -9,8 +9,8 @@ class NumPadWidget extends StatefulWidget {
     required this.onValueChanged,
   }) : super(key: key);
 
-  final String value;
-  final Function(String) onValueChanged;
+  final double value;
+  final Function(double) onValueChanged;
 
   @override
   State<NumPadWidget> createState() => _NumPadWidgetState();
@@ -24,13 +24,12 @@ class _NumPadWidgetState extends State<NumPadWidget> {
 
   @override
   void initState() {
-    _controller.text = widget.value;
+    _controller.text = widget.value.toString();
+    super.initState();
 
     _controller.addListener(() {
-      widget.onValueChanged(_controller.text);
+      widget.onValueChanged(double.parse(_controller.text));
     });
-
-    super.initState();
   }
 
   @override

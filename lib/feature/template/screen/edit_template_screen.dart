@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/database/TEST_ZONE/exercise_group.dart';
 import 'package:maven/database/model/routine_group.dart';
 
 import '../../../common/model/timed.dart';
@@ -228,11 +229,10 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   exerciseSets: [
                     ExerciseSet(
                       id: DateTime.now().millisecondsSinceEpoch,
-                      option1: 0,
-                      option2: 0,
                       exerciseGroupId: exerciseGroupId,
                       type: SetType.regular,
-                    )
+                      options: exercise.fields.map((e) => getOptionByType(e.type, exercise.exerciseId!)).toList(),
+                    ),
                   ],
                   barId: exercise.barId,
                 ));
