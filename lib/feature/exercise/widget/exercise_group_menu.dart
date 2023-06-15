@@ -6,10 +6,10 @@ import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/bar.dart';
 import '../../../database/model/exercise.dart';
+import '../../../database/model/exercise_group.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../model/exercise_equipment.dart';
-import '../model/exercise_group.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({Key? key,

@@ -1,7 +1,6 @@
-import 'package:floor/floor.dart';
 
-import '../model/exercise_field.dart';
 
+/*
 
 
 abstract class ExerciseSetOption<T> {
@@ -218,6 +217,7 @@ class BodyWeightOption extends ExerciseSetOption<double> {
     bodyWeight: value ?? bodyWeight,
   );
 }
+*/
 
 /*
 class ExerciseSet {

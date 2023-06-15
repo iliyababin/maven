@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
-import '../../../database/TEST_ZONE/exercise_group.dart';
+import '../../../database/database.dart';
 import '../../../database/model/exercise_field.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_equipment.dart';
@@ -19,14 +19,14 @@ class MultiKeyboard extends StatefulWidget {
   const MultiKeyboard({Key? key,
     this.barId,
     required this.equipment,
-    required this.option,
+    required this.data,
     required this.onValueChanged,
   }) : super(key: key);
 
   final int? barId;
   final Equipment equipment;
-  final ExerciseSetOption option;
-  final Function(ExerciseSetOption) onValueChanged;
+  final ExerciseSetData data;
+  final Function(ExerciseSetData) onValueChanged;
 
   @override
   State<MultiKeyboard> createState() => _MultiKeyboardState();
@@ -42,16 +42,32 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
       case 1:
         return BarbellCalculatorWidget(
           barId: widget.barId ?? 0,
-          weight: double.parse(widget.option.value),
+          weight: double.parse(widget.data.value),
         );
       default:
-        switch (widget.option.type) {
+        switch (widget.data.fieldType) {
           case ExerciseFieldType.weight:
             return NumPadWidget(
-              value: double.parse(widget.option.value),
+              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
-                widget.option.set(value);
-                widget.onValueChanged(widget.option);
+                if(value == 0) {
+                  widget.data.value = '';
+                } else {
+                  widget.data.value = value.toString();
+                }
+                widget.onValueChanged(widget.data);
+              },
+            );
+          case ExerciseFieldType.reps:
+            return NumPadWidget(
+              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              onValueChanged: (value) {
+                if(value == 0) {
+                  widget.data.value = '';
+                } else {
+                  widget.data.value = value.toStringAsFixed(0);
+                }
+                widget.onValueChanged(widget.data);
               },
             );
           default:

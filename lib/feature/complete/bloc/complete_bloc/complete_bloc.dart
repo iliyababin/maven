@@ -4,9 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../database/dao/dao.dart';
+import '../../../../database/model/exercise_set.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
-import '../../../exercise/model/exercise_set.dart';
 import '../../model/complete_bundle.dart';
 import '../../model/complete_exercise_bundle.dart';
 

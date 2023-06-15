@@ -2,9 +2,9 @@
 import 'package:floor/floor.dart';
 
 import '../../common/model/timed.dart';
-import '../../feature/exercise/model/exercise_group.dart';
 import 'bar.dart';
 import 'exercise.dart';
+import 'exercise_group.dart';
 import 'routine_group.dart';
 import 'workout.dart';
 

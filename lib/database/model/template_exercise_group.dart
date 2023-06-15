@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:maven/feature/exercise/model/exercise_group.dart';
+import 'package:maven/database/model/exercise_group.dart';
 
 import '../../common/model/timed.dart';
 import 'bar.dart';

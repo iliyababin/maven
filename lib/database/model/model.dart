@@ -1,5 +1,6 @@
 export 'bar.dart';
 export 'exercise.dart';
+export 'exercise_set_data.dart';
 export 'folder.dart';
 export 'plate.dart';
 export 'program.dart';

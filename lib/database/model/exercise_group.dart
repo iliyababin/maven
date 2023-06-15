@@ -1,7 +1,7 @@
 
-import '../../../common/model/timed.dart';
-import '../../../database/database.dart';
-import '../../../database/model/routine_group.dart';
+import '../../common/model/timed.dart';
+import '../database.dart';
+import 'routine_group.dart';
 
 class ExerciseGroup extends RoutineGroup {
   const ExerciseGroup({

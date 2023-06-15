@@ -3,9 +3,9 @@ import 'package:floor/floor.dart';
 import 'package:maven/database/model/routine_group.dart';
 
 import '../../common/model/timed.dart';
-import '../../feature/exercise/model/exercise_group.dart';
 import 'bar.dart';
 import 'exercise.dart';
+import 'exercise_group.dart';
 import 'session.dart';
 
 @Entity(

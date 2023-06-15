@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:maven/feature/exercise/model/set_type.dart';
 import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
-import '../../../database/TEST_ZONE/exercise_group.dart';
-import '../../../database/model/exercise.dart';
+import '../../../database/database.dart';
+import '../../../database/model/exercise_group.dart';
+import '../../../database/model/exercise_set.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/exercise_group.dart';
-import '../model/exercise_set.dart';
 import 'exercise_group_menu.dart';
 import 'exercise_set_widget.dart';
 
@@ -186,11 +186,20 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 4),
           child: MButton(
             onPressed: () {
+              int id = DateTime.now().millisecondsSinceEpoch;
               ExerciseSet exerciseSet = ExerciseSet(
-                id: DateTime.now().millisecondsSinceEpoch,
+                id: id,
                 checked: false,
+                type: SetType.regular,
                 exerciseGroupId: widget.exerciseGroup.id!,
-                options: widget.exercise.fields.map((e) => getOptionByType(e.type, widget.exercise.exerciseId!)).toList(),
+                data: widget.exercise.fields.map((e) {
+                  return ExerciseSetData(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    value: '',
+                    fieldType: e.type,
+                    exerciseSetId: id,
+                  );
+                }).toList(),
               );
 
               widget.onExerciseSetAdd(exerciseSet);

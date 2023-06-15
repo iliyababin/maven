@@ -37,6 +37,7 @@ void main() async {
                 templateTrackerDao: db.templateTrackerDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
+                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const TemplateInitialize())),
       BlocProvider(
           create: (context) => TemplateDetailBloc(
@@ -44,6 +45,8 @@ void main() async {
                 exerciseDao: db.exerciseDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
+                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
+                exerciseFieldDao: db.exerciseFieldDao,
               )),
       BlocProvider(
           create: (context) => WorkoutBloc(

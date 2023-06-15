@@ -24,7 +24,20 @@ class ActiveExerciseRow {
 
         const SizedBox(width: SPACER_SIZE),
 
-        Expanded(child: Container(alignment: Alignment.center, child: Row(children: options))),
+        Expanded(child: Container(alignment: Alignment.center,
+            child: Row(
+              children: options /*List<Widget>.generate(options.length * 2 - 1, (index) {
+                if (index.isOdd) {
+                  // Insert a spacer
+                  return SizedBox(width: SPACER_SIZE);
+                } else {
+                  // Insert a widget
+                  final widgetIndex = index ~/ 2;
+                  return options[widgetIndex];
+                }
+              }),*/
+            )
+        )),
 
         if(rpe != null) ...[
           const SizedBox(width: SPACER_SIZE),

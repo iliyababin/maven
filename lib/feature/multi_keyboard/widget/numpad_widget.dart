@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maven/common/util/general_utils.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -24,11 +25,15 @@ class _NumPadWidgetState extends State<NumPadWidget> {
 
   @override
   void initState() {
-    _controller.text = widget.value.toString();
+    if(widget.value == 0) {
+      _controller.text = '';
+    } else {
+      _controller.text = removeDecimalZeroFormat(widget.value);
+    }
     super.initState();
 
     _controller.addListener(() {
-      widget.onValueChanged(double.parse(_controller.text));
+      widget.onValueChanged(double.parse(_controller.text.isEmpty ? '0'  : _controller.text));
     });
   }
 
@@ -38,7 +43,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
     super.dispose();
   }
 
-  MButton numberTile(int number) {
+  MButton numberTile(String number) {
     return MButton(
       onPressed: (){
         int selectionStart = _controller.selection.start;
@@ -92,27 +97,27 @@ class _NumPadWidgetState extends State<NumPadWidget> {
               Expanded(
                 child: Row(
                     children: [
-                      numberTile(1),
-                      numberTile(2),
-                      numberTile(3),
+                      numberTile('1'),
+                      numberTile('2'),
+                      numberTile('3'),
                     ]
                 ),
               ),
               Expanded(
                 child: Row(
                   children: [
-                    numberTile(4),
-                    numberTile(5),
-                    numberTile(6),
+                    numberTile('4'),
+                    numberTile('5'),
+                    numberTile('6'),
                   ],
                 ),
               ),
               Expanded(
                 child: Row(
                   children: [
-                    numberTile(7),
-                    numberTile(8),
-                    numberTile(9),
+                    numberTile('7'),
+                    numberTile('8'),
+                    numberTile('9'),
                   ],
                 ),
               ),
@@ -121,13 +126,8 @@ class _NumPadWidgetState extends State<NumPadWidget> {
                   height: 65,
                   child: Row(
                     children: [
-                      MButton(
-                        onPressed: (){},
-                        height: 65,
-                        borderRadius: 0,
-                      ),
-
-                      numberTile(0),
+                      numberTile('.'),
+                      numberTile('0'),
 
                       MButton(
                         onPressed: (){

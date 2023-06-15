@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/database/TEST_ZONE/exercise_group.dart';
 import 'package:maven/database/model/routine_group.dart';
 
 import '../../../common/model/timed.dart';
+import '../../../database/model/exercise_group.dart';
+import '../../../database/model/exercise_set.dart';
 import '../../../database/model/model.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_bundle.dart';
-import '../../exercise/model/exercise_group.dart';
-import '../../exercise/model/exercise_set.dart';
 import '../../exercise/model/set_type.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
@@ -217,6 +216,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
             for (Exercise exercise in exercises ?? []) {
               setState(() {
                 int exerciseGroupId = DateTime.now().millisecondsSinceEpoch;
+                int exerciseSetId = DateTime.now().millisecondsSinceEpoch + 1;
                 exerciseBundles.add(ExerciseBundle(
                   exercise: exercise,
                   exerciseGroup: ExerciseGroup(
@@ -228,10 +228,18 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   ),
                   exerciseSets: [
                     ExerciseSet(
-                      id: DateTime.now().millisecondsSinceEpoch,
+                      id: exerciseSetId,
                       exerciseGroupId: exerciseGroupId,
+                      checked: false,
                       type: SetType.regular,
-                      options: exercise.fields.map((e) => getOptionByType(e.type, exercise.exerciseId!)).toList(),
+                      data: exercise.fields.map((e) {
+                        return ExerciseSetData(
+                          id: DateTime.now().millisecondsSinceEpoch,
+                          value: '',
+                          fieldType: e.type,
+                          exerciseSetId: exerciseSetId,
+                        );
+                      }).toList(),
                     ),
                   ],
                   barId: exercise.barId,

@@ -1,14 +1,14 @@
 import 'package:floor/floor.dart';
+import 'package:maven/database/model/exercise_set.dart';
 
 import '../../feature/exercise/model/set_type.dart';
-import 'template.dart';
-import 'template_exercise_group.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'template_exercise_set',
   foreignKeys: [
     ForeignKey(
-      childColumns: ['template_exercise_group_id'],
+      childColumns: ['exercise_group_id'],
       parentColumns: ['id'],
       entity: TemplateExerciseGroup,
       onDelete: ForeignKeyAction.cascade,
@@ -21,32 +21,39 @@ import 'template_exercise_group.dart';
     ),
   ]
 )
-class TemplateExerciseSet {
-  TemplateExerciseSet({
-    this.templateExerciseSetId,
-    required this.option1,
-    this.option2,
-    required this.setType,
-    required this.templateExerciseGroupId,
+class TemplateExerciseSet extends ExerciseSet {
+  const TemplateExerciseSet({
+    super.id,
+    required super.type,
+    required super.checked,
+    required super.exerciseGroupId,
+    super.data,
     required this.templateId,
   });
 
-  @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'template_exercise_set_id')
-  final int? templateExerciseSetId;
-
-  @ColumnInfo(name: 'option_1')
-  final int option1;
-
-  @ColumnInfo(name: 'option_2')
-  final int? option2;
-
-  @ColumnInfo(name: 'set_type')
-  final SetType setType;
-
-  @ColumnInfo(name: 'template_exercise_group_id')
-  final int templateExerciseGroupId;
-
   @ColumnInfo(name: 'template_id')
   final int templateId;
+
+  @override
+  List<Object?> get props => [
+    ...super.props,
+    templateId,
+  ];
+
+  @override
+  TemplateExerciseSet copyWith({
+    int? id,
+    SetType? type,
+    bool? checked,
+    int? exerciseGroupId,
+    List<ExerciseSetData>? data,
+    int? templateId,
+  }) => TemplateExerciseSet(
+    id: id ?? this.id,
+    type: type ?? this.type,
+    checked: checked ?? this.checked,
+    exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
+    data: data ?? this.data,
+    templateId: templateId ?? this.templateId,
+  );
 }

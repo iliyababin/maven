@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../database/dao/dao.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
-import '../../../exercise/model/exercise_set.dart';
 
 part 'template_detail_event.dart';
 part 'template_detail_state.dart';
@@ -17,6 +16,8 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
     required this.exerciseDao,
+    required this.templateExerciseSetDataDao,
+    required this.exerciseFieldDao,
   }) : super(const TemplateDetailState()) {
     on<TemplateDetailLoad>(_templateDetailLoad);
   }
@@ -24,7 +25,9 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
   final TemplateDao templateDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
+  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
   final ExerciseDao exerciseDao;
+  final ExerciseFieldDao exerciseFieldDao;
 
   Future<void> _templateDetailLoad(TemplateDetailLoad event, emit) async {
     emit(state.copyWith(status: TemplateDetailStatus.loading));
@@ -35,12 +38,22 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
 
     for(TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
+
+      exercise = exercise?.copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercise.exerciseId!));
+
       List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
+
+      List<TemplateExerciseSet> hey = [];
+
+      for (TemplateExerciseSet templateExerciseSet in templateExerciseSets) {
+        List<TemplateExerciseSetData> data = await templateExerciseSetDataDao.getTemplateExerciseSetDataByExerciseSetId(templateExerciseSet.id!);
+        hey.add(templateExerciseSet.copyWith(data: data));
+      }
 
       exerciseBundles.add(ExerciseBundle(
         exercise: exercise!,
         exerciseGroup: templateExerciseGroup,
-        exerciseSets: templateExerciseSets.map((e) => ExerciseSet.from(e)).toList(),
+        exerciseSets: hey,
         barId: templateExerciseGroup.barId
       ));
     }

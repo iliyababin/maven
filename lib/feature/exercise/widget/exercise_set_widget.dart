@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:maven/database/model/exercise_field.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
+import '../../../database/model/exercise_set.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../multi_keyboard/widget/multi_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/exercise_set.dart';
 import '../model/set_type.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
@@ -106,7 +105,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.subtitle1,
           ),
         ),
-        options: exerciseSet.options.where((e) => e.type != ExerciseFieldType.bodyWeight).map((e) => MButton(
+        options: exerciseSet.data.map((e) => MButton(
           height: 30,
           expand: true,
           backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
@@ -120,10 +119,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               child: MultiKeyboard(
                 barId: widget.barId,
                 equipment: widget.exercise.equipment,
-                option: e,
+                data: e,
                 onValueChanged: (value) {
                   widget.onExerciseSetUpdate(
-                    exerciseSet/*.copyWith(
+                    exerciseSet,
+                    /*.copyWith(
                       options: exerciseSet.options.map(
                               (e) => e.id == value.id ? value : e
                       ).toList(),
@@ -136,7 +136,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               },
             );
           },
-        ),).toList(),
+        )).toList(),
         checkbox: widget.checkboxEnabled ? SizedBox(
           height: 38,
           child: Transform.scale(

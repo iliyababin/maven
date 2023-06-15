@@ -1,5 +1,7 @@
 export 'bar_dao.dart';
 export 'exercise_dao.dart';
+export 'exercise_field_dao.dart';
+export 'exercise_set_data_dao.dart';
 export 'folder_dao.dart';
 export 'plate_dao.dart';
 export 'program_dao.dart';

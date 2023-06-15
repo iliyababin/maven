@@ -9,7 +9,6 @@ import '../feature/exercise/model/muscle.dart';
 import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
-import 'dao/exercise_field_dao.dart';
 import 'dao/setting_dao.dart';
 import 'model/exercise_field.dart';
 import 'model/model.dart';
@@ -41,6 +40,7 @@ part 'database.g.dart';
     TemplateTracker,
     Setting,
     ExerciseField,
+    TemplateExerciseSetData,
   ],
 )
 @TypeConverters([
@@ -57,6 +57,8 @@ abstract class MavenDatabase extends FloorDatabase {
   TemplateDao get templateDao;
   TemplateExerciseGroupDao get templateExerciseGroupDao;
   TemplateExerciseSetDao get templateExerciseSetDao;
+  TemplateExerciseSetDataDao get templateExerciseSetDataDao;
+
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
@@ -83,7 +85,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_84.db')
+        .databaseBuilder('maven_db_98.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

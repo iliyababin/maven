@@ -6,11 +6,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/dao/dao.dart';
+import '../../../../database/model/exercise_group.dart';
+import '../../../../database/model/exercise_set.dart';
 import '../../../../database/model/model.dart';
 import '../../../../database/model/routine_group.dart';
 import '../../../exercise/model/exercise_bundle.dart';
-import '../../../exercise/model/exercise_group.dart';
-import '../../../exercise/model/exercise_set.dart';
 
 part 'workout_event.dart';
 part 'workout_state.dart';
@@ -103,12 +103,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       for(var templateExerciseSet in templateExerciseSets){
         int t = await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
-          workoutExerciseGroupId: workoutExerciseGroupId,
+          id: workoutExerciseGroupId,
+          exerciseGroupId: workoutExerciseGroupId,
           workoutId: workoutId,
-          option_1: templateExerciseSet.option1,
-          option_2: templateExerciseSet.option2,
-          checked: 0,
-          setType: templateExerciseSet.setType,
+          checked: false,
+          type: templateExerciseSet.type,
         ));
       }
     }
@@ -140,7 +139,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       exerciseBundles.add(ExerciseBundle(
           exercise: exercise!,
           exerciseGroup: workoutExerciseGroup,
-          exerciseSets: workoutExerciseSets.map((workoutExerciseSet) => workoutExerciseSet.toExerciseSet()).toList(),
+          exerciseSets: workoutExerciseSets,
           barId: workoutExerciseGroup.barId
       ));
     }
@@ -156,7 +155,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     if(event.exerciseSets != null) {
       for(var exerciseSet in event.exerciseSets!) {
-        await workoutExerciseSetDao.addWorkoutExerciseSet(exerciseSet.toWorkoutExerciseSet(state.workout!.id!));
+        await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
+          id: exerciseSet.id,
+          type: exerciseSet.type,
+          checked: exerciseSet.checked,
+          exerciseGroupId: exerciseSet.exerciseGroupId,
+          workoutId: state.workout!.id!,
+        ));
       }
     }
   }
@@ -207,9 +212,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     }
 
     if(event.exerciseSet != null) {
-      await workoutExerciseSetDao.updateWorkoutExerciseSet(
-        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.id!),
-      );
+      await workoutExerciseSetDao.updateWorkoutExerciseSet(WorkoutExerciseSet(
+        id: event.exerciseSet!.id,
+        type: event.exerciseSet!.type,
+        checked: event.exerciseSet!.checked,
+        exerciseGroupId: event.exerciseSet!.exerciseGroupId,
+        workoutId: state.workout!.id!,
+      ),);
     }
   }
 
@@ -221,9 +230,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     }
 
     if(event.exerciseSet != null) {
-      await workoutExerciseSetDao.deleteWorkoutExerciseSet(
-        event.exerciseSet!.toWorkoutExerciseSet(state.workout!.id!),
-      );
+      await workoutExerciseSetDao.deleteWorkoutExerciseSet(WorkoutExerciseSet(
+        id: event.exerciseSet!.id,
+        type: event.exerciseSet!.type,
+        checked: event.exerciseSet!.checked,
+        exerciseGroupId: event.exerciseSet!.exerciseGroupId,
+        workoutId: state.workout!.id!,
+      ),);
     }
   }
 }

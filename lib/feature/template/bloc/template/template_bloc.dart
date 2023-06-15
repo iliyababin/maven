@@ -3,15 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:maven/database/model/routine_group.dart';
-import 'package:maven/database/model/template_tracker.dart';
 
-import '../../../../database/dao/template_dao.dart';
-import '../../../../database/dao/template_exercise_group_dao.dart';
-import '../../../../database/dao/template_exercise_set_dao.dart';
-import '../../../../database/dao/template_tracker_dao.dart';
-import '../../../../database/model/template.dart';
-import '../../../../database/model/template_exercise_group.dart';
-import '../../../../database/model/template_exercise_set.dart';
+import '../../../../database/database.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 
 part 'template_event.dart';
@@ -23,6 +16,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
+    required this.templateExerciseSetDataDao,
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
     on<TemplateCreate>(_create);
@@ -35,11 +29,17 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
+  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
 
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(status: () => TemplateStatus.loading,));
 
-    emit(state.copyWith(status: () => TemplateStatus.loaded,));
+    List<Template> templates = await templateDao.getTemplates();
+
+    emit(state.copyWith(
+      status: () => TemplateStatus.loaded,
+      templates: () => templates,
+    ));
   }
 
 
@@ -48,14 +48,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     int templateId = await templateDao.addTemplate(event.template);
 
-    if (event.templateTracker != null) {
-      await templateTrackerDao.addTemplateTracker(event.templateTracker!.copyWith(templateId: templateId));
-    }
-
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
         TemplateExerciseGroup(
-
           timer: exerciseBlock.exerciseGroup.timer,
           exerciseId: exerciseBlock.exercise.exerciseId!,
           weightUnit: WeightUnit.lb,
@@ -64,16 +59,24 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         )
       );
       for (var exerciseSet in exerciseBlock.exerciseSets) {
-        await templateExerciseSetDao.addTemplateExerciseSet(
+        int templateExerciseSetId = await templateExerciseSetDao.addTemplateExerciseSet(
           TemplateExerciseSet(
             templateId: templateId,
-            templateExerciseGroupId: exerciseGroupId,
-            ///TODO THIS
-            option1: -99,
-            option2: -99,
-            setType: exerciseSet.type,
+            exerciseGroupId: exerciseGroupId,
+            checked: exerciseSet.checked,
+            type: exerciseSet.type,
           ),
         );
+
+        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+          await templateExerciseSetDataDao.addTemplateExerciseSetData(
+            TemplateExerciseSetData(
+              fieldType: exerciseSetData.fieldType,
+              exerciseSetId: templateExerciseSetId,
+              value: exerciseSetData.value,
+            ),
+          );
+        }
       }
     }
 
