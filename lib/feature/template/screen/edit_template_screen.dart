@@ -224,7 +224,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     timer: Timed.zero(),
                     exerciseId: exercise.exerciseId!,
                     barId: exercise.barId,
-                    weightUnit: WeightUnit.lb,
+                    weightUnit: WeightUnit.lbs,
                   ),
                   exerciseSets: [
                     ExerciseSet(

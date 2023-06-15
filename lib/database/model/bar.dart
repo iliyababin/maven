@@ -56,4 +56,9 @@ List<Bar> getDefaultBars() => [
     name: 'EZ Curl',
     weight: 15,
   ),
+  const Bar(
+    barId: 3,
+    name: 'Trap Bar',
+    weight: 55,
+  ),
 ];

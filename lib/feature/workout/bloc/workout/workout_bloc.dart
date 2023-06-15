@@ -94,7 +94,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
         timer: templateExerciseGroup.timer,
         barId: templateExerciseGroup.barId,
-        weightUnit: WeightUnit.lb,
+        weightUnit: WeightUnit.lbs,
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
       ));

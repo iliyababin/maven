@@ -5,5 +5,6 @@ enum MuscleGroup {
   core,
   legs,
   shoulders,
+  fullBody,
 }
 

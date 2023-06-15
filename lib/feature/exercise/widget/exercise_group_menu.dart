@@ -7,6 +7,7 @@ import '../../../common/widget/m_button.dart';
 import '../../../database/model/bar.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/exercise_group.dart';
+import '../../../database/model/routine_group.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 import '../model/exercise_equipment.dart';
@@ -80,6 +81,42 @@ class ExerciseGroupMenu extends StatelessWidget {
           title: 'Bar Type',
         ) : Container(),
         MButton.tiled(
+          onPressed: () {
+            Navigator.pop(context);
+            showBottomSheetDialog(
+              context: context,
+              child: ListView.builder(
+                itemCount: WeightUnit.values.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  WeightUnit weightUnit = WeightUnit.values[index];
+                  return MButton.tiled(
+                    onPressed: (){
+                      onExerciseGroupUpdate(exerciseGroup.copyWith(weightUnit: weightUnit));
+                      Navigator.pop(context);
+                    },
+                    expand: false,
+                    leading: exerciseGroup.weightUnit == weightUnit ? Container(
+                      width: 20,
+                      alignment: Alignment.centerLeft,
+                      child: const Icon(
+                        Icons.check,
+                      ),
+                    ) : Container(width: 20,),
+                    title: weightUnit.name
+                  );
+                },
+              )
+            );
+          },
+          leading: const Icon(Icons.scale),
+          title: 'Weight Unit',
+          trailing: Text(
+            exerciseGroup.weightUnit.name.toString(),
+            style: T(context).textStyle.subtitle1,
+          ),
+        ),
+        MButton.tiled(
           onPressed: (){
             Navigator.pop(context);
             showBottomSheetDialog(
@@ -97,7 +134,7 @@ class ExerciseGroupMenu extends StatelessWidget {
             Icons.timer,
           ),
           trailing: Text(
-            '(${exerciseGroup.timer.toString()})',
+            '${exerciseGroup.timer.toString()}',
             style: T(context).textStyle.subtitle1,
           ),
           title: 'Rest Timer',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maven/database/model/exercise_field.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
@@ -110,7 +111,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           expand: true,
           backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
           child: Text(
-            e.value,
+            e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value): e.value.toString(),
             style: T(context).textStyle.body1,
           ),
           onPressed: () {
@@ -181,4 +182,18 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
       ),
     );
   }
+}
+
+String removeTrailingZeros(String input) {
+  if (input.isEmpty) {
+    return '';
+  }
+
+  double? number = double.tryParse(input);
+  if (number == null) {
+    // Input is not a valid number
+    return input;
+  }
+
+  return number.toStringAsFixed(number.truncateToDouble() == number ? 0 : 1);
 }

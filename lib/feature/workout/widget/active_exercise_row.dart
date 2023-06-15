@@ -18,24 +18,28 @@ class ActiveExerciseRow {
 
         Container(width: 35, alignment: Alignment.center, child: set),
 
-        const SizedBox(width: SPACER_SIZE),
+        const SizedBox(width: 3),
+
 
         Container(width: 90, alignment: Alignment.center, child: previous),
 
-        const SizedBox(width: SPACER_SIZE),
+        const SizedBox(width: 3),
+
 
         Expanded(child: Container(alignment: Alignment.center,
             child: Row(
-              children: options /*List<Widget>.generate(options.length * 2 - 1, (index) {
+              children:  List<Widget>.generate(options.length * 2 - 1, (index) {
                 if (index.isOdd) {
                   // Insert a spacer
                   return SizedBox(width: SPACER_SIZE);
                 } else {
                   // Insert a widget
                   final widgetIndex = index ~/ 2;
-                  return options[widgetIndex];
+                  return Container(
+                    child: options[widgetIndex],
+                  );
                 }
-              }),*/
+              }),
             )
         )),
 

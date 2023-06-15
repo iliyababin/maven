@@ -1,5 +1,5 @@
-import 'package:maven/common/widget/m_button.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:maven/common/widget/m_button.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
 import '../model/timed.dart';
@@ -128,7 +128,7 @@ class TimedPickerDialog extends StatelessWidget {
                 backgroundColor: T(context).color.primary,
                 borderRadius: 12,
                 child: Text(
-                  'Start',
+                  'Submit',
                   style: T(context).textStyle.button1,
                 ),
               ),

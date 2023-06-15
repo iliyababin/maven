@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/extension.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/dialog/timer_picker_dialog.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../bloc/exercise_bloc.dart';
 
 class ExerciseDetailWidget extends StatefulWidget {
   const ExerciseDetailWidget({
@@ -111,7 +115,18 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            showBottomSheetDialog(
+                context: context,
+                child: TimedPickerDialog(
+                  initialValue: widget.exercise.timer,
+                  onSubmit: (value) {
+                    context.read<ExerciseBloc>().add(ExerciseUpdate(exercise: widget.exercise.copyWith(timer: value)));
+                  },
+                ),
+                onClose: (){}
+            );
+          },
           leading: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -123,7 +138,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             style: T(context).textStyle.body1,
           ),
           subtitle: Text(
-            'None',
+            widget.exercise.timer.toString(),
             style: T(context).textStyle.subtitle1,
           ),
         ),
@@ -161,7 +176,8 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             style: T(context).textStyle.body1,
           ),
           subtitle: Text(
-            widget.exercise.name,
+            // Name of exercise fields
+            widget.exercise.fields.map((obj) => obj.type.name.capitalize()).join(' | '),
             style: T(context).textStyle.subtitle1,
           ),
         ),

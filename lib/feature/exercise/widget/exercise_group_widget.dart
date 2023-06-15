@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:maven/database/model/exercise_field.dart';
 import 'package:maven/feature/exercise/model/set_type.dart';
 import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
@@ -125,7 +126,15 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               "PREVIOUS",
               style: T(context).textStyle.body1.copyWith(fontSize: 13),
             ),
-            options: widget.exercise.fields.map((e) => Expanded(child: Text(e.type.name, style: T(context).textStyle.body1,))).toList(),
+            options: widget.exercise.fields.map(
+                    (e) => Expanded(
+                        child: Text(
+                          generateTitle(e.type, widget.exerciseGroup),
+                          style: T(context).textStyle.body1.copyWith(fontSize: 13),
+                          textAlign: TextAlign.center,
+                        ),
+                    ),
+            ).toList(),
             checkbox: widget.checkboxEnabled ? Container( alignment: Alignment.center, child: const Text(''),) : null
         ),
         const SizedBox(height: 6),
@@ -139,14 +148,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               key: UniqueKey(),
               endActionPane: ActionPane(
                 extentRatio: 0.3,
-                motion: const BehindMotion(),
+                motion: const ScrollMotion(),
                 children: [
+                  Container(
+                    height: double.infinity / 2,
+                    width: 1,
+                    color: T(context).color.secondary,
+                  ),
                   SlidableAction(
                     onPressed: (BuildContext context) {
                     },
                     icon: Icons.timer,
                     foregroundColor: T(context).color.primary,
-                    backgroundColor: T(context).color.background.withAlpha(255),
+                    backgroundColor: T(context).color.background,
                   ),
                   SlidableAction(
                     onPressed: (BuildContext context) {
@@ -155,7 +169,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     },
                     icon: Icons.delete,
                     foregroundColor: T(context).color.error,
-                    backgroundColor: T(context).color.background.withAlpha(255),
+                    backgroundColor: T(context).color.background,
                   ),
                 ],
               ),
@@ -221,5 +235,22 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
 
       ],
     );
+  }
+
+  String generateTitle(ExerciseFieldType type, ExerciseGroup exerciseGroup) {
+    switch (type) {
+      case ExerciseFieldType.weight:
+        return exerciseGroup.weightUnit.name.toUpperCase();
+      case ExerciseFieldType.reps:
+        return type.name.toUpperCase();
+      case ExerciseFieldType.distance:
+        return type.name.toUpperCase();
+      case ExerciseFieldType.assisted:
+        return '- ${exerciseGroup.weightUnit.name.toUpperCase()}';
+      case ExerciseFieldType.weighted:
+        return '+ ${exerciseGroup.weightUnit.name.toUpperCase()}';
+      default:
+        return '';
+    }
   }
 }

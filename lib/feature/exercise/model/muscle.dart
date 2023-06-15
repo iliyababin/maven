@@ -37,4 +37,5 @@ enum Muscle {
   trapezius,
   tricepsBrachii,
   wrist,
+  fullBody,
 }

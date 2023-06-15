@@ -33,7 +33,7 @@ class ExerciseGroup extends RoutineGroup {
     return WorkoutExerciseGroup(
       id: id,
       timer: timer,
-      weightUnit: WeightUnit.lb,
+      weightUnit: WeightUnit.lbs,
       barId: barId,
       exerciseId: exerciseId,
       workoutId: workoutId,

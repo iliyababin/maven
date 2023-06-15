@@ -32,6 +32,6 @@ abstract class RoutineGroup extends Equatable {
 }
 
 enum WeightUnit {
-  kg,
-  lb,
+  kgs,
+  lbs,
 }

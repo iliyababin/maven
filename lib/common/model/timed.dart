@@ -19,9 +19,22 @@ class Timed {
 
   @override
   String toString() {
-    if(hour == 0 && minute == 0 && second == 0) return 'None';
-    return "$hour:$minute:$second";
+    if (hour == 0 && minute == 0 && second == 0) {
+      return 'None';
+    }
+
+    String formattedTime = '';
+    if (hour > 0) {
+      formattedTime += '${hour}h ';
+    }
+    if (minute > 0) {
+      formattedTime += '${minute}m ';
+    }
+    formattedTime += '${second}s';
+
+    return formattedTime.trim();
   }
+
 
   static Timed fromSeconds(int seconds) {
     int hour = seconds ~/ 3600;

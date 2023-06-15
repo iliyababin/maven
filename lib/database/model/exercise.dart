@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../../common/model/timed.dart';
 import '../../feature/exercise/model/exercise_equipment.dart';
 import '../../feature/exercise/model/muscle.dart';
 import '../../feature/exercise/model/muscle_group.dart';
@@ -28,6 +29,7 @@ class Exercise extends Equatable {
     required this.muscleGroup,
     required this.equipment,
     required this.videoPath,
+    required this.timer,
     this.barId,
     this.fields = const [],
   });
@@ -51,6 +53,9 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'video_path')
   final String videoPath;
 
+  @ColumnInfo(name: 'timer')
+  final Timed timer;
+
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
@@ -64,15 +69,18 @@ class Exercise extends Equatable {
     muscle,
     muscleGroup,
     equipment,
+    videoPath,
+    timer,
     barId,
   ];
 
-  static Exercise empty = const Exercise(
+  static Exercise empty =  Exercise(
     name: 'Empty',
     muscle: Muscle.trapezius,
     muscleGroup: MuscleGroup.arms,
     equipment: Equipment.none,
     videoPath: 'Empty',
+    timer: Timed.zero(),
   );
 
   Exercise copyWith({
@@ -82,6 +90,7 @@ class Exercise extends Equatable {
     MuscleGroup? muscleGroup,
     Equipment? equipment,
     String? videoPath,
+    Timed? timer,
     int? barId,
     List<ExerciseField>? fields,
   }) {
@@ -93,52 +102,77 @@ class Exercise extends Equatable {
       equipment: equipment ?? this.equipment,
       videoPath: videoPath ?? this.videoPath,
       barId: barId ?? this.barId,
+      timer: timer ?? this.timer,
       fields: fields ?? this.fields,
     );
   }
 }
 
 List<Exercise> getDefaultExercises() => [
-  const Exercise(
+  Exercise(
     exerciseId: 1,
     name: 'Barbell Squat',
     muscle: Muscle.quadriceps,
     muscleGroup: MuscleGroup.legs,
     equipment: Equipment.barbell,
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
+    timer: Timed.zero(),
     barId: 1,
   ),
-  const Exercise(
+  Exercise(
     exerciseId: 2,
     name: 'Barbell Bench Press',
     muscle: Muscle.pectoralisMajor,
     muscleGroup: MuscleGroup.chest,
     equipment: Equipment.barbell,
     videoPath: 'assets/exercises/videos/barbell_bench_press.mp4',
+    timer: Timed.zero(),
     barId: 1,
   ),
-  const Exercise(
+  Exercise(
     exerciseId: 3,
     name: 'Pull-up',
     muscle: Muscle.latissimusDorsi,
     muscleGroup: MuscleGroup.back,
     equipment: Equipment.bodyWeight,
     videoPath: 'assets/exercises/videos/pull_up.mp4',
+    timer: Timed.zero(),
   ),
-  const Exercise(
+  Exercise(
     exerciseId: 4,
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,
     equipment: Equipment.machine,
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
+    timer: Timed.zero(),
   ),
-  const Exercise(
+  Exercise(
     exerciseId: 5,
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
     muscleGroup: MuscleGroup.arms,
     equipment: Equipment.dumbbell,
     videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
+    timer: Timed.zero(),
   ),
+  Exercise(
+    exerciseId: 6,
+    name: 'Running',
+    muscle: Muscle.fullBody,
+    muscleGroup: MuscleGroup.fullBody,
+    equipment: Equipment.machine,
+    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
+    timer: Timed.zero(),
+  ),
+  Exercise (
+    exerciseId: 7,
+    name: 'Farmer\'s Walk',
+    muscle: Muscle.fullBody,
+    muscleGroup: MuscleGroup.fullBody,
+    equipment: Equipment.trapBar,
+    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
+    timer: Timed.zero(),
+    barId: 3,
+  )
 ];

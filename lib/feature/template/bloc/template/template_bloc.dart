@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:maven/database/model/routine_group.dart';
 
 import '../../../../database/database.dart';
 import '../../../exercise/model/exercise_bundle.dart';
@@ -53,7 +52,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         TemplateExerciseGroup(
           timer: exerciseBlock.exerciseGroup.timer,
           exerciseId: exerciseBlock.exercise.exerciseId!,
-          weightUnit: WeightUnit.lb,
+          weightUnit: exerciseBlock.exerciseGroup.weightUnit,
           templateId: templateId,
           barId: exerciseBlock.exerciseGroup.barId,
         )

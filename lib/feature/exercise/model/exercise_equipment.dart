@@ -3,6 +3,7 @@ enum Equipment {
   assisted,
   band,
   barbell,
+  trapBar,
   bodyWeight,
   cable,
   dumbbell,
@@ -30,6 +31,8 @@ extension EquipmentExtension on Equipment {
         return 'A band is a long, thin piece of elastic material that can be used for resistance training.';
       case Equipment.barbell:
         return 'A barbell is a long bar with weight plates attached to either end, used for weight training.';
+      case Equipment.trapBar:
+        return 'A trap-bar is a hexagonal shaped bar with weight plates attached to either end, used for weight training.';
       case Equipment.bodyWeight:
         return 'Body-weight exercises use the weight of the individuals own body as resistance, rather than using external weights or machines.';
       case Equipment.cable:

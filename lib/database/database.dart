@@ -85,7 +85,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_98.db')
+        .databaseBuilder('maven_db_101.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

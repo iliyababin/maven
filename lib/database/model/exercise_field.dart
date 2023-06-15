@@ -9,7 +9,7 @@ enum ExerciseFieldType {
   duration,
   weight,
   weighted,
-  bodyWeight,
+  bodyWeight;
 }
 
 @Entity(
@@ -71,7 +71,7 @@ List<ExerciseField> getDefaults() => [
   ),
   const ExerciseField(
     exerciseId: 4,
-    type: ExerciseFieldType.weight,
+    type: ExerciseFieldType.assisted,
   ),
   const ExerciseField(
     exerciseId: 4,
@@ -83,6 +83,26 @@ List<ExerciseField> getDefaults() => [
   ),
   const ExerciseField(
     exerciseId: 5,
+    type: ExerciseFieldType.reps,
+  ),
+  const ExerciseField(
+    exerciseId: 6,
+    type: ExerciseFieldType.distance,
+  ),
+  const ExerciseField(
+    exerciseId: 6,
+    type: ExerciseFieldType.duration,
+  ),
+  const ExerciseField(
+    exerciseId: 7,
+    type: ExerciseFieldType.weight,
+  ),
+  const ExerciseField(
+    exerciseId: 7,
+    type: ExerciseFieldType.distance,
+  ),
+  const ExerciseField(
+    exerciseId: 7,
     type: ExerciseFieldType.reps,
   ),
 ];

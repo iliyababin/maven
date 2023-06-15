@@ -17,4 +17,7 @@ abstract class ExerciseDao {
 
   @Query('SELECT * FROM exercise')
   Stream<List<Exercise>> getExercisesAsStream();
+
+  @update
+  Future<int> updateExercise(Exercise exercise);
 }

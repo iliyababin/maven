@@ -15,13 +15,14 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     required this.exerciseDao,
     required this.exerciseFieldDao,
   }) : super(const ExerciseState()) {
-    on<ExerciseInitialize>(_exerciseInitialize);
+    on<ExerciseInitialize>(_initialize);
+    on<ExerciseUpdate>(_update);
   }
 
   final ExerciseDao exerciseDao;
   final ExerciseFieldDao exerciseFieldDao;
 
-  Future<void> _exerciseInitialize(ExerciseInitialize event, emit) async {
+  Future<void> _initialize(ExerciseInitialize event, emit) async {
     List<Exercise> exercises = await exerciseDao.getExercises();
 
     for (int i = 0; i < exercises.length; i++) {
@@ -32,5 +33,13 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
       status: () => ExerciseStatus.loaded,
       exercises: () => exercises,
     ));
+  }
+
+  Future<void> _update(ExerciseUpdate event, emit) async {
+    emit(state.copyWith(status: () => ExerciseStatus.loading,));
+
+    await exerciseDao.updateExercise(event.exercise);
+
+    emit(state.copyWith(status: () => ExerciseStatus.loaded,));
   }
 }
