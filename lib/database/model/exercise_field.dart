@@ -1,22 +1,20 @@
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import 'exercise.dart';
+import '../database.dart';
 
-enum ExerciseFieldType {
-  assisted,
-  reps,
-  distance,
-  duration,
-  weight,
-  weighted,
-  bodyWeight;
-}
-
+/// Represents a field associated with an exercise.
+///
+/// Example usage:
+/// ```dart
+/// final exerciseField = ExerciseField(
+///   exerciseId: 1,
+///   type: ExerciseFieldType.sets,
+/// );
+/// ```
 @Entity(
   tableName: 'exercise_field',
-  primaryKeys: [
-    'id',
-  ],
+  primaryKeys: ['id'],
   foreignKeys: [
     ForeignKey(
       childColumns: ['exercise_id'],
@@ -26,83 +24,31 @@ enum ExerciseFieldType {
     ),
   ],
 )
-class ExerciseField {
+class ExerciseField extends Equatable {
+  // Constructs an instance of [ExerciseField].
   const ExerciseField({
     this.id,
     required this.exerciseId,
     required this.type,
   });
 
+  /// The unique identifier for the exercise field.
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
   final int? id;
 
+  /// The type of the exercise field.
   @ColumnInfo(name: 'type')
   final ExerciseFieldType type;
 
+  /// The identifier of the exercise associated with this field.
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
-}
 
-List<ExerciseField> getDefaults() => [
-  const ExerciseField(
-    exerciseId: 1,
-    type: ExerciseFieldType.weight,
-  ),
-  const ExerciseField(
-    exerciseId: 1,
-    type: ExerciseFieldType.reps,
-  ),
-  const ExerciseField(
-    exerciseId: 2,
-    type: ExerciseFieldType.weight,
-  ),
-  const ExerciseField(
-    exerciseId: 2,
-    type: ExerciseFieldType.reps,
-  ),
-  const ExerciseField(
-    exerciseId: 3,
-    type: ExerciseFieldType.reps,
-  ),
-  const ExerciseField(
-    exerciseId: 3,
-    type: ExerciseFieldType.bodyWeight,
-  ),
-  const ExerciseField(
-    exerciseId: 4,
-    type: ExerciseFieldType.assisted,
-  ),
-  const ExerciseField(
-    exerciseId: 4,
-    type: ExerciseFieldType.reps,
-  ),
-  const ExerciseField(
-    exerciseId: 5,
-    type: ExerciseFieldType.weight,
-  ),
-  const ExerciseField(
-    exerciseId: 5,
-    type: ExerciseFieldType.reps,
-  ),
-  const ExerciseField(
-    exerciseId: 6,
-    type: ExerciseFieldType.distance,
-  ),
-  const ExerciseField(
-    exerciseId: 6,
-    type: ExerciseFieldType.duration,
-  ),
-  const ExerciseField(
-    exerciseId: 7,
-    type: ExerciseFieldType.weight,
-  ),
-  const ExerciseField(
-    exerciseId: 7,
-    type: ExerciseFieldType.distance,
-  ),
-  const ExerciseField(
-    exerciseId: 7,
-    type: ExerciseFieldType.reps,
-  ),
-];
+  @override
+  List<Object?> get props => [
+        id,
+        exerciseId,
+        type,
+      ];
+}

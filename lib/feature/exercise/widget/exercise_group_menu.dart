@@ -4,13 +4,13 @@ import 'package:maven/common/dialog/timer_picker_dialog.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
+import '../../../database/enum/equipment.dart';
 import '../../../database/model/bar.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/exercise_group.dart';
 import '../../../database/model/weight_unit.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
-import '../model/exercise_equipment.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({Key? key,

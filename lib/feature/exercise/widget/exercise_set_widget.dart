@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/database/model/exercise_field.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
-import '../../../database/model/exercise.dart';
+import '../../../database/database.dart';
 import '../../../database/model/exercise_set.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../multi_keyboard/widget/multi_keyboard.dart';

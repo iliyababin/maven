@@ -2,12 +2,23 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../../common/model/timed.dart';
-import '../../feature/exercise/model/exercise_equipment.dart';
-import '../../feature/exercise/model/muscle.dart';
-import '../../feature/exercise/model/muscle_group.dart';
-import 'bar.dart';
-import 'exercise_field.dart';
+import '../database.dart';
 
+/// Represents an exercise.
+///
+/// Example usage:
+/// ```dart
+/// Exercise exercise = Exercise(
+///   exerciseId: 1,
+///   name: 'Barbell Squat',
+///   muscle: Muscle.quadriceps,
+///   muscleGroup: MuscleGroup.legs,
+///   equipment: Equipment.barbell,
+///   videoPath: 'assets/exercises/videos/barbell_squat.mp4',
+///   timer: Timed.zero(),
+///   barId: 1,
+/// );
+/// ```
 @Entity(
   tableName: 'exercise',
   primaryKeys: [
@@ -22,6 +33,10 @@ import 'exercise_field.dart';
   ],
 )
 class Exercise extends Equatable {
+  /// Creates a new instance of the [Exercise] class.
+  ///
+  /// The [barId] and [fields] parameters are optional and default to null
+  /// and an empty list, respectively.
   const Exercise({
     this.exerciseId,
     required this.name,
@@ -34,47 +49,56 @@ class Exercise extends Equatable {
     this.fields = const [],
   });
 
+  /// The ID of the exercise.
   @ColumnInfo(name: 'exercise_id')
   @PrimaryKey(autoGenerate: true)
   final int? exerciseId;
 
-  @ColumnInfo(name: 'name')
+  /// The name of the exercise.
   final String name;
 
-  @ColumnInfo(name: 'muscle')
+  /// The primary muscle targeted by the exercise.
   final Muscle muscle;
 
-  @ColumnInfo(name: 'muscle_group')
+  /// The muscle group that the exercise belongs to.
   final MuscleGroup muscleGroup;
 
-  @ColumnInfo(name: 'exercise_equipment')
+  /// The equipment required for the exercise.
   final Equipment equipment;
 
-  @ColumnInfo(name: 'video_path')
+  /// The file path to the exercise video.
   final String videoPath;
 
-  @ColumnInfo(name: 'timer')
+  /// The timer configuration for the exercise.
   final Timed timer;
 
+  /// The ID of the bar associated with the exercise.
+  ///
+  /// If the exercise does not require a bar, this value may be null.
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
+  /// Convenience field for storing additional information about the exercise.
   @ignore
   final List<ExerciseField> fields;
 
+  /// Returns a list of [Object]s that are used to determine equality of two [Exercise] instances.
   @override
   List<Object?> get props => [
-    exerciseId,
-    name,
-    muscle,
-    muscleGroup,
-    equipment,
-    videoPath,
-    timer,
-    barId,
-  ];
+        exerciseId,
+        name,
+        muscle,
+        muscleGroup,
+        equipment,
+        videoPath,
+        timer,
+        barId,
+      ];
 
-  static Exercise empty =  Exercise(
+  /// A static empty [Exercise] instance.
+  ///
+  /// This instance can be used as a placeholder or default value.
+  static Exercise empty = Exercise(
     name: 'Empty',
     muscle: Muscle.trapezius,
     muscleGroup: MuscleGroup.arms,
@@ -83,6 +107,7 @@ class Exercise extends Equatable {
     timer: Timed.zero(),
   );
 
+  /// Creates a copy of the current [Exercise] instance with some fields replaced.
   Exercise copyWith({
     int? exerciseId,
     String? name,
@@ -107,72 +132,3 @@ class Exercise extends Equatable {
     );
   }
 }
-
-List<Exercise> getDefaultExercises() => [
-  Exercise(
-    exerciseId: 1,
-    name: 'Barbell Squat',
-    muscle: Muscle.quadriceps,
-    muscleGroup: MuscleGroup.legs,
-    equipment: Equipment.barbell,
-    videoPath: 'assets/exercises/videos/barbell_squat.mp4',
-    timer: Timed.zero(),
-    barId: 1,
-  ),
-  Exercise(
-    exerciseId: 2,
-    name: 'Barbell Bench Press',
-    muscle: Muscle.pectoralisMajor,
-    muscleGroup: MuscleGroup.chest,
-    equipment: Equipment.barbell,
-    videoPath: 'assets/exercises/videos/barbell_bench_press.mp4',
-    timer: Timed.zero(),
-    barId: 1,
-  ),
-  Exercise(
-    exerciseId: 3,
-    name: 'Pull-up',
-    muscle: Muscle.latissimusDorsi,
-    muscleGroup: MuscleGroup.back,
-    equipment: Equipment.bodyWeight,
-    videoPath: 'assets/exercises/videos/pull_up.mp4',
-    timer: Timed.zero(),
-  ),
-  Exercise(
-    exerciseId: 4,
-    name: 'Machine-assisted Triceps Dip',
-    muscle: Muscle.tricepsBrachii,
-    muscleGroup: MuscleGroup.arms,
-    equipment: Equipment.machine,
-    videoPath: 'assets/exercises/videos/barbell_squat.mp4',
-    timer: Timed.zero(),
-  ),
-  Exercise(
-    exerciseId: 5,
-    name: 'Dumbbell Curl',
-    muscle: Muscle.bicepsBrachii,
-    muscleGroup: MuscleGroup.arms,
-    equipment: Equipment.dumbbell,
-    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
-    timer: Timed.zero(),
-  ),
-  Exercise(
-    exerciseId: 6,
-    name: 'Running',
-    muscle: Muscle.fullBody,
-    muscleGroup: MuscleGroup.fullBody,
-    equipment: Equipment.machine,
-    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
-    timer: Timed.zero(),
-  ),
-  Exercise (
-    exerciseId: 7,
-    name: 'Farmer\'s Walk',
-    muscle: Muscle.fullBody,
-    muscleGroup: MuscleGroup.fullBody,
-    equipment: Equipment.trapBar,
-    videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
-    timer: Timed.zero(),
-    barId: 3,
-  )
-];

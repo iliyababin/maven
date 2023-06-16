@@ -1,21 +1,21 @@
 import 'dart:async';
 
 import 'package:floor/floor.dart';
-import 'package:maven/database/converter/duration_converter.dart';
-import 'package:maven/database/converter/set_type_converter.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import '../feature/exercise/model/muscle.dart';
-import '../feature/exercise/model/muscle_group.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
 import 'dao/setting_dao.dart';
-import 'model/exercise_field.dart';
+import 'data/data.dart';
+import 'enum/enum.dart';
 import 'model/model.dart';
 import 'model/setting.dart';
 import 'model/weight_unit.dart';
 
+export 'converter/converter.dart';
 export 'dao/dao.dart';
+export 'data/data.dart';
+export 'enum/enum.dart';
 export 'model/model.dart';
 
 part 'database.g.dart';
@@ -45,7 +45,6 @@ part 'database.g.dart';
 )
 @TypeConverters([
   DateTimeConverter,
-  ExerciseTypeConverter,
   EquipmentConverter,
   ColorConverter,
   TimedConverter,
@@ -85,7 +84,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_102.db')
+        .databaseBuilder('maven_db_104.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

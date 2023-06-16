@@ -1,5 +1,8 @@
+/// Exercise
 export 'bar.dart';
 export 'exercise.dart';
+export 'exercise.dart';
+export 'exercise_field.dart';
 export 'exercise_set_data.dart';
 export 'folder.dart';
 export 'plate.dart';

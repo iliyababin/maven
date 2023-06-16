@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/widget/m_button.dart';
 import '../../../database/database.dart';
-import '../../../database/model/exercise_field.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../exercise/model/exercise_equipment.dart';
 import 'barbell_calculator_widget.dart';
 import 'numpad_widget.dart';
 
