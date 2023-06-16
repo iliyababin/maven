@@ -39,7 +39,7 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
     for(TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
 
-      exercise = exercise?.copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercise.exerciseId!));
+      exercise = exercise?.copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercise.id!));
 
       List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
 

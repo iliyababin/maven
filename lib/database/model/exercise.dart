@@ -7,7 +7,7 @@ import '../database.dart';
 @Entity(
   tableName: 'exercise',
   primaryKeys: [
-    'exercise_id',
+    'id',
   ],
   foreignKeys: [
     ForeignKey(
@@ -19,7 +19,7 @@ import '../database.dart';
 )
 class Exercise extends Equatable {
   const Exercise({
-    this.exerciseId,
+    this.id,
     required this.name,
     required this.muscle,
     required this.muscleGroup,
@@ -31,8 +31,8 @@ class Exercise extends Equatable {
   });
 
   @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'exercise_id')
-  final int? exerciseId;
+  @ColumnInfo(name: 'id')
+  final int? id;
 
   @ColumnInfo(name: 'name')
   final String name;
@@ -60,7 +60,7 @@ class Exercise extends Equatable {
 
   @override
   List<Object?> get props => [
-        exerciseId,
+        id,
         name,
         muscle,
         muscleGroup,
@@ -91,7 +91,7 @@ class Exercise extends Equatable {
     List<ExerciseField>? fields,
   }) {
     return Exercise(
-      exerciseId: exerciseId ?? this.exerciseId,
+      id: exerciseId ?? this.id,
       name: name ?? this.name,
       muscle: muscle ?? this.muscle,
       muscleGroup: muscleGroup ?? this.muscleGroup,

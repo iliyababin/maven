@@ -7,7 +7,7 @@ import '../database.dart';
 /// or default set of exercises.
 List<Exercise> getDefaultExercises() => [
   Exercise(
-    exerciseId: 1,
+    id: 1,
     name: 'Barbell Squat',
     muscle: Muscle.quadriceps,
     muscleGroup: MuscleGroup.legs,
@@ -17,7 +17,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
   ),
   Exercise(
-    exerciseId: 2,
+    id: 2,
     name: 'Barbell Bench Press',
     muscle: Muscle.pectoralisMajor,
     muscleGroup: MuscleGroup.chest,
@@ -27,7 +27,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
   ),
   Exercise(
-    exerciseId: 3,
+    id: 3,
     name: 'Pull-up',
     muscle: Muscle.latissimusDorsi,
     muscleGroup: MuscleGroup.back,
@@ -36,7 +36,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
   ),
   Exercise(
-    exerciseId: 4,
+    id: 4,
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
     muscleGroup: MuscleGroup.arms,
@@ -45,7 +45,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
   ),
   Exercise(
-    exerciseId: 5,
+    id: 5,
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
     muscleGroup: MuscleGroup.arms,
@@ -54,7 +54,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
   ),
   Exercise(
-    exerciseId: 6,
+    id: 6,
     name: 'Running',
     muscle: Muscle.fullBody,
     muscleGroup: MuscleGroup.fullBody,
@@ -63,7 +63,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
   ),
   Exercise(
-    exerciseId: 7,
+    id: 7,
     name: 'Farmer\'s Walk',
     muscle: Muscle.fullBody,
     muscleGroup: MuscleGroup.fullBody,

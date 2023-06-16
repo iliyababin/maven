@@ -84,7 +84,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               exerciseSets: [],
                               exerciseGroup: ExerciseGroup(
                                 id: DateTime.now().microsecondsSinceEpoch,
-                                exerciseId: exercise.exerciseId!,
+                                exerciseId: exercise.id!,
                                 barId: exercise.barId,
                                 timer: Timed(hour: 0, minute: 0, second: 0),
                                 weightUnit: WeightUnit.lbs,

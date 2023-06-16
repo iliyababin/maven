@@ -220,7 +220,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   exerciseGroup: ExerciseGroup(
                     id: exerciseGroupId,
                     timer: Timed.zero(),
-                    exerciseId: exercise.exerciseId!,
+                    exerciseId: exercise.id!,
                     barId: exercise.barId,
                     weightUnit: WeightUnit.lbs,
                   ),

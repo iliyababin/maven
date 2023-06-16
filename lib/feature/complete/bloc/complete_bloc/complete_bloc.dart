@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../database/dao/dao.dart';
-import '../../../../database/model/exercise_set.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 import '../../model/complete_bundle.dart';
@@ -61,7 +60,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
 
       int completeExerciseGroupId = await completeExerciseGroupDao.addSessionExerciseGroup(SessionExerciseGroup(
         order: i + 1,
-        exerciseId: exerciseBundle.exercise.exerciseId!,
+        exerciseId: exerciseBundle.exercise.id!,
         barId: exerciseBundle.barId,
         sessionId: completeId,
         timer: exerciseBundle.exerciseGroup.timer,

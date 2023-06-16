@@ -26,7 +26,7 @@ import 'session.dart';
     ),
     ForeignKey(
       childColumns: ['exercise_id'],
-      parentColumns: ['exercise_id'],
+      parentColumns: ['id'],
       entity: Exercise,
     ),
   ],

@@ -29,7 +29,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
         if (state.status.isLoading) {
           return const CircularProgressIndicator();
         } else if (state.status.isLoaded) {
-          final Exercise exercise = state.exercises.firstWhere((element) => element.exerciseId == widget.exercise.exerciseId);
+          final Exercise exercise = state.exercises.firstWhere((element) => element.id == widget.exercise.id);
           
           return DefaultTabController(
             length: 4,

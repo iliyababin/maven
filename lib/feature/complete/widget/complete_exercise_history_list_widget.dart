@@ -22,7 +22,7 @@ class _CompleteExerciseHistoryListWidgetState extends State<CompleteExerciseHist
   @override
   void initState() {
     super.initState();
-    context.read<CompleteExerciseBloc>().add(CompleteExerciseLoad(exerciseId: widget.exercise.exerciseId!));
+    context.read<CompleteExerciseBloc>().add(CompleteExerciseLoad(exerciseId: widget.exercise.id!));
   }
 
   @override

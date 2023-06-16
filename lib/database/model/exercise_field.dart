@@ -9,7 +9,7 @@ import '../database.dart';
   foreignKeys: [
     ForeignKey(
       childColumns: ['exercise_id'],
-      parentColumns: ['exercise_id'],
+      parentColumns: ['id'],
       entity: Exercise,
       onDelete: ForeignKeyAction.cascade,
     ),

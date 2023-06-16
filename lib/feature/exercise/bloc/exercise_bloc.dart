@@ -26,7 +26,7 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     List<Exercise> exercises = await exerciseDao.getExercises();
 
     for (int i = 0; i < exercises.length; i++) {
-      exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercises[i].exerciseId!));
+      exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercises[i].id!));
     }
 
     emit(state.copyWith(

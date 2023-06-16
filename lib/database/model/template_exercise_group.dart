@@ -20,7 +20,7 @@ import 'template.dart';
     ),
     ForeignKey(
       childColumns: ['exercise_id'],
-      parentColumns: ['exercise_id'],
+      parentColumns: ['id'],
       entity: Exercise,
     ),
     ForeignKey(

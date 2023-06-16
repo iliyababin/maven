@@ -9,7 +9,7 @@ abstract class ExerciseDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> addExercises(List<Exercise> exercises);
 
-  @Query('SELECT * FROM exercise WHERE exercise_id = :exerciseId')
+  @Query('SELECT * FROM exercise WHERE id = :exerciseId')
   Future<Exercise?> getExercise(int exerciseId);
 
   @Query('SELECT * FROM exercise')
