@@ -62,19 +62,19 @@ class CompleteExerciseWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final SessionExerciseSet completeExerciseSet = completeExerciseSets[index];
 
-                  final Color? color = completeExerciseSet.setType == ExerciseSetType.regular ? null : completeExerciseSet.setType.color(context);
+                  final Color? color = completeExerciseSet.type == ExerciseSetType.regular ? null : completeExerciseSet.type.color(context);
                   return Row(
                     children: [
                       Expanded(
                         child: Text(
-                          completeExerciseSet.setType == ExerciseSetType.regular ? (index+1).toString() : completeExerciseSet.setType.name.substring(0, 1),
+                          completeExerciseSet.type == ExerciseSetType.regular ? (index+1).toString() : completeExerciseSet.type.name.substring(0, 1),
                           style: T(context).textStyle.subtitle1.copyWith(color: color),
                         ),
                       ),
                       Expanded(
                         flex: 12,
                         child: Text(
-                          '${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
+                          '//TODO',
                           style: T(context).textStyle.subtitle1.copyWith(color: color),
                         ),
                       ),

@@ -50,22 +50,22 @@ class CompleteDetailScreen extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text: '${index + 1}',
-                            style: T(context).textStyle.body1.copyWith(color: completeExerciseSet.setType.color(context)),
+                            style: T(context).textStyle.body1.copyWith(color: completeExerciseSet.type.color(context)),
                           ),
                           const TextSpan(
                             text: '  ',
                           ),
                           TextSpan(
-                            text: '${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
+                            text: '//TODO',
                           ),
                         ],
                       ),
 
                     );
-                    return Text(
+                    /*return Text(
                       ' ${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
                       style: T(context).textStyle.body1,
-                    );
+                    );*/
                   },
                 ),
               ],

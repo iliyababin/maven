@@ -1,12 +1,7 @@
-
 import 'package:floor/floor.dart';
 
-import '../../common/model/timed.dart';
-import '../enum/weight_unit.dart';
-import 'bar.dart';
-import 'exercise.dart';
-import 'exercise_group.dart';
-import 'workout.dart';
+import '../../common/model/model.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'workout_exercise_group',
@@ -64,24 +59,9 @@ class WorkoutExerciseGroup extends ExerciseGroup {
     );
   }
 
-  WorkoutExerciseGroup copyWithNullId() {
-    return WorkoutExerciseGroup(
-      id: null,
-      timer: timer,
-      weightUnit: weightUnit,
-      barId: barId,
-      exerciseId: exerciseId,
-      workoutId: workoutId,
-    );
-  }
-
   @override
   List<Object?> get props => [
-    id,
-    timer,
-    weightUnit,
-    barId,
-    exerciseId,
-    workoutId,
-  ];
+        ...super.props,
+        workoutId,
+      ];
 }

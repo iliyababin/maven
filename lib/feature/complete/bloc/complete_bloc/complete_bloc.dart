@@ -67,7 +67,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
         weightUnit: exerciseBundle.exerciseGroup.weightUnit,
       ));
 
-      for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
+      /*for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
         if(exerciseSet.checked == 1) {
           await completeExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
             //TODO HJERE
@@ -77,8 +77,8 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
             sessionExerciseGroupId: completeExerciseGroupId,
             sessionId: completeId,
           ));
-        }
-      }
+        }*/
+     /* }*/
     }
 
     await workoutDao.deleteWorkout(event.workout);
@@ -106,7 +106,7 @@ class CompleteBloc extends Bloc<CompleteEvent, CompleteState> {
         List<SessionExerciseSet> completeExerciseSets = await completeExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(completeExerciseGroup.id!);
 
         for(SessionExerciseSet completeExerciseSet in completeExerciseSets) {
-          volume += completeExerciseSet.option1 * (completeExerciseSet.option2 ?? 0);
+          //volume += completeExerciseSet.option1 * (completeExerciseSet.option2 ?? 0);
         }
 
         completeExerciseBundles.add(CompleteExerciseBundle(

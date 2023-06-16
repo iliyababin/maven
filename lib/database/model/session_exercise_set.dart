@@ -1,19 +1,15 @@
-
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../enum/exercise_set_type.dart';
-import 'session.dart';
-import 'session_exercise_group.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'session_exercise_set',
   primaryKeys: [
-    'session_exercise_set_id',
+    'id',
   ],
   foreignKeys: [
     ForeignKey(
-      childColumns: ['session_exercise_group_id'],
+      childColumns: ['exercise_group_id'],
       parentColumns: ['id'],
       entity: SessionExerciseGroup,
     ),
@@ -24,42 +20,22 @@ import 'session_exercise_group.dart';
     ),
   ],
 )
-class SessionExerciseSet extends Equatable {
+class SessionExerciseSet extends ExerciseSet {
   const SessionExerciseSet({
-    this.completeExerciseSetId,
-    required this.option1,
-    this.option2,
-    required this.setType,
-    required this.sessionExerciseGroupId,
+    super.id,
+    required super.type,
+    required super.checked,
+    required super.exerciseGroupId,
+    super.data,
     required this.sessionId,
   });
-
-  @PrimaryKey(autoGenerate: true)
-  @ColumnInfo(name: 'session_exercise_set_id')
-  final int? completeExerciseSetId;
-
-  @ColumnInfo(name: 'option_1')
-  final int option1;
-
-  @ColumnInfo(name: 'option_2')
-  final int? option2;
-
-  @ColumnInfo(name: 'set_type')
-  final ExerciseSetType setType;
-
-  @ColumnInfo(name: 'session_exercise_group_id')
-  final int sessionExerciseGroupId;
 
   @ColumnInfo(name: 'session_id')
   final int sessionId;
 
   @override
   List<Object?> get props => [
-    completeExerciseSetId,
-    option1,
-    option2,
-    setType,
-    sessionExerciseGroupId,
+    ...super.props,
     sessionId,
   ];
 }

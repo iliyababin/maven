@@ -17,6 +17,7 @@ class Template extends Routine {
     required this.sort,
   });
 
+  @ColumnInfo(name: 'sort')
   final int sort;
 
   @override
@@ -38,10 +39,10 @@ class Template extends Routine {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    description,
-    timestamp,
-    sort,
-  ];
+        id,
+        name,
+        description,
+        timestamp,
+        sort,
+      ];
 }

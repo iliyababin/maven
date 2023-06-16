@@ -65,11 +65,7 @@ class TemplateExerciseGroup extends ExerciseGroup {
 
   @override
   List<Object?> get props => [
-    id,
-    timer,
-    weightUnit,
-    barId,
-    exerciseId,
-    templateId,
-  ];
+        ...super.props,
+        templateId,
+      ];
 }

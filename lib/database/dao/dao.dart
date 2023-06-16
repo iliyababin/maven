@@ -8,6 +8,7 @@ export 'program_dao.dart';
 export 'session_dao.dart';
 export 'session_exercise_group_dao.dart';
 export 'session_exercise_set_dao.dart';
+export 'setting_dao.dart';
 export 'template_dao.dart';
 export 'template_exercise_group_dao.dart';
 export 'template_exercise_set_dao.dart';

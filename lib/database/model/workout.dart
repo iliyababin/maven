@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'routine.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'workout',
@@ -17,6 +17,7 @@ class Workout extends Routine {
     required this.active,
   });
 
+  @ColumnInfo(name: 'active')
   final bool active;
 
   @override
@@ -38,10 +39,10 @@ class Workout extends Routine {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    description,
-    timestamp,
-    active,
-  ];
+        id,
+        name,
+        description,
+        timestamp,
+        active,
+      ];
 }

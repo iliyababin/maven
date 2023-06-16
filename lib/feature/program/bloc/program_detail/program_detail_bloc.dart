@@ -6,11 +6,11 @@ import 'package:maven/database/dao/template_tracker_dao.dart';
 
 import '../../../../database/TEST_ZONE/folder.dart';
 import '../../../../database/TEST_ZONE/program.dart';
+import '../../../../database/TEST_ZONE/template_tracker.dart';
 import '../../../../database/dao/folder_dao.dart';
 import '../../../../database/dao/program_dao.dart';
 import '../../../../database/dao/template_dao.dart';
 import '../../../../database/model/template.dart';
-import '../../../../database/model/template_tracker.dart';
 
 part 'program_detail_event.dart';
 part 'program_detail_state.dart';

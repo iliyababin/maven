@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../model/template_tracker.dart';
+import '../TEST_ZONE/template_tracker.dart';
 
 @dao
 abstract class TemplateTrackerDao {

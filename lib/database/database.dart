@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import 'TEST_ZONE/folder.dart';
+import 'TEST_ZONE/program.dart';
+import 'TEST_ZONE/template_tracker.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
-import 'dao/setting_dao.dart';
 import 'data/data.dart';
 import 'enum/enum.dart';
 import 'model/model.dart';
-import 'model/setting.dart';
 
 export 'converter/converter.dart';
 export 'dao/dao.dart';
@@ -83,7 +84,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_106.db')
+        .databaseBuilder('maven_db_2.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

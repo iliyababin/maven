@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
@@ -44,9 +43,9 @@ class Setting extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    languageCode,
-    countryCode,
-    themeId,
-  ];
+        id,
+        languageCode,
+        countryCode,
+        themeId,
+      ];
 }

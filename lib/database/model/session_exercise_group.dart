@@ -1,12 +1,7 @@
-
 import 'package:floor/floor.dart';
-import 'package:maven/database/enum/weight_unit.dart';
 
-import '../../common/model/timed.dart';
-import 'bar.dart';
-import 'exercise.dart';
-import 'exercise_group.dart';
-import 'session.dart';
+import '../../common/model/model.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'session_exercise_group',
@@ -15,9 +10,9 @@ import 'session.dart';
   ],
   foreignKeys: [
     ForeignKey(
-      childColumns: ['session_id'],
+      childColumns: ['exercise_id'],
       parentColumns: ['id'],
-      entity: Session,
+      entity: Exercise,
     ),
     ForeignKey(
       childColumns: ['bar_id'],
@@ -25,19 +20,19 @@ import 'session.dart';
       entity: Bar,
     ),
     ForeignKey(
-      childColumns: ['exercise_id'],
+      childColumns: ['session_id'],
       parentColumns: ['id'],
-      entity: Exercise,
+      entity: Session,
     ),
   ],
 )
 class SessionExerciseGroup extends ExerciseGroup {
   const SessionExerciseGroup({
     super.id,
-    required super.barId,
     required super.timer,
-    required super.exerciseId,
     required super.weightUnit,
+    required super.exerciseId,
+    required super.barId,
     required this.order,
     required this.sessionId,
   });
@@ -47,7 +42,7 @@ class SessionExerciseGroup extends ExerciseGroup {
 
   @ColumnInfo(name: 'session_id')
   final int sessionId;
-  
+
   @override
   SessionExerciseGroup copyWith({
     int? id,
@@ -68,15 +63,11 @@ class SessionExerciseGroup extends ExerciseGroup {
       sessionId: sessionId ?? this.sessionId,
     );
   }
-  
+
   @override
   List<Object?> get props => [
-    id,
-    barId,
-    timer,
-    exerciseId,
-    weightUnit,
-    order,
-    sessionId,
-  ];
+        ...super.props,
+        order,
+        sessionId,
+      ];
 }

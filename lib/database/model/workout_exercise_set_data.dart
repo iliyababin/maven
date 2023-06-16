@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 import '../database.dart';
 
 @Entity(
-  tableName: 'template_exercise_set_data',
+  tableName: 'workout_exercise_set_data',
   primaryKeys: [
     'id',
   ],
@@ -11,13 +11,13 @@ import '../database.dart';
     ForeignKey(
       childColumns: ['exercise_set_id'],
       parentColumns: ['id'],
-      entity: TemplateExerciseSet,
+      entity: WorkoutExerciseSet,
       onDelete: ForeignKeyAction.cascade,
     ),
   ],
 )
-class TemplateExerciseSetData extends ExerciseSetData {
-  TemplateExerciseSetData({
+class WorkoutExerciseSetData extends ExerciseSetData {
+  WorkoutExerciseSetData({
     required super.value,
     required super.fieldType,
     required super.exerciseSetId,

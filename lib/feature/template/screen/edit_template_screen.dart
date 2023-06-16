@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maven/database/enum/weight_unit.dart';
 
-import '../../../common/model/timed.dart';
 import '../../../database/enum/exercise_set_type.dart';
 import '../../../database/model/model.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -219,7 +218,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                   exercise: exercise,
                   exerciseGroup: ExerciseGroup(
                     id: exerciseGroupId,
-                    timer: Timed.zero(),
+                    timer: exercise.timer,
                     exerciseId: exercise.id!,
                     barId: exercise.barId,
                     weightUnit: WeightUnit.lbs,
