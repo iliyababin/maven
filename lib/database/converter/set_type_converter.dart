@@ -1,15 +1,15 @@
 import 'package:floor/floor.dart';
 
-import '../../feature/exercise/model/set_type.dart';
+import '../enum/exercise_set_type.dart';
 
-class SetTypeConverter extends TypeConverter<SetType, String> {
+class SetTypeConverter extends TypeConverter<ExerciseSetType, String> {
   @override
-  SetType decode(String databaseValue) {
-    return SetType.fromName(databaseValue);
+  ExerciseSetType decode(String databaseValue) {
+    return ExerciseSetType.fromName(databaseValue);
   }
 
   @override
-  String encode(SetType value) {
+  String encode(ExerciseSetType value) {
     return value.name;
   }
 }

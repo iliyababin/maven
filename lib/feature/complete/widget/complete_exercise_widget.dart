@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maven/feature/exercise/model/set_type.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -63,12 +62,12 @@ class CompleteExerciseWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final SessionExerciseSet completeExerciseSet = completeExerciseSets[index];
 
-                  final Color? color = completeExerciseSet.setType == SetType.regular ? null : completeExerciseSet.setType.color(context);
+                  final Color? color = completeExerciseSet.setType == ExerciseSetType.regular ? null : completeExerciseSet.setType.color(context);
                   return Row(
                     children: [
                       Expanded(
                         child: Text(
-                          completeExerciseSet.setType == SetType.regular ? (index+1).toString() : completeExerciseSet.setType.name.substring(0, 1),
+                          completeExerciseSet.setType == ExerciseSetType.regular ? (index+1).toString() : completeExerciseSet.setType.name.substring(0, 1),
                           style: T(context).textStyle.subtitle1.copyWith(color: color),
                         ),
                       ),

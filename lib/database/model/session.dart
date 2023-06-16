@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'routine.dart';
+import '../database.dart';
 
 @Entity(
   tableName: 'session',
@@ -39,10 +39,10 @@ class Session extends Routine {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    description,
-    timestamp,
-    duration,
-  ];
+        id,
+        name,
+        description,
+        timestamp,
+        duration,
+      ];
 }

@@ -12,5 +12,4 @@ class ColorConverter extends TypeConverter<Color, int> {
   int encode(Color value) {
     return value.value;
   }
-
 }

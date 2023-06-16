@@ -10,7 +10,6 @@ import 'data/data.dart';
 import 'enum/enum.dart';
 import 'model/model.dart';
 import 'model/setting.dart';
-import 'model/weight_unit.dart';
 
 export 'converter/converter.dart';
 export 'dao/dao.dart';
@@ -84,7 +83,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_104.db')
+        .databaseBuilder('maven_db_106.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

@@ -2,10 +2,10 @@
 import 'package:floor/floor.dart';
 
 import '../../common/model/timed.dart';
+import '../enum/weight_unit.dart';
 import 'bar.dart';
 import 'exercise.dart';
 import 'exercise_group.dart';
-import 'weight_unit.dart';
 import 'workout.dart';
 
 @Entity(
@@ -16,7 +16,7 @@ import 'workout.dart';
   foreignKeys: [
     ForeignKey(
       childColumns: ['bar_id'],
-      parentColumns: ['bar_id'],
+      parentColumns: ['id'],
       entity: Bar,
     ),
     ForeignKey(

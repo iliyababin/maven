@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'folder.dart';
+import '../TEST_ZONE/folder.dart';
 import 'template.dart';
 
 @Entity(

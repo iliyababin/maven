@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+import '../model/template.dart';
 import 'program.dart';
-import 'template.dart';
 
 @Entity(
   tableName: 'folder',

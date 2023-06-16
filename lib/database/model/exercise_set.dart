@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../feature/exercise/model/set_type.dart';
-import 'model.dart';
+import '../database.dart';
 
 class ExerciseSet extends Equatable {
   const ExerciseSet({
@@ -17,8 +16,8 @@ class ExerciseSet extends Equatable {
   @ColumnInfo(name: 'id')
   final int? id;
 
-  @ColumnInfo(name: 'set_type')
-  final SetType type;
+  @ColumnInfo(name: 'exercise_set_type')
+  final ExerciseSetType type;
 
   @ColumnInfo(name: 'checked')
   final bool checked;
@@ -31,25 +30,25 @@ class ExerciseSet extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    type,
-    checked,
-    exerciseGroupId,
-    data,
-  ];
+        id,
+        type,
+        checked,
+        exerciseGroupId,
+        data,
+      ];
 
   ExerciseSet copyWith({
     int? id,
-    int? exerciseGroupId,
-    SetType? type,
+    ExerciseSetType? type,
     bool? checked,
+    int? exerciseGroupId,
     List<ExerciseSetData>? data,
   }) {
     return ExerciseSet(
       id: id ?? this.id,
-      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
       type: type ?? this.type,
       checked: checked ?? this.checked,
+      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
       data: data ?? this.data,
     );
   }

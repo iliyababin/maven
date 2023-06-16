@@ -4,21 +4,6 @@ import 'package:floor/floor.dart';
 import '../../common/model/timed.dart';
 import '../database.dart';
 
-/// Represents an exercise.
-///
-/// Example usage:
-/// ```dart
-/// Exercise exercise = Exercise(
-///   exerciseId: 1,
-///   name: 'Barbell Squat',
-///   muscle: Muscle.quadriceps,
-///   muscleGroup: MuscleGroup.legs,
-///   equipment: Equipment.barbell,
-///   videoPath: 'assets/exercises/videos/barbell_squat.mp4',
-///   timer: Timed.zero(),
-///   barId: 1,
-/// );
-/// ```
 @Entity(
   tableName: 'exercise',
   primaryKeys: [
@@ -27,16 +12,12 @@ import '../database.dart';
   foreignKeys: [
     ForeignKey(
       childColumns: ['bar_id'],
-      parentColumns: ['bar_id'],
+      parentColumns: ['id'],
       entity: Bar,
     ),
   ],
 )
 class Exercise extends Equatable {
-  /// Creates a new instance of the [Exercise] class.
-  ///
-  /// The [barId] and [fields] parameters are optional and default to null
-  /// and an empty list, respectively.
   const Exercise({
     this.exerciseId,
     required this.name,
@@ -49,40 +30,34 @@ class Exercise extends Equatable {
     this.fields = const [],
   });
 
-  /// The ID of the exercise.
-  @ColumnInfo(name: 'exercise_id')
   @PrimaryKey(autoGenerate: true)
+  @ColumnInfo(name: 'exercise_id')
   final int? exerciseId;
 
-  /// The name of the exercise.
+  @ColumnInfo(name: 'name')
   final String name;
 
-  /// The primary muscle targeted by the exercise.
+  @ColumnInfo(name: 'muscle')
   final Muscle muscle;
 
-  /// The muscle group that the exercise belongs to.
+  @ColumnInfo(name: 'muscle_group')
   final MuscleGroup muscleGroup;
 
-  /// The equipment required for the exercise.
+  @ColumnInfo(name: 'equipment')
   final Equipment equipment;
 
-  /// The file path to the exercise video.
+  @ColumnInfo(name: 'video_path')
   final String videoPath;
 
-  /// The timer configuration for the exercise.
+  @ColumnInfo(name: 'timer')
   final Timed timer;
 
-  /// The ID of the bar associated with the exercise.
-  ///
-  /// If the exercise does not require a bar, this value may be null.
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
-  /// Convenience field for storing additional information about the exercise.
   @ignore
   final List<ExerciseField> fields;
 
-  /// Returns a list of [Object]s that are used to determine equality of two [Exercise] instances.
   @override
   List<Object?> get props => [
         exerciseId,
@@ -95,9 +70,6 @@ class Exercise extends Equatable {
         barId,
       ];
 
-  /// A static empty [Exercise] instance.
-  ///
-  /// This instance can be used as a placeholder or default value.
   static Exercise empty = Exercise(
     name: 'Empty',
     muscle: Muscle.trapezius,
@@ -107,7 +79,6 @@ class Exercise extends Equatable {
     timer: Timed.zero(),
   );
 
-  /// Creates a copy of the current [Exercise] instance with some fields replaced.
   Exercise copyWith({
     int? exerciseId,
     String? name,

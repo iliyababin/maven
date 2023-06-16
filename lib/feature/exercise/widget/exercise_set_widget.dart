@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/database.dart';
-import '../../../database/model/exercise_set.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../multi_keyboard/widget/multi_keyboard.dart';
 import '../../workout/widget/active_exercise_row.dart';
-import '../model/set_type.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
@@ -60,9 +58,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               context: context,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: SetType.values.length,
+                itemCount: ExerciseSetType.values.length,
                 itemBuilder: (context, index) {
-                  SetType setType = SetType.values[index];
+                  ExerciseSetType setType = ExerciseSetType.values[index];
                   return MButton.tiled(
                     onPressed: (){
                       setState(() {
@@ -91,7 +89,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           height: 35,
           backgroundColor: Colors.transparent,
           child: Text(
-            widget.exerciseSet.type == SetType.regular ? widget.index.toString() : widget.exerciseSet.type.abbreviated,
+            widget.exerciseSet.type == ExerciseSetType.regular ? widget.index.toString() : widget.exerciseSet.type.abbreviated,
             style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.type.color(context)),
           ),
         ),

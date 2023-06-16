@@ -11,7 +11,7 @@ abstract class PlateDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> addPlates(List<Plate> plates);
 
-  @Query('SELECT * FROM plate WHERE plate_id = :plateId')
+  @Query('SELECT * FROM plate WHERE id = :plateId')
   Future<Plate?> getPlate(int plateId);
 
   @Query('SELECT * FROM plate')

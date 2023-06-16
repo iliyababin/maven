@@ -1,7 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:maven/database/model/exercise_set.dart';
 
-import '../../feature/exercise/model/set_type.dart';
 import '../database.dart';
 
 @Entity(
@@ -43,7 +41,7 @@ class TemplateExerciseSet extends ExerciseSet {
   @override
   TemplateExerciseSet copyWith({
     int? id,
-    SetType? type,
+    ExerciseSetType? type,
     bool? checked,
     int? exerciseGroupId,
     List<ExerciseSetData>? data,

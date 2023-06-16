@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../feature/exercise/model/set_type.dart';
+import '../enum/exercise_set_type.dart';
 import 'session.dart';
 import 'session_exercise_group.dart';
 
@@ -45,7 +45,7 @@ class SessionExerciseSet extends Equatable {
   final int? option2;
 
   @ColumnInfo(name: 'set_type')
-  final SetType setType;
+  final ExerciseSetType setType;
 
   @ColumnInfo(name: 'session_exercise_group_id')
   final int sessionExerciseGroupId;

@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/database/model/weight_unit.dart';
+import 'package:maven/database/enum/weight_unit.dart';
 
 import '../../../common/model/timed.dart';
-import '../../../database/model/exercise_group.dart';
-import '../../../database/model/exercise_set.dart';
+import '../../../database/enum/exercise_set_type.dart';
 import '../../../database/model/model.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_bundle.dart';
-import '../../exercise/model/set_type.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
 
@@ -231,7 +229,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                       id: exerciseSetId,
                       exerciseGroupId: exerciseGroupId,
                       checked: false,
-                      type: SetType.regular,
+                      type: ExerciseSetType.regular,
                       data: exercise.fields.map((e) {
                         return ExerciseSetData(
                           id: DateTime.now().millisecondsSinceEpoch,

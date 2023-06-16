@@ -6,10 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/dao/dao.dart';
-import '../../../../database/model/exercise_group.dart';
-import '../../../../database/model/exercise_set.dart';
+import '../../../../database/enum/weight_unit.dart';
 import '../../../../database/model/model.dart';
-import '../../../../database/model/weight_unit.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 
 part 'workout_event.dart';
@@ -149,7 +147,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseAdd(WorkoutExerciseAdd event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroups != null) {
       for(var exerciseGroup in event.exerciseGroups!) {
-        await workoutExerciseGroupDao.addWorkoutExerciseGroup(exerciseGroup.toWorkoutExerciseGroup(state.workout!.id!));
+        await workoutExerciseGroupDao.addWorkoutExerciseGroup(toWorkoutExerciseGroup(exerciseGroup, state.workout!.id!));
       }
     }
 
@@ -207,7 +205,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseUpdate(WorkoutExerciseUpdate event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroup != null) {
       await workoutExerciseGroupDao.updateWorkoutExerciseGroup(
-        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.id!),
+          toWorkoutExerciseGroup(event.exerciseGroup!, state.workout!.id!)
       );
     }
 
@@ -225,7 +223,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<void> _exerciseDelete(WorkoutExerciseDelete event, Emitter<WorkoutState> emit) async {
     if(event.exerciseGroup != null) {
       await workoutExerciseGroupDao.deleteWorkoutExerciseGroup(
-        event.exerciseGroup!.toWorkoutExerciseGroup(state.workout!.id!),
+        toWorkoutExerciseGroup(event.exerciseGroup!, state.workout!.id!)
       );
     }
 
@@ -239,4 +237,15 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       ),);
     }
   }
+}
+
+WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
+  return WorkoutExerciseGroup(
+    id: exerciseGroup.id,
+    timer: exerciseGroup.timer,
+    weightUnit: exerciseGroup.weightUnit,
+    barId: exerciseGroup.barId,
+    exerciseId: exerciseGroup.exerciseId,
+    workoutId: workoutId,
+  );
 }

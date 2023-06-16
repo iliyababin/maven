@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:maven/database/model/exercise_field.dart';
-import 'package:maven/feature/exercise/model/set_type.dart';
 import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/database.dart';
-import '../../../database/model/exercise_group.dart';
-import '../../../database/model/exercise_set.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../workout/widget/active_exercise_row.dart';
 import 'exercise_group_menu.dart';
@@ -204,7 +200,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               ExerciseSet exerciseSet = ExerciseSet(
                 id: id,
                 checked: false,
-                type: SetType.regular,
+                type: ExerciseSetType.regular,
                 exerciseGroupId: widget.exerciseGroup.id!,
                 data: widget.exercise.fields.map((e) {
                   return ExerciseSetData(

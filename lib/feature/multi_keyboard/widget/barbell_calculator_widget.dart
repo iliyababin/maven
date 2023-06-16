@@ -27,7 +27,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else {
           print('bbuilding with bar id');
-          final double barWeight = state.bars.firstWhere((bar) => bar.barId == barId).weight;
+          final double barWeight = state.bars.firstWhere((bar) => bar.id == barId).weight;
           print(barWeight);
 
         List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, (weight - barWeight) / 2);

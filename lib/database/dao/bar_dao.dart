@@ -11,7 +11,7 @@ abstract class BarDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> addBars(List<Bar> bars);
 
-  @Query('SELECT * FROM bar WHERE bar_id = :barId')
+  @Query('SELECT * FROM bar WHERE id = :barId')
   Future<Bar?> getBar(int barId);
 
   @Query('SELECT * FROM bar')

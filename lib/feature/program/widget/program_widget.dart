@@ -1,8 +1,8 @@
-import 'package:maven/feature/program/screen/program_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/feature/program/screen/program_detail_screen.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../../../database/model/program.dart';
+import '../../../database/TEST_ZONE/program.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 
 class ProgramWidget extends StatelessWidget {

@@ -1,6 +1,6 @@
 
 import 'package:floor/floor.dart';
-import 'package:maven/database/model/weight_unit.dart';
+import 'package:maven/database/enum/weight_unit.dart';
 
 import '../../common/model/timed.dart';
 import 'bar.dart';
@@ -21,7 +21,7 @@ import 'session.dart';
     ),
     ForeignKey(
       childColumns: ['bar_id'],
-      parentColumns: ['bar_id'],
+      parentColumns: ['id'],
       entity: Bar,
     ),
     ForeignKey(

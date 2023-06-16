@@ -5,10 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../database/dao/bar_dao.dart';
-import '../../../../database/dao/plate_dao.dart';
-import '../../../../database/model/bar.dart';
-import '../../../../database/model/plate.dart';
+import '../../../../database/database.dart';
 
 part 'equipment_event.dart';
 part 'equipment_state.dart';
@@ -57,7 +54,6 @@ class EquipmentBloc extends Bloc<EquipmentEvent, EquipmentState> {
       amount: 0,
       color: Colors.pink,
       height: 1,
-      isCustomized: false,
       weight: 0,
     ));
   }

@@ -70,12 +70,11 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             onPressed: (){
               context.read<EquipmentBloc>().add(PlateUpdate(
                 plate: Plate(
-                  plateId: widget.plate.plateId,
+                  id: widget.plate.id,
                   amount: amount,
                   color: color,
                   height: height,
                   weight: weight,
-                  isCustomized: false,
                 ),
               ));
               Navigator.pop(context);

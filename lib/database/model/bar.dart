@@ -4,19 +4,19 @@ import 'package:floor/floor.dart';
 @Entity(
   tableName: 'bar',
   primaryKeys: [
-    'bar_id',
+    'id',
   ],
 )
 class Bar extends Equatable {
   const Bar({
-    this.barId,
+    this.id,
     required this.name,
     required this.weight,
   });
 
-  @ColumnInfo(name: 'bar_id')
+  @ColumnInfo(name: 'id')
   @PrimaryKey(autoGenerate: true)
-  final int? barId;
+  final int? id;
 
   @ColumnInfo(name: 'name')
   final String name;
@@ -24,14 +24,13 @@ class Bar extends Equatable {
   @ColumnInfo(name: 'weight')
   final double weight;
 
-
   Bar copyWith({
-    int? barId,
+    int? id,
     String? name,
     double? weight,
   }) {
     return Bar(
-      barId: barId ?? this.barId,
+      id: id ?? this.id,
       name: name ?? this.name,
       weight: weight ?? this.weight,
     );
@@ -39,26 +38,8 @@ class Bar extends Equatable {
 
   @override
   List<Object?> get props => [
-    barId,
-    name,
-    weight,
-  ];
+        id,
+        name,
+        weight,
+      ];
 }
-
-List<Bar> getDefaultBars() => [
-  const Bar(
-    barId: 1,
-    name: 'Olympic',
-    weight: 45,
-  ),
-  const Bar(
-    barId: 2,
-    name: 'EZ Curl',
-    weight: 15,
-  ),
-  const Bar(
-    barId: 3,
-    name: 'Trap Bar',
-    weight: 55,
-  ),
-];

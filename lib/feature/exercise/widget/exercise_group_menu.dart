@@ -5,10 +5,10 @@ import 'package:maven/common/dialog/timer_picker_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/enum/equipment.dart';
+import '../../../database/enum/weight_unit.dart';
 import '../../../database/model/bar.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/exercise_group.dart';
-import '../../../database/model/weight_unit.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../equipment/bloc/equipment/equipment_bloc.dart';
 
@@ -52,10 +52,10 @@ class ExerciseGroupMenu extends StatelessWidget {
                               Bar bar = bars[index];
                               return MButton.tiled(
                                 onPressed: (){
-                                  onExerciseGroupUpdate(exerciseGroup.copyWith(barId: bar.barId));
+                                  onExerciseGroupUpdate(exerciseGroup.copyWith(barId: bar.id));
                                   Navigator.pop(context);
                                 },
-                                leading: exerciseGroup.barId == bar.barId ? Container(
+                                leading: exerciseGroup.barId == bar.id ? Container(
                                   width: 20,
                                   alignment: Alignment.centerLeft,
                                   child: const Icon(

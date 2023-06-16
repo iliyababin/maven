@@ -1,10 +1,8 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../../common/model/timed.dart';
+import '../../common/model/model.dart';
 import '../database.dart';
-import 'weight_unit.dart';
 
 class ExerciseGroup extends Equatable {
   const ExerciseGroup({
@@ -47,23 +45,12 @@ class ExerciseGroup extends Equatable {
     );
   }
 
-  WorkoutExerciseGroup toWorkoutExerciseGroup(int workoutId) {
-    return WorkoutExerciseGroup(
-      id: id,
-      timer: timer,
-      weightUnit: WeightUnit.lbs,
-      barId: barId,
-      exerciseId: exerciseId,
-      workoutId: workoutId,
-    );
-  }
-
   @override
   List<Object?> get props => [
-    id,
-    timer,
-    weightUnit,
-    exerciseId,
-    barId,
-  ];
+        id,
+        timer,
+        weightUnit,
+        exerciseId,
+        barId,
+      ];
 }
