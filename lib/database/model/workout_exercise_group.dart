@@ -5,7 +5,7 @@ import '../../common/model/timed.dart';
 import 'bar.dart';
 import 'exercise.dart';
 import 'exercise_group.dart';
-import 'routine_group.dart';
+import 'weight_unit.dart';
 import 'workout.dart';
 
 @Entity(

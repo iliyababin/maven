@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/database/model/routine_group.dart';
+import 'package:maven/database/model/weight_unit.dart';
 
 import '../../../common/model/timed.dart';
 import '../../../database/model/exercise_group.dart';

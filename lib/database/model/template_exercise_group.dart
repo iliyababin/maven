@@ -4,8 +4,8 @@ import 'package:maven/database/model/exercise_group.dart';
 import '../../common/model/timed.dart';
 import 'bar.dart';
 import 'exercise.dart';
-import 'routine_group.dart';
 import 'template.dart';
+import 'weight_unit.dart';
 
 @Entity(
   tableName: 'template_exercise_group',

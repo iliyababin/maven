@@ -1,18 +1,36 @@
 
+import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
+
 import '../../common/model/timed.dart';
 import '../database.dart';
-import 'routine_group.dart';
+import 'weight_unit.dart';
 
-class ExerciseGroup extends RoutineGroup {
+class ExerciseGroup extends Equatable {
   const ExerciseGroup({
-    required super.id,
-    required super.timer,
-    required super.weightUnit,
-    required super.exerciseId,
-    super.barId,
+    this.id,
+    required this.timer,
+    required this.weightUnit,
+    required this.exerciseId,
+    this.barId,
   });
 
-  @override
+  @PrimaryKey(autoGenerate: true)
+  @ColumnInfo(name: 'id')
+  final int? id;
+
+  @ColumnInfo(name: 'timer')
+  final Timed timer;
+
+  @ColumnInfo(name: 'weight_unit')
+  final WeightUnit weightUnit;
+
+  @ColumnInfo(name: 'exercise_id')
+  final int exerciseId;
+
+  @ColumnInfo(name: 'bar_id')
+  final int? barId;
+
   ExerciseGroup copyWith({
     int? id,
     Timed? timer,

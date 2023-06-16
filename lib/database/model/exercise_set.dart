@@ -1,28 +1,43 @@
+import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
-import 'package:maven/database/model/routine_set.dart';
 
 import '../../feature/exercise/model/set_type.dart';
 import 'model.dart';
 
-class ExerciseSet extends RoutineSet {
+class ExerciseSet extends Equatable {
   const ExerciseSet({
-    super.id,
-    required super.exerciseGroupId,
-    required super.type,
-    required super.checked,
+    required this.id,
+    required this.type,
+    required this.checked,
+    required this.exerciseGroupId,
     this.data = const [],
   });
+
+  @PrimaryKey(autoGenerate: true)
+  @ColumnInfo(name: 'id')
+  final int? id;
+
+  @ColumnInfo(name: 'set_type')
+  final SetType type;
+
+  @ColumnInfo(name: 'checked')
+  final bool checked;
+
+  @ColumnInfo(name: 'exercise_group_id')
+  final int exerciseGroupId;
 
   @ignore
   final List<ExerciseSetData> data;
 
   @override
   List<Object?> get props => [
-    ...super.props,
+    id,
+    type,
+    checked,
+    exerciseGroupId,
     data,
   ];
 
-  @override
   ExerciseSet copyWith({
     int? id,
     int? exerciseGroupId,

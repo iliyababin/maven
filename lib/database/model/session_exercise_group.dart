@@ -1,6 +1,6 @@
 
 import 'package:floor/floor.dart';
-import 'package:maven/database/model/routine_group.dart';
+import 'package:maven/database/model/weight_unit.dart';
 
 import '../../common/model/timed.dart';
 import 'bar.dart';

@@ -11,7 +11,7 @@ import '../../../common/model/timed.dart';
 import '../../../common/widget/m_button.dart';
 import '../../../database/model/exercise.dart';
 import '../../../database/model/exercise_group.dart';
-import '../../../database/model/routine_group.dart';
+import '../../../database/model/weight_unit.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../complete/bloc/complete_bloc/complete_bloc.dart';

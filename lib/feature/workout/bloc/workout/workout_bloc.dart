@@ -9,7 +9,7 @@ import '../../../../database/dao/dao.dart';
 import '../../../../database/model/exercise_group.dart';
 import '../../../../database/model/exercise_set.dart';
 import '../../../../database/model/model.dart';
-import '../../../../database/model/routine_group.dart';
+import '../../../../database/model/weight_unit.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 
 part 'workout_event.dart';

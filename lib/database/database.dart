@@ -12,8 +12,8 @@ import 'dao/dao.dart';
 import 'dao/setting_dao.dart';
 import 'model/exercise_field.dart';
 import 'model/model.dart';
-import 'model/routine_group.dart';
 import 'model/setting.dart';
+import 'model/weight_unit.dart';
 
 export 'dao/dao.dart';
 export 'model/model.dart';
@@ -85,7 +85,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_101.db')
+        .databaseBuilder('maven_db_102.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());
