@@ -142,6 +142,9 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             child: Checkbox(
               value: _isChecked,
               onChanged: (value) async {
+                setState(() {
+                  _isChecked = value!;
+                });
                 /*  if(exerciseSet.option2 == null) {
                     if(option1EditingController.text.isEmpty) {
                       setState(() {_shake = true;});

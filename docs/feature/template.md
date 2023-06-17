@@ -1,2 +1,0 @@
-## Template
-A template consists of exercises that you plan to perform during a workout. By preparing timers, sets, reps, and other variables in advance, you can save time during your workout and focus more on exercising.

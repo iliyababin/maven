@@ -223,7 +223,7 @@ class _MavenState extends State<Maven> {
   
   SizedBox bottomNavigationBar() {
     return SizedBox(
-      height: /*56 - 56 * panelPosition*/ 56,
+      height: /*56 - 56 * panelPosition*/ 56 ,
       child: BottomNavigationBar(
         currentIndex: _selectedIndex,
         items: const [
