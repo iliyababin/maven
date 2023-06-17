@@ -145,18 +145,18 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<List<ExerciseBundle>> _fetch(int workoutId) async {
     List<ExerciseBundle> exerciseBundles = [];
 
-    List<WorkoutExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workoutId);
+    List<ExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workoutId);
 
-    for (WorkoutExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
+    for (ExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
       List<ExerciseField> exerciseFields = await exerciseFieldDao.getExerciseFieldsByExerciseId(workoutExerciseGroup.exerciseId);
       exercise = exercise?.copyWith(fields: exerciseFields);
 
-      List<WorkoutExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.id!);
-      List<WorkoutExerciseSet> test = [];
+      List<ExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.id!);
+      List<ExerciseSet> test = [];
 
-      for (WorkoutExerciseSet workoutExerciseSet in workoutExerciseSets) {
-        List<WorkoutExerciseSetData> workoutExerciseSetData = await workoutExerciseSetDataDao.getWorkoutExerciseSetDataByExerciseSetId(workoutExerciseSet.id!);
+      for (ExerciseSet workoutExerciseSet in workoutExerciseSets) {
+        List<ExerciseSetData> workoutExerciseSetData = await workoutExerciseSetDataDao.getWorkoutExerciseSetDataByExerciseSetId(workoutExerciseSet.id!);
         test.add(workoutExerciseSet.copyWith(data: workoutExerciseSetData));
       }
 
@@ -227,6 +227,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     emit(state.copyWith(
       status: WorkoutStatus.none,
+      exerciseBundles: [],
     ));
   }
 
