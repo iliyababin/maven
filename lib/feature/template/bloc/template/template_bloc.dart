@@ -32,32 +32,27 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final TemplateExerciseSetDataDao templateExerciseSetDataDao;
 
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loading,));
-
-    List<Template> templates = await templateDao.getTemplates();
-
     emit(state.copyWith(
-      status: () => TemplateStatus.loaded,
-      templates: () => templates,
+      status: TemplateStatus.loaded,
+      templates: await templateDao.getTemplates(),
     ));
   }
 
-
   Future<void> _create(TemplateCreate event, emit) async {
-    emit(state.copyWith(status: () => TemplateStatus.loading));
+    emit(state.copyWith(
+      status: TemplateStatus.loading,
+    ));
 
     int templateId = await templateDao.addTemplate(event.template);
 
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
-      int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(
-        TemplateExerciseGroup(
-          timer: exerciseBlock.exerciseGroup.timer,
-          exerciseId: exerciseBlock.exercise.id!,
-          weightUnit: exerciseBlock.exerciseGroup.weightUnit,
-          templateId: templateId,
-          barId: exerciseBlock.exerciseGroup.barId,
-        )
-      );
+      int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(TemplateExerciseGroup(
+        timer: exerciseBlock.exerciseGroup.timer,
+        exerciseId: exerciseBlock.exercise.id!,
+        weightUnit: exerciseBlock.exerciseGroup.weightUnit,
+        templateId: templateId,
+        barId: exerciseBlock.exerciseGroup.barId,
+      ));
       for (var exerciseSet in exerciseBlock.exerciseSets) {
         int templateExerciseSetId = await templateExerciseSetDao.addTemplateExerciseSet(
           TemplateExerciseSet(
@@ -80,17 +75,16 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       }
     }
 
-    List<Template> templates = await templateDao.getTemplates();
     emit(state.copyWith(
-      status: () => TemplateStatus.loaded,
-      templates: () => templates,
+      status: TemplateStatus.loaded,
+      templates: await templateDao.getTemplates(),
     ));
   }
 
   Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
     await templateDao.updateTemplate(event.template);
 
-    if(event.exerciseBundles != null) {
+    if (event.exerciseBundles != null) {
       await templateDao.deleteTemplate(event.template);
       add(TemplateCreate(
         template: event.template,
@@ -110,6 +104,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
     await templateDao.deleteTemplate(event.template);
+    emit(state.copyWith(
+      status: TemplateStatus.loaded,
+      templates: await templateDao.getTemplates(),
+    ));
   }
 }
-

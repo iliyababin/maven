@@ -1,7 +1,6 @@
 part of 'workout_bloc.dart';
 
 enum WorkoutStatus {
-  initial,
   loading,
   none,
   active,
@@ -9,7 +8,6 @@ enum WorkoutStatus {
 }
 
 extension WorkoutStatusExtension on WorkoutStatus {
-  bool get isInitial => this == WorkoutStatus.initial;
   bool get isLoading => this == WorkoutStatus.loading;
   bool get isNone => this == WorkoutStatus.none;
   bool get isActive => this == WorkoutStatus.active;
@@ -18,7 +16,7 @@ extension WorkoutStatusExtension on WorkoutStatus {
 
 class WorkoutState extends Equatable {
   const WorkoutState({
-    this.status = WorkoutStatus.initial,
+    this.status = WorkoutStatus.loading,
     this.workout,
     this.exerciseBundles = const [],
     this.pausedWorkouts = const [],
@@ -31,16 +29,16 @@ class WorkoutState extends Equatable {
   final List<Workout> pausedWorkouts;
 
   WorkoutState copyWith({
-    WorkoutStatus Function()? status,
-    Workout Function()? workout,
-    List<ExerciseBundle> Function()? exerciseBundles,
-    List<Workout> Function()? pausedWorkouts,
+    WorkoutStatus? status,
+    Workout? workout,
+    List<ExerciseBundle>? exerciseBundles,
+    List<Workout>? pausedWorkouts,
   }) {
     return WorkoutState(
-      status: status != null ? status() : this.status,
-      workout: workout != null ? workout() : this.workout,
-      exerciseBundles: exerciseBundles != null ? exerciseBundles() : this.exerciseBundles,
-      pausedWorkouts: pausedWorkouts != null ? pausedWorkouts() : this.pausedWorkouts,
+      status: status ?? this.status,
+      workout: workout ?? this.workout,
+      exerciseBundles: exerciseBundles ?? this.exerciseBundles,
+      pausedWorkouts: pausedWorkouts ?? this.pausedWorkouts,
     );
   }
 

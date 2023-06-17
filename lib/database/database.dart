@@ -30,6 +30,7 @@ part 'database.g.dart';
     Workout,
     WorkoutExerciseGroup,
     WorkoutExerciseSet,
+    WorkoutExerciseSetData,
     Session,
     SessionExerciseGroup,
     SessionExerciseSet,
@@ -61,6 +62,7 @@ abstract class MavenDatabase extends FloorDatabase {
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
+  WorkoutExerciseSetDataDao get workoutExerciseSetDataDao;
   SessionDao get completeDao;
   SessionExerciseGroupDao get completeExerciseGroupDao;
   SessionExerciseSetDao get completeExerciseSetDao;
@@ -84,7 +86,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_2.db')
+        .databaseBuilder('maven_db_8.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

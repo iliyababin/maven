@@ -16,8 +16,8 @@ import '../database.dart';
     ),
   ],
 )
-class WorkoutExerciseSetData extends ExerciseSetData {
-  WorkoutExerciseSetData({
+class SessionExerciseSetData extends ExerciseSetData {
+  SessionExerciseSetData({
     required super.value,
     required super.fieldType,
     required super.exerciseSetId,

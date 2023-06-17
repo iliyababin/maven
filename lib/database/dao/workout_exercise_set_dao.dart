@@ -13,7 +13,7 @@ abstract class WorkoutExerciseSetDao {
   @Query('SELECT * FROM workout_exercise_set')
   Future<List<WorkoutExerciseSet>> getWorkoutExerciseSets();
 
-  @Query('SELECT * FROM workout_exercise_set WHERE workout_exercise_group_id = :workoutExerciseGroupId')
+  @Query('SELECT * FROM workout_exercise_set WHERE exercise_group_id = :workoutExerciseGroupId')
   Future<List<WorkoutExerciseSet>> getWorkoutExerciseSetsByWorkoutExerciseGroupId(int workoutExerciseGroupId);
 
   @Query('SELECT * FROM workout_exercise_set')

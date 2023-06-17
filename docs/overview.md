@@ -28,4 +28,4 @@ If you've used other workout tracking apps in the past, the Maven experience sho
 ## Contribution
 To begin contributing to Maven, simply create a pull request. For more detailed information on how to contribute, please refer to our contributing guidelines.
 
-[Contributing](/docs/contribution.md)
+[Contributing](/docs/contributing.md)

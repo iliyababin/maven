@@ -51,14 +51,17 @@ void main() async {
       BlocProvider(
           create: (context) => WorkoutBloc(
                 exerciseDao: db.exerciseDao,
+                exerciseFieldDao: db.exerciseFieldDao,
                 workoutDao: db.workoutDao,
                 workoutExerciseGroupDao: db.workoutExerciseGroupDao,
                 workoutExerciseSetDao: db.workoutExerciseSetDao,
+                workoutExerciseSetDataDao: db.workoutExerciseSetDataDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
                 completeDao: db.completeDao,
                 completeExerciseGroupDao: db.completeExerciseGroupDao,
                 completeExerciseSetDao: db.completeExerciseSetDao,
+            templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const WorkoutInitialize())),
       BlocProvider(
           create: (context) => EquipmentBloc(

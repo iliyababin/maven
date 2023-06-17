@@ -1,7 +1,7 @@
-import 'package:maven/feature/template/widget/empty_widget.dart';
-import 'package:maven/feature/template/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/feature/template/widget/empty_widget.dart';
+import 'package:maven/feature/template/widget/loading_widget.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../database/model/template.dart';
@@ -22,7 +22,7 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
         if (state.status.isLoading) {
-          return const LoadingWidget();
+          return LoadingWidget();
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 

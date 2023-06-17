@@ -1,5 +1,5 @@
-# Contribution
-This document is intended to assist both new and experienced programmers in contributing to this project.
+# Contributing
+This document is intended to assist both new and experienced users in contributing to this project.
 
 It provides information on how to setup the development environment, understand the app structure, and more.
 

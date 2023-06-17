@@ -18,3 +18,4 @@ export 'template_exercise_set_data.dart';
 export 'workout.dart';
 export 'workout_exercise_group.dart';
 export 'workout_exercise_set.dart';
+export 'workout_exercise_set_data.dart';

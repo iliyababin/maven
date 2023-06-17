@@ -5,9 +5,10 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SliverToBoxAdapter(
-      child: SizedBox(
+    return SliverToBoxAdapter(
+      child: Container(
         height: 100,
+        alignment: Alignment.center,
         child: CircularProgressIndicator(),
       ),
     );

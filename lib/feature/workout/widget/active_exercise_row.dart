@@ -28,10 +28,10 @@ class ActiveExerciseRow {
 
         Expanded(child: Container(alignment: Alignment.center,
             child: Row(
-              children:  List<Widget>.generate(options.length * 2 - 1, (index) {
+              children:  List<Widget>.generate(options.length * 2 , (index) {
                 if (index.isOdd) {
                   // Insert a spacer
-                  return SizedBox(width: SPACER_SIZE);
+                  return const SizedBox(width: SPACER_SIZE);
                 } else {
                   // Insert a widget
                   final widgetIndex = index ~/ 2;
