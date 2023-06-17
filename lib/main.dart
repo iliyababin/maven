@@ -61,7 +61,7 @@ void main() async {
                 completeDao: db.completeDao,
                 completeExerciseGroupDao: db.completeExerciseGroupDao,
                 completeExerciseSetDao: db.completeExerciseSetDao,
-            templateExerciseSetDataDao: db.templateExerciseSetDataDao,
+                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const WorkoutInitialize())),
       BlocProvider(
           create: (context) => EquipmentBloc(
