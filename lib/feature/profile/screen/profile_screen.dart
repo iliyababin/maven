@@ -58,8 +58,8 @@ class ProfileScreen extends StatelessWidget {
                     style: InheritedThemeWidget.of(context).theme.options.textStyle.heading4,
                   ),
                 ),
-                MButton.tiled(
-                  onPressed: (){
+                ListTile(
+                  onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen(
                       selection: false,
                     )));
@@ -67,15 +67,18 @@ class ProfileScreen extends StatelessWidget {
                   leading: const Icon(
                     Icons.sports_gymnastics,
                   ),
-                  title: S.current.exercises,
+                  title: Text(S.current.exercises),
                 ),
-                MButton.tiled(
-                  onPressed: (){
+                ListTile(
+                  onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const EquipmentScreen()));
                   },
                   leading: const Icon(Icons.home_repair_service_rounded,),
-                  title: 'Equipment',
+                  title: const Text(
+                    'Equipment',
+                  ),
                 ),
+
                 MButton.tiled(
                   onPressed: (){
                     // TODO: Add measureing feature

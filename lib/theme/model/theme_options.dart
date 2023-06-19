@@ -12,7 +12,13 @@ class ThemeOptions {
   ColorOptions get color {
     return ColorOptions(
       primary: _colorOptions.primary,
+      onPrimary: _colorOptions.onPrimary,
+      primaryContainer: _colorOptions.primaryContainer,
+      onPrimaryContainer: _colorOptions.onPrimaryContainer,
       secondary: _colorOptions.secondary,
+      onSecondary: _colorOptions.onSecondary,
+      secondaryContainer: _colorOptions.secondaryContainer,
+      onSecondaryContainer: _colorOptions.onSecondaryContainer,
       background: _colorOptions.background,
       text: _colorOptions.text,
       subtext: _colorOptions.subtext,
@@ -35,7 +41,7 @@ class ThemeOptions {
       body1: _colorOptions.text,
       subtitle1: _colorOptions.subtext,
       subtitle2: _colorOptions.primary,
-      button1: _colorOptions.neutral,
+      button1: _colorOptions.background,
       button2: _colorOptions.primary,
     );
   }

@@ -151,29 +151,29 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
               persistentFooterButtons: [
                 Padding(
                   padding: EdgeInsets.all(T(context).padding.page),
-                  child: MButton(
-                    onPressed: () {
-                      showBottomSheetDialog(
-                        context: context,
-                        child: ConfirmationDialog(
-                          title: 'Start Workout',
-                          subtitle: 'This will delete any current workout.',
-                          confirmText: 'Start',
-                          onSubmit: () {
-                            context.read<WorkoutBloc>().add(WorkoutStart(template: template));
-                            Navigator.pop(context);
-                          },
-                        ),
-                        onClose: () {},
-                      );
-                    },
-                    expand: false,
-                    backgroundColor: T(context).color.secondary,
-                    child: Text(
-                      'Start',
-                      style: T(context).textStyle.button1,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () {
+                        showBottomSheetDialog(
+                          context: context,
+                          child: ConfirmationDialog(
+                            title: 'Start Workout',
+                            subtitle: 'This will delete any current workout.',
+                            confirmText: 'Start',
+                            onSubmit: () {
+                              context.read<WorkoutBloc>().add(WorkoutStart(template: template));
+                              Navigator.pop(context);
+                            },
+                          ),
+                          onClose: () {},
+                        );
+                      },
+                      child: Text(
+                        'Start',
+                      ),
                     ),
-                  ),
+                  )
                 ),
               ],
             );

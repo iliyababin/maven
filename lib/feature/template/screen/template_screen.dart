@@ -1,15 +1,13 @@
 import 'dart:math';
 
-import 'package:maven/common/widget/heading.dart';
-import 'package:maven/feature/template/widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/heading.dart';
+import 'package:maven/feature/template/widget/empty_widget.dart';
 
-import '../../../common/widget/m_button.dart';
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../program/screen/program_builder_screen.dart';
 import '../../program/widget/program_list_widget.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../../workout/widget/paused_workout_widget.dart';
@@ -34,17 +32,23 @@ class _TemplateScreenState extends State<TemplateScreen> {
     return TitledScaffold(
       title: 'Workout',
       body: Padding(
-        padding: EdgeInsets.all(T(context).padding.page),
+        padding: EdgeInsets.symmetric( horizontal: T(context).padding.page),
         child: CustomScrollView(
           slivers: [
             const Heading(title: 'Quick Start', topPadding: false,),
             SliverList(delegate: SliverChildListDelegate([
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  MButton(
+                  FilledButton(
+                    onPressed: (){},
+                    child: Text(
+                      'Start an Empty Workout',
+                    ),
+                  ),
+                  /*MButton(
                     onPressed: () {
-                      /*context.read<WorkoutBloc>().add(const WorkoutStart());*/
+                      *//*context.read<WorkoutBloc>().add(const WorkoutStart());*//*
                     },
                     expand: false,
                     width: double.infinity,
@@ -53,13 +57,52 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       'Start an Empty Workout',
                       style: T(context).textStyle.button1,
                     ),
-                  ),
+                  ),*/
                   const SizedBox(
                     height: 8,
                   ),
                   Row(
                     children: [
-                      MButton(
+                      Expanded(
+                        flex: 4,
+                        child: OutlinedButton.icon(
+                          onPressed: (){
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) =>
+                                EditTemplateScreen(
+                                  onSubmit: (template, exerciseBundles) {
+                                    context.read<TemplateBloc>().add(
+                                      TemplateCreate(
+                                        template: template,
+                                        exerciseBundles: exerciseBundles,
+                                      ),
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                )));
+                          },
+                          icon: const Icon(
+                            Icons.post_add,
+                          ),
+                          label: Text(
+                            'Create Template',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 3,
+                        child: OutlinedButton.icon(
+                          onPressed: (){},
+                          icon: const Icon(
+                            Icons.polyline,
+                          ),
+                          label: const Text(
+                            'Program',
+                          ),
+                        ),
+                      ),
+                      /*MButton(
                         onPressed: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) =>
@@ -83,9 +126,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           'Create Template',
                           style: T(context).textStyle.button2,
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      MButton(
+                      ),*/
+                      
+                      /*MButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
                               context) => const ProgramBuilderScreen()));
@@ -98,7 +141,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           'Program Builder',
                           style: T(context).textStyle.button2,
                         ),
-                      )
+                      )*/
                     ],
                   ),
                 ],

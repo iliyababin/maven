@@ -100,8 +100,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
       ),
       height: 38,
       width: 38,
-      backgroundColor: T(context).color.background,
-      borderColor: T(context).color.secondary,
+      backgroundColor: T(context).color.secondary,
     );
   }
 }

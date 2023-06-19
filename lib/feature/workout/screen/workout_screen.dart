@@ -99,11 +99,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         },
                         height: 38,
                         width: 38,
-                        backgroundColor: T(context).color.background,
-                        borderColor: T(context).color.secondary,
+                        backgroundColor: T(context).color.primaryContainer,
                         child: Icon(
                           Icons.add_rounded,
-                          color: T(context).color.primary,
+                          color: T(context).color.onPrimaryContainer,
                         ),
                       ),
                       const SizedBox(width: 8,),
@@ -180,8 +179,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         },
                         height: 38,
                         width: 38,
-                        backgroundColor: T(context).color.background,
-                        borderColor: T(context).color.secondary,
+                        backgroundColor: T(context).color.secondary,
                         child: Icon(
                           Icons.more_horiz,
                           color: T(context).color.text,
@@ -191,6 +189,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ExerciseTimerWidget(
                               controller: exerciseTimerController,
                             ),
+
                     ],
                   ),
                 ),
