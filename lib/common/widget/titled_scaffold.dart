@@ -15,6 +15,7 @@ class TitledScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Padding(
           padding: EdgeInsetsDirectional.only(top: 30),
           child: Text(
@@ -25,6 +26,7 @@ class TitledScaffold extends StatelessWidget {
         backgroundColor: InheritedThemeWidget.of(context).theme.options.color.background,
         centerTitle: false,
         toolbarHeight: 100,
+
       ),
       body: body,
       /*CupertinoPageScaffold(

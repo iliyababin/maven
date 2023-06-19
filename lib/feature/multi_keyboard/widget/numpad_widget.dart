@@ -149,7 +149,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
                         borderRadius: 0,
                         leading: Icon(
                           Icons.backspace_rounded,
-                          color: T(context).color.text,
+                          color: T(context).color.onBackground,
                         ),
                       )
                     ],

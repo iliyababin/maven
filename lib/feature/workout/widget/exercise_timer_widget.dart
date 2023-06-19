@@ -96,11 +96,11 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
       child: Icon(
         Icons.timer,
         size: 21,
-        color: T(context).color.text,
+        color: T(context).color.onSurface,
       ),
       height: 38,
       width: 38,
-      backgroundColor: T(context).color.secondary,
+      backgroundColor: T(context).color.surface,
     );
   }
 }

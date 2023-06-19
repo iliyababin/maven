@@ -11,7 +11,11 @@ class ColorOptions {
     required this.secondaryContainer,
     required this.onSecondaryContainer,
     required this.background,
-    required this.text,
+    required this.surface,
+    required this.onSurface,
+    required this.outline,
+    required this.outlineVariant,
+    required this.onBackground,
     required this.subtext,
     required this.neutral,
     required this.success,
@@ -31,7 +35,11 @@ class ColorOptions {
   final Color secondaryContainer;
   final Color onSecondaryContainer;
   final Color background;
-  final Color text;
+  final Color surface;
+  final Color onSurface;
+  final Color outline;
+  final Color outlineVariant;
+  final Color onBackground;
   final Color subtext;
   final Color neutral;
   final Color success;
@@ -51,7 +59,7 @@ class ColorOptions {
         'secondaryContainer': secondaryContainer,
         'onSecondaryContainer': onSecondaryContainer,
         'background': background,
-        'text': text,
+        'text': onBackground,
         'subtext': subtext,
         'neutral': neutral,
         'success': success,

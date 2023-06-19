@@ -101,7 +101,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.history_rounded,
-                    color: _selectedTab == 0 ? null : T(context).color.text,
+                    color: _selectedTab == 0 ? null : T(context).color.onBackground,
                   ),
                 ),
                 Equipment.barbell == widget.equipment ? MButton(
@@ -113,7 +113,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.calculate_rounded,
-                    color: _selectedTab == 1 ? null : T(context).color.text,
+                    color: _selectedTab == 1 ? null : T(context).color.onBackground,
                   ),
                 ) : Container(),
                 MButton(
@@ -125,7 +125,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.numbers_rounded,
-                    color: _selectedTab == 2 ? null : T(context).color.text,
+                    color: _selectedTab == 2 ? null : T(context).color.onBackground,
                   ),
                 ),
                 MButton(
@@ -136,7 +136,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                   borderRadius: 0,
                   leading: Icon(
                     Icons.check,
-                    color: T(context).color.text,
+                    color: T(context).color.onBackground,
                   ),
                 ),
               ],

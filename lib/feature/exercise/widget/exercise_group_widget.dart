@@ -192,9 +192,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           },
         ),
 
-        Padding(
+        Container(
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 4),
-          child: MButton(
+          child: TextButton.icon(
             onPressed: () {
               int id = DateTime.now().millisecondsSinceEpoch;
               ExerciseSet exerciseSet = ExerciseSet(
@@ -214,19 +214,16 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
 
               widget.onExerciseSetAdd(exerciseSet);
             },
-            expand: false,
-            leading: const Icon(
+            icon: const Icon(
               Icons.add_rounded,
             ),
-            child: Text(
+            label: Text(
               'Add Set',
               style: TextStyle(
-                color: T(context).color.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                height: 1.1,
               ),
             ),
-          ),
+          )
         ),
 
       ],

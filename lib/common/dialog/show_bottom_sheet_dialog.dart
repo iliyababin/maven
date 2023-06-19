@@ -16,7 +16,7 @@ void showBottomSheetDialog({
     isScrollControlled: true,
     builder: (BuildContext context) {
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0.0),
         child: Wrap(
           children: [
             Padding(
@@ -24,7 +24,7 @@ void showBottomSheetDialog({
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(24),
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(

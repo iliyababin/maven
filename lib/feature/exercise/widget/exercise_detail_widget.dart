@@ -58,7 +58,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             decoration: BoxDecoration(
               border: Border.all(
                   width: 2,
-                  color: T(context).color.secondary,
+                  color: T(context).color.outline,
                   style: BorderStyle.solid
               ),
               borderRadius: BorderRadiusDirectional.circular(12),

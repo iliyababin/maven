@@ -106,10 +106,12 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         options: exerciseSet.data.map((e) => MButton(
           height: 30,
           expand: true,
-          backgroundColor: _isChecked ? Colors.transparent : T(context).color.secondary,
+          backgroundColor: _isChecked ? Colors.transparent : T(context).color.surface,
           child: Text(
             e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value): e.value.toString(),
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.body1.copyWith(
+              color: T(context).color.onSurface,
+            ),
           ),
           onPressed: () {
             showBottomSheetDialog(

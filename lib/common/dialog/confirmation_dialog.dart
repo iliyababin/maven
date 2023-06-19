@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
-import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to confirm an action before proceeding.
 ///
@@ -59,29 +58,36 @@ class ConfirmationDialog extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              MButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                backgroundColor: cancelColor ?? T(context).color.background,
-                borderColor: T(context).color.secondary,
-                child: Text(
-                  cancelText,
-                  style: T(context).textStyle.body1,
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: cancelColor,
+                  ),
+                  child: Text(
+                    cancelText,
+                    style: T(context).textStyle.body1,
+                  ),
                 ),
               ),
               const SizedBox(width: 15),
-              MButton(
-                onPressed: (){
-                  onSubmit();
-                  Navigator.pop(context);
-                },
-                backgroundColor: confirmColor ?? T(context).color.primary,
-                child: Text(
-                  confirmText,
-                  style: T(context).textStyle.button1,
+              Expanded(
+                child: FilledButton(
+                  onPressed: (){
+                    onSubmit();
+                    Navigator.pop(context);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: confirmColor,
+                  ),
+                  child: Text(
+                    confirmText,
+                    style: T(context).textStyle.button1,
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ],

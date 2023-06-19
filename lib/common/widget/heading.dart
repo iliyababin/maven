@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
@@ -22,9 +23,24 @@ class Heading extends StatelessWidget {
           left: side ? T(context).padding.page : 0,
           right: side ? T(context).padding.page : 0,
         ),
-        child: Text(
-          title,
-          style: T(context).textStyle.heading4,
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: T(context).textStyle.heading4,
+            ),
+            Expanded(child: Container()),
+           /* if (!side)
+              SizedBox(
+                child: IconButton(
+                  padding: EdgeInsets.all(2),
+                  constraints: BoxConstraints(),
+                  onPressed: () {},
+                  icon: const Icon(CupertinoIcons.sort_down),
+
+                ),
+              ),*/
+          ],
         ),
       ),
     );

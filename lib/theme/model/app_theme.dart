@@ -35,31 +35,32 @@ class AppTheme extends Equatable {
         onSecondaryContainer: options.color.onSecondaryContainer,
 
         error: options.color.error,
-        onError: options.color.text,
+        onError: options.color.onBackground,
 
         background: options.color.background,
-        onBackground: options.color.text,
+        onBackground: options.color.onBackground,
+
+        outline: options.color.outline,
+        outlineVariant: options.color.outlineVariant,
 
         surface: options.color.background,
-        onSurface: options.color.text,
-        outline: options.color.secondary,
+        onSurface: options.color.onBackground,
+        surfaceTint: options.color.background,
 
-        onTertiary: Colors.green,
-        onTertiaryContainer: Colors.green,
-        tertiary: Colors.green,
-        tertiaryContainer: Colors.green,
+        onTertiary: Colors.yellow,
+        onTertiaryContainer: Colors.yellow,
+        tertiary: Colors.yellow,
+        tertiaryContainer: Colors.yellow,
 
-        surfaceTint: Colors.yellow,
         errorContainer: Colors.purple,
-        inversePrimary: Colors.red,
-        inverseSurface: Colors.red,
-        onErrorContainer: Colors.red,
-        onInverseSurface: Colors.red,
+        inversePrimary: Colors.purple,
+        inverseSurface: Colors.purple,
+        onErrorContainer: Colors.purple,
+        onInverseSurface: Colors.purple,
 
-        onSurfaceVariant: Colors.red,
+        onSurfaceVariant: Color(0xff424940),
 
         // A utility color that creates boundaries for decorative elements when a 3:1 contrast isn’t required, such as for dividers or decorative elements.
-        outlineVariant: Colors.purple,
         scrim: Colors.green,
         shadow: Colors.red,
 
@@ -70,9 +71,6 @@ class AppTheme extends Equatable {
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(
             Size(double.infinity, 44),
-          ),
-          textStyle: MaterialStateProperty.all(
-            options.textStyle.button1,
           ),
           foregroundColor: MaterialStateProperty.all(
             options.color.onPrimary,
@@ -86,20 +84,8 @@ class AppTheme extends Equatable {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(
-            options.textStyle.body1,
-          ),
-          backgroundColor: MaterialStateProperty.all(
-            options.color.secondary,
-          ),
           minimumSize: MaterialStateProperty.all(
             Size(46, 44),
-          ),
-          foregroundColor: MaterialStateProperty.all(
-            options.color.onSecondary,
-          ),
-          iconColor: MaterialStateProperty.all(
-            options.color.onSecondary,
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -110,11 +96,12 @@ class AppTheme extends Equatable {
       ),
 
 
+
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
         backgroundColor: options.color.background,
-        foregroundColor: options.color.text,
+        foregroundColor: options.color.onBackground,
         iconTheme: IconThemeData(
           color: options.color.primary,
         ),
@@ -123,7 +110,7 @@ class AppTheme extends Equatable {
       tabBarTheme: TabBarTheme(
         unselectedLabelStyle: options.textStyle.body1,
         labelStyle: options.textStyle.body1,
-        labelColor: options.color.text,
+        labelColor: options.color.onBackground,
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
             color: options.color.primary,
@@ -136,8 +123,6 @@ class AppTheme extends Equatable {
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
         unselectedItemColor: options.color.subtext,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
         selectedLabelStyle: const TextStyle(
           fontSize: 14,
         ),
@@ -149,9 +134,8 @@ class AppTheme extends Equatable {
         color: options.color.primary,
       ),
       listTileTheme: ListTileThemeData(
-        contentPadding: const EdgeInsets.only(left: 20),
+        contentPadding: const EdgeInsets.only(left: 20, right: 20),
         iconColor: options.color.primary,
-        textColor: options.color.text,
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith((states) {
@@ -181,10 +165,6 @@ class AppTheme extends Equatable {
           ),
         ),
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: options.color.primary,
-        foregroundColor: options.color.background,
-      ),
     );
   }
 
@@ -196,7 +176,7 @@ class AppTheme extends Equatable {
         options,
       ];
 
-  static const AppTheme light = AppTheme(
+ /* static const AppTheme light = AppTheme(
     id: 1,
     name: 'Light',
     path: 'assets/images/light.jpg',
@@ -213,6 +193,9 @@ class AppTheme extends Equatable {
         onSecondaryContainer: Color(0xFF282828),
 
         background: Color(0xffffffff),
+        outline: Color(0xFF2A2A2A),
+        outlineVariant: Color(0xFF979797),
+
         text: Color(0xff282828),
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
@@ -224,9 +207,9 @@ class AppTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-  );
+  );*/
 
-  static const AppTheme dark = AppTheme(
+  /*static const AppTheme dark = AppTheme(
     id: 2,
     name: 'Dark',
     path: 'assets/images/dark.jpg',
@@ -243,6 +226,10 @@ class AppTheme extends Equatable {
         onSecondaryContainer: Color(0xFFEFEFEF),
 
         background: Color(0xff121212),
+        outline: Color(0xFF5F5F5F),
+        outlineVariant: Color(0xFF131313),
+
+
         text: Color(0xffffffff),
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
@@ -254,7 +241,7 @@ class AppTheme extends Equatable {
         cooldown: Color(0xFF21F3F3),
       ),
     ),
-  );
+  );*/
 
   static const AppTheme solarFlare = AppTheme(
     id: 3,
@@ -267,13 +254,20 @@ class AppTheme extends Equatable {
         primaryContainer: Color(0xFF463C26),
         onPrimaryContainer: Color(0xFFFFB939),
 
-        secondary: Color(0xFF2A2A2A),
-        onSecondary: Color(0xFFFFBC2E),
-        secondaryContainer: Color(0xFF282828),
-        onSecondaryContainer: Color(0xFFEFEFEF),
+        secondary: Color(0xff6f6240),
+        onSecondary: Color(0xffffe1aa),
+        secondaryContainer: Color(0xFF56442a),
+        onSecondaryContainer: Color(0xFFfadebb),
 
         background: Color(0xff232323),
-        text: Color(0xffffffff),
+        onBackground: Color(0xffffffff),
+
+        surface: Color(0xFF2A2A2A),
+        onSurface: Color(0xFFFFFFFF),
+
+        outline: Color(0xFF3A3A3A),
+        outlineVariant: Color(0xFF3A3A3A),
+
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF922DCD),
@@ -296,12 +290,21 @@ class AppTheme extends Equatable {
         onPrimary: Color(0xffffffff),
         primaryContainer: Color(0xFF94f990),
         onPrimaryContainer: Color(0xFF002204),
-        secondary: Color(0xffd6ecd2),
-        onSecondary: Color(0xFF4CAF50),
+
+        secondary: Color(0xFF52634f),
+        onSecondary: Color(0xFFffffff),
         secondaryContainer: Color(0xFFd5e8cf),
         onSecondaryContainer: Color(0xFF111f0f),
-        background: Color(0xFFE8F5E9),
-        text: Color(0xFF212121),
+
+        background: Color(0xFFf6fff1),
+        onBackground: Color(0xFF212121),
+
+        surface: Color(0xFFecf7e0),
+        onSurface: Color(0xFF141e0d),
+
+        outline: Color(0xFFC4C8BB),
+        outlineVariant: Color(0xFFC4C8BB),
+
         subtext: Color(0xFF757575),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF4CAF50),
@@ -338,10 +341,11 @@ class AppTheme extends Equatable {
   );
 */
   static const List<AppTheme> themes = [
-    light,
+    /*light,
     dark,
-    solarFlare,
+    solarFlare,*/
     nature,
+    solarFlare,
     /*nature,
     roseGold,*/
   ];

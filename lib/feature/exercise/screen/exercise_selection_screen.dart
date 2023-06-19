@@ -1,7 +1,6 @@
-import 'package:maven/common/extension.dart';
-import 'package:maven/common/widget/m_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/extension.dart';
 
 import '../../../database/model/exercise.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -47,7 +46,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
         title: typing ? TextField(
           focusNode: _searchNode,
           style: TextStyle(
-            color: T(context).color.text,
+            color: T(context).color.onBackground,
           ),
           controller: _searchTextEditingController,
           onSubmitted: (value) {
@@ -108,114 +107,69 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: T(context).padding.page,
-              vertical: 16,
-            ),
-            child: Row(
-              children: [
-                MButton(
-                  onPressed: () {},
-                  height: 36,
-                  borderColor: T(context).color.secondary,
-                  child: Text(
-                    'Muscle',
-                    style: T(context).textStyle.body1,
-                  ),
-                ),
-                const SizedBox(width: 10,),
-                MButton(
-                  onPressed: () {},
-                  height: 36,
-                  borderColor: T(context).color.secondary,
-                  child: Text(
-                    'Group',
-                    style: T(context).textStyle.body1,
-                  ),
-                ),
-                const SizedBox(width: 10,),
-                MButton(
-                  onPressed: () {},
-                  height: 36,
-                  borderColor: T(context).color.secondary,
-                  child: Text(
-                    'Equipment',
-                    style: T(context).textStyle.body1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: BlocBuilder<ExerciseBloc, ExerciseState>(
-              builder: (context, state) {
-                if(state.status == ExerciseStatus.loading) {
-                  return const Center(child: CircularProgressIndicator(),);
-                } else {
-                  List<Exercise> exercises = state.exercises;
-                  if(_searchTextEditingController.text.isNotEmpty) {
-                    exercises = exercises.where((exercise) => exercise.name.toLowerCase().contains(_searchTextEditingController.text.toLowerCase())).toList();
-                  }
+      body: BlocBuilder<ExerciseBloc, ExerciseState>(
+        builder: (context, state) {
+          if(state.status == ExerciseStatus.loading) {
+            return const Center(child: CircularProgressIndicator(),);
+          } else {
+            List<Exercise> exercises = state.exercises;
+            if(_searchTextEditingController.text.isNotEmpty) {
+              exercises = exercises.where((exercise) => exercise.name.toLowerCase().contains(_searchTextEditingController.text.toLowerCase())).toList();
+            }
 
-                  return ListView.builder(
-                    itemCount: exercises.length,
-                    itemBuilder: (context, index) {
-                      Exercise exercise = exercises[index];
-                      bool isSelected = _selectedExercises.contains(exercise);
+            return ListView.builder(
+              itemCount: exercises.length,
+              itemBuilder: (context, index) {
+                Exercise exercise = exercises[index];
+                bool isSelected = _selectedExercises.contains(exercise);
 
-                      return ListTile(
-                        onTap: () {
-                          if(widget.selection) {
-                            setState(() {
-                              if (!_selectedExercises.remove(exercise)) {
-                                if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
-                                  _selectedExercises.add(exercise);
-                                }
-                              }
-                            });
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ExerciseDetailScreen(
-                                  exercise: exercise,
-                                )
-                              ),
-                            );
+                return ListTile(
+                  onTap: () {
+                    if(widget.selection) {
+                      setState(() {
+                        if (!_selectedExercises.remove(exercise)) {
+                          if(!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                            _selectedExercises.add(exercise);
                           }
-                        },
-                        tileColor: isSelected ? T(context).color.primary.withAlpha(30) : null,
-                        leading: CircleAvatar(
-                          child: Text(
-                            exercise.name.substring(0, 1),
-                          )
+                        }
+                      });
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ExerciseDetailScreen(
+                              exercise: exercise,
+                            )
                         ),
-                        title: Text(
-                          exercise.name,
-                          style: T(context).textStyle.body1,
-                        ),
-                        subtitle: Text(
-                          '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
-                          style: T(context).textStyle.subtitle1,
-                        ),
-                        trailing: isSelected ? IconButton(
-                          icon: Icon(
-                            Icons.check,
-                            color: T(context).color.primary,
-                          ),
-                          onPressed: null,
-                        ) : null,
                       );
-                    },
-                  );
-                }
+                    }
+                  },
+                  tileColor: isSelected ? T(context).color.primaryContainer : null,
+                  leading: CircleAvatar(
+                      child: Text(
+                        exercise.name.substring(0, 1),
+                      )
+                  ),
+                  title: Text(
+                    exercise.name,
+                    style: T(context).textStyle.body1,
+                  ),
+                  subtitle: Text(
+                    '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
+                    style: T(context).textStyle.subtitle1,
+                  ),
+                  trailing: isSelected ? IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: T(context).color.primary,
+                    ),
+                    onPressed: null,
+                  ) : null,
+                );
               },
-            ),
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
