@@ -39,14 +39,15 @@ class TimedPickerDialog extends StatelessWidget {
               itemExtent: 32,
               looping: true,
               onSelectedItemChanged: (int value) => valueChanged(value),
-
               children: List.generate(length, (index) =>
-                  Center(
-                    child: Text(
-                      index.toString(),
-                      style: T(context).textStyle.body1,
+                Center(
+                  child: Text(
+                    index.toString(),
+                    style: T(context).textStyle.body1.copyWith(
+                      color: T(context).color.onSurface,
                     ),
                   ),
+                ),
               ),
             ),
           ),

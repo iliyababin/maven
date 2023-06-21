@@ -5,12 +5,29 @@ import '../../../theme/widget/inherited_theme_widget.dart';
 import '../model/complete_bundle.dart';
 import '../model/complete_exercise_bundle.dart';
 
-class CompleteDetailScreen extends StatelessWidget {
-  const CompleteDetailScreen({Key? key,
+class SessionDetailScreen extends StatelessWidget {
+  const SessionDetailScreen({Key? key,
     required this.completeBundle,
   }) : super(key: key);
 
   final SessionBundle completeBundle;
+
+  List<TextSpan> test(SessionExerciseBundle seb, int index, BuildContext context) {
+    List<TextSpan> result = [];
+
+    /*result.add(TextSpan(
+      text: '${index + 1}',
+      style: T(context).textStyle.body1.copyWith(color: seb.sessionExerciseSets[index].type.color(context)),
+    ));
+
+   *//* for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
+      result.add(TextSpan(
+        text: '${seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup)} ${i != seb.sessionExerciseSets.length - 1 ? ' x ' : ''}',
+      ));
+    }*//*
+*/
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +61,11 @@ class CompleteDetailScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     SessionExerciseSet completeExerciseSet = completeExerciseBundle.sessionExerciseSets[index];
+                    print(completeExerciseSet);
                     return RichText(
                       text: TextSpan(
                         style: T(context).textStyle.subtitle1,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '${index + 1}',
-                            style: T(context).textStyle.body1.copyWith(color: completeExerciseSet.type.color(context)),
-                          ),
-                          const TextSpan(
-                            text: '  ',
-                          ),
-                          TextSpan(
-                            text: '//TODO',
-                          ),
-                        ],
+                        children: test(completeExerciseBundle, index, context),
                       ),
 
                     );

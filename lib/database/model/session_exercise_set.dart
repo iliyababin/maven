@@ -34,6 +34,25 @@ class SessionExerciseSet extends ExerciseSet {
   final int sessionId;
 
   @override
+  SessionExerciseSet copyWith({
+    int? id,
+    ExerciseSetType? type,
+    bool? checked,
+    int? exerciseGroupId,
+    List<ExerciseSetData>? data,
+    int? sessionId,
+  }) {
+    return SessionExerciseSet(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      checked: checked ?? this.checked,
+      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
+      data: data ?? this.data,
+      sessionId: sessionId ?? this.sessionId,
+    );
+  }
+
+  @override
   List<Object?> get props => [
     ...super.props,
     sessionId,

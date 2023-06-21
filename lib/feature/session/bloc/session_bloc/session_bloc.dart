@@ -111,10 +111,9 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         Exercise? exercise = await exerciseDao.getExercise(sessionExerciseGroup.exerciseId!);
 
         for(SessionExerciseSet sessionExerciseSet in await sessionExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(sessionExerciseGroup.id!)){
-          for(SessionExerciseSetData sessionExerciseSetData in await sessionExerciseSetDataDao.getSessionExerciseSetDataByExerciseSetId(sessionExerciseSet.id!)) {
-            sessionExerciseSet.copyWith(data: [...sessionExerciseSet.data, sessionExerciseSetData]);
-          }
-          sessionExerciseSets.add(sessionExerciseSet);
+          List<SessionExerciseSetData> sessionExerciseSetData = await sessionExerciseSetDataDao.getSessionExerciseSetDataByExerciseSetId(sessionExerciseSet.id!);
+          SessionExerciseSet sessionExerciseSet2 = sessionExerciseSet.copyWith(data: sessionExerciseSetData);
+          sessionExerciseSets.add(sessionExerciseSet2);
         }
 
         sessionExerciseBundles.add(SessionExerciseBundle(

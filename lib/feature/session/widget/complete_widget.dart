@@ -21,7 +21,7 @@ class CompleteWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteDetailScreen(
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SessionDetailScreen(
             completeBundle: completeBundle,
           )));
         },

@@ -18,7 +18,6 @@ class NumPadWidget extends StatefulWidget {
 }
 
 class _NumPadWidgetState extends State<NumPadWidget> {
-
   final TextEditingController _controller = TextEditingController();
 
   final FocusNode _focusNode = FocusNode();

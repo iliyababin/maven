@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../database/model/model.dart';
 
-class SessionExerciseBundle extends Equatable{
+class SessionExerciseBundle extends Equatable {
   const SessionExerciseBundle({
     required this.exercise,
     required this.sessionExerciseGroup,

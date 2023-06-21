@@ -66,6 +66,7 @@ class AppTheme extends Equatable {
 
         surfaceVariant: Colors.green,
       ),
+      typography: Typography.material2021(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
