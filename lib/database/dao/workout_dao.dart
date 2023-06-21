@@ -14,10 +14,10 @@ abstract class WorkoutDao {
   @Query('SELECT * FROM workout')
   Future<List<Workout>> getWorkouts();
 
-  @Query('SELECT * FROM workout WHERE active = true')
+  @Query('SELECT * FROM workout WHERE active = 1')
   Future<Workout?> getActiveWorkout();
 
-  @Query('SELECT * FROM workout WHERE active = false')
+  @Query('SELECT * FROM workout WHERE active = 0')
   Future<List<Workout>> getPausedWorkouts();
 
   @update
