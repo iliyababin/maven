@@ -38,12 +38,17 @@ git clone https://github.com/deluxepter/maven
 flutter pub get
 ```
 
-4. Run `builder_runner`.
+4. Generate database.
 ```
 flutter packages pub run build_runner build
 ```
 
-5. Run the app.
+5. Generate localizations.
+```
+flutter pub run intl_utils:generate
+```
+
+6. Run the app.
 ```
 flutter run
 ```

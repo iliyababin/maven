@@ -13,8 +13,8 @@ class EmptyWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadiusDirectional.circular(10),
             border: Border.all(
-              color: T(context).color.secondary,
-            )
+              color: T(context).color.outline,
+            ),
         ),
         alignment: FractionalOffset.center,
         child: Text(

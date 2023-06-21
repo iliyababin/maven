@@ -85,7 +85,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               splashColor: T(context).color.primary.withAlpha(50),
               child: Text(
                 widget.exercise.name,
-                style: T(context).textStyle.subtitle2,
+                style: T(context).textStyle.subtitle2.copyWith(
+                      color: T(context).color.primary,
+                    ),
               ),
             ),
             MButton(
@@ -149,7 +151,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   Container(
                     height: double.infinity / 2,
                     width: 1,
-                    color: T(context).color.secondary,
+                    color: T(context).color.outline,
                   ),
                   SlidableAction(
                     onPressed: (BuildContext context) {

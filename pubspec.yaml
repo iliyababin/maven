@@ -14,6 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
+  intl_utils: ^2.8.3
   build_runner: ^2.3.3
   # Database
   sqflite: ^2.2.2

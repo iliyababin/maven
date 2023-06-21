@@ -186,6 +186,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           exerciseGroupId: exerciseSet.exerciseGroupId,
           workoutId: state.workout!.id!,
         ));
+
+        for (var exerciseSetData in exerciseSet.data!) {
+          await workoutExerciseSetDataDao.addWorkoutExerciseSetData(WorkoutExerciseSetData(
+            value: exerciseSetData.value,
+            fieldType: exerciseSetData.fieldType,
+            exerciseSetId: exerciseSet.id!,
+          ));
+        }
       }
     }
   }
@@ -246,6 +254,15 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           workoutId: state.workout!.id!,
         ),
       );
+
+      for (var exerciseSetData in event.exerciseSet!.data) {
+        await workoutExerciseSetDataDao.updateWorkoutExerciseSetData(WorkoutExerciseSetData(
+          id: exerciseSetData.id,
+          value: exerciseSetData.value,
+          fieldType: exerciseSetData.fieldType,
+          exerciseSetId: event.exerciseSet!.id!,
+        ));
+      }
     }
   }
 

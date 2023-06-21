@@ -1,18 +1,18 @@
-part of 'complete_bloc.dart';
+part of 'session_bloc.dart';
 
-abstract class CompleteEvent extends Equatable {
-  const CompleteEvent();
+abstract class SessionEvent extends Equatable {
+  const SessionEvent();
 }
 
-class CompleteInitialize extends CompleteEvent {
-  const CompleteInitialize();
+class SessionInitialize extends SessionEvent {
+  const SessionInitialize();
 
   @override
   List<Object?> get props => [];
 }
 
-class CompleteAdd extends CompleteEvent {
-  const CompleteAdd({
+class SessionAdd extends SessionEvent {
+  const SessionAdd({
     required this.workout,
     required this.exerciseBundles,
   });

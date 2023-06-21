@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/widget/LoadingSkeleton.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../template/widget/empty_widget.dart';
-import '../bloc/complete_bloc/complete_bloc.dart';
+import '../bloc/session_bloc/session_bloc.dart';
 import '../model/complete_bundle.dart';
 import 'complete_widget.dart';
 
@@ -13,7 +13,7 @@ class CompleteListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteBloc, CompleteState>(
+    return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if(state.status.isLoading) {
           return SliverList(
@@ -40,7 +40,7 @@ class CompleteListWidget extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               childCount: state.completeBundles.length,
                 (context, index) {
-                CompleteBundle completeBundle  = state.completeBundles[index];
+                SessionBundle completeBundle  = state.completeBundles[index];
                 return Padding(
                   padding: EdgeInsetsDirectional.only(bottom: index == state.completeBundles.length - 1 ? 0 : 12),
                   child: CompleteWidget(

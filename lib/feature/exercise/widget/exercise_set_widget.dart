@@ -147,6 +147,17 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 setState(() {
                   _isChecked = value!;
                 });
+                widget.onExerciseSetUpdate(
+                  exerciseSet.copyWith(checked: value),
+                  /*.copyWith(
+                      options: exerciseSet.options.map(
+                              (e) => e.id == value.id ? value : e
+                      ).toList(),
+                    ),*/
+                );
+                /*if(widget.onExerciseSetToggled != null) {
+                  widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: exerciseSet.checked));
+                }*/
                 /*  if(exerciseSet.option2 == null) {
                     if(option1EditingController.text.isEmpty) {
                       setState(() {_shake = true;});
@@ -173,7 +184,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 }*/
               },
               fillColor: _isChecked ? MaterialStateProperty.all<Color>(
-                  T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.secondary
+                  T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.surface
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6),

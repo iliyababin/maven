@@ -86,7 +86,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
           ),
           Container(
             width: 1,
-            color: T(context).color.secondary,
+            color: T(context).color.outline,
           ),
           SizedBox(
             width: 70,

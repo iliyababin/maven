@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/feature/complete/widget/complete_exercise_history_list_widget.dart';
 import 'package:maven/main.dart';
 
 import '../../../database/model/model.dart';
+import '../../session/widget/complete_exercise_history_list_widget.dart';
 import '../bloc/exercise_bloc.dart';
 import '../widget/exercise_detail_widget.dart';
 

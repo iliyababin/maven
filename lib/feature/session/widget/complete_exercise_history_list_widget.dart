@@ -44,10 +44,10 @@ class _CompleteExerciseHistoryListWidgetState extends State<CompleteExerciseHist
                 );
               },
               itemBuilder: (context, index) {
-                final CompleteBundle completeBundle = state.completeBundles[index];
+                final SessionBundle completeBundle = state.completeBundles[index];
                 return CompleteExerciseWidget(
-                  complete: completeBundle.complete,
-                  completeExerciseSets: completeBundle.completeExerciseBundles[0].completeExerciseSets,
+                  complete: completeBundle.session,
+                  completeExerciseSets: completeBundle.sessionExerciseBundles[0].sessionExerciseSets,
                 );
               },
             ),

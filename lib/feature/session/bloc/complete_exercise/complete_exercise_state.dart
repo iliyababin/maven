@@ -19,11 +19,11 @@ class CompleteExerciseState extends Equatable {
   });
 
   final CompleteExerciseStatus status;
-  final List<CompleteBundle> completeBundles;
+  final List<SessionBundle> completeBundles;
 
   CompleteExerciseState copyWith({
     CompleteExerciseStatus? status,
-    List<CompleteBundle>? completeBundles,
+    List<SessionBundle>? completeBundles,
   }) {
     return CompleteExerciseState(
       status: status ?? this.status,

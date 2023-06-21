@@ -23,25 +23,26 @@ part 'database.g.dart';
 @Database(
   version: 1,
   entities: [
+    Bar,
     Exercise,
+    ExerciseField,
+    Folder,
+    Plate,
+    Program,
+    Session,
+    SessionExerciseGroup,
+    SessionExerciseSet,
+    SessionExerciseSetData,
     Template,
     TemplateExerciseGroup,
     TemplateExerciseSet,
+    TemplateExerciseSetData,
+    TemplateTracker,
+    Setting,
     Workout,
     WorkoutExerciseGroup,
     WorkoutExerciseSet,
     WorkoutExerciseSetData,
-    Session,
-    SessionExerciseGroup,
-    SessionExerciseSet,
-    Plate,
-    Bar,
-    Program,
-    Folder,
-    TemplateTracker,
-    Setting,
-    ExerciseField,
-    TemplateExerciseSetData,
   ],
 )
 @TypeConverters([
@@ -53,32 +54,30 @@ part 'database.g.dart';
   DurationConverter,
 ])
 abstract class MavenDatabase extends FloorDatabase {
+  BarDao get barDao;
   ExerciseDao get exerciseDao;
+  ExerciseFieldDao get exerciseFieldDao;
+  FolderDao get folderDao;
+  PlateDao get plateDao;
+  ProgramDao get programDao;
+  SettingDao get settingDao;
+  SessionDao get sessionDao;
+  SessionExerciseGroupDao get sessionExerciseGroupDao;
+  SessionExerciseSetDao get sessionExerciseSetDao;
+  SessionExerciseSetDataDao get sessionExerciseSetDataDao;
   TemplateDao get templateDao;
   TemplateExerciseGroupDao get templateExerciseGroupDao;
   TemplateExerciseSetDao get templateExerciseSetDao;
   TemplateExerciseSetDataDao get templateExerciseSetDataDao;
-
+  TemplateTrackerDao get templateTrackerDao;
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
   WorkoutExerciseSetDataDao get workoutExerciseSetDataDao;
-  SessionDao get completeDao;
-  SessionExerciseGroupDao get completeExerciseGroupDao;
-  SessionExerciseSetDao get completeExerciseSetDao;
-
-  PlateDao get plateDao;
-  BarDao get barDao;
-  ProgramDao get programDao;
-  FolderDao get folderDao;
-  TemplateTrackerDao get templateTrackerDao;
-  SettingDao get settingDao;
-
-  ExerciseFieldDao get exerciseFieldDao;
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {
-      database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", 2)');
+      database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", 1)');
     },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},
@@ -86,7 +85,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_9.db')
+        .databaseBuilder('maven_db_16.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

@@ -10,14 +10,14 @@ class CompleteDetailScreen extends StatelessWidget {
     required this.completeBundle,
   }) : super(key: key);
 
-  final CompleteBundle completeBundle;
+  final SessionBundle completeBundle;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          completeBundle.complete.name,
+          completeBundle.session.name,
         ),
       ),
       body: Padding(
@@ -27,10 +27,10 @@ class CompleteDetailScreen extends StatelessWidget {
           top: T(context).padding.page,
         ),
         child: ListView.separated(
-          itemCount: completeBundle.completeExerciseBundles.length,
+          itemCount: completeBundle.sessionExerciseBundles.length,
           separatorBuilder: (context, index) => SizedBox(height: 12,),
           itemBuilder: (context, index) {
-            CompleteExerciseBundle completeExerciseBundle = completeBundle.completeExerciseBundles[index];
+            SessionExerciseBundle completeExerciseBundle = completeBundle.sessionExerciseBundles[index];
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -40,10 +40,10 @@ class CompleteDetailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 2,),
                 ListView.builder(
-                  itemCount: completeExerciseBundle.completeExerciseSets.length,
+                  itemCount: completeExerciseBundle.sessionExerciseSets.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    SessionExerciseSet completeExerciseSet = completeExerciseBundle.completeExerciseSets[index];
+                    SessionExerciseSet completeExerciseSet = completeExerciseBundle.sessionExerciseSets[index];
                     return RichText(
                       text: TextSpan(
                         style: T(context).textStyle.subtitle1,

@@ -84,7 +84,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           icon: const Icon(
                             Icons.post_add,
                           ),
-                          label: Text(
+                          label: const Text(
                             'Create Template',
                           ),
                         ),

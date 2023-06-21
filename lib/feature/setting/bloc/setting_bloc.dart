@@ -26,7 +26,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
     String languageCode = await settingDao.getLanguageCode() ?? 'en';
     String countryCode = await settingDao.getCountryCode() ?? 'US';
-    int? themeId = await settingDao.getThemeId() ?? 0;
+    int? themeId = await settingDao.getThemeId() ?? 1;
 
     emit(state.copyWith(
       status: SettingStatus.loaded,

@@ -12,7 +12,7 @@ class CompleteWidget extends StatelessWidget {
     required this.completeBundle,
   }) : super(key: key);
 
-  final CompleteBundle completeBundle;
+  final SessionBundle completeBundle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,12 @@ class CompleteWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                completeBundle.complete.name,
+                completeBundle.session.name,
                 style: T(context).textStyle.heading3,
               ),
               SizedBox(height: 5,),
               Text(
-                DateFormat.yMMMMEEEEd().format(completeBundle.complete.timestamp).toString(),
+                DateFormat.yMMMMEEEEd().format(completeBundle.session.timestamp).toString(),
                 style: T(context).textStyle.subtitle2,
               ),
               SizedBox(height: 10,),
@@ -56,7 +56,7 @@ class CompleteWidget extends StatelessWidget {
                   ),
                   SizedBox(width: 5,),
                   Text(
-                    durationToTime(completeBundle.complete.duration),
+                    durationToTime(completeBundle.session.duration),
                     style: T(context).textStyle.body1,
                   ),
                   SizedBox(width: 20,),
@@ -74,13 +74,13 @@ class CompleteWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 12,),
-              completeBundle.completeExerciseBundles.isNotEmpty ? ListView.builder(
-                itemCount: completeBundle.completeExerciseBundles.length,
+              completeBundle.sessionExerciseBundles.isNotEmpty ? ListView.builder(
+                itemCount: completeBundle.sessionExerciseBundles.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  CompleteExerciseBundle completeExerciseBundle = completeBundle.completeExerciseBundles[index];
+                  SessionExerciseBundle completeExerciseBundle = completeBundle.sessionExerciseBundles[index];
                   return Text(
-                    '${completeExerciseBundle.completeExerciseSets.length} x ${completeExerciseBundle.exercise.name}',
+                    '${completeExerciseBundle.sessionExerciseSets.length} x ${completeExerciseBundle.exercise.name}',
                     style: T(context).textStyle.subtitle1,
                   );
                 },

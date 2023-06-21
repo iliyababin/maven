@@ -88,7 +88,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
 
         Container(
           height: 2,
-          color: T(context).color.secondary,
+          color: T(context).color.outline,
         ),
 
         Expanded(

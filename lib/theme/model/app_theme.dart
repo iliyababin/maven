@@ -80,6 +80,9 @@ class AppTheme extends Equatable {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
+          textStyle: MaterialStateProperty.all(
+            options.textStyle.button1,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -134,7 +137,7 @@ class AppTheme extends Equatable {
         color: options.color.primary,
       ),
       listTileTheme: ListTileThemeData(
-        contentPadding: const EdgeInsets.only(left: 20, right: 20),
+        contentPadding: const EdgeInsets.only(left: 24, right: 24),
         iconColor: options.color.primary,
       ),
       checkboxTheme: CheckboxThemeData(
@@ -176,7 +179,7 @@ class AppTheme extends Equatable {
         options,
       ];
 
- /* static const AppTheme light = AppTheme(
+  static const AppTheme light = AppTheme(
     id: 1,
     name: 'Light',
     path: 'assets/images/light.jpg',
@@ -193,10 +196,10 @@ class AppTheme extends Equatable {
         onSecondaryContainer: Color(0xFF282828),
 
         background: Color(0xffffffff),
-        outline: Color(0xFF2A2A2A),
-        outlineVariant: Color(0xFF979797),
+        onBackground: Color(0xff000000),
+        outline: Color(0xFFDCDCDC),
+        outlineVariant: Color(0xFFB9B9B9),
 
-        text: Color(0xff282828),
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF2DCD70),
@@ -205,9 +208,12 @@ class AppTheme extends Equatable {
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
         cooldown: Color(0xFF21F3F3),
+
+        surface: Color(0xffe8e8e8),
+        onSurface: Color(0xFF001f25),
       ),
     ),
-  );*/
+  );
 
   /*static const AppTheme dark = AppTheme(
     id: 2,
@@ -244,7 +250,7 @@ class AppTheme extends Equatable {
   );*/
 
   static const AppTheme solarFlare = AppTheme(
-    id: 3,
+    id: 2,
     name: 'Solar flare',
     path: 'assets/images/solar_flare.jpg',
     options: ThemeOptions(
@@ -281,7 +287,7 @@ class AppTheme extends Equatable {
   );
 
   static const AppTheme nature = AppTheme(
-    id: 4,
+    id: 3,
     name: 'Nature',
     path: 'assets/images/nature.jpg',
     options: ThemeOptions(
@@ -317,36 +323,9 @@ class AppTheme extends Equatable {
     ),
   );
 
-/*
-  static const AppTheme roseGold = AppTheme(
-    id: 5,
-    name: 'Rose Gold',
-    path: 'assets/images/rose_gold.jpg',
-    options: ThemeOptions(
-      color: ColorOptions(
-        primary: Color(0xFFE91E63),
-        secondary: Color(0xFFE91E63),
-        background: Color(0xFFFAF0E6),
-        text: Color(0xFF212121),
-        subtext: Color(0xFF757575),
-        neutral: Color(0xFFFFFFFF),
-        success: Color(0xFFAF4C4C),
-        error: Color(0xFFDD614A),
-        shadow: Color(0xFFBDBDBD),
-        warmup: Color(0xFFFFAE00),
-        drop: Color(0xFFBD4ADD),
-        cooldown: Color(0xFF21F3F3),
-      ),
-    ),
-  );
-*/
   static const List<AppTheme> themes = [
-    /*light,
-    dark,
-    solarFlare,*/
+    light,
     nature,
     solarFlare,
-    /*nature,
-    roseGold,*/
   ];
 }

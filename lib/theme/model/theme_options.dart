@@ -37,17 +37,7 @@ class ThemeOptions {
   }
 
   TextStyleOptions get textStyle {
-    return TextStyleOptions(
-      heading1: _colorOptions.onBackground,
-      heading2: _colorOptions.onBackground,
-      heading3: _colorOptions.onBackground,
-      heading4: _colorOptions.onBackground,
-      body1: _colorOptions.onBackground,
-      subtitle1: _colorOptions.subtext,
-      subtitle2: _colorOptions.primary,
-      button1: _colorOptions.background,
-      button2: _colorOptions.primary,
-    );
+    return TextStyleOptions();
   }
 
   PaddingOptions get padding {

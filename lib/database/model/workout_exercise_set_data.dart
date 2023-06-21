@@ -18,6 +18,7 @@ import '../database.dart';
 )
 class WorkoutExerciseSetData extends ExerciseSetData {
   WorkoutExerciseSetData({
+    super.id,
     required super.value,
     required super.fieldType,
     required super.exerciseSetId,

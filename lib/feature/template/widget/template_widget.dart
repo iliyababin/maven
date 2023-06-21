@@ -38,11 +38,12 @@ class _TemplateWidgetState extends State<TemplateWidget> {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: T(context).color.surface,
+          //color: T(context).color.surface,
+
           borderRadius: BorderRadius.circular(_borderRadius),
-          /*border: Border.all(
-            color: T(context).color.secondary,
-          ),*/
+          border: Border.all(
+            color: T(context).color.outline,
+          ),
         ),
         padding: const EdgeInsets.all(15.0),
         child: Row(

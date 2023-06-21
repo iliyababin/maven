@@ -14,10 +14,10 @@ import '../../../database/model/exercise.dart';
 import '../../../database/model/exercise_group.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../complete/bloc/complete_bloc/complete_bloc.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
+import '../../session/bloc/session_bloc/session_bloc.dart';
 import '../bloc/workout/workout_bloc.dart';
 import '../widget/exercise_timer_widget.dart';
 
@@ -189,21 +189,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       ExerciseTimerWidget(
                               controller: exerciseTimerController,
                             ),
-
                     ],
                   ),
                 ),
                 const SizedBox(width: 8,),
                 MButton(
                   onPressed: (){
-                    context.read<CompleteBloc>().add(CompleteAdd(
+                    context.read<SessionBloc>().add(SessionAdd(
                       workout: workout,
                       exerciseBundles: exerciseBundles,
                     ));
                     context.read<WorkoutBloc>().add(WorkoutFinish());
-                    /*context.read<WorkoutDetailBloc>().add(const WorkoutDetailUpdate(
-                              exerciseBundles: [],
-                          ));*/
                   },
                   height: 38,
                   width: 84,

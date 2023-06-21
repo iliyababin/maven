@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:maven/feature/complete/model/complete_exercise_bundle.dart';
 
 import '../../../../database/database.dart';
 import '../../model/complete_bundle.dart';
+import '../../model/complete_exercise_bundle.dart';
 
 part 'complete_exercise_event.dart';
 part 'complete_exercise_state.dart';
@@ -37,19 +37,19 @@ class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseS
 
     List<SessionExerciseGroup> completeExerciseGroups = await _completeExerciseGroupDao.getSessionExerciseGroupsByExerciseId(event.exerciseId);
 
-    List<CompleteBundle> completeBundles = [];
+    List<SessionBundle> completeBundles = [];
 
     for (SessionExerciseGroup completeExerciseGroup in completeExerciseGroups) {
       Session? complete = await _sessionDao.getSession(completeExerciseGroup.sessionId);
       if (complete == null) continue;
       List<SessionExerciseSet> completeExerciseSets =
           await _completeExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(completeExerciseGroup.id!);
-      completeBundles.add(CompleteBundle(
-        complete: complete,
-        completeExerciseBundles: [
-          CompleteExerciseBundle(
-            completeExerciseGroup: completeExerciseGroup,
-            completeExerciseSets: completeExerciseSets,
+      completeBundles.add(SessionBundle(
+        session: complete,
+        sessionExerciseBundles: [
+          SessionExerciseBundle(
+            sessionExerciseGroup: completeExerciseGroup,
+            sessionExerciseSets: completeExerciseSets,
             exercise: Exercise.empty,
           ),
         ],

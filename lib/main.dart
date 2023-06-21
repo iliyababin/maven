@@ -5,12 +5,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'database/database.dart';
 import 'feature/app/screen/maven.dart';
-import 'feature/complete/bloc/complete_bloc/complete_bloc.dart';
-import 'feature/complete/bloc/complete_exercise/complete_exercise_bloc.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/program/bloc/program_detail/program_detail_bloc.dart';
+import 'feature/session/bloc/complete_exercise/complete_exercise_bloc.dart';
+import 'feature/session/bloc/session_bloc/session_bloc.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
@@ -58,9 +58,9 @@ void main() async {
                 workoutExerciseSetDataDao: db.workoutExerciseSetDataDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
-                completeDao: db.completeDao,
-                completeExerciseGroupDao: db.completeExerciseGroupDao,
-                completeExerciseSetDao: db.completeExerciseSetDao,
+                completeDao: db.sessionDao,
+                completeExerciseGroupDao: db.sessionExerciseGroupDao,
+                completeExerciseSetDao: db.sessionExerciseSetDao,
                 templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const WorkoutInitialize())),
       BlocProvider(
@@ -85,18 +85,19 @@ void main() async {
                 templateTrackerDao: db.templateTrackerDao,
               )..add(ProgramDetailInitialize())),
       BlocProvider(
-          create: (context) => CompleteBloc(
-                sessionDao: db.completeDao,
+          create: (context) => SessionBloc(
+                sessionDao: db.sessionDao,
                 exerciseDao: db.exerciseDao,
-                completeExerciseGroupDao: db.completeExerciseGroupDao,
-                completeExerciseSetDao: db.completeExerciseSetDao,
+                sessionExerciseGroupDao: db.sessionExerciseGroupDao,
+                sessionExerciseSetDao: db.sessionExerciseSetDao,
+                sessionExerciseSetDataDao: db.sessionExerciseSetDataDao,
                 workoutDao: db.workoutDao,
-              )..add(const CompleteInitialize())),
+              )..add(const SessionInitialize())),
       BlocProvider(
           create: (context) => CompleteExerciseBloc(
-                completeDao: db.completeDao,
-                completeExerciseGroupDao: db.completeExerciseGroupDao,
-                completeExerciseSetDao: db.completeExerciseSetDao,
+                completeDao: db.sessionDao,
+                completeExerciseGroupDao: db.sessionExerciseGroupDao,
+                completeExerciseSetDao: db.sessionExerciseSetDao,
               )..add(const CompleteExerciseInitialize())),
       BlocProvider(
           create: (context) => SettingBloc(

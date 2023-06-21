@@ -45,10 +45,11 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          const ListTile(
+          ListTile(
             visualDensity: VisualDensity.compact,
             title: Text(
               'Basic',
+              style: T(context).textStyle.heading4,
             ),
           ),
           ListTile(
