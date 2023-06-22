@@ -5,7 +5,7 @@ import 'package:maven/main.dart';
 import '../../../database/model/model.dart';
 import '../../session/widget/complete_exercise_history_list_widget.dart';
 import '../bloc/exercise_bloc.dart';
-import '../widget/exercise_detail_widget.dart';
+import '../view/exercise_detail_view.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
   const ExerciseDetailScreen({
@@ -59,7 +59,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
               body: TabBarView(
                 physics: CustomScrollBehavior().getScrollPhysics(context),
                 children: [
-                  ExerciseDetailWidget(exercise: exercise),
+                  ExerciseDetailView(exercise: exercise),
                   CompleteExerciseHistoryListWidget(exercise: exercise),
                   ListView(),
                   ListView(),

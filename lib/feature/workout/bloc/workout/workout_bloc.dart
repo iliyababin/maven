@@ -102,6 +102,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         timer: templateExerciseGroup.timer,
         barId: templateExerciseGroup.barId,
         weightUnit: templateExerciseGroup.weightUnit,
+        distanceUnit: templateExerciseGroup.distanceUnit,
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
       ));
@@ -289,6 +290,7 @@ WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int wor
     id: exerciseGroup.id,
     timer: exerciseGroup.timer,
     weightUnit: exerciseGroup.weightUnit,
+    distanceUnit: exerciseGroup.distanceUnit,
     barId: exerciseGroup.barId,
     exerciseId: exerciseGroup.exerciseId,
     workoutId: workoutId,

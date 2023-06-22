@@ -9,6 +9,7 @@ class ExerciseGroup extends Equatable {
     this.id,
     required this.timer,
     this.weightUnit,
+    required this.distanceUnit,
     required this.exerciseId,
     this.barId,
   });
@@ -23,6 +24,9 @@ class ExerciseGroup extends Equatable {
   @ColumnInfo(name: 'weight_unit')
   final WeightUnit? weightUnit;
 
+  @ColumnInfo(name: 'distance_unit')
+  final DistanceUnit? distanceUnit;
+
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
 
@@ -33,6 +37,7 @@ class ExerciseGroup extends Equatable {
     int? id,
     Timed? timer,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     int? exerciseId,
     int? barId,
   }) {
@@ -40,6 +45,7 @@ class ExerciseGroup extends Equatable {
       id: id ?? this.id,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       exerciseId: exerciseId ?? this.exerciseId,
       barId: barId ?? this.barId,
     );
@@ -50,6 +56,7 @@ class ExerciseGroup extends Equatable {
         id,
         timer,
         weightUnit,
+        distanceUnit,
         exerciseId,
         barId,
       ];

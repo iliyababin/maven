@@ -31,6 +31,7 @@ class SessionExerciseGroup extends ExerciseGroup {
     super.id,
     required super.timer,
     required super.weightUnit,
+    required super.distanceUnit,
     required super.exerciseId,
     required super.barId,
     required this.order,
@@ -50,6 +51,7 @@ class SessionExerciseGroup extends ExerciseGroup {
     Timed? timer,
     int? exerciseId,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     int? order,
     int? sessionId,
   }) {
@@ -59,6 +61,7 @@ class SessionExerciseGroup extends ExerciseGroup {
       timer: timer ?? this.timer,
       exerciseId: exerciseId ?? this.exerciseId,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       order: order ?? this.order,
       sessionId: sessionId ?? this.sessionId,
     );

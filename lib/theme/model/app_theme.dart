@@ -58,6 +58,7 @@ class AppTheme extends Equatable {
         tertiary: Colors.yellow,
         tertiaryContainer: Colors.yellow,
 
+        //TODO: Add these colors
         inversePrimary: Colors.purple,
         inverseSurface: Colors.purple,
         onInverseSurface: Colors.purple,

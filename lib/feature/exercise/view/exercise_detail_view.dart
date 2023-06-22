@@ -9,8 +9,8 @@ import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../bloc/exercise_bloc.dart';
 
-class ExerciseDetailWidget extends StatefulWidget {
-  const ExerciseDetailWidget({
+class ExerciseDetailView extends StatefulWidget {
+  const ExerciseDetailView({
     super.key,
     required this.exercise,
   });
@@ -18,10 +18,10 @@ class ExerciseDetailWidget extends StatefulWidget {
   final Exercise exercise;
 
   @override
-  State<ExerciseDetailWidget> createState() => _ExerciseDetailWidgetState();
+  State<ExerciseDetailView> createState() => _ExerciseDetailViewState();
 }
 
-class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
+class _ExerciseDetailViewState extends State<ExerciseDetailView> {
   late final VideoPlayerController _controller;
 
   @override
@@ -48,18 +48,15 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
     return ListView(
       children: [
         Padding(
-          padding: EdgeInsets.only(
-            top: T(context).padding.page,
-            right: T(context).padding.page,
-            left: T(context).padding.page,
-            bottom: T(context).padding.page / 2,
+          padding: EdgeInsets.all(
+            T(context).padding.page,
           ),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                  width: 2,
+                  width: 1,
                   color: T(context).color.outline,
-                  style: BorderStyle.solid
+                  style: BorderStyle.solid,
               ),
               borderRadius: BorderRadiusDirectional.circular(12),
             ),
@@ -71,28 +68,9 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
               ) : Container(
                   height: 200,
                   alignment: Alignment.center,
-                  child: const CircularProgressIndicator()
+                  child: const CircularProgressIndicator(),
               ),
             ),
-          ),
-        ),
-        ListTile(
-          onTap: () {},
-          leading: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.health_and_safety,
-              ),
-            ],
-          ),
-          title: Text(
-            'Muscle',
-            style: T(context).textStyle.bodyLarge,
-          ),
-          subtitle: Text(
-            widget.exercise.muscleGroup.name.capitalize(),
-            style: T(context).textStyle.subtitle1,
           ),
         ),
         ListTile(
@@ -106,11 +84,30 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             ],
           ),
           title: Text(
-            'Musculus',
+            'Muscle',
             style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             widget.exercise.muscle.name.parseMuscleToString(),
+            style: T(context).textStyle.subtitle1,
+          ),
+        ),
+        ListTile(
+          onTap: () {},
+          leading: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.health_and_safety,
+              ),
+            ],
+          ),
+          title: Text(
+            'Muscle Group',
+            style: T(context).textStyle.bodyLarge,
+          ),
+          subtitle: Text(
+            widget.exercise.muscleGroup.name.capitalize(),
             style: T(context).textStyle.subtitle1,
           ),
         ),
@@ -192,6 +189,20 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           subtitle: Text(
             widget.exercise.weightUnit!.name.toString().capitalize(),
+            style: T(context).textStyle.subtitle1,
+          ),
+        ) : Container(),
+        widget.exercise.distanceUnit != null ? ListTile(
+          onTap: (){},
+          leading: const Icon(
+            Icons.directions_run,
+          ),
+          title: Text(
+            'Distance Unit',
+            style: T(context).textStyle.bodyLarge,
+          ),
+          subtitle: Text(
+            widget.exercise.distanceUnit!.name.toString().capitalize(),
             style: T(context).textStyle.subtitle1,
           ),
         ) : Container(),

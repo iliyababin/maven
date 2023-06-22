@@ -28,6 +28,7 @@ class Exercise extends Equatable {
     required this.timer,
     this.barId,
     this.weightUnit,
+    this.distanceUnit,
     this.fields = const [],
   });
 
@@ -59,6 +60,9 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'weight_unit')
   final WeightUnit? weightUnit;
 
+  @ColumnInfo(name: 'distance_unit')
+  final DistanceUnit? distanceUnit;
+
   @ignore
   final List<ExerciseField> fields;
 
@@ -73,6 +77,7 @@ class Exercise extends Equatable {
         timer,
         barId,
         weightUnit,
+        distanceUnit,
       ];
 
   static Exercise empty = Exercise(
@@ -85,7 +90,7 @@ class Exercise extends Equatable {
   );
 
   Exercise copyWith({
-    int? exerciseId,
+    int? id,
     String? name,
     Muscle? muscle,
     MuscleGroup? muscleGroup,
@@ -94,10 +99,11 @@ class Exercise extends Equatable {
     Timed? timer,
     int? barId,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     List<ExerciseField>? fields,
   }) {
     return Exercise(
-      id: exerciseId ?? this.id,
+      id: id ?? this.id,
       name: name ?? this.name,
       muscle: muscle ?? this.muscle,
       muscleGroup: muscleGroup ?? this.muscleGroup,
@@ -106,6 +112,7 @@ class Exercise extends Equatable {
       barId: barId ?? this.barId,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       fields: fields ?? this.fields,
     );
   }

@@ -67,6 +67,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         sessionId: completeId,
         timer: exerciseBundle.exerciseGroup.timer,
         weightUnit: exerciseBundle.exerciseGroup.weightUnit,
+        distanceUnit: exerciseBundle.exerciseGroup.distanceUnit,
       ));
       print(completeExerciseGroupId);
 

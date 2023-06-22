@@ -50,6 +50,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         timer: exerciseBlock.exerciseGroup.timer,
         exerciseId: exerciseBlock.exercise.id!,
         weightUnit: exerciseBlock.exerciseGroup.weightUnit,
+        distanceUnit: exerciseBlock.exerciseGroup.distanceUnit,
         templateId: templateId,
         barId: exerciseBlock.exerciseGroup.barId,
       ));

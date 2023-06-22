@@ -243,7 +243,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
       case ExerciseFieldType.reps:
         return type.name.toUpperCase();
       case ExerciseFieldType.distance:
-        return type.name.toUpperCase();
+        return exerciseGroup.distanceUnit!.name.toUpperCase();
       case ExerciseFieldType.assisted:
         return '- ${exerciseGroup.weightUnit!.name.toUpperCase()}';
       case ExerciseFieldType.weighted:

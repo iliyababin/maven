@@ -144,44 +144,15 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             child: Checkbox(
               value: _isChecked,
               onChanged: (value) async {
-                setState(() {
-                  _isChecked = value!;
-                });
-                widget.onExerciseSetToggled!(
-                  exerciseSet.copyWith(checked: value),
-                  /*.copyWith(
-                      options: exerciseSet.options.map(
-                              (e) => e.id == value.id ? value : e
-                      ).toList(),
-                    ),*/
-                );
-                /*if(widget.onExerciseSetToggled != null) {
-                  widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: exerciseSet.checked));
-                }*/
-                /*  if(exerciseSet.option2 == null) {
-                    if(option1EditingController.text.isEmpty) {
-                      setState(() {_shake = true;});
-                      await Future.delayed(const Duration(milliseconds: 500));
-                      setState(() {_shake = false;});
-                      return;
-                    }
-                  } else {
-                    if(option1EditingController.text.isEmpty || option2EditingController.text.isEmpty) {
-                      setState(() {_shake = true;});
-                      await Future.delayed(const Duration(milliseconds: 500));
-                      setState(() {_shake = false;});
-                      return;
-                    }
-                  }*/
-                //TODO WHATEVER
-                /*if(exerciseSet.option1 != 0) {
+                if(exerciseSet.data.any((element) => element.value.isEmpty)) {
+                } else {
                   setState(() {
-                    _isChecked = !_isChecked;
+                    _isChecked = value!;
                   });
-                  if(widget.onExerciseSetToggled != null) {
-                    widget.onExerciseSetToggled!(exerciseSet.copyWith(checked: exerciseSet.checked));
-                  }
-                }*/
+                  widget.onExerciseSetToggled!(
+                    exerciseSet.copyWith(checked: value),
+                  );
+                }
               },
               fillColor: _isChecked ? MaterialStateProperty.all<Color>(
                   T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.surface

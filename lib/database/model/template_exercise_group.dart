@@ -1,11 +1,7 @@
 import 'package:floor/floor.dart';
-import 'package:maven/database/model/exercise_group.dart';
+import 'package:maven/database/database.dart';
 
 import '../../common/model/timed.dart';
-import '../enum/weight_unit.dart';
-import 'bar.dart';
-import 'exercise.dart';
-import 'template.dart';
 
 @Entity(
   tableName: 'template_exercise_group',
@@ -36,6 +32,7 @@ class TemplateExerciseGroup extends ExerciseGroup {
     super.id,
     required super.timer,
     required super.weightUnit,
+    required super.distanceUnit,
     required super.barId,
     required super.exerciseId,
     required this.templateId,
@@ -49,6 +46,7 @@ class TemplateExerciseGroup extends ExerciseGroup {
     int? id,
     Timed? timer,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     int? barId,
     int? exerciseId,
     int? templateId,
@@ -57,6 +55,7 @@ class TemplateExerciseGroup extends ExerciseGroup {
       id: id ?? this.id,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
       templateId: templateId ?? this.templateId,

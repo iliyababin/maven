@@ -88,6 +88,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 barId: exercise.barId,
                                 timer: Timed(hour: 0, minute: 0, second: 0),
                                 weightUnit: WeightUnit.lbs,
+                                distanceUnit: exercise.distanceUnit,
                             ))).toList();
 
                             setState(() {

@@ -65,6 +65,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.machine,
     videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
     timer: Timed.zero(),
+    distanceUnit: DistanceUnit.mile,
   ),
   Exercise(
     id: 7,
@@ -76,5 +77,6 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
     barId: 3,
     weightUnit: WeightUnit.lbs,
+    distanceUnit: DistanceUnit.feet,
   ),
 ];

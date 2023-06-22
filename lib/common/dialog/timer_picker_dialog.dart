@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:maven/common/widget/m_button.dart';
+import 'package:flutter/material.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
 import '../model/timed.dart';
@@ -103,34 +103,32 @@ class TimedPickerDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
 
-              MButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-
-                expand: true,
-                backgroundColor: T(context).color.background,
-                borderColor: T(context).color.secondary,
-                child: Text(
-                  'Cancel',
-                  style: T(context).textStyle.bodyLarge,
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: T(context).textStyle.bodyLarge,
+                  ),
                 ),
               ),
 
               const SizedBox(width: 16,),
 
-              MButton(
-                onPressed: (){
-                  if(onSubmit != null) {
-                    onSubmit!(initialValue);
-                    Navigator.pop(context);
-                  }
-                },
-                backgroundColor: T(context).color.primary,
-                borderRadius: 12,
-                child: Text(
-                  'Submit',
-                  style: T(context).textStyle.labelLarge,
+              Expanded(
+                child: FilledButton(
+                  onPressed: (){
+                    if(onSubmit != null) {
+                      onSubmit!(initialValue);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(
+                    'Submit',
+                    style: T(context).textStyle.labelLarge,
+                  ),
                 ),
               ),
             ],
