@@ -27,6 +27,7 @@ class Exercise extends Equatable {
     required this.videoPath,
     required this.timer,
     this.barId,
+    this.weightUnit,
     this.fields = const [],
   });
 
@@ -55,6 +56,9 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
+  @ColumnInfo(name: 'weight_unit')
+  final WeightUnit? weightUnit;
+
   @ignore
   final List<ExerciseField> fields;
 
@@ -68,6 +72,7 @@ class Exercise extends Equatable {
         videoPath,
         timer,
         barId,
+        weightUnit,
       ];
 
   static Exercise empty = Exercise(
@@ -88,6 +93,7 @@ class Exercise extends Equatable {
     String? videoPath,
     Timed? timer,
     int? barId,
+    WeightUnit? weightUnit,
     List<ExerciseField>? fields,
   }) {
     return Exercise(
@@ -99,6 +105,7 @@ class Exercise extends Equatable {
       videoPath: videoPath ?? this.videoPath,
       barId: barId ?? this.barId,
       timer: timer ?? this.timer,
+      weightUnit: weightUnit ?? this.weightUnit,
       fields: fields ?? this.fields,
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/widget/m_button.dart';
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../workout/widget/active_exercise_row.dart';
@@ -77,42 +76,45 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
       children: [
         Row(
           children: [
-            MButton(
-              onPressed: () {},
-              height: 40,
-              leading: const SizedBox(width: 12),
-              mainAxisAlignment: MainAxisAlignment.start,
-              splashColor: T(context).color.primary.withAlpha(50),
-              child: Text(
-                widget.exercise.name,
-                style: T(context).textStyle.subtitle2.copyWith(
+            Expanded(
+              child: Container(
+                height: 40,
+                child: TextButton(
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  child: Text(
+                    widget.exercise.name,
+                    style: T(context).textStyle.subtitle2.copyWith(
                       color: T(context).color.primary,
                     ),
+                  ),
+                ),
               ),
             ),
-            MButton(
+            IconButton(
               onPressed: (){
                 showBottomSheetDialog(
-                  context: context,
-                  child: ExerciseGroupMenu(
-                    exercise: widget.exercise,
-                    exerciseGroup: widget.exerciseGroup,
-                    onExerciseGroupUpdate: (value) {
-                      widget.onExerciseGroupUpdate(value);
-                    },
-                    onExerciseGroupDelete: () {
-                      widget.onExerciseGroupDelete();
-                    },
-                  ),
-                  onClose: (){}
+                    context: context,
+                    child: ExerciseGroupMenu(
+                      exercise: widget.exercise,
+                      exerciseGroup: widget.exerciseGroup,
+                      onExerciseGroupUpdate: (value) {
+                        widget.onExerciseGroupUpdate(value);
+                      },
+                      onExerciseGroupDelete: () {
+                        widget.onExerciseGroupDelete();
+                      },
+                    ),
+                    onClose: (){}
                 );
               },
-              width: 45,
-              height: 40,
-              child: const Icon(
+              icon: const Icon(
                 Icons.more_horiz_rounded,
               ),
-            )
+            ),
           ],
         ),
         ActiveExerciseRow.build(
@@ -156,6 +158,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   SlidableAction(
                     onPressed: (BuildContext context) {
                     },
+                    padding: EdgeInsets.zero,
                     icon: Icons.timer,
                     foregroundColor: T(context).color.primary,
                     backgroundColor: T(context).color.background,
@@ -165,6 +168,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                       ExerciseSet exerciseSet = widget.exerciseSets[index];
                       widget.onExerciseSetDelete(exerciseSet);
                     },
+                    padding: EdgeInsets.zero,
                     icon: Icons.delete,
                     foregroundColor: T(context).color.error,
                     backgroundColor: T(context).color.background,
@@ -182,7 +186,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 onExerciseSetToggled: (value) {
                   if(widget.onExerciseSetToggled != null) {
                     widget.onExerciseSetToggled!(value);
-                    if(value.checked == 1 && widget.controller != null) {
+                    if(value.checked == true && widget.controller != null) {
                       widget.controller!.startTimer(widget.exerciseGroup.timer);
                     }
                   }
@@ -219,7 +223,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             icon: const Icon(
               Icons.add_rounded,
             ),
-            label: Text(
+            label: const Text(
               'Add Set',
               style: TextStyle(
                 height: 1.1,
@@ -235,15 +239,15 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
   String generateTitle(ExerciseFieldType type, ExerciseGroup exerciseGroup) {
     switch (type) {
       case ExerciseFieldType.weight:
-        return exerciseGroup.weightUnit.name.toUpperCase();
+        return exerciseGroup.weightUnit!.name.toUpperCase();
       case ExerciseFieldType.reps:
         return type.name.toUpperCase();
       case ExerciseFieldType.distance:
         return type.name.toUpperCase();
       case ExerciseFieldType.assisted:
-        return '- ${exerciseGroup.weightUnit.name.toUpperCase()}';
+        return '- ${exerciseGroup.weightUnit!.name.toUpperCase()}';
       case ExerciseFieldType.weighted:
-        return '+ ${exerciseGroup.weightUnit.name.toUpperCase()}';
+        return '+ ${exerciseGroup.weightUnit!.name.toUpperCase()}';
       default:
         return '';
     }

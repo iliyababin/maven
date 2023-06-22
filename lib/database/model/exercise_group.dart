@@ -8,7 +8,7 @@ class ExerciseGroup extends Equatable {
   const ExerciseGroup({
     this.id,
     required this.timer,
-    required this.weightUnit,
+    this.weightUnit,
     required this.exerciseId,
     this.barId,
   });
@@ -21,7 +21,7 @@ class ExerciseGroup extends Equatable {
   final Timed timer;
 
   @ColumnInfo(name: 'weight_unit')
-  final WeightUnit weightUnit;
+  final WeightUnit? weightUnit;
 
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;

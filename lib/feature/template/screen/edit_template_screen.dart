@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/database/enum/weight_unit.dart';
 
 import '../../../database/enum/exercise_set_type.dart';
 import '../../../database/model/model.dart';
@@ -221,7 +220,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     timer: exercise.timer,
                     exerciseId: exercise.id!,
                     barId: exercise.barId,
-                    weightUnit: WeightUnit.lbs,
+                    weightUnit: exercise.weightUnit,
                   ),
                   exerciseSets: [
                     ExerciseSet(

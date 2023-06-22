@@ -80,7 +80,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
           title: 'Bar Type',
         ) : Container(),
-        MButton.tiled(
+        exercise.weightUnit != null ? MButton.tiled(
           onPressed: () {
             Navigator.pop(context);
             showBottomSheetDialog(
@@ -112,10 +112,10 @@ class ExerciseGroupMenu extends StatelessWidget {
           leading: const Icon(Icons.scale),
           title: 'Weight Unit',
           trailing: Text(
-            exerciseGroup.weightUnit.name.toString(),
+            exerciseGroup.weightUnit?.name.toString() ?? '',
             style: T(context).textStyle.subtitle1,
           ),
-        ),
+        ) : Container(),
         MButton.tiled(
           onPressed: (){
             Navigator.pop(context);

@@ -43,7 +43,7 @@ class ExerciseSetData {
       case ExerciseFieldType.reps:
         return value;
       case ExerciseFieldType.weight:
-        return removeTrailingZeros(value) + exerciseGroup.weightUnit.name;
+        return removeTrailingZeros(value) + exerciseGroup.weightUnit!.name;
       case ExerciseFieldType.duration:
         return '$value seconds';
       case ExerciseFieldType.distance:

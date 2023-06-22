@@ -181,6 +181,20 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
             style: T(context).textStyle.subtitle1,
           ),
         ),
+        widget.exercise.weightUnit != null ? ListTile(
+          onTap: (){},
+          leading: const Icon(
+            Icons.scale,
+          ),
+          title: Text(
+            'Weight Unit',
+            style: T(context).textStyle.bodyLarge,
+          ),
+          subtitle: Text(
+            widget.exercise.weightUnit!.name.toString().capitalize(),
+            style: T(context).textStyle.subtitle1,
+          ),
+        ) : Container(),
       ],
     );
   }

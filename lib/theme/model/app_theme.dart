@@ -72,6 +72,15 @@ class AppTheme extends Equatable {
       ),
       typography: Typography.material2021(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(

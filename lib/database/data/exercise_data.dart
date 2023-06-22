@@ -15,6 +15,7 @@ List<Exercise> getDefaultExercises() => [
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
     timer: Timed.zero(),
     barId: 1,
+    weightUnit: WeightUnit.lbs,
   ),
   Exercise(
     id: 2,
@@ -25,6 +26,7 @@ List<Exercise> getDefaultExercises() => [
     videoPath: 'assets/exercises/videos/barbell_bench_press.mp4',
     timer: Timed.zero(),
     barId: 1,
+    weightUnit: WeightUnit.lbs,
   ),
   Exercise(
     id: 3,
@@ -43,6 +45,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.machine,
     videoPath: 'assets/exercises/videos/barbell_squat.mp4',
     timer: Timed.zero(),
+    weightUnit: WeightUnit.lbs,
   ),
   Exercise(
     id: 5,
@@ -52,6 +55,7 @@ List<Exercise> getDefaultExercises() => [
     equipment: Equipment.dumbbell,
     videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
     timer: Timed.zero(),
+    weightUnit: WeightUnit.lbs,
   ),
   Exercise(
     id: 6,
@@ -71,5 +75,6 @@ List<Exercise> getDefaultExercises() => [
     videoPath: 'assets/exercises/videos/dumbell_curl.mp4',
     timer: Timed.zero(),
     barId: 3,
+    weightUnit: WeightUnit.lbs,
   ),
 ];

@@ -147,7 +147,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 setState(() {
                   _isChecked = value!;
                 });
-                widget.onExerciseSetUpdate(
+                widget.onExerciseSetToggled!(
                   exerciseSet.copyWith(checked: value),
                   /*.copyWith(
                       options: exerciseSet.options.map(

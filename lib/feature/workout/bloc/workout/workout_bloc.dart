@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/dao/dao.dart';
-import '../../../../database/enum/weight_unit.dart';
 import '../../../../database/model/model.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 
@@ -102,7 +101,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
         timer: templateExerciseGroup.timer,
         barId: templateExerciseGroup.barId,
-        weightUnit: WeightUnit.lbs,
+        weightUnit: templateExerciseGroup.weightUnit,
         exerciseId: templateExerciseGroup.exerciseId,
         workoutId: workoutId,
       ));
