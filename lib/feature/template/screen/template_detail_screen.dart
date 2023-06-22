@@ -114,7 +114,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                 color: T(context).color.error,
                               ),
                               title: 'Delete',
-                              textStyle: T(context).textStyle.body1,
+                              textStyle: T(context).textStyle.bodyLarge,
                             ),
                           ],
                         ),
@@ -139,7 +139,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                     ),
                     title: Text(
                       exerciseBundle.exercise.name,
-                      style: T(context).textStyle.body1,
+                      style: T(context).textStyle.bodyLarge,
                     ),
                     subtitle: Text(
                       exerciseBundle.exerciseSets.length.toString(),

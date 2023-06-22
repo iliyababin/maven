@@ -65,7 +65,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                         child: Text(
                           theme.name,
                           textAlign: TextAlign.center,
-                          style: T(context).textStyle.button1,
+                          style: T(context).textStyle.labelLarge,
                         ),
                       ),
                     ]

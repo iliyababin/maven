@@ -206,7 +206,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   backgroundColor: T(context).color.success,
                   child: Text(
                     'Finish',
-                    style: T(context).textStyle.button1,
+                    style: T(context).textStyle.labelLarge,
                   ),
                 ),
               ],
@@ -234,7 +234,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 focusedBorder: InputBorder.none,
                                 hintText: 'Workout',
                               ),
-                              style: T(context).textStyle.heading1,
+                              style: T(context).textStyle.headingLarge,
                             ),
                             const SizedBox(height: 4,),
                             StreamBuilder(

@@ -15,17 +15,19 @@ class SessionDetailScreen extends StatelessWidget {
   List<TextSpan> test(SessionExerciseBundle seb, int index, BuildContext context) {
     List<TextSpan> result = [];
 
-    /*result.add(TextSpan(
+    result.add(TextSpan(
       text: '${index + 1}',
-      style: T(context).textStyle.body1.copyWith(color: seb.sessionExerciseSets[index].type.color(context)),
+      style: T(context).textStyle.bodyLarge.copyWith(color: seb.sessionExerciseSets[index].type.color(context)),
     ));
 
-   *//* for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
+    for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
       result.add(TextSpan(
         text: '${seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup)} ${i != seb.sessionExerciseSets.length - 1 ? ' x ' : ''}',
+        style: TextStyle(
+          color: Colors.red
+        ),
       ));
-    }*//*
-*/
+    }
     return result;
   }
 
@@ -53,7 +55,7 @@ class SessionDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   completeExerciseBundle.exercise.name,
-                  style: T(context).textStyle.body1,
+                  style: T(context).textStyle.bodyLarge,
                 ),
                 SizedBox(height: 2,),
                 ListView.builder(

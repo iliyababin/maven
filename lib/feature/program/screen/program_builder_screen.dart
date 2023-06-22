@@ -208,7 +208,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           children: [
                             Text(
                               capitalize(exerciseDay.day.name),
-                              style: T(context).textStyle.heading3,
+                              style: T(context).textStyle.titleLarge,
                             ),
                             const SizedBox(height: 4,),
                             Text(
@@ -220,7 +220,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                               child: ListView(
                                 children: exerciseDay.exerciseBundles.map((e) => Text(
                                   '\u2022 ${e.exercise.name}',
-                                  style: T(context).textStyle.body1,
+                                  style: T(context).textStyle.bodyLarge,
                                   maxLines: 1,
                                 )).toList(),
                               ),

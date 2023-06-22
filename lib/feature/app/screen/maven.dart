@@ -54,7 +54,7 @@ class _MavenState extends State<Maven> {
                 topRight: Radius.circular(15),
                 topLeft: Radius.circular(15),
               ),
-              minHeight: 70,
+              minHeight: 80,
               maxHeight: MediaQuery.of(context).size.height,
               backdropEnabled: true,
               controller: _panelController,
@@ -88,7 +88,7 @@ class _MavenState extends State<Maven> {
                       const SizedBox(height: 8),
                       Text(
                         state.workout!.name,
-                        style: T(context).textStyle.heading3,
+                        style: T(context).textStyle.titleLarge,
                       ),
                       const SizedBox(height: 1),
                       StreamBuilder(
@@ -140,7 +140,7 @@ class _MavenState extends State<Maven> {
           } else {
             return Text(
               'Naughty Error',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             );
           }
         },

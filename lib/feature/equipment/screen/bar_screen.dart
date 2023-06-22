@@ -1,7 +1,7 @@
 
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../database/model/bar.dart';
@@ -134,7 +134,7 @@ class _BarScreenState extends State<BarScreen> {
                       },
                       title: Text(
                         bar.name,
-                        style: T(context).textStyle.body1,
+                        style: T(context).textStyle.bodyLarge,
                       ),
                       subtitle: Text(
                         bar.weight.toString(),

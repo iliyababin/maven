@@ -59,7 +59,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   children: [
                     Text(
                       workout.name,
-                      style: T(context).textStyle.body1,
+                      style: T(context).textStyle.bodyLarge,
                     ),
                   ],
                 ),

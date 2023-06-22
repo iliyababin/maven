@@ -47,7 +47,7 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
           return SliverToBoxAdapter(
             child: Text(
               'There was an error fetching the templates.',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           );
         }

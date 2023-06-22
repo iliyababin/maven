@@ -29,7 +29,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Color',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           ),
           ListTile(
@@ -43,7 +43,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Text Style',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           ),
           ListTile(
@@ -57,7 +57,7 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Padding',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           ),
         ],

@@ -1,6 +1,6 @@
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../common/dialog/text_input_dialog.dart';
 import '../../../common/widget/m_button.dart';
@@ -42,7 +42,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             width: 75,
             child: Text(
               'Save',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           ),
         ],
@@ -70,7 +70,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             title: Text(
               'Name',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               _bar.name,
@@ -93,7 +93,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             title: Text(
               'Weight',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               _bar.weight.toString(),

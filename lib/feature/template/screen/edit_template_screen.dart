@@ -141,7 +141,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     focusedBorder: InputBorder.none,
                     hintText: 'Workout',
                   ),
-                  style: T(context).textStyle.heading1,
+                  style: T(context).textStyle.headingLarge,
                 ),
                 TextFormField(
                   onChanged: (value) {

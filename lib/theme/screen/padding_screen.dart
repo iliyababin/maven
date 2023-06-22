@@ -22,7 +22,7 @@ class PaddingScreen extends StatelessWidget {
             onTap: () {},
             title: Text(
               paddingName,
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               'Padding: $value',

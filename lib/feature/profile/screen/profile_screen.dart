@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Text(
                       'John Doe',
-                      style: InheritedThemeWidget.of(context).theme.options.textStyle.heading2,
+                      style: InheritedThemeWidget.of(context).theme.options.textStyle.headingMedium,
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             title: Text(
               'Basic',
-              style: T(context).textStyle.heading4,
+              style: T(context).textStyle.titleMedium,
             ),
           ),
           ListTile(

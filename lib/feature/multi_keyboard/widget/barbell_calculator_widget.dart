@@ -122,8 +122,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 2,
-                color: T(context).color.secondary,
+                height: 1,
+                color: T(context).color.outline,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -134,8 +134,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 2,
-                color: T(context).color.secondary,
+                height: 1,
+                color: T(context).color.outline,
               ),
               MButton(
                 onPressed: (){

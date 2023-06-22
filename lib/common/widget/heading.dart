@@ -27,7 +27,7 @@ class Heading extends StatelessWidget {
           children: [
             Text(
               title,
-              style: T(context).textStyle.heading4,
+              style: T(context).textStyle.titleMedium,
             ),
             Expanded(child: Container()),
            /* if (!side)

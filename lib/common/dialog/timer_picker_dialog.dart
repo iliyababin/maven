@@ -26,7 +26,7 @@ class TimedPickerDialog extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: T(context).textStyle.heading4,
+              style: T(context).textStyle.titleMedium,
             ),
           ),
           const SizedBox(height: 8),
@@ -43,7 +43,7 @@ class TimedPickerDialog extends StatelessWidget {
                 Center(
                   child: Text(
                     index.toString(),
-                    style: T(context).textStyle.body1.copyWith(
+                    style: T(context).textStyle.bodyLarge.copyWith(
                       color: T(context).color.onSurface,
                     ),
                   ),
@@ -113,7 +113,7 @@ class TimedPickerDialog extends StatelessWidget {
                 borderColor: T(context).color.secondary,
                 child: Text(
                   'Cancel',
-                  style: T(context).textStyle.body1,
+                  style: T(context).textStyle.bodyLarge,
                 ),
               ),
 
@@ -130,7 +130,7 @@ class TimedPickerDialog extends StatelessWidget {
                 borderRadius: 12,
                 child: Text(
                   'Submit',
-                  style: T(context).textStyle.button1,
+                  style: T(context).textStyle.labelLarge,
                 ),
               ),
             ],

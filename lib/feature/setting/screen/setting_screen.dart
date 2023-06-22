@@ -21,7 +21,7 @@ class SettingScreen extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             title: Text(
               'Appearance',
-              style: T(context).textStyle.heading4,
+              style: T(context).textStyle.titleMedium,
             ),
           ),
           ListTile(
@@ -61,7 +61,7 @@ class SettingScreen extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             title: Text(
               'Help',
-              style: T(context).textStyle.heading4,
+              style: T(context).textStyle.titleMedium,
             ),
           ),
           ListTile(

@@ -40,7 +40,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   title: Text(
                     'Plates',
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ),
                   subtitle: Text(
                     '${plates.length}',
@@ -58,7 +58,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   title: Text(
                     'Bars',
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ),
                   subtitle: Text(
                     '${bars.length}',
@@ -74,7 +74,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   title: Text(
                     'Machines',
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ),
                   subtitle: Text(
                     '0',

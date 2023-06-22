@@ -6,7 +6,7 @@ import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../template/widget/empty_widget.dart';
 import '../bloc/session_bloc/session_bloc.dart';
 import '../model/complete_bundle.dart';
-import 'complete_widget.dart';
+import 'session_widget.dart';
 
 class CompleteListWidget extends StatelessWidget {
   const CompleteListWidget({Key? key}) : super(key: key);
@@ -43,8 +43,8 @@ class CompleteListWidget extends StatelessWidget {
                 SessionBundle completeBundle  = state.completeBundles[index];
                 return Padding(
                   padding: EdgeInsetsDirectional.only(bottom: index == state.completeBundles.length - 1 ? 0 : 12),
-                  child: CompleteWidget(
-                    completeBundle: completeBundle,
+                  child: SessionWidget(
+                    sessionBundle: completeBundle,
                   ),
                 );
               },

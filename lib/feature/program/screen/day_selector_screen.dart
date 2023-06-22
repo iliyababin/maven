@@ -1,5 +1,5 @@
-import 'package:maven/feature/program/model/exercise_day.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/feature/program/model/exercise_day.dart';
 
 import '../../../common/util/general_utils.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -80,7 +80,7 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
             ),
             title: Text(
               capitalize(day.name),
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           );
         },

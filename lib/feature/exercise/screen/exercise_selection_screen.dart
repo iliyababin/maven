@@ -152,7 +152,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   ),
                   title: Text(
                     exercise.name,
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ),
                   subtitle: Text(
                     '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',

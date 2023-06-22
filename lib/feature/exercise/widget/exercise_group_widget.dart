@@ -118,17 +118,17 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ActiveExerciseRow.build(
             set: Text(
               "SET",
-              style: T(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
             ),
             previous: Text(
               "PREVIOUS",
-              style: T(context).textStyle.body1.copyWith(fontSize: 13),
+              style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
             ),
             options: widget.exercise.fields.map(
                     (e) => Expanded(
                         child: Text(
                           generateTitle(e.type, widget.exerciseGroup),
-                          style: T(context).textStyle.body1.copyWith(fontSize: 13),
+                          style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
                           textAlign: TextAlign.center,
                         ),
                     ),

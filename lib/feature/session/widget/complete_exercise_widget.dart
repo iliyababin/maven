@@ -39,7 +39,7 @@ class CompleteExerciseWidget extends StatelessWidget {
             children: [
               Text(
                 complete.name,
-                style: T(context).textStyle.heading3,
+                style: T(context).textStyle.titleLarge,
               ),
               const SizedBox(height: 4,),
               Text(
@@ -49,7 +49,7 @@ class CompleteExerciseWidget extends StatelessWidget {
               const SizedBox(height: 12,),
               Text(
                 'Sets Performed',
-                style: T(context).textStyle.body1,
+                style: T(context).textStyle.bodyLarge,
               ),
               const SizedBox(height: 4,),
               ListView.separated(

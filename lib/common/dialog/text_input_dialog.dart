@@ -50,7 +50,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         children: [
           Text(
             widget.title,
-            style: T(context).textStyle.heading3,
+            style: T(context).textStyle.titleLarge,
           ),
           const SizedBox(height: 30),
           Form(
@@ -67,7 +67,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
               },
               controller: _textEditingController,
               keyboardType: widget.keyboardType,
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: T(context).textStyle.subtitle1,
@@ -128,7 +128,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                 backgroundColor: T(context).color.primary,
                 child: Text(
                   'Submit',
-                  style: T(context).textStyle.button1,
+                  style: T(context).textStyle.labelLarge,
                 ),
               )
             ],

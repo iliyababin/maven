@@ -20,7 +20,7 @@ class TitledScaffold extends StatelessWidget {
           padding: EdgeInsetsDirectional.only(top: 30),
           child: Text(
             title,
-            style: InheritedThemeWidget.of(context).theme.options.textStyle.heading1,
+            style: InheritedThemeWidget.of(context).theme.options.textStyle.headingLarge,
           ),
         ),
         backgroundColor: InheritedThemeWidget.of(context).theme.options.color.background,

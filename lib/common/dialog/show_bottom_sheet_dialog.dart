@@ -24,7 +24,7 @@ void showBottomSheetDialog({
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(

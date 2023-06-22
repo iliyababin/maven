@@ -162,7 +162,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   return SliverToBoxAdapter(
                     child: Text(
                       'Something s wrong',
-                      style: T(context).textStyle.body1,
+                      style: T(context).textStyle.bodyLarge,
                     ),
                   );
                 } else {

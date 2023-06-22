@@ -10,20 +10,24 @@ class AppTheme extends Equatable {
     required this.id,
     required this.name,
     required this.path,
+    required this.brightness,
     required this.options,
   });
 
   final int id;
   final String name;
   final String path;
+  final Brightness brightness;
   final ThemeOptions options;
 
   ThemeData get data {
     return ThemeData(
       useMaterial3: true,
+      textTheme: TextTheme(
+        bodyLarge: options.textStyle.bodyLarge,
+      ),
       colorScheme: ColorScheme(
-        brightness: Brightness.dark,
-
+        brightness: brightness,
         primary: options.color.primary,
         onPrimary: options.color.onPrimary,
         primaryContainer: options.color.primaryContainer,
@@ -61,10 +65,10 @@ class AppTheme extends Equatable {
         onSurfaceVariant: Color(0xff424940),
 
         // A utility color that creates boundaries for decorative elements when a 3:1 contrast isn’t required, such as for dividers or decorative elements.
-        scrim: Colors.green,
+        scrim: Colors.red,
         shadow: Colors.red,
 
-        surfaceVariant: Colors.green,
+        surfaceVariant: options.color.outlineVariant,
       ),
       typography: Typography.material2021(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -82,7 +86,7 @@ class AppTheme extends Equatable {
             ),
           ),
           textStyle: MaterialStateProperty.all(
-            options.textStyle.button1,
+            options.textStyle.labelLarge,
           ),
         ),
       ),
@@ -112,8 +116,8 @@ class AppTheme extends Equatable {
       ),
 
       tabBarTheme: TabBarTheme(
-        unselectedLabelStyle: options.textStyle.body1,
-        labelStyle: options.textStyle.body1,
+        unselectedLabelStyle: options.textStyle.bodyLarge,
+        labelStyle: options.textStyle.bodyLarge,
         labelColor: options.color.onBackground,
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
@@ -127,6 +131,7 @@ class AppTheme extends Equatable {
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
         unselectedItemColor: options.color.subtext,
+        elevation: 0,
         selectedLabelStyle: const TextStyle(
           fontSize: 14,
         ),
@@ -136,6 +141,7 @@ class AppTheme extends Equatable {
       ),
       iconTheme: IconThemeData(
         color: options.color.primary,
+        size: 24,
       ),
       listTileTheme: ListTileThemeData(
         contentPadding: const EdgeInsets.only(left: 24, right: 24),
@@ -184,6 +190,7 @@ class AppTheme extends Equatable {
     id: 1,
     name: 'Light',
     path: 'assets/images/light.jpg',
+    brightness: Brightness.light,
     options: ThemeOptions(
       color: ColorOptions(
         primary: Color(0xFF2196F3),
@@ -254,6 +261,7 @@ class AppTheme extends Equatable {
     id: 2,
     name: 'Solar flare',
     path: 'assets/images/solar_flare.jpg',
+    brightness: Brightness.dark,
     options: ThemeOptions(
       color: ColorOptions(
         primary: Color(0xFFFFAE00),
@@ -291,6 +299,7 @@ class AppTheme extends Equatable {
     id: 3,
     name: 'Nature',
     path: 'assets/images/nature.jpg',
+    brightness: Brightness.light,
     options: ThemeOptions(
       color: ColorOptions(
         primary: Color(0xFF4CAF50),

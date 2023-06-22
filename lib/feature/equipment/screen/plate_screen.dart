@@ -1,7 +1,7 @@
 
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../database/model/plate.dart';
@@ -112,7 +112,7 @@ class _PlateScreenState extends State<PlateScreen> {
               itemBuilder: (context, index) {
                 Plate plate = plates[index];
                 return AnimatedContainer(
-                  color: selectedPlates.contains(plate) ? const Color(0xFF004E70) : Colors.transparent,
+                  color: selectedPlates.contains(plate) ? T(context).color.primaryContainer : Colors.transparent,
                   duration: const Duration(milliseconds: 200),
                   child: ListTile(
                     onTap: () {
@@ -129,27 +129,19 @@ class _PlateScreenState extends State<PlateScreen> {
                     splashColor: T(context).color.secondary,
                     onLongPress: () {
                       setState(() {
-                        selectedPlates.add(plate);
+                        if(selectedPlates.contains(plate)) {
+                          selectedPlates.remove(plate);
+                        } else {
+                          selectedPlates.add(plate);
+                        }
                         isSelecting = true;
                       });
                     },
-                    leading: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: plate.color,
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                      ),
+                    leading: CircleAvatar(
+                      backgroundColor: plate.color,
                     ),
                     title: Text(
-                      plate.weight.toString(),
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: T(context).color.primary,
-                      ),
-                    ),
-                    trailing: isSelecting ? null : const Icon(
-                      Icons.chevron_right_rounded,
+                      removeDecimalZeroFormat(plate.weight),
                     ),
                   ),
                 );

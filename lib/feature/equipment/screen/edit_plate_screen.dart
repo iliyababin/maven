@@ -6,7 +6,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/dialog/text_input_dialog.dart';
-import '../../../common/widget/m_button.dart';
 import '../../../database/model/plate.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../bloc/equipment/equipment_bloc.dart';
@@ -66,8 +65,8 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          MButton(
-            onPressed: (){
+          IconButton(
+            onPressed: () {
               context.read<EquipmentBloc>().add(PlateUpdate(
                 plate: Plate(
                   id: widget.plate.id,
@@ -79,10 +78,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
               ));
               Navigator.pop(context);
             },
-            width: 75,
-            child: const Text(
-              'Save',
-            ),
+            icon: const Icon(Icons.check),
           )
         ],
       ),
@@ -117,7 +113,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Amount',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               '$amount plates',
@@ -141,7 +137,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Weight',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               weight.toString(),
@@ -151,7 +147,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
           ListTile(
             title: Text(
               'Size',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               height.toStringAsFixed(3),
@@ -160,7 +156,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             trailing: SizedBox(
               width: 200,
               child: Slider(
-                min: 0.5,
+                min: 0.35,
                 max: 1.0,
                 value: height,
                 onChanged: (double value) {
@@ -183,7 +179,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             title: Text(
               'Color',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',

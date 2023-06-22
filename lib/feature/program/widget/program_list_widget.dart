@@ -42,7 +42,7 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
           return SliverToBoxAdapter(
             child: Text(
               'There was an error fetching the programs.',
-              style: T(context).textStyle.body1,
+              style: T(context).textStyle.bodyLarge,
             ),
           );
         }

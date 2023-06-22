@@ -88,7 +88,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           title: Text(
             'Muscle',
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             widget.exercise.muscleGroup.name.capitalize(),
@@ -107,7 +107,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           title: Text(
             'Musculus',
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             widget.exercise.muscle.name.parseMuscleToString(),
@@ -135,7 +135,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           title: Text(
             'Timer',
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             widget.exercise.timer.toString(),
@@ -154,7 +154,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           title: Text(
             'Equipment',
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             widget.exercise.equipment.name.capitalize(),
@@ -173,7 +173,7 @@ class _ExerciseDetailWidgetState extends State<ExerciseDetailWidget> {
           ),
           title: Text(
             'Type',
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           subtitle: Text(
             // Name of exercise fields

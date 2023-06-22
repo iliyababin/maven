@@ -181,7 +181,7 @@ class MButton extends StatelessWidget {
                   if(leading != null && child != null) const SizedBox(width: 2,),
                   title != null ? Text(
                     title!,
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ) : child ?? Container(),
                   trailing != null ? Expanded(
                     child: Container(

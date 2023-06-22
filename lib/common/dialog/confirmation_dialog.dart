@@ -46,13 +46,13 @@ class ConfirmationDialog extends StatelessWidget {
         children: [
           Text(
             title,
-            style: T(context).textStyle.heading3,
+            style: T(context).textStyle.titleLarge,
           ),
           const SizedBox(height: 22),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
           const SizedBox(height: 30),
           Row(
@@ -68,7 +68,7 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                   child: Text(
                     cancelText,
-                    style: T(context).textStyle.body1,
+                    style: T(context).textStyle.bodyLarge,
                   ),
                 ),
               ),
@@ -84,7 +84,7 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                   child: Text(
                     confirmText,
-                    style: T(context).textStyle.button1,
+                    style: T(context).textStyle.labelLarge,
                   ),
                 ),
               ),

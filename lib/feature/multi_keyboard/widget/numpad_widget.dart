@@ -58,7 +58,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
       borderRadius: 0,
       child: Text(
         number.toString(),
-        style: T(context).textStyle.heading3,
+        style: T(context).textStyle.titleLarge,
       ),
     );
   }
@@ -81,7 +81,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
-            style: T(context).textStyle.body1,
+            style: T(context).textStyle.bodyLarge,
           ),
         ),
 

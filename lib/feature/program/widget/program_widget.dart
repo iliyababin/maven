@@ -38,7 +38,7 @@ class ProgramWidget extends StatelessWidget {
             children: [
               Text(
                 program.name,
-                style: T(context).textStyle.heading3,
+                style: T(context).textStyle.titleLarge,
                 maxLines: 1,
               ),
               const SizedBox(

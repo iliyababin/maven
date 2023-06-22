@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 
 class TextStyleOptions {
   TextStyleOptions()
-      : heading1 = const TextStyle(
+      : headingLarge = const TextStyle(
           fontSize: 32,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w500,
         ),
-        heading2 = const TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w700,
+        headingMedium = const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.w500,
         ),
-        heading3 = const TextStyle(
-          fontSize: 19,
+        titleLarge = const TextStyle(
+          fontSize: 20,
           fontWeight: FontWeight.w500,
           overflow: TextOverflow.ellipsis,
         ),
-        heading4 = const TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
+        titleMedium = const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
-        body1 = const TextStyle(
+        bodyLarge = const TextStyle(
           fontSize: 16,
           overflow: TextOverflow.ellipsis,
+          fontWeight: FontWeight.w400,
         ),
         subtitle1 = const TextStyle(
           fontSize: 15,
@@ -30,7 +31,7 @@ class TextStyleOptions {
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
-        button1 = const TextStyle(
+        labelLarge = const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
@@ -38,25 +39,25 @@ class TextStyleOptions {
           fontSize: 15,
         );
 
-  final TextStyle heading1;
-  final TextStyle heading2;
-  final TextStyle heading3;
-  final TextStyle heading4;
-  final TextStyle body1;
+  final TextStyle headingLarge;
+  final TextStyle headingMedium;
+  final TextStyle titleLarge;
+  final TextStyle titleMedium;
+  final TextStyle bodyLarge;
   final TextStyle subtitle1;
   final TextStyle subtitle2;
-  final TextStyle button1;
+  final TextStyle labelLarge;
   final TextStyle button2;
 
   Map<String, TextStyle> get textStyles => {
-        'Heading 1': heading1,
-        'Heading 2': heading2,
-        'Heading 3': heading3,
-        'Heading 4': heading4,
-        'Body 1': body1,
+        'Heading Large': headingLarge,
+        'Heading Medium': headingMedium,
+        'Title Large': titleLarge,
+        'Title Medium': titleMedium,
+        'Body Large': bodyLarge,
         'Subtitle 1': subtitle1,
         'Subtitle 2': subtitle2,
-        'Button 1': button1,
+        'Button 1': labelLarge,
         'Button 2': button2,
       };
 }
