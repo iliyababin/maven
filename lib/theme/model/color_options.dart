@@ -20,6 +20,9 @@ class ColorOptions {
     required this.neutral,
     required this.success,
     required this.error,
+    required this.onError,
+    required this.errorContainer,
+    required this.onErrorContainer,
     required this.shadow,
     required this.warmup,
     required this.drop,
@@ -44,6 +47,9 @@ class ColorOptions {
   final Color neutral;
   final Color success;
   final Color error;
+  final Color onError;
+  final Color errorContainer;
+  final Color onErrorContainer;
   final Color shadow;
   final Color warmup;
   final Color drop;

@@ -45,13 +45,17 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Delete ${selectedPlates.length} Plate(s)',
                   subtitle: 'This action cannot be undone',
-                  confirmColor: T(context).color.error,
                   confirmText: 'Delete',
+                  confirmButtonStyle: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                    foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                  ),
                   onSubmit: () {
                     setState(() {
                       context.read<EquipmentBloc>().add(PlateDelete(selectedPlates));
                     });
                   },
+
                 ),
                 onClose: (){},
               );
@@ -68,8 +72,11 @@ class _PlateScreenState extends State<PlateScreen> {
                 child: ConfirmationDialog(
                   title: 'Reset Plates',
                   subtitle: 'This will reset all plates to default',
-                  confirmColor: T(context).color.error,
                   confirmText: 'Reset',
+                  confirmButtonStyle: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                    foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                  ),
                   onSubmit: () {
                     setState(() {
                       context.read<EquipmentBloc>().add(PlateReset());

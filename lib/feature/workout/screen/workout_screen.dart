@@ -157,7 +157,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         title: 'Delete',
                                         subtitle: 'All progress will be lost.',
                                         confirmText: 'Delete',
-                                        confirmColor: T(context).color.error,
+                                        confirmButtonStyle: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                                          foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                                        ),
                                         onSubmit: () {
                                           context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
                                         },
@@ -206,7 +209,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   backgroundColor: T(context).color.success,
                   child: Text(
                     'Finish',
-                    style: T(context).textStyle.labelLarge,
+                    style: T(context).textStyle.labelLarge.copyWith(
+                      color: T(context).color.onPrimary,
+                    ),
                   ),
                 ),
               ],

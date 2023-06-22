@@ -12,8 +12,8 @@ class ConfirmationDialog extends StatelessWidget {
     required this.subtitle,
     this.confirmText = 'Submit',
     this.cancelText = 'Cancel',
-    this.confirmColor,
-    this.cancelColor,
+    this.confirmButtonStyle,
+    this.cancelButtonStyle,
     required this.onSubmit,
   }) : super(key: key);
 
@@ -30,10 +30,10 @@ class ConfirmationDialog extends StatelessWidget {
   final String cancelText;
 
   /// The color painted behind the confirm action.
-  final Color? confirmColor;
+  final ButtonStyle? confirmButtonStyle;
 
   /// The color painted behind the cancel action.
-  final Color? cancelColor;
+  final ButtonStyle? cancelButtonStyle;
 
   /// Called when the submit button is pressed.
   final VoidCallback onSubmit;
@@ -63,9 +63,7 @@ class ConfirmationDialog extends StatelessWidget {
                   onPressed: (){
                     Navigator.pop(context);
                   },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: cancelColor,
-                  ),
+                  style: cancelButtonStyle,
                   child: Text(
                     cancelText,
                     style: T(context).textStyle.bodyLarge,
@@ -79,9 +77,7 @@ class ConfirmationDialog extends StatelessWidget {
                     onSubmit();
                     Navigator.pop(context);
                   },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: confirmColor,
-                  ),
+                  style: confirmButtonStyle,
                   child: Text(
                     confirmText,
                     style: T(context).textStyle.labelLarge,

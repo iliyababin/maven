@@ -99,7 +99,10 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                   child: ConfirmationDialog(
                                     title: 'Delete Template',
                                     subtitle: 'This action cannot be undone',
-                                    confirmColor: T(context).color.error,
+                                    confirmButtonStyle: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                                      foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                                    ),
                                     onSubmit: () {
                                       context.read<TemplateBloc>().add(TemplateDelete(template: template));
                                       Navigator.pop(context);

@@ -40,6 +40,8 @@ class AppTheme extends Equatable {
 
         error: options.color.error,
         onError: options.color.onBackground,
+        errorContainer: Colors.purple,
+        onErrorContainer: Colors.purple,
 
         background: options.color.background,
         onBackground: options.color.onBackground,
@@ -56,10 +58,8 @@ class AppTheme extends Equatable {
         tertiary: Colors.yellow,
         tertiaryContainer: Colors.yellow,
 
-        errorContainer: Colors.purple,
         inversePrimary: Colors.purple,
         inverseSurface: Colors.purple,
-        onErrorContainer: Colors.purple,
         onInverseSurface: Colors.purple,
 
         onSurfaceVariant: Color(0xff424940),
@@ -217,10 +217,14 @@ class AppTheme extends Equatable {
         outline: Color(0xFFDCDCDC),
         outlineVariant: Color(0xFFB9B9B9),
 
+        error: Color(0xFFDD614A),
+        onError: Color(0xFFffffff),
+        errorContainer: Color(0xFFffdad3),
+        onErrorContainer: Color(0xFF783428),
+
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF2DCD70),
-        error: Color(0xFFDD614A),
         shadow: Color(0xFFC1C1C1),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
@@ -292,10 +296,15 @@ class AppTheme extends Equatable {
         outline: Color(0xFF3A3A3A),
         outlineVariant: Color(0xFF3A3A3A),
 
+        error: Color(0xFFa63926),
+        onError: Color(0xFFffffff),
+        errorContainer: Color(0xFFffdad3),
+        onErrorContainer: Color(0xFF3f0300),
+
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF922DCD),
-        error: Color(0xFFDD614A),
+
         shadow: Color(0xFF353535),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
@@ -324,7 +333,7 @@ class AppTheme extends Equatable {
         background: Color(0xFFf6fff1),
         onBackground: Color(0xFF212121),
 
-        surface: Color(0xFFecf7e0),
+        surface: Color(0xffe8f8d7),
         onSurface: Color(0xFF141e0d),
 
         outline: Color(0xFFC4C8BB),
@@ -333,7 +342,12 @@ class AppTheme extends Equatable {
         subtext: Color(0xFF757575),
         neutral: Color(0xFFFFFFFF),
         success: Color(0xFF4CAF50),
-        error: Color(0xFFDD614A),
+
+        error: Color(0xFFffb4a5),
+        onError: Color(0xFF650900),
+        errorContainer: Color(0xFF862211),
+        onErrorContainer: Color(0xFFffdad3),
+
         shadow: Color(0xFFBDBDBD),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
