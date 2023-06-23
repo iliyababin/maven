@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/empty_widget.dart';
+import 'package:maven/common/widget/loading_widget.dart';
 import 'package:maven/feature/program/widget/program_widget.dart';
-import 'package:maven/feature/template/widget/empty_widget.dart';
-import 'package:maven/feature/template/widget/loading_widget.dart';
 
 import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../database/TEST_ZONE/program.dart';

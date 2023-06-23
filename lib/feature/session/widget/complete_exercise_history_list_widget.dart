@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../bloc/complete_exercise/complete_exercise_bloc.dart';
+import '../bloc/session_exercise/complete_exercise_bloc.dart';
 import '../model/complete_bundle.dart';
 import 'complete_exercise_widget.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:maven/feature/workout/widget/exercise_timer_widget.dart';
+import 'package:maven/feature/exercise/widget/exercise_timer_widget.dart';
 
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../workout/widget/active_exercise_row.dart';
 import 'exercise_group_menu.dart';
+import 'exercise_row_widget.dart';
 import 'exercise_set_widget.dart';
 
 /// Widget for displaying an [ExerciseGroup] with [ExerciseSet]'s.
@@ -117,7 +117,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             ),
           ],
         ),
-        ActiveExerciseRow.build(
+        ExerciseRowWidget.build(
             set: Text(
               "SET",
               style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
@@ -126,7 +126,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               "PREVIOUS",
               style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
             ),
-            options: widget.exercise.fields.map(
+            options: widget.exercise.fields.where((e) => e.type != ExerciseFieldType.bodyWeight).toList().map(
                     (e) => Expanded(
                         child: Text(
                           generateTitle(e.type, widget.exerciseGroup),
@@ -231,7 +231,6 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             ),
           )
         ),
-
       ],
     );
   }
@@ -248,6 +247,8 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         return '- ${exerciseGroup.weightUnit!.name.toUpperCase()}';
       case ExerciseFieldType.weighted:
         return '+ ${exerciseGroup.weightUnit!.name.toUpperCase()}';
+      case ExerciseFieldType.duration:
+        return 'DURATION';
       default:
         return '';
     }

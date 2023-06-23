@@ -47,9 +47,9 @@ class ExerciseSetData {
       case ExerciseFieldType.duration:
         return '$value seconds';
       case ExerciseFieldType.distance:
-        return '$value meters';
+        return '$value ${exerciseGroup.distanceUnit!.name}';
       case ExerciseFieldType.bodyWeight:
-        return '$value calories';
+        return '$value BODYWEIGHT';
       case ExerciseFieldType.weighted:
         return '$value bpm';
       case ExerciseFieldType.assisted:

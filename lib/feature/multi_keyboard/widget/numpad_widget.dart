@@ -48,9 +48,17 @@ class _NumPadWidgetState extends State<NumPadWidget> {
         int selectionStart = _controller.selection.start;
         int selectionEnd = _controller.selection.end;
 
-        _controller.text = _controller.text.substring(0, selectionStart) +
+        String currentText = _controller.text;
+        String newText = currentText.substring(0, selectionStart) +
             number.toString() +
-            _controller.text.substring(selectionEnd);
+            currentText.substring(selectionEnd);
+
+        // Check if the new text contains more than one dot
+        if (newText.split('.').length > 2) {
+          return; // Ignore the button press if there are multiple dots
+        }
+
+        _controller.text = newText;
         _controller.selection =
             TextSelection.collapsed(offset: selectionStart + 1, affinity: TextAffinity.upstream);
       },

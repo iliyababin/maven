@@ -44,18 +44,6 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
         );
       default:
         switch (widget.data.fieldType) {
-          case ExerciseFieldType.weight:
-            return NumPadWidget(
-              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
-              onValueChanged: (value) {
-                if(value == 0) {
-                  widget.data.value = '';
-                } else {
-                  widget.data.value = value.toString();
-                }
-                widget.onValueChanged(widget.data);
-              },
-            );
           case ExerciseFieldType.reps:
             return NumPadWidget(
               value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
@@ -68,8 +56,30 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                 widget.onValueChanged(widget.data);
               },
             );
+          case ExerciseFieldType.distance:
+            return NumPadWidget(
+              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              onValueChanged: (value) {
+                if(value == 0) {
+                  widget.data.value = '';
+                } else {
+                  widget.data.value = value.toString();
+                }
+                widget.onValueChanged(widget.data);
+              },
+            );
           default:
-            return Container();
+            return NumPadWidget(
+              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              onValueChanged: (value) {
+                if(value == 0) {
+                  widget.data.value = '';
+                } else {
+                  widget.data.value = value.toString();
+                }
+                widget.onValueChanged(widget.data);
+              },
+            );
         }
     }
   }

@@ -2,18 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/empty_widget.dart';
 import 'package:maven/common/widget/heading.dart';
-import 'package:maven/feature/template/widget/empty_widget.dart';
 
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../program/widget/program_list_widget.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
-import '../../workout/widget/paused_workout_widget.dart';
-import '../bloc/template/template_bloc.dart';
-import '../widget/template_list_widget.dart';
-import 'edit_template_screen.dart';
+import '../../workout/widget/workout_paused_widget.dart';
+import '../template.dart';
 
 /// Screen which manages templates, workouts, and programs
 class TemplateScreen extends StatefulWidget {

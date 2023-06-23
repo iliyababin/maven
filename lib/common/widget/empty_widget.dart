@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/widget/inherited_theme_widget.dart';
+import '../../theme/theme.dart';
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({Key? key}) : super(key: key);

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/confirmation_dialog.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
+import '../../../common/dialog/confirmation_dialog.dart';
+import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../common/widget/m_button.dart';
-import '../../../database/model/template.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
-import '../bloc/template/template_bloc.dart';
-import '../bloc/template_detail/template_detail_bloc.dart';
-import 'edit_template_screen.dart';
+import '../template.dart';
 
 class TemplateDetailScreen extends StatefulWidget {
-  const TemplateDetailScreen({Key? key,
-    required this.template
+  const TemplateDetailScreen({
+    Key? key,
+    required this.template,
   }) : super(key: key);
 
   final Template template;
@@ -40,37 +39,44 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
       },
       child: BlocBuilder<TemplateDetailBloc, TemplateDetailState>(
         builder: (context, state) {
-          if(state.status.isLoading) {
-            return const Center(child: CircularProgressIndicator(),);
-          } else if(state.status.isLoaded) {
-            Template template = state.template!;
-
+          if (state.status.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.status.isLoaded) {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  template.name,
+                  state.template?.name ?? 'Unknown',
                 ),
                 actions: [
                   IconButton(
-                    onPressed: (){
+                    onPressed: () {
                       showBottomSheetDialog(
                         context: context,
                         child: Column(
                           children: [
                             MButton.tiled(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditTemplateScreen(
-                                  template: template,
-                                  exerciseBundles: state.exerciseBundles,
-                                  onSubmit: (template, exerciseBundles) {
-                                    context.read<TemplateBloc>().add(TemplateUpdate(
-                                      template: template,
-                                      exerciseBundles: exerciseBundles,
-                                    ));
-                                    Navigator.pop(context);
-                                  },
-                                )));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditTemplateScreen(
+                                      template: state.template,
+                                      exerciseBundles: state.exerciseBundles,
+                                      onSubmit: (template, exerciseBundles) {
+                                        context.read<TemplateBloc>().add(
+                                              TemplateUpdate(
+                                                template: template,
+                                                exerciseBundles: exerciseBundles,
+                                              ),
+                                            );
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                );
                               },
                               leading: const Icon(
                                 Icons.edit_rounded,
@@ -78,21 +84,21 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                               title: 'Edit',
                             ),
                             MButton.tiled(
-                              onPressed: (){},
+                              onPressed: () {},
                               leading: const Icon(
                                 Icons.share_rounded,
                               ),
                               title: 'Share',
                             ),
                             MButton.tiled(
-                              onPressed: (){},
+                              onPressed: () {},
                               leading: const Icon(
                                 Icons.info_sharp,
                               ),
                               title: 'Info',
                             ),
                             MButton.tiled(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.pop(context);
                                 showBottomSheetDialog(
                                   context: context,
@@ -104,15 +110,16 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                                       foregroundColor: MaterialStateProperty.all(T(context).color.onError),
                                     ),
                                     onSubmit: () {
-                                      context.read<TemplateBloc>().add(TemplateDelete(template: template));
+                                      context.read<TemplateBloc>().add(
+                                            TemplateDelete(template: state.template!),
+                                          );
                                       Navigator.pop(context);
                                     },
                                   ),
                                   onClose: () {},
                                 );
-
                               },
-                              leading:Icon(
+                              leading: Icon(
                                 Icons.delete_rounded,
                                 color: T(context).color.error,
                               ),
@@ -121,7 +128,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                             ),
                           ],
                         ),
-                        onClose: (){},
+                        onClose: () {},
                       );
                     },
                     icon: const Icon(
@@ -137,9 +144,8 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                   return ListTile(
                     leading: CircleAvatar(
                         child: Text(
-                          exerciseBundle.exercise.name.substring(0, 1),
-                        )
-                    ),
+                      exerciseBundle.exercise.name.substring(0, 1),
+                    )),
                     title: Text(
                       exerciseBundle.exercise.name,
                       style: T(context).textStyle.bodyLarge,
@@ -165,18 +171,18 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                             subtitle: 'This will delete any current workout.',
                             confirmText: 'Start',
                             onSubmit: () {
-                              context.read<WorkoutBloc>().add(WorkoutStart(template: template));
+                              context.read<WorkoutBloc>().add(WorkoutStart(template: state.template!));
                               Navigator.pop(context);
                             },
                           ),
                           onClose: () {},
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Start',
                       ),
                     ),
-                  )
+                  ),
                 ),
               ],
             );

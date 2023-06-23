@@ -4,18 +4,16 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../database/model/workout.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/workout/workout_bloc.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../workout.dart';
 
-/// Widget that displays a paused workout
 class PausedWorkoutWidget extends StatelessWidget {
-  /// Creates a widget to display a paused workout
-  const PausedWorkoutWidget({super.key,
+  const PausedWorkoutWidget({
+    super.key,
     required this.workout,
   });
 
-  /// Paused workout to display
   final Workout workout;
 
   @override
@@ -26,20 +24,19 @@ class PausedWorkoutWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           showBottomSheetDialog(
-            context: context,
-            child: ConfirmationDialog(
-              title: 'Resume Workout',
-              subtitle: 'Current workout will be deleted',
-              cancelText: 'Cancel',
-              confirmText: 'Resume',
-              onSubmit: () {
-                context.read<WorkoutBloc>().add(WorkoutToggle(workout: workout.copyWith(active: true)));
-                /*context.read<WorkoutBloc>().add(WorkoutDelete());
+              context: context,
+              child: ConfirmationDialog(
+                title: 'Resume Workout',
+                subtitle: 'Current workout will be deleted',
+                cancelText: 'Cancel',
+                confirmText: 'Resume',
+                onSubmit: () {
+                  context.read<WorkoutBloc>().add(WorkoutToggle(workout: workout.copyWith(active: true)));
+                  /*context.read<WorkoutBloc>().add(WorkoutDelete());
                 context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(isPaused: 0)));*/
-              },
-            ),
-            onClose: (){}
-          );
+                },
+              ),
+              onClose: () {});
         },
         borderRadius: BorderRadius.circular(10),
         child: Container(
@@ -72,7 +69,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                       style: T(context).textStyle.subtitle1,
                     );
                   },
-                )
+                ),
               ],
             ),
           ),

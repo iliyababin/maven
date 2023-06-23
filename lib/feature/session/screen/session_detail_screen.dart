@@ -16,17 +16,25 @@ class SessionDetailScreen extends StatelessWidget {
     List<TextSpan> result = [];
 
     result.add(TextSpan(
-      text: '${index + 1}',
-      style: T(context).textStyle.bodyLarge.copyWith(color: seb.sessionExerciseSets[index].type.color(context)),
+      text: '${index + 1}  ',
+      style: T(context).textStyle.subtitle1.copyWith(
+        color: seb.sessionExerciseSets[index].type.color(context),
+      ),
     ));
+
 
     for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
       result.add(TextSpan(
-        text: '${seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup)} ${i != seb.sessionExerciseSets.length - 1 ? ' x ' : ''}',
-        style: TextStyle(
-          color: Colors.red
-        ),
+        text: seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup),
+        style: T(context).textStyle.subtitle1,
       ));
+
+      if (i < seb.sessionExerciseSets[index].data.length - 1) {
+        result.add(TextSpan(
+          text: ' x ',
+          style: T(context).textStyle.subtitle1,
+        ));
+      }
     }
     return result;
   }
@@ -57,13 +65,12 @@ class SessionDetailScreen extends StatelessWidget {
                   completeExerciseBundle.exercise.name,
                   style: T(context).textStyle.bodyLarge,
                 ),
-                SizedBox(height: 2,),
+                const SizedBox(height: 2,),
                 ListView.builder(
                   itemCount: completeExerciseBundle.sessionExerciseSets.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     SessionExerciseSet completeExerciseSet = completeExerciseBundle.sessionExerciseSets[index];
-                    print(completeExerciseSet);
                     return RichText(
                       text: TextSpan(
                         style: T(context).textStyle.subtitle1,

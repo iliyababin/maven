@@ -5,7 +5,7 @@ import '../../../common/widget/m_button.dart';
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../multi_keyboard/widget/multi_keyboard.dart';
-import '../../workout/widget/active_exercise_row.dart';
+import 'exercise_row_widget.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
 
@@ -51,7 +51,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
       height: 44,
       color: _isChecked ? T(context).color.success.withAlpha(35)  : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
-      child: ActiveExerciseRow.build(
+      child: ExerciseRowWidget.build(
         set: MButton(
           onPressed: () {
             showBottomSheetDialog(
@@ -103,7 +103,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.subtitle1,
           ),
         ),
-        options: exerciseSet.data.map((e) => MButton(
+        options: exerciseSet.data.where((element) => element.fieldType != ExerciseFieldType.bodyWeight).toList().map((e) => MButton(
           height: 30,
           expand: true,
           backgroundColor: _isChecked ? Colors.transparent : T(context).color.surface,
@@ -144,7 +144,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             child: Checkbox(
               value: _isChecked,
               onChanged: (value) async {
-                if(exerciseSet.data.any((element) => element.value.isEmpty)) {
+                if(exerciseSet.data.where((element) => element.fieldType != ExerciseFieldType.bodyWeight).toList().any((element) => element.value.isEmpty)) {
                 } else {
                   setState(() {
                     _isChecked = value!;

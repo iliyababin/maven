@@ -17,12 +17,13 @@ import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../exercise/model/exercise_bundle.dart';
 import '../../exercise/screen/exercise_selection_screen.dart';
 import '../../exercise/widget/exercise_group_widget.dart';
+import '../../exercise/widget/exercise_timer_widget.dart';
 import '../../session/bloc/session_bloc/session_bloc.dart';
 import '../bloc/workout/workout_bloc.dart';
-import '../widget/exercise_timer_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
-  const WorkoutScreen({Key? key,
+  const WorkoutScreen({
+    Key? key,
     required this.workout,
     required this.exerciseBundles,
   }) : super(key: key);
@@ -34,7 +35,7 @@ class WorkoutScreen extends StatefulWidget {
   State<WorkoutScreen> createState() => _WorkoutScreenState();
 }
 
-class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin{
+class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin {
   final FocusNode _workoutNameNode = FocusNode();
 
   ExerciseTimerController exerciseTimerController = ExerciseTimerController();
@@ -75,21 +76,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                     children: [
                       MButton(
                         onPressed: () async {
-                          List<Exercise>? exercises = await Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
-                          if(exercises != null) {
-                            List<ExerciseBundle> exerciseBundles1 = exercises.map((exercise) => ExerciseBundle(
-                              exercise: exercise,
-                              barId: exercise.barId,
-                              exerciseSets: [],
-                              exerciseGroup: ExerciseGroup(
-                                id: DateTime.now().microsecondsSinceEpoch,
-                                exerciseId: exercise.id!,
-                                barId: exercise.barId,
-                                timer: Timed(hour: 0, minute: 0, second: 0),
-                                weightUnit: WeightUnit.lbs,
-                                distanceUnit: exercise.distanceUnit,
-                            ))).toList();
+                          List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
+                          if (exercises != null) {
+                            List<ExerciseBundle> exerciseBundles1 = exercises
+                                .map((exercise) => ExerciseBundle(
+                                    exercise: exercise,
+                                    barId: exercise.barId,
+                                    exerciseSets: [],
+                                    exerciseGroup: ExerciseGroup(
+                                      id: DateTime.now().microsecondsSinceEpoch,
+                                      exerciseId: exercise.id!,
+                                      barId: exercise.barId,
+                                      timer: Timed(hour: 0, minute: 0, second: 0),
+                                      weightUnit: WeightUnit.lbs,
+                                      distanceUnit: exercise.distanceUnit,
+                                    )))
+                                .toList();
 
                             setState(() {
                               exerciseBundles.addAll(exerciseBundles1);
@@ -106,7 +108,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           color: T(context).color.onPrimaryContainer,
                         ),
                       ),
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       MButton(
                         onPressed: () {
                           showBottomSheetDialog(
@@ -115,7 +119,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 MButton.tiled(
-                                  onPressed: (){
+                                  onPressed: () {
                                     Navigator.pop(context);
                                     _workoutNameNode.requestFocus();
                                   },
@@ -126,7 +130,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   title: 'Rename',
                                 ),
                                 MButton.tiled(
-                                  onPressed: (){
+                                  onPressed: () {
                                     Navigator.pop(context);
                                     _workoutNameNode.requestFocus();
                                   },
@@ -139,8 +143,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 MButton.tiled(
                                   onPressed: () {
                                     context.read<WorkoutBloc>().add(WorkoutToggle(
-                                      workout: workout.copyWith(active: false),
-                                    ));
+                                          workout: workout.copyWith(active: false),
+                                        ));
                                     Navigator.pop(context);
                                   },
                                   leading: Icon(
@@ -166,7 +170,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                           context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
                                         },
                                       ),
-                                      onClose: () {  },
+                                      onClose: () {},
                                     );
                                   },
                                   leading: Icon(
@@ -175,7 +179,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   ),
                                   title: 'Discard Workout',
                                 ),
-
                               ],
                             ),
                             onClose: () {},
@@ -189,20 +192,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           color: T(context).color.onSurface,
                         ),
                       ),
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       ExerciseTimerWidget(
-                              controller: exerciseTimerController,
-                            ),
+                        controller: exerciseTimerController,
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 8,),
+                const SizedBox(
+                  width: 8,
+                ),
                 MButton(
-                  onPressed: (){
+                  onPressed: () {
                     context.read<SessionBloc>().add(SessionAdd(
-                      workout: workout,
-                      exerciseBundles: exerciseBundles,
-                    ));
+                          workout: workout,
+                          exerciseBundles: exerciseBundles,
+                        ));
                     context.read<WorkoutBloc>().add(WorkoutFinish());
                   },
                   height: 38,
@@ -211,8 +218,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                   child: Text(
                     'Finish',
                     style: T(context).textStyle.labelLarge.copyWith(
-                      color: T(context).color.onPrimary,
-                    ),
+                          color: T(context).color.onPrimary,
+                        ),
                   ),
                 ),
               ],
@@ -223,44 +230,45 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
               slivers: [
                 SliverList(
                     delegate: SliverChildListDelegate([
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              onChanged: (value) {
-                                context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
-                              },
-                              focusNode: _workoutNameNode,
-                              initialValue: workout.name,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(0),
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                hintText: 'Workout',
-                              ),
-                              style: T(context).textStyle.headingLarge,
-                            ),
-                            const SizedBox(height: 4,),
-                            StreamBuilder(
-                              stream: Stream.periodic(const Duration(seconds: 1)),
-                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                return Text(
-                                  workoutDuration(workout.timestamp),
-                                  style: T(context).textStyle.subtitle1,
-                                );
-                              },
-                            )
-                          ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          onChanged: (value) {
+                            context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
+                          },
+                          focusNode: _workoutNameNode,
+                          initialValue: workout.name,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.all(0),
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: 'Workout',
+                          ),
+                          style: T(context).textStyle.headingLarge,
                         ),
-                      )
-                    ])
-                ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        StreamBuilder(
+                          stream: Stream.periodic(const Duration(seconds: 1)),
+                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                            return Text(
+                              workoutDuration(workout.timestamp),
+                              style: T(context).textStyle.subtitle1,
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ])),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     childCount: exerciseBundles.length,
-                        (context, index) {
+                    (context, index) {
                       ExerciseBundle exerciseBundle = exerciseBundles[index];
 
                       return ExerciseGroupWidget(
@@ -311,9 +319,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
-                      Container(height: 100,)
-                    ])
-                ),
+                  Container(
+                    height: 100,
+                  )
+                ])),
               ],
             ),
           )
@@ -321,12 +330,4 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
       ),
     );
   }
-
-  /*void _pauseWorkout(BuildContext context) {
-    widget.isWorkoutActive(false);
-    context.read<WorkoutBloc>().add(WorkoutPause());
-    Navigator.pop(context);
-  }*/
 }
-
-

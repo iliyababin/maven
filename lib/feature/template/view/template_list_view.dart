@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/feature/template/widget/empty_widget.dart';
-import 'package:maven/feature/template/widget/loading_widget.dart';
 
+import '../../../common/widget/empty_widget.dart';
+import '../../../common/widget/loading_widget.dart';
 import '../../../common/widget/reorder_sliver_list.dart';
-import '../../../database/model/template.dart';
+import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/template/template_bloc.dart';
-import 'template_widget.dart';
+import '../template.dart';
 
 class TemplateListWidget extends StatefulWidget {
   const TemplateListWidget({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _TemplateListWidgetState extends State<TemplateListWidget> {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
         if (state.status.isLoading) {
-          return LoadingWidget();
+          return const LoadingWidget();
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 

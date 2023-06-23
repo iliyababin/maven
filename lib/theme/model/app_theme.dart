@@ -140,7 +140,7 @@ class AppTheme extends Equatable {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: options.color.background,
         selectedItemColor: options.color.primary,
-        unselectedItemColor: options.color.subtext,
+        unselectedItemColor: options.color.onSurface,
         elevation: 0,
         selectedLabelStyle: const TextStyle(
           fontSize: 14,

@@ -5,7 +5,7 @@ import '../../../common/util/general_utils.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../model/complete_bundle.dart';
 import '../model/complete_exercise_bundle.dart';
-import '../screen/complete_detail_screen.dart';
+import '../screen/session_detail_screen.dart';
 
 class SessionWidget extends StatelessWidget {
   const SessionWidget({Key? key,

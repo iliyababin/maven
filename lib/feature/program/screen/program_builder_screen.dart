@@ -5,7 +5,7 @@ import 'package:maven/common/dialog/text_input_dialog.dart';
 import 'package:maven/common/util/general_utils.dart';
 import 'package:maven/database/TEST_ZONE/program.dart';
 import 'package:maven/feature/program/screen/day_selector_screen.dart';
-import 'package:maven/feature/template/screen/edit_template_screen.dart';
+import 'package:maven/feature/template/screen/template_edit_screen.dart';
 
 import '../../../common/widget/heading.dart';
 import '../../../common/widget/m_button.dart';
