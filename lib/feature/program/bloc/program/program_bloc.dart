@@ -1,103 +1,143 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:maven/common/util/general_utils.dart';
-import 'package:maven/database/TEST_ZONE/folder.dart';
-import 'package:maven/database/model/template.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../database/TEST_ZONE/program.dart';
-import '../../../../database/TEST_ZONE/template_tracker.dart';
-import '../../../../database/dao/folder_dao.dart';
-import '../../../../database/dao/program_dao.dart';
-import '../../../../database/dao/template_dao.dart';
-import '../../../../database/dao/template_exercise_group_dao.dart';
-import '../../../../database/dao/template_exercise_set_dao.dart';
-import '../../../../database/dao/template_tracker_dao.dart';
-import '../../model/exercise_day.dart';
+import '../../../../database/database.dart';
+import '../../../exercise/model/exercise_bundle.dart';
+import '../../model/program_template_bundle.dart';
 
 part 'program_event.dart';
 part 'program_state.dart';
 
 class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
   ProgramBloc({
+    required this.exerciseDao,
     required this.programDao,
-    required this.folderDao,
+    required this.programFolderDao,
+    required this.programTemplateDao,
+    required this.programExerciseGroupDao,
     required this.templateDao,
-    required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
+    required this.templateExerciseSetDataDao,
   }) : super(const ProgramState()) {
     on<ProgramInitialize>(_initialize);
     on<ProgramBuild>(_build);
-    on<ProgramStream>(_stream);
   }
 
+  final ExerciseDao exerciseDao;
   final ProgramDao programDao;
-  final FolderDao folderDao;
+  final ProgramFolderDao programFolderDao;
+  final ProgramTemplateDao programTemplateDao;
+  final ProgramExerciseGroupDao programExerciseGroupDao;
   final TemplateDao templateDao;
-  final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
+  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
 
-  FutureOr<void> _initialize(
-      ProgramInitialize event, Emitter<ProgramState> emit) {
+  Future<void> _initialize(ProgramInitialize event, Emitter<ProgramState> emit) async {
     emit(state.copyWith(
-      status: () => ProgramStatus.loading,
-    ));
-
-    programDao
-        .getProgramsAsStream()
-        .listen((event) => add(ProgramStream(programs: event)));
-
-    emit(state.copyWith(
-      status: () => ProgramStatus.loaded,
+      status: ProgramStatus.loaded,
+      programs: await _fetchPrograms(),
     ));
   }
 
   Future<void> _build(ProgramBuild event, Emitter<ProgramState> emit) async {
     emit(state.copyWith(
-      status: () => ProgramStatus.loading,
+      status: ProgramStatus.loading,
     ));
 
-    // Create program
     int programId = await programDao.addProgram(event.program);
 
-    for (int i = 1; i <= event.program.weeks; i++) {
-      // Create folder
-      int folderId = await folderDao.addFolder(Folder(
-        name: 'Week ${i.toString()}',
-        programId: programId,
-      ));
+    for(int i = 1; i <= event.program.weeks; i++) {
+      int programFolderId = await programFolderDao.addProgramFolder(
+        ProgramFolder(
+          order: i,
+          programId: programId,
+        ),
+      );
 
-      for (int j = 0; j < event.exerciseDays.length; j++) {
-        ExerciseDay exerciseDay = event.exerciseDays[j];
+      for(ProgramTemplateBundle bundle in event.programTemplateBundles) {
+        int programTemplateId = await programTemplateDao.addProgramTemplate(
+          ProgramTemplate(
+            name: bundle.programTemplate.name,
+            description: bundle.programTemplate.description,
+            timestamp: DateTime.now().add(Duration(days: i*DateTime.daysPerWeek)),
+            day: bundle.programTemplate.day,
+            complete: false,
+            folderId: programFolderId,
+          ),
+        );
 
-        // Create template
-        int templateId = await templateDao.addTemplate(Template(
-          name: capitalize(exerciseDay.day.name),
-          description: 'No description',
-          sort: j + 1,
-          timestamp: DateTime.now(),
-          //folderId: folderId,
-        ));
+        for(ExerciseBundle exerciseBundle in bundle.exerciseBundles) {
+          int programExerciseGroupId = await programExerciseGroupDao.addProgramExerciseGroup(ProgramExerciseGroup(
+            weightUnit: exerciseBundle.exerciseGroup.weightUnit,
+            timer: exerciseBundle.exerciseGroup.timer,
+            distanceUnit: exerciseBundle.exerciseGroup.distanceUnit,
+            barId: exerciseBundle.exerciseGroup.barId,
+            exerciseId: exerciseBundle.exerciseGroup.exerciseId,
+            programTemplateId: programTemplateId,
+          ));
 
-        await templateTrackerDao.addTemplateTracker(TemplateTracker(
-          templateId: templateId,
-          folderId: folderId,
-        ));
+         /* for(ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
+            int templateExerciseSetId = await templateExerciseSetDao.addTemplateExerciseSet(TemplateExerciseSet(
+              checked: exerciseSet.checked,
+              type: exerciseSet.type,
+              exerciseGroupId: templateExerciseGroupId,
+              templateId: programTemplateId,
+            ));
+
+            for(ExerciseSetData exerciseSetData in exerciseSet.data) {
+              await templateExerciseSetDataDao.addTemplateExerciseSetData(TemplateExerciseSetData(
+                value: exerciseSetData.value,
+                fieldType: exerciseSetData.fieldType,
+                exerciseSetId: templateExerciseSetId,
+              ));
+            }
+          }*/
+        }
       }
     }
-
+    
     emit(state.copyWith(
-      status: () => ProgramStatus.loaded,
+      status: ProgramStatus.loaded,
+      programs: await _fetchPrograms(),
     ));
   }
 
-  Future<void> _stream(ProgramStream event, Emitter<ProgramState> emit) async {
-    print(event.programs);
-    emit(state.copyWith(
-      programs: () => event.programs,
-    ));
+  Future<List<Program>> _fetchPrograms() async {
+    List<Program> programs = [];
+
+    for(Program program in await programDao.getPrograms()) {
+      List<ProgramFolder> programFolders = [];
+      
+      for(ProgramFolder programFolder in await programFolderDao.getProgramFoldersByProgramId(program.id!)) {
+        List<ProgramTemplate> programTemplates = [];
+
+        for(ProgramTemplate programTemplate in await programTemplateDao.getProgramTemplatesByFolderId(programFolder.id!)) {
+          List<ExerciseBundle> exerciseBundles = [];
+
+          for(ProgramExerciseGroup programExerciseGroup in await programExerciseGroupDao.getProgramExerciseGroupsByProgramTemplateId(programTemplate.id!)){
+            Exercise? exercise = await exerciseDao.getExercise(programExerciseGroup.exerciseId);
+
+            exerciseBundles.add(ExerciseBundle(
+              exercise: exercise!,
+              exerciseGroup: programExerciseGroup,
+              exerciseSets: [],
+              barId: programExerciseGroup.barId,
+            ));
+          }
+
+          programTemplates.add(programTemplate.copyWith(exerciseBundles: exerciseBundles));
+        }
+
+        programFolders.add(programFolder.copyWith(templates: programTemplates));
+      }
+
+      programs.add(program.copyWith(folders: programFolders));
+    }
+
+    return programs;
   }
 }

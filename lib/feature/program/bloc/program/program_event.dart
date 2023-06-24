@@ -14,28 +14,15 @@ class ProgramInitialize extends ProgramEvent {
 class ProgramBuild extends ProgramEvent {
   const ProgramBuild({
     required this.program,
-    required this.exerciseDays,
+    required this.programTemplateBundles,
   });
 
   final Program program;
-  final List<ExerciseDay> exerciseDays;
+  final List<ProgramTemplateBundle> programTemplateBundles;
 
   @override
   List<Object?> get props => [
     program,
-    exerciseDays,
-  ];
-}
-
-class ProgramStream extends ProgramEvent {
-  const ProgramStream({
-    required this.programs,
-  });
-
-  final List<Program> programs;
-
-  @override
-  List<Object?> get props => [
-    programs,
+    programTemplateBundles,
   ];
 }

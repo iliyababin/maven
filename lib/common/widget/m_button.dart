@@ -151,47 +151,42 @@ class MButton extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      child: Material(
+      child: InkWell(
+        onTap: onPressed,
+        splashFactory: InkRipple.splashFactory,
+        splashColor: splashColor,
         borderRadius: BorderRadius.circular(borderRadius),
-        color: backgroundColor ?? T(context).color.background,
-
-        child: InkWell(
-          onTap: onPressed,
-          splashFactory: InkRipple.splashFactory,
-          splashColor: splashColor,
-          borderRadius: BorderRadius.circular(borderRadius),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(borderRadius),
-              border: Border.all(
-                color: borderColor ?? backgroundColor ?? T(context).color.background,
-                width: borderColor == null ? 0 : 1,
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: borderColor ?? backgroundColor ?? T(context).color.background,
+              width: borderColor == null ? 0 : 1,
             ),
-            child: Padding(
-              padding: padding,
-              child: Row(
-                mainAxisAlignment: mainAxisAlignment,
+          ),
+          child: Padding(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: mainAxisAlignment,
 
-                children: [
-                  if(leading != null) Padding(
-                    padding: leadingPadding,
-                    child: leading!
+              children: [
+                if(leading != null) Padding(
+                  padding: leadingPadding,
+                  child: leading!
+                ),
+                if(leading != null && child != null) const SizedBox(width: 2,),
+                title != null ? Text(
+                  title!,
+                  style: T(context).textStyle.bodyLarge,
+                ) : child ?? Container(),
+                trailing != null ? Expanded(
+                  child: Container(
+                    padding: trailingPadding,
+                    alignment: Alignment.centerRight,
+                    child: trailing,
                   ),
-                  if(leading != null && child != null) const SizedBox(width: 2,),
-                  title != null ? Text(
-                    title!,
-                    style: T(context).textStyle.bodyLarge,
-                  ) : child ?? Container(),
-                  trailing != null ? Expanded(
-                    child: Container(
-                      padding: trailingPadding,
-                      alignment: Alignment.centerRight,
-                      child: trailing,
-                    ),
-                  ) : Container(),
-                ],
-              ),
+                ) : Container(),
+              ],
             ),
           ),
         ),

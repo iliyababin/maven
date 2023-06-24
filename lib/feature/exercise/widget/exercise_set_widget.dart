@@ -103,40 +103,52 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.subtitle1,
           ),
         ),
-        options: exerciseSet.data.where((element) => element.fieldType != ExerciseFieldType.bodyWeight).toList().map((e) => MButton(
-          height: 30,
-          expand: true,
-          backgroundColor: _isChecked ? Colors.transparent : T(context).color.surface,
-          child: Text(
-            e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value): e.value.toString(),
-            style: T(context).textStyle.bodyLarge.copyWith(
-              color: T(context).color.onSurface,
-            ),
-          ),
-          onPressed: () {
-            showBottomSheetDialog(
-              context: context,
-              child: MultiKeyboard(
-                barId: widget.barId,
-                equipment: widget.exercise.equipment,
-                data: e,
-                onValueChanged: (value) {
-                  widget.onExerciseSetUpdate(
-                    exerciseSet,
-                    /*.copyWith(
-                      options: exerciseSet.options.map(
-                              (e) => e.id == value.id ? value : e
-                      ).toList(),
-                    ),*/
-                  );
-                },
+        options: exerciseSet.data
+            .where((element) => element.fieldType != ExerciseFieldType.bodyWeight)
+            .toList()
+            .map(
+              (e) => Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    print('hi');
+                    showBottomSheetDialog(
+                      context: context,
+                      child: MultiKeyboard(
+                        barId: widget.barId,
+                        equipment: widget.exercise.equipment,
+                        data: e,
+                        onValueChanged: (value) {
+                          widget.onExerciseSetUpdate(
+                            exerciseSet,
+                            /*.copyWith(
+                            options: exerciseSet.options.map(
+                                    (e) => e.id == value.id ? value : e
+                            ).toList(),
+                          ),*/
+                          );
+                        },
+                      ),
+                      onClose: () {},
+                    );
+                  },
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: T(context).color.surface,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value) : e.value.toString(),
+                      style: T(context).textStyle.bodyLarge.copyWith(
+                        color: T(context).color.onSurface,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              onClose: () {
-
-              },
-            );
-          },
-        )).toList(),
+        )
+            .toList(),
         checkbox: widget.checkboxEnabled ? SizedBox(
           height: 38,
           child: Transform.scale(

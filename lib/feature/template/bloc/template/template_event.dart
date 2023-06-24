@@ -15,18 +15,15 @@ class TemplateCreate extends TemplateEvent {
   const TemplateCreate({
     required this.template,
     required this.exerciseBundles,
-    this.templateTracker,
   });
 
   final Template template;
   final List<ExerciseBundle> exerciseBundles;
-  final TemplateTracker? templateTracker;
 
   @override
   List<Object?> get props => [
     template,
     exerciseBundles,
-    templateTracker,
   ];
 }
 

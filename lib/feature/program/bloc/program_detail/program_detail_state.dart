@@ -1,3 +1,4 @@
+/*
 part of 'program_detail_bloc.dart';
 
 enum ProgramDetailStatus {
@@ -43,4 +44,4 @@ class ProgramDetailState extends Equatable {
     program,
     folders,
   ];
-}
+}*/

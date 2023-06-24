@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
-import '../widget/m_button.dart';
 
 /// Dialog that prompts the user to enter some text.
 ///
@@ -104,31 +103,32 @@ class _TextInputDialogState extends State<TextInputDialog> {
           const SizedBox(height: 30),
           Row(
             children: [
-              MButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                backgroundColor: T(context).color.background,
-                borderColor: T(context).color.secondary,
-                child: Text(
-                  'Cancel',
-                  style: T(context).textStyle.button2,
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: T(context).textStyle.button2,
+                  ),
                 ),
               ),
               const SizedBox(width: 15,),
-              MButton(
-                onPressed: (){
-                  if (_formKey.currentState!.validate()) {
-                    if(widget.onValueSubmit != null) {
-                      widget.onValueSubmit!(_textEditingController.text);
+              Expanded(
+                child: FilledButton(
+                  onPressed: (){
+                    if (_formKey.currentState!.validate()) {
+                      if(widget.onValueSubmit != null) {
+                        widget.onValueSubmit!(_textEditingController.text);
+                      }
+                      Navigator.pop(context);
                     }
-                    Navigator.pop(context);
-                  }
-                },
-                backgroundColor: T(context).color.primary,
-                child: Text(
-                  'Submit',
-                  style: T(context).textStyle.labelLarge,
+                  },
+                  child: Text(
+                    'Submit',
+                    style: T(context).textStyle.labelLarge,
+                  ),
                 ),
               )
             ],

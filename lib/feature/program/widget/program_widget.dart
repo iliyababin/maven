@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/program/screen/program_detail_screen.dart';
 
 import '../../../common/util/general_utils.dart';
-import '../../../database/TEST_ZONE/program.dart';
+import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
+import '../screen/program_detail_screen.dart';
 
 class ProgramWidget extends StatelessWidget {
   const ProgramWidget({Key? key,
@@ -12,7 +12,7 @@ class ProgramWidget extends StatelessWidget {
 
   final Program program;
 
-  final double _borderRadius = 10;
+  final double _borderRadius = 16;
 
 
   @override
@@ -21,7 +21,7 @@ class ProgramWidget extends StatelessWidget {
       color: T(context).color.background,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProgramDetailScreen(programId: program.programId!),));
+           Navigator.push(context, MaterialPageRoute(builder: (context) => ProgramDetailScreen(programId: program.id!),));
         },
         borderRadius: BorderRadius.circular(_borderRadius),
         child: Container(
@@ -29,7 +29,7 @@ class ProgramWidget extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_borderRadius),
               border: Border.all(
-                color: T(context).color.secondary,
+                color: T(context).color.outline,
               )
           ),
           padding: const EdgeInsets.all(15.0),
@@ -45,7 +45,7 @@ class ProgramWidget extends StatelessWidget {
                 height: 5,
               ),
               Text(
-                '${program.weeks} weeks | ${formatDate(program.createdAt)} - ${formatDate(program.createdAt.add(Duration(days: program.weeks * 7)))}',
+                '${program.weeks} weeks | ${formatDate(program.timestamp)} - ${formatDate(program.timestamp.add(Duration(days: program.weeks * 7)))}',
                 style: T(context).textStyle.subtitle2,
               ),
               /*const SizedBox(

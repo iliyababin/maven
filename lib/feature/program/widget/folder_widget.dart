@@ -1,3 +1,4 @@
+/*
 
 
 import 'package:expandable/expandable.dart';
@@ -79,86 +80,84 @@ class _FolderWidgetState extends State<FolderWidget> {
           color: T(context).color.secondary,
         ),
       ),
-      child: Material(
-        color: T(context).color.background,
+      child: InkWell(
+        onTap: (){
+          setState(() {
+            if(!_expandedController.expanded) {
+              _expandedController.toggle();
+            }
+          });
+        },
         borderRadius: BorderRadius.circular(_borderRadius),
-        child: InkWell(
-          onTap: (){
-            setState(() {
-              if(!_expandedController.expanded) {
-                _expandedController.toggle();
-              }
-            });
-          },
-          borderRadius: BorderRadius.circular(_borderRadius),
-          child: ExpandableNotifier(
-            controller: _expandedController,
-            child: ScrollOnExpand(
-              child: ExpandablePanel(
-                controller: _expandedController,
-                theme: ExpandableThemeData(
-                  iconColor: T(context).color.primary,
-                  iconPlacement: ExpandablePanelIconPlacement.right,
-                  headerAlignment: ExpandablePanelHeaderAlignment.center,
-                  iconPadding: const EdgeInsets.fromLTRB(0, 12, 12, 8),
-                  inkWellBorderRadius: BorderRadius.circular(_borderRadius),
-                  iconSize: 30,
-                  useInkWell: false,
-                ),
-                header: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(_borderRadius),
-                    ),
-                    padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.folder.name,
-                          style: T(context).textStyle.titleLarge,
-                        ),
-                      ],
-                    )
-                ),
-                collapsed: /*Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
-                  child: Text(
-                    '$_completedAmount / ${widget.templates.length}',
-                    style: T(context).textStyle.subtitle1,
+        child: ExpandableNotifier(
+          controller: _expandedController,
+          child: ScrollOnExpand(
+            child: ExpandablePanel(
+              controller: _expandedController,
+              theme: ExpandableThemeData(
+                iconColor: T(context).color.primary,
+                iconPlacement: ExpandablePanelIconPlacement.right,
+                headerAlignment: ExpandablePanelHeaderAlignment.center,
+                iconPadding: const EdgeInsets.fromLTRB(0, 12, 12, 8),
+                inkWellBorderRadius: BorderRadius.circular(_borderRadius),
+                iconSize: 30,
+                useInkWell: false,
+              ),
+              header: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(_borderRadius),
                   ),
-                )*/ Container(),
-                expanded: widget.templates.isNotEmpty ? Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: widget.templates.length,
-                    itemBuilder: (context, index) {
-                      return TemplateWidget(
-                        template: widget.templates[index],
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(height: 12),
-                  ),
-                ) : Center(
-                  child: Column(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(height: 16),
-                      const Icon(
-                        Icons.folder_copy_rounded,
-                        size: 60,
+                      Text(
+                        widget.folder.name,
+                        style: T(context).textStyle.titleLarge,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                        child: Text(
-                          'This folder is empty.',
-                          textAlign: TextAlign.center,
-                          style: T(context).textStyle.subtitle1,
-                        ),
-                      ),
-                      const SizedBox(height: 40)
                     ],
-                  ),
+                  )
+              ),
+              collapsed: */
+/*Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 0, 18),
+                child: Text(
+                  '$_completedAmount / ${widget.templates.length}',
+                  style: T(context).textStyle.subtitle1,
+                ),
+              )*//*
+ Container(),
+              expanded: widget.templates.isNotEmpty ? Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: widget.templates.length,
+                  itemBuilder: (context, index) {
+                    return TemplateWidget(
+                      template: widget.templates[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                ),
+              ) : Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    const Icon(
+                      Icons.folder_copy_rounded,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                      child: Text(
+                        'This folder is empty.',
+                        textAlign: TextAlign.center,
+                        style: T(context).textStyle.subtitle1,
+                      ),
+                    ),
+                    const SizedBox(height: 40)
+                  ],
                 ),
               ),
             ),
@@ -168,3 +167,4 @@ class _FolderWidgetState extends State<FolderWidget> {
     );
   }
 }
+*/

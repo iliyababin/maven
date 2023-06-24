@@ -1,21 +1,17 @@
-
 import 'package:floor/floor.dart';
 
-import '../TEST_ZONE/program.dart';
+import '../database.dart';
 
 @dao
 abstract class ProgramDao {
   @insert
   Future<int> addProgram(Program program);
 
-  @Query('SELECT * FROM program WHERE program_id = :programId')
-  Future<Program?> getProgram(int programId);
+  @Query('SELECT * FROM program WHERE id = :id')
+  Future<Program?> getProgram(int id);
 
   @Query('SELECT * FROM program')
   Future<List<Program>> getPrograms();
-
-  @Query('SELECT * FROM program')
-  Stream<List<Program>> getProgramsAsStream();
 
   @update
   Future<int> updateProgram(Program program);

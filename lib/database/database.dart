@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import 'TEST_ZONE/folder.dart';
-import 'TEST_ZONE/program.dart';
-import 'TEST_ZONE/template_tracker.dart';
 import 'converter/converter.dart';
 import 'dao/dao.dart';
 import 'data/data.dart';
@@ -26,9 +23,11 @@ part 'database.g.dart';
     Bar,
     Exercise,
     ExerciseField,
-    Folder,
     Plate,
     Program,
+    ProgramExerciseGroup,
+    ProgramFolder,
+    ProgramTemplate,
     Session,
     SessionExerciseGroup,
     SessionExerciseSet,
@@ -37,7 +36,6 @@ part 'database.g.dart';
     TemplateExerciseGroup,
     TemplateExerciseSet,
     TemplateExerciseSetData,
-    TemplateTracker,
     Setting,
     Workout,
     WorkoutExerciseGroup,
@@ -57,9 +55,11 @@ abstract class MavenDatabase extends FloorDatabase {
   BarDao get barDao;
   ExerciseDao get exerciseDao;
   ExerciseFieldDao get exerciseFieldDao;
-  FolderDao get folderDao;
   PlateDao get plateDao;
   ProgramDao get programDao;
+  ProgramExerciseGroupDao get programExerciseGroupDao;
+  ProgramFolderDao get programFolderDao;
+  ProgramTemplateDao get programTemplateDao;
   SettingDao get settingDao;
   SessionDao get sessionDao;
   SessionExerciseGroupDao get sessionExerciseGroupDao;
@@ -69,7 +69,6 @@ abstract class MavenDatabase extends FloorDatabase {
   TemplateExerciseGroupDao get templateExerciseGroupDao;
   TemplateExerciseSetDao get templateExerciseSetDao;
   TemplateExerciseSetDataDao get templateExerciseSetDataDao;
-  TemplateTrackerDao get templateTrackerDao;
   WorkoutDao get workoutDao;
   WorkoutExerciseGroupDao get workoutExerciseGroupDao;
   WorkoutExerciseSetDao get workoutExerciseSetDao;
@@ -85,7 +84,7 @@ abstract class MavenDatabase extends FloorDatabase {
   
   static Future<MavenDatabase> initialize() async {
     MavenDatabase db = await $FloorMavenDatabase
-        .databaseBuilder('maven_db_23.db')
+        .databaseBuilder('maven_db_36.db')
         .addCallback(_callback)
         .build();
     db.plateDao.addPlates(getDefaultPlates());

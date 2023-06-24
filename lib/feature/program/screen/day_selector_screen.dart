@@ -1,50 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/program/model/exercise_day.dart';
 
 import '../../../common/util/general_utils.dart';
+import '../../../database/enum/day.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
-import '../model/day.dart';
 
 class DaySelectorScreen extends StatefulWidget {
-  const DaySelectorScreen({Key? key,
-    required this.exerciseDays,
-    required this.onSubmit,
+  const DaySelectorScreen({
+    Key? key,
+    required this.day,
   }) : super(key: key);
 
-  final List<ExerciseDay> exerciseDays;
-  final ValueChanged<List<ExerciseDay>> onSubmit;
+  final Day day;
 
   @override
   State<DaySelectorScreen> createState() => _DaySelectorScreenState();
 }
 
 class _DaySelectorScreenState extends State<DaySelectorScreen> {
-  late List<ExerciseDay> exerciseDays;
-
-  @override
-  void initState() {
-    exerciseDays = List.from(widget.exerciseDays);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Days',
+          'Day',
         ),
-        actions: [
-          IconButton(
-            onPressed: (){
-              widget.onSubmit(exerciseDays);
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.check_rounded,
-            ),
-          )
-        ],
       ),
       body: ListView.builder(
         itemCount: Day.values.length,
@@ -52,39 +31,20 @@ class _DaySelectorScreenState extends State<DaySelectorScreen> {
           Day day = Day.values[index];
           return ListTile(
             onTap: () {
-
+              Navigator.pop(context, day);
             },
-            trailing: Transform.scale(
-              scale: 1.2,
-              child: Checkbox(
-                shape: CircleBorder(
-                  side: BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                    style: BorderStyle.solid,
-
-                  )
-                ),
-                value: exerciseDays.getDays().contains(day),
-                onChanged: (value) {
-                  int i = exerciseDays.indexWhere((exerciseDay) => exerciseDay.day == day);
-                  setState(() {
-                    if(i == -1) {
-                      exerciseDays.add(ExerciseDay(day: day, exerciseBundles: []));
-                    } else {
-                      exerciseDays.removeAt(i);
-                    }
-                  });
-                },
-              ),
-            ),
             title: Text(
               capitalize(day.name),
               style: T(context).textStyle.bodyLarge,
             ),
+            trailing: widget.day == day
+                ? const Icon(
+                    Icons.check,
+                  )
+                : null,
           );
         },
-      )
+      ),
     );
   }
 }

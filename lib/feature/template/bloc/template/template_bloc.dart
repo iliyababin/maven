@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../database/TEST_ZONE/template_tracker.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/model/exercise_bundle.dart';
 
@@ -13,7 +12,6 @@ part 'template_state.dart';
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   TemplateBloc({
     required this.templateDao,
-    required this.templateTrackerDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
     required this.templateExerciseSetDataDao,
@@ -26,7 +24,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   final TemplateDao templateDao;
-  final TemplateTrackerDao templateTrackerDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
   final TemplateExerciseSetDataDao templateExerciseSetDataDao;

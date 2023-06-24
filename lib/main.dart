@@ -8,7 +8,6 @@ import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
-import 'feature/program/bloc/program_detail/program_detail_bloc.dart';
 import 'feature/session/bloc/session_bloc/session_bloc.dart';
 import 'feature/session/bloc/session_exercise/complete_exercise_bloc.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
@@ -34,7 +33,6 @@ void main() async {
       BlocProvider(
           create: (context) => TemplateBloc(
                 templateDao: db.templateDao,
-                templateTrackerDao: db.templateTrackerDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
                 templateExerciseSetDataDao: db.templateExerciseSetDataDao,
@@ -70,20 +68,23 @@ void main() async {
               )..add(const EquipmentInitialize())),
       BlocProvider(
           create: (context) => ProgramBloc(
+                exerciseDao: db.exerciseDao,
                 programDao: db.programDao,
-                folderDao: db.folderDao,
+                programFolderDao: db.programFolderDao,
+                programTemplateDao: db.programTemplateDao,
+                programExerciseGroupDao: db.programExerciseGroupDao,
                 templateDao: db.templateDao,
-                templateTrackerDao: db.templateTrackerDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,
+                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const ProgramInitialize())),
-      BlocProvider(
+      /*BlocProvider(
           create: (context) => ProgramDetailBloc(
                 programDao: db.programDao,
                 folderDao: db.folderDao,
                 templateDao: db.templateDao,
                 templateTrackerDao: db.templateTrackerDao,
-              )..add(ProgramDetailInitialize())),
+              )..add(ProgramDetailInitialize())),*/
       BlocProvider(
           create: (context) => SessionBloc(
                 sessionDao: db.sessionDao,

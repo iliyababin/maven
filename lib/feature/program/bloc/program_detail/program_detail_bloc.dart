@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -73,12 +74,15 @@ class ProgramDetailBloc extends Bloc<ProgramDetailEvent, ProgramDetailState> {
     emit(state.copyWith(
       folders: () => state.folders.map((folder) {
         return folder.copyWith(templates: folder.templates.map((template) {
-          /*if(template.templateId == event.templateTracker.templateId) {
+          */
+/*if(template.templateId == event.templateTracker.templateId) {
             return template.copyWith(templateTracker: event.templateTracker);
-          }*/
+          }*//*
+
           return template;
         }).toList());
       }).toList(),
     ));
   }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 part of 'program_detail_bloc.dart';
 
 abstract class ProgramDetailEvent extends Equatable {
@@ -33,4 +34,4 @@ class ProgramDetailTemplateTrackerUpdate extends ProgramDetailEvent {
   List<Object?> get props => [
     templateTracker,
   ];
-}
+}*/

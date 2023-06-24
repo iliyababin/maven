@@ -42,6 +42,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
     }
     if (widget.template == null) {
       template = Template(
+        id: DateTime.now().millisecondsSinceEpoch,
         name: 'Untitled',
         description: 'A workout template',
         sort: -1,
