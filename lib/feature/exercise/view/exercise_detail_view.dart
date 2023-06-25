@@ -89,7 +89,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.muscle.name.parseMuscleToString(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         ListTile(
@@ -108,7 +108,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.muscleGroup.name.capitalize(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         ListTile(
@@ -136,7 +136,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.timer.toString(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         ListTile(
@@ -155,7 +155,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.equipment.name.capitalize(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         ListTile(
@@ -175,7 +175,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           subtitle: Text(
             // Name of exercise fields
             widget.exercise.fields.map((obj) => obj.type.name.capitalize()).join(' | '),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         widget.exercise.weightUnit != null ? ListTile(
@@ -189,7 +189,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.weightUnit!.name.toString().capitalize(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ) : Container(),
         widget.exercise.distanceUnit != null ? ListTile(
@@ -203,7 +203,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
           ),
           subtitle: Text(
             widget.exercise.distanceUnit!.name.toString().capitalize(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ) : Container(),
       ],

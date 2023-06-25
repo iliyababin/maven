@@ -26,7 +26,7 @@ class PaddingScreen extends StatelessWidget {
             ),
             subtitle: Text(
               'Padding: $value',
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           );
         },

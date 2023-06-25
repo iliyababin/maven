@@ -257,7 +257,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                             return Text(
                               workoutDuration(workout.timestamp),
-                              style: T(context).textStyle.subtitle1,
+                              style: T(context).textStyle.bodyMedium,
                             );
                           },
                         )

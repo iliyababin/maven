@@ -156,7 +156,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   ),
                   subtitle: Text(
                     '${exercise.muscleGroup.name.capitalize()} · ${exercise.muscle.name.parseMuscleToString()}',
-                    style: T(context).textStyle.subtitle1,
+                    style: T(context).textStyle.bodyMedium,
                   ),
                   trailing: isSelected ? IconButton(
                     icon: Icon(

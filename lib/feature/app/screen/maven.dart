@@ -100,7 +100,7 @@ class _MavenState extends State<Maven> {
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                           return Text(
                             workoutDuration(state.workout?.timestamp ?? DateTime.now()),
-                            style: T(context).textStyle.subtitle1,
+                            style: T(context).textStyle.bodyMedium,
                           );
                         },
                       ),

@@ -110,7 +110,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           title: 'Weight Unit',
           trailing: Text(
             exerciseGroup.weightUnit?.name.toString() ?? '',
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ) : Container(),
         exercise.distanceUnit != null ? MButton.tiled(
@@ -146,7 +146,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           title: 'Distance Unit',
           trailing: Text(
             exerciseGroup.distanceUnit!.name.toString(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ) : Container(),
         MButton.tiled(
@@ -168,7 +168,7 @@ class ExerciseGroupMenu extends StatelessWidget {
           ),
           trailing: Text(
             exerciseGroup.timer.toString(),
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
           title: 'Rest Timer',
         ),

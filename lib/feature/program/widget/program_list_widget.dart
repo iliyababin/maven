@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/empty_widget.dart';
 import 'package:maven/common/widget/loading_widget.dart';
 import 'package:maven/feature/program/widget/program_widget.dart';
+import 'package:reorderable_grid/reorderable_grid.dart';
 
-import '../../../common/widget/reorder_sliver_list.dart';
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../bloc/program/program_bloc.dart';
@@ -26,17 +25,50 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
         } else if (state.status.isLoaded) {
           List<Program> programs = state.programs;
 
-          return programs.isEmpty ? const EmptyWidget() : ReorderSliverList(
-            children: programs,
+          return SliverReorderableGrid(
+            itemCount: programs.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
+            ),
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
+                final Program item = programs.removeAt(oldIndex);
+                programs.insert(newIndex, item);
+              });
+            },
             itemBuilder: (context, index) {
               Program program = programs[index];
-              return ProgramWidget(
-                program: program,
+              return ReorderableGridDelayedDragStartListener(
+                key: ValueKey(program.id),
+                index: index,
+                child: ProgramWidget(
+                  program: program,
+                ),
               );
             },
-            onReorder: (oldIndex, newIndex) {
-
-            },
+          );
+          return SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                Program program = programs[index];
+                return ProgramWidget(
+                  program: program,
+                );
+              },
+              childCount: programs.length,
+            )
           );
         } else {
           return SliverToBoxAdapter(

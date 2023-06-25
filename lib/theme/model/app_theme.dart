@@ -62,9 +62,9 @@ class AppTheme extends Equatable {
         inversePrimary: Colors.purple,
         inverseSurface: Colors.purple,
         onInverseSurface: Colors.purple,
-
+/*
         onSurfaceVariant: Color(0xff424940),
-
+*/
         // A utility color that creates boundaries for decorative elements when a 3:1 contrast isn’t required, such as for dividers or decorative elements.
         scrim: Colors.red,
         shadow: Colors.red,

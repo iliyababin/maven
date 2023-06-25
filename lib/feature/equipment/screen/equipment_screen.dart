@@ -44,7 +44,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   subtitle: Text(
                     '${plates.length}',
-                    style: T(context).textStyle.subtitle1,
+                    style: T(context).textStyle.bodyMedium,
                   ),
                 ),
                 ListTile(
@@ -62,7 +62,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   subtitle: Text(
                     '${bars.length}',
-                    style: T(context).textStyle.subtitle1,
+                    style: T(context).textStyle.bodyMedium,
                   ),
                 ),
                 ListTile(
@@ -78,7 +78,7 @@ class EquipmentScreen extends StatelessWidget {
                   ),
                   subtitle: Text(
                     '0',
-                    style: T(context).textStyle.subtitle1,
+                    style: T(context).textStyle.bodyMedium,
                   ),
                 ),
               ],

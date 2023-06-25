@@ -68,14 +68,14 @@ class CompleteExerciseWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           completeExerciseSet.type == ExerciseSetType.regular ? (index+1).toString() : completeExerciseSet.type.name.substring(0, 1),
-                          style: T(context).textStyle.subtitle1.copyWith(color: color),
+                          style: T(context).textStyle.bodyMedium.copyWith(color: color),
                         ),
                       ),
                       Expanded(
                         flex: 12,
                         child: Text(
                           '//TODO',
-                          style: T(context).textStyle.subtitle1.copyWith(color: color),
+                          style: T(context).textStyle.bodyMedium.copyWith(color: color),
                         ),
                       ),
                     ],

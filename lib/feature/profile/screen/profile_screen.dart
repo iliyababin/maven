@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       'Weight Lifiting',
-                      style: InheritedThemeWidget.of(context).theme.options.textStyle.subtitle1,
+                      style: InheritedThemeWidget.of(context).theme.options.textStyle.bodyMedium,
                     ),
                   ],
                 ),

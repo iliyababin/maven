@@ -159,7 +159,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                           focusedBorder: InputBorder.none,
                           hintText: 'Description',
                         ),
-                        style: T(context).textStyle.subtitle1,
+                        style: T(context).textStyle.bodyMedium,
                       ),
                     ]),
                   ),

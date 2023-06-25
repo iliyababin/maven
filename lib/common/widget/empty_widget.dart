@@ -19,7 +19,7 @@ class EmptyWidget extends StatelessWidget {
         alignment: FractionalOffset.center,
         child: Text(
           'Empty',
-          style: T(context).textStyle.subtitle1,
+          style: T(context).textStyle.bodyMedium,
         ),
       ),
     );

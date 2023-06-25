@@ -33,6 +33,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_slidable: ^3.0.0
   video_player: ^2.6.1
+  reorderable_grid: ^1.0.6
 
 dev_dependencies:
   flutter_test:

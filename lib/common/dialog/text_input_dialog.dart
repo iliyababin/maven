@@ -69,7 +69,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
               style: T(context).textStyle.bodyLarge,
               decoration: InputDecoration(
                 hintText: widget.hintText,
-                hintStyle: T(context).textStyle.subtitle1,
+                hintStyle: T(context).textStyle.bodyMedium,
                 errorStyle: TextStyle(
                   color: T(context).color.error,
                 ),

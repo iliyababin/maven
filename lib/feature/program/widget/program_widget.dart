@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/util/general_utils.dart';
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../screen/program_detail_screen.dart';
@@ -32,7 +31,7 @@ class ProgramWidget extends StatelessWidget {
                 color: T(context).color.outline,
               )
           ),
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,12 +41,32 @@ class ProgramWidget extends StatelessWidget {
                 maxLines: 1,
               ),
               const SizedBox(
-                height: 5,
+                height: 3,
               ),
               Text(
-                '${program.weeks} weeks | ${formatDate(program.timestamp)} - ${formatDate(program.timestamp.add(Duration(days: program.weeks * 7)))}',
-                style: T(context).textStyle.subtitle2,
+                'Template',
+                style: T(context).textStyle.titleSmall,
               ),
+              /*Text(
+                'Week 2 of ${program.weeks}',
+                style: T(context).textStyle.titleMedium.copyWith(color: T(context).color.primary),
+              ),*/
+              const SizedBox(
+                height: 3,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: program.folders.first.templates.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final ProgramTemplate template = program.folders.first.templates[index];
+                    return Text(
+                      '\u2022 ${template.name}',
+                      style: T(context).textStyle.bodyLarge,
+                    );
+                  },
+                ),
+              )
               /*const SizedBox(
                 height: 3,
               ),

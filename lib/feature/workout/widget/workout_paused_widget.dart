@@ -66,7 +66,7 @@ class PausedWorkoutWidget extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       'Created ${timeago.format(workout.timestamp)}',
-                      style: T(context).textStyle.subtitle1,
+                      style: T(context).textStyle.bodyMedium,
                     );
                   },
                 ),

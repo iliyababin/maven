@@ -17,7 +17,7 @@ class SessionDetailScreen extends StatelessWidget {
 
     result.add(TextSpan(
       text: '${index + 1}  ',
-      style: T(context).textStyle.subtitle1.copyWith(
+      style: T(context).textStyle.bodyMedium.copyWith(
         color: seb.sessionExerciseSets[index].type.color(context),
       ),
     ));
@@ -26,13 +26,13 @@ class SessionDetailScreen extends StatelessWidget {
     for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
       result.add(TextSpan(
         text: seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup),
-        style: T(context).textStyle.subtitle1,
+        style: T(context).textStyle.bodyMedium,
       ));
 
       if (i < seb.sessionExerciseSets[index].data.length - 1) {
         result.add(TextSpan(
           text: ' x ',
-          style: T(context).textStyle.subtitle1,
+          style: T(context).textStyle.bodyMedium,
         ));
       }
     }
@@ -73,7 +73,7 @@ class SessionDetailScreen extends StatelessWidget {
                     SessionExerciseSet completeExerciseSet = completeExerciseBundle.sessionExerciseSets[index];
                     return RichText(
                       text: TextSpan(
-                        style: T(context).textStyle.subtitle1,
+                        style: T(context).textStyle.bodyMedium,
                         children: test(completeExerciseBundle, index, context),
                       ),
 

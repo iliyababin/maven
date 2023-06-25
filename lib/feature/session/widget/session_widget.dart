@@ -78,12 +78,12 @@ class SessionWidget extends StatelessWidget {
                 SessionExerciseBundle sessionExerciseBundle = sessionBundle.sessionExerciseBundles[index];
                 return Text(
                   '${sessionExerciseBundle.sessionExerciseSets.length} x ${sessionExerciseBundle.exercise.name}',
-                  style: T(context).textStyle.subtitle1,
+                  style: T(context).textStyle.bodyMedium,
                 );
               },
             ) : Text(
               'None',
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ],
         ),

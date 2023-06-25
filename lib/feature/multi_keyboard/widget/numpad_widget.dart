@@ -85,7 +85,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
             keyboardType: TextInputType.none,
             decoration: InputDecoration(
               hintText: '',
-              hintStyle: T(context).textStyle.subtitle1,
+              hintStyle: T(context).textStyle.bodyMedium,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),

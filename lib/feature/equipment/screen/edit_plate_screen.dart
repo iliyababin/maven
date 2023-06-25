@@ -117,7 +117,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             subtitle: Text(
               '$amount plates',
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ),
           ListTile(
@@ -141,7 +141,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             subtitle: Text(
               weight.toString(),
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ),
           ListTile(
@@ -151,7 +151,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             subtitle: Text(
               height.toStringAsFixed(3),
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
             trailing: SizedBox(
               width: 200,
@@ -183,7 +183,7 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
             ),
             subtitle: Text(
               '#${color.value.toRadixString(16)}',
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ),
         ],

@@ -116,7 +116,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
                     const SizedBox(height: 5,),
                     Text(
                       'Target: ${weight.toString()} | Possible: $possibleWeight ',
-                      style: T(context).textStyle.subtitle1,
+                      style: T(context).textStyle.bodyMedium,
                     ),
                   ],
                 ),

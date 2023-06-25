@@ -100,7 +100,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: Colors.transparent,
           child: Text(
             '-',
-            style: T(context).textStyle.subtitle1,
+            style: T(context).textStyle.bodyMedium,
           ),
         ),
         options: exerciseSet.data

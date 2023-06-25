@@ -565,6 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  reorderable_grid:
+    dependency: "direct main"
+    description:
+      name: reorderable_grid
+      sha256: "99a17ed6d6751911edf25bec485b9e7fd82857504e08cc1cbc969af1b8b0ffe9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   reorderables:
     dependency: "direct main"
     description:

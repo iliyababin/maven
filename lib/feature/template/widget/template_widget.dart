@@ -61,7 +61,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 ),
                 Text(
                   widget.template.description,
-                  style: T(context).textStyle.subtitle1,
+                  style: T(context).textStyle.bodyMedium,
                 ),
               ],
             ),

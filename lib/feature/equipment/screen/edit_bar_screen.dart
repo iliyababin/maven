@@ -74,7 +74,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             subtitle: Text(
               _bar.name,
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ),
           ListTile(
@@ -97,7 +97,7 @@ class _EditBarScreenState extends State<EditBarScreen> {
             ),
             subtitle: Text(
               _bar.weight.toString(),
-              style: T(context).textStyle.subtitle1,
+              style: T(context).textStyle.bodyMedium,
             ),
           ),
         ],

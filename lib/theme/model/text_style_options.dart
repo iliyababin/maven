@@ -19,13 +19,18 @@ class TextStyleOptions {
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
+        titleSmall = const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
         bodyLarge = const TextStyle(
           fontSize: 16,
           overflow: TextOverflow.ellipsis,
           fontWeight: FontWeight.w400,
         ),
-        subtitle1 = const TextStyle(
-          fontSize: 15,
+        bodyMedium = const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
         ),
         subtitle2 = const TextStyle(
           fontSize: 16,
@@ -43,8 +48,9 @@ class TextStyleOptions {
   final TextStyle headingMedium;
   final TextStyle titleLarge;
   final TextStyle titleMedium;
+  final TextStyle titleSmall;
   final TextStyle bodyLarge;
-  final TextStyle subtitle1;
+  final TextStyle bodyMedium;
   final TextStyle subtitle2;
   final TextStyle labelLarge;
   final TextStyle button2;
@@ -54,10 +60,11 @@ class TextStyleOptions {
         'Heading Medium': headingMedium,
         'Title Large': titleLarge,
         'Title Medium': titleMedium,
+        'Title Small': titleSmall,
         'Body Large': bodyLarge,
-        'Subtitle 1': subtitle1,
+        'Body Medium': bodyMedium,
         'Subtitle 2': subtitle2,
-        'Button 1': labelLarge,
+        'Label Large': labelLarge,
         'Button 2': button2,
       };
 }

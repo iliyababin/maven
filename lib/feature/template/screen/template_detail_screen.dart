@@ -152,7 +152,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> {
                     ),
                     subtitle: Text(
                       exerciseBundle.exerciseSets.length.toString(),
-                      style: T(context).textStyle.subtitle1,
+                      style: T(context).textStyle.bodyMedium,
                     ),
                   );
                 },
