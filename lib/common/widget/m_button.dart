@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
+import '../../theme/theme.dart';
 
 /// A Maven Style Button.
 ///
@@ -48,7 +48,7 @@ class MButton extends StatelessWidget {
     required this.onPressed,
     this.leading,
     this.child,
-    this.height = 46,
+    this.height = 42,
     this.width = double.infinity,
     this.borderRadius = 8,
     this.backgroundColor,
@@ -57,14 +57,14 @@ class MButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 0),
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.expand = true,
-  }) :  leadingPadding = const EdgeInsets.only(right: 4),
+  }) :  leadingPadding = const EdgeInsets.only(),
         trailingPadding = const EdgeInsets.only(),
         trailing = null,
         title = null,
         textStyle = null;
 
   /// Creates a button similar to [ListTile].
-  /// 
+  ///
   /// To be used with [showBottomSheetDialog].
   const MButton.tiled({super.key,
     required this.onPressed,
@@ -72,7 +72,7 @@ class MButton extends StatelessWidget {
     required this.title,
     this.textStyle,
     this.trailing,
-    this.height = 58,
+    this.height = 62,
     this.width = double.infinity,
     this.borderRadius = 0,
     this.backgroundColor,
@@ -151,19 +151,21 @@ class MButton extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      child: InkWell(
-        onTap: onPressed,
-        splashFactory: InkRipple.splashFactory,
-        splashColor: splashColor,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          border: borderColor != null ? Border.all(
+              color: borderColor ?? backgroundColor ?? T(context).color.background
+          ) : null,
+          color: borderColor
+      ),
+      child: Material(
         borderRadius: BorderRadius.circular(borderRadius),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(
-              color: borderColor ?? backgroundColor ?? T(context).color.background,
-              width: borderColor == null ? 0 : 1,
-            ),
-          ),
+        color: backgroundColor ?? T(context).color.background,
+        child: InkWell(
+          onTap: onPressed,
+          splashFactory: InkRipple.splashFactory,
+          splashColor: splashColor,
+          borderRadius: BorderRadius.circular(borderRadius),
           child: Padding(
             padding: padding,
             child: Row(
@@ -171,13 +173,16 @@ class MButton extends StatelessWidget {
 
               children: [
                 if(leading != null) Padding(
-                  padding: leadingPadding,
-                  child: leading!
+                    padding: leadingPadding,
+                    child: leading!
                 ),
                 if(leading != null && child != null) const SizedBox(width: 2,),
                 title != null ? Text(
                   title!,
-                  style: T(context).textStyle.bodyLarge,
+                  style: textStyle ?? TextStyle(
+                    fontSize: 17,
+                    color: T(context).color.onBackground,
+                  ),
                 ) : child ?? Container(),
                 trailing != null ? Expanded(
                   child: Container(

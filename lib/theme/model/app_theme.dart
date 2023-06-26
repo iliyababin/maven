@@ -218,6 +218,11 @@ class AppTheme extends Equatable {
         outline: Color(0xFFDCDCDC),
         outlineVariant: Color(0xFFB9B9B9),
 
+        success: Color(0xFF2DCD70),
+        onSuccess: Color(0xFFffffff),
+        successContainer: Color(0xFFD9F5E7),
+        onSuccessContainer: Color(0xFF000000),
+
         error: Color(0xFFDD614A),
         onError: Color(0xFFffffff),
         errorContainer: Color(0xFFffdad3),
@@ -225,7 +230,6 @@ class AppTheme extends Equatable {
 
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
-        success: Color(0xFF2DCD70),
         shadow: Color(0xFFC1C1C1),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
@@ -297,6 +301,11 @@ class AppTheme extends Equatable {
         outline: Color(0xFF3A3A3A),
         outlineVariant: Color(0xFF3A3A3A),
 
+        success: Color(0xFF2DCD70),
+        onSuccess: Color(0xff121212),
+        successContainer: Color(0xFF155A37),
+        onSuccessContainer: Color(0xFFFFFFFF),
+
         error: Color(0xFFa63926),
         onError: Color(0xFFffffff),
         errorContainer: Color(0xFFffdad3),
@@ -304,7 +313,6 @@ class AppTheme extends Equatable {
 
         subtext: Color(0xFF808080),
         neutral: Color(0xFFFFFFFF),
-        success: Color(0xFF922DCD),
 
         shadow: Color(0xFF353535),
         warmup: Color(0xFFFFAE00),
@@ -342,7 +350,11 @@ class AppTheme extends Equatable {
 
         subtext: Color(0xFF757575),
         neutral: Color(0xFFFFFFFF),
-        success: Color(0xFF4CAF50),
+
+        success: Color(0xFF2DCD70),
+        onSuccess: Color(0xFFffffff),
+        successContainer: Color(0xFFD9F5E7),
+        onSuccessContainer: Color(0xFF000000),
 
         error: Color(0xFFffb4a5),
         onError: Color(0xFF650900),

@@ -49,7 +49,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: 44,
-      color: _isChecked ? T(context).color.success.withAlpha(35)  : T(context).color.background,
+      color: _isChecked ? T(context).color.successContainer  : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ExerciseRowWidget.build(
         set: MButton(
@@ -134,14 +134,14 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   child: Container(
                     height: 35,
                     decoration: BoxDecoration(
-                      color: T(context).color.surface,
+                      color: _isChecked ? T(context).color.successContainer : T(context).color.surface,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value) : e.value.toString(),
                       style: T(context).textStyle.bodyLarge.copyWith(
-                        color: T(context).color.onSurface,
+                        color: T(context).color.onSuccessContainer,
                       ),
                     ),
                   ),

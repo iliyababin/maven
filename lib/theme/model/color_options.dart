@@ -19,6 +19,9 @@ class ColorOptions {
     required this.subtext,
     required this.neutral,
     required this.success,
+    required this.onSuccess,
+    required this.successContainer,
+    required this.onSuccessContainer,
     required this.error,
     required this.onError,
     required this.errorContainer,
@@ -46,6 +49,9 @@ class ColorOptions {
   final Color subtext;
   final Color neutral;
   final Color success;
+  final Color onSuccess;
+  final Color successContainer;
+  final Color onSuccessContainer;
   final Color error;
   final Color onError;
   final Color errorContainer;
