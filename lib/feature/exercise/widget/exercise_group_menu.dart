@@ -32,59 +32,17 @@ class ExerciseGroupMenu extends StatelessWidget {
         if (exercise.equipment == Equipment.barbell)
           ListTile(
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const BarSelectionScreen(),
                 ),
-              );
-              /*Navigator.pop(context);
-              showBottomSheetDialog(
-                context: context,
-                child: BlocBuilder<EquipmentBloc, EquipmentState>(
-                  builder: (context, state) {
-                    if (state.status == EquipmentStatus.loading) {
-                      return const Center(heightFactor: 3, child: CircularProgressIndicator());
-                    } else {
-                      List<Bar> bars = state.bars;
-                      return SizedBox(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              itemCount: bars.length,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                Bar bar = bars[index];
-                                return MButton.tiled(
-                                  onPressed: () {
-                                    onExerciseGroupUpdate(exerciseGroup.copyWith(barId: bar.id));
-                                    Navigator.pop(context);
-                                  },
-                                  leading: exerciseGroup.barId == bar.id
-                                      ? Container(
-                                          width: 20,
-                                          alignment: Alignment.centerLeft,
-                                          child: const Icon(
-                                            Icons.check,
-                                          ),
-                                        )
-                                      : Container(
-                                          width: 20,
-                                        ),
-                                  title: bar.name,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
-                ),
-                onClose: () {},
-              );*/
+              ).then((bar) {
+                if (bar != null) {
+                  onExerciseGroupUpdate(exerciseGroup.copyWith(barId: bar.id));
+                }
+              });
             },
             leading: const Icon(
               Icons.fitness_center_rounded,

@@ -36,7 +36,7 @@ class _BarSelectionScreenState extends State<BarSelectionScreen> {
             itemBuilder: (context, item) {
               return ListTile(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context, item);
                 },
                 leading: CircleAvatar(
                   child: Text(item.name.substring(0, 1).toUpperCase()),

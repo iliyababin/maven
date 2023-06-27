@@ -70,8 +70,11 @@ class ExerciseGroupWidget extends StatefulWidget {
 
 class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  int regularIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    regularIndex = 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -120,11 +123,17 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ExerciseRowWidget.build(
           set: Text(
             "SET",
-            style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
+            style: T(context).textStyle.bodyLarge.copyWith(
+              fontSize: 13,
+              color: T(context).color.subtext,
+            ),
           ),
           previous: Text(
             "PREVIOUS",
-            style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
+            style: T(context).textStyle.bodyLarge.copyWith(
+              fontSize: 13,
+              color: T(context).color.subtext,
+            ),
           ),
           options: widget.exercise.fields
               .where((e) => e.type != ExerciseFieldType.bodyWeight)
@@ -133,20 +142,27 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 (e) => Expanded(
                   child: Text(
                     generateTitle(e.type, widget.exerciseGroup),
-                    style: T(context).textStyle.bodyLarge.copyWith(fontSize: 13),
+                    style: T(context).textStyle.bodyLarge.copyWith(
+                      fontSize: 13,
+                      color: T(context).color.subtext,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
               )
               .toList(),
-          checkbox: widget.checkboxEnabled
+          checkbox:/* widget.checkboxEnabled
               ? Container(
                   alignment: Alignment.center,
                   child: Text(
                     '${widget.exerciseSets.where((e) => e.checked == true).length}/${widget.exerciseSets.length}',
+                    style: T(context).textStyle.bodyLarge.copyWith(
+                          fontSize: 13,
+                          color: T(context).color.subtext,
+                        ),
                   ),
                 )
-              : null,
+              : */Container(),
         ),
         const SizedBox(height: 6),
         ListView.builder(
@@ -155,6 +171,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            if (widget.exerciseSets[index].type == ExerciseSetType.regular) {
+              regularIndex++;
+            }
             return Slidable(
                 key: UniqueKey(),
                 endActionPane: ActionPane(
@@ -186,7 +205,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   ],
                 ),
                 child: ExerciseSetWidget(
-                  index: index + 1,
+                  index: regularIndex,
                   barId: widget.exerciseGroup.barId,
                   exercise: widget.exercise,
                   exerciseSet: widget.exerciseSets[index],

@@ -110,7 +110,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
               (e) => Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    print('hi');
                     showBottomSheetDialog(
                       context: context,
                       child: MultiKeyboard(
@@ -120,11 +119,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                         onValueChanged: (value) {
                           widget.onExerciseSetUpdate(
                             exerciseSet,
-                            /*.copyWith(
-                            options: exerciseSet.options.map(
-                                    (e) => e.id == value.id ? value : e
-                            ).toList(),
-                          ),*/
                           );
                         },
                       ),
