@@ -49,7 +49,15 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     );
                   },
                   itemBuilder: (context, index) {
-                    return ProgramTemplateWidget(programTemplate: templates[index]);
+                    return ProgramTemplateWidget(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          '/program/template',
+                          arguments: templates[index],
+                        );
+                      },
+                      programTemplate: templates[index]
+                    );
                   },
                 ),
               ),
@@ -76,20 +84,26 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
                       child: ListView.separated(
-                        itemCount: templates.length + 2,
+                        itemCount: templates.length,
                         separatorBuilder: (context, index) {
                           return Container(
                             height: 10,
                           );
                         },
                         itemBuilder: (context, index) {
-                          index -= 1;
-                          if (index == -1 || index == templates.length) {
-                            return Container(
-                              height: T(context).padding.page / 2,
-                            );
-                          }
-                          return ProgramTemplateWidget(programTemplate: templates[index]);
+                          return Padding(
+                            padding: EdgeInsets.only(top: index == 0 ? 16 : 0, bottom: index == templates.length - 1 ? 16 : 0),
+                            child: ProgramTemplateWidget(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  '/program/template',
+                                  arguments: templates[index],
+                                );
+                              },
+                              programTemplate: templates[index],
+                              extended: true,
+                            ),
+                          );
                         },
                       ),
                     );

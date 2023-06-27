@@ -3,51 +3,33 @@ import 'package:maven/common/extension.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../exercise/model/exercise_bundle.dart';
 
 class ProgramTemplateWidget extends StatelessWidget {
   const ProgramTemplateWidget({
     super.key,
     required this.programTemplate,
+    this.extended = false,
+    required this.onTap,
   });
 
   final ProgramTemplate programTemplate;
+  final bool extended;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    DateTime due = DateTime(
-      programTemplate.timestamp.year,
-      programTemplate.timestamp.month,
-      programTemplate.timestamp.day,
-    );
-    DateTime now = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-    );
-    Duration difference = due.difference(now);
-    String timeRemaining;
-
-    if (difference.isNegative) {
-      timeRemaining = 'Past Due';
-    } else if (difference.inDays > 0) {
-      timeRemaining = 'Complete in ${difference.inDays} days';
-    } else {
-      timeRemaining = 'Complete Today';
-    }
-
     return Stack(
       children: [
-        InkWell(
-          onTap: (){},
-          borderRadius: BorderRadius.circular(16),
+        GestureDetector(
+          onTap: onTap,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(T(context).padding.page),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: T(context).color.outline,
-                )
+              borderRadius: BorderRadius.circular(16),
+              color: T(context).color.background,
+              border: Border.all(
+                color: T(context).color.outline,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,82 +38,91 @@ class ProgramTemplateWidget extends StatelessWidget {
                   programTemplate.name,
                   style: T(context).textStyle.titleLarge,
                 ),
-                Text(
+                extended ? Text(
                   programTemplate.description,
                   style: T(context).textStyle.bodyMedium,
+                ) : Text(
+                  programTemplate.day.name.capitalize(),
+                  style: T(context).textStyle.bodyMedium.copyWith(
+                    color: T(context).color.primary,
+                  ),
                 ),
-                const SizedBox(height: 10,),
-                Row(
+                extended ? Column(
                   children: [
+                    const SizedBox(height: 10,),
                     Row(
                       children: [
-                        Icon(
-                          Icons.today,
-                          size: 18,
-                          color: T(context).color.subtext,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.today,
+                              size: 18,
+                              color: T(context).color.subtext,
+                            ),
+                            const SizedBox(width: 5,),
+                            Text(
+                              programTemplate.day.name.capitalize(),
+                              style: T(context).textStyle.bodyMedium.copyWith(
+                                color: T(context).color.subtext,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 5,),
-                        Text(
-                          programTemplate.day.name.capitalize(),
-                          style: T(context).textStyle.bodyMedium.copyWith(
-                            color: T(context).color.subtext,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        const SizedBox(width: 20,),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.schedule,
+                              size: 18,
+                              color: programTemplate.complete ? T(context).color.success : T(context).color.error,
+                            ),
+                            const SizedBox(width: 5,),
+                            Text(
+                              programTemplate.complete ? 'Complete' : programTemplate.timestamp.timeLeft(),
+                              style: T(context).textStyle.bodyMedium.copyWith(
+                                color: programTemplate.complete ? T(context).color.success : T(context).color.error,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                        const SizedBox(width: 20,),
                       ],
                     ),
-                    const SizedBox(width: 20,),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.schedule,
-                          size: 18,
-                          color: programTemplate.complete ? T(context).color.success : T(context).color.error,
-                        ),
-                        const SizedBox(width: 5,),
-                        Text(
-                          programTemplate.complete ? 'Complete' : timeRemaining,
-                          style: T(context).textStyle.bodyMedium.copyWith(
-                            color: programTemplate.complete ? T(context).color.success : T(context).color.error,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(height: 10,),
                   ],
-                ),
-                const SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Exercise',
-                            style: T(context).textStyle.titleSmall,
-                          ),
-                          programTemplate.exerciseBundles.isNotEmpty ? ListView.builder(
-                            itemCount: programTemplate.exerciseBundles.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              ExerciseBundle exerciseBundle = programTemplate.exerciseBundles[index];
-                              return Text(
-                                '\u2022 ${exerciseBundle.exercise.name}',
-                                style: T(context).textStyle.bodyMedium,
-                              );
-                            },
-                          ) : Text(
-                            'None',
-                            style: T(context).textStyle.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                ) : const SizedBox(height: 2,),
+                extended ? Text(
+                  'Exercise',
+                  style: T(context).textStyle.titleSmall,
+                ) : const SizedBox(height: 2,),
+                extended ? ListView.builder(
+                  itemCount: programTemplate.exerciseBundles.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final exerciseBundle = programTemplate.exerciseBundles[index];
+                    return Text(
+                      '\u2022 ${exerciseBundle.exercise.name}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: T(context).textStyle.bodyMedium,
+                    );
+                  },
+                ) : Expanded(
+                  child: ListView.builder(
+                    itemCount: programTemplate.exerciseBundles.length,
+                    itemBuilder: (context, index) {
+                      final exerciseBundle = programTemplate.exerciseBundles[index];
+                      return Text(
+                        '\u2022 ${exerciseBundle.exercise.name}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: T(context).textStyle.bodyMedium,
+                      );
+                    },
+                  ),
                 )
-
               ],
             ),
           ),

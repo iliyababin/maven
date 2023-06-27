@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/database.dart';
 import '../../../exercise/model/exercise_bundle.dart';
-import '../../model/program_template_bundle.dart';
 
 part 'program_event.dart';
 part 'program_state.dart';
@@ -58,19 +57,19 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
         ),
       );
 
-      for(ProgramTemplateBundle bundle in event.programTemplateBundles) {
+      for(ProgramTemplate programTemplate in event.programTemplates) {
         int programTemplateId = await programTemplateDao.addProgramTemplate(
           ProgramTemplate(
-            name: bundle.programTemplate.name,
-            description: bundle.programTemplate.description,
+            name: programTemplate.name,
+            description: programTemplate.description,
             timestamp: DateTime.now().add(Duration(days: i*DateTime.daysPerWeek)),
-            day: bundle.programTemplate.day,
+            day: programTemplate.day,
             complete: false,
             folderId: programFolderId,
           ),
         );
 
-        for(ExerciseBundle exerciseBundle in bundle.exerciseBundles) {
+        for(ExerciseBundle exerciseBundle in programTemplate.exerciseBundles) {
           int programExerciseGroupId = await programExerciseGroupDao.addProgramExerciseGroup(ProgramExerciseGroup(
             weightUnit: exerciseBundle.exerciseGroup.weightUnit,
             timer: exerciseBundle.exerciseGroup.timer,

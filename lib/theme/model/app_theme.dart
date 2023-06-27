@@ -235,7 +235,7 @@ class AppTheme extends Equatable {
         drop: Color(0xFFBD4ADD),
         cooldown: Color(0xFF21F3F3),
 
-        surface: Color(0xffe8e8e8),
+        surface: Color(0xffefefef),
         onSurface: Color(0xFF001f25),
       ),
     ),

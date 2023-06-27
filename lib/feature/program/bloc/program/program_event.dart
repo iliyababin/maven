@@ -14,15 +14,15 @@ class ProgramInitialize extends ProgramEvent {
 class ProgramBuild extends ProgramEvent {
   const ProgramBuild({
     required this.program,
-    required this.programTemplateBundles,
+    required this.programTemplates,
   });
 
   final Program program;
-  final List<ProgramTemplateBundle> programTemplateBundles;
+  final List<ProgramTemplate> programTemplates;
 
   @override
   List<Object?> get props => [
     program,
-    programTemplateBundles,
+    programTemplates,
   ];
 }
