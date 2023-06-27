@@ -6,6 +6,12 @@ enum EquipmentStatus {
   delete,
 }
 
+extension EquipmentStatusX on EquipmentStatus {
+  bool get isLoading => this == EquipmentStatus.loading;
+  bool get isLoaded => this == EquipmentStatus.loaded;
+  bool get isDelete => this == EquipmentStatus.delete;
+}
+
 class EquipmentState extends Equatable {
   const EquipmentState({
     this.status = EquipmentStatus.loading,

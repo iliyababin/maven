@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/dialog/confirmation_dialog.dart';
+import 'package:maven/common/dialog/list_dialog.dart';
 
 import '../../../../common/util/general_utils.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
@@ -115,46 +116,40 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         onPressed: () {
                           showBottomSheetDialog(
                             context: context,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            child: ListDialog(
                               children: [
-                                MButton.tiled(
-                                  onPressed: () {
+                                ListTile(
+                                  onTap: () {
                                     Navigator.pop(context);
                                     _workoutNameNode.requestFocus();
                                   },
-                                  leading: Icon(
-                                    Icons.drive_file_rename_outline_rounded,
-                                    color: T(context).color.primary,
+                                  leading: const Icon(
+                                    Icons.edit,
                                   ),
-                                  title: 'Rename',
+                                  title: const Text('Rename'),
                                 ),
-                                MButton.tiled(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _workoutNameNode.requestFocus();
+                                ListTile(
+                                  onTap: () {
                                   },
-                                  leading: Icon(
+                                  leading: const Icon(
                                     CupertinoIcons.arrow_up_arrow_down,
-                                    color: T(context).color.primary,
                                   ),
-                                  title: 'Reorder',
+                                  title: const Text('Reorder'),
                                 ),
-                                MButton.tiled(
-                                  onPressed: () {
+                                ListTile(
+                                  onTap: () {
                                     context.read<WorkoutBloc>().add(WorkoutToggle(
-                                          workout: workout.copyWith(active: false),
-                                        ));
+                                      workout: workout.copyWith(active: false),
+                                    ));
                                     Navigator.pop(context);
                                   },
-                                  leading: Icon(
+                                  leading: const Icon(
                                     Icons.pause_circle_outline_rounded,
-                                    color: T(context).color.primary,
                                   ),
-                                  title: 'Pause',
+                                  title: const Text('Pause'),
                                 ),
-                                MButton.tiled(
-                                  onPressed: () {
+                                ListTile(
+                                  onTap: () {
                                     Navigator.pop(context);
                                     showBottomSheetDialog(
                                       context: context,
@@ -177,9 +172,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     Icons.delete_rounded,
                                     color: T(context).color.error,
                                   ),
-                                  title: 'Discard Workout',
+                                  title: Text(
+                                    'Delete Workout',
+                                    style: TextStyle(
+                                      color: T(context).color.error,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                  ),
                                 ),
-                              ],
+                              ]
                             ),
                             onClose: () {},
                           );
@@ -238,6 +239,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         TextFormField(
                           onChanged: (value) {
                             context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
+                          },
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                           },
                           focusNode: _workoutNameNode,
                           initialValue: workout.name,

@@ -50,7 +50,7 @@ class MButton extends StatelessWidget {
     this.child,
     this.height = 42,
     this.width = double.infinity,
-    this.borderRadius = 16,
+    this.borderRadius = 12,
     this.backgroundColor,
     this.borderColor,
     this.splashColor,
