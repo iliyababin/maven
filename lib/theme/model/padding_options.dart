@@ -1,11 +1,11 @@
-class PaddingOptions {
-  const PaddingOptions({
-    required this.page,
+class SpaceOptions {
+  const SpaceOptions({
+    required this.large,
   });
 
-  final double page;
+  final double large;
 
-  Map<String, double> get paddings => {
-        'page': page,
+  Map<String, double> get spacings => {
+        'large': large,
       };
 }

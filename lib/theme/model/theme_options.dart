@@ -42,12 +42,12 @@ class ThemeOptions {
   }
 
   TextStyleOptions get textStyle {
-    return TextStyleOptions();
+    return const TextStyleOptions();
   }
 
-  PaddingOptions get padding {
-    return const PaddingOptions(
-      page: 20,
+  SpaceOptions get space {
+    return const SpaceOptions(
+      large: 20,
     );
   }
 }

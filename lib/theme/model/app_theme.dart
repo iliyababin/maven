@@ -24,7 +24,15 @@ class AppTheme extends Equatable {
     return ThemeData(
       useMaterial3: true,
       textTheme: TextTheme(
+        headlineLarge: options.textStyle.headingLarge,
+        headlineMedium: options.textStyle.headingMedium,
+
+        titleLarge: options.textStyle.titleLarge,
+        titleMedium: options.textStyle.titleMedium,
+        titleSmall: options.textStyle.titleSmall,
         bodyLarge: options.textStyle.bodyLarge,
+        bodyMedium: options.textStyle.bodyMedium,
+        labelLarge: options.textStyle.labelLarge,
       ),
       splashFactory: InkSparkle.splashFactory,
 
@@ -73,6 +81,7 @@ class AppTheme extends Equatable {
         surfaceVariant: options.color.outlineVariant,
       ),
       typography: Typography.material2021(),
+
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
@@ -95,9 +104,6 @@ class AppTheme extends Equatable {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-          ),
-          textStyle: MaterialStateProperty.all(
-            options.textStyle.labelLarge,
           ),
         ),
       ),
@@ -311,7 +317,7 @@ class AppTheme extends Equatable {
         errorContainer: Color(0xFFffdad3),
         onErrorContainer: Color(0xFF3f0300),
 
-        onSurfaceVariant: Color(0xFF808080),
+        onSurfaceVariant: Color(0xFFACACAC),
 
         shadow: Color(0xFF101010),
         warmup: Color(0xFFFFAE00),

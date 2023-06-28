@@ -169,16 +169,16 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: T(context).padding.page,
+                      horizontal: T(context).space.large,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: T(context).padding.page,
+                          height: T(context).space.large,
                         ),
                         Container(
-                          padding: EdgeInsets.all(T(context).padding.page),
+                          padding: EdgeInsets.all(T(context).space.large),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: T(context).color.surface,
@@ -199,10 +199,10 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                           ),
                         ),
                         SizedBox(
-                          height: T(context).padding.page,
+                          height: T(context).space.large,
                         ),
                         Container(
-                          padding: EdgeInsets.all(T(context).padding.page),
+                          padding: EdgeInsets.all(T(context).space.large),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: T(context).color.surface,
@@ -256,7 +256,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
               ),
               persistentFooterButtons: [
                 Padding(
-                  padding: EdgeInsets.all(T(context).padding.page),
+                  padding: EdgeInsets.all(T(context).space.large),
                   child: SizedBox(
                     width: double.infinity,
                     child: FilledButton(

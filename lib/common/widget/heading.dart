@@ -20,8 +20,8 @@ class Heading extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(
           bottom: 12, top: topPadding ? 36 : 0,
-          left: side ? T(context).padding.page : 0,
-          right: side ? T(context).padding.page : 0,
+          left: side ? T(context).space.large : 0,
+          right: side ? T(context).space.large : 0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

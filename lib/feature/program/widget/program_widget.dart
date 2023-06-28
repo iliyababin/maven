@@ -23,19 +23,17 @@ class ProgramWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProgramDetailScreen(programId: program.id!),
-                ));
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProgramDetailScreen(programId: program.id!),
+              ),
+            );
           },
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_borderRadius),
               color: T(context).color.surface,
-              /*border: Border.all(
-                color: T(context).color.outline,
-              ),*/
             ),
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -50,13 +48,8 @@ class ProgramWidget extends StatelessWidget {
                   height: 3,
                 ),
                 Text(
-                  'Template',
-                  style: T(context).textStyle.titleSmall,
+                  'M/W/F',
                 ),
-                /*Text(
-                'Week 2 of ${program.weeks}',
-                style: T(context).textStyle.titleMedium.copyWith(color: T(context).color.primary),
-              ),*/
                 const SizedBox(
                   height: 3,
                 ),
@@ -68,7 +61,6 @@ class ProgramWidget extends StatelessWidget {
                       final ProgramTemplate template = program.folders.first.templates[index];
                       return Text(
                         '\u2022 ${template.name}',
-                        style: T(context).textStyle.bodyLarge,
                       );
                     },
                   ),
@@ -90,28 +82,27 @@ class ProgramWidget extends StatelessWidget {
           child: IconButton(
             onPressed: () {
               showBottomSheetDialog(
-                context: context,
-                child: ListDialog(
-                  children: [
-                    ListTile(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      leading: Icon(
-                        Icons.delete,
-                        color: T(context).color.error,
-                      ),
-                      title: Text(
-                        'Delete',
-                        style: TextStyle(
+                  context: context,
+                  child: ListDialog(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        leading: Icon(
+                          Icons.delete,
                           color: T(context).color.error,
-                          fontWeight: FontWeight.bold,
+                        ),
+                        title: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: T(context).color.error,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              );
+                    ],
+                  ));
             },
             icon: Icon(
               Icons.more_horiz,

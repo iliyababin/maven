@@ -35,7 +35,7 @@ class _CompleteExerciseHistoryListWidgetState extends State<CompleteExerciseHist
           );
         } else if (state.status.isLoaded) {
           return Padding(
-            padding: EdgeInsets.all(T(context).padding.page),
+            padding: EdgeInsets.all(T(context).space.large),
             child: ListView.separated(
               itemCount: state.completeBundles.length,
               separatorBuilder: (context, index) {

@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
       body: ListView(
         children: [
           Padding(
-            padding: EdgeInsets.all(T(context).padding.page),
+            padding: EdgeInsets.all(T(context).space.large),
             child: Row(
               children: [
                 GestureDetector(

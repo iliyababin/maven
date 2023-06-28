@@ -39,14 +39,13 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           ),
         );
       },
+
       borderRadius: BorderRadius.circular(_borderRadius),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_borderRadius),
-          border: Border.all(
-            color: T(context).color.outline,
-          ),
+          color: T(context).color.surface,
         ),
         padding: const EdgeInsets.all(15.0),
         child: Row(

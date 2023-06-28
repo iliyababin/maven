@@ -23,7 +23,7 @@ class ProgramTemplateWidget extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            padding: EdgeInsets.all(T(context).padding.page),
+            padding: EdgeInsets.all(T(context).space.large),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: T(context).color.surface,

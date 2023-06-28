@@ -86,7 +86,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+                    padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
                     alignment: Alignment.centerLeft,
                   ),
                   child: Text(

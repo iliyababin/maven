@@ -131,7 +131,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
               slivers: [
                 SliverPadding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: T(context).padding.page,
+                    horizontal: T(context).space.large,
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([

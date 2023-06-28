@@ -14,10 +14,10 @@ class PaddingScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: T(context).padding.paddings.length,
+        itemCount: T(context).space.spacings.length,
         itemBuilder: (context, index) {
-          String paddingName = T(context).padding.paddings.keys.elementAt(index);
-          double value = T(context).padding.paddings.values.elementAt(index);
+          String paddingName = T(context).space.spacings.keys.elementAt(index);
+          double value = T(context).space.spacings.values.elementAt(index);
           return ListTile(
             onTap: () {},
             title: Text(

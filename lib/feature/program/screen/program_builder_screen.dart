@@ -143,7 +143,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
               side: true,
             ),
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+              padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
               sliver: SliverReorderableGrid(
                 itemCount: programTemplates.length + 1,
                 proxyDecorator: (widget, index, animation) => ProxyDecorator(widget, index, animation, context),

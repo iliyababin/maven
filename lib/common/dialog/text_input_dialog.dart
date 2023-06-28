@@ -110,7 +110,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   },
                   child: Text(
                     'Cancel',
-                    style: T(context).textStyle.button2,
+                    style: T(context).textStyle.labelMedium,
                   ),
                 ),
               ),

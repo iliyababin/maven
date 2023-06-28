@@ -29,7 +29,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
     return TitledScaffold(
       title: 'Workout',
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
         child: CustomScrollView(
           slivers: [
             const Heading(

@@ -49,7 +49,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
       children: [
         Padding(
           padding: EdgeInsets.all(
-            T(context).padding.page,
+            T(context).space.large,
           ),
           child: Container(
             decoration: BoxDecoration(

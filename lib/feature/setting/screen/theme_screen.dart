@@ -20,7 +20,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(T(context).padding.page),
+        padding: EdgeInsets.all(T(context).space.large),
         child: GridView.builder(
           itemCount: AppTheme.themes.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

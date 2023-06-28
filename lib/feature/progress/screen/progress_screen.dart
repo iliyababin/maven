@@ -13,7 +13,7 @@ class ProgressScreen extends StatelessWidget {
     return TitledScaffold(
       title: 'Progress',
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
         child: const CustomScrollView(
           slivers: [
             Heading(title: 'History', topPadding: false,),

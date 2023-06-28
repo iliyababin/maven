@@ -40,7 +40,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                 title: Text(program.name),
               ),
               body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+                padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
                 child: ListView.separated(
                   itemCount: templates.length,
                   separatorBuilder: (context, index) {
@@ -82,7 +82,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                   children: program.folders.map((e) {
                     List<ProgramTemplate> templates = e.templates;
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
+                      padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
                       child: ListView.separated(
                         itemCount: templates.length,
                         separatorBuilder: (context, index) {

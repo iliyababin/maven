@@ -53,9 +53,9 @@ class SessionDetailScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.only(
-          left: T(context).padding.page,
-          right: T(context).padding.page,
-          top: T(context).padding.page,
+          left: T(context).space.large,
+          right: T(context).space.large,
+          top: T(context).space.large,
         ),
         child: ListView.separated(
           itemCount: completeBundle.sessionExerciseBundles.length,
