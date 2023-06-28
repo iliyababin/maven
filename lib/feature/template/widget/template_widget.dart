@@ -54,11 +54,27 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                   style: T(context).textStyle.titleLarge,
                   maxLines: 2,
                 ),
-                Text(
-                  widget.template.description,
-                  style: T(context).textStyle.bodyMedium,
+                ListView.builder(
+                  itemCount: widget.template.exerciseBundles.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Text(
+                      '\u2022 ${widget.template.exerciseBundles[index].exercise.name}',
+                      style: T(context).textStyle.bodyMedium,
+                    );
+                  },
                 ),
               ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_horiz,
             ),
           ),
         ),

@@ -9,18 +9,25 @@ class EmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        height: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadiusDirectional.circular(10),
-            border: Border.all(
-              color: T(context).color.outline,
+          height: 100,
+          key: const ValueKey('add'),
+          decoration: BoxDecoration(
+            color: T(context).color.surface,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Empty',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-        ),
-        alignment: FractionalOffset.center,
-        child: Text(
-          'Empty',
-          style: T(context).textStyle.bodyMedium,
-        ),
+          )
       ),
     );
   }

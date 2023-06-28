@@ -192,32 +192,15 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                 style: T(context).textStyle.headingLarge,
                               ),
                               Text(
-                                template.description,
-                                style: T(context).textStyle.bodyLarge,
+                                'Description',
+                                style: T(context).textStyle.titleMedium,
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: T(context).space.large,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(T(context).space.large),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: T(context).color.surface,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Times Completed',
-                                style: T(context).textStyle.titleLarge,
+                              SizedBox(
+                                height: 3,
                               ),
                               Text(
                                 template.description,
-                                style: T(context).textStyle.bodyMedium,
+                                style: T(context).textStyle.bodyMedium.copyWith(color: T(context).color.onSurfaceVariant),
                               ),
                             ],
                           ),

@@ -32,6 +32,7 @@ void main() async {
               )..add(const ExerciseInitialize())),
       BlocProvider(
           create: (context) => TemplateBloc(
+                exerciseDao: db.exerciseDao,
                 templateDao: db.templateDao,
                 templateExerciseGroupDao: db.templateExerciseGroupDao,
                 templateExerciseSetDao: db.templateExerciseSetDao,

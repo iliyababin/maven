@@ -151,7 +151,12 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                         ),
                         style: T(context).textStyle.headingLarge,
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
                         onChanged: (value) {
                           template = template.copyWith(description: value);
                         },

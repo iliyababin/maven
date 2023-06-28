@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/empty_widget.dart';
 import 'package:maven/common/widget/heading.dart';
 
 import '../../../common/widget/titled_scaffold.dart';
@@ -24,6 +23,8 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
+
+  List<Widget> hey = [SliverToBoxAdapter(child: Container(color: Colors.red, height: 50, width: 50,),)];
   @override
   Widget build(BuildContext context) {
     return TitledScaffold(
@@ -54,7 +55,11 @@ class _TemplateScreenState extends State<TemplateScreen> {
                       children: [
                         Expanded(
                           flex: 4,
-                          child: OutlinedButton.icon(
+                          child: FilledButton.icon(
+                            style: FilledButton.styleFrom(
+                              backgroundColor: T(context).color.surface,
+                              foregroundColor: T(context).color.primary,
+                            ),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -84,7 +89,11 @@ class _TemplateScreenState extends State<TemplateScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           flex: 3,
-                          child: OutlinedButton.icon(
+                          child: FilledButton.icon(
+                            style: FilledButton.styleFrom(
+                              backgroundColor: T(context).color.surface,
+                              foregroundColor: T(context).color.primary,
+                            ),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -107,8 +116,15 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 ),
               ]),
             ),
-            const Heading(
-              title: 'In Progress',
+            BlocBuilder<WorkoutBloc, WorkoutState>(
+              builder: (context, state) {
+                if(!state.status.isError && state.pausedWorkouts.isNotEmpty) {
+                  return const Heading(
+                    title: 'In Progress',
+                  );
+                }
+                return const SliverToBoxAdapter();
+              },
             ),
             BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
@@ -131,7 +147,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   List<Workout> workouts = state.pausedWorkouts;
 
                   return workouts.isEmpty
-                      ? const EmptyWidget()
+                      ? SliverToBoxAdapter()
                       : SliverList(
                           /// [SliverList] with [SizedBox] dividers between [PausedWorkoutWidget]s
                           ///
@@ -159,19 +175,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
               },
             ),
             Heading(
-              title: 'Programs',
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.sort_rounded,
-                    size: 24,
-                  ),
-                ),
-              ],
-            ),
-            const ProgramListView(),
-            Heading(
               title: 'Templates',
               actions: [
                 IconButton(
@@ -184,6 +187,19 @@ class _TemplateScreenState extends State<TemplateScreen> {
               ],
             ),
             const TemplateListView(),
+            Heading(
+              title: 'Programs',
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.sort_rounded,
+                    size: 24,
+                  ),
+                ),
+              ],
+            ),
+            const ProgramListView(),
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 200,

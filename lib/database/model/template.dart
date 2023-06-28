@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 
+import '../../feature/exercise/model/exercise_bundle.dart';
 import 'routine.dart';
 
 @Entity(
@@ -15,10 +16,14 @@ class Template extends Routine {
     required super.description,
     required super.timestamp,
     required this.sort,
+    this.exerciseBundles = const [],
   });
 
   @ColumnInfo(name: 'sort')
   final int sort;
+
+  @ignore
+  final List<ExerciseBundle> exerciseBundles;
 
   @override
   Template copyWith({
@@ -27,6 +32,7 @@ class Template extends Routine {
     String? description,
     DateTime? timestamp,
     int? sort,
+    List<ExerciseBundle>? exerciseBundles,
   }) {
     return Template(
       id: id ?? this.id,
@@ -34,6 +40,7 @@ class Template extends Routine {
       description: description ?? this.description,
       timestamp: timestamp ?? this.timestamp,
       sort: sort ?? this.sort,
+      exerciseBundles: exerciseBundles ?? this.exerciseBundles,
     );
   }
 
@@ -44,5 +51,6 @@ class Template extends Routine {
         description,
         timestamp,
         sort,
+        exerciseBundles,
       ];
 }

@@ -11,6 +11,7 @@ part 'template_state.dart';
 
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   TemplateBloc({
+    required this.exerciseDao,
     required this.templateDao,
     required this.templateExerciseGroupDao,
     required this.templateExerciseSetDao,
@@ -23,6 +24,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     on<TemplateReorder>(_reorder);
   }
 
+  final ExerciseDao exerciseDao;
   final TemplateDao templateDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
@@ -31,7 +33,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(
       status: TemplateStatus.loaded,
-      templates: await templateDao.getTemplates(),
+      templates: await _getTemplates(),
     ));
   }
 
@@ -82,7 +84,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     emit(state.copyWith(
       status: TemplateStatus.loaded,
-      templates: await templateDao.getTemplates(),
+      templates: await _getTemplates(),
     ));
   }
 
@@ -111,7 +113,37 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     await templateDao.deleteTemplate(event.template);
     emit(state.copyWith(
       status: TemplateStatus.loaded,
-      templates: await templateDao.getTemplates(),
+      templates: await _getTemplates(),
     ));
+  }
+
+  Future<List<Template>> _getTemplates() async {
+    List<Template> templates = [];
+
+    for(Template template in await templateDao.getTemplates()) {
+      List<ExerciseBundle> exerciseBundles = [];
+
+      for (TemplateExerciseGroup templateExerciseGroup in await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(template.id!)) {
+        Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
+
+        List<ExerciseSet> exerciseSets = [];
+
+        for(TemplateExerciseSet templateExerciseSet in await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
+          exerciseSets.add(templateExerciseSet.copyWith(
+            data: await templateExerciseSetDataDao.getTemplateExerciseSetDataByExerciseSetId(templateExerciseSet.id!),
+          ));
+        }
+
+        exerciseBundles.add(ExerciseBundle(
+          exercise: exercise!,
+          exerciseGroup: templateExerciseGroup,
+          exerciseSets: exerciseSets,
+          barId: templateExerciseGroup.barId,
+        ));
+      }
+
+      templates.add(template.copyWith(exerciseBundles: exerciseBundles));
+    }
+    return templates;
   }
 }

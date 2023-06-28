@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/empty_widget.dart';
 import 'package:maven/common/widget/loading_widget.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
@@ -19,6 +20,10 @@ class TemplateListView extends StatelessWidget {
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 
+          if(templates.isEmpty) {
+            return EmptyWidget();
+
+          }
           return SliverReorderableGrid(
             itemCount: templates.length,
             proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),

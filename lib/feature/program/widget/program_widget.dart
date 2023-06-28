@@ -77,29 +77,31 @@ class ProgramWidget extends StatelessWidget {
           child: IconButton(
             onPressed: () {
               showBottomSheetDialog(
-                  context: context,
-                  child: ListDialog(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          context.read<ProgramBloc>().add(ProgramDelete(
-                            program: program,
-                          ));
-                        },
-                        leading: Icon(
-                          Icons.delete,
+                context: context,
+                child: ListDialog(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        context.read<ProgramBloc>().add(ProgramDelete(
+                              program: program,
+                            ));
+                        Navigator.pop(context);
+                      },
+                      leading: Icon(
+                        Icons.delete,
+                        color: T(context).color.error,
+                      ),
+                      title: Text(
+                        'Delete',
+                        style: TextStyle(
                           color: T(context).color.error,
-                        ),
-                        title: Text(
-                          'Delete',
-                          style: TextStyle(
-                            color: T(context).color.error,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ));
+                    ),
+                  ],
+                ),
+              );
             },
             icon: Icon(
               Icons.more_horiz,

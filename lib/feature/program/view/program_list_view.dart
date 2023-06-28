@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/empty_widget.dart';
 import 'package:maven/common/widget/loading_widget.dart';
 import 'package:maven/common/widget/proxy_decorator.dart';
 import 'package:maven/feature/program/widget/program_widget.dart';
@@ -26,29 +27,11 @@ class _ProgramListViewState extends State<ProgramListView> {
         } else if (state.status.isLoaded) {
           List<Program> programs = state.programs;
 
-          return programs.isEmpty ? SliverToBoxAdapter(
-            child: Container(
-                key: const ValueKey('add'),
-                decoration: BoxDecoration(
-                  color: T(context).color.surface,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Empty',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-            ),
-          ) :
-          SliverReorderableGrid(
+          if(programs.isEmpty) {
+            return EmptyWidget();
+          }
+
+          return SliverReorderableGrid(
             itemCount: programs.length,
             proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
