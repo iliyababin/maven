@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/widget/loading_widget.dart';
+import 'package:maven/common/widget/proxy_decorator.dart';
 import 'package:maven/feature/program/widget/program_widget.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
@@ -8,14 +9,14 @@ import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../bloc/program/program_bloc.dart';
 
-class ProgramListWidget extends StatefulWidget {
-  const ProgramListWidget({Key? key}) : super(key: key);
+class ProgramListView extends StatefulWidget {
+  const ProgramListView({Key? key}) : super(key: key);
 
   @override
-  State<ProgramListWidget> createState() => _ProgramListWidgetState();
+  State<ProgramListView> createState() => _ProgramListViewState();
 }
 
-class _ProgramListWidgetState extends State<ProgramListWidget> {
+class _ProgramListViewState extends State<ProgramListView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProgramBloc, ProgramState>(
@@ -27,6 +28,7 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
 
           return SliverReorderableGrid(
             itemCount: programs.length,
+            proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8,
@@ -52,23 +54,6 @@ class _ProgramListWidgetState extends State<ProgramListWidget> {
                 ),
               );
             },
-          );
-          return SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: 1,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                Program program = programs[index];
-                return ProgramWidget(
-                  program: program,
-                );
-              },
-              childCount: programs.length,
-            )
           );
         } else {
           return SliverToBoxAdapter(

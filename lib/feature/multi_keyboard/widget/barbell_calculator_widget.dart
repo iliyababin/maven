@@ -47,7 +47,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             child: Text(
               removeDecimalZeroFormat(barWeight),
               style: TextStyle(
-                color: T(context).color.neutral,
+                color: T(context).color.onSurface,
               ),
             ),
           ));

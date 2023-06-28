@@ -11,13 +11,12 @@ class ColorOptions {
     required this.secondaryContainer,
     required this.onSecondaryContainer,
     required this.background,
+    required this.onBackground,
     required this.surface,
     required this.onSurface,
     required this.outline,
     required this.outlineVariant,
-    required this.onBackground,
-    required this.subtext,
-    required this.neutral,
+    required this.onSurfaceVariant,
     required this.success,
     required this.onSuccess,
     required this.successContainer,
@@ -36,27 +35,34 @@ class ColorOptions {
   final Color onPrimary;
   final Color primaryContainer;
   final Color onPrimaryContainer;
+
   final Color secondary;
   final Color onSecondary;
   final Color secondaryContainer;
   final Color onSecondaryContainer;
+
   final Color background;
+  final Color onBackground;
+
   final Color surface;
   final Color onSurface;
+  final Color onSurfaceVariant;
+
   final Color outline;
   final Color outlineVariant;
-  final Color onBackground;
-  final Color subtext;
-  final Color neutral;
+
   final Color success;
   final Color onSuccess;
   final Color successContainer;
   final Color onSuccessContainer;
+
   final Color error;
   final Color onError;
   final Color errorContainer;
   final Color onErrorContainer;
+
   final Color shadow;
+
   final Color warmup;
   final Color drop;
   final Color cooldown;
@@ -71,11 +77,20 @@ class ColorOptions {
         'secondaryContainer': secondaryContainer,
         'onSecondaryContainer': onSecondaryContainer,
         'background': background,
-        'text': onBackground,
-        'subtext': subtext,
-        'neutral': neutral,
+        'onBackground': onBackground,
+        'surface': surface,
+        'onSurface': onSurface,
+        'onSurfaceVariant': onSurfaceVariant,
+        'outline': outline,
+        'outlineVariant': outlineVariant,
         'success': success,
+        'onSuccess': onSuccess,
+        'successContainer': successContainer,
+        'onSuccessContainer': onSuccessContainer,
         'error': error,
+        'onError': onError,
+        'errorContainer': errorContainer,
+        'onErrorContainer': onErrorContainer,
         'shadow': shadow,
         'warmup': warmup,
         'drop': drop,

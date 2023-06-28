@@ -30,7 +30,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
   @override
   void initState() {
     tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
     super.initState();
@@ -45,130 +45,197 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
       },
       child: BlocBuilder<TemplateDetailBloc, TemplateDetailState>(
         builder: (context, state) {
+
           if (state.status.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state.status.isLoaded) {
+            Template template = state.template!;
+
             return Scaffold(
               appBar: AppBar(
-                  title: Text(
-                    state.template?.name ?? 'Unknown',
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        showBottomSheetDialog(
-                          context: context,
-                          child: ListDialog(
-                            children: [
-                              ListTile(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditTemplateScreen(
-                                        template: state.template,
-                                        exerciseBundles: state.exerciseBundles,
-                                        onSubmit: (template, exerciseBundles) {
-                                          context.read<TemplateBloc>().add(
-                                                TemplateUpdate(
-                                                  template: template,
-                                                  exerciseBundles: exerciseBundles,
-                                                ),
-                                              );
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                                leading: const Icon(
-                                  Icons.edit_rounded,
-                                ),
-                                title: const Text(
-                                  'Edit',
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  // TODO: Implement share
-                                },
-                                leading: const Icon(
-                                  Icons.share_rounded,
-                                ),
-                                title: const Text(
-                                  'Share',
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  showBottomSheetDialog(
-                                    context: context,
-                                    child: ConfirmationDialog(
-                                      title: 'Delete Template',
-                                      subtitle: 'This action cannot be undone',
-                                      confirmButtonStyle: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(T(context).color.error),
-                                        foregroundColor: MaterialStateProperty.all(T(context).color.onError),
-                                      ),
-                                      onSubmit: () {
-                                        context.read<TemplateBloc>().add(TemplateDelete(
-                                              template: state.template!,
-                                            ));
+                title: const Text(
+                  'View',
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      showBottomSheetDialog(
+                        context: context,
+                        child: ListDialog(
+                          children: [
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditTemplateScreen(
+                                      template: state.template,
+                                      exerciseBundles: state.exerciseBundles,
+                                      onSubmit: (template, exerciseBundles) {
+                                        context.read<TemplateBloc>().add(
+                                              TemplateUpdate(
+                                                template: template,
+                                                exerciseBundles: exerciseBundles,
+                                              ),
+                                            );
                                         Navigator.pop(context);
                                       },
                                     ),
-                                    onClose: () {},
-                                  );
-                                },
-                                leading: Icon(
-                                  Icons.delete_rounded,
-                                  color: T(context).color.error,
-                                ),
-                                title: Text(
-                                  'Delete',
-                                  style: TextStyle(
-                                    color: T(context).color.error,
-                                    fontWeight: FontWeight.bold,
                                   ),
+                                );
+                              },
+                              leading: const Icon(
+                                Icons.edit_rounded,
+                              ),
+                              title: const Text(
+                                'Edit',
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                // TODO: Implement share
+                              },
+                              leading: const Icon(
+                                Icons.share_rounded,
+                              ),
+                              title: const Text(
+                                'Share',
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                showBottomSheetDialog(
+                                  context: context,
+                                  child: ConfirmationDialog(
+                                    title: 'Delete Template',
+                                    subtitle: 'This action cannot be undone',
+                                    confirmButtonStyle: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                                      foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                                    ),
+                                    onSubmit: () {
+                                      context.read<TemplateBloc>().add(TemplateDelete(
+                                            template: state.template!,
+                                          ));
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  onClose: () {},
+                                );
+                              },
+                              leading: Icon(
+                                Icons.delete_rounded,
+                                color: T(context).color.error,
+                              ),
+                              title: Text(
+                                'Delete',
+                                style: TextStyle(
+                                  color: T(context).color.error,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
-                          ),
-                          onClose: () {},
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.more_vert_rounded,
-                      ),
+                            ),
+                          ],
+                        ),
+                        onClose: () {},
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.more_vert_rounded,
+                    ),
+                  ),
+                ],
+                bottom: TabBar(
+                  controller: tabController,
+                  tabs: const [
+                    Tab(
+                      text: 'Details',
+                    ),
+                    Tab(
+                      text: 'Exercise',
+                    ),
+                    Tab(
+                      text: 'History',
                     ),
                   ],
-                  bottom: TabBar(
-                    controller: tabController,
-                    tabs: const [
-                      Tab(
-                        text: 'Exercise',
-                      ),
-                      Tab(
-                        text: 'History',
-                      ),
-                    ],
-                  )),
+                ),
+              ),
               body: TabBarView(
                 controller: tabController,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: T(context).padding.page,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: T(context).padding.page,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(T(context).padding.page),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: T(context).color.surface,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                template.name,
+                                style: T(context).textStyle.headingLarge,
+                              ),
+                              Text(
+                                template.description,
+                                style: T(context).textStyle.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: T(context).padding.page,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(T(context).padding.page),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: T(context).color.surface,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Times Completed',
+                                style: T(context).textStyle.titleLarge,
+                              ),
+                              Text(
+                                template.description,
+                                style: T(context).textStyle.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
                   ListView.builder(
                     itemCount: state.exerciseBundles.length,
                     itemBuilder: (context, index) {
                       ExerciseBundle exerciseBundle = state.exerciseBundles[index];
                       return ListTile(
                         leading: CircleAvatar(
-                            child: Text(
-                          exerciseBundle.exercise.name.substring(0, 1),
-                        )),
+                          child: Text(
+                            exerciseBundle.exercise.name.substring(0, 1),
+                          ),
+                        ),
                         title: Text(
                           exerciseBundle.exercise.name,
                           style: T(context).textStyle.bodyLarge,

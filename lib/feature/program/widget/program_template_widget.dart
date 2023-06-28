@@ -26,10 +26,7 @@ class ProgramTemplateWidget extends StatelessWidget {
             padding: EdgeInsets.all(T(context).padding.page),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: T(context).color.background,
-              border: Border.all(
-                color: T(context).color.outline,
-              ),
+              color: T(context).color.surface,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,13 +54,13 @@ class ProgramTemplateWidget extends StatelessWidget {
                             Icon(
                               Icons.today,
                               size: 18,
-                              color: T(context).color.subtext,
+                              color: T(context).color.onSurfaceVariant,
                             ),
                             const SizedBox(width: 5,),
                             Text(
                               programTemplate.day.name.capitalize(),
                               style: T(context).textStyle.bodyMedium.copyWith(
-                                color: T(context).color.subtext,
+                                color: T(context).color.onSurfaceVariant,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

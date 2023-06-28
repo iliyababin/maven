@@ -24,22 +24,48 @@ class Heading extends StatelessWidget {
           right: side ? T(context).padding.page : 0,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
               style: T(context).textStyle.titleMedium,
             ),
-            Expanded(child: Container()),
-           /* if (!side)
-              SizedBox(
-                child: IconButton(
-                  padding: EdgeInsets.all(2),
-                  constraints: BoxConstraints(),
-                  onPressed: () {},
-                  icon: const Icon(CupertinoIcons.sort_down),
-
-                ),
-              ),*/
+            if (false)
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: T(context).color.primaryContainer,
+                    ),
+                    child: IconButton(
+                      padding: const EdgeInsets.all(2),
+                      constraints: BoxConstraints(),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.sort,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 6,),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: T(context).color.primaryContainer,
+                    ),
+                    child: IconButton(
+                      padding: const EdgeInsets.all(2),
+                      constraints: BoxConstraints(),
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.add,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

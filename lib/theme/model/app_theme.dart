@@ -26,6 +26,8 @@ class AppTheme extends Equatable {
       textTheme: TextTheme(
         bodyLarge: options.textStyle.bodyLarge,
       ),
+      splashFactory: InkSparkle.splashFactory,
+
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: options.color.primary,
@@ -68,7 +70,6 @@ class AppTheme extends Equatable {
         // A utility color that creates boundaries for decorative elements when a 3:1 contrast isn’t required, such as for dividers or decorative elements.
         scrim: Colors.red,
         shadow: Colors.red,
-
         surfaceVariant: options.color.outlineVariant,
       ),
       typography: Typography.material2021(),
@@ -169,7 +170,7 @@ class AppTheme extends Equatable {
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
-          color: options.color.subtext,
+          color: options.color.onSurfaceVariant,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -228,14 +229,13 @@ class AppTheme extends Equatable {
         errorContainer: Color(0xFFffdad3),
         onErrorContainer: Color(0xFF783428),
 
-        subtext: Color(0xFF808080),
-        neutral: Color(0xFFFFFFFF),
+        onSurfaceVariant: Color(0xFF808080),
         shadow: Color(0xFFC1C1C1),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
         cooldown: Color(0xFF21F3F3),
 
-        surface: Color(0xffefefef),
+        surface: Color(0xfff2f2f2),
         onSurface: Color(0xFF001f25),
       ),
     ),
@@ -311,10 +311,9 @@ class AppTheme extends Equatable {
         errorContainer: Color(0xFFffdad3),
         onErrorContainer: Color(0xFF3f0300),
 
-        subtext: Color(0xFF808080),
-        neutral: Color(0xFFFFFFFF),
+        onSurfaceVariant: Color(0xFF808080),
 
-        shadow: Color(0xFF353535),
+        shadow: Color(0xFF101010),
         warmup: Color(0xFFFFAE00),
         drop: Color(0xFFBD4ADD),
         cooldown: Color(0xFF21F3F3),
@@ -348,8 +347,7 @@ class AppTheme extends Equatable {
         outline: Color(0xFFC4C8BB),
         outlineVariant: Color(0xFFC4C8BB),
 
-        subtext: Color(0xFF757575),
-        neutral: Color(0xFFFFFFFF),
+        onSurfaceVariant: Color(0xFF757575),
 
         success: Color(0xFF2DCD70),
         onSuccess: Color(0xFFffffff),

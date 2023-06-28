@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/proxy_decorator.dart';
 import 'package:maven/feature/program/widget/program_template_widget.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
@@ -43,15 +44,15 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Program Builder',
+            'Builder',
           ),
           actions: [
             IconButton(
               onPressed: () {
                 context.read<ProgramBloc>().add(ProgramBuild(
-                  program: program,
-                  programTemplates: programTemplates,
-                ));
+                      program: program,
+                      programTemplates: programTemplates,
+                    ));
                 Navigator.pop(context);
               },
               icon: const Icon(
@@ -67,61 +68,75 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
               topPadding: false,
               side: true,
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                ListTile(
-                  leading: const Icon(
-                    Icons.drive_file_rename_outline_rounded,
-                  ),
-                  onTap: () {
-                    showBottomSheetDialog(
-                      context: context,
-                      child: TextInputDialog(
-                        title: 'Name',
-                        initialValue: program.name,
-                        keyboardType: TextInputType.name,
-                        onValueSubmit: (value) {
-                          setState(() {
-                            program = program.copyWith(name: value);
-                          });
-                        },
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Material(
+                      color: T(context).color.surface,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            leading: const Icon(
+                              Icons.drive_file_rename_outline_rounded,
+                            ),
+                            onTap: () {
+                              showBottomSheetDialog(
+                                context: context,
+                                child: TextInputDialog(
+                                  title: 'Name',
+                                  initialValue: program.name,
+                                  keyboardType: TextInputType.name,
+                                  onValueSubmit: (value) {
+                                    setState(() {
+                                      program = program.copyWith(name: value);
+                                    });
+                                  },
+                                ),
+                                onClose: () {},
+                              );
+                            },
+                            title: const Text(
+                              'Name',
+                            ),
+                            trailing: Text(
+                              program.name,
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              showBottomSheetDialog(
+                                context: context,
+                                child: TextInputDialog(
+                                  title: 'Weeks',
+                                  initialValue: program.weeks.toString(),
+                                  keyboardType: TextInputType.number,
+                                  onValueSubmit: (value) {
+                                    setState(() {
+                                      program = program.copyWith(weeks: int.parse(value));
+                                    });
+                                  },
+                                ),
+                                onClose: () {},
+                              );
+                            },
+                            leading: const Icon(
+                              Icons.calendar_month_rounded,
+                            ),
+                            title: const Text('Weeks'),
+                            trailing: Text(
+                              program.weeks.toString(),
+                            ),
+                          ),
+                        ],
                       ),
-                      onClose: () {},
-                    );
-                  },
-                  title: const Text(
-                    'Name',
+                    ),
                   ),
-                  trailing: Text(
-                    program.name,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    showBottomSheetDialog(
-                      context: context,
-                      child: TextInputDialog(
-                        title: 'Weeks',
-                        initialValue: program.weeks.toString(),
-                        keyboardType: TextInputType.number,
-                        onValueSubmit: (value) {
-                          setState(() {
-                            program = program.copyWith(weeks: int.parse(value));
-                          });
-                        },
-                      ),
-                      onClose: () {},
-                    );
-                  },
-                  leading: const Icon(
-                    Icons.calendar_month_rounded,
-                  ),
-                  title: const Text('Weeks'),
-                  trailing: Text(
-                    program.weeks.toString(),
-                  ),
-                ),
-              ]),
+                ]),
+              ),
             ),
             const Heading(
               title: 'Templates',
@@ -131,25 +146,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
               padding: EdgeInsets.symmetric(horizontal: T(context).padding.page),
               sliver: SliverReorderableGrid(
                 itemCount: programTemplates.length + 1,
-                proxyDecorator: (widget, index, animation) {
-                  // add shadow and change scale during drag
-                  final scale = Tween<double>(begin: 1, end: 1.05).animate(animation);
-                  final shadow = BoxShadow(
-                    color: T(context).color.shadow,
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  );
-                  return ScaleTransition(
-                    scale: scale,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [shadow],
-                      ),
-                      child: widget,
-                    ),
-                  );
-                },
+                proxyDecorator: (widget, index, animation) => ProxyDecorator(widget, index, animation, context),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 8,
@@ -168,7 +165,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     return MButton(
                       key: const ValueKey('add'),
                       expand: false,
-                      borderColor: T(context).color.outline,
+                      backgroundColor: T(context).color.surface,
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -211,19 +208,17 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           MaterialPageRoute(
                             builder: (context) => EditTemplateScreen(
                               onSubmit: (template, exerciseBundles) {
-                                setState(
-                                      () {
-                                    programTemplates[index] = ProgramTemplate(
-                                      name: template.name,
-                                      description: template.description,
-                                      timestamp: DateTime.now(),
-                                      complete: false,
-                                      day: programTemplates[index].day,
-                                      folderId: -1,
-                                      exerciseBundles: exerciseBundles,
-                                    );
-                                  }
-                                );
+                                setState(() {
+                                  programTemplates[index] = ProgramTemplate(
+                                    name: template.name,
+                                    description: template.description,
+                                    timestamp: DateTime.now(),
+                                    complete: false,
+                                    day: programTemplates[index].day,
+                                    folderId: -1,
+                                    exerciseBundles: exerciseBundles,
+                                  );
+                                });
                                 Navigator.pop(context);
                               },
                               template: Template(

@@ -49,7 +49,7 @@ class SessionWidget extends StatelessWidget {
               children: [
                 Icon(
                   Icons.timer,
-                  color: T(context).color.subtext,
+                  color: T(context).color.onSurfaceVariant,
                 ),
                 const SizedBox(width: 5,),
                 Text(
@@ -59,7 +59,7 @@ class SessionWidget extends StatelessWidget {
                 const SizedBox(width: 20,),
                 Icon(
                   Icons.monitor_weight,
-                  color: T(context).color.subtext,
+                  color: T(context).color.onSurfaceVariant,
                 ),
                 const SizedBox(width: 5,),
                 Text(

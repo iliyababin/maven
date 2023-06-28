@@ -62,7 +62,7 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                   child: Text(
                     secondsToTime(timeLeft),
                     style: TextStyle(
-                      color: timeLeft / totalTime > 0.5 ? T(context).color.neutral : T(context).color.primary,
+                      color: timeLeft / totalTime > 0.5 ? T(context).color.onSurface : T(context).color.primary,
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
                     ),

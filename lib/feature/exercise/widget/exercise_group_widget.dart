@@ -125,14 +125,14 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             "SET",
             style: T(context).textStyle.bodyLarge.copyWith(
               fontSize: 13,
-              color: T(context).color.subtext,
+              color: T(context).color.onSurfaceVariant,
             ),
           ),
           previous: Text(
             "PREVIOUS",
             style: T(context).textStyle.bodyLarge.copyWith(
               fontSize: 13,
-              color: T(context).color.subtext,
+              color: T(context).color.onSurfaceVariant,
             ),
           ),
           options: widget.exercise.fields
@@ -144,25 +144,25 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     generateTitle(e.type, widget.exerciseGroup),
                     style: T(context).textStyle.bodyLarge.copyWith(
                       fontSize: 13,
-                      color: T(context).color.subtext,
+                      color: T(context).color.onSurfaceVariant,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
               )
               .toList(),
-          checkbox:/* widget.checkboxEnabled
+          checkbox: widget.checkboxEnabled
               ? Container(
                   alignment: Alignment.center,
                   child: Text(
                     '${widget.exerciseSets.where((e) => e.checked == true).length}/${widget.exerciseSets.length}',
                     style: T(context).textStyle.bodyLarge.copyWith(
                           fontSize: 13,
-                          color: T(context).color.subtext,
+                          color: T(context).color.onSurfaceVariant,
                         ),
                   ),
                 )
-              : */Container(),
+              : null,
         ),
         const SizedBox(height: 6),
         ListView.builder(

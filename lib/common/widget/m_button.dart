@@ -163,7 +163,7 @@ class MButton extends StatelessWidget {
         color: backgroundColor ?? T(context).color.background,
         child: InkWell(
           onTap: onPressed,
-          splashFactory: InkRipple.splashFactory,
+          splashFactory: Theme.of(context).splashFactory,
           splashColor: splashColor,
           borderRadius: BorderRadius.circular(borderRadius),
           child: Padding(

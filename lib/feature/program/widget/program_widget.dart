@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/widget/m_button.dart';
+import 'package:maven/common/dialog/list_dialog.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -31,9 +32,10 @@ class ProgramWidget extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_borderRadius),
-              border: Border.all(
+              color: T(context).color.surface,
+              /*border: Border.all(
                 color: T(context).color.outline,
-              ),
+              ),*/
             ),
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -83,15 +85,35 @@ class ProgramWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 10,
-          right: 10,
-          child: MButton(
-            onPressed: () {},
-            width: 28,
-            height: 22,
-            borderRadius: 8,
-            backgroundColor: T(context).color.primaryContainer,
-            child: Icon(
+          top: 4,
+          right: 4,
+          child: IconButton(
+            onPressed: () {
+              showBottomSheetDialog(
+                context: context,
+                child: ListDialog(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      leading: Icon(
+                        Icons.delete,
+                        color: T(context).color.error,
+                      ),
+                      title: Text(
+                        'Delete',
+                        style: TextStyle(
+                          color: T(context).color.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              );
+            },
+            icon: Icon(
               Icons.more_horiz,
               color: T(context).color.primary,
               size: 22,
