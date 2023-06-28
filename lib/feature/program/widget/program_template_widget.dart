@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maven/common/extension.dart';
+import 'package:maven/feature/program/screen/day_selector_screen.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
@@ -10,11 +11,13 @@ class ProgramTemplateWidget extends StatelessWidget {
     required this.programTemplate,
     this.extended = false,
     required this.onTap,
+    required this.onEdit,
   });
 
   final ProgramTemplate programTemplate;
   final bool extended;
   final VoidCallback onTap;
+  final Function(ProgramTemplate programTemplate) onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +41,26 @@ class ProgramTemplateWidget extends StatelessWidget {
                 extended ? Text(
                   programTemplate.description,
                   style: T(context).textStyle.bodyMedium,
-                ) : Text(
-                  programTemplate.day.name.capitalize(),
-                  style: T(context).textStyle.bodyMedium.copyWith(
-                    color: T(context).color.primary,
+                ) : GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DaySelectorScreen(
+                          day: programTemplate.day,
+                        ),
+                      ),
+                    ).then((value) {
+                      if (value != null) {
+                        onEdit(programTemplate.copyWith(day: value));
+                      }
+                    });
+                  },
+                  child: Text(
+                    programTemplate.day.name.capitalize(),
+                    style: T(context).textStyle.bodyMedium.copyWith(
+                      color: T(context).color.primary,
+                    ),
                   ),
                 ),
                 extended ? Column(

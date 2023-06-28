@@ -1,52 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/widget/loading_widget.dart';
+import 'package:reorderable_grid/reorderable_grid.dart';
 
-import '../../../common/widget/empty_widget.dart';
-import '../../../common/widget/loading_widget.dart';
-import '../../../common/widget/reorder_sliver_list.dart';
+import '../../../common/widget/proxy_decorator.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
 import '../template.dart';
 
-class TemplateListWidget extends StatefulWidget {
-  const TemplateListWidget({Key? key}) : super(key: key);
+class TemplateListView extends StatelessWidget {
+  const TemplateListView({Key? key}) : super(key: key);
 
-  @override
-  State<TemplateListWidget> createState() => _TemplateListWidgetState();
-}
-
-class _TemplateListWidgetState extends State<TemplateListWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
-        if (state.status.isLoading) {
-          return const LoadingWidget();
+        if(state.status.isLoading) {
+          return LoadingWidget();
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 
-          return templates.isEmpty ? const EmptyWidget() :
-          ReorderSliverList(
-            children: templates,
+          return SliverReorderableGrid(
+            itemCount: templates.length,
+            proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),
             itemBuilder: (context, index) {
-              Template template = templates[index];
-              return TemplateWidget(
-                template: template,
+              return ReorderableGridDelayedDragStartListener(
+                key: ValueKey(templates[index].id),
+                index: index,
+                child: TemplateWidget(
+                  template: templates[index],
+                ),
               );
             },
             onReorder: (oldIndex, newIndex) {
-              setState(() {
-                Template template = templates.removeAt(oldIndex);
-                templates.insert(newIndex, template);
-                context.read<TemplateBloc>().add(TemplateReorder(templates: templates));
-              });
+
             },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1,
+            ),
           );
         } else {
           return SliverToBoxAdapter(
-            child: Text(
-              'There was an error fetching the templates.',
-              style: T(context).textStyle.bodyLarge,
+            child: Container(
+              height: 80,
+              child: Text('Error'),
             ),
           );
         }

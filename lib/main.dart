@@ -120,7 +120,7 @@ class Main extends StatelessWidget {
                 return MaterialApp(
                   theme: InheritedThemeWidget.of(context).theme.data,
                   // TODO: Give user option to change this.
-                  // scrollBehavior: CustomScrollBehavior(),
+                   scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
                   localizationsDelegates: const [
                     S.delegate,

@@ -65,8 +65,8 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
           slivers: [
             const Heading(
               title: 'Basic',
-              topPadding: false,
               side: true,
+              size: HeadingSize.medium,
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -191,9 +191,22 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           ),
                         );
                       },
-                      child: const Icon(
-                        Icons.add_outlined,
-                        size: 36,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add_outlined,
+                            size: 32,
+                            color: T(context).color.onSurface,
+                          ),
+                          Text(
+                            'Add',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: T(context).color.onSurface,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
@@ -233,6 +246,11 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         );
                       },
                       programTemplate: programTemplates[index],
+                      onEdit: (programTemplate) {
+                        setState(() {
+                          programTemplates[index] = programTemplate;
+                        });
+                      },
                     ),
                   );
                 },
@@ -241,6 +259,20 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
             const Heading(
               title: 'Incrementers',
               side: true,
+            ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  Container(
+                    height: 75,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: T(context).color.surface,
+                    ),
+                  )
+                ]),
+              ),
             ),
           ],
         ),

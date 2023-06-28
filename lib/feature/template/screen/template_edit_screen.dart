@@ -140,6 +140,9 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                           template = template.copyWith(name: value);
                         },
                         initialValue: template.name,
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(0),
                           enabledBorder: InputBorder.none,
@@ -151,6 +154,9 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                       TextFormField(
                         onChanged: (value) {
                           template = template.copyWith(description: value);
+                        },
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
                         },
                         initialValue: template.description,
                         decoration: const InputDecoration(

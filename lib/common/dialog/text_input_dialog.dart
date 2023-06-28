@@ -78,7 +78,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
                   borderSide: BorderSide(
                     width: 3,
                     style: BorderStyle.solid,
-                    color: T(context).color.secondary,
+                    color: T(context).color.outline,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -87,6 +87,14 @@ class _TextInputDialogState extends State<TextInputDialog> {
                     width: 3,
                     style: BorderStyle.solid,
                     color: T(context).color.primary,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  borderSide: BorderSide(
+                    width: 3,
+                    style: BorderStyle.solid,
+                    color: T(context).color.error,
                   ),
                 ),
                 focusedErrorBorder: OutlineInputBorder(

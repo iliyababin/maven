@@ -26,7 +26,29 @@ class _ProgramListViewState extends State<ProgramListView> {
         } else if (state.status.isLoaded) {
           List<Program> programs = state.programs;
 
-          return SliverReorderableGrid(
+          return programs.isEmpty ? SliverToBoxAdapter(
+            child: Container(
+                key: const ValueKey('add'),
+                decoration: BoxDecoration(
+                  color: T(context).color.surface,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Empty',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+            ),
+          ) :
+          SliverReorderableGrid(
             itemCount: programs.length,
             proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,15 +57,7 @@ class _ProgramListViewState extends State<ProgramListView> {
               mainAxisSpacing: 8,
               childAspectRatio: 1,
             ),
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                final Program item = programs.removeAt(oldIndex);
-                programs.insert(newIndex, item);
-              });
-            },
+
             itemBuilder: (context, index) {
               Program program = programs[index];
               return ReorderableGridDelayedDragStartListener(
@@ -53,6 +67,15 @@ class _ProgramListViewState extends State<ProgramListView> {
                   program: program,
                 ),
               );
+            },
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
+                final Program item = programs.removeAt(oldIndex);
+                programs.insert(newIndex, item);
+              });
             },
           );
         } else {

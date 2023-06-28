@@ -51,6 +51,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
         const Heading(
           title: 'Video',
           side: true,
+          size: HeadingSize.medium,
         ),
         SliverPadding(
           padding: EdgeInsets.symmetric(

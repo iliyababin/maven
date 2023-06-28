@@ -18,45 +18,41 @@ class TemplateWidget extends StatefulWidget {
 
 class _TemplateWidgetState extends State<TemplateWidget> {
   final double _borderRadius = 16;
-  late bool? _completed;
 
   @override
   void initState() {
-    _completed = null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TemplateDetailScreen(
-              template: widget.template,
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TemplateDetailScreen(
+                  template: widget.template,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(_borderRadius),
+              color: T(context).color.surface,
             ),
-          ),
-        );
-      },
-
-      borderRadius: BorderRadius.circular(_borderRadius),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(_borderRadius),
-          color: T(context).color.surface,
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          children: [
-            Column(
+            padding: const EdgeInsets.all(16),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.template.name,
                   style: T(context).textStyle.titleLarge,
-                  maxLines: 1,
+                  maxLines: 2,
                 ),
                 Text(
                   widget.template.description,
@@ -64,9 +60,9 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -51,12 +51,10 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                   itemBuilder: (context, index) {
                     return ProgramTemplateWidget(
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          '/program/template',
-                          arguments: templates[index],
-                        );
                       },
-                      programTemplate: templates[index]
+                      programTemplate: templates[index],
+                      onEdit: (programTemplate) {
+                      },
                     );
                   },
                 ),
@@ -95,12 +93,12 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                             padding: EdgeInsets.only(top: index == 0 ? 16 : 0, bottom: index == templates.length - 1 ? 16 : 0),
                             child: ProgramTemplateWidget(
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  '/program/template',
-                                  arguments: templates[index],
-                                );
+
                               },
                               programTemplate: templates[index],
+                              onEdit: (programTemplate) {
+
+                              },
                               extended: true,
                             ),
                           );

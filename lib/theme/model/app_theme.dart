@@ -181,7 +181,7 @@ class AppTheme extends Equatable {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: options.color.secondary,
+            color: options.color.outline,
             width: 2,
           ),
         ),

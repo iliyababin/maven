@@ -9,7 +9,7 @@ import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/model/workout.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../program/screen/program_builder_screen.dart';
-import '../../program/widget/program_list_widget.dart';
+import '../../program/view/program_list_view.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../../workout/widget/workout_paused_widget.dart';
 import '../template.dart';
@@ -34,7 +34,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
           slivers: [
             const Heading(
               title: 'Quick Start',
-              topPadding: false,
+              size: HeadingSize.small,
             ),
             SliverList(
               delegate: SliverChildListDelegate([
@@ -43,22 +43,10 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   children: [
                     FilledButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         'Start an Empty Workout',
                       ),
                     ),
-                    /*MButton(
-                    onPressed: () {
-                      */ /*context.read<WorkoutBloc>().add(const WorkoutStart());*/ /*
-                    },
-                    expand: false,
-                    width: double.infinity,
-                    backgroundColor: T(context).color.primary,
-                    child: Text(
-                      'Start an Empty Workout',
-                      style: T(context).textStyle.button1,
-                    ),
-                  ),*/
                     const SizedBox(
                       height: 8,
                     ),
@@ -69,19 +57,21 @@ class _TemplateScreenState extends State<TemplateScreen> {
                           child: OutlinedButton.icon(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditTemplateScreen(
-                                            onSubmit: (template, exerciseBundles) {
-                                              context.read<TemplateBloc>().add(
-                                                    TemplateCreate(
-                                                      template: template,
-                                                      exerciseBundles: exerciseBundles,
-                                                    ),
-                                                  );
-                                              Navigator.pop(context);
-                                            },
-                                          )));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditTemplateScreen(
+                                    onSubmit: (template, exerciseBundles) {
+                                      context.read<TemplateBloc>().add(
+                                            TemplateCreate(
+                                              template: template,
+                                              exerciseBundles: exerciseBundles,
+                                            ),
+                                          );
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
                             },
                             icon: const Icon(
                               Icons.post_add,
@@ -168,14 +158,32 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 }
               },
             ),
-            const Heading(
-              title: 'Templates',
-            ),
-            const TemplateListWidget(),
-            const Heading(
+            Heading(
               title: 'Programs',
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.sort_rounded,
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
             const ProgramListView(),
+            Heading(
+              title: 'Templates',
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.sort_rounded,
+                    size: 24,
+                  ),
+                ),
+              ],
+            ),
+            const TemplateListView(),
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 200,

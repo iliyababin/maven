@@ -40,7 +40,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       status: TemplateStatus.loading,
     ));
 
-    int templateId = await templateDao.addTemplate(event.template);
+    int templateId = await templateDao.addTemplate(
+      Template(
+        name: event.template.name,
+        description: event.template.description,
+        timestamp: event.template.timestamp,
+        sort: event.template.sort,
+      ),
+    );
 
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
       int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(TemplateExerciseGroup(
