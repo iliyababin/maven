@@ -23,6 +23,7 @@ import '../database.dart';
       childColumns: ['program_template_id'],
       parentColumns: ['id'],
       entity: ProgramTemplate,
+      onDelete: ForeignKeyAction.cascade,
     ),
   ],
 )

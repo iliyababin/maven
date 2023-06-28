@@ -26,3 +26,16 @@ class ProgramBuild extends ProgramEvent {
     programTemplates,
   ];
 }
+
+class ProgramDelete extends ProgramEvent {
+  const ProgramDelete({
+    required this.program,
+  });
+
+  final Program program;
+
+  @override
+  List<Object?> get props => [
+    program,
+  ];
+}

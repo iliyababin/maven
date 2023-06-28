@@ -5,7 +5,7 @@ import 'package:maven/main.dart';
 import '../../../database/model/model.dart';
 import '../../session/widget/complete_exercise_history_list_widget.dart';
 import '../bloc/exercise_bloc.dart';
-import '../view/exercise_detail_view.dart';
+import '../view/exercise_about_view.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
   const ExerciseDetailScreen({
@@ -42,7 +42,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                   indicatorSize: TabBarIndicatorSize.label,
                   tabs: [
                     Tab(
-                      text: 'Details',
+                      text: 'About',
                     ),
                     Tab(
                       text: 'History',

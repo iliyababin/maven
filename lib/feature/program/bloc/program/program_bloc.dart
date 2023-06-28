@@ -23,6 +23,7 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
   }) : super(const ProgramState()) {
     on<ProgramInitialize>(_initialize);
     on<ProgramBuild>(_build);
+    on<ProgramDelete>(_delete);
   }
 
   final ExerciseDao exerciseDao;
@@ -99,6 +100,19 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
       }
     }
     
+    emit(state.copyWith(
+      status: ProgramStatus.loaded,
+      programs: await _fetchPrograms(),
+    ));
+  }
+
+  Future<void> _delete(ProgramDelete event, Emitter<ProgramState> emit) async {
+    emit(state.copyWith(
+      status: ProgramStatus.loading,
+    ));
+
+    await programDao.deleteProgram(event.program);
+
     emit(state.copyWith(
       status: ProgramStatus.loaded,
       programs: await _fetchPrograms(),

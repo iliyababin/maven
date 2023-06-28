@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/dialog/list_dialog.dart';
 import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
+import '../bloc/program/program_bloc.dart';
 import '../screen/program_detail_screen.dart';
 
 class ProgramWidget extends StatelessWidget {
@@ -47,7 +49,7 @@ class ProgramWidget extends StatelessWidget {
                 const SizedBox(
                   height: 3,
                 ),
-                Text(
+                const Text(
                   'M/W/F',
                 ),
                 const SizedBox(
@@ -64,14 +66,7 @@ class ProgramWidget extends StatelessWidget {
                       );
                     },
                   ),
-                )
-                /*const SizedBox(
-                height: 3,
-              ),
-              Text(
-                'This an example desciption of the program This an example desciption of the program This an example desciption of the program',
-                style: T(context).textStyle.subtitle1,
-              )*/
+                ),
               ],
             ),
           ),
@@ -87,7 +82,9 @@ class ProgramWidget extends StatelessWidget {
                     children: [
                       ListTile(
                         onTap: () {
-                          Navigator.pop(context);
+                          context.read<ProgramBloc>().add(ProgramDelete(
+                            program: program,
+                          ));
                         },
                         leading: Icon(
                           Icons.delete,

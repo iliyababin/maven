@@ -19,7 +19,7 @@ class Heading extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: 12, top: topPadding ? 36 : 0,
+          bottom: 12, top: topPadding ? 16 : 0,
           left: side ? T(context).space.large : 0,
           right: side ? T(context).space.large : 0,
         ),

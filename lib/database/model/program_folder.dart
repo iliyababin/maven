@@ -17,6 +17,7 @@ import '../database.dart';
         'id',
       ],
       entity: Program,
+      onDelete: ForeignKeyAction.cascade,
     ),
   ],
 )

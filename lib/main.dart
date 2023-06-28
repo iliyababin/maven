@@ -78,13 +78,6 @@ void main() async {
                 templateExerciseSetDao: db.templateExerciseSetDao,
                 templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const ProgramInitialize())),
-      /*BlocProvider(
-          create: (context) => ProgramDetailBloc(
-                programDao: db.programDao,
-                folderDao: db.folderDao,
-                templateDao: db.templateDao,
-                templateTrackerDao: db.templateTrackerDao,
-              )..add(ProgramDetailInitialize())),*/
       BlocProvider(
           create: (context) => SessionBloc(
                 sessionDao: db.sessionDao,
