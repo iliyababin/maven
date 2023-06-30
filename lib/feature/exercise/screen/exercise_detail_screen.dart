@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/main.dart';
 
-import '../../../database/model/model.dart';
-import '../../session/widget/complete_exercise_history_list_widget.dart';
-import '../bloc/exercise_bloc.dart';
-import '../view/exercise_about_view.dart';
+import '../../../database/database.dart';
+import '../../../main.dart';
+import '../../session/session.dart';
+import '../exercise.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
   const ExerciseDetailScreen({

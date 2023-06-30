@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import '../../../database/model/plate.dart';
+import '../../../database/database.dart';
+
 
 class EquipmentService {
 

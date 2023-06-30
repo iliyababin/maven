@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/util/general_utils.dart';
 
-import '../../../common/widget/m_button.dart';
-import '../../../database/model/plate.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../equipment/bloc/equipment/equipment_bloc.dart';
-import '../../equipment/screen/equipment_screen.dart';
-import '../../equipment/service/equipment_service.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../../equipment/equipment.dart';
 
 class BarbellCalculatorWidget extends StatelessWidget {
   const BarbellCalculatorWidget({Key? key,

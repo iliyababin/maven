@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/empty_widget.dart';
-import 'package:maven/common/widget/loading_widget.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
-import '../../../common/widget/proxy_decorator.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../template.dart';
 

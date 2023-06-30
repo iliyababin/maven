@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/selection_screen.dart';
-import 'package:maven/feature/equipment/bloc/equipment/equipment_bloc.dart';
 
+import '../../../common/common.dart';
 import '../../../database/database.dart';
+import '../equipment.dart';
 
 class BarSelectionScreen extends StatefulWidget {
   const BarSelectionScreen({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/widget/heading.dart';
-import 'package:maven/common/widget/titled_scaffold.dart';
+
+import '../../../common/common.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

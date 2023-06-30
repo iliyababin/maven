@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/widget/heading.dart';
-import 'package:maven/common/widget/titled_scaffold.dart';
 
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../session/widget/complete_list_widget.dart';
+import '../../../common/common.dart';
+import '../../../theme/theme.dart';
+import '../../session/session.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({Key? key}) : super(key: key);

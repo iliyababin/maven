@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/widget/LoadingSkeleton.dart';
-import '../../../common/widget/empty_widget.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/session_bloc/session_bloc.dart';
-import '../model/complete_bundle.dart';
-import 'session_widget.dart';
+import '../../../common/common.dart';
+import '../../../theme/theme.dart';
+import '../session.dart';
+
 
 class CompleteListWidget extends StatelessWidget {
   const CompleteListWidget({Key? key}) : super(key: key);

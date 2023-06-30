@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../bloc/session_exercise/complete_exercise_bloc.dart';
-import '../model/complete_bundle.dart';
-import 'complete_exercise_widget.dart';
+import '../session.dart';
+
 
 class CompleteExerciseHistoryListWidget extends StatefulWidget {
   const CompleteExerciseHistoryListWidget({Key? key,
@@ -22,12 +21,12 @@ class _CompleteExerciseHistoryListWidgetState extends State<CompleteExerciseHist
   @override
   void initState() {
     super.initState();
-    context.read<CompleteExerciseBloc>().add(CompleteExerciseLoad(exerciseId: widget.exercise.id!));
+    context.read<SessionExerciseBloc>().add(SessionExerciseLoad(exerciseId: widget.exercise.id!));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompleteExerciseBloc, CompleteExerciseState>(
+    return BlocBuilder<SessionExerciseBloc, SessionExerciseState>(
       builder: (context, state) {
         if (state.status.isLoading) {
           return const Center(
@@ -37,14 +36,14 @@ class _CompleteExerciseHistoryListWidgetState extends State<CompleteExerciseHist
           return Padding(
             padding: EdgeInsets.all(T(context).space.large),
             child: ListView.separated(
-              itemCount: state.completeBundles.length,
+              itemCount: state.sessionBundles.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(
                   height: 10,
                 );
               },
               itemBuilder: (context, index) {
-                final SessionBundle completeBundle = state.completeBundles[index];
+                final SessionBundle completeBundle = state.sessionBundles[index];
                 return CompleteExerciseWidget(
                   complete: completeBundle.session,
                   completeExerciseSets: completeBundle.sessionExerciseBundles[0].sessionExerciseSets,

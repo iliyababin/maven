@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../common/util/general_utils.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../home/screen/home_screen.dart';
+import '../../../common/common.dart';
+import '../../../theme/theme.dart';
+import '../../home/home.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';
-import '../../template/screen/template_screen.dart';
-import '../../workout/bloc/workout/workout_bloc.dart';
-import '../../workout/screen/workout_screen.dart';
+import '../../template/template.dart';
+import '../../workout/workout.dart';
+
 
 class Maven extends StatefulWidget {
   const Maven({super.key});

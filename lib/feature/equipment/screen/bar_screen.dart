@@ -1,14 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
-import '../../../common/dialog/confirmation_dialog.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../bloc/equipment/equipment_bloc.dart';
-import 'edit_bar_screen.dart';
-
+import '../equipment.dart';
 
 class BarScreen extends StatefulWidget {
   const BarScreen({Key? key}) : super(key: key);

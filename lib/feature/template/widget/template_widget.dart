@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
-import 'package:maven/feature/template/bloc/template/template_bloc.dart';
 
-import '../../../database/model/template.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../screen/template_detail_screen.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../template.dart';
+
 
 class TemplateWidget extends StatefulWidget {
   const TemplateWidget({

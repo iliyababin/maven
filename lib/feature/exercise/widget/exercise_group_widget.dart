@@ -1,13 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:maven/feature/exercise/widget/exercise_timer_widget.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import 'exercise_group_menu.dart';
-import 'exercise_row_widget.dart';
-import 'exercise_set_widget.dart';
+import '../../../theme/theme.dart';
+import '../exercise.dart';
 
 /// Widget for displaying an [ExerciseGroup] with [ExerciseSet]'s.
 class ExerciseGroupWidget extends StatefulWidget {

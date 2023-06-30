@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
+import '../../theme/theme.dart';
+
 
 /// Dialog that prompts the user to enter some text.
 ///

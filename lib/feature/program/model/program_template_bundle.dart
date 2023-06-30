@@ -1,6 +1,6 @@
-import 'package:maven/feature/exercise/model/exercise_bundle.dart';
 
 import '../../../database/database.dart';
+import '../../exercise/exercise.dart';
 
 class ProgramTemplateBundle {
   ProgramTemplateBundle({

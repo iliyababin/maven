@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
-import '../../../common/dialog/text_input_dialog.dart';
-import '../../../common/widget/m_button.dart';
-import '../../../database/model/bar.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/equipment/equipment_bloc.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../equipment.dart';
 
 class EditBarScreen extends StatefulWidget {
   const EditBarScreen({Key? key,

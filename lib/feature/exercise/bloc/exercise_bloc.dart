@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../database/dao/exercise_dao.dart';
-import '../../../database/dao/exercise_field_dao.dart';
-import '../../../database/model/exercise.dart';
+import '../../../database/database.dart';
 
 part 'exercise_event.dart';
 part 'exercise_state.dart';

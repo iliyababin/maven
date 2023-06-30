@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/dialog/text_input_dialog.dart';
-import '../../../database/model/plate.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/equipment/equipment_bloc.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../equipment.dart';
 
 class EditPlateScreen extends StatefulWidget {
   const EditPlateScreen({Key? key,
@@ -296,11 +295,6 @@ class WeightPlatePainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
-
-String removeDecimalZeroFormat(double n) {
-  return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 1);
-}
-
 
 extension ColorShade800Extension on Color {
   Color get shade800 {

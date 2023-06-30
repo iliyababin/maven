@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../database/dao/dao.dart';
-import '../../../../database/model/model.dart';
-import '../../../exercise/model/exercise_bundle.dart';
-import '../../model/complete_bundle.dart';
-import '../../model/complete_exercise_bundle.dart';
+import '../../../../database/database.dart';
+import '../../../exercise/exercise.dart';
+import '../../session.dart';
 
 part 'session_event.dart';
 part 'session_state.dart';

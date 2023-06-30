@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../database/model/model.dart';
+import '../../../database/database.dart';
+
 
 class SessionExerciseBundle extends Equatable {
   const SessionExerciseBundle({

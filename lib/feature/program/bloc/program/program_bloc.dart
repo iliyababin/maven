@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/database.dart';
-import '../../../exercise/model/exercise_bundle.dart';
+import '../../../exercise/exercise.dart';
 
 part 'program_event.dart';
 part 'program_state.dart';

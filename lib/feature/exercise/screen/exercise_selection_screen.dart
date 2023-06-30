@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/extension.dart';
 
-import '../../../database/model/exercise.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/exercise_bloc.dart';
-import 'exercise_detail_screen.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../exercise.dart';
 
 /// Screen for selecting an [Exercise]
 class ExerciseSelectionScreen extends StatefulWidget {

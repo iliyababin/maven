@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/extension.dart';
-import 'package:maven/common/widget/heading.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/dialog/timer_picker_dialog.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../bloc/exercise_bloc.dart';
+import '../exercise.dart';
 
 class ExerciseDetailView extends StatefulWidget {
   const ExerciseDetailView({

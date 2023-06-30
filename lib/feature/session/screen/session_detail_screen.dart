@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../database/model/model.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../model/complete_bundle.dart';
-import '../model/complete_exercise_bundle.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../session.dart';
+
 
 class SessionDetailScreen extends StatelessWidget {
   const SessionDetailScreen({

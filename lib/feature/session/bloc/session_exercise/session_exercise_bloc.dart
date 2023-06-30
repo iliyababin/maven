@@ -1,39 +1,38 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/database.dart';
-import '../../model/complete_bundle.dart';
-import '../../model/complete_exercise_bundle.dart';
+import '../../session.dart';
 
-part 'complete_exercise_event.dart';
-part 'complete_exercise_state.dart';
+part 'session_exercise_event.dart';
+part 'session_exercise_state.dart';
 
-class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseState> {
-  CompleteExerciseBloc({
+class SessionExerciseBloc extends Bloc<SessionExerciseEvent, SessionExerciseState> {
+  SessionExerciseBloc({
     required SessionDao completeDao,
     required SessionExerciseGroupDao completeExerciseGroupDao,
     required SessionExerciseSetDao completeExerciseSetDao,
   })  : _sessionDao = completeDao,
         _completeExerciseGroupDao = completeExerciseGroupDao,
         _completeExerciseSetDao = completeExerciseSetDao,
-        super(const CompleteExerciseState()) {
-    on<CompleteExerciseInitialize>(_initialize);
-    on<CompleteExerciseLoad>(_load);
+        super(const SessionExerciseState()) {
+    on<SessionExerciseInitialize>(_initialize);
+    on<SessionExerciseLoad>(_load);
   }
 
   final SessionDao _sessionDao;
   final SessionExerciseGroupDao _completeExerciseGroupDao;
   final SessionExerciseSetDao _completeExerciseSetDao;
 
-  void _initialize(CompleteExerciseInitialize event, Emitter<CompleteExerciseState> emit) {
-    emit(state.copyWith(status: CompleteExerciseStatus.loading));
-    emit(state.copyWith(status: CompleteExerciseStatus.loaded));
+  void _initialize(SessionExerciseInitialize event, Emitter<SessionExerciseState> emit) {
+    emit(state.copyWith(status: SessionExerciseStatus.loading));
+    emit(state.copyWith(status: SessionExerciseStatus.loaded));
   }
 
-  Future<void> _load(CompleteExerciseLoad event, Emitter<CompleteExerciseState> emit) async {
-    emit(state.copyWith(status: CompleteExerciseStatus.loading));
+  Future<void> _load(SessionExerciseLoad event, Emitter<SessionExerciseState> emit) async {
+    emit(state.copyWith(status: SessionExerciseStatus.loading));
 
     List<SessionExerciseGroup> completeExerciseGroups = await _completeExerciseGroupDao.getSessionExerciseGroupsByExerciseId(event.exerciseId);
 
@@ -58,8 +57,8 @@ class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseS
     }
 
     emit(state.copyWith(
-      status: CompleteExerciseStatus.loaded,
-      completeBundles: completeBundles,
+      status: SessionExerciseStatus.loaded,
+      sessionBundles: completeBundles,
     ));
   }
 }

@@ -1,7 +1,6 @@
 
-import '../../../database/model/exercise.dart';
-import '../../../database/model/exercise_group.dart';
-import '../../../database/model/exercise_set.dart';
+
+import '../../../database/database.dart';
 
 class ExerciseBundle {
   ExerciseBundle({

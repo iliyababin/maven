@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
+import '../../theme/theme.dart';
+
 
 class TitledScaffold extends StatelessWidget {
   const TitledScaffold({Key? key,

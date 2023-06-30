@@ -1,26 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/confirmation_dialog.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
 
-import '../../../../common/util/general_utils.dart';
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/model/timed.dart';
-import '../../../common/widget/m_button.dart';
-import '../../../database/enum/weight_unit.dart';
-import '../../../database/model/exercise.dart';
-import '../../../database/model/exercise_group.dart';
-import '../../../database/model/workout.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../exercise/model/exercise_bundle.dart';
-import '../../exercise/screen/exercise_selection_screen.dart';
-import '../../exercise/widget/exercise_group_widget.dart';
-import '../../exercise/widget/exercise_timer_widget.dart';
-import '../../session/bloc/session_bloc/session_bloc.dart';
-import '../bloc/workout/workout_bloc.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../../exercise/exercise.dart';
+import '../../session/session.dart';
+import '../workout.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({
@@ -132,7 +120,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                   onTap: () {
                                   },
                                   leading: const Icon(
-                                    CupertinoIcons.arrow_up_arrow_down,
+                                    Icons.filter_list,
                                   ),
                                   title: const Text('Reorder'),
                                 ),

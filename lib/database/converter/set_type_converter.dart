@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../enum/exercise_set_type.dart';
+import '../database.dart';
 
 class SetTypeConverter extends TypeConverter<ExerciseSetType, String> {
   @override

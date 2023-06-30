@@ -4,8 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../database/dao/setting_dao.dart';
-import '../../../database/model/setting.dart';
+import '../../../database/database.dart';
 import '../../../generated/l10n.dart';
 import '../../../theme/theme.dart';
 

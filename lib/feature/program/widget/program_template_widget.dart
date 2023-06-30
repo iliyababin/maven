@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/extension.dart';
-import 'package:maven/feature/program/screen/day_selector_screen.dart';
 
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../program.dart';
 
 class ProgramTemplateWidget extends StatelessWidget {
   const ProgramTemplateWidget({

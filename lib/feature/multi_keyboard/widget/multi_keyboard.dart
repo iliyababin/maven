@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/widget/m_button.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import 'barbell_calculator_widget.dart';
-import 'numpad_widget.dart';
+import '../../../theme/theme.dart';
+import '../multi_keyboard.dart';
+
 
 enum MKeyboardType {
   regular,

@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/dialog/list_dialog.dart';
-import 'package:maven/common/extension.dart';
+import 'package:maven/common/extension/extension.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
@@ -26,8 +26,6 @@ class TemplateDetailScreen extends StatefulWidget {
 }
 
 class _TemplateDetailScreenState extends State<TemplateDetailScreen> with SingleTickerProviderStateMixin {
-  void loadTemplate() => context.read<TemplateDetailBloc>().add(TemplateDetailLoad(templateId: widget.template.id!));
-
   late TabController tabController;
 
   @override
@@ -37,7 +35,6 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
       vsync: this,
     );
     super.initState();
-    loadTemplate();
   }
 
   String muscleCoverage(Template template) {

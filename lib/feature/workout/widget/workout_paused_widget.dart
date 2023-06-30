@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../common/dialog/confirmation_dialog.dart';
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../workout.dart';

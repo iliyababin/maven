@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/program/program_bloc.dart';
-import '../screen/program_detail_screen.dart';
+import '../../../theme/theme.dart';
+import '../program.dart';
+
 
 class ProgramWidget extends StatelessWidget {
   const ProgramWidget({

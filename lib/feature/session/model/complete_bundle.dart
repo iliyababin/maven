@@ -1,8 +1,9 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../../../database/model/model.dart';
-import 'complete_exercise_bundle.dart';
+import '../../../database/database.dart';
+import '../session.dart';
+
 
 class SessionBundle extends Equatable {
   const SessionBundle({

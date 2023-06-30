@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 
-import '../enum/equipment.dart';
+import '../database.dart';
+
 
 class EquipmentConverter extends TypeConverter<Equipment, int> {
   @override

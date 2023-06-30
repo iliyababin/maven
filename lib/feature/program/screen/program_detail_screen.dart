@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../bloc/program/program_bloc.dart';
-import '../widget/program_template_widget.dart';
+import '../program.dart';
 
 class ProgramDetailScreen extends StatefulWidget {
   const ProgramDetailScreen({

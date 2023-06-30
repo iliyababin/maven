@@ -1,5 +1,3 @@
-
-
 class Timed {
   Timed({
     required this.hour,

@@ -1,15 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
-import 'package:maven/common/dialog/timer_picker_dialog.dart';
-import 'package:maven/common/extension.dart';
-import 'package:maven/feature/equipment/screen/bar_selection_screen.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/widget/m_button.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../equipment/bloc/equipment/equipment_bloc.dart';
+import '../../../theme/theme.dart';
+import '../../equipment/equipment.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({

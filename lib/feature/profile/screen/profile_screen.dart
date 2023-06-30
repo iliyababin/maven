@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/setting/screen/setting_screen.dart';
 
-import '../../../common/widget/titled_scaffold.dart';
+import '../../../common/common.dart';
 import '../../../generated/l10n.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../equipment/screen/equipment_screen.dart';
-import '../../exercise/screen/exercise_selection_screen.dart';
+import '../../../theme/theme.dart';
+import '../../equipment/equipment.dart';
+import '../../exercise/exercise.dart';
+import '../../setting/setting.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -33,12 +33,12 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Text(
                       'John Doe',
-                      style: InheritedThemeWidget.of(context).theme.options.textStyle.headingMedium,
+                      style: T(context).textStyle.headingMedium,
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Weight Lifiting',
-                      style: InheritedThemeWidget.of(context).theme.options.textStyle.bodyMedium,
+                      style: T(context).textStyle.bodyMedium,
                     ),
                   ],
                 ),

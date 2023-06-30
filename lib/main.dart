@@ -9,10 +9,9 @@ import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/session/bloc/session_bloc/session_bloc.dart';
-import 'feature/session/bloc/session_exercise/complete_exercise_bloc.dart';
+import 'feature/session/bloc/session_exercise/session_exercise_bloc.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
-import 'feature/template/bloc/template_detail/template_detail_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'generated/l10n.dart';
 import 'theme/theme.dart';
@@ -38,15 +37,6 @@ void main() async {
                 templateExerciseSetDao: db.templateExerciseSetDao,
                 templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const TemplateInitialize())),
-      BlocProvider(
-          create: (context) => TemplateDetailBloc(
-                templateDao: db.templateDao,
-                exerciseDao: db.exerciseDao,
-                templateExerciseGroupDao: db.templateExerciseGroupDao,
-                templateExerciseSetDao: db.templateExerciseSetDao,
-                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
-                exerciseFieldDao: db.exerciseFieldDao,
-              )),
       BlocProvider(
           create: (context) => WorkoutBloc(
                 exerciseDao: db.exerciseDao,
@@ -89,11 +79,11 @@ void main() async {
                 workoutDao: db.workoutDao,
               )..add(const SessionInitialize())),
       BlocProvider(
-          create: (context) => CompleteExerciseBloc(
+          create: (context) => SessionExerciseBloc(
                 completeDao: db.sessionDao,
                 completeExerciseGroupDao: db.sessionExerciseGroupDao,
                 completeExerciseSetDao: db.sessionExerciseSetDao,
-              )..add(const CompleteExerciseInitialize())),
+              )..add(const SessionExerciseInitialize())),
       BlocProvider(
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,

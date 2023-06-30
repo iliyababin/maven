@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/widget/m_button.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../../multi_keyboard/widget/multi_keyboard.dart';
-import 'exercise_row_widget.dart';
+import '../../../theme/theme.dart';
+import '../../multi_keyboard/multi_keyboard.dart';
+import '../exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
   const ExerciseSetWidget({

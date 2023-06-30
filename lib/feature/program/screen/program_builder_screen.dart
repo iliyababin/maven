@@ -1,17 +1,14 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/proxy_decorator.dart';
-import 'package:maven/feature/program/widget/program_template_widget.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
-import '../../../common/dialog/text_input_dialog.dart';
-import '../../../common/widget/heading.dart';
-import '../../../common/widget/m_button.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../template/template.dart';
-import '../bloc/program/program_bloc.dart';
+import '../program.dart';
 
 class ProgramBuilderScreen extends StatefulWidget {
   const ProgramBuilderScreen({Key? key}) : super(key: key);

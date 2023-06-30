@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
-import '../model/timed.dart';
+import '../../theme/theme.dart';
+import '../common.dart';
+
 
 class TimedPickerDialog extends StatelessWidget {
   TimedPickerDialog({Key? key,
@@ -55,7 +56,7 @@ class TimedPickerDialog extends StatelessWidget {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(

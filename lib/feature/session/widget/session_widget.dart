@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../common/util/general_utils.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../model/complete_bundle.dart';
-import '../model/complete_exercise_bundle.dart';
-import '../screen/session_detail_screen.dart';
+import '../../../common/common.dart';
+import '../../../theme/theme.dart';
+import '../session.dart';
+
 
 class SessionWidget extends StatelessWidget {
   const SessionWidget({Key? key,

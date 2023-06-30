@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/util/general_utils.dart';
-import '../../../database/enum/day.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+
 
 class DaySelectorScreen extends StatefulWidget {
   const DaySelectorScreen({

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/equipment/equipment_bloc.dart';
-import 'bar_screen.dart';
-import 'plate_screen.dart';
+import '../../../theme/theme.dart';
+import '../equipment.dart';
+
 
 class EquipmentScreen extends StatelessWidget {
   const EquipmentScreen({Key? key}) : super(key: key);

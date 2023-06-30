@@ -1,14 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
 
-import '../../../common/dialog/confirmation_dialog.dart';
-import '../../../database/model/plate.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
-import '../bloc/equipment/equipment_bloc.dart';
-import 'edit_plate_screen.dart';
-
+import '../../../common/common.dart';
+import '../../../database/database.dart';
+import '../../../theme/theme.dart';
+import '../equipment.dart';
 
 class PlateScreen extends StatefulWidget {
   const PlateScreen({Key? key}) : super(key: key);
