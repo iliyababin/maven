@@ -33,6 +33,7 @@ class AppTheme extends Equatable {
         bodyLarge: options.textStyle.bodyLarge,
         bodyMedium: options.textStyle.bodyMedium,
         labelLarge: options.textStyle.labelLarge,
+        labelSmall: options.textStyle.labelSmall,
       ),
       splashFactory: InkSparkle.splashFactory,
 

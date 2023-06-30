@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/dialog/list_dialog.dart';
+import 'package:maven/common/dialog/show_bottom_sheet_dialog.dart';
+import 'package:maven/feature/template/bloc/template/template_bloc.dart';
 
 import '../../../database/model/template.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
@@ -45,7 +49,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
               borderRadius: BorderRadius.circular(_borderRadius),
               color: T(context).color.surface,
             ),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,15 +58,18 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                   style: T(context).textStyle.titleLarge,
                   maxLines: 2,
                 ),
-                ListView.builder(
-                  itemCount: widget.template.exerciseBundles.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Text(
-                      '\u2022 ${widget.template.exerciseBundles[index].exercise.name}',
-                      style: T(context).textStyle.bodyMedium,
-                    );
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: widget.template.exerciseBundles.length,
+                    itemBuilder: (context, index) {
+                      return Text(
+                        '\u2022 ${widget.template.exerciseBundles[index].exercise.name}',
+                        style: T(context).textStyle.bodyMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -72,7 +79,34 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           top: 0,
           right: 0,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showBottomSheetDialog(
+                context: context,
+                child: ListDialog(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        context.read<TemplateBloc>().add(TemplateDelete(
+                              template: widget.template,
+                            ));
+                        Navigator.pop(context);
+                      },
+                      leading: Icon(
+                        Icons.delete,
+                        color: T(context).color.error,
+                      ),
+                      title: Text(
+                        'Delete',
+                        style: TextStyle(
+                          color: T(context).color.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
             icon: const Icon(
               Icons.more_horiz,
             ),

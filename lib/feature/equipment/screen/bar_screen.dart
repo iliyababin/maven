@@ -144,7 +144,7 @@ class _BarScreenState extends State<BarScreen> {
                       ),
                       subtitle: Text(
                         bar.weight.toString(),
-                        style: T(context).textStyle.subtitle2,
+                        style: T(context).textStyle.labelSmall,
                       ),
                       trailing: isSelecting ? null : const Icon(
                         Icons.chevron_right_rounded,

@@ -32,16 +32,16 @@ class TextStyleOptions {
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
-        subtitle2 = const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
         labelLarge = const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
         labelMedium = const TextStyle(
           fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        labelSmall = const TextStyle(
+          fontSize: 12,
           fontWeight: FontWeight.w500,
         );
 
@@ -52,7 +52,7 @@ class TextStyleOptions {
   final TextStyle titleSmall;
   final TextStyle bodyLarge;
   final TextStyle bodyMedium;
-  final TextStyle subtitle2;
+  final TextStyle labelSmall;
   final TextStyle labelLarge;
   final TextStyle labelMedium;
 
@@ -64,7 +64,7 @@ class TextStyleOptions {
         'Title Small': titleSmall,
         'Body Large': bodyLarge,
         'Body Medium': bodyMedium,
-        'Subtitle 2': subtitle2,
+        'Subtitle 2': labelSmall,
         'Label Large': labelLarge,
         'Button 2': labelMedium,
       };

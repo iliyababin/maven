@@ -22,8 +22,8 @@ class TemplateListView extends StatelessWidget {
 
           if(templates.isEmpty) {
             return EmptyWidget();
-
           }
+
           return SliverReorderableGrid(
             itemCount: templates.length,
             proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),

@@ -44,7 +44,7 @@ class CompleteExerciseWidget extends StatelessWidget {
               const SizedBox(height: 4,),
               Text(
                 DateFormat.yMMMMEEEEd().format(complete.timestamp).toString(),
-                style: T(context).textStyle.subtitle2,
+                style: T(context).textStyle.labelSmall,
               ),
               const SizedBox(height: 12,),
               Text(

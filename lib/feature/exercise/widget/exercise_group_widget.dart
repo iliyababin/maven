@@ -91,7 +91,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   ),
                   child: Text(
                     widget.exercise.name,
-                    style: T(context).textStyle.subtitle2.copyWith(
+                    style: T(context).textStyle.labelSmall.copyWith(
                           color: T(context).color.primary,
                         ),
                   ),

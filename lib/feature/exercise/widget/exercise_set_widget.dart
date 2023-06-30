@@ -73,7 +73,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                       width: 30,
                       child: Text(
                         exerciseSetType.abbreviated,
-                        style: T(context).textStyle.subtitle2.copyWith(color: exerciseSetType.color(context)),
+                        style: T(context).textStyle.labelSmall.copyWith(color: exerciseSetType.color(context)),
                       ),
                     ),
                     title: Text(
@@ -90,7 +90,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           backgroundColor: Colors.transparent,
           child: Text(
             widget.exerciseSet.type == ExerciseSetType.regular ? widget.index.toString() : widget.exerciseSet.type.abbreviated,
-            style: T(context).textStyle.subtitle2.copyWith(color: widget.exerciseSet.type.color(context)),
+            style: T(context).textStyle.labelSmall.copyWith(color: widget.exerciseSet.type.color(context)),
           ),
         ),
         previous: MButton(
