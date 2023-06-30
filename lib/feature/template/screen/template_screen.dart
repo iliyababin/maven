@@ -43,7 +43,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     FilledButton(
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       child: const Text(
                         'Start an Empty Workout',
                       ),

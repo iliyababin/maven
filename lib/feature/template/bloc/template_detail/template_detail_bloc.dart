@@ -34,19 +34,19 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
 
     List<ExerciseBundle> exerciseBundles = [];
 
-    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.templateId);
+    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getByTemplateId(event.templateId);
 
     for(TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
 
       exercise = exercise?.copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercise.id!));
 
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
+      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!);
 
       List<TemplateExerciseSet> hey = [];
 
       for (TemplateExerciseSet templateExerciseSet in templateExerciseSets) {
-        List<TemplateExerciseSetData> data = await templateExerciseSetDataDao.getTemplateExerciseSetDataByExerciseSetId(templateExerciseSet.id!);
+        List<TemplateExerciseSetData> data = await templateExerciseSetDataDao.getByExerciseSetId(templateExerciseSet.id!);
         hey.add(templateExerciseSet.copyWith(data: data));
       }
 
@@ -58,7 +58,7 @@ class TemplateDetailBloc extends Bloc<TemplateDetailEvent, TemplateDetailState> 
       ));
     }
 
-    Template? template = await templateDao.getTemplate(event.templateId);
+    Template? template = await templateDao.get(event.templateId);
 
     emit(state.copyWith(
       template: template,

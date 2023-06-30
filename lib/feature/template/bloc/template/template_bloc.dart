@@ -42,7 +42,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       status: TemplateStatus.loading,
     ));
 
-    int templateId = await templateDao.addTemplate(
+    int templateId = await templateDao.add(
       Template(
         name: event.template.name,
         description: event.template.description,
@@ -52,7 +52,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     );
 
     for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
-      int exerciseGroupId = await templateExerciseGroupDao.addTemplateExerciseGroup(TemplateExerciseGroup(
+      int exerciseGroupId = await templateExerciseGroupDao.add(TemplateExerciseGroup(
         timer: exerciseBlock.exerciseGroup.timer,
         exerciseId: exerciseBlock.exercise.id!,
         weightUnit: exerciseBlock.exerciseGroup.weightUnit,
@@ -61,7 +61,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         barId: exerciseBlock.exerciseGroup.barId,
       ));
       for (var exerciseSet in exerciseBlock.exerciseSets) {
-        int templateExerciseSetId = await templateExerciseSetDao.addTemplateExerciseSet(
+        int templateExerciseSetId = await templateExerciseSetDao.add(
           TemplateExerciseSet(
             templateId: templateId,
             exerciseGroupId: exerciseGroupId,
@@ -71,7 +71,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         );
 
         for (ExerciseSetData exerciseSetData in exerciseSet.data) {
-          await templateExerciseSetDataDao.addTemplateExerciseSetData(
+          await templateExerciseSetDataDao.add(
             TemplateExerciseSetData(
               fieldType: exerciseSetData.fieldType,
               exerciseSetId: templateExerciseSetId,
@@ -89,10 +89,10 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
-    await templateDao.updateTemplate(event.template);
+    await templateDao.modify(event.template);
 
     if (event.exerciseBundles != null) {
-      await templateDao.deleteTemplate(event.template);
+      await templateDao.remove(event.template);
       add(TemplateCreate(
         template: event.template,
         exerciseBundles: event.exerciseBundles!,
@@ -105,12 +105,12 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templates.length; i++) {
       Template template = templates[i];
-      templateDao.updateTemplate(template.copyWith(sort: i + 1));
+      templateDao.modify(template.copyWith(sort: i + 1));
     }
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
-    await templateDao.deleteTemplate(event.template);
+    await templateDao.remove(event.template);
     emit(state.copyWith(
       status: TemplateStatus.loaded,
       templates: await _getTemplates(),
@@ -120,17 +120,17 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   Future<List<Template>> _getTemplates() async {
     List<Template> templates = [];
 
-    for(Template template in await templateDao.getTemplates()) {
+    for(Template template in await templateDao.getAll()) {
       List<TemplateExerciseGroup> exerciseGroups = [];
 
-      for (TemplateExerciseGroup templateExerciseGroup in await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(template.id!)) {
+      for (TemplateExerciseGroup templateExerciseGroup in await templateExerciseGroupDao.getByTemplateId(template.id!)) {
         Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
 
         List<TemplateExerciseSet> exerciseSets = [];
 
-        for(TemplateExerciseSet templateExerciseSet in await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
+        for(TemplateExerciseSet templateExerciseSet in await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
           exerciseSets.add(templateExerciseSet.copyWith(
-            data: await templateExerciseSetDataDao.getTemplateExerciseSetDataByExerciseSetId(templateExerciseSet.id!),
+            data: await templateExerciseSetDataDao.getByExerciseSetId(templateExerciseSet.id!),
           ));
         }
 

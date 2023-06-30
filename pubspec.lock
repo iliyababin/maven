@@ -429,6 +429,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  json_table:
+    dependency: transitive
+    description:
+      name: json_table
+      sha256: d416092e76208801e237a4b233df9a9f22ffd8072a07b920519197381ae33005
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   lints:
     dependency: transitive
     description:
@@ -666,6 +674,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  sqlite_viewer:
+    dependency: "direct main"
+    description:
+      name: sqlite_viewer
+      sha256: ec66fd249e2233c6fa4d43cc32a3f6ccfcaf3209179db5048cc6298fd84ab9d5
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   sqlparser:
     dependency: transitive
     description:

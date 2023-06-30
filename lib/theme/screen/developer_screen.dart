@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_viewer/sqlite_viewer.dart';
 
 import '../../theme/widget/inherited_theme_widget.dart';
 import 'color_screen.dart';
 import 'padding_screen.dart';
 import 'text_style_screen.dart';
 
-class DesignScreen extends StatelessWidget {
-  const DesignScreen({Key? key}) : super(key: key);
+class DeveloperScreen extends StatelessWidget {
+  const DeveloperScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,20 @@ class DesignScreen extends StatelessWidget {
             },
             title: Text(
               'Padding',
+              style: T(context).textStyle.bodyLarge,
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const DatabaseList(),
+                ),
+              );
+            },
+            title: Text(
+              'Database',
               style: T(context).textStyle.bodyLarge,
             ),
           ),

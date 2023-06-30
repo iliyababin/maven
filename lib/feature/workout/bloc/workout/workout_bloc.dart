@@ -93,7 +93,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       timestamp: DateTime.now(),
     ));
 
-    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(event.template.id!);
+    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getByTemplateId(event.template.id!);
 
     for (TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
       int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
@@ -105,7 +105,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         workoutId: workoutId,
       ));
 
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!);
+      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!);
 
       for (TemplateExerciseSet templateExerciseSet in templateExerciseSets) {
         int workoutExerciseSetId = await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
@@ -115,7 +115,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           type: templateExerciseSet.type,
         ));
 
-        for (ExerciseSetData templateExerciseSetData in await templateExerciseSetDataDao.getTemplateExerciseSetDataByExerciseSetId(templateExerciseSet.id!)) {
+        for (ExerciseSetData templateExerciseSetData in await templateExerciseSetDataDao.getByExerciseSetId(templateExerciseSet.id!)) {
           await workoutExerciseSetDataDao.addWorkoutExerciseSetData(WorkoutExerciseSetData(
             value: templateExerciseSetData.value,
             fieldType: templateExerciseSetData.fieldType,

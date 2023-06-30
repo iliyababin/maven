@@ -6,25 +6,25 @@ import '../model/template.dart';
 abstract class TemplateDao {
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int> addTemplate(Template template);
+  Future<int> add(Template template);
 
   @insert
-  Future<void> addTemplates(List<Template> templates);
+  Future<List<int>> addAll(List<Template> templates);
 
   @Query('SELECT * FROM template WHERE id = :templateId')
-  Future<Template?> getTemplate(int templateId);
+  Future<Template?> get(int templateId);
 
   // ORDER BY order ASC
   @Query('SELECT * FROM template')
-  Future<List<Template>> getTemplates();
+  Future<List<Template>> getAll();
 
 
   @Query('SELECT sort_order FROM template')
-  Future<List<int>> getHighestSortOrder();
+  Future<List<int>> getSortOrder();
 
   @update
-  Future<void> updateTemplate(Template template);
+  Future<int> modify(Template template);
 
   @delete
-  Future<void> deleteTemplate(Template template);
+  Future<int> remove(Template template);
 }

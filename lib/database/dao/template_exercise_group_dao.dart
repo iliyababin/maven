@@ -7,17 +7,17 @@ import '../model/template_exercise_group.dart';
 @dao
 abstract class TemplateExerciseGroupDao {
   @insert
-  Future<int> addTemplateExerciseGroup(TemplateExerciseGroup templateExerciseGroup);
+  Future<int> add(TemplateExerciseGroup templateExerciseGroup);
 
   @Query('SELECT * FROM template_exercise_group')
-  Future<List<TemplateExerciseGroup>> getTemplateExerciseGroups();
+  Future<List<TemplateExerciseGroup>> getAll();
 
   @Query('SELECT * FROM template_exercise_group WHERE template_id = :templateId')
-  Future<List<TemplateExerciseGroup>> getTemplateExerciseGroupsByTemplateId(int templateId);
+  Future<List<TemplateExerciseGroup>> getByTemplateId(int templateId);
 
   @update
-  Future<void> updateTemplateExerciseGroup(TemplateExerciseGroup templateExerciseGroup);
+  Future<int> modify(TemplateExerciseGroup templateExerciseGroup);
 
   @delete
-  Future<void> deleteTemplateExerciseGroup(TemplateExerciseGroup templateExerciseGroup);
+  Future<int> remove(TemplateExerciseGroup templateExerciseGroup);
 }

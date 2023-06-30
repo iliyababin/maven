@@ -5,17 +5,17 @@ import '../database.dart';
 @dao
 abstract class TemplateExerciseSetDataDao {
   @insert
-  Future<int> addTemplateExerciseSetData(TemplateExerciseSetData templateExerciseSetData);
+  Future<int> add(TemplateExerciseSetData templateExerciseSetData);
 
   @Query('SELECT * FROM template_exercise_set_data')
-  Future<List<TemplateExerciseSetData>> getTemplateExerciseSetData();
+  Future<List<TemplateExerciseSetData>> getAll();
 
   @Query('SELECT * FROM template_exercise_set_data WHERE exercise_set_id = :exerciseSetId')
-  Future<List<TemplateExerciseSetData>> getTemplateExerciseSetDataByExerciseSetId(int exerciseSetId);
+  Future<List<TemplateExerciseSetData>> getByExerciseSetId(int exerciseSetId);
 
   @update
-  Future<int> updateTemplateExerciseSetData(TemplateExerciseSetData templateExerciseSetData);
+  Future<int> modify(TemplateExerciseSetData templateExerciseSetData);
 
   @delete
-  Future<int> deleteTemplateExerciseSetData(TemplateExerciseSetData templateExerciseSetData);
+  Future<int> remove(TemplateExerciseSetData templateExerciseSetData);
 }

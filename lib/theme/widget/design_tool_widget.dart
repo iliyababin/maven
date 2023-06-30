@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screen/design_screen.dart';
+import '../screen/developer_screen.dart';
 import 'inherited_theme_widget.dart';
 
 class DesignToolWidget extends StatefulWidget {
@@ -55,7 +55,7 @@ class _DesignToolWidgetState extends State<DesignToolWidget> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DesignScreen()),
+                  MaterialPageRoute(builder: (context) => const DeveloperScreen()),
                 );
               },
               backgroundColor: T(context).color.background,
