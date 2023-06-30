@@ -121,12 +121,12 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     List<Template> templates = [];
 
     for(Template template in await templateDao.getTemplates()) {
-      List<ExerciseBundle> exerciseBundles = [];
+      List<TemplateExerciseGroup> exerciseGroups = [];
 
       for (TemplateExerciseGroup templateExerciseGroup in await templateExerciseGroupDao.getTemplateExerciseGroupsByTemplateId(template.id!)) {
         Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
 
-        List<ExerciseSet> exerciseSets = [];
+        List<TemplateExerciseSet> exerciseSets = [];
 
         for(TemplateExerciseSet templateExerciseSet in await templateExerciseSetDao.getTemplateExerciseSetsByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
           exerciseSets.add(templateExerciseSet.copyWith(
@@ -134,16 +134,15 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
           ));
         }
 
-        exerciseBundles.add(ExerciseBundle(
+        exerciseGroups.add(templateExerciseGroup.copyWith(
           exercise: exercise!,
-          exerciseGroup: templateExerciseGroup,
           exerciseSets: exerciseSets,
-          barId: templateExerciseGroup.barId,
         ));
       }
 
-      templates.add(template.copyWith(exerciseBundles: exerciseBundles));
+      templates.add(template.copyWith(exerciseGroups: exerciseGroups));
     }
+
     return templates;
   }
 }

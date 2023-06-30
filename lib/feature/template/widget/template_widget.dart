@@ -60,10 +60,10 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: widget.template.exerciseBundles.length,
+                    itemCount: widget.template.exerciseGroups.length,
                     itemBuilder: (context, index) {
                       return Text(
-                        '\u2022 ${widget.template.exerciseBundles[index].exercise.name}',
+                        '\u2022 ${widget.template.exerciseGroups[index].exercise.name}',
                         style: T(context).textStyle.bodyMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -32,6 +32,19 @@ class Exercise extends Equatable {
     this.fields = const [],
   });
 
+  const Exercise.empty()
+      : id = null,
+        name = 'Empty',
+        muscle = Muscle.trapezius,
+        muscleGroup = MuscleGroup.arms,
+        equipment = Equipment.none,
+        videoPath = 'Empty',
+        timer = const Timed.zero(),
+        barId = null,
+        weightUnit = null,
+        distanceUnit = null,
+        fields = const [];
+
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
   final int? id;
@@ -79,15 +92,6 @@ class Exercise extends Equatable {
         weightUnit,
         distanceUnit,
       ];
-
-  static Exercise empty = Exercise(
-    name: 'Empty',
-    muscle: Muscle.trapezius,
-    muscleGroup: MuscleGroup.arms,
-    equipment: Equipment.none,
-    videoPath: 'Empty',
-    timer: Timed.zero(),
-  );
 
   Exercise copyWith({
     int? id,

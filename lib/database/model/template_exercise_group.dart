@@ -36,10 +36,18 @@ class TemplateExerciseGroup extends ExerciseGroup {
     required super.barId,
     required super.exerciseId,
     required this.templateId,
+    this.exercise = const Exercise.empty(),
+    this.exerciseSets = const [],
   });
 
   @ColumnInfo(name: 'template_id')
   final int templateId;
+
+  @ignore
+  final Exercise exercise;
+
+  @ignore
+  final List<TemplateExerciseSet> exerciseSets;
 
   @override
   TemplateExerciseGroup copyWith({
@@ -50,6 +58,8 @@ class TemplateExerciseGroup extends ExerciseGroup {
     int? barId,
     int? exerciseId,
     int? templateId,
+    Exercise? exercise,
+    List<TemplateExerciseSet>? exerciseSets,
   }) {
     return TemplateExerciseGroup(
       id: id ?? this.id,
@@ -59,6 +69,8 @@ class TemplateExerciseGroup extends ExerciseGroup {
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
       templateId: templateId ?? this.templateId,
+      exercise: exercise ?? this.exercise,
+      exerciseSets: exerciseSets ?? this.exerciseSets,
     );
   }
 
@@ -66,5 +78,7 @@ class TemplateExerciseGroup extends ExerciseGroup {
   List<Object?> get props => [
         ...super.props,
         templateId,
+        exercise,
+        exerciseSets,
       ];
 }

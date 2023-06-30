@@ -7,11 +7,14 @@ class Timed {
     required this.second
   });
 
-  int hour;
-  int minute;
-  int second;
+  const Timed.zero()
+      : hour = 0,
+        minute = 0,
+        second = 0;
 
-  factory Timed.zero() => Timed(hour: 0, minute: 0, second: 0);
+  final int hour;
+  final int minute;
+  final int second;
 
   int toSeconds() {
     return (hour * 60 * 60) + (minute * 60) + second;
@@ -44,6 +47,18 @@ class Timed {
       hour: hour,
       minute: minute,
       second: second,
+    );
+  }
+
+  copyWith({
+    int? hour,
+    int? minute,
+    int? second,
+  }) {
+    return Timed(
+      hour: hour ?? this.hour,
+      minute: minute ?? this.minute,
+      second: second ?? this.second,
     );
   }
 }

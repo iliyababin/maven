@@ -44,16 +44,16 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
     String muscleCoverage = '';
     HashMap<Muscle, int> muscles = HashMap();
 
-    for(ExerciseBundle exerciseBundle in template.exerciseBundles) {
-      if(muscles.containsKey(exerciseBundle.exercise.muscle)){
-        muscles[exerciseBundle.exercise.muscle] = muscles[exerciseBundle.exercise.muscle]! + 1;
+    for(TemplateExerciseGroup exerciseGroup in template.exerciseGroups) {
+      if(muscles.containsKey(exerciseGroup.exercise.muscle)){
+        muscles[exerciseGroup.exercise.muscle] = muscles[exerciseGroup.exercise.muscle]! + 1;
       } else {
-        muscles[exerciseBundle.exercise.muscle] = 1;
+        muscles[exerciseGroup.exercise.muscle] = 1;
       }
     }
 
     for(Muscle muscle in muscles.keys) {
-      muscleCoverage += '${(muscles[muscle]! / template.exerciseBundles.length * 100).truncate()}% ${muscle.name.capitalize()} \n';
+      muscleCoverage += '${(muscles[muscle]! / template.exerciseGroups.length * 100).truncate()}% ${muscle.name.capitalize()} \n';
     }
     return muscleCoverage;
   }
@@ -91,7 +91,12 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                 MaterialPageRoute(
                                   builder: (context) => EditTemplateScreen(
                                     template: template,
-                                    exerciseBundles: template.exerciseBundles,
+                                    exerciseBundles: template.exerciseGroups.map((e) => ExerciseBundle(
+                                      exercise: e.exercise,
+                                      exerciseSets: e.exerciseSets,
+                                      exerciseGroup: e,
+                                      barId: e.barId,
+                                    )).toList(),
                                     onSubmit: (template, exerciseBundles) {
                                       context.read<TemplateBloc>().add(
                                         TemplateUpdate(
@@ -280,21 +285,21 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                   ),
                 ),
                 ListView.builder(
-                  itemCount: template.exerciseBundles.length,
+                  itemCount: template.exerciseGroups.length,
                   itemBuilder: (context, index) {
-                    ExerciseBundle exerciseBundle = template.exerciseBundles[index];
+                    TemplateExerciseGroup exerciseGroup = template.exerciseGroups[index];
                     return ListTile(
                       leading: CircleAvatar(
                         child: Text(
-                          exerciseBundle.exercise.name.substring(0, 1),
+                          exerciseGroup.exercise.name.substring(0, 1),
                         ),
                       ),
                       title: Text(
-                        exerciseBundle.exercise.name,
+                        exerciseGroup.exercise.name,
                         style: T(context).textStyle.bodyLarge,
                       ),
                       subtitle: Text(
-                        exerciseBundle.exerciseSets.length.toString(),
+                        exerciseGroup.exerciseSets.length.toString(),
                         style: T(context).textStyle.bodyMedium,
                       ),
                     );

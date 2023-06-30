@@ -50,7 +50,7 @@ class CompleteExerciseBloc extends Bloc<CompleteExerciseEvent, CompleteExerciseS
           SessionExerciseBundle(
             sessionExerciseGroup: completeExerciseGroup,
             sessionExerciseSets: completeExerciseSets,
-            exercise: Exercise.empty,
+            exercise: Exercise.empty(),
           ),
         ],
         volume: -1,

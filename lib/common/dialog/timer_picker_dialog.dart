@@ -5,12 +5,12 @@ import '../../theme/widget/inherited_theme_widget.dart';
 import '../model/timed.dart';
 
 class TimedPickerDialog extends StatelessWidget {
-  const TimedPickerDialog({Key? key,
+  TimedPickerDialog({Key? key,
     required this.initialValue,
     this.onSubmit,
   }) : super(key: key);
 
-  final Timed initialValue;
+  Timed initialValue;
   final ValueChanged<Timed>? onSubmit;
 
   Expanded carousel({
@@ -69,7 +69,7 @@ class TimedPickerDialog extends StatelessWidget {
 
               carousel(
                 valueChanged: (int value) {
-                  initialValue.hour = value;
+                  initialValue = initialValue.copyWith(hour: value);
                 },
                 title: 'Hours',
                 length: 24,
@@ -79,7 +79,7 @@ class TimedPickerDialog extends StatelessWidget {
 
               carousel(
                 valueChanged: (int value) {
-                  initialValue.minute = value;
+                  initialValue = initialValue.copyWith(minute: value);
                 },
                 title: 'Minutes',
                 length: 60,
@@ -89,7 +89,7 @@ class TimedPickerDialog extends StatelessWidget {
 
               carousel(
                 valueChanged: (int value) {
-                  initialValue.second = value;
+                  initialValue = initialValue.copyWith(second: value);
                 },
                 title: 'Seconds',
                 length: 60,
