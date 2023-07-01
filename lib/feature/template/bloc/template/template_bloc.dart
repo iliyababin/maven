@@ -14,6 +14,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.exerciseDao,
     required this.templateDao,
     required this.templateExerciseGroupDao,
+    required this.templateExerciseGroupNoteDao,
     required this.templateExerciseSetDao,
     required this.templateExerciseSetDataDao,
   }) : super(const TemplateState()) {
@@ -27,6 +28,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final ExerciseDao exerciseDao;
   final TemplateDao templateDao;
   final TemplateExerciseGroupDao templateExerciseGroupDao;
+  final TemplateExerciseGroupNoteDao templateExerciseGroupNoteDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
   final TemplateExerciseSetDataDao templateExerciseSetDataDao;
 
@@ -60,6 +62,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         templateId: templateId,
         barId: exerciseBlock.exerciseGroup.barId,
       ));
+      
+      for(Note note in exerciseBlock.exerciseGroup.notes) {
+        await templateExerciseGroupNoteDao.add(TemplateExerciseGroupNote(
+          exerciseGroupId: exerciseGroupId,
+          data: note.data,
+        ));
+      }
+      
       for (var exerciseSet in exerciseBlock.exerciseSets) {
         int templateExerciseSetId = await templateExerciseSetDao.add(
           TemplateExerciseSet(
@@ -137,6 +147,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         exerciseGroups.add(templateExerciseGroup.copyWith(
           exercise: exercise!,
           exerciseSets: exerciseSets,
+          notes: await templateExerciseGroupNoteDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!),
         ));
       }
 

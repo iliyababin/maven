@@ -34,6 +34,7 @@ class SessionExerciseGroup extends ExerciseGroup {
     required super.distanceUnit,
     required super.exerciseId,
     required super.barId,
+    super.notes = const [],
     required this.order,
     required this.sessionId,
   });
@@ -52,6 +53,7 @@ class SessionExerciseGroup extends ExerciseGroup {
     int? exerciseId,
     WeightUnit? weightUnit,
     DistanceUnit? distanceUnit,
+    List<Note>? notes,
     int? order,
     int? sessionId,
   }) {
@@ -62,6 +64,7 @@ class SessionExerciseGroup extends ExerciseGroup {
       exerciseId: exerciseId ?? this.exerciseId,
       weightUnit: weightUnit ?? this.weightUnit,
       distanceUnit: distanceUnit ?? this.distanceUnit,
+      notes: notes ?? this.notes,
       order: order ?? this.order,
       sessionId: sessionId ?? this.sessionId,
     );

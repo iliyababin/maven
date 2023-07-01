@@ -35,6 +35,7 @@ class WorkoutExerciseGroup extends ExerciseGroup {
     required super.distanceUnit,
     required super.barId,
     required super.exerciseId,
+    super.notes = const [],
     required this.workoutId,
   });
 
@@ -49,6 +50,7 @@ class WorkoutExerciseGroup extends ExerciseGroup {
     DistanceUnit? distanceUnit,
     int? barId,
     int? exerciseId,
+    List<Note>? notes,
     int? workoutId,
   }) {
     return WorkoutExerciseGroup(
@@ -58,6 +60,7 @@ class WorkoutExerciseGroup extends ExerciseGroup {
       distanceUnit: distanceUnit ?? this.distanceUnit,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
+      notes: notes ?? this.notes,
       workoutId: workoutId ?? this.workoutId,
     );
   }

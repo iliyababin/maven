@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +24,26 @@ class ExerciseGroupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListDialog(
       children: [
+        ListTile(
+          onTap: () {
+            Navigator.pop(context);
+            onExerciseGroupUpdate(
+              exerciseGroup.copyWith(notes: [
+                ...exerciseGroup.notes,
+                Note(
+                  data: '',
+                  exerciseGroupId: exerciseGroup.id!,
+                ),
+              ]),
+            );
+          },
+          leading: const Icon(
+            Icons.edit,
+          ),
+          title: const Text(
+            'Add Note',
+          ),
+        ),
         if (exercise.equipment == Equipment.barbell)
           ListTile(
             onTap: () {
@@ -55,7 +73,7 @@ class ExerciseGroupMenu extends StatelessWidget {
                     bar.name,
                   );
                 } else {
-                  return const Text('');
+                  return const Text('Loading...');
                 }
               },
             ),

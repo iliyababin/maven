@@ -59,8 +59,6 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
-        print('ne');
-
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),

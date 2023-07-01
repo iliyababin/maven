@@ -148,12 +148,14 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           hintText: 'Workout',
+                          counterText: "",
                         ),
                         style: T(context).textStyle.headingLarge,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.multiline,
-                        maxLines: null,
+                        minLines: 1,
+                        maxLines: 20,
                         onChanged: (value) {
                           template = template.copyWith(description: value);
                         },
@@ -162,12 +164,14 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                         },
                         initialValue: template.description,
                         decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.only(top: -25, bottom: 0, left: 0, right: 0),
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintText: 'Description',
+                          contentPadding: EdgeInsets.all(0.0),
+                          isDense: true,
+                          border: InputBorder.none,
                         ),
                         style: T(context).textStyle.bodyMedium,
+                      ),
+                      SizedBox(
+                        height: T(context).space.large,
                       ),
                     ]),
                   ),
@@ -236,6 +240,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     barId: exercise.barId,
                     weightUnit: exercise.weightUnit,
                     distanceUnit: exercise.distanceUnit,
+                    notes: const [],
                   ),
                   exerciseSets: [
                     ExerciseSet(

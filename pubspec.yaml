@@ -36,6 +36,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   video_player: ^2.6.1
   reorderable_grid: ^1.0.6
+  flutter_markdown: ^0.6.15+1
 
 dev_dependencies:
   flutter_test:

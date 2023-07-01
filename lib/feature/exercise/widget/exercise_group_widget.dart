@@ -1,7 +1,8 @@
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:maven/feature/exercise/widget/note_widget.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
@@ -68,8 +69,12 @@ class ExerciseGroupWidget extends StatefulWidget {
 }
 
 class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int regularIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +95,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   ),
                   child: Text(
                     widget.exercise.name,
-                    style: T(context).textStyle.labelSmall.copyWith(
-                          color: T(context).color.primary,
-                        ),
+                    style: T(context).textStyle.labelLarge,
                   ),
                 ),
               ),
@@ -119,20 +122,101 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
             ),
           ],
         ),
+        if (widget.exerciseGroup.notes.isNotEmpty)
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.exerciseGroup.notes.length,
+            itemBuilder: (context, index) {
+              final Note note = widget.exerciseGroup.notes[index];
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: T(context).space.large,
+                  top: 0,
+                  bottom: 8,
+                ),
+                child: Container(
+                  padding: EdgeInsets.only(
+                    right: T(context).space.large,
+                  ),
+                  decoration: BoxDecoration(
+                    color: T(context).color.surface,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      topLeft: Radius.circular(12),
+                    ),
+                    border: Border.all(
+                      color: T(context).color.surface,
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MarkdownEditor(
+                                  note: note.data,
+                                ),
+                              ),
+                            ).then((value) {
+                              if (value != null) {
+                                widget.onExerciseGroupUpdate(
+                                  widget.exerciseGroup.copyWith(
+                                    notes: widget.exerciseGroup.notes
+                                      ..removeAt(index)
+                                      ..insert(index, note.copyWith(data: value))
+                                  ),
+                                );
+                              }
+                            });
+                          },
+                          child: Markdown(
+                            shrinkWrap: true,
+
+                            padding: EdgeInsets.all(T(context).space.large / 2),
+                            physics: const NeverScrollableScrollPhysics(),
+                            data: note.data.isNotEmpty ? note.data : "Add a note...",
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                            icon: Icon(
+                              CupertinoIcons.map_pin,
+                              color: T(context).color.onSurface,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ExerciseRowWidget.build(
           set: Text(
             "SET",
             style: T(context).textStyle.bodyLarge.copyWith(
-              fontSize: 13,
-              color: T(context).color.onSurfaceVariant,
-            ),
+                  fontSize: 13,
+                  color: T(context).color.onSurfaceVariant,
+                ),
           ),
           previous: Text(
             "PREVIOUS",
             style: T(context).textStyle.bodyLarge.copyWith(
-              fontSize: 13,
-              color: T(context).color.onSurfaceVariant,
-            ),
+                  fontSize: 13,
+                  color: T(context).color.onSurfaceVariant,
+                ),
           ),
           options: widget.exercise.fields
               .where((e) => e.type != ExerciseFieldType.bodyWeight)
@@ -142,9 +226,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   child: Text(
                     generateTitle(e.type, widget.exerciseGroup),
                     style: T(context).textStyle.bodyLarge.copyWith(
-                      fontSize: 13,
-                      color: T(context).color.onSurfaceVariant,
-                    ),
+                          fontSize: 13,
+                          color: T(context).color.onSurfaceVariant,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -225,37 +309,38 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           },
         ),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-            child: TextButton.icon(
-              onPressed: () {
-                int id = DateTime.now().millisecondsSinceEpoch;
-                ExerciseSet exerciseSet = ExerciseSet(
-                  id: id,
-                  checked: false,
-                  type: ExerciseSetType.regular,
-                  exerciseGroupId: widget.exerciseGroup.id!,
-                  data: widget.exercise.fields.map((e) {
-                    return ExerciseSetData(
-                      id: DateTime.now().millisecondsSinceEpoch,
-                      value: '',
-                      fieldType: e.type,
-                      exerciseSetId: id,
-                    );
-                  }).toList(),
-                );
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+          child: TextButton.icon(
+            onPressed: () {
+              int id = DateTime.now().millisecondsSinceEpoch;
+              ExerciseSet exerciseSet = ExerciseSet(
+                id: id,
+                checked: false,
+                type: ExerciseSetType.regular,
+                exerciseGroupId: widget.exerciseGroup.id!,
+                data: widget.exercise.fields.map((e) {
+                  return ExerciseSetData(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    value: '',
+                    fieldType: e.type,
+                    exerciseSetId: id,
+                  );
+                }).toList(),
+              );
 
-                widget.onExerciseSetAdd(exerciseSet);
-              },
-              icon: const Icon(
-                Icons.add_rounded,
+              widget.onExerciseSetAdd(exerciseSet);
+            },
+            icon: const Icon(
+              Icons.add_rounded,
+            ),
+            label: const Text(
+              'Add Set',
+              style: TextStyle(
+                height: 1.1,
               ),
-              label: const Text(
-                'Add Set',
-                style: TextStyle(
-                  height: 1.1,
-                ),
-              ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -79,6 +79,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                       timer: Timed(hour: 0, minute: 0, second: 0),
                                       weightUnit: WeightUnit.lbs,
                                       distanceUnit: exercise.distanceUnit,
+                                      notes: const [],
                                     )))
                                 .toList();
 

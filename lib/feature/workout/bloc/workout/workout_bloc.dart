@@ -15,9 +15,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.exerciseFieldDao,
     required this.workoutDao,
     required this.workoutExerciseGroupDao,
+    required this.workoutExerciseGroupNoteDao,
     required this.workoutExerciseSetDao,
     required this.workoutExerciseSetDataDao,
     required this.templateExerciseGroupDao,
+    required this.templateExerciseGroupNoteDao,
     required this.templateExerciseSetDao,
     required this.templateExerciseSetDataDao,
     required this.completeDao,
@@ -41,13 +43,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
   final WorkoutDao workoutDao;
   final WorkoutExerciseGroupDao workoutExerciseGroupDao;
+  final WorkoutExerciseGroupNoteDao workoutExerciseGroupNoteDao;
   final WorkoutExerciseSetDao workoutExerciseSetDao;
   final WorkoutExerciseSetDataDao workoutExerciseSetDataDao;
-
   final TemplateExerciseGroupDao templateExerciseGroupDao;
+  final TemplateExerciseGroupNoteDao templateExerciseGroupNoteDao;
   final TemplateExerciseSetDao templateExerciseSetDao;
   final TemplateExerciseSetDataDao templateExerciseSetDataDao;
-
   final SessionDao completeDao;
   final SessionExerciseGroupDao completeExerciseGroupDao;
   final SessionExerciseSetDao completeExerciseSetDao;
@@ -105,6 +107,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         workoutId: workoutId,
       ));
 
+      for(TemplateExerciseGroupNote templateExerciseGroupNote in await templateExerciseGroupNoteDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
+        await workoutExerciseGroupNoteDao.add(WorkoutExerciseGroupNote(
+          data: templateExerciseGroupNote.data,
+          exerciseGroupId: workoutExerciseGroupId,
+        ));
+      }
+
       List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!);
 
       for (TemplateExerciseSet templateExerciseSet in templateExerciseSets) {
@@ -160,7 +169,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
       exerciseBundles.add(ExerciseBundle(
         exercise: exercise!,
-        exerciseGroup: workoutExerciseGroup,
+        exerciseGroup: workoutExerciseGroup.copyWith(notes: await workoutExerciseGroupNoteDao.getByWorkoutExerciseGroupId(workoutExerciseGroup.id!)),
         exerciseSets: test,
         barId: workoutExerciseGroup.barId,
       ));

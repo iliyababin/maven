@@ -175,7 +175,7 @@ class AppTheme extends Equatable {
         }),
         checkColor: MaterialStateProperty.all(options.color.background),
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      /*inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
           color: options.color.onSurfaceVariant,
         ),
@@ -192,7 +192,7 @@ class AppTheme extends Equatable {
             width: 2,
           ),
         ),
-      ),
+      ),*/
     );
   }
 

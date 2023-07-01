@@ -8,10 +8,11 @@ class ExerciseGroup extends Equatable {
   const ExerciseGroup({
     this.id,
     required this.timer,
-    this.weightUnit,
+    required this.weightUnit,
     required this.distanceUnit,
     required this.exerciseId,
-    this.barId,
+    required this.barId,
+    required this.notes,
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -33,6 +34,9 @@ class ExerciseGroup extends Equatable {
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
+  @ignore
+  final List<Note> notes;
+
   ExerciseGroup copyWith({
     int? id,
     Timed? timer,
@@ -40,6 +44,7 @@ class ExerciseGroup extends Equatable {
     DistanceUnit? distanceUnit,
     int? exerciseId,
     int? barId,
+    List<Note>? notes,
   }) {
     return ExerciseGroup(
       id: id ?? this.id,
@@ -48,6 +53,7 @@ class ExerciseGroup extends Equatable {
       distanceUnit: distanceUnit ?? this.distanceUnit,
       exerciseId: exerciseId ?? this.exerciseId,
       barId: barId ?? this.barId,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -59,5 +65,6 @@ class ExerciseGroup extends Equatable {
         distanceUnit,
         exerciseId,
         barId,
+        notes,
       ];
 }

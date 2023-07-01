@@ -35,6 +35,7 @@ class ProgramExerciseGroup extends ExerciseGroup {
     required super.distanceUnit,
     required super.exerciseId,
     required super.barId,
+    super.notes = const [],
     required this.programTemplateId,
   }) ;
 
@@ -47,8 +48,9 @@ class ProgramExerciseGroup extends ExerciseGroup {
     Timed? timer,
     WeightUnit? weightUnit,
     DistanceUnit? distanceUnit,
-    int? barId,
     int? exerciseId,
+    int? barId,
+    List<Note>? notes,
     int? programTemplateId,
   }) {
     return ProgramExerciseGroup(
@@ -58,6 +60,7 @@ class ProgramExerciseGroup extends ExerciseGroup {
       distanceUnit: distanceUnit ?? this.distanceUnit,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
+      notes: notes ?? this.notes,
       programTemplateId: programTemplateId ?? this.programTemplateId,
     );
   }
