@@ -16,12 +16,14 @@ class Heading extends StatelessWidget {
     this.size = HeadingSize.large,
     this.side = false,
     this.actions = const [],
+    this.sliver = true,
   }) : super(key: key);
 
   final String title;
   final HeadingSize size;
   final bool side;
   final List<IconButton> actions;
+  final bool sliver;
 
   double nice() {
     switch(size) {
@@ -36,8 +38,47 @@ class Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
+    if(sliver) {
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: 12,
+            top: nice(),
+            left: side ? T(context).space.large : 0,
+            right: side ? T(context).space.large : 0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: T(context).textStyle.titleMedium,
+              ),
+              if (actions.isNotEmpty)
+                Row(
+                  children: actions.map(
+                        (action) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: T(context).color.primaryContainer,
+                        ),
+                        child: IconButton(
+                          padding: const EdgeInsets.all(2),
+                          constraints: BoxConstraints(),
+                          onPressed: action.onPressed,
+                          icon: action.icon,
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Padding(
         padding: EdgeInsets.only(
           bottom: 12,
           top: nice(),
@@ -54,7 +95,7 @@ class Heading extends StatelessWidget {
             if (actions.isNotEmpty)
               Row(
                 children: actions.map(
-                  (action) {
+                      (action) {
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
@@ -72,7 +113,7 @@ class Heading extends StatelessWidget {
               ),
           ],
         ),
-      ),
-    );
+      );
+    }
   }
 }

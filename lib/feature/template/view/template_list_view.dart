@@ -35,7 +35,9 @@ class TemplateListView extends StatelessWidget {
               );
             },
             onReorder: (oldIndex, newIndex) {
-
+              context.read<TemplateBloc>().add(
+                TemplateReorder(oldIndex: oldIndex, newIndex: newIndex),
+              );
             },
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

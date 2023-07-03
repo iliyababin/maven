@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:maven/feature/exercise/widget/note_widget.dart';
+import 'package:maven/feature/note/screen/markdown_editor.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
@@ -136,72 +136,84 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   top: 0,
                   bottom: 8,
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: T(context).color.surface,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      topLeft: Radius.circular(12),
-                    ),
-                    border: Border.all(
-                      color: T(context).color.surface,
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Slidable(
+                  endActionPane: ActionPane(
+                    extentRatio: 0.2,
+                    motion: const StretchMotion(),
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MarkdownEditor(
-                                  note: note.data,
-                                ),
-                              ),
-                            ).then((value) {
-                              if (value != null) {
-                                widget.onExerciseGroupUpdate(
-                                  widget.exerciseGroup.copyWith(
-                                    notes: widget.exerciseGroup.notes
-                                      ..removeAt(index)
-                                      ..insert(index, note.copyWith(data: value))
+                      SlidableAction(
+                        onPressed: (context) {
+
+                        },
+                        backgroundColor: T(context).color.error,
+                        foregroundColor: T(context).color.onError,
+                        icon: Icons.delete,
+                      ),
+                    ],
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: T(context).color.surface,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        topLeft: Radius.circular(12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MarkdownEditor(
+                                    string: note.data,
                                   ),
-                                );
-                              }
-                            });
-                          },
-                          child: note.data.isNotEmpty ? Markdown(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.all(T(context).space.large / 2),
-                            physics: const NeverScrollableScrollPhysics(),
-                            data: note.data,
-                          ) : Padding(
-                            padding: EdgeInsets.all(T(context).space.large / 2),
-                            child: Text(
-                              'Add a note',
-                              style: TextStyle(
-                                color: T(context).color.onSurfaceVariant,
+                                ),
+                              ).then((value) {
+                                if (value != null) {
+                                  widget.onExerciseGroupUpdate(
+                                    widget.exerciseGroup.copyWith(
+                                      notes: widget.exerciseGroup.notes
+                                        ..removeAt(index)
+                                        ..insert(index, note.copyWith(data: value))
+                                    ),
+                                  );
+                                }
+                              });
+                            },
+                            child: note.data.isNotEmpty ? Markdown(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.all(T(context).space.large / 2),
+                              physics: const NeverScrollableScrollPhysics(),
+                              data: note.data,
+                            ) : Padding(
+                              padding: EdgeInsets.all(T(context).space.large / 2),
+                              child: Text(
+                                'Add a note',
+                                style: TextStyle(
+                                  color: T(context).color.onSurfaceVariant,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              CupertinoIcons.map_pin,
-                              color: T(context).color.onSurface,
-                              size: 20,
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                CupertinoIcons.map_pin,
+                                color: T(context).color.primary,
+                                size: 20,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

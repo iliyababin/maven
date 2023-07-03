@@ -26,17 +26,17 @@ class AppTheme extends Equatable {
       textTheme: TextTheme(
         headlineLarge: options.textStyle.headingLarge,
         headlineMedium: options.textStyle.headingMedium,
-
         titleLarge: options.textStyle.titleLarge,
         titleMedium: options.textStyle.titleMedium,
         titleSmall: options.textStyle.titleSmall,
         bodyLarge: options.textStyle.bodyLarge,
         bodyMedium: options.textStyle.bodyMedium,
         labelLarge: options.textStyle.labelLarge,
+        labelMedium: options.textStyle.labelMedium,
         labelSmall: options.textStyle.labelSmall,
+
       ),
       splashFactory: InkSparkle.splashFactory,
-
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: options.color.primary,

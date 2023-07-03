@@ -55,14 +55,17 @@ class TemplateDelete extends TemplateEvent {
 
 class TemplateReorder extends TemplateEvent {
   const TemplateReorder({
-    required this.templates,
+    required this.oldIndex,
+    required this.newIndex,
   });
 
-  final List<Template> templates;
+  final int oldIndex;
+  final int newIndex;
 
   @override
   List<Object?> get props => [
-    templates,
+    oldIndex,
+    newIndex,
   ];
 }
 

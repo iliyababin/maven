@@ -53,7 +53,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         name: event.template.name,
         note: event.template.note,
         timestamp: DateTime.now(),
-        sort: event.template.sort,
+        sort: (await routineDao.getLargestSort() ?? 0) + 1,
         type: RoutineType.template,
       ),
     );
@@ -107,12 +107,16 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
-    /*List<Template> templates = event.templates;
-    // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
-    for (int i = 0; i < templates.length; i++) {
-      Template template = templates[i];
-      templateDao.modify(template.copyWith(sort: i + 1));
-    }*/
+    Template template = state.templates.removeAt(event.oldIndex);
+    state.templates.insert(event.newIndex, template);
+    for (int i = 0; i < state.templates.length; i++) {
+      Template template = state.templates[i];
+      routineDao.modify(template.copyWith(sort: i + 1));
+    }
+    emit(state.copyWith(
+      status: TemplateStatus.loaded,
+      templates: await _getTemplates(),
+    ));
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {

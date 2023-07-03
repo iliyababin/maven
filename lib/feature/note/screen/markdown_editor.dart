@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:maven/common/common.dart';
 
 import '../../../theme/theme.dart';
 
 class MarkdownEditor extends StatefulWidget {
   const MarkdownEditor({
     Key? key,
-    required this.note,
+    required this.string,
   }) : super(key: key);
 
-  final String note;
+  final String string;
 
   @override
   State<MarkdownEditor> createState() => _MarkdownEditorState();
@@ -21,7 +22,7 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
 
   @override
   void initState() {
-    string = widget.note;
+    string = widget.string;
     _textEditingController.text = string;
     super.initState();
   }
@@ -40,6 +41,14 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
         actions: [
           IconButton(
             onPressed: () {
+
+            },
+            icon: const Icon(
+              Icons.help_outline,
+            )
+          ),
+          IconButton(
+            onPressed: () {
               Navigator.pop(context, string);
             },
             icon: const Icon(
@@ -48,14 +57,18 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
+      body: Padding(
+        padding: EdgeInsets.all(T(context).space.large),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: T(context).color.surface,
+                ),
+                child: TextFormField(
                   contextMenuBuilder: null,
                   controller: _textEditingController,
                   maxLines: null,
@@ -70,25 +83,31 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
                   },
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Enter a note...',
+                    hintText: 'Start typing...',
                     contentPadding: EdgeInsets.all(T(context).space.large),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-          Container(
-            color: T(context).color.outline,
-            height: 1,
-            width: double.infinity,
-          ),
-          Expanded(
-            child: Markdown(
-              padding: EdgeInsets.all(T(context).space.large),
-              data: string,
+            const Heading(
+              title: 'Preview',
+              sliver: false,
+              size: HeadingSize.medium,
             ),
-          ),
-        ],
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: T(context).color.surface,
+                ),
+                child: Markdown(
+                  padding: EdgeInsets.all(T(context).space.large),
+                  data: string,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
