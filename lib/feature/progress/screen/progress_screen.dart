@@ -15,6 +15,7 @@ class ProgressScreen extends StatelessWidget {
         child: const CustomScrollView(
           slivers: [
             Heading(title: 'History', size: HeadingSize.small),
+            EmptyWidget(),
             // CompleteListWidget(),
           ],
         ),

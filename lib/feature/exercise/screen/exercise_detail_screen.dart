@@ -21,7 +21,6 @@ class ExerciseDetailScreen extends StatefulWidget {
 class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    print('building');
     return BlocBuilder<ExerciseBloc, ExerciseState>(
       builder: (context, state) {
         if (state.status.isLoading) {

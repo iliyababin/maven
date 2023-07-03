@@ -113,6 +113,9 @@ class AppTheme extends Equatable {
           minimumSize: MaterialStateProperty.all(
             Size(46, 44),
           ),
+          foregroundColor: MaterialStateProperty.all(
+            options.color.onBackground,
+          ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),

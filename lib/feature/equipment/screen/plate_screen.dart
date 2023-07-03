@@ -147,6 +147,9 @@ class _PlateScreenState extends State<PlateScreen> {
                     title: Text(
                       removeDecimalZeroFormat(plate.weight),
                     ),
+                    trailing: Text(
+                      plate.amount.toString(),
+                    ),
                   ),
                 );
               },

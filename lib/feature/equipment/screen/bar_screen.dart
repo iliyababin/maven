@@ -74,7 +74,7 @@ class _BarScreenState extends State<BarScreen> {
                       ),
                       onSubmit: () {
                         setState(() {
-                          context.read<EquipmentBloc>().add(BarReset());
+                          context.read<EquipmentBloc>().add(const BarReset());
                         });
                       },
                     ),
@@ -135,16 +135,16 @@ class _BarScreenState extends State<BarScreen> {
                           isSelecting = true;
                         });
                       },
+                      leading: CircleAvatar(
+                        child: Text(
+                          bar.name[0].capitalize,
+                        ),
+                      ),
                       title: Text(
                         bar.name,
-                        style: T(context).textStyle.bodyLarge,
                       ),
-                      subtitle: Text(
+                      trailing: Text(
                         bar.weight.toString(),
-                        style: T(context).textStyle.labelSmall,
-                      ),
-                      trailing: isSelecting ? null : const Icon(
-                        Icons.chevron_right_rounded,
                       ),
                     ),
                   );

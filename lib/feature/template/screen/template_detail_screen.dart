@@ -38,7 +38,6 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
 
   String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
     String result = '';
-    print(musclePercentages);
     musclePercentages.forEach((key, value) {
       result += '${key.name.capitalize}: ${(value * 100).truncate()}%\n';
     });
