@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/feature/template/view/template_options_view.dart';
 
-import '../../../common/common.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
-import '../model/template.dart';
 import '../template.dart';
-
 
 class TemplateWidget extends StatefulWidget {
   const TemplateWidget({
@@ -21,13 +19,6 @@ class TemplateWidget extends StatefulWidget {
 }
 
 class _TemplateWidgetState extends State<TemplateWidget> {
-  final double _borderRadius = 16;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -46,10 +37,10 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(_borderRadius),
+              borderRadius: BorderRadius.circular(T(context).radius.large),
               color: T(context).color.surface,
             ),
-            padding: const EdgeInsets.all(18),
+            padding: EdgeInsets.all(T(context).space.large),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -61,9 +52,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                 Expanded(
                   child: BlocBuilder<ExerciseBloc, ExerciseState>(
                     builder: (context, state) {
-                      if(state.status.isLoading) {
-                        return Container();
-                      } else {
+                      if (state.status.isLoaded) {
                         return ListView.builder(
                           itemCount: widget.template.exerciseGroups.length,
                           itemBuilder: (context, index) {
@@ -76,6 +65,8 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                             );
                           },
                         );
+                      } else {
+                        return Container();
                       }
                     },
                   ),
@@ -89,32 +80,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           right: 2,
           child: IconButton(
             onPressed: () {
-              showBottomSheetDialog(
-                context: context,
-                child: ListDialog(
-                  children: [
-                    ListTile(
-                      onTap: () {
-                        context.read<TemplateBloc>().add(TemplateDelete(
-                              template: widget.template,
-                            ));
-                        Navigator.pop(context);
-                      },
-                      leading: Icon(
-                        Icons.delete,
-                        color: T(context).color.error,
-                      ),
-                      title: Text(
-                        'Delete',
-                        style: TextStyle(
-                          color: T(context).color.error,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              showTemplateOptionsView(context, widget.template);
             },
             icon: const Icon(
               Icons.more_horiz,

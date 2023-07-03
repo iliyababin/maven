@@ -1,5 +1,6 @@
 import 'color_options.dart';
-import 'padding_options.dart';
+import 'radius_option.dart';
+import 'space_options.dart';
 import 'text_style_options.dart';
 
 class ThemeOptions {
@@ -47,7 +48,13 @@ class ThemeOptions {
 
   SpaceOptions get space {
     return const SpaceOptions(
-      large: 20,
+      large: 18,
+    );
+  }
+
+  RadiusOption get radius {
+    return const RadiusOption(
+      large: 16,
     );
   }
 }

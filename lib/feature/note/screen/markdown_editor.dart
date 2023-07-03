@@ -101,6 +101,7 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
                   color: T(context).color.surface,
                 ),
                 child: Markdown(
+                  softLineBreak: true,
                   padding: EdgeInsets.all(T(context).space.large),
                   data: string,
                 ),

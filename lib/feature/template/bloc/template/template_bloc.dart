@@ -58,24 +58,24 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       ),
     );
 
-    for(ExerciseGroup exerciseGroup in event.template.exerciseGroups) {
+    for (ExerciseGroup exerciseGroup in event.template.exerciseGroups) {
       int exerciseGroupId = await exerciseGroupDao.add(
         exerciseGroup.copyWith(routineId: routineId),
       );
-      
-      for(ExerciseSet exerciseSet in exerciseGroup.sets) {
+
+      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
         int exerciseSetId = await exerciseSetDao.add(
           exerciseSet.copyWith(exerciseGroupId: exerciseGroupId),
         );
 
-        for(ExerciseSetData exerciseSetData in exerciseSet.data) {
+        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
           await exerciseSetDataDao.add(
             exerciseSetData.copyWith(exerciseSetId: exerciseSetId),
           );
         }
       }
 
-      for(Note note in exerciseGroup.notes) {
+      for (Note note in exerciseGroup.notes) {
         await noteDao.add(
           note.copyWith(exerciseGroupId: exerciseGroupId),
         );
@@ -89,6 +89,10 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
+    emit(state.copyWith(
+      status: TemplateStatus.loading,
+    ));
+
     await routineDao.remove(event.routine);
 
     if (event.exerciseGroups != null) {
@@ -114,31 +118,31 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       routineDao.modify(template.copyWith(sort: i + 1));
     }
     emit(state.copyWith(
-      status: TemplateStatus.loaded,
       templates: await _getTemplates(),
     ));
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
-    /*await templateDao.remove(event.template);
+    await routineDao.remove(event.template);
     emit(state.copyWith(
-      status: TemplateStatus.loaded,
       templates: await _getTemplates(),
-    ));*/
+    ));
   }
 
   Future<List<Template>> _getTemplates() async {
     List<Template> templates = [];
-    Timed duration = const Timed.zero();
-    int volume = 4269;
-    Map<Muscle, int> muscleAmounts = {};
 
-    for(Routine routine in await routineDao.getByType(RoutineType.template)) {
+    for (Routine routine in await routineDao.getByType(RoutineType.template)) {
+      Timed duration = const Timed.zero();
+      // TODO: calculate volume
+      int volume = 4269;
+      Map<Muscle, int> muscleAmounts = {};
+
       List<ExerciseGroup> exerciseGroups = [];
 
-      for(BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
+      for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
         List<ExerciseSet> exerciseSets = [];
-        for(BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
           duration = duration.add(exerciseGroup.timer);
           List<BaseExerciseSetData> exerciseSetData = await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!);
 
@@ -147,24 +151,26 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
             type: exerciseSet.type,
             checked: exerciseSet.checked,
             exerciseGroupId: exerciseSet.exerciseGroupId,
-            data: exerciseSetData.map((exerciseSetData) => ExerciseSetData(
-              id: exerciseSetData.id,
-              exerciseSetId: exerciseSetData.exerciseSetId,
-              fieldType: exerciseSetData.fieldType,
-              value: exerciseSetData.value,
-            )).toList(),
+            data: exerciseSetData
+                .map((exerciseSetData) => ExerciseSetData(
+                      id: exerciseSetData.id,
+                      exerciseSetId: exerciseSetData.exerciseSetId,
+                      fieldType: exerciseSetData.fieldType,
+                      value: exerciseSetData.value,
+                    ))
+                .toList(),
           ));
         }
 
         List<Note> notes = [];
-        for(BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
           notes.add(Note(
             id: note.id,
             data: note.data,
             exerciseGroupId: note.exerciseGroupId,
           ));
         }
-        
+
         exerciseGroups.add(ExerciseGroup(
           id: exerciseGroup.id,
           timer: exerciseGroup.timer,
@@ -176,20 +182,19 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
           sets: exerciseSets,
           notes: notes,
         ));
-        
+
         Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
-        if(muscleAmounts.containsKey(exercise!.muscle)){
+        if (muscleAmounts.containsKey(exercise!.muscle)) {
           muscleAmounts[exercise.muscle] = muscleAmounts[exercise.muscle]! + 1;
         } else {
           muscleAmounts[exercise.muscle] = 1;
         }
       }
-      
+
       Map<Muscle, double> musclePercentages = {};
-      for(Muscle muscle in muscleAmounts.keys) {
+      for (Muscle muscle in muscleAmounts.keys) {
         musclePercentages[muscle] = muscleAmounts[muscle]! / exerciseGroups.length;
       }
-      
 
       templates.add(Template(
         id: routine.id,
@@ -201,10 +206,10 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         exerciseGroups: exerciseGroups,
         musclePercentages: musclePercentages,
         duration: duration,
+        volume: volume,
       ));
     }
 
     return templates;
   }
 }
-

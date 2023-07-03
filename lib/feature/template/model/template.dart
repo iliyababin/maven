@@ -15,9 +15,11 @@ class Template extends Routine {
     this.exerciseGroups = const [],
     this.musclePercentages = const {},
     this.duration = const Timed.zero(),
+    this.volume = 0,
   });
 
   final List<ExerciseGroup> exerciseGroups;
   final Map<Muscle, double> musclePercentages;
   final Timed duration;
+  final int volume;
 }

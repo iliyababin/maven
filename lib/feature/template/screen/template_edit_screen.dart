@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:maven/feature/note/screen/markdown_editor.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
@@ -27,9 +29,12 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
   late Routine routine;
   late List<ExerciseGroup> exerciseGroups;
 
+  late bool editing = false;
+  late FocusNode focusNode = FocusNode();
+
   @override
   void initState() {
-    if(widget.routine == null) {
+    if (widget.routine == null) {
       routine = Routine(
         name: '',
         note: '',
@@ -41,7 +46,8 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
     } else {
       routine = widget.routine!.copyWith();
       exerciseGroups = widget.exerciseGroups!.map((exerciseGroup) {
-        return exerciseGroup.copyWith(sets: exerciseGroup.sets.map((exerciseSet) {
+        return exerciseGroup.copyWith(
+            sets: exerciseGroup.sets.map((exerciseSet) {
           return exerciseSet.copyWith(
             data: exerciseSet.data.map((exerciseSetData) {
               return exerciseSetData.copyWith();
@@ -63,7 +69,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              if (routine.name.isEmpty || routine.note.isEmpty) {
+              if (routine.name.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -84,51 +90,114 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       body: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: EdgeInsets.symmetric(
-              horizontal: T(context).space.large,
+            padding: EdgeInsets.all(
+              T(context).space.large,
             ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                 TextFormField(
-                  onChanged: (value) {
-                    routine = routine.copyWith(name: value);
-                  },
-                  initialValue: routine.name,
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(0),
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    hintText: 'New Template',
-                    counterText: '',
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    onChanged: (value) {
+                      routine = routine.copyWith(name: value);
+                    },
+                    initialValue: routine.name,
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintText: 'New Template',
+                      counterText: '',
+                    ),
+                    style: T(context).textStyle.headingLarge,
                   ),
-                  style: T(context).textStyle.headingLarge,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: 20,
-                  onChanged: (value) {
-                    routine = routine.copyWith(note: value);
-                  },
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  initialValue: routine.note,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(0.0),
-                    isDense: true,
-                    border: InputBorder.none,
-                    hintText: 'Notes',
-                  ),
-                  style: T(context).textStyle.bodyMedium,
-                ),
-                SizedBox(
-                  height: T(context).space.large,
-                ),
-              ]),
+                  editing
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 20,
+                                focusNode: focusNode,
+                                onChanged: (value) {
+                                  routine = routine.copyWith(note: value);
+                                },
+                                onTapOutside: (event) {
+                                  FocusScope.of(context).unfocus();
+                                  setState(() {
+                                    editing = false;
+                                  });
+                                },
+                                initialValue: routine.note,
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.all(0.0),
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                ),
+                                style: T(context).textStyle.bodyMedium,
+                              ),
+                            ),
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              focusNode.requestFocus();
+                              editing = true;
+                            });
+                          },
+                          child: routine.note.isNotEmpty
+                              ? Row(
+                                  children: [
+                                    Flexible(
+                                      child: MarkdownBody(
+                                        softLineBreak: true,
+                                        data: routine.note,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return MarkdownEditor(
+                                                string: routine.note,
+                                              );
+                                            },
+                                          ),
+                                        ).then((value) {
+                                          if (value != null) {
+                                            setState(() {
+                                              routine = routine.copyWith(note: value);
+                                            });
+                                          }
+                                        });
+                                      },
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints(),
+                                      icon: Icon(
+                                        Icons.edit_rounded,
+                                        size: T(context).textStyle.bodyLarge.fontSize,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Text(
+                                  'Add a note',
+                                  style: TextStyle(
+                                    color: T(context).color.onSurfaceVariant,
+                                  ),
+                                ),
+                        ),
+                ],
+              ),
             ),
           ),
           BlocBuilder<ExerciseBloc, ExerciseState>(
@@ -137,7 +206,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     childCount: exerciseGroups.length,
-                        (context, index) {
+                    (context, index) {
                       ExerciseGroup exerciseGroup = exerciseGroups[index];
                       return ExerciseGroupWidget(
                         key: UniqueKey(),

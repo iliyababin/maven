@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/dialog/list_dialog.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:maven/common/extension/extension.dart';
 
 import '../../../common/dialog/confirmation_dialog.dart';
@@ -9,8 +9,8 @@ import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
-import '../model/template.dart';
 import '../template.dart';
+import '../view/template_options_view.dart';
 
 class TemplateDetailScreen extends StatefulWidget {
   const TemplateDetailScreen({
@@ -38,6 +38,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
 
   String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
     String result = '';
+    print(musclePercentages);
     musclePercentages.forEach((key, value) {
       result += '${key.name.capitalize}: ${(value * 100).truncate()}%\n';
     });
@@ -48,13 +49,13 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
+        List<Template> templates = state.templates.where((element) => widget.template.id == element.id).toList();
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.status.isLoaded) {
-          Template template = state.templates.where((element) => widget.template.id == element.id).first;
-
+        } else if (state.status.isLoaded && templates.isNotEmpty) {
+          Template template = templates.first;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -63,88 +64,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
               actions: [
                 IconButton(
                   onPressed: () {
-                    showBottomSheetDialog(
-                      context: context,
-                      child: ListDialog(
-                        children: [
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditTemplateScreen(
-                                    routine: template,
-                                    exerciseGroups: template.exerciseGroups,
-                                    onSubmit: (template, exerciseGroups) {
-                                      context.read<TemplateBloc>().add(
-                                        TemplateUpdate(
-                                          routine: template,
-                                          exerciseGroups: exerciseGroups,
-                                        ),
-                                      );
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
-                            leading: const Icon(
-                              Icons.edit_rounded,
-                            ),
-                            title: const Text(
-                              'Edit',
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              // TODO: Implement share
-                            },
-                            leading: const Icon(
-                              Icons.share_rounded,
-                            ),
-                            title: const Text(
-                              'Share',
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              showBottomSheetDialog(
-                                context: context,
-                                child: ConfirmationDialog(
-                                  title: 'Delete Template',
-                                  subtitle: 'This action cannot be undone',
-                                  confirmButtonStyle: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(T(context).color.error),
-                                    foregroundColor: MaterialStateProperty.all(T(context).color.onError),
-                                  ),
-                                  onSubmit: () {
-                                    context.read<TemplateBloc>().add(TemplateDelete(
-                                      template: template,
-                                    ));
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                onClose: () {},
-                              );
-                            },
-                            leading: Icon(
-                              Icons.delete_rounded,
-                              color: T(context).color.error,
-                            ),
-                            title: Text(
-                              'Delete',
-                              style: TextStyle(
-                                color: T(context).color.error,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      onClose: () {},
-                    );
+                    showTemplateOptionsView(context, template);
                   },
                   icon: const Icon(
                     Icons.more_vert_rounded,
@@ -193,10 +113,10 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                               template.name,
                               style: T(context).textStyle.headingLarge,
                             ),
-                            Text(
-                              template.note,
-                              style: T(context).textStyle.bodyMedium.copyWith(color: T(context).color.onSurfaceVariant),
-                            ),
+                            if (template.note.isNotEmpty)
+                              MarkdownBody(
+                                data: template.note,
+                              ),
                           ],
                         ),
                       ),
@@ -241,7 +161,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                     'Volume',
                                   ),
                                   Text(
-                                    '8,000kg',
+                                    template.volume.toString(),
                                     style: T(context).textStyle.labelSmall,
                                   ),
                                 ],
@@ -258,14 +178,13 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                 ],
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
                 BlocBuilder<ExerciseBloc, ExerciseState>(
                   builder: (context, state) {
-                    if(state.status.isLoading) {
+                    if (state.status.isLoading) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
@@ -338,8 +257,33 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
             ],
           );
         } else {
-          return const Text(
-            'ERROR',
+          return Scaffold(
+            appBar: AppBar(
+
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    'Not Found',
+                    style: T(context).textStyle.titleLarge,
+                  ),
+                ),
+                SizedBox(
+                  height: T(context).space.large,
+                ),
+                Center(
+                  child: Container(
+                    width: 300,
+                    child: const Text(
+                      'The template was either deleted or does not exist.',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         }
       },

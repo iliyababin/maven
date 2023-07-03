@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
 import '../../../common/common.dart';
-import '../model/template.dart';
 import '../template.dart';
 
 class TemplateListView extends StatelessWidget {
@@ -14,12 +13,12 @@ class TemplateListView extends StatelessWidget {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
         if(state.status.isLoading) {
-          return LoadingWidget();
+          return const LoadingWidget();
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 
           if(templates.isEmpty) {
-            return EmptyWidget();
+            return const EmptyWidget();
           }
 
           return SliverReorderableGrid(
@@ -47,12 +46,7 @@ class TemplateListView extends StatelessWidget {
             ),
           );
         } else {
-          return SliverToBoxAdapter(
-            child: Container(
-              height: 80,
-              child: Text('Error'),
-            ),
-          );
+          throw Exception('Unhandled state: $state');
         }
       },
     );
