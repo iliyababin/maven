@@ -1,6 +1,7 @@
 
 
 import '../../../database/database.dart';
+import 'exercise_group.dart';
 
 class ExerciseBundle {
   ExerciseBundle({
@@ -12,21 +13,21 @@ class ExerciseBundle {
 
   Exercise exercise;
   ExerciseGroup exerciseGroup;
-  List<ExerciseSet> exerciseSets;
+  List<BaseExerciseSet> exerciseSets;
   int? barId;
 
   ExerciseBundle copyWith({
     Exercise? exercise,
     ExerciseGroup? exerciseGroup,
-    List<ExerciseSet>? exerciseSets,
+    List<BaseExerciseSet>? exerciseSets,
     int? barId,
   }) {
     return ExerciseBundle(
       exercise: exercise ?? this.exercise,
       exerciseGroup: exerciseGroup ?? this.exerciseGroup,
       exerciseSets: exerciseSets != null
-          ? List<ExerciseSet>.from(exerciseSets.map((e) => e.copyWith()))
-          : List<ExerciseSet>.from(this.exerciseSets.map((e) => e.copyWith())),
+          ? List<BaseExerciseSet>.from(exerciseSets.map((e) => e.copyWith()))
+          : List<BaseExerciseSet>.from(this.exerciseSets.map((e) => e.copyWith())),
       barId: barId ?? this.barId,
     );
   }

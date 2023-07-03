@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 import '../../../database/database.dart';
@@ -85,10 +86,11 @@ class SessionDetailScreen extends StatelessWidget {
                         children: test(completeExerciseBundle, index, context),
                       ),
                     );
-                    /*return Text(
+return Text(
                       ' ${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
                       style: T(context).textStyle.body1,
-                    );*/
+                    );
+
                   },
                 ),
               ],
@@ -99,3 +101,4 @@ class SessionDetailScreen extends StatelessWidget {
     );
   }
 }
+*/

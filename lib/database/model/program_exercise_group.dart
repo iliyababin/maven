@@ -27,7 +27,7 @@ import '../database.dart';
     ),
   ],
 )
-class ProgramExerciseGroup extends ExerciseGroup {
+class ProgramExerciseGroup extends BaseExerciseGroup {
   const ProgramExerciseGroup({
     super.id,
     required super.timer,
@@ -35,8 +35,8 @@ class ProgramExerciseGroup extends ExerciseGroup {
     required super.distanceUnit,
     required super.exerciseId,
     required super.barId,
-    super.notes = const [],
     required this.programTemplateId,
+    super.routineId = -1,
   }) ;
 
   @ColumnInfo(name: 'program_template_id')
@@ -50,8 +50,8 @@ class ProgramExerciseGroup extends ExerciseGroup {
     DistanceUnit? distanceUnit,
     int? exerciseId,
     int? barId,
-    List<Note>? notes,
     int? programTemplateId,
+    int? routineId,
   }) {
     return ProgramExerciseGroup(
       id: id ?? this.id,
@@ -60,8 +60,8 @@ class ProgramExerciseGroup extends ExerciseGroup {
       distanceUnit: distanceUnit ?? this.distanceUnit,
       barId: barId ?? this.barId,
       exerciseId: exerciseId ?? this.exerciseId,
-      notes: notes ?? this.notes,
       programTemplateId: programTemplateId ?? this.programTemplateId,
+      routineId: routineId ?? this.routineId,
     );
   }
 

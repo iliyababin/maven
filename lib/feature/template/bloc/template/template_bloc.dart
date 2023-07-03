@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../common/common.dart';
+import '../../../../database/dao/exercise_set_data_dao.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
+import '../../../note/note.dart';
+import '../../model/template.dart';
 
 part 'template_event.dart';
 part 'template_state.dart';
@@ -12,11 +16,11 @@ part 'template_state.dart';
 class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   TemplateBloc({
     required this.exerciseDao,
-    required this.templateDao,
-    required this.templateExerciseGroupDao,
-    required this.templateExerciseGroupNoteDao,
-    required this.templateExerciseSetDao,
-    required this.templateExerciseSetDataDao,
+    required this.routineDao,
+    required this.exerciseGroupDao,
+    required this.exerciseSetDao,
+    required this.exerciseSetDataDao,
+    required this.noteDao,
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
     on<TemplateCreate>(_create);
@@ -26,11 +30,11 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   final ExerciseDao exerciseDao;
-  final TemplateDao templateDao;
-  final TemplateExerciseGroupDao templateExerciseGroupDao;
-  final TemplateExerciseGroupNoteDao templateExerciseGroupNoteDao;
-  final TemplateExerciseSetDao templateExerciseSetDao;
-  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
+  final RoutineDao routineDao;
+  final ExerciseGroupDao exerciseGroupDao;
+  final ExerciseSetDao exerciseSetDao;
+  final ExerciseSetDataDao exerciseSetDataDao;
+  final NoteDao noteDao;
 
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(
@@ -44,51 +48,37 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       status: TemplateStatus.loading,
     ));
 
-    int templateId = await templateDao.add(
-      Template(
+    int routineId = await routineDao.add(
+      Routine(
         name: event.template.name,
-        description: event.template.description,
-        timestamp: event.template.timestamp,
+        note: event.template.note,
+        timestamp: DateTime.now(),
         sort: event.template.sort,
+        type: RoutineType.template,
       ),
     );
 
-    for (ExerciseBundle exerciseBlock in event.exerciseBundles) {
-      int exerciseGroupId = await templateExerciseGroupDao.add(TemplateExerciseGroup(
-        timer: exerciseBlock.exerciseGroup.timer,
-        exerciseId: exerciseBlock.exercise.id!,
-        weightUnit: exerciseBlock.exerciseGroup.weightUnit,
-        distanceUnit: exerciseBlock.exerciseGroup.distanceUnit,
-        templateId: templateId,
-        barId: exerciseBlock.exerciseGroup.barId,
-      ));
+    for(ExerciseGroup exerciseGroup in event.template.exerciseGroups) {
+      int exerciseGroupId = await exerciseGroupDao.add(
+        exerciseGroup.copyWith(routineId: routineId),
+      );
       
-      for(Note note in exerciseBlock.exerciseGroup.notes) {
-        await templateExerciseGroupNoteDao.add(TemplateExerciseGroupNote(
-          exerciseGroupId: exerciseGroupId,
-          data: note.data,
-        ));
-      }
-      
-      for (var exerciseSet in exerciseBlock.exerciseSets) {
-        int templateExerciseSetId = await templateExerciseSetDao.add(
-          TemplateExerciseSet(
-            templateId: templateId,
-            exerciseGroupId: exerciseGroupId,
-            checked: exerciseSet.checked,
-            type: exerciseSet.type,
-          ),
+      for(ExerciseSet exerciseSet in exerciseGroup.sets) {
+        int exerciseSetId = await exerciseSetDao.add(
+          exerciseSet.copyWith(exerciseGroupId: exerciseGroupId),
         );
 
-        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
-          await templateExerciseSetDataDao.add(
-            TemplateExerciseSetData(
-              fieldType: exerciseSetData.fieldType,
-              exerciseSetId: templateExerciseSetId,
-              value: exerciseSetData.value,
-            ),
+        for(ExerciseSetData exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.add(
+            exerciseSetData.copyWith(exerciseSetId: exerciseSetId),
           );
         }
+      }
+
+      for(Note note in exerciseGroup.notes) {
+        await noteDao.add(
+          note.copyWith(exerciseGroupId: exerciseGroupId),
+        );
       }
     }
 
@@ -99,61 +89,118 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _update(TemplateUpdate event, Emitter<TemplateState> emit) async {
-    await templateDao.modify(event.template);
+    await routineDao.remove(event.routine);
 
-    if (event.exerciseBundles != null) {
-      await templateDao.remove(event.template);
+    if (event.exerciseGroups != null) {
       add(TemplateCreate(
-        template: event.template,
-        exerciseBundles: event.exerciseBundles!,
+        template: Template(
+          id: event.routine.id,
+          name: event.routine.name,
+          note: event.routine.note,
+          timestamp: event.routine.timestamp,
+          sort: event.routine.sort,
+          type: event.routine.type,
+          exerciseGroups: event.exerciseGroups!,
+        ),
       ));
     }
   }
 
   Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
-    List<Template> templates = event.templates;
+    /*List<Template> templates = event.templates;
     // TODO: Need better algo, this updates every row, maybe Stern-Brocot technique?
     for (int i = 0; i < templates.length; i++) {
       Template template = templates[i];
       templateDao.modify(template.copyWith(sort: i + 1));
-    }
+    }*/
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
-    await templateDao.remove(event.template);
+    /*await templateDao.remove(event.template);
     emit(state.copyWith(
       status: TemplateStatus.loaded,
       templates: await _getTemplates(),
-    ));
+    ));*/
   }
 
   Future<List<Template>> _getTemplates() async {
     List<Template> templates = [];
+    Timed duration = const Timed.zero();
+    int volume = 4269;
+    Map<Muscle, int> muscleAmounts = {};
 
-    for(Template template in await templateDao.getAll()) {
-      List<TemplateExerciseGroup> exerciseGroups = [];
+    for(Routine routine in await routineDao.getByType(RoutineType.template)) {
+      List<ExerciseGroup> exerciseGroups = [];
 
-      for (TemplateExerciseGroup templateExerciseGroup in await templateExerciseGroupDao.getByTemplateId(template.id!)) {
-        Exercise? exercise = await exerciseDao.getExercise(templateExerciseGroup.exerciseId);
+      for(BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
+        List<ExerciseSet> exerciseSets = [];
+        for(BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
+          duration = duration.add(exerciseGroup.timer);
+          List<BaseExerciseSetData> exerciseSetData = await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!);
 
-        List<TemplateExerciseSet> exerciseSets = [];
-
-        for(TemplateExerciseSet templateExerciseSet in await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
-          exerciseSets.add(templateExerciseSet.copyWith(
-            data: await templateExerciseSetDataDao.getByExerciseSetId(templateExerciseSet.id!),
+          exerciseSets.add(ExerciseSet(
+            id: exerciseSet.id,
+            type: exerciseSet.type,
+            checked: exerciseSet.checked,
+            exerciseGroupId: exerciseSet.exerciseGroupId,
+            data: exerciseSetData.map((exerciseSetData) => ExerciseSetData(
+              id: exerciseSetData.id,
+              exerciseSetId: exerciseSetData.exerciseSetId,
+              fieldType: exerciseSetData.fieldType,
+              value: exerciseSetData.value,
+            )).toList(),
           ));
         }
 
-        exerciseGroups.add(templateExerciseGroup.copyWith(
-          exercise: exercise!,
-          exerciseSets: exerciseSets,
-          notes: await templateExerciseGroupNoteDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!),
+        List<Note> notes = [];
+        for(BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+          notes.add(Note(
+            id: note.id,
+            data: note.data,
+            exerciseGroupId: note.exerciseGroupId,
+          ));
+        }
+        
+        exerciseGroups.add(ExerciseGroup(
+          id: exerciseGroup.id,
+          timer: exerciseGroup.timer,
+          weightUnit: exerciseGroup.weightUnit,
+          distanceUnit: exerciseGroup.distanceUnit,
+          exerciseId: exerciseGroup.exerciseId,
+          barId: exerciseGroup.barId,
+          routineId: exerciseGroup.routineId,
+          sets: exerciseSets,
+          notes: notes,
         ));
+        
+        Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
+        if(muscleAmounts.containsKey(exercise!.muscle)){
+          muscleAmounts[exercise.muscle] = muscleAmounts[exercise.muscle]! + 1;
+        } else {
+          muscleAmounts[exercise.muscle] = 1;
+        }
       }
+      
+      Map<Muscle, double> musclePercentages = {};
+      for(Muscle muscle in muscleAmounts.keys) {
+        musclePercentages[muscle] = muscleAmounts[muscle]! / exerciseGroups.length;
+      }
+      
 
-      templates.add(template.copyWith(exerciseGroups: exerciseGroups));
+      templates.add(Template(
+        id: routine.id,
+        type: routine.type,
+        name: routine.name,
+        sort: routine.sort,
+        timestamp: routine.timestamp,
+        note: routine.note,
+        exerciseGroups: exerciseGroups,
+        musclePercentages: musclePercentages,
+        duration: duration,
+      ));
     }
 
     return templates;
   }
 }
+

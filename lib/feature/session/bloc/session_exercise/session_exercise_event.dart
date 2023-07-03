@@ -1,3 +1,4 @@
+/*
 part of 'session_exercise_bloc.dart';
 
 abstract class SessionExerciseEvent extends Equatable {
@@ -22,4 +23,4 @@ const SessionExerciseLoad({
   List<Object?> get props => [
     exerciseId,
   ];
-}
+}*/

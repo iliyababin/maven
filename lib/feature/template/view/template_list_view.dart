@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
 import '../../../common/common.dart';
-import '../../../database/database.dart';
+import '../model/template.dart';
 import '../template.dart';
 
 class TemplateListView extends StatelessWidget {

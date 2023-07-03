@@ -1,3 +1,4 @@
+/*
 
 import 'package:equatable/equatable.dart';
 
@@ -22,4 +23,4 @@ class SessionBundle extends Equatable {
     sessionExerciseBundles,
     volume,
   ];
-}
+}*/

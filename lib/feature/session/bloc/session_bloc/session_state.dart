@@ -1,3 +1,4 @@
+/*
 part of 'session_bloc.dart';
 
 enum CompleteStatus {
@@ -39,3 +40,4 @@ class SessionState extends Equatable {
     completeBundles,
   ];
 }
+*/

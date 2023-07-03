@@ -59,4 +59,12 @@ class Timed {
       second: second ?? this.second,
     );
   }
+
+  Timed add(Timed timer) {
+    return Timed(
+      hour: hour + timer.hour,
+      minute: minute + timer.minute,
+      second: second + timer.second,
+    );
+  }
 }

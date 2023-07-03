@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../common/common.dart';
 import '../../../theme/theme.dart';
 import '../../home/home.dart';
 import '../../profile/screen/profile_screen.dart';
@@ -43,10 +42,6 @@ class _MavenState extends State<Maven> {
       body: SafeArea(child: BlocBuilder<WorkoutBloc, WorkoutState>(
         builder: (context, state) {
           if (state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.status.isNone) {
             return screens[_selectedIndex];
           } else if (state.status.isActive) {
             return SlidingUpPanel(
@@ -87,7 +82,7 @@ class _MavenState extends State<Maven> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        state.workout!.name,
+                        'asdsdds',
                         style: T(context).textStyle.titleLarge,
                       ),
                       const SizedBox(height: 1),
@@ -99,7 +94,8 @@ class _MavenState extends State<Maven> {
                         ),
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                           return Text(
-                            workoutDuration(state.workout?.timestamp ?? DateTime.now()),
+                            'hey',
+                            //workoutDuration(state.workout?.timestamp ?? DateTime.now()),
                             style: T(context).textStyle.bodyMedium,
                           );
                         },
@@ -129,10 +125,10 @@ class _MavenState extends State<Maven> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
-                    WorkoutScreen(
+                    /*WorkoutScreen(
                       workout: state.workout!,
                       exerciseBundles: state.exerciseBundles,
-                    ),
+                    ),*/
                   ],
                 ),
               ),

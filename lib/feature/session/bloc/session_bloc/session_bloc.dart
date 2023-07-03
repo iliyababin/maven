@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -44,7 +45,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   Future<void> _add(SessionAdd event, Emitter<SessionState> emit) async {
     int completeId = await sessionDao.addSession(Session(
       name: event.workout.name,
-      description: event.workout.description,
+      note: event.workout.note,
       duration: DateTime.now().difference(event.workout.timestamp),
       timestamp: DateTime.now(),
     ));
@@ -53,7 +54,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       ExerciseBundle exerciseBundle = event.exerciseBundles[i];
 
       int count = 0;
-      for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
+      for (BaseExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
         if (exerciseSet.checked) count++;
       }
       if(count == 0) continue;
@@ -69,7 +70,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       ));
       print(completeExerciseGroupId);
 
-      for (ExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
+      for (BaseExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
         if(exerciseSet.checked) {
           int sessionExerciseSetId = await sessionExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
             sessionId: completeId,
@@ -78,13 +79,15 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
             checked: exerciseSet.checked,
           ));
 
-          for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+          */
+/*for (ExerciseSet exerciseSetData in exerciseSet.data) {
             await sessionExerciseSetDataDao.addSessionExerciseSetData(SessionExerciseSetData(
               exerciseSetId: sessionExerciseSetId,
               value: exerciseSetData.value,
               fieldType: exerciseSetData.fieldType,
             ));
-          }
+          }*//*
+
         }
       }
     }
@@ -132,3 +135,4 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     return sessionBundles;
   }
 }
+*/

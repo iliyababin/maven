@@ -16,7 +16,7 @@ class WorkoutStart extends WorkoutEvent {
     required this.template,
   });
 
-  final Template template;
+  final Routine template;
 
   @override
   List<Object?> get props => [
@@ -30,41 +30,29 @@ class WorkoutFinish extends WorkoutEvent {
 }
 
 class WorkoutUpdate extends WorkoutEvent {
-  const WorkoutUpdate({
-    required this.workout,
-  });
+  const WorkoutUpdate();
 
-  final Workout workout;
 
   @override
   List<Object?> get props => [
-    workout,
   ];
 }
 
 class WorkoutToggle extends WorkoutEvent {
-  const WorkoutToggle({
-    required this.workout,
-  });
+  const WorkoutToggle();
 
-  final Workout workout;
 
   @override
   List<Object?> get props => [
-    workout,
   ];
 }
 
 class WorkoutDelete extends WorkoutEvent {
-  const WorkoutDelete({
-    required this.workout,
-  });
+  const WorkoutDelete();
 
-  final Workout workout;
 
   @override
   List<Object?> get props => [
-    workout,
   ];
 }
 
@@ -75,7 +63,7 @@ class WorkoutExerciseAdd extends WorkoutEvent {
   });
 
   final List<ExerciseGroup>? exerciseGroups;
-  final List<ExerciseSet>? exerciseSets;
+  final List<BaseExerciseSet>? exerciseSets;
 
   @override
   List<Object?> get props => [
@@ -91,7 +79,7 @@ class WorkoutExerciseUpdate extends WorkoutEvent {
   });
 
   final ExerciseGroup? exerciseGroup;
-  final ExerciseSet? exerciseSet;
+  final BaseExerciseSet? exerciseSet;
 
   @override
   List<Object?> get props => [
@@ -107,7 +95,7 @@ class WorkoutExerciseDelete extends WorkoutEvent {
   });
 
   final ExerciseGroup? exerciseGroup;
-  final ExerciseSet? exerciseSet;
+  final BaseExerciseSet? exerciseSet;
 
   @override
   List<Object?> get props => [

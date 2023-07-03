@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,9 +18,11 @@ class SessionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SessionDetailScreen(
+        */
+/*Navigator.push(context, MaterialPageRoute(builder: (context) => SessionDetailScreen(
           completeBundle: sessionBundle,
-        )));
+        )));*//*
+
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -90,3 +93,4 @@ class SessionWidget extends StatelessWidget {
     );
   }
 }
+*/

@@ -30,7 +30,7 @@ class LanguageScreen extends StatelessWidget {
                 ? Theme.of(context).colorScheme.secondary
                 : null,
             title: Text(
-              locale.languageCode.capitalize(),
+              locale.languageCode.capitalize,
             ),
           );
         },

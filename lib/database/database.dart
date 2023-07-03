@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'converter/converter.dart';
 import 'dao/dao.dart';
+import 'dao/exercise_set_data_dao.dart';
 import 'data/data.dart';
 import 'enum/enum.dart';
 import 'model/model.dart';
@@ -23,26 +24,17 @@ part 'database.g.dart';
     Bar,
     Exercise,
     ExerciseField,
+    BaseExerciseGroup,
+    BaseExerciseSet,
+    BaseExerciseSetData,
     Plate,
     Program,
     ProgramExerciseGroup,
     ProgramFolder,
     ProgramTemplate,
-    Session,
-    SessionExerciseGroup,
-    SessionExerciseSet,
-    SessionExerciseSetData,
-    Template,
-    TemplateExerciseGroup,
-    TemplateExerciseGroupNote,
-    TemplateExerciseSet,
-    TemplateExerciseSetData,
     Setting,
-    Workout,
-    WorkoutExerciseGroup,
-    WorkoutExerciseGroupNote,
-    WorkoutExerciseSet,
-    WorkoutExerciseSetData,
+    Routine,
+    BaseNote,
   ],
 )
 @TypeConverters([
@@ -56,27 +48,18 @@ part 'database.g.dart';
 abstract class MavenDatabase extends FloorDatabase {
   BarDao get barDao;
   ExerciseDao get exerciseDao;
+  ExerciseGroupDao get baseExerciseGroupDao;
+  ExerciseSetDao get exerciseSetDao;
+  ExerciseSetDataDao get exerciseSetDataDao;
   ExerciseFieldDao get exerciseFieldDao;
   PlateDao get plateDao;
   ProgramDao get programDao;
   ProgramExerciseGroupDao get programExerciseGroupDao;
   ProgramFolderDao get programFolderDao;
   ProgramTemplateDao get programTemplateDao;
+  RoutineDao get routineDao;
   SettingDao get settingDao;
-  SessionDao get sessionDao;
-  SessionExerciseGroupDao get sessionExerciseGroupDao;
-  SessionExerciseSetDao get sessionExerciseSetDao;
-  SessionExerciseSetDataDao get sessionExerciseSetDataDao;
-  TemplateDao get templateDao;
-  TemplateExerciseGroupDao get templateExerciseGroupDao;
-  TemplateExerciseGroupNoteDao get templateExerciseGroupNoteDao;
-  TemplateExerciseSetDao get templateExerciseSetDao;
-  TemplateExerciseSetDataDao get templateExerciseSetDataDao;
-  WorkoutDao get workoutDao;
-  WorkoutExerciseGroupDao get workoutExerciseGroupDao;
-  WorkoutExerciseGroupNoteDao get workoutExerciseGroupNoteDao;
-  WorkoutExerciseSetDao get workoutExerciseSetDao;
-  WorkoutExerciseSetDataDao get workoutExerciseSetDataDao;
+  NoteDao get noteDao;
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {

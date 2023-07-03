@@ -1,8 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-class Note extends Equatable {
-  const Note({
+import '../database.dart';
+
+@Entity(
+  tableName: 'note',
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['exercise_group_id'],
+      parentColumns: ['id'],
+      entity: BaseExerciseGroup,
+      onDelete: ForeignKeyAction.cascade,
+    ),
+  ],
+)
+class BaseNote extends Equatable {
+  const BaseNote({
     this.id,
     required this.data,
     required this.exerciseGroupId,
@@ -18,12 +31,12 @@ class Note extends Equatable {
   @ColumnInfo(name: 'exercise_group_id')
   final int exerciseGroupId;
 
-  Note copyWith({
+  BaseNote copyWith({
     int? id,
     String? data,
     int? exerciseGroupId,
   }) {
-    return Note(
+    return BaseNote(
       id: id ?? this.id,
       data: data ?? this.data,
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,

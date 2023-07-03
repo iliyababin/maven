@@ -1,3 +1,4 @@
+/*
 part of 'session_exercise_bloc.dart';
 
 enum SessionExerciseStatus {
@@ -36,4 +37,4 @@ class SessionExerciseState extends Equatable {
     status,
     sessionBundles,
   ];
-}
+}*/

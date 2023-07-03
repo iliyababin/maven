@@ -1,5 +1,8 @@
 export 'bloc/exercise_bloc.dart';
 export 'model/exercise_bundle.dart';
+export 'model/exercise_group.dart';
+export 'model/exercise_set.dart';
+export 'model/exercise_set_data.dart';
 export 'screen/exercise_detail_screen.dart';
 export 'screen/exercise_selection_screen.dart';
 export 'view/exercise_about_view.dart';

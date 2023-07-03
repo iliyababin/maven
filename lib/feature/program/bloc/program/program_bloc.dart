@@ -16,10 +16,6 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
     required this.programFolderDao,
     required this.programTemplateDao,
     required this.programExerciseGroupDao,
-    required this.templateDao,
-    required this.templateExerciseGroupDao,
-    required this.templateExerciseSetDao,
-    required this.templateExerciseSetDataDao,
   }) : super(const ProgramState()) {
     on<ProgramInitialize>(_initialize);
     on<ProgramBuild>(_build);
@@ -31,10 +27,6 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
   final ProgramFolderDao programFolderDao;
   final ProgramTemplateDao programTemplateDao;
   final ProgramExerciseGroupDao programExerciseGroupDao;
-  final TemplateDao templateDao;
-  final TemplateExerciseGroupDao templateExerciseGroupDao;
-  final TemplateExerciseSetDao templateExerciseSetDao;
-  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
 
   Future<void> _initialize(ProgramInitialize event, Emitter<ProgramState> emit) async {
     emit(state.copyWith(
@@ -62,11 +54,12 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
         int programTemplateId = await programTemplateDao.addProgramTemplate(
           ProgramTemplate(
             name: programTemplate.name,
-            description: programTemplate.description,
+            note: programTemplate.note,
             timestamp: DateTime.now().add(Duration(days: i*DateTime.daysPerWeek)),
             day: programTemplate.day,
             complete: false,
             folderId: programFolderId,
+            type: RoutineType.template,
           ),
         );
 
@@ -134,12 +127,12 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
           for(ProgramExerciseGroup programExerciseGroup in await programExerciseGroupDao.getProgramExerciseGroupsByProgramTemplateId(programTemplate.id!)){
             Exercise? exercise = await exerciseDao.getExercise(programExerciseGroup.exerciseId);
 
-            exerciseBundles.add(ExerciseBundle(
+            /*exerciseBundles.add(ExerciseBundle(
               exercise: exercise!,
               exerciseGroup: programExerciseGroup,
               exerciseSets: [],
               barId: programExerciseGroup.barId,
-            ));
+            ));*/
           }
 
           programTemplates.add(programTemplate.copyWith(exerciseBundles: exerciseBundles));

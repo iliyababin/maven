@@ -14,32 +14,29 @@ class TemplateInitialize extends TemplateEvent {
 class TemplateCreate extends TemplateEvent {
   const TemplateCreate({
     required this.template,
-    required this.exerciseBundles,
   });
 
   final Template template;
-  final List<ExerciseBundle> exerciseBundles;
 
   @override
   List<Object?> get props => [
     template,
-    exerciseBundles,
   ];
 }
 
 class TemplateUpdate extends TemplateEvent {
   const TemplateUpdate({
-    required this.template,
-    required this.exerciseBundles
+    required this.routine,
+    required this.exerciseGroups,
   });
 
-  final Template template;
-  final List<ExerciseBundle>? exerciseBundles;
+  final Routine routine;
+  final List<ExerciseGroup>? exerciseGroups;
 
   @override
   List<Object?> get props => [
-    template,
-    exerciseBundles,
+    routine,
+    exerciseGroups,
   ];
 }
 

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
-import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../../exercise/exercise.dart';
+import '../model/template.dart';
 import '../template.dart';
 
 
@@ -58,15 +59,24 @@ class _TemplateWidgetState extends State<TemplateWidget> {
                   maxLines: 2,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: widget.template.exerciseGroups.length,
-                    itemBuilder: (context, index) {
-                      return Text(
-                        '\u2022 ${widget.template.exerciseGroups[index].exercise.name}',
-                        style: T(context).textStyle.bodyMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      );
+                  child: BlocBuilder<ExerciseBloc, ExerciseState>(
+                    builder: (context, state) {
+                      if(state.status.isLoading) {
+                        return Container();
+                      } else {
+                        return ListView.builder(
+                          itemCount: widget.template.exerciseGroups.length,
+                          itemBuilder: (context, index) {
+                            final exerciseGroup = widget.template.exerciseGroups[index];
+                            return Text(
+                              '\u2022 ${state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId).name}',
+                              style: T(context).textStyle.bodyMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -75,8 +85,8 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           ),
         ),
         Positioned(
-          top: 0,
-          right: 0,
+          top: 2,
+          right: 2,
           child: IconButton(
             onPressed: () {
               showBottomSheetDialog(

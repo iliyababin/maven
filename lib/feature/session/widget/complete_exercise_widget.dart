@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -20,9 +21,11 @@ class CompleteExerciseWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
-          /*Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteDetailScreen(
+          */
+/*Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteDetailScreen(
             completeBundle: complete,
-          )));*/
+          )));*//*
+
         },
         borderRadius: BorderRadius.circular(12),
         child: Container(
@@ -89,3 +92,4 @@ class CompleteExerciseWidget extends StatelessWidget {
     );
   }
 }
+*/

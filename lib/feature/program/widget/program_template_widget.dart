@@ -39,7 +39,7 @@ class ProgramTemplateWidget extends StatelessWidget {
                   style: T(context).textStyle.titleLarge,
                 ),
                 extended ? Text(
-                  programTemplate.description,
+                  programTemplate.note,
                   style: T(context).textStyle.bodyMedium,
                 ) : GestureDetector(
                   onTap: () {
@@ -57,7 +57,7 @@ class ProgramTemplateWidget extends StatelessWidget {
                     });
                   },
                   child: Text(
-                    programTemplate.day.name.capitalize(),
+                    programTemplate.day.name.capitalize,
                     style: T(context).textStyle.bodyMedium.copyWith(
                       color: T(context).color.primary,
                     ),
@@ -77,7 +77,7 @@ class ProgramTemplateWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 5,),
                             Text(
-                              programTemplate.day.name.capitalize(),
+                              programTemplate.day.name.capitalize,
                               style: T(context).textStyle.bodyMedium.copyWith(
                                 color: T(context).color.onSurfaceVariant,
                                 fontWeight: FontWeight.bold,

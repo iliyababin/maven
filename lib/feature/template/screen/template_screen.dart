@@ -1,16 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/widget/heading.dart';
 
 import '../../../common/widget/titled_scaffold.dart';
-import '../../../database/model/workout.dart';
+import '../../../database/database.dart';
 import '../../../theme/widget/inherited_theme_widget.dart';
 import '../../program/screen/program_builder_screen.dart';
 import '../../program/view/program_list_view.dart';
-import '../../workout/bloc/workout/workout_bloc.dart';
-import '../../workout/widget/workout_paused_widget.dart';
+import '../model/template.dart';
 import '../template.dart';
 
 /// Screen which manages templates, workouts, and programs
@@ -66,11 +63,17 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditTemplateScreen(
-                                    onSubmit: (template, exerciseBundles) {
+                                    onSubmit: (routine, exerciseGroups) {
                                       context.read<TemplateBloc>().add(
                                             TemplateCreate(
-                                              template: template,
-                                              exerciseBundles: exerciseBundles,
+                                              template: Template(
+                                                name: routine.name,
+                                                note: routine.note,
+                                                timestamp: DateTime.now(),
+                                                sort: -1,
+                                                type: RoutineType.template,
+                                                exerciseGroups: exerciseGroups
+                                              ),
                                             ),
                                           );
                                       Navigator.pop(context);
@@ -117,7 +120,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 ),
               ]),
             ),
-            BlocBuilder<WorkoutBloc, WorkoutState>(
+           /* BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if(!state.status.isError && state.pausedWorkouts.isNotEmpty) {
                   return const Heading(
@@ -126,8 +129,8 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 }
                 return const SliverToBoxAdapter();
               },
-            ),
-            BlocBuilder<WorkoutBloc, WorkoutState>(
+            ),*/
+            /*BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if (state.status == WorkoutStatus.loading) {
                   return SliverToBoxAdapter(
@@ -145,8 +148,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     ),
                   );
                 } else {
-                  List<Workout> workouts = state.pausedWorkouts;
-
+                  *//*List<Workout> workouts = state.pausedWorkouts;
                   return workouts.isEmpty
                       ? SliverToBoxAdapter()
                       : SliverList(
@@ -171,10 +173,11 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             },
                             childCount: max(0, workouts.length * 2 - 1),
                           ),
-                        );
+                        );*//*
+                  return SliverToBoxAdapter();
                 }
               },
-            ),
+            ),*/
             Heading(
               title: 'Templates',
               actions: [

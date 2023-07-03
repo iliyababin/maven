@@ -8,8 +8,6 @@ import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
-import 'feature/session/bloc/session_bloc/session_bloc.dart';
-import 'feature/session/bloc/session_exercise/session_exercise_bloc.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
@@ -32,28 +30,16 @@ void main() async {
       BlocProvider(
           create: (context) => TemplateBloc(
                 exerciseDao: db.exerciseDao,
-                templateDao: db.templateDao,
-                templateExerciseGroupDao: db.templateExerciseGroupDao,
-                templateExerciseGroupNoteDao: db.templateExerciseGroupNoteDao,
-                templateExerciseSetDao: db.templateExerciseSetDao,
-                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
+                exerciseGroupDao: db.baseExerciseGroupDao,
+                exerciseSetDao: db.exerciseSetDao,
+                exerciseSetDataDao: db.exerciseSetDataDao,
+                routineDao: db.routineDao,
+                noteDao: db.noteDao,
               )..add(const TemplateInitialize())),
       BlocProvider(
           create: (context) => WorkoutBloc(
                 exerciseDao: db.exerciseDao,
                 exerciseFieldDao: db.exerciseFieldDao,
-                workoutDao: db.workoutDao,
-                workoutExerciseGroupDao: db.workoutExerciseGroupDao,
-                workoutExerciseGroupNoteDao: db.workoutExerciseGroupNoteDao,
-                workoutExerciseSetDao: db.workoutExerciseSetDao,
-                workoutExerciseSetDataDao: db.workoutExerciseSetDataDao,
-                templateExerciseGroupDao: db.templateExerciseGroupDao,
-                templateExerciseGroupNoteDao: db.templateExerciseGroupNoteDao,
-                templateExerciseSetDao: db.templateExerciseSetDao,
-                completeDao: db.sessionDao,
-                completeExerciseGroupDao: db.sessionExerciseGroupDao,
-                completeExerciseSetDao: db.sessionExerciseSetDao,
-                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const WorkoutInitialize())),
       BlocProvider(
           create: (context) => EquipmentBloc(
@@ -67,12 +53,8 @@ void main() async {
                 programFolderDao: db.programFolderDao,
                 programTemplateDao: db.programTemplateDao,
                 programExerciseGroupDao: db.programExerciseGroupDao,
-                templateDao: db.templateDao,
-                templateExerciseGroupDao: db.templateExerciseGroupDao,
-                templateExerciseSetDao: db.templateExerciseSetDao,
-                templateExerciseSetDataDao: db.templateExerciseSetDataDao,
               )..add(const ProgramInitialize())),
-      BlocProvider(
+      /*BlocProvider(
           create: (context) => SessionBloc(
                 sessionDao: db.sessionDao,
                 exerciseDao: db.exerciseDao,
@@ -86,7 +68,7 @@ void main() async {
                 completeDao: db.sessionDao,
                 completeExerciseGroupDao: db.sessionExerciseGroupDao,
                 completeExerciseSetDao: db.sessionExerciseSetDao,
-              )..add(const SessionExerciseInitialize())),
+              )..add(const SessionExerciseInitialize())),*/
       BlocProvider(
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,
@@ -114,7 +96,7 @@ class Main extends StatelessWidget {
                 return MaterialApp(
                   theme: InheritedThemeWidget.of(context).theme.data,
                   // TODO: Give user option to change this.
-                   scrollBehavior: CustomScrollBehavior(),
+                  scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
                   localizationsDelegates: const [
                     S.delegate,

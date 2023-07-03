@@ -1,26 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../exercise/model/exercise_bundle.dart';
-import '../../exercise/screen/exercise_selection_screen.dart';
-import '../../exercise/widget/exercise_group_widget.dart';
+import '../../exercise/exercise.dart';
 
-typedef TemplateEditCallback = void Function(Template template, List<ExerciseBundle> bundles);
+typedef TemplateEditCallback = void Function(Routine routine, List<ExerciseGroup> exerciseGroups);
 
-/// Screen for creating and editing a [Template]
 class EditTemplateScreen extends StatefulWidget {
-  /// Creates a screen for creating and editing a [Template]
   const EditTemplateScreen({
     Key? key,
-    this.template,
-    this.exerciseBundles,
+    this.routine,
+    this.exerciseGroups,
     required this.onSubmit,
   }) : super(key: key);
 
-  final Template? template;
-  final List<ExerciseBundle>? exerciseBundles;
+  final Routine? routine;
+  final List<ExerciseGroup>? exerciseGroups;
   final TemplateEditCallback onSubmit;
 
   @override
@@ -28,28 +24,31 @@ class EditTemplateScreen extends StatefulWidget {
 }
 
 class _EditTemplateScreenState extends State<EditTemplateScreen> {
-  late Template template;
-  late List<ExerciseBundle> exerciseBundles;
-
-  bool isReordering = false;
+  late Routine routine;
+  late List<ExerciseGroup> exerciseGroups;
 
   @override
   void initState() {
-    if (widget.exerciseBundles == null) {
-      exerciseBundles = [];
-    } else {
-      exerciseBundles = widget.exerciseBundles!.map((e) => e.copyWith()).toList();
-    }
-    if (widget.template == null) {
-      template = Template(
-        id: DateTime.now().millisecondsSinceEpoch,
-        name: 'Untitled',
-        description: 'A workout template',
+    if(widget.routine == null) {
+      routine = Routine(
+        name: '',
+        note: '',
         sort: -1,
         timestamp: DateTime.now(),
+        type: RoutineType.template,
       );
+      exerciseGroups = [];
     } else {
-      template = widget.template!.copyWith();
+      routine = widget.routine!.copyWith();
+      exerciseGroups = widget.exerciseGroups!.map((exerciseGroup) {
+        return exerciseGroup.copyWith(sets: exerciseGroup.sets.map((exerciseSet) {
+          return exerciseSet.copyWith(
+            data: exerciseSet.data.map((exerciseSetData) {
+              return exerciseSetData.copyWith();
+            }).toList(),
+          );
+        }).toList());
+      }).toList();
     }
     super.initState();
   }
@@ -59,23 +58,12 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.exerciseBundles == null ? 'Create' : 'Edit',
+          widget.exerciseGroups == null ? 'Create' : 'Edit',
         ),
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                isReordering = !isReordering;
-              });
-            },
-            icon: Icon(
-              isReordering ? Icons.format_list_bulleted : CupertinoIcons.arrow_up_arrow_down,
-              size: isReordering ? 24 : 20,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              if (template.name.isEmpty || template.description.isEmpty) {
+              if (routine.name.isEmpty || routine.note.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -85,7 +73,7 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                 );
                 return;
               }
-              widget.onSubmit(template, exerciseBundles);
+              widget.onSubmit(routine, exerciseGroups);
             },
             icon: const Icon(
               Icons.check_rounded,
@@ -93,131 +81,109 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
           ),
         ],
       ),
-      body: isReordering
-          ? ReorderableListView(
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final ExerciseBundle item = exerciseBundles.removeAt(oldIndex);
-                  exerciseBundles.insert(newIndex, item);
-                });
-              },
-              proxyDecorator: (widget, index, animation) {
-                return Material(
-                  color: Colors.transparent,
-                  child: widget,
-                );
-              },
-              children: exerciseBundles
-                  .map(
-                    (e) => ReorderableDragStartListener(
-                      key: UniqueKey(),
-                      index: exerciseBundles.indexOf(e),
-                      child: ListTile(
-                        title: Text(
-                          e.exercise.name,
-                        ),
-                        leading: const Icon(
-                          Icons.drag_indicator_rounded,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            )
-          : CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: T(context).space.large,
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: T(context).space.large,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                 TextFormField(
+                  onChanged: (value) {
+                    routine = routine.copyWith(name: value);
+                  },
+                  initialValue: routine.name,
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(0),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: 'New Template',
+                    counterText: '',
                   ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      TextFormField(
-                        onChanged: (value) {
-                          template = template.copyWith(name: value);
-                        },
-                        initialValue: template.name,
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(0),
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintText: 'Workout',
-                          counterText: "",
-                        ),
-                        style: T(context).textStyle.headingLarge,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        minLines: 1,
-                        maxLines: 20,
-                        onChanged: (value) {
-                          template = template.copyWith(description: value);
-                        },
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                        initialValue: template.description,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(0.0),
-                          isDense: true,
-                          border: InputBorder.none,
-                        ),
-                        style: T(context).textStyle.bodyMedium,
-                      ),
-                      SizedBox(
-                        height: T(context).space.large,
-                      ),
-                    ]),
-                  ),
+                  style: T(context).textStyle.headingLarge,
                 ),
-                SliverList(
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 20,
+                  onChanged: (value) {
+                    routine = routine.copyWith(note: value);
+                  },
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  initialValue: routine.note,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(0.0),
+                    isDense: true,
+                    border: InputBorder.none,
+                    hintText: 'Notes',
+                  ),
+                  style: T(context).textStyle.bodyMedium,
+                ),
+                SizedBox(
+                  height: T(context).space.large,
+                ),
+              ]),
+            ),
+          ),
+          BlocBuilder<ExerciseBloc, ExerciseState>(
+            builder: (context, state) {
+              if (state.status.isLoaded) {
+                return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    childCount: exerciseBundles.length,
-                    (context, index) {
-                      ExerciseBundle exerciseBlock = exerciseBundles[index];
+                    childCount: exerciseGroups.length,
+                        (context, index) {
+                      ExerciseGroup exerciseGroup = exerciseGroups[index];
                       return ExerciseGroupWidget(
                         key: UniqueKey(),
-                        exercise: exerciseBlock.exercise,
-                        exerciseGroup: exerciseBlock.exerciseGroup,
-                        exerciseSets: exerciseBlock.exerciseSets,
+                        exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
+                        exerciseGroup: exerciseGroup,
+                        exerciseSets: exerciseGroup.sets,
                         onExerciseGroupUpdate: (value) {
                           setState(() {
-                            exerciseBundles[index].exerciseGroup = value;
+                            exerciseGroups[index] = value;
                           });
                         },
                         onExerciseGroupDelete: () {
                           setState(() {
-                            exerciseBundles.removeAt(index);
+                            exerciseGroups.removeAt(index);
                           });
                         },
                         onExerciseSetAdd: (value) {
                           setState(() {
-                            exerciseBundles[index].exerciseSets.add(value);
+                            exerciseGroups[index].sets.add(value);
                           });
                         },
-                        onExerciseSetUpdate: (value) {
+                        onExerciseSetUpdate: (value, setIndex) {
                           setState(() {
-                            int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
-                            exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
+                            exerciseGroups[index].sets[setIndex] = value;
                           });
                         },
                         onExerciseSetDelete: (value) {
                           setState(() {
-                            exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
+                            exerciseGroups[index].sets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
                           });
                         },
                       );
                     },
                   ),
-                )
-              ],
-            ),
+                );
+              } else {
+                return const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
@@ -229,31 +195,22 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
 
             for (Exercise exercise in exercises ?? []) {
               setState(() {
-                int exerciseGroupId = DateTime.now().millisecondsSinceEpoch;
-                int exerciseSetId = DateTime.now().millisecondsSinceEpoch + 1;
-                exerciseBundles.add(ExerciseBundle(
-                  exercise: exercise,
-                  exerciseGroup: ExerciseGroup(
-                    id: exerciseGroupId,
-                    timer: exercise.timer,
-                    exerciseId: exercise.id!,
-                    barId: exercise.barId,
-                    weightUnit: exercise.weightUnit,
-                    distanceUnit: exercise.distanceUnit,
-                    notes: const [],
-                  ),
-                  exerciseSets: [
+                exerciseGroups.add(ExerciseGroup(
+                  timer: exercise.timer,
+                  weightUnit: exercise.weightUnit,
+                  distanceUnit: exercise.distanceUnit,
+                  exerciseId: exercise.id!,
+                  routineId: -1,
+                  sets: [
                     ExerciseSet(
-                      id: exerciseSetId,
-                      exerciseGroupId: exerciseGroupId,
+                      exerciseGroupId: -1,
                       checked: false,
                       type: ExerciseSetType.regular,
                       data: exercise.fields.map((e) {
                         return ExerciseSetData(
-                          id: DateTime.now().millisecondsSinceEpoch,
                           value: '',
                           fieldType: e.type,
-                          exerciseSetId: exerciseSetId,
+                          exerciseSetId: -1,
                         );
                       }).toList(),
                     ),

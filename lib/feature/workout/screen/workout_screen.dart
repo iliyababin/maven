@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../exercise/model/exercise_group.dart';
 import '../../session/session.dart';
 import '../workout.dart';
 
@@ -73,13 +75,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                     barId: exercise.barId,
                                     exerciseSets: [],
                                     exerciseGroup: ExerciseGroup(
-                                      id: DateTime.now().microsecondsSinceEpoch,
                                       exerciseId: exercise.id!,
                                       barId: exercise.barId,
                                       timer: Timed(hour: 0, minute: 0, second: 0),
                                       weightUnit: WeightUnit.lbs,
                                       distanceUnit: exercise.distanceUnit,
-                                      notes: const [],
+                                      routineId: -1,
                                     )))
                                 .toList();
 
@@ -87,7 +88,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               exerciseBundles.addAll(exerciseBundles1);
                             });
 
-                            context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles1.map((e) => e.exerciseGroup).toList()));
+                            // context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles1.map((e) => e.exerciseGroup).toList()));
                           }
                         },
                         height: 38,
@@ -267,7 +268,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       return ExerciseGroupWidget(
                         exercise: exerciseBundle.exercise,
                         exerciseGroup: exerciseBundle.exerciseGroup,
-                        exerciseSets: exerciseBundle.exerciseSets,
+                        exerciseSets: [],
                         controller: exerciseTimerController,
                         onExerciseGroupUpdate: (value) {
                           setState(() {
@@ -324,3 +325,4 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     );
   }
 }
+*/

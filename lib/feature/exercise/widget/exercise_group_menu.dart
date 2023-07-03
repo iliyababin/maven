@@ -5,6 +5,8 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../equipment/equipment.dart';
+import '../../note/note.dart';
+import '../model/exercise_group.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({
@@ -26,16 +28,16 @@ class ExerciseGroupMenu extends StatelessWidget {
       children: [
         ListTile(
           onTap: () {
-            Navigator.pop(context);
-            onExerciseGroupUpdate(
-              exerciseGroup.copyWith(notes: [
+            onExerciseGroupUpdate(exerciseGroup.copyWith(
+              notes: [
                 ...exerciseGroup.notes,
-                Note(
+                const Note(
                   data: '',
-                  exerciseGroupId: exerciseGroup.id!,
+                  exerciseGroupId: -1,
                 ),
-              ]),
-            );
+              ],
+            ));
+            Navigator.pop(context);
           },
           leading: const Icon(
             Icons.edit,
@@ -148,7 +150,7 @@ class ExerciseGroupMenu extends StatelessWidget {
                               : Container(
                                   width: 20,
                                 ),
-                          title: distanceUnit.name.capitalize());
+                          title: distanceUnit.name.capitalize);
                     },
                   ));
             },

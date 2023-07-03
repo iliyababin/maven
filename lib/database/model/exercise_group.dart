@@ -4,15 +4,39 @@ import 'package:floor/floor.dart';
 import '../../common/model/model.dart';
 import '../database.dart';
 
-class ExerciseGroup extends Equatable {
-  const ExerciseGroup({
+@Entity(
+  tableName: 'exercise_group',
+  primaryKeys: [
+    'id',
+  ],
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['exercise_id'],
+      parentColumns: ['id'],
+      entity: Exercise,
+    ),
+    ForeignKey(
+      childColumns: ['bar_id'],
+      parentColumns: ['id'],
+      entity: Bar,
+    ),
+    ForeignKey(
+      childColumns: ['routine_id'],
+      parentColumns: ['id'],
+      entity: Routine,
+      onDelete: ForeignKeyAction.cascade,
+    ),
+  ]
+)
+class BaseExerciseGroup extends Equatable {
+  const BaseExerciseGroup({
     this.id,
     required this.timer,
     required this.weightUnit,
     required this.distanceUnit,
     required this.exerciseId,
     required this.barId,
-    required this.notes,
+    required this.routineId,
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -34,26 +58,26 @@ class ExerciseGroup extends Equatable {
   @ColumnInfo(name: 'bar_id')
   final int? barId;
 
-  @ignore
-  final List<Note> notes;
+  @ColumnInfo(name: 'routine_id')
+  final int? routineId;
 
-  ExerciseGroup copyWith({
+  BaseExerciseGroup copyWith({
     int? id,
     Timed? timer,
     WeightUnit? weightUnit,
     DistanceUnit? distanceUnit,
     int? exerciseId,
     int? barId,
-    List<Note>? notes,
+    int? routineId,
   }) {
-    return ExerciseGroup(
+    return BaseExerciseGroup(
       id: id ?? this.id,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
       distanceUnit: distanceUnit ?? this.distanceUnit,
       exerciseId: exerciseId ?? this.exerciseId,
       barId: barId ?? this.barId,
-      notes: notes ?? this.notes,
+      routineId: routineId ?? this.routineId,
     );
   }
 
@@ -65,6 +89,6 @@ class ExerciseGroup extends Equatable {
         distanceUnit,
         exerciseId,
         barId,
-        notes,
+        routineId,
       ];
 }

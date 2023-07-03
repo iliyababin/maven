@@ -7,11 +7,12 @@ import 'package:maven/feature/exercise/widget/note_widget.dart';
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../../note/note.dart';
 import '../exercise.dart';
 
-/// Widget for displaying an [ExerciseGroup] with [ExerciseSet]'s.
+/// Widget for displaying an [ExerciseGroup] with [BaseExerciseSet]'s.
 class ExerciseGroupWidget extends StatefulWidget {
-  /// Creates a widget to display an [ExerciseGroup] with [ExerciseSet]'s.
+  /// Creates a widget to display an [ExerciseGroup] with [BaseExerciseSet]'s.
   const ExerciseGroupWidget({
     super.key,
     required this.exercise,
@@ -34,7 +35,7 @@ class ExerciseGroupWidget extends StatefulWidget {
   /// [ExerciseGroup]
   final ExerciseGroup exerciseGroup;
 
-  /// The list of [ExerciseSet]'s within this [ExerciseGroup].
+  /// The list of [BaseExerciseSet]'s within this [ExerciseGroup].
   final List<ExerciseSet> exerciseSets;
 
   /// The [ExerciseTimerController] for this [ExerciseGroup].
@@ -46,22 +47,22 @@ class ExerciseGroupWidget extends StatefulWidget {
   /// A callback function that is called when the [ExerciseGroup] is deleted.
   final Function() onExerciseGroupDelete;
 
-  /// A callback function that is called when a new [ExerciseSet] is added.
+  /// A callback function that is called when a new [BaseExerciseSet] is added.
   final ValueChanged<ExerciseSet> onExerciseSetAdd;
 
-  /// A callback function that is called when an [ExerciseSet] is updated.
-  final ValueChanged<ExerciseSet> onExerciseSetUpdate;
+  /// A callback function that is called when an [BaseExerciseSet] is updated.
+  final Function(ExerciseSet value, int setIndex) onExerciseSetUpdate;
 
-  /// A callback function that is called when an [ExerciseSet] is deleted.
+  /// A callback function that is called when an [BaseExerciseSet] is deleted.
   final ValueChanged<ExerciseSet> onExerciseSetDelete;
 
-  /// A callback function that is called when an [ExerciseSet] is toggled.
+  /// A callback function that is called when an [BaseExerciseSet] is toggled.
   final ValueChanged<ExerciseSet>? onExerciseSetToggled;
 
-  /// Indicates whether or not checkboxes should be enabled for the [ExerciseSet]'s.
+  /// Indicates whether or not checkboxes should be enabled for the [BaseExerciseSet]'s.
   final bool checkboxEnabled;
 
-  /// Indicates whether or not hints should be enabled for the [ExerciseSet]'s.
+  /// Indicates whether or not hints should be enabled for the [BaseExerciseSet]'s.
   final bool hintsEnabled;
 
   @override
@@ -125,6 +126,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         if (widget.exerciseGroup.notes.isNotEmpty)
           ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: widget.exerciseGroup.notes.length,
             itemBuilder: (context, index) {
               final Note note = widget.exerciseGroup.notes[index];
@@ -135,9 +137,6 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   bottom: 8,
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(
-                    right: T(context).space.large,
-                  ),
                   decoration: BoxDecoration(
                     color: T(context).color.surface,
                     borderRadius: const BorderRadius.only(
@@ -174,12 +173,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                               }
                             });
                           },
-                          child: Markdown(
+                          child: note.data.isNotEmpty ? Markdown(
                             shrinkWrap: true,
-
                             padding: EdgeInsets.all(T(context).space.large / 2),
                             physics: const NeverScrollableScrollPhysics(),
-                            data: note.data.isNotEmpty ? note.data : "Add a note...",
+                            data: note.data,
+                          ) : Padding(
+                            padding: EdgeInsets.all(T(context).space.large / 2),
+                            child: Text(
+                              'Add a note',
+                              style: TextStyle(
+                                color: T(context).color.onSurfaceVariant,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -187,8 +193,6 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                         children: [
                           IconButton(
                             onPressed: () {},
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
                             icon: Icon(
                               CupertinoIcons.map_pin,
                               color: T(context).color.onSurface,
@@ -293,7 +297,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   exercise: widget.exercise,
                   exerciseSet: widget.exerciseSets[index],
                   onExerciseSetUpdate: (value) {
-                    widget.onExerciseSetUpdate(value);
+                    widget.onExerciseSetUpdate(value, index);
                   },
                   onExerciseSetToggled: (value) {
                     if (widget.onExerciseSetToggled != null) {
@@ -312,18 +316,15 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
           child: TextButton.icon(
             onPressed: () {
-              int id = DateTime.now().millisecondsSinceEpoch;
               ExerciseSet exerciseSet = ExerciseSet(
-                id: id,
                 checked: false,
                 type: ExerciseSetType.regular,
-                exerciseGroupId: widget.exerciseGroup.id!,
+                exerciseGroupId: -1,
                 data: widget.exercise.fields.map((e) {
                   return ExerciseSetData(
-                    id: DateTime.now().millisecondsSinceEpoch,
                     value: '',
                     fieldType: e.type,
-                    exerciseSetId: id,
+                    exerciseSetId: -1,
                   );
                 }).toList(),
               );

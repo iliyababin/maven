@@ -169,11 +169,11 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                           MaterialPageRoute(
                             builder: (context) => EditTemplateScreen(
                               onSubmit: (template, exerciseBundles) {
-                                setState(() {
+                                /*setState(() {
                                   programTemplates.add(
                                     ProgramTemplate(
                                       name: template.name,
-                                      description: template.description,
+                                      description: template.note,
                                       timestamp: DateTime.now(),
                                       complete: false,
                                       day: Day.monday,
@@ -181,7 +181,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                                       exerciseBundles: exerciseBundles,
                                     ),
                                   );
-                                });
+                                });*/
                                 Navigator.pop(context);
                               },
                             ),
@@ -213,7 +213,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                     index: index,
                     child: ProgramTemplateWidget(
                       onTap: () {
-                        Navigator.push(
+                        /*Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EditTemplateScreen(
@@ -221,26 +221,26 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                                 setState(() {
                                   programTemplates[index] = ProgramTemplate(
                                     name: template.name,
-                                    description: template.description,
+                                    note: template.note,
                                     timestamp: DateTime.now(),
                                     complete: false,
                                     day: programTemplates[index].day,
                                     folderId: -1,
-                                    exerciseBundles: exerciseBundles,
+                                    exerciseBundles: [],
                                   );
                                 });
                                 Navigator.pop(context);
                               },
                               template: Template(
                                 name: programTemplates[index].name,
-                                description: programTemplates[index].description,
+                                description: programTemplates[index].note,
                                 sort: -1,
                                 timestamp: programTemplates[index].timestamp,
                               ),
                               exerciseBundles: programTemplates[index].exerciseBundles,
                             ),
                           ),
-                        );
+                        );*/
                       },
                       programTemplate: programTemplates[index],
                       onEdit: (programTemplate) {

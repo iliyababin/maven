@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
+
 extension StringExtension on String {
-  String capitalize() {
+  String get capitalize {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
@@ -12,7 +14,7 @@ extension MuscleStringExtension on String {
         r'(?<=[a-z])([A-Z])',
       ),
           (match) => ' ${match.group(1)}',
-    ).toLowerCase().capitalize();
+    ).toLowerCase().capitalize;
   }
 }
 
@@ -40,4 +42,25 @@ extension DateTimeExtension on DateTime {
     }
     return timeRemaining;
   }
+}
+
+extension ShimmerColorExtension on Color {
+  Color get baseShimmer {
+    return _darkenColor(this, amount: 0.05);
+  }
+
+  Color get highlightShimmer {
+    return _darkenColor(this, amount: 0.1);
+  }
+}
+
+Color _darkenColor(Color color, {double amount = 0.1}) {
+  assert(amount >= 0 && amount <= 1, 'Amount should be between 0 and 1');
+
+  final int alpha = color.alpha;
+  final int red = (color.red * (1 - amount)).round();
+  final int green = (color.green * (1 - amount)).round();
+  final int blue = (color.blue * (1 - amount)).round();
+
+  return Color.fromARGB(alpha, red, green, blue);
 }

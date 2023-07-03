@@ -127,7 +127,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                           style: T(context).textStyle.bodyLarge,
                         ),
                         trailing: Text(
-                          widget.exercise.muscleGroup.name.capitalize(),
+                          widget.exercise.muscleGroup.name.capitalize,
                         ),
                       ),
                       ListTile(
@@ -173,7 +173,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                           style: T(context).textStyle.bodyLarge,
                         ),
                         trailing: Text(
-                          widget.exercise.equipment.name.capitalize(),
+                          widget.exercise.equipment.name.capitalize,
                         ),
                       ),
                       ListTile(
@@ -191,7 +191,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                           style: T(context).textStyle.bodyLarge,
                         ),
                         trailing: Text(
-                          widget.exercise.fields.map((obj) => obj.type.name.capitalize()).join(' | '),
+                          widget.exercise.fields.map((obj) => obj.type.name.capitalize).join(' | '),
                         ),
                       ),
                       if (widget.exercise.weightUnit != null)
@@ -205,7 +205,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                             style: T(context).textStyle.bodyLarge,
                           ),
                           trailing: Text(
-                            widget.exercise.weightUnit!.name.toString().capitalize(),
+                            widget.exercise.weightUnit!.name.toString().capitalize,
                           ),
                         ),
                       if (widget.exercise.distanceUnit != null)
@@ -219,7 +219,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                             style: T(context).textStyle.bodyLarge,
                           ),
                           trailing: Text(
-                            widget.exercise.distanceUnit!.name.toString().capitalize(),
+                            widget.exercise.distanceUnit!.name.toString().capitalize,
                           ),
                         ),
                     ],

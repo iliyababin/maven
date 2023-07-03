@@ -1,3 +1,4 @@
+/*
 import 'package:equatable/equatable.dart';
 
 import '../../../database/database.dart';
@@ -20,4 +21,4 @@ class SessionExerciseBundle extends Equatable {
     sessionExerciseGroup,
     sessionExerciseSets,
   ];
-}
+}*/

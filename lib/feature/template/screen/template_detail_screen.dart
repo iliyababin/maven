@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/dialog/list_dialog.dart';
@@ -9,8 +7,9 @@ import '../../../common/dialog/confirmation_dialog.dart';
 import '../../../common/dialog/show_bottom_sheet_dialog.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../exercise/model/exercise_bundle.dart';
+import '../../exercise/exercise.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
+import '../model/template.dart';
 import '../template.dart';
 
 class TemplateDetailScreen extends StatefulWidget {
@@ -37,22 +36,12 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
     super.initState();
   }
 
-  String muscleCoverage(Template template) {
-    String muscleCoverage = '';
-    HashMap<Muscle, int> muscles = HashMap();
-
-    for(TemplateExerciseGroup exerciseGroup in template.exerciseGroups) {
-      if(muscles.containsKey(exerciseGroup.exercise.muscle)){
-        muscles[exerciseGroup.exercise.muscle] = muscles[exerciseGroup.exercise.muscle]! + 1;
-      } else {
-        muscles[exerciseGroup.exercise.muscle] = 1;
-      }
-    }
-
-    for(Muscle muscle in muscles.keys) {
-      muscleCoverage += '${(muscles[muscle]! / template.exerciseGroups.length * 100).truncate()}% ${muscle.name.capitalize()} \n';
-    }
-    return muscleCoverage;
+  String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
+    String result = '';
+    musclePercentages.forEach((key, value) {
+      result += '${key.name.capitalize}: ${(value * 100).truncate()}%\n';
+    });
+    return result;
   }
 
   @override
@@ -85,18 +74,13 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditTemplateScreen(
-                                    template: template,
-                                    exerciseBundles: template.exerciseGroups.map((e) => ExerciseBundle(
-                                      exercise: e.exercise,
-                                      exerciseSets: e.exerciseSets,
-                                      exerciseGroup: e,
-                                      barId: e.barId,
-                                    )).toList(),
-                                    onSubmit: (template, exerciseBundles) {
+                                    routine: template,
+                                    exerciseGroups: template.exerciseGroups,
+                                    onSubmit: (template, exerciseGroups) {
                                       context.read<TemplateBloc>().add(
                                         TemplateUpdate(
-                                          template: template,
-                                          exerciseBundles: exerciseBundles,
+                                          routine: template,
+                                          exerciseGroups: exerciseGroups,
                                         ),
                                       );
                                       Navigator.pop(context);
@@ -210,7 +194,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                               style: T(context).textStyle.headingLarge,
                             ),
                             Text(
-                              template.description,
+                              template.note,
                               style: T(context).textStyle.bodyMedium.copyWith(color: T(context).color.onSurfaceVariant),
                             ),
                           ],
@@ -246,7 +230,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                     'Duration',
                                   ),
                                   Text(
-                                    '1hr 5min',
+                                    template.duration.toString(),
                                     style: T(context).textStyle.labelSmall,
                                   ),
                                 ],
@@ -268,7 +252,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                     'Muscle Coverage',
                                   ),
                                   Text(
-                                    muscleCoverage(template),
+                                    parseMuscleCoverage(template.musclePercentages),
                                     style: T(context).textStyle.labelSmall,
                                   ),
                                 ],
@@ -279,25 +263,42 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                     ],
                   ),
                 ),
-                ListView.builder(
-                  itemCount: template.exerciseGroups.length,
-                  itemBuilder: (context, index) {
-                    TemplateExerciseGroup exerciseGroup = template.exerciseGroups[index];
-                    return ListTile(
-                      leading: CircleAvatar(
+                BlocBuilder<ExerciseBloc, ExerciseState>(
+                  builder: (context, state) {
+                    if(state.status.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state.status.isLoaded) {
+                      return ListView.builder(
+                        itemCount: template.exerciseGroups.length,
+                        itemBuilder: (context, index) {
+                          final exerciseGroup = template.exerciseGroups[index];
+                          Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                          return ListTile(
+                            leading: CircleAvatar(
+                              child: Text(
+                                exercise.name.substring(0, 1),
+                              ),
+                            ),
+                            title: Text(
+                              exercise.name,
+                              style: T(context).textStyle.bodyLarge,
+                            ),
+                            subtitle: Text(
+                              exerciseGroup.sets.length.toString(),
+                              style: T(context).textStyle.bodyMedium,
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
                         child: Text(
-                          exerciseGroup.exercise.name.substring(0, 1),
+                          'Error',
                         ),
-                      ),
-                      title: Text(
-                        exerciseGroup.exercise.name,
-                        style: T(context).textStyle.bodyLarge,
-                      ),
-                      subtitle: Text(
-                        exerciseGroup.exerciseSets.length.toString(),
-                        style: T(context).textStyle.bodyMedium,
-                      ),
-                    );
+                      );
+                    }
                   },
                 ),
                 const Center(

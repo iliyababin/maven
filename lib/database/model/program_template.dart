@@ -25,12 +25,14 @@ class ProgramTemplate extends Routine {
   const ProgramTemplate({
     super.id,
     required super.name,
-    required super.description,
+    required super.note,
     required super.timestamp,
     required this.day,
     required this.complete,
     required this.folderId,
     this.exerciseBundles = const [],
+    super.sort = -1,
+    required super.type,
   });
 
   @ColumnInfo(name: 'day')
@@ -49,22 +51,26 @@ class ProgramTemplate extends Routine {
   ProgramTemplate copyWith({
     int? id,
     String? name,
-    String? description,
+    String? note,
     DateTime? timestamp,
     Day? day,
     bool? complete,
     int? folderId,
     List<ExerciseBundle>? exerciseBundles,
+    int? sort,
+    RoutineType? type,
   }) {
     return ProgramTemplate(
       id: id ?? this.id,
       name: name ?? this.name,
-      description: description ?? this.description,
+      note: note ?? this.note,
       timestamp: timestamp ?? this.timestamp,
       day: day ?? this.day,
       complete: complete ?? this.complete,
       folderId: folderId ?? this.folderId,
       exerciseBundles: exerciseBundles ?? this.exerciseBundles,
+      sort: sort ?? this.sort,
+      type: type ?? this.type,
     );
   }
 
@@ -72,7 +78,7 @@ class ProgramTemplate extends Routine {
   List<Object?> get props => [
         id,
         name,
-        description,
+        note,
         timestamp,
         day,
         complete,

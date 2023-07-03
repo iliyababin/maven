@@ -3,13 +3,26 @@ import 'package:floor/floor.dart';
 
 import '../database.dart';
 
-class ExerciseSet extends Equatable {
-  const ExerciseSet({
-    required this.id,
+@Entity(
+  tableName: 'exercise_set',
+  primaryKeys: [
+    'id',
+  ],
+  foreignKeys: [
+    ForeignKey(
+      childColumns: ['exercise_group_id'],
+      parentColumns: ['id'],
+      entity: BaseExerciseGroup,
+      onDelete: ForeignKeyAction.cascade,
+    ),
+  ],
+)
+class BaseExerciseSet extends Equatable {
+  const BaseExerciseSet({
+    this.id,
     required this.type,
     required this.checked,
     required this.exerciseGroupId,
-    this.data = const [],
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -25,31 +38,25 @@ class ExerciseSet extends Equatable {
   @ColumnInfo(name: 'exercise_group_id')
   final int exerciseGroupId;
 
-  @ignore
-  final List<ExerciseSetData> data;
-
   @override
   List<Object?> get props => [
         id,
         type,
         checked,
         exerciseGroupId,
-        data,
       ];
 
-  ExerciseSet copyWith({
+  BaseExerciseSet copyWith({
     int? id,
     ExerciseSetType? type,
     bool? checked,
     int? exerciseGroupId,
-    List<ExerciseSetData>? data,
   }) {
-    return ExerciseSet(
+    return BaseExerciseSet(
       id: id ?? this.id,
       type: type ?? this.type,
       checked: checked ?? this.checked,
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
-      data: data ?? this.data,
     );
   }
 }

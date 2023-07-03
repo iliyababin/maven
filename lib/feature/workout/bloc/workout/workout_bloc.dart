@@ -13,53 +13,29 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc({
     required this.exerciseDao,
     required this.exerciseFieldDao,
-    required this.workoutDao,
-    required this.workoutExerciseGroupDao,
-    required this.workoutExerciseGroupNoteDao,
-    required this.workoutExerciseSetDao,
-    required this.workoutExerciseSetDataDao,
-    required this.templateExerciseGroupDao,
-    required this.templateExerciseGroupNoteDao,
-    required this.templateExerciseSetDao,
-    required this.templateExerciseSetDataDao,
-    required this.completeDao,
-    required this.completeExerciseGroupDao,
-    required this.completeExerciseSetDao,
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
-    on<WorkoutFinish>(_finish);
+    /*on<WorkoutFinish>(_finish);
     on<WorkoutUpdate>(_update);
     on<WorkoutToggle>(_toggle);
     on<WorkoutDelete>(_delete);
 
     on<WorkoutExerciseAdd>(_exerciseAdd);
     on<WorkoutExerciseUpdate>(_exerciseUpdate);
-    on<WorkoutExerciseDelete>(_exerciseDelete);
+    on<WorkoutExerciseDelete>(_exerciseDelete);*/
   }
 
   final ExerciseDao exerciseDao;
   final ExerciseFieldDao exerciseFieldDao;
 
-  final WorkoutDao workoutDao;
-  final WorkoutExerciseGroupDao workoutExerciseGroupDao;
-  final WorkoutExerciseGroupNoteDao workoutExerciseGroupNoteDao;
-  final WorkoutExerciseSetDao workoutExerciseSetDao;
-  final WorkoutExerciseSetDataDao workoutExerciseSetDataDao;
-  final TemplateExerciseGroupDao templateExerciseGroupDao;
-  final TemplateExerciseGroupNoteDao templateExerciseGroupNoteDao;
-  final TemplateExerciseSetDao templateExerciseSetDao;
-  final TemplateExerciseSetDataDao templateExerciseSetDataDao;
-  final SessionDao completeDao;
-  final SessionExerciseGroupDao completeExerciseGroupDao;
-  final SessionExerciseSetDao completeExerciseSetDao;
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
     emit(state.copyWith(
       status: WorkoutStatus.loading,
     ));
 
-    Workout? workout = await workoutDao.getActiveWorkout();
+   /* Workout? workout = await workoutDao.getActiveWorkout();
 
     List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
 
@@ -77,20 +53,20 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         exerciseBundles: exerciseBundles,
         pausedWorkouts: pausedWorkouts,
       ));
-    }
+    }*/
   }
 
   Future<void> _start(WorkoutStart event, Emitter<WorkoutState> emit) async {
-    if (state.status.isActive) {
+    /*if (state.status.isActive) {
       workoutDao.deleteWorkout(state.workout!);
       emit(state.copyWith(
         status: WorkoutStatus.none,
       ));
     }
 
-    int workoutId = await workoutDao.addWorkout(Workout(
+ int workoutId = await workoutDao.addWorkout(Workout(
       name: event.template.name,
-      description: event.template.description,
+      description: event.template.note,
       active: true,
       timestamp: DateTime.now(),
     ));
@@ -137,14 +113,13 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     Workout? workout = await workoutDao.getWorkout(workoutId);
 
     List<ExerciseBundle> exerciseBundles = await _fetch(workoutId);
-
+*/
     emit(state.copyWith(
       status: WorkoutStatus.active,
-      workout: workout!,
-      exerciseBundles: exerciseBundles,
     ));
-  }
 
+  }
+/*
   Future<void> _finish(WorkoutFinish event, Emitter<WorkoutState> emit) async {
     emit(state.copyWith(status: WorkoutStatus.none));
   }
@@ -152,7 +127,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   Future<List<ExerciseBundle>> _fetch(int workoutId) async {
     List<ExerciseBundle> exerciseBundles = [];
 
-    List<ExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workoutId);
+List<ExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workoutId);
 
     for (ExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
@@ -174,6 +149,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         barId: workoutExerciseGroup.barId,
       ));
     }
+
     return exerciseBundles;
   }
 
@@ -194,13 +170,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           workoutId: state.workout!.id!,
         ));
 
-        for (var exerciseSetData in exerciseSet.data!) {
+ for (var exerciseSetData in exerciseSet.data!) {
           await workoutExerciseSetDataDao.addWorkoutExerciseSetData(WorkoutExerciseSetData(
             value: exerciseSetData.value,
             fieldType: exerciseSetData.fieldType,
             exerciseSetId: exerciseSet.id!,
           ));
         }
+
       }
     }
   }
@@ -262,7 +239,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         ),
       );
 
-      for (var exerciseSetData in event.exerciseSet!.data) {
+for (var exerciseSetData in event.exerciseSet!.data) {
         await workoutExerciseSetDataDao.updateWorkoutExerciseSetData(WorkoutExerciseSetData(
           id: exerciseSetData.id,
           value: exerciseSetData.value,
@@ -270,6 +247,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           exerciseSetId: event.exerciseSet!.id!,
         ));
       }
+
     }
   }
 
@@ -290,9 +268,9 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       );
     }
   }
-}
+}*/
 
-WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
+/*WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
   return WorkoutExerciseGroup(
     id: exerciseGroup.id,
     timer: exerciseGroup.timer,
@@ -301,5 +279,5 @@ WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int wor
     barId: exerciseGroup.barId,
     exerciseId: exerciseGroup.exerciseId,
     workoutId: workoutId,
-  );
+  );*/
 }
