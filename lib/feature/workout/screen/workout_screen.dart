@@ -79,12 +79,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 ...exerciseGroups,
                               ]);
                             });
-
-                            // ignore: use_build_context_synchronously
-                            context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
-                              action: ExerciseGroupAction.add,
-                              exerciseGroups: exerciseGroups,
-                            ));
                           }
                         },
                         height: 38,
@@ -134,7 +128,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               ),
                               ListTile(
                                 onTap: () {
-                                 /* Navigator.pop(context);
+                                  Navigator.pop(context);
                                   showBottomSheetDialog(
                                     context: context,
                                     child: ConfirmationDialog(
@@ -146,11 +140,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                         foregroundColor: MaterialStateProperty.all(T(context).color.onError),
                                       ),
                                       onSubmit: () {
-                                        context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
+                                        context.read<WorkoutBloc>().add(const WorkoutDelete());
                                       },
                                     ),
-                                    onClose: () {},
-                                  );*/
+                                  );
                                 },
                                 leading: Icon(
                                   Icons.delete_rounded,
@@ -188,11 +181,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 ),
                 MButton(
                   onPressed: () {
-                    /* context.read<SessionBloc>().add(SessionAdd(
+                    // TODO: ship data to session
+                     /*context.read<SessionBloc>().add(SessionAdd(
                           workout: workout,
                           exerciseBundles: exerciseBundles,
-                        ));
-                    context.read<WorkoutBloc>().add(WorkoutFinish());*/
+                        ));*/
+                    exerciseTimerController.dispose();
+                    context.read<WorkoutBloc>().add(WorkoutFinish(workout: workout));
                   },
                   height: 38,
                   width: 84,
@@ -273,24 +268,30 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 setState(() {
                                   workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = value);
                                 });
-                                context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
-                                      action: ExerciseGroupAction.update,
-                                      exerciseGroups: [value],
-                                    ));
                               },
                               onExerciseGroupDelete: () {
                                 setState(() {
                                   workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..removeAt(index));
                                 });
-                                context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
-                                      action: ExerciseGroupAction.delete,
-                                      exerciseGroups: [exerciseGroup],
-                                    ));
                               },
-                              onExerciseSetAdd: (value) {},
-                              onExerciseSetUpdate: (value, index) {},
-                              onExerciseSetToggled: (value) {},
-                              onExerciseSetDelete: (value) {},
+                              onExerciseSetAdd: (value) {
+                                setState(() {
+                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..add(value)));
+                                });
+                              },
+                              onExerciseSetUpdate: (value, index2) {
+                                setState(() {
+                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
+                                });
+                              },
+                              onExerciseSetToggled: (value, index2) {
+                                workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
+                              },
+                              onExerciseSetDelete: (value, index2) {
+                                setState(() {
+                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..removeAt(index2)));
+                                });
+                              },
                               checkboxEnabled: true,
                             );
                           },

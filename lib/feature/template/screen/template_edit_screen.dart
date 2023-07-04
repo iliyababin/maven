@@ -155,11 +155,13 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                             exerciseGroups[index].sets[setIndex] = value;
                           });
                         },
-                        onExerciseSetDelete: (value) {
+                        onExerciseSetDelete: (value, index2) {
                           setState(() {
-                            exerciseGroups[index].sets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
+                            exerciseGroups[index].sets.removeAt(index2);
                           });
                         },
+                        onExerciseSetToggled: (value, index2) {
+                        }
                       );
                     },
                   ),

@@ -23,7 +23,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
-    on<WorkoutExerciseGroup>(_exerciseGroup);
+    on<WorkoutFinish>(_finish);
+    on<WorkoutDelete>(_delete);
   }
 
   final RoutineDao routineDao;
@@ -32,7 +33,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
   final WorkoutDataDao workoutDataDao;
-
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
     Workout? workout = await _getWorkout();
@@ -43,31 +43,64 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _start(WorkoutStart event, Emitter<WorkoutState> emit) async {
-    int workoutId = await routineDao.add(Routine(
-      name: event.routine.name,
-      note: event.routine.note,
-      timestamp: DateTime.now(),
-      sort: -1,
-      type: RoutineType.workout,
-    ));
-
     await workoutDataDao.add(WorkoutData(
       isActive: true,
       timeElapsed: const Timed.zero(),
-      routineId: workoutId,
+      routineId: await _addRoutine(event.routine, RoutineType.workout),
     ));
 
-    for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(event.routine.id!)) {
+    emit(state.copyWith(
+      status: WorkoutStatus.active,
+      workout: await _getWorkout(),
+    ));
+  }
+
+  Future<void> _finish(WorkoutFinish event, Emitter<WorkoutState> emit) async {
+    emit(state.copyWith(
+      status: WorkoutStatus.loading,
+    ));
+
+    await routineDao.remove(event.workout.routine);
+    await workoutDataDao.remove(event.workout.data);
+
+    emit(state.copyWith(
+      status: WorkoutStatus.none,
+    ));
+  }
+
+  Future<void> _delete(WorkoutDelete event, Emitter<WorkoutState> emit) async {
+    emit(state.copyWith(
+      status: WorkoutStatus.loading,
+    ));
+
+    await routineDao.remove(state.workout!.routine);
+    await workoutDataDao.remove(state.workout!.data);
+
+    emit(state.copyWith(
+      status: WorkoutStatus.none,
+    ));
+  }
+
+  Future<int> _addRoutine(Routine routine, RoutineType type) async {
+    int routineId = await routineDao.add(Routine(
+      name: routine.name,
+      note: routine.note,
+      timestamp: DateTime.now(),
+      sort: -1,
+      type: type,
+    ));
+
+    for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
       int exerciseGroupId = await exerciseGroupDao.add(BaseExerciseGroup(
         timer: exerciseGroup.timer,
         weightUnit: exerciseGroup.weightUnit,
         distanceUnit: exerciseGroup.distanceUnit,
         exerciseId: exerciseGroup.exerciseId,
         barId: exerciseGroup.barId,
-        routineId: workoutId,
+        routineId: routineId,
       ));
 
-      for(BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+      for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
         await noteDao.add(BaseNote(
           data: note.data,
           exerciseGroupId: exerciseGroupId,
@@ -90,31 +123,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         }
       }
     }
-
-    emit(state.copyWith(
-      status: WorkoutStatus.active,
-      workout: await _getWorkout(),
-    ));
-  }
-
-  Future<void> _exerciseGroup(WorkoutExerciseGroup event, Emitter<WorkoutState> emit) async {
-    switch (event.action) {
-      case ExerciseGroupAction.add:
-        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
-          exerciseGroupDao.add(exerciseGroup);
-        }
-        break;
-      case ExerciseGroupAction.update:
-        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
-          exerciseGroupDao.modify(exerciseGroup);
-        }
-        break;
-      case ExerciseGroupAction.delete:
-        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
-          exerciseGroupDao.remove(exerciseGroup);
-        }
-        break;
-    }
+    return routineId;
   }
 
   Future<Workout?> _getWorkout() async {
@@ -132,7 +141,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     List<ExerciseGroup> exerciseGroups = [];
 
-    for(BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
+    for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
       List<Note> notes = [];
       for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
         notes.add(Note(
@@ -145,7 +154,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       List<ExerciseSet> exerciseSets = [];
       for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
         List<ExerciseSetData> exerciseSetData = [];
-        for(BaseExerciseSetData baseExerciseSetData in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
+        for (BaseExerciseSetData baseExerciseSetData in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
           exerciseSetData.add(ExerciseSetData(
             id: baseExerciseSetData.id,
             value: baseExerciseSetData.value,
@@ -155,12 +164,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         }
 
         exerciseSets.add(ExerciseSet(
-          id: exerciseSet.id,
-          type: exerciseSet.type,
-          checked: exerciseSet.checked,
-          exerciseGroupId: exerciseSet.exerciseGroupId,
-          data: exerciseSetData
-        ));
+            id: exerciseSet.id, type: exerciseSet.type, checked: exerciseSet.checked, exerciseGroupId: exerciseSet.exerciseGroupId, data: exerciseSetData));
       }
 
       exerciseGroups.add(ExerciseGroup(
@@ -178,7 +182,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
 
     return Workout(
       routine: routine,
-      workoutData: workoutData.first,
+      data: workoutData.first,
       exerciseGroups: exerciseGroups,
     );
   }

@@ -25,45 +25,20 @@ class WorkoutStart extends WorkoutEvent {
 }
 
 class WorkoutFinish extends WorkoutEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-enum ExerciseGroupAction {
-  add,
-  update,
-  delete,
-}
-
-
-class WorkoutExerciseGroup extends WorkoutEvent {
-  const WorkoutExerciseGroup({
-    required this.action,
-    this.exerciseGroups = const [],
+  const WorkoutFinish({
+    required this.workout,
   });
 
-  final ExerciseGroupAction action;
-  final List<ExerciseGroup> exerciseGroups;
+  final Workout workout;
 
   @override
   List<Object?> get props => [
-    action,
-    exerciseGroups,
-  ];
-}
-
-class WorkoutToggle extends WorkoutEvent {
-  const WorkoutToggle();
-
-
-  @override
-  List<Object?> get props => [
+    workout,
   ];
 }
 
 class WorkoutDelete extends WorkoutEvent {
   const WorkoutDelete();
-
 
   @override
   List<Object?> get props => [

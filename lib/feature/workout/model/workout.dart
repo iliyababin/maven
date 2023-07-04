@@ -7,22 +7,22 @@ import '../../exercise/exercise.dart';
 class Workout extends Equatable {
   const Workout({
     required this.routine,
-    required this.workoutData,
+    required this.data,
     this.exerciseGroups = const [],
   });
 
   final Routine routine;
-  final WorkoutData workoutData;
+  final WorkoutData data;
   final List<ExerciseGroup> exerciseGroups;
 
   Workout copyWith({
     Routine? routine,
-    WorkoutData? workoutData,
+    WorkoutData? data,
     List<ExerciseGroup>? exerciseGroups,
   }) {
     return Workout(
       routine: routine ?? this.routine,
-      workoutData: workoutData ?? this.workoutData,
+      data: data ?? this.data,
       exerciseGroups: exerciseGroups ?? this.exerciseGroups,
     );
   }
@@ -30,7 +30,7 @@ class Workout extends Equatable {
   @override
   List<Object?> get props => [
     routine,
-    workoutData,
+    data,
     exerciseGroups,
   ];
 }

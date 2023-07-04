@@ -23,7 +23,7 @@ class ExerciseGroupWidget extends StatefulWidget {
     required this.onExerciseGroupDelete,
     required this.onExerciseSetAdd,
     required this.onExerciseSetUpdate,
-    this.onExerciseSetToggled,
+    required this.onExerciseSetToggled,
     required this.onExerciseSetDelete,
     this.checkboxEnabled = false,
     this.hintsEnabled = false,
@@ -54,10 +54,10 @@ class ExerciseGroupWidget extends StatefulWidget {
   final Function(ExerciseSet value, int setIndex) onExerciseSetUpdate;
 
   /// A callback function that is called when an [BaseExerciseSet] is deleted.
-  final ValueChanged<ExerciseSet> onExerciseSetDelete;
+  final Function(ExerciseSet value, int setIndex) onExerciseSetDelete;
 
   /// A callback function that is called when an [BaseExerciseSet] is toggled.
-  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
+  final Function(ExerciseSet value, int setIndex) onExerciseSetToggled;
 
   /// Indicates whether or not checkboxes should be enabled for the [BaseExerciseSet]'s.
   final bool checkboxEnabled;
@@ -294,7 +294,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     SlidableAction(
                       onPressed: (BuildContext context) {
                         ExerciseSet exerciseSet = widget.exerciseSets[index];
-                        widget.onExerciseSetDelete(exerciseSet);
+                        widget.onExerciseSetDelete(exerciseSet, index);
                       },
                       padding: EdgeInsets.zero,
                       icon: Icons.delete,
@@ -313,7 +313,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                   },
                   onExerciseSetToggled: (value) {
                     if (widget.onExerciseSetToggled != null) {
-                      widget.onExerciseSetToggled!(value);
+                      widget.onExerciseSetToggled!(value, index);
                       if (value.checked == true && widget.controller != null) {
                         widget.controller!.startTimer(widget.exerciseGroup.timer);
                       }
@@ -331,7 +331,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               ExerciseSet exerciseSet = ExerciseSet(
                 checked: false,
                 type: ExerciseSetType.regular,
-                exerciseGroupId: -1,
+                exerciseGroupId: widget.exerciseGroup.id ?? -1,
                 data: widget.exercise.fields.map((e) {
                   return ExerciseSetData(
                     value: '',
