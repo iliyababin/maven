@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'converter/converter.dart';
 import 'dao/dao.dart';
-import 'dao/exercise_set_data_dao.dart';
 import 'data/data.dart';
 import 'enum/enum.dart';
 import 'model/model.dart';
@@ -35,6 +34,7 @@ part 'database.g.dart';
     Setting,
     Routine,
     BaseNote,
+    WorkoutData,
   ],
 )
 @TypeConverters([
@@ -60,6 +60,7 @@ abstract class MavenDatabase extends FloorDatabase {
   RoutineDao get routineDao;
   SettingDao get settingDao;
   NoteDao get noteDao;
+  WorkoutDataDao get workoutDataDao;
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {

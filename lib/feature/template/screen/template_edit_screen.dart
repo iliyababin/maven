@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:maven/feature/note/screen/markdown_editor.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../note/note.dart';
 
 typedef TemplateEditCallback = void Function(Routine routine, List<ExerciseGroup> exerciseGroups);
 
@@ -28,9 +27,6 @@ class EditTemplateScreen extends StatefulWidget {
 class _EditTemplateScreenState extends State<EditTemplateScreen> {
   late Routine routine;
   late List<ExerciseGroup> exerciseGroups;
-
-  late bool editing = false;
-  late FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
@@ -114,88 +110,14 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
                     ),
                     style: T(context).textStyle.headingLarge,
                   ),
-                  editing
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                minLines: 1,
-                                maxLines: 20,
-                                focusNode: focusNode,
-                                onChanged: (value) {
-                                  routine = routine.copyWith(note: value);
-                                },
-                                onTapOutside: (event) {
-                                  FocusScope.of(context).unfocus();
-                                  setState(() {
-                                    editing = false;
-                                  });
-                                },
-                                initialValue: routine.note,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.all(0.0),
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                ),
-                                style: T(context).textStyle.bodyMedium,
-                              ),
-                            ),
-                          ],
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              focusNode.requestFocus();
-                              editing = true;
-                            });
-                          },
-                          child: routine.note.isNotEmpty
-                              ? Row(
-                                  children: [
-                                    Flexible(
-                                      child: MarkdownBody(
-                                        softLineBreak: true,
-                                        data: routine.note,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return MarkdownEditor(
-                                                string: routine.note,
-                                              );
-                                            },
-                                          ),
-                                        ).then((value) {
-                                          if (value != null) {
-                                            setState(() {
-                                              routine = routine.copyWith(note: value);
-                                            });
-                                          }
-                                        });
-                                      },
-                                      padding: EdgeInsets.zero,
-                                      constraints: const BoxConstraints(),
-                                      icon: Icon(
-                                        Icons.edit_rounded,
-                                        size: T(context).textStyle.bodyLarge.fontSize,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : Text(
-                                  'Add a note',
-                                  style: TextStyle(
-                                    color: T(context).color.onSurfaceVariant,
-                                  ),
-                                ),
-                        ),
+                  NoteWidget(
+                    note: routine.note,
+                    onChanged: (value) {
+                      setState(() {
+                        routine = routine.copyWith(note: value);
+                      });
+                    },
+                  ),
                 ],
               ),
             ),

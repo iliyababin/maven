@@ -13,14 +13,14 @@ class WorkoutInitialize extends WorkoutEvent {
 
 class WorkoutStart extends WorkoutEvent {
   const WorkoutStart({
-    required this.template,
+    required this.routine,
   });
 
-  final Routine template;
+  final Routine routine;
 
   @override
   List<Object?> get props => [
-    template,
+    routine,
   ];
 }
 
@@ -29,12 +29,26 @@ class WorkoutFinish extends WorkoutEvent {
   List<Object?> get props => [];
 }
 
-class WorkoutUpdate extends WorkoutEvent {
-  const WorkoutUpdate();
+enum ExerciseGroupAction {
+  add,
+  update,
+  delete,
+}
 
+
+class WorkoutExerciseGroup extends WorkoutEvent {
+  const WorkoutExerciseGroup({
+    required this.action,
+    this.exerciseGroups = const [],
+  });
+
+  final ExerciseGroupAction action;
+  final List<ExerciseGroup> exerciseGroups;
 
   @override
   List<Object?> get props => [
+    action,
+    exerciseGroups,
   ];
 }
 

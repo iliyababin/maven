@@ -6,7 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../workout.dart';
+import '../workout_data.dart';
 
 class PausedWorkoutWidget extends StatelessWidget {
   const PausedWorkoutWidget({

@@ -240,7 +240,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                           subtitle: 'This will delete any current workout.',
                           confirmText: 'Start',
                           onSubmit: () {
-                            context.read<WorkoutBloc>().add(WorkoutStart(template: template));
+                            context.read<WorkoutBloc>().add(WorkoutStart(routine: template));
                             Navigator.pop(context);
                           },
                         ),

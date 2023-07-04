@@ -32,6 +32,7 @@ class ExerciseGroup extends BaseExerciseGroup {
     List<ExerciseSet>? sets,
   }) {
     return ExerciseGroup(
+      id: id ?? this.id,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
       distanceUnit: distanceUnit ?? this.distanceUnit,

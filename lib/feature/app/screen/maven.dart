@@ -41,7 +41,7 @@ class _MavenState extends State<Maven> {
       backgroundColor: T(context).color.background,
       body: SafeArea(child: BlocBuilder<WorkoutBloc, WorkoutState>(
         builder: (context, state) {
-          if (state.status.isLoading) {
+          if (state.status.isLoading || state.status.isNone) {
             return screens[_selectedIndex];
           } else if (state.status.isActive) {
             return SlidingUpPanel(
@@ -125,10 +125,9 @@ class _MavenState extends State<Maven> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
-                    /*WorkoutScreen(
+                    WorkoutScreen(
                       workout: state.workout!,
-                      exerciseBundles: state.exerciseBundles,
-                    ),*/
+                    ),
                   ],
                 ),
               ),

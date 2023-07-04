@@ -3,281 +3,183 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/common.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
+import '../../../note/note.dart';
+import '../../model/workout.dart';
 
 part 'workout_event.dart';
 part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc({
-    required this.exerciseDao,
-    required this.exerciseFieldDao,
+    required this.routineDao,
+    required this.exerciseGroupDao,
+    required this.exerciseSetDao,
+    required this.exerciseSetDataDao,
+    required this.noteDao,
+    required this.workoutDataDao,
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
-    /*on<WorkoutFinish>(_finish);
-    on<WorkoutUpdate>(_update);
-    on<WorkoutToggle>(_toggle);
-    on<WorkoutDelete>(_delete);
-
-    on<WorkoutExerciseAdd>(_exerciseAdd);
-    on<WorkoutExerciseUpdate>(_exerciseUpdate);
-    on<WorkoutExerciseDelete>(_exerciseDelete);*/
+    on<WorkoutExerciseGroup>(_exerciseGroup);
   }
 
-  final ExerciseDao exerciseDao;
-  final ExerciseFieldDao exerciseFieldDao;
+  final RoutineDao routineDao;
+  final ExerciseGroupDao exerciseGroupDao;
+  final ExerciseSetDao exerciseSetDao;
+  final ExerciseSetDataDao exerciseSetDataDao;
+  final NoteDao noteDao;
+  final WorkoutDataDao workoutDataDao;
 
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
+    Workout? workout = await _getWorkout();
     emit(state.copyWith(
-      status: WorkoutStatus.loading,
+      status: workout == null ? WorkoutStatus.none : WorkoutStatus.active,
+      workout: workout,
     ));
-
-   /* Workout? workout = await workoutDao.getActiveWorkout();
-
-    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
-
-    if (workout == null) {
-      emit(state.copyWith(
-        status: WorkoutStatus.none,
-        pausedWorkouts: pausedWorkouts,
-      ));
-    } else {
-      List<ExerciseBundle> exerciseBundles = await _fetch(workout.id!);
-
-      emit(state.copyWith(
-        status: WorkoutStatus.active,
-        workout: workout,
-        exerciseBundles: exerciseBundles,
-        pausedWorkouts: pausedWorkouts,
-      ));
-    }*/
   }
 
   Future<void> _start(WorkoutStart event, Emitter<WorkoutState> emit) async {
-    /*if (state.status.isActive) {
-      workoutDao.deleteWorkout(state.workout!);
-      emit(state.copyWith(
-        status: WorkoutStatus.none,
-      ));
-    }
-
- int workoutId = await workoutDao.addWorkout(Workout(
-      name: event.template.name,
-      description: event.template.note,
-      active: true,
+    int workoutId = await routineDao.add(Routine(
+      name: event.routine.name,
+      note: event.routine.note,
       timestamp: DateTime.now(),
+      sort: -1,
+      type: RoutineType.workout,
     ));
 
-    List<TemplateExerciseGroup> templateExerciseGroups = await templateExerciseGroupDao.getByTemplateId(event.template.id!);
+    await workoutDataDao.add(WorkoutData(
+      isActive: true,
+      timeElapsed: const Timed.zero(),
+      routineId: workoutId,
+    ));
 
-    for (TemplateExerciseGroup templateExerciseGroup in templateExerciseGroups) {
-      int workoutExerciseGroupId = await workoutExerciseGroupDao.addWorkoutExerciseGroup(WorkoutExerciseGroup(
-        timer: templateExerciseGroup.timer,
-        barId: templateExerciseGroup.barId,
-        weightUnit: templateExerciseGroup.weightUnit,
-        distanceUnit: templateExerciseGroup.distanceUnit,
-        exerciseId: templateExerciseGroup.exerciseId,
-        workoutId: workoutId,
+    for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(event.routine.id!)) {
+      int exerciseGroupId = await exerciseGroupDao.add(BaseExerciseGroup(
+        timer: exerciseGroup.timer,
+        weightUnit: exerciseGroup.weightUnit,
+        distanceUnit: exerciseGroup.distanceUnit,
+        exerciseId: exerciseGroup.exerciseId,
+        barId: exerciseGroup.barId,
+        routineId: workoutId,
       ));
 
-      for(TemplateExerciseGroupNote templateExerciseGroupNote in await templateExerciseGroupNoteDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!)) {
-        await workoutExerciseGroupNoteDao.add(WorkoutExerciseGroupNote(
-          data: templateExerciseGroupNote.data,
-          exerciseGroupId: workoutExerciseGroupId,
+      for(BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        await noteDao.add(BaseNote(
+          data: note.data,
+          exerciseGroupId: exerciseGroupId,
         ));
       }
 
-      List<TemplateExerciseSet> templateExerciseSets = await templateExerciseSetDao.getByTemplateExerciseGroupId(templateExerciseGroup.id!);
-
-      for (TemplateExerciseSet templateExerciseSet in templateExerciseSets) {
-        int workoutExerciseSetId = await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
-          exerciseGroupId: workoutExerciseGroupId,
-          workoutId: workoutId,
-          checked: false,
-          type: templateExerciseSet.type,
+      for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        int exerciseSetId = await exerciseSetDao.add(BaseExerciseSet(
+          type: exerciseSet.type,
+          checked: exerciseSet.checked,
+          exerciseGroupId: exerciseGroupId,
         ));
 
-        for (ExerciseSetData templateExerciseSetData in await templateExerciseSetDataDao.getByExerciseSetId(templateExerciseSet.id!)) {
-          await workoutExerciseSetDataDao.addWorkoutExerciseSetData(WorkoutExerciseSetData(
-            value: templateExerciseSetData.value,
-            fieldType: templateExerciseSetData.fieldType,
-            exerciseSetId: workoutExerciseSetId,
+        for (BaseExerciseSetData exerciseSetData in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
+          await exerciseSetDataDao.add(BaseExerciseSetData(
+            value: exerciseSetData.value,
+            fieldType: exerciseSetData.fieldType,
+            exerciseSetId: exerciseSetId,
           ));
         }
       }
     }
 
-    Workout? workout = await workoutDao.getWorkout(workoutId);
-
-    List<ExerciseBundle> exerciseBundles = await _fetch(workoutId);
-*/
     emit(state.copyWith(
       status: WorkoutStatus.active,
+      workout: await _getWorkout(),
     ));
-
-  }
-/*
-  Future<void> _finish(WorkoutFinish event, Emitter<WorkoutState> emit) async {
-    emit(state.copyWith(status: WorkoutStatus.none));
   }
 
-  Future<List<ExerciseBundle>> _fetch(int workoutId) async {
-    List<ExerciseBundle> exerciseBundles = [];
+  Future<void> _exerciseGroup(WorkoutExerciseGroup event, Emitter<WorkoutState> emit) async {
+    switch (event.action) {
+      case ExerciseGroupAction.add:
+        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
+          exerciseGroupDao.add(exerciseGroup);
+        }
+        break;
+      case ExerciseGroupAction.update:
+        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
+          exerciseGroupDao.modify(exerciseGroup);
+        }
+        break;
+      case ExerciseGroupAction.delete:
+        for(ExerciseGroup exerciseGroup in event.exerciseGroups) {
+          exerciseGroupDao.remove(exerciseGroup);
+        }
+        break;
+    }
+  }
 
-List<ExerciseGroup> workoutExerciseGroups = await workoutExerciseGroupDao.getWorkoutExerciseGroupsByWorkoutId(workoutId);
+  Future<Workout?> _getWorkout() async {
+    List<WorkoutData> workoutData = await workoutDataDao.getByIsActive();
 
-    for (ExerciseGroup workoutExerciseGroup in workoutExerciseGroups) {
-      Exercise? exercise = await exerciseDao.getExercise(workoutExerciseGroup.exerciseId);
-      List<ExerciseField> exerciseFields = await exerciseFieldDao.getExerciseFieldsByExerciseId(workoutExerciseGroup.exerciseId);
-      exercise = exercise?.copyWith(fields: exerciseFields);
-
-      List<ExerciseSet> workoutExerciseSets = await workoutExerciseSetDao.getWorkoutExerciseSetsByWorkoutExerciseGroupId(workoutExerciseGroup.id!);
-      List<ExerciseSet> test = [];
-
-      for (ExerciseSet workoutExerciseSet in workoutExerciseSets) {
-        List<ExerciseSetData> workoutExerciseSetData = await workoutExerciseSetDataDao.getWorkoutExerciseSetDataByExerciseSetId(workoutExerciseSet.id!);
-        test.add(workoutExerciseSet.copyWith(data: workoutExerciseSetData));
-      }
-
-      exerciseBundles.add(ExerciseBundle(
-        exercise: exercise!,
-        exerciseGroup: workoutExerciseGroup.copyWith(notes: await workoutExerciseGroupNoteDao.getByWorkoutExerciseGroupId(workoutExerciseGroup.id!)),
-        exerciseSets: test,
-        barId: workoutExerciseGroup.barId,
-      ));
+    if (workoutData.isEmpty) {
+      return null;
     }
 
-    return exerciseBundles;
-  }
+    Routine? routine = await routineDao.get(workoutData.first.routineId);
 
-  Future<void> _exerciseAdd(WorkoutExerciseAdd event, Emitter<WorkoutState> emit) async {
-    if (event.exerciseGroups != null) {
-      for (var exerciseGroup in event.exerciseGroups!) {
-        await workoutExerciseGroupDao.addWorkoutExerciseGroup(toWorkoutExerciseGroup(exerciseGroup, state.workout!.id!));
-      }
+    if (routine == null) {
+      throw Exception('Routine was not found. wtf happened?');
     }
 
-    if (event.exerciseSets != null) {
-      for (var exerciseSet in event.exerciseSets!) {
-        await workoutExerciseSetDao.addWorkoutExerciseSet(WorkoutExerciseSet(
+    List<ExerciseGroup> exerciseGroups = [];
+
+    for(BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
+      List<Note> notes = [];
+      for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        notes.add(Note(
+          id: note.id,
+          data: note.data,
+          exerciseGroupId: note.exerciseGroupId,
+        ));
+      }
+
+      List<ExerciseSet> exerciseSets = [];
+      for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        List<ExerciseSetData> exerciseSetData = [];
+        for(BaseExerciseSetData baseExerciseSetData in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
+          exerciseSetData.add(ExerciseSetData(
+            id: baseExerciseSetData.id,
+            value: baseExerciseSetData.value,
+            fieldType: baseExerciseSetData.fieldType,
+            exerciseSetId: baseExerciseSetData.exerciseSetId,
+          ));
+        }
+
+        exerciseSets.add(ExerciseSet(
           id: exerciseSet.id,
           type: exerciseSet.type,
           checked: exerciseSet.checked,
           exerciseGroupId: exerciseSet.exerciseGroupId,
-          workoutId: state.workout!.id!,
-        ));
-
- for (var exerciseSetData in exerciseSet.data!) {
-          await workoutExerciseSetDataDao.addWorkoutExerciseSetData(WorkoutExerciseSetData(
-            value: exerciseSetData.value,
-            fieldType: exerciseSetData.fieldType,
-            exerciseSetId: exerciseSet.id!,
-          ));
-        }
-
-      }
-    }
-  }
-
-  Future<void> _update(WorkoutUpdate event, Emitter<WorkoutState> emit) async {
-    await workoutDao.updateWorkout(event.workout);
-    emit(state.copyWith(
-      workout: event.workout,
-    ));
-  }
-
-  Future<void> _toggle(WorkoutToggle event, Emitter<WorkoutState> emit) async {
-    if (state.status.isActive && event.workout.active) {
-      await workoutDao.deleteWorkout(event.workout);
-    }
-
-    await workoutDao.updateWorkout(event.workout);
-
-    List<Workout> pausedWorkouts = await workoutDao.getPausedWorkouts();
-
-    if (event.workout.active) {
-      List<ExerciseBundle> exerciseBundles = await _fetch(event.workout.id!);
-      emit(state.copyWith(
-        status: WorkoutStatus.active,
-        workout: event.workout,
-        pausedWorkouts: pausedWorkouts,
-        exerciseBundles: exerciseBundles,
-      ));
-    } else {
-      emit(state.copyWith(
-        status: WorkoutStatus.none,
-        pausedWorkouts: pausedWorkouts,
-      ));
-    }
-  }
-
-  Future<void> _delete(WorkoutDelete event, Emitter<WorkoutState> emit) async {
-    await workoutDao.deleteWorkout(event.workout);
-
-    emit(state.copyWith(
-      status: WorkoutStatus.none,
-      exerciseBundles: [],
-    ));
-  }
-
-  Future<void> _exerciseUpdate(WorkoutExerciseUpdate event, Emitter<WorkoutState> emit) async {
-    if (event.exerciseGroup != null) {
-      await workoutExerciseGroupDao.updateWorkoutExerciseGroup(toWorkoutExerciseGroup(event.exerciseGroup!, state.workout!.id!));
-    }
-
-    if (event.exerciseSet != null) {
-      await workoutExerciseSetDao.updateWorkoutExerciseSet(
-        WorkoutExerciseSet(
-          id: event.exerciseSet!.id,
-          type: event.exerciseSet!.type,
-          checked: event.exerciseSet!.checked,
-          exerciseGroupId: event.exerciseSet!.exerciseGroupId,
-          workoutId: state.workout!.id!,
-        ),
-      );
-
-for (var exerciseSetData in event.exerciseSet!.data) {
-        await workoutExerciseSetDataDao.updateWorkoutExerciseSetData(WorkoutExerciseSetData(
-          id: exerciseSetData.id,
-          value: exerciseSetData.value,
-          fieldType: exerciseSetData.fieldType,
-          exerciseSetId: event.exerciseSet!.id!,
+          data: exerciseSetData
         ));
       }
 
+      exerciseGroups.add(ExerciseGroup(
+        id: exerciseGroup.id,
+        timer: exerciseGroup.timer,
+        weightUnit: exerciseGroup.weightUnit,
+        distanceUnit: exerciseGroup.distanceUnit,
+        exerciseId: exerciseGroup.exerciseId,
+        barId: exerciseGroup.barId,
+        routineId: exerciseGroup.routineId,
+        notes: notes,
+        sets: exerciseSets,
+      ));
     }
+
+    return Workout(
+      routine: routine,
+      workoutData: workoutData.first,
+      exerciseGroups: exerciseGroups,
+    );
   }
-
-  Future<void> _exerciseDelete(WorkoutExerciseDelete event, Emitter<WorkoutState> emit) async {
-    if (event.exerciseGroup != null) {
-      await workoutExerciseGroupDao.deleteWorkoutExerciseGroup(toWorkoutExerciseGroup(event.exerciseGroup!, state.workout!.id!));
-    }
-
-    if (event.exerciseSet != null) {
-      await workoutExerciseSetDao.deleteWorkoutExerciseSet(
-        WorkoutExerciseSet(
-          id: event.exerciseSet!.id,
-          type: event.exerciseSet!.type,
-          checked: event.exerciseSet!.checked,
-          exerciseGroupId: event.exerciseSet!.exerciseGroupId,
-          workoutId: state.workout!.id!,
-        ),
-      );
-    }
-  }
-}*/
-
-/*WorkoutExerciseGroup toWorkoutExerciseGroup(ExerciseGroup exerciseGroup, int workoutId) {
-  return WorkoutExerciseGroup(
-    id: exerciseGroup.id,
-    timer: exerciseGroup.timer,
-    weightUnit: exerciseGroup.weightUnit,
-    distanceUnit: exerciseGroup.distanceUnit,
-    barId: exerciseGroup.barId,
-    exerciseId: exerciseGroup.exerciseId,
-    workoutId: workoutId,
-  );*/
 }

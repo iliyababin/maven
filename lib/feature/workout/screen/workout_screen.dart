@@ -1,4 +1,3 @@
-/*
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -8,19 +7,15 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
-import '../../exercise/model/exercise_group.dart';
-import '../../session/session.dart';
 import '../workout.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({
     Key? key,
     required this.workout,
-    required this.exerciseBundles,
   }) : super(key: key);
 
   final Workout workout;
-  final List<ExerciseBundle> exerciseBundles;
 
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
@@ -32,12 +27,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   ExerciseTimerController exerciseTimerController = ExerciseTimerController();
 
   late Workout workout;
-  late List<ExerciseBundle> exerciseBundles = [];
 
   @override
   void initState() {
     workout = widget.workout;
-    exerciseBundles = widget.exerciseBundles;
     super.initState();
   }
 
@@ -69,26 +62,29 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         onPressed: () async {
                           List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
                           if (exercises != null) {
-                            List<ExerciseBundle> exerciseBundles1 = exercises
-                                .map((exercise) => ExerciseBundle(
-                                    exercise: exercise,
-                                    barId: exercise.barId,
-                                    exerciseSets: [],
-                                    exerciseGroup: ExerciseGroup(
-                                      exerciseId: exercise.id!,
-                                      barId: exercise.barId,
-                                      timer: Timed(hour: 0, minute: 0, second: 0),
-                                      weightUnit: WeightUnit.lbs,
-                                      distanceUnit: exercise.distanceUnit,
-                                      routineId: -1,
-                                    )))
-                                .toList();
-
+                            List<ExerciseGroup> exerciseGroups = exercises.map((exercise) {
+                              return ExerciseGroup(
+                                id: DateTime.now().millisecondsSinceEpoch,
+                                timer: exercise.timer,
+                                weightUnit: exercise.weightUnit,
+                                distanceUnit: exercise.distanceUnit,
+                                exerciseId: exercise.id!,
+                                barId: exercise.barId,
+                                routineId: workout.routine.id,
+                              );
+                            }).toList();
                             setState(() {
-                              exerciseBundles.addAll(exerciseBundles1);
+                              workout = workout.copyWith(exerciseGroups: [
+                                ...workout.exerciseGroups,
+                                ...exerciseGroups,
+                              ]);
                             });
 
-                            // context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseGroups: exerciseBundles1.map((e) => e.exerciseGroup).toList()));
+                            // ignore: use_build_context_synchronously
+                            context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
+                              action: ExerciseGroupAction.add,
+                              exerciseGroups: exerciseGroups,
+                            ));
                           }
                         },
                         height: 38,
@@ -106,72 +102,67 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         onPressed: () {
                           showBottomSheetDialog(
                             context: context,
-                            child: ListDialog(
-                              children: [
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    _workoutNameNode.requestFocus();
-                                  },
-                                  leading: const Icon(
-                                    Icons.edit,
-                                  ),
-                                  title: const Text('Rename'),
+                            child: ListDialog(children: [
+                              ListTile(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _workoutNameNode.requestFocus();
+                                },
+                                leading: const Icon(
+                                  Icons.edit,
                                 ),
-                                ListTile(
-                                  onTap: () {
-                                  },
-                                  leading: const Icon(
-                                    Icons.filter_list,
-                                  ),
-                                  title: const Text('Reorder'),
+                                title: const Text('Rename'),
+                              ),
+                              ListTile(
+                                onTap: () {},
+                                leading: const Icon(
+                                  Icons.filter_list,
                                 ),
-                                ListTile(
-                                  onTap: () {
-                                    context.read<WorkoutBloc>().add(WorkoutToggle(
+                                title: const Text('Reorder'),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  /*context.read<WorkoutBloc>().add(WorkoutToggle(
                                       workout: workout.copyWith(active: false),
-                                    ));
-                                    Navigator.pop(context);
-                                  },
-                                  leading: const Icon(
-                                    Icons.pause_circle_outline_rounded,
-                                  ),
-                                  title: const Text('Pause'),
+                                    ));*/
+                                  Navigator.pop(context);
+                                },
+                                leading: const Icon(
+                                  Icons.pause_circle_outline_rounded,
                                 ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    showBottomSheetDialog(
-                                      context: context,
-                                      child: ConfirmationDialog(
-                                        title: 'Delete',
-                                        subtitle: 'All progress will be lost.',
-                                        confirmText: 'Delete',
-                                        confirmButtonStyle: ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all(T(context).color.error),
-                                          foregroundColor: MaterialStateProperty.all(T(context).color.onError),
-                                        ),
-                                        onSubmit: () {
-                                          context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
-                                        },
+                                title: const Text('Pause'),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                 /* Navigator.pop(context);
+                                  showBottomSheetDialog(
+                                    context: context,
+                                    child: ConfirmationDialog(
+                                      title: 'Delete',
+                                      subtitle: 'All progress will be lost.',
+                                      confirmText: 'Delete',
+                                      confirmButtonStyle: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(T(context).color.error),
+                                        foregroundColor: MaterialStateProperty.all(T(context).color.onError),
                                       ),
-                                      onClose: () {},
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.delete_rounded,
-                                    color: T(context).color.error,
-                                  ),
-                                  title: Text(
-                                    'Delete Workout',
+                                      onSubmit: () {
+                                        context.read<WorkoutBloc>().add(WorkoutDelete(workout: workout));
+                                      },
+                                    ),
+                                    onClose: () {},
+                                  );*/
+                                },
+                                leading: Icon(
+                                  Icons.delete_rounded,
+                                  color: T(context).color.error,
+                                ),
+                                title: Text('Delete Workout',
                                     style: TextStyle(
                                       color: T(context).color.error,
                                       fontWeight: FontWeight.bold,
-                                    )
-                                  ),
-                                ),
-                              ]
-                            ),
+                                    )),
+                              ),
+                            ]),
                             onClose: () {},
                           );
                         },
@@ -197,11 +188,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 ),
                 MButton(
                   onPressed: () {
-                    context.read<SessionBloc>().add(SessionAdd(
+                    /* context.read<SessionBloc>().add(SessionAdd(
                           workout: workout,
                           exerciseBundles: exerciseBundles,
                         ));
-                    context.read<WorkoutBloc>().add(WorkoutFinish());
+                    context.read<WorkoutBloc>().add(WorkoutFinish());*/
                   },
                   height: 38,
                   width: 84,
@@ -228,13 +219,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                       children: [
                         TextFormField(
                           onChanged: (value) {
-                            context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
+                            //context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
                           },
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
                           focusNode: _workoutNameNode,
-                          initialValue: workout.name,
+                          initialValue: workout.routine.name,
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.all(0),
                             enabledBorder: InputBorder.none,
@@ -250,7 +241,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           stream: Stream.periodic(const Duration(seconds: 1)),
                           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                             return Text(
-                              workoutDuration(workout.timestamp),
+                              workoutDuration(workout.routine.timestamp),
                               style: T(context).textStyle.bodyMedium,
                             );
                           },
@@ -259,64 +250,71 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                     ),
                   )
                 ])),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: exerciseBundles.length,
-                    (context, index) {
-                      ExerciseBundle exerciseBundle = exerciseBundles[index];
-
-                      return ExerciseGroupWidget(
-                        exercise: exerciseBundle.exercise,
-                        exerciseGroup: exerciseBundle.exerciseGroup,
-                        exerciseSets: [],
-                        controller: exerciseTimerController,
-                        onExerciseGroupUpdate: (value) {
-                          setState(() {
-                            exerciseBundles[index].exerciseGroup = value;
-                          });
-                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseGroup: value));
-                        },
-                        onExerciseGroupDelete: () {
-                          setState(() {
-                            exerciseBundles.removeAt(index);
-                          });
-                          context.read<WorkoutBloc>().add(WorkoutExerciseDelete(exerciseGroup: exerciseBundle.exerciseGroup));
-                        },
-                        onExerciseSetAdd: (value) {
-                          setState(() {
-                            exerciseBundles[index].exerciseSets.add(value);
-                          });
-                          context.read<WorkoutBloc>().add(WorkoutExerciseAdd(exerciseSets: [value]));
-                        },
-                        onExerciseSetUpdate: (value) {
-                          setState(() {
-                            int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
-                            exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
-                          });
-                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
-                        },
-                        onExerciseSetToggled: (value) {
-                          int exerciseSetIndex = exerciseBundles[index].exerciseSets.indexWhere((exerciseSet) => exerciseSet.id == value.id);
-                          exerciseBundles[index].exerciseSets[exerciseSetIndex] = value;
-                          context.read<WorkoutBloc>().add(WorkoutExerciseUpdate(exerciseSet: value));
-                        },
-                        onExerciseSetDelete: (value) {
-                          setState(() {
-                            exerciseBundles[index].exerciseSets.removeWhere((exerciseSet) => exerciseSet.id == value.id);
-                          });
-                          context.read<WorkoutBloc>().add(WorkoutExerciseDelete(exerciseSet: value));
-                        },
-                        checkboxEnabled: true,
+                BlocBuilder<ExerciseBloc, ExerciseState>(
+                  builder: (context, state) {
+                    if (state.status.isLoading) {
+                      return const SliverFillRemaining(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
-                    },
-                  ),
+                    } else if (state.status.isLoaded) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: workout.exerciseGroups.length,
+                          (context, index) {
+                            ExerciseGroup exerciseGroup = workout.exerciseGroups[index];
+                            return ExerciseGroupWidget(
+                              exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
+                              exerciseGroup: exerciseGroup,
+                              exerciseSets: exerciseGroup.sets,
+                              controller: exerciseTimerController,
+                              onExerciseGroupUpdate: (value) {
+                                setState(() {
+                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = value);
+                                });
+                                context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
+                                      action: ExerciseGroupAction.update,
+                                      exerciseGroups: [value],
+                                    ));
+                              },
+                              onExerciseGroupDelete: () {
+                                setState(() {
+                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..removeAt(index));
+                                });
+                                context.read<WorkoutBloc>().add(WorkoutExerciseGroup(
+                                      action: ExerciseGroupAction.delete,
+                                      exerciseGroups: [exerciseGroup],
+                                    ));
+                              },
+                              onExerciseSetAdd: (value) {},
+                              onExerciseSetUpdate: (value, index) {},
+                              onExerciseSetToggled: (value) {},
+                              onExerciseSetDelete: (value) {},
+                              checkboxEnabled: true,
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return SliverList(
+                        delegate: SliverChildListDelegate([
+                          const SizedBox(
+                            height: 100,
+                          ),
+                          const Text('whoops.')
+                        ]),
+                      );
+                    }
+                  },
                 ),
                 SliverList(
-                    delegate: SliverChildListDelegate([
-                  Container(
-                    height: 100,
-                  )
-                ])),
+                  delegate: SliverChildListDelegate([
+                    Container(
+                      height: 100,
+                    )
+                  ]),
+                ),
               ],
             ),
           )
@@ -325,4 +323,3 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
     );
   }
 }
-*/

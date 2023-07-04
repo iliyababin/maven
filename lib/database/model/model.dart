@@ -12,3 +12,4 @@ export 'program_folder.dart';
 export 'program_template.dart';
 export 'routine.dart';
 export 'setting.dart';
+export 'workout_data.dart';

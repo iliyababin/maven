@@ -17,26 +17,25 @@ extension WorkoutStatusExtension on WorkoutStatus {
 class WorkoutState extends Equatable {
   const WorkoutState({
     this.status = WorkoutStatus.loading,
-    this.exerciseBundles = const [],
+    this.workout,
   });
 
   final WorkoutStatus status;
-  final List<ExerciseBundle> exerciseBundles;
-
+  final Workout? workout;
 
   WorkoutState copyWith({
     WorkoutStatus? status,
-    List<ExerciseBundle>? exerciseBundles,
+    Workout? workout,
   }) {
     return WorkoutState(
       status: status ?? this.status,
-      exerciseBundles: exerciseBundles ?? this.exerciseBundles,
+      workout: workout ?? this.workout,
     );
   }
 
   @override
   List<Object?> get props => [
     status,
-    exerciseBundles,
+    workout,
   ];
 }
