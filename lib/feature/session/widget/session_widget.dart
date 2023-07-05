@@ -25,6 +25,14 @@ class SessionWidget extends StatelessWidget {
         color: T(context).color.surface,
         child: InkWell(
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SessionDetailScreen(
+                  session: session,
+                ),
+              ),
+            );
           },
           child: Container(
             width: double.infinity,
@@ -55,7 +63,6 @@ class SessionWidget extends StatelessWidget {
                     ),
                     const SizedBox(
                       width: 5,
-
                     ),
                     Text(
                       session.data.timeElapsed.toString(),
@@ -86,44 +93,43 @@ class SessionWidget extends StatelessWidget {
                   builder: (context, state) {
                     return session.exerciseGroups.isNotEmpty
                         ? ListView.builder(
-                      itemCount: session.exerciseGroups.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        ExerciseGroup exerciseGroup = session.exerciseGroups[index];
+                            itemCount: session.exerciseGroups.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              ExerciseGroup exerciseGroup = session.exerciseGroups[index];
 
-                        if(state.status.isLoading) {
-                          return Shimmer.fromColors(
-                            baseColor: T(context).color.surface.baseShimmer,
-                            highlightColor: T(context).color.surface.highlightShimmer,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  height: 20,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: T(context).color.surface,
+                              if (state.status.isLoading) {
+                                return Shimmer.fromColors(
+                                  baseColor: T(context).color.surface.baseShimmer,
+                                  highlightColor: T(context).color.surface.highlightShimmer,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                          color: T(context).color.surface,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
-                          return Text(
-                            '${exerciseGroup.sets.length} x ${exercise.name}',
-                          );
-                        }
-                      },
-                    )
+                                );
+                              } else {
+                                Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                                return Text(
+                                  '${exerciseGroup.sets.length} x ${exercise.name}',
+                                );
+                              }
+                            },
+                          )
                         : const Text(
-                      'None',
-                    );
+                            'None',
+                          );
                   },
                 ),
-
               ],
             ),
           ),

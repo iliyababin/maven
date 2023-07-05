@@ -76,7 +76,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     ));
 
     await routineDao.remove(state.workout!.routine);
-    await workoutDataDao.remove(state.workout!.data);
 
     emit(state.copyWith(
       status: WorkoutStatus.none,

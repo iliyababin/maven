@@ -38,6 +38,25 @@ class BaseExerciseSetData {
   @ColumnInfo(name: 'exercise_set_id')
   int exerciseSetId;
 
+  double get valueAsDouble {
+    switch (fieldType) {
+      case ExerciseFieldType.reps:
+        return double.parse(value);
+      case ExerciseFieldType.weight:
+        return double.parse(value);
+      case ExerciseFieldType.duration:
+        return double.parse(value);
+      case ExerciseFieldType.distance:
+        return double.parse(value);
+      case ExerciseFieldType.bodyWeight:
+        return double.parse(value);
+      case ExerciseFieldType.weighted:
+        return double.parse(value);
+      case ExerciseFieldType.assisted:
+        return double.parse(value);
+    }
+  }
+
   BaseExerciseSetData copyWith({
     int? id,
     String? value,

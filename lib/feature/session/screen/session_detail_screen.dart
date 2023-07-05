@@ -1,20 +1,19 @@
-/*
 import 'package:flutter/material.dart';
 
-import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../../exercise/exercise.dart';
 import '../session.dart';
 
 
 class SessionDetailScreen extends StatelessWidget {
   const SessionDetailScreen({
     Key? key,
-    required this.completeBundle,
+    required this.session,
   }) : super(key: key);
 
-  final SessionBundle completeBundle;
+  final Session session;
 
-  List<TextSpan> test(SessionExerciseBundle seb, int index, BuildContext context) {
+ /* List<TextSpan> test(Session seb, int index, BuildContext context) {
     List<TextSpan> result = [];
 
     result.add(TextSpan(
@@ -42,14 +41,14 @@ class SessionDetailScreen extends StatelessWidget {
       }
     }
     return result;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          completeBundle.session.name,
+        title: const Text(
+          'Details',
         ),
       ),
       body: Padding(
@@ -59,38 +58,31 @@ class SessionDetailScreen extends StatelessWidget {
           top: T(context).space.large,
         ),
         child: ListView.separated(
-          itemCount: completeBundle.sessionExerciseBundles.length,
-          separatorBuilder: (context, index) => SizedBox(
+          itemCount: session.exerciseGroups.length,
+          separatorBuilder: (context, index) => const SizedBox(
             height: 12,
           ),
           itemBuilder: (context, index) {
-            SessionExerciseBundle completeExerciseBundle = completeBundle.sessionExerciseBundles[index];
+            ExerciseGroup exerciseGroup = session.exerciseGroups[index];
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  completeExerciseBundle.exercise.name,
+                  'some exercise name',
                   style: T(context).textStyle.bodyLarge,
                 ),
                 const SizedBox(
                   height: 2,
                 ),
                 ListView.builder(
-                  itemCount: completeExerciseBundle.sessionExerciseSets.length,
+                  itemCount: exerciseGroup.sets.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    SessionExerciseSet completeExerciseSet = completeExerciseBundle.sessionExerciseSets[index];
-                    return RichText(
-                      text: TextSpan(
-                        style: T(context).textStyle.bodyMedium,
-                        children: test(completeExerciseBundle, index, context),
-                      ),
-                    );
-return Text(
-                      ' ${completeExerciseSet.option1} x ${completeExerciseSet.option2}',
-                      style: T(context).textStyle.body1,
-                    );
+                    ExerciseSet exerciseSet = exerciseGroup.sets[index];
 
+                    return Text(
+                      exerciseSet.data.map((data) => data.stringify(exerciseGroup).toString()).toList().toString(),
+                    );
                   },
                 ),
               ],
@@ -101,4 +93,3 @@ return Text(
     );
   }
 }
-*/

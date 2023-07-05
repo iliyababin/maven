@@ -43,6 +43,7 @@ void main() async {
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 routineDao: db.routineDao,
                 noteDao: db.noteDao,
+            exerciseGroupService: exerciseGroupService,
               )..add(const TemplateInitialize())),
       BlocProvider(
           create: (context) => WorkoutBloc(

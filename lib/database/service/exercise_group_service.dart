@@ -1,3 +1,4 @@
+import '../../common/common.dart';
 import '../../feature/exercise/exercise.dart';
 import '../../feature/note/note.dart';
 import '../database.dart';
@@ -68,6 +69,28 @@ class ExerciseGroupService {
   int getVolume(List<ExerciseGroup> exerciseGroups){
     int volume = 0;
 
+    for(ExerciseGroup exerciseGroup in exerciseGroups){
+      for(ExerciseSet exerciseSet in exerciseGroup.sets){
+        double setVolume = 1;
+
+        for(ExerciseSetData exerciseSetData in exerciseSet.data){
+          setVolume *= exerciseSetData.valueAsDouble;
+        }
+        volume += setVolume.toInt();
+      }
+    }
     return volume;
+  }
+
+  Map<Muscle, double> getMusclePercentages(List<ExerciseGroup> exerciseGroups) {
+    Map<Muscle, double> musclePercentages = {};
+
+    return musclePercentages;
+  }
+
+  Timed getDuration(List<ExerciseGroup> exerciseGroups) {
+    Timed duration = const Timed.zero();
+
+    return duration;
   }
 }

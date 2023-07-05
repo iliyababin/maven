@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../common/common.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
 import '../../../note/note.dart';
@@ -20,6 +19,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
+    required this.exerciseGroupService,
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
     on<TemplateCreate>(_create);
@@ -34,6 +34,8 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final ExerciseSetDao exerciseSetDao;
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
+
+  final ExerciseGroupService exerciseGroupService;
 
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(
@@ -133,68 +135,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     List<Template> templates = [];
 
     for (Routine routine in await routineDao.getByType(RoutineType.template)) {
-      Timed duration = const Timed.zero();
-      // TODO: calculate volume
-      int volume = 4269;
-      Map<Muscle, int> muscleAmounts = {};
-
-      List<ExerciseGroup> exerciseGroups = [];
-
-      for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routine.id!)) {
-        List<ExerciseSet> exerciseSets = [];
-        for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
-          duration = duration.add(exerciseGroup.timer);
-          List<BaseExerciseSetData> exerciseSetData = await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!);
-
-          exerciseSets.add(ExerciseSet(
-            id: exerciseSet.id,
-            type: exerciseSet.type,
-            checked: exerciseSet.checked,
-            exerciseGroupId: exerciseSet.exerciseGroupId,
-            data: exerciseSetData
-                .map((exerciseSetData) => ExerciseSetData(
-                      id: exerciseSetData.id,
-                      exerciseSetId: exerciseSetData.exerciseSetId,
-                      fieldType: exerciseSetData.fieldType,
-                      value: exerciseSetData.value,
-                    ))
-                .toList(),
-          ));
-        }
-
-        List<Note> notes = [];
-        for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
-          notes.add(Note(
-            id: note.id,
-            data: note.data,
-            exerciseGroupId: note.exerciseGroupId,
-          ));
-        }
-
-        exerciseGroups.add(ExerciseGroup(
-          id: exerciseGroup.id,
-          timer: exerciseGroup.timer,
-          weightUnit: exerciseGroup.weightUnit,
-          distanceUnit: exerciseGroup.distanceUnit,
-          exerciseId: exerciseGroup.exerciseId,
-          barId: exerciseGroup.barId,
-          routineId: exerciseGroup.routineId,
-          sets: exerciseSets,
-          notes: notes,
-        ));
-
-        Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
-        if (muscleAmounts.containsKey(exercise!.muscle)) {
-          muscleAmounts[exercise.muscle] = muscleAmounts[exercise.muscle]! + 1;
-        } else {
-          muscleAmounts[exercise.muscle] = 1;
-        }
-      }
-
-      Map<Muscle, double> musclePercentages = {};
-      for (Muscle muscle in muscleAmounts.keys) {
-        musclePercentages[muscle] = muscleAmounts[muscle]! / exerciseGroups.length;
-      }
+      List<ExerciseGroup> exerciseGroups = await exerciseGroupService.getByRoutineId(routine.id!);
 
       templates.add(Template(
         id: routine.id,
@@ -204,12 +145,24 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         timestamp: routine.timestamp,
         note: routine.note,
         exerciseGroups: exerciseGroups,
-        musclePercentages: musclePercentages,
-        duration: duration,
-        volume: volume,
+        musclePercentages: exerciseGroupService.getMusclePercentages(exerciseGroups),
+        duration: exerciseGroupService.getDuration(exerciseGroups),
+        volume: exerciseGroupService.getVolume(exerciseGroups),
       ));
     }
 
     return templates;
   }
 }
+/*
+Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
+if (muscleAmounts.containsKey(exercise!.muscle)) {
+muscleAmounts[exercise.muscle] = muscleAmounts[exercise.muscle]! + 1;
+} else {
+muscleAmounts[exercise.muscle] = 1;
+}
+
+Map<Muscle, double> musclePercentages = {};
+for (Muscle muscle in muscleAmounts.keys) {
+musclePercentages[muscle] = muscleAmounts[muscle]! / exerciseGroups.length;
+}*/
