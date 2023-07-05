@@ -1,43 +1,39 @@
-/*
 part of 'session_bloc.dart';
 
-enum CompleteStatus {
-  initial,
+enum SessionStatus {
   loading,
   loaded,
   error,
 }
 
-extension SessionStatusExtension on CompleteStatus {
-  bool get isInitial => this == CompleteStatus.initial;
-  bool get isLoading => this == CompleteStatus.loading;
-  bool get isLoaded => this == CompleteStatus.loaded;
-  bool get isError => this == CompleteStatus.error;
+extension SessionStatusExtension on SessionStatus {
+  bool get isLoading => this == SessionStatus.loading;
+  bool get isLoaded => this == SessionStatus.loaded;
+  bool get isError => this == SessionStatus.error;
 }
 
 class SessionState extends Equatable {
   const SessionState({
-    this.status = CompleteStatus.initial,
-    this.completeBundles = const [],
+    this.status = SessionStatus.loading,
+    this.sessions = const [],
   });
 
-  final CompleteStatus status;
-  final List<SessionBundle> completeBundles;
+  final SessionStatus status;
+  final List<Session> sessions;
 
   SessionState copyWith({
-    CompleteStatus Function()? status,
-    List<SessionBundle> Function()? completeBundles,
+    SessionStatus? status,
+    List<Session>? sessions,
   }) {
     return SessionState(
-      status: status != null ? status() : this.status,
-      completeBundles: completeBundles != null ? completeBundles() : this.completeBundles,
+      status: status ?? this.status,
+      sessions: sessions ?? this.sessions,
     );
   }
 
   @override
   List<Object?> get props => [
     status,
-    completeBundles,
+    sessions,
   ];
 }
-*/

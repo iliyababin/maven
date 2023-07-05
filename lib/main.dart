@@ -8,6 +8,7 @@ import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
+import 'feature/session/session.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
@@ -19,6 +20,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase db = await MavenDatabase.initialize();
+
+  ExerciseGroupService exerciseGroupService = ExerciseGroupService(
+    exerciseGroupDao: db.baseExerciseGroupDao,
+    exerciseSetDao: db.exerciseSetDao,
+    exerciseSetDataDao: db.exerciseSetDataDao,
+    noteDao: db.noteDao,
+  );
 
   runApp(MultiBlocProvider(
     providers: [
@@ -44,6 +52,7 @@ void main() async {
                 exerciseSetDao: db.exerciseSetDao,
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 workoutDataDao: db.workoutDataDao,
+                exerciseGroupService: exerciseGroupService,
               )..add(const WorkoutInitialize())),
       BlocProvider(
           create: (context) => EquipmentBloc(
@@ -58,16 +67,17 @@ void main() async {
                 programTemplateDao: db.programTemplateDao,
                 programExerciseGroupDao: db.programExerciseGroupDao,
               )..add(const ProgramInitialize())),
-      /*BlocProvider(
-          create: (context) => SessionBloc(
-                sessionDao: db.sessionDao,
-                exerciseDao: db.exerciseDao,
-                sessionExerciseGroupDao: db.sessionExerciseGroupDao,
-                sessionExerciseSetDao: db.sessionExerciseSetDao,
-                sessionExerciseSetDataDao: db.sessionExerciseSetDataDao,
-                workoutDao: db.workoutDao,
-              )..add(const SessionInitialize())),
       BlocProvider(
+          create: (context) => SessionBloc(
+                routineDao: db.routineDao,
+                exerciseGroupDao: db.baseExerciseGroupDao,
+                noteDao: db.noteDao,
+                exerciseSetDao: db.exerciseSetDao,
+                exerciseSetDataDao: db.exerciseSetDataDao,
+                exerciseGroupService: exerciseGroupService,
+                sessionDataDao: db.sessionDataDao,
+              )..add(const SessionInitialize())),
+      /*BlocProvider(
           create: (context) => SessionExerciseBloc(
                 completeDao: db.sessionDao,
                 completeExerciseGroupDao: db.sessionExerciseGroupDao,
@@ -100,7 +110,7 @@ class Main extends StatelessWidget {
                 return MaterialApp(
                   theme: InheritedThemeWidget.of(context).theme.data,
                   // TODO: Give user option to change this.
-                  scrollBehavior: CustomScrollBehavior(),
+                  // scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
                   localizationsDelegates: const [
                     S.delegate,

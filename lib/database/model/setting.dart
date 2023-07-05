@@ -13,6 +13,8 @@ class Setting extends Equatable {
     required this.languageCode,
     required this.countryCode,
     required this.themeId,
+    required this.username,
+    required this.description,
   });
 
   @PrimaryKey()
@@ -27,17 +29,27 @@ class Setting extends Equatable {
   @ColumnInfo(name: 'theme_id')
   final int themeId;
 
+  @ColumnInfo(name: 'username')
+  final String username;
+
+  @ColumnInfo(name: 'description')
+  final String description;
+
   Setting copyWith({
     int? id,
     String? languageCode,
     String? countryCode,
     int? themeId,
+    String? username,
+    String? description,
   }) {
     return Setting(
       id: id ?? this.id,
       languageCode: languageCode ?? this.languageCode,
       countryCode: countryCode ?? this.countryCode,
       themeId: themeId ?? this.themeId,
+      username: username ?? this.username,
+      description: description ?? this.description,
     );
   }
 
@@ -47,5 +59,7 @@ class Setting extends Equatable {
         languageCode,
         countryCode,
         themeId,
+        username,
+        description,
       ];
 }

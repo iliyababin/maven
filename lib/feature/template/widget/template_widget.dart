@@ -37,7 +37,7 @@ class _TemplateWidgetState extends State<TemplateWidget> {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(T(context).radius.large),
+              borderRadius: BorderRadius.circular(T(context).shape.large),
               color: T(context).color.surface,
             ),
             padding: EdgeInsets.all(T(context).space.large),

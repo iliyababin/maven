@@ -18,24 +18,32 @@ class SettingState extends Equatable {
     this.themeId = 1,
     this.themes = const [],
     this.locale = const Locale('en', 'US'),
+    this.username = 'John Doe',
+    this.description = 'Weightlifter',
   });
 
   final SettingStatus status;
   final int themeId;
   final List<AppTheme> themes;
   final Locale locale;
+  final String username;
+  final String description;
 
   SettingState copyWith({
     SettingStatus? status,
     int? themeId,
     List<AppTheme>? themes,
     Locale? locale,
+    String? username,
+    String? description,
   }) {
     return SettingState(
       status: status ?? this.status,
       themeId: themeId ?? this.themeId,
       themes: themes ?? this.themes,
       locale: locale ?? this.locale,
+      username: username ?? this.username,
+      description: description ?? this.description,
     );
   }
 
@@ -45,6 +53,8 @@ class SettingState extends Equatable {
     themeId,
     themes,
     locale,
+    username,
+    description,
   ];
 }
 

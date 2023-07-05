@@ -7,6 +7,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../session/session.dart';
 import '../workout.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -182,10 +183,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 MButton(
                   onPressed: () {
                     // TODO: ship data to session
-                     /*context.read<SessionBloc>().add(SessionAdd(
-                          workout: workout,
-                          exerciseBundles: exerciseBundles,
-                        ));*/
+                     context.read<SessionBloc>().add(SessionAdd(
+                          workout: workout
+                        ));
                     exerciseTimerController.dispose();
                     context.read<WorkoutBloc>().add(WorkoutFinish(workout: workout));
                   },

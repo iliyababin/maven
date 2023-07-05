@@ -1,96 +1,134 @@
-/*
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../common/common.dart';
+import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../../exercise/exercise.dart';
 import '../session.dart';
 
-
 class SessionWidget extends StatelessWidget {
-  const SessionWidget({Key? key,
-    required this.sessionBundle,
+  const SessionWidget({
+    Key? key,
+    required this.session,
   }) : super(key: key);
 
-  final SessionBundle sessionBundle;
+  final Session session;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        */
-/*Navigator.push(context, MaterialPageRoute(builder: (context) => SessionDetailScreen(
-          completeBundle: sessionBundle,
-        )));*//*
-
-      },
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: T(context).color.outline,
-          ),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              sessionBundle.session.name,
-              style: T(context).textStyle.titleLarge,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(T(context).shape.large),
+      child: Material(
+        color: T(context).color.surface,
+        child: InkWell(
+          onTap: () {
+          },
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(height: 5,),
-            Text(
-              DateFormat.yMMMMEEEEd().format(sessionBundle.session.timestamp).toString(),
-              style: T(context).textStyle.labelSmall,
-            ),
-            const SizedBox(height: 10,),
-            Row(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.timer,
-                  color: T(context).color.onSurfaceVariant,
-                ),
-                const SizedBox(width: 5,),
                 Text(
-                  durationToTime(sessionBundle.session.duration),
-                  style: T(context).textStyle.bodyLarge,
+                  session.routine.name,
+                  style: T(context).textStyle.titleLarge,
                 ),
-                const SizedBox(width: 20,),
-                Icon(
-                  Icons.monitor_weight,
-                  color: T(context).color.onSurfaceVariant,
-                ),
-                const SizedBox(width: 5,),
                 Text(
-                  sessionBundle.volume.toString(),
-                  style: T(context).textStyle.bodyLarge,
+                  DateFormat.yMMMMEEEEd().format(session.routine.timestamp).toString(),
+                  style: T(context).textStyle.titleSmall,
                 ),
-                const SizedBox(width: 20,),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.timer,
+                      color: T(context).color.onSurfaceVariant,
+                      size: 20,
+                    ),
+                    const SizedBox(
+                      width: 5,
+
+                    ),
+                    Text(
+                      session.data.timeElapsed.toString(),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Icon(
+                      Icons.monitor_weight,
+                      color: T(context).color.onSurfaceVariant,
+                      size: 20,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      session.volume.toString(),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                BlocBuilder<ExerciseBloc, ExerciseState>(
+                  builder: (context, state) {
+                    return session.exerciseGroups.isNotEmpty
+                        ? ListView.builder(
+                      itemCount: session.exerciseGroups.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        ExerciseGroup exerciseGroup = session.exerciseGroups[index];
+
+                        if(state.status.isLoading) {
+                          return Shimmer.fromColors(
+                            baseColor: T(context).color.surface.baseShimmer,
+                            highlightColor: T(context).color.surface.highlightShimmer,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: T(context).color.surface,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                          return Text(
+                            '${exerciseGroup.sets.length} x ${exercise.name}',
+                          );
+                        }
+                      },
+                    )
+                        : const Text(
+                      'None',
+                    );
+                  },
+                ),
 
               ],
             ),
-            const SizedBox(height: 12,),
-            sessionBundle.sessionExerciseBundles.isNotEmpty ? ListView.builder(
-              itemCount: sessionBundle.sessionExerciseBundles.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                SessionExerciseBundle sessionExerciseBundle = sessionBundle.sessionExerciseBundles[index];
-                return Text(
-                  '${sessionExerciseBundle.sessionExerciseSets.length} x ${sessionExerciseBundle.exercise.name}',
-                  style: T(context).textStyle.bodyMedium,
-                );
-              },
-            ) : Text(
-              'None',
-              style: T(context).textStyle.bodyMedium,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-*/

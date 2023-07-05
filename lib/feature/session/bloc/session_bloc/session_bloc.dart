@@ -1,11 +1,12 @@
-/*
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../common/common.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
+import '../../../workout/workout.dart';
 import '../../session.dart';
 
 part 'session_event.dart';
@@ -13,126 +14,107 @@ part 'session_state.dart';
 
 class SessionBloc extends Bloc<SessionEvent, SessionState> {
   SessionBloc({
-    required this.sessionDao,
-    required this.exerciseDao,
-    required this.sessionExerciseGroupDao,
-    required this.sessionExerciseSetDao,
-    required this.sessionExerciseSetDataDao,
-    required this.workoutDao,
+    required this.routineDao,
+    required this.exerciseGroupDao,
+    required this.exerciseSetDao,
+    required this.exerciseSetDataDao,
+    required this.noteDao,
+    required this.exerciseGroupService,
+    required this.sessionDataDao,
   }) : super(const SessionState()) {
     on<SessionInitialize>(_initialize);
     on<SessionAdd>(_add);
   }
 
-  final SessionDao sessionDao;
-  final ExerciseDao exerciseDao;
-  final SessionExerciseGroupDao sessionExerciseGroupDao;
-  final SessionExerciseSetDao sessionExerciseSetDao;
-  final SessionExerciseSetDataDao sessionExerciseSetDataDao;
-  final WorkoutDao workoutDao;
+  final RoutineDao routineDao;
+  final ExerciseGroupDao exerciseGroupDao;
+  final ExerciseSetDao exerciseSetDao;
+  final ExerciseSetDataDao exerciseSetDataDao;
+  final NoteDao noteDao;
+  final SessionDataDao sessionDataDao;
+
+  final ExerciseGroupService exerciseGroupService;
 
   Future<void> _initialize(SessionInitialize event, Emitter<SessionState> emit) async {
-    emit(state.copyWith(status: () => CompleteStatus.loading));
-
-    List<SessionBundle> completeBundles = await _fetchSessionBundles();
-
     emit(state.copyWith(
-      status: () => CompleteStatus.loaded,
-      completeBundles: () => completeBundles,
+      status: SessionStatus.loaded,
+      sessions: await _getSessions(),
     ));
   }
 
   Future<void> _add(SessionAdd event, Emitter<SessionState> emit) async {
-    int completeId = await sessionDao.addSession(Session(
-      name: event.workout.name,
-      note: event.workout.note,
-      duration: DateTime.now().difference(event.workout.timestamp),
-      timestamp: DateTime.now(),
+    emit(state.copyWith(
+      status: SessionStatus.loading,
     ));
 
-    for (int i = 0; i < event.exerciseBundles.length; i++) {
-      ExerciseBundle exerciseBundle = event.exerciseBundles[i];
+    int routineId = await routineDao.add(Routine(
+      name: event.workout.routine.name,
+      note: event.workout.routine.note,
+      timestamp: DateTime.now(),
+      sort: -1,
+      type: RoutineType.session,
+    ));
 
-      int count = 0;
-      for (BaseExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
-        if (exerciseSet.checked) count++;
+    await sessionDataDao.add(SessionData(
+      timeElapsed: const Timed.zero(),
+      routineId: routineId,
+    ));
+
+    for(ExerciseGroup exerciseGroup in event.workout.exerciseGroups) {
+      int completedSets = 0;
+      for(ExerciseSet exerciseSet in exerciseGroup.sets) {
+        if (exerciseSet.checked) {
+          completedSets++;
+        }
       }
-      if(count == 0) continue;
+      if(completedSets == 0) continue;
 
-      int completeExerciseGroupId = await sessionExerciseGroupDao.addSessionExerciseGroup(SessionExerciseGroup(
-        order: i + 1,
-        exerciseId: exerciseBundle.exercise.id!,
-        barId: exerciseBundle.barId,
-        sessionId: completeId,
-        timer: exerciseBundle.exerciseGroup.timer,
-        weightUnit: exerciseBundle.exerciseGroup.weightUnit,
-        distanceUnit: exerciseBundle.exerciseGroup.distanceUnit,
+      int exerciseGroupId = await exerciseGroupDao.add(ExerciseGroup(
+        timer: exerciseGroup.timer,
+        weightUnit: exerciseGroup.weightUnit,
+        distanceUnit: exerciseGroup.distanceUnit,
+        exerciseId: exerciseGroup.exerciseId,
+        barId: exerciseGroup.barId,
+        routineId: routineId,
       ));
-      print(completeExerciseGroupId);
 
-      for (BaseExerciseSet exerciseSet in exerciseBundle.exerciseSets) {
-        if(exerciseSet.checked) {
-          int sessionExerciseSetId = await sessionExerciseSetDao.addSessionExerciseSet(SessionExerciseSet(
-            sessionId: completeId,
-            exerciseGroupId: completeExerciseGroupId,
-            type: exerciseSet.type,
-            checked: exerciseSet.checked,
+      for(ExerciseSet exerciseSet in exerciseGroup.sets) {
+        if (!exerciseSet.checked) continue;
+
+        int exerciseSetId = await exerciseSetDao.add(ExerciseSet(
+          type: exerciseSet.type,
+          checked: exerciseSet.checked,
+          exerciseGroupId: exerciseGroupId,
+        ));
+
+        for(ExerciseSetData exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.add(ExerciseSetData(
+            value: exerciseSetData.value,
+            fieldType: exerciseSetData.fieldType,
+            exerciseSetId: exerciseSetId
           ));
-
-          */
-/*for (ExerciseSet exerciseSetData in exerciseSet.data) {
-            await sessionExerciseSetDataDao.addSessionExerciseSetData(SessionExerciseSetData(
-              exerciseSetId: sessionExerciseSetId,
-              value: exerciseSetData.value,
-              fieldType: exerciseSetData.fieldType,
-            ));
-          }*//*
-
         }
       }
     }
-
-    await workoutDao.deleteWorkout(event.workout);
-
-    List<SessionBundle> completeBundles = await _fetchSessionBundles();
 
     emit(state.copyWith(
-      status: () => CompleteStatus.loaded,
-      completeBundles: () => completeBundles,
+      status: SessionStatus.loaded,
+      sessions: await _getSessions(),
     ));
   }
 
-  Future<List<SessionBundle>> _fetchSessionBundles() async {
-    List<SessionBundle> sessionBundles = [];
-
-    for (Session session in await sessionDao.getSessions()) {
-      List<SessionExerciseBundle> sessionExerciseBundles = [];
-
-      for(SessionExerciseGroup sessionExerciseGroup in await sessionExerciseGroupDao.getSessionExerciseGroupsBySessionId(session.id!)){
-        List<SessionExerciseSet> sessionExerciseSets = [];
-        Exercise? exercise = await exerciseDao.getExercise(sessionExerciseGroup.exerciseId!);
-
-        for(SessionExerciseSet sessionExerciseSet in await sessionExerciseSetDao.getSessionExerciseSetsBySessionExerciseGroupId(sessionExerciseGroup.id!)){
-          List<SessionExerciseSetData> sessionExerciseSetData = await sessionExerciseSetDataDao.getSessionExerciseSetDataByExerciseSetId(sessionExerciseSet.id!);
-          SessionExerciseSet sessionExerciseSet2 = sessionExerciseSet.copyWith(data: sessionExerciseSetData);
-          sessionExerciseSets.add(sessionExerciseSet2);
-        }
-
-        sessionExerciseBundles.add(SessionExerciseBundle(
-          exercise: exercise!,
-          sessionExerciseGroup: sessionExerciseGroup,
-          sessionExerciseSets: sessionExerciseSets,
-        ));
-      }
-
-      sessionBundles.add(SessionBundle(
-        session: session,
-        sessionExerciseBundles: sessionExerciseBundles,
-        volume: -1,
+  Future<List<Session>> _getSessions() async {
+    List<Session> sessions = [];
+    for(Routine routine in await routineDao.getByType(RoutineType.session)) {
+      SessionData? data = await sessionDataDao.getByRoutineId(routine.id!);
+      List<ExerciseGroup> exerciseGroups =  await exerciseGroupService.getByRoutineId(routine.id!);
+      sessions.add(Session(
+        routine: routine,
+        exerciseGroups: exerciseGroups,
+        data: data!,
+        volume: exerciseGroupService.getVolume(exerciseGroups),
       ));
     }
-
-    return sessionBundles;
+    return sessions;
   }
 }
-*/

@@ -11,5 +11,6 @@ export 'program_exercise_group.dart';
 export 'program_folder.dart';
 export 'program_template.dart';
 export 'routine.dart';
+export 'session_data.dart';
 export 'setting.dart';
 export 'workout_data.dart';

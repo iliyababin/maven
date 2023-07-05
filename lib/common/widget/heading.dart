@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../theme/theme.dart';
 
-
 enum HeadingSize {
   small,
   medium,
@@ -26,7 +25,7 @@ class Heading extends StatelessWidget {
   final bool sliver;
 
   double nice() {
-    switch(size) {
+    switch (size) {
       case HeadingSize.small:
         return 0;
       case HeadingSize.medium:
@@ -38,7 +37,7 @@ class Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(sliver) {
+    if (sliver) {
       return SliverToBoxAdapter(
         child: Padding(
           padding: EdgeInsets.only(
@@ -57,18 +56,25 @@ class Heading extends StatelessWidget {
               if (actions.isNotEmpty)
                 Row(
                   children: actions.map(
-                        (action) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: T(context).color.primaryContainer,
-                        ),
-                        child: IconButton(
-                          padding: const EdgeInsets.all(2),
-                          constraints: BoxConstraints(),
-                          onPressed: action.onPressed,
-                          icon: action.icon,
-                        ),
+                    (action) {
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: T(context).space.small,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: T(context).color.primaryContainer,
+                            ),
+                            child: IconButton(
+                              padding: const EdgeInsets.all(2),
+                              constraints: BoxConstraints(),
+                              onPressed: action.onPressed,
+                              icon: action.icon,
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ).toList(),
@@ -95,7 +101,7 @@ class Heading extends StatelessWidget {
             if (actions.isNotEmpty)
               Row(
                 children: actions.map(
-                      (action) {
+                  (action) {
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),

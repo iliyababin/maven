@@ -14,6 +14,7 @@ export 'dao/dao.dart';
 export 'data/data.dart';
 export 'enum/enum.dart';
 export 'model/model.dart';
+export 'service/service.dart';
 
 part 'database.g.dart';
 
@@ -35,6 +36,7 @@ part 'database.g.dart';
     Routine,
     BaseNote,
     WorkoutData,
+    SessionData,
   ],
 )
 @TypeConverters([
@@ -61,10 +63,11 @@ abstract class MavenDatabase extends FloorDatabase {
   SettingDao get settingDao;
   NoteDao get noteDao;
   WorkoutDataDao get workoutDataDao;
+  SessionDataDao get sessionDataDao;
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {
-      database.rawInsert('INSERT INTO setting (id, language_code, country_code, theme_id) VALUES (1, "en", "US", 1)');
+      database.rawInsert("INSERT INTO setting (id, language_code, country_code, theme_id, username, description) VALUES (1, 'en', 'US', 1, 'John Doe', 'Weightlifter')");
     },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},

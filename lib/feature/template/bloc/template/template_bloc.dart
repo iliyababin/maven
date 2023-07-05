@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../common/common.dart';
-import '../../../../database/dao/exercise_set_data_dao.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
 import '../../../note/note.dart';
@@ -50,6 +49,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     int routineId = await routineDao.add(
       Routine(
+        id: event.template.id,
         name: event.template.name,
         note: event.template.note,
         timestamp: DateTime.now(),

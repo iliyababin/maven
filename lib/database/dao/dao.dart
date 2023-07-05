@@ -11,5 +11,6 @@ export 'program_exercise_group_dao.dart';
 export 'program_folder_dao.dart';
 export 'program_template_dao.dart';
 export 'routine_dao.dart';
+export 'session_data_dao.dart';
 export 'setting_dao.dart';
 export 'workout_data_dao.dart';

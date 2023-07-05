@@ -16,7 +16,7 @@ abstract class RoutineDao {
   @Query('SELECT * FROM routine WHERE type = :type ORDER BY sort ASC')
   Future<List<Routine>> getByType(RoutineType type);
 
-  @Query('SELECT * FROM routine WHERE sort = (SELECT MAX(sort) FROM routine)')
+  @Query('SELECT * FROM routine WHERE sort = (SELECT MAX(sort) FROM routine) AND type = 0')
   Future<int?> getLargestSort();
 
   @update

@@ -17,6 +17,12 @@ abstract class SettingDao {
   @Query('SELECT theme_id FROM setting')
   Future<int?> getThemeId();
 
+  @Query('SELECT username FROM setting')
+  Future<String?> getUsername();
+
+  @Query('SELECT description FROM setting')
+  Future<String?> getDescription();
+
   @update
   Future<int> updateSetting(Setting setting);
 }

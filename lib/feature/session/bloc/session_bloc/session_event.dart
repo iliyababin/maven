@@ -1,4 +1,3 @@
-/*
 part of 'session_bloc.dart';
 
 abstract class SessionEvent extends Equatable {
@@ -15,15 +14,12 @@ class SessionInitialize extends SessionEvent {
 class SessionAdd extends SessionEvent {
   const SessionAdd({
     required this.workout,
-    required this.exerciseBundles,
   });
 
   final Workout workout;
-  final List<ExerciseBundle> exerciseBundles;
 
   @override
   List<Object?> get props => [
     workout,
-    exerciseBundles,
   ];
-}*/
+}
