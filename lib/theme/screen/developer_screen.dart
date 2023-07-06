@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_viewer/sqlite_viewer.dart';
 
-import '../../theme/widget/inherited_theme_widget.dart';
+import '../../theme/widget/inherited_setting_widget.dart';
 import 'color_screen.dart';
 import 'padding_screen.dart';
 import 'text_style_screen.dart';

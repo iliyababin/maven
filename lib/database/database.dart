@@ -32,11 +32,12 @@ part 'database.g.dart';
     ProgramExerciseGroup,
     ProgramFolder,
     ProgramTemplate,
-    Setting,
+    BaseSetting,
     Routine,
     BaseNote,
     WorkoutData,
     SessionData,
+    TemplateData,
   ],
 )
 @TypeConverters([
@@ -64,10 +65,11 @@ abstract class MavenDatabase extends FloorDatabase {
   NoteDao get noteDao;
   WorkoutDataDao get workoutDataDao;
   SessionDataDao get sessionDataDao;
+  TemplateDataDao get templateDataDao;
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {
-      database.rawInsert("INSERT INTO setting (id, language_code, country_code, theme_id, username, description) VALUES (1, 'en', 'US', 1, 'John Doe', 'Weightlifter')");
+      database.rawInsert("INSERT INTO setting (id, language_code, country_code, theme_id, weight_unit, username, description) VALUES (1, 'en', 'US', 1, 0, 'John Doe', 'Weightlifter')");
     },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},

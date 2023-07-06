@@ -13,7 +13,7 @@ abstract class RoutineDao {
   @Query('SELECT * FROM routine WHERE id = :routineId')
   Future<Routine?> get(int routineId);
 
-  @Query('SELECT * FROM routine WHERE type = :type ORDER BY sort ASC')
+  @Query('SELECT * FROM routine WHERE type = :type')
   Future<List<Routine>> getByType(RoutineType type);
 
   @Query('SELECT * FROM routine WHERE sort = (SELECT MAX(sort) FROM routine) AND type = 0')

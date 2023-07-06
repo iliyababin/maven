@@ -19,7 +19,6 @@ class Routine extends Equatable {
     required this.name,
     required this.note,
     required this.timestamp,
-    required this.sort,
     required this.type,
   });
 
@@ -36,9 +35,6 @@ class Routine extends Equatable {
   @ColumnInfo(name: 'timestamp')
   final DateTime timestamp;
 
-  @ColumnInfo(name: 'sort')
-  final int sort;
-
   @ColumnInfo(name: 'type')
   final RoutineType type;
 
@@ -47,7 +43,6 @@ class Routine extends Equatable {
     String? name,
     String? note,
     DateTime? timestamp,
-    int? sort,
     RoutineType? type,
   }) {
     return Routine(
@@ -55,7 +50,6 @@ class Routine extends Equatable {
       name: name ?? this.name,
       note: note ?? this.note,
       timestamp: timestamp ?? this.timestamp,
-      sort: sort ?? this.sort,
       type: type ?? this.type,
     );
   }
@@ -66,6 +60,6 @@ class Routine extends Equatable {
         name,
         note,
         timestamp,
-        sort,
+        type,
       ];
 }

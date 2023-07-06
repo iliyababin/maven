@@ -19,6 +19,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
+    required this.templateDataDao,
     required this.exerciseGroupService,
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
@@ -34,6 +35,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final ExerciseSetDao exerciseSetDao;
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
+  final TemplateDataDao templateDataDao;
 
   final ExerciseGroupService exerciseGroupService;
 
@@ -55,10 +57,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         name: event.template.name,
         note: event.template.note,
         timestamp: DateTime.now(),
-        sort: (await routineDao.getLargestSort() ?? 0) + 1,
         type: RoutineType.template,
       ),
     );
+
+    await templateDataDao.add(TemplateData(
+      routineId: routineId,
+      sort: -1,
+    ));
 
     for (ExerciseGroup exerciseGroup in event.template.exerciseGroups) {
       int exerciseGroupId = await exerciseGroupDao.add(
@@ -104,7 +110,6 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
           name: event.routine.name,
           note: event.routine.note,
           timestamp: event.routine.timestamp,
-          sort: event.routine.sort,
           type: event.routine.type,
           exerciseGroups: event.exerciseGroups!,
         ),
@@ -113,7 +118,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
-    Template template = state.templates.removeAt(event.oldIndex);
+    /*Template template = state.templates.removeAt(event.oldIndex);
     state.templates.insert(event.newIndex, template);
     for (int i = 0; i < state.templates.length; i++) {
       Template template = state.templates[i];
@@ -121,7 +126,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     }
     emit(state.copyWith(
       templates: await _getTemplates(),
-    ));
+    ));*/
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
@@ -137,17 +142,19 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     for (Routine routine in await routineDao.getByType(RoutineType.template)) {
       List<ExerciseGroup> exerciseGroups = await exerciseGroupService.getByRoutineId(routine.id!);
 
+      TemplateData? data = await templateDataDao.getByRoutineId(routine.id!);
+
       templates.add(Template(
         id: routine.id,
         type: routine.type,
         name: routine.name,
-        sort: routine.sort,
         timestamp: routine.timestamp,
         note: routine.note,
+        data: data!,
         exerciseGroups: exerciseGroups,
         musclePercentages: exerciseGroupService.getMusclePercentages(exerciseGroups),
         duration: exerciseGroupService.getDuration(exerciseGroups),
-        volume: exerciseGroupService.getVolume(exerciseGroups),
+        volume: await exerciseGroupService.getVolume(exerciseGroups),
       ));
     }
 

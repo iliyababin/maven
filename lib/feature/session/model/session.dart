@@ -14,7 +14,7 @@ class Session extends Equatable {
   final Routine routine;
   final List<ExerciseGroup> exerciseGroups;
   final SessionData data;
-  final int volume;
+  final double volume;
 
   @override
   List<Object?> get props => [

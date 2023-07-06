@@ -6,7 +6,7 @@ import '../model/setting.dart';
 @dao
 abstract class SettingDao {
   @Query('SELECT * FROM setting')
-  Future<Setting?> getSetting();
+  Future<BaseSetting?> getSetting();
 
   @Query('SELECT language_code FROM setting')
   Future<String?> getLanguageCode();
@@ -24,5 +24,5 @@ abstract class SettingDao {
   Future<String?> getDescription();
 
   @update
-  Future<int> updateSetting(Setting setting);
+  Future<int> updateSetting(BaseSetting setting);
 }

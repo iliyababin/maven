@@ -31,7 +31,6 @@ class ProgramTemplate extends Routine {
     required this.complete,
     required this.folderId,
     this.exerciseBundles = const [],
-    super.sort = -1,
     required super.type,
   });
 
@@ -69,7 +68,6 @@ class ProgramTemplate extends Routine {
       complete: complete ?? this.complete,
       folderId: folderId ?? this.folderId,
       exerciseBundles: exerciseBundles ?? this.exerciseBundles,
-      sort: sort ?? this.sort,
       type: type ?? this.type,
     );
   }

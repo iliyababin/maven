@@ -4,10 +4,9 @@ import 'package:maven/common/widget/heading.dart';
 
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/database.dart';
-import '../../../theme/widget/inherited_theme_widget.dart';
+import '../../../theme/theme.dart';
 import '../../program/screen/program_builder_screen.dart';
 import '../../program/view/program_list_view.dart';
-import '../model/template.dart';
 import '../template.dart';
 
 /// Screen which manages templates, workouts, and programs
@@ -70,9 +69,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                                 name: routine.name,
                                                 note: routine.note,
                                                 timestamp: DateTime.now(),
-                                                sort: -1,
                                                 type: RoutineType.template,
-                                                exerciseGroups: exerciseGroups
+                                                data: TemplateData(
+                                                  sort: -1,
+                                                  routineId: -1,
+                                                ),
+                                                exerciseGroups: exerciseGroups,
                                               ),
                                             ),
                                           );

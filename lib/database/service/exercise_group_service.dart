@@ -5,12 +5,14 @@ import '../database.dart';
 
 class ExerciseGroupService {
   const ExerciseGroupService({
+    required this.settingDao,
     required this.exerciseGroupDao,
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
   });
 
+  final SettingDao settingDao;
   final ExerciseGroupDao exerciseGroupDao;
   final ExerciseSetDao exerciseSetDao;
   final ExerciseSetDataDao exerciseSetDataDao;
@@ -66,20 +68,26 @@ class ExerciseGroupService {
     return exerciseGroups;
   }
 
-  int getVolume(List<ExerciseGroup> exerciseGroups){
-    int volume = 0;
+  Future<double> getVolume(List<ExerciseGroup> exerciseGroups) async {
+    double volume = 0;
 
     for(ExerciseGroup exerciseGroup in exerciseGroups){
       for(ExerciseSet exerciseSet in exerciseGroup.sets){
         double setVolume = 1;
 
         for(ExerciseSetData exerciseSetData in exerciseSet.data){
-          setVolume *= exerciseSetData.valueAsDouble;
+          if(exerciseGroup.weightUnit == WeightUnit.lbs) {
+            setVolume *= exerciseSetData.valueAsDouble;
+          } else {
+            setVolume *= exerciseSetData.valueAsDouble * 0.45359237;
+          }
         }
         volume += setVolume.toInt();
       }
     }
-    return volume;
+
+    BaseSetting? setting = await settingDao.getSetting();
+    return setting!.weightUnit == WeightUnit.lbs ? volume : (volume * 0.45359237);
   }
 
   Map<Muscle, double> getMusclePercentages(List<ExerciseGroup> exerciseGroups) {

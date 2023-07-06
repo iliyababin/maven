@@ -10,16 +10,17 @@ class Template extends Routine {
     required super.name,
     required super.note,
     required super.timestamp,
-    required super.sort,
     required super.type,
+    this.data,
     this.exerciseGroups = const [],
     this.musclePercentages = const {},
     this.duration = const Timed.zero(),
     this.volume = 0,
   });
 
+  final TemplateData? data;
   final List<ExerciseGroup> exerciseGroups;
   final Map<Muscle, double> musclePercentages;
   final Timed duration;
-  final int volume;
+  final double volume;
 }

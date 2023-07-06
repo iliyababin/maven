@@ -87,7 +87,6 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       name: routine.name,
       note: routine.note,
       timestamp: DateTime.now(),
-      sort: -1,
       type: type,
     ));
 

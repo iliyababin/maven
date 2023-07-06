@@ -36,3 +36,16 @@ class SettingChangeLocale extends SettingEvent {
     locale,
   ];
 }
+
+class SettingChangeWeightUnit extends SettingEvent {
+  const SettingChangeWeightUnit({
+    required this.weightUnit,
+  });
+
+  final WeightUnit weightUnit;
+
+  @override
+  List<Object?> get props => [
+    weightUnit,
+  ];
+}

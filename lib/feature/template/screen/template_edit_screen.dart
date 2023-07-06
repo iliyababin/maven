@@ -34,7 +34,6 @@ class _EditTemplateScreenState extends State<EditTemplateScreen> {
       routine = Routine(
         name: '',
         note: '',
-        sort: -1,
         timestamp: DateTime.now(),
         type: RoutineType.template,
       );

@@ -15,46 +15,26 @@ extension SettingStatusX on SettingStatus {
 class SettingState extends Equatable {
   const SettingState({
     this.status = SettingStatus.initial,
-    this.themeId = 1,
-    this.themes = const [],
-    this.locale = const Locale('en', 'US'),
-    this.username = 'John Doe',
-    this.description = 'Weightlifter',
+    this.setting,
   });
 
   final SettingStatus status;
-  final int themeId;
-  final List<AppTheme> themes;
-  final Locale locale;
-  final String username;
-  final String description;
+  final Setting? setting;
 
   SettingState copyWith({
     SettingStatus? status,
-    int? themeId,
-    List<AppTheme>? themes,
-    Locale? locale,
-    String? username,
-    String? description,
+    Setting? setting,
   }) {
     return SettingState(
       status: status ?? this.status,
-      themeId: themeId ?? this.themeId,
-      themes: themes ?? this.themes,
-      locale: locale ?? this.locale,
-      username: username ?? this.username,
-      description: description ?? this.description,
+      setting: setting ?? this.setting,
     );
   }
 
   @override
   List<Object?> get props => [
     status,
-    themeId,
-    themes,
-    locale,
-    username,
-    description,
+    setting,
   ];
 }
 

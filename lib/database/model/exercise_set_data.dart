@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:maven/feature/exercise/widget/exercise_set_widget.dart';
+import 'package:maven/common/common.dart';
 
 import '../database.dart';
 
@@ -39,6 +39,7 @@ class BaseExerciseSetData {
   int exerciseSetId;
 
   double get valueAsDouble {
+    if(value.isEmpty) return 0.0;
     switch (fieldType) {
       case ExerciseFieldType.reps:
         return double.parse(value);
@@ -76,7 +77,7 @@ class BaseExerciseSetData {
       case ExerciseFieldType.reps:
         return value;
       case ExerciseFieldType.weight:
-        return removeTrailingZeros(value) + exerciseGroup.weightUnit!.name;
+        return value.truncateZeros + exerciseGroup.weightUnit!.name;
       case ExerciseFieldType.duration:
         return '$value seconds';
       case ExerciseFieldType.distance:

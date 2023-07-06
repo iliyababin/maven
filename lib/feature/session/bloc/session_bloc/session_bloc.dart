@@ -51,7 +51,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       name: event.workout.routine.name,
       note: event.workout.routine.note,
       timestamp: DateTime.now(),
-      sort: -1,
       type: RoutineType.session,
     ));
 
@@ -112,7 +111,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         routine: routine,
         exerciseGroups: exerciseGroups,
         data: data!,
-        volume: exerciseGroupService.getVolume(exerciseGroups),
+        volume: await exerciseGroupService.getVolume(exerciseGroups),
       ));
     }
     return sessions;

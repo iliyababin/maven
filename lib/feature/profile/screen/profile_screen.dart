@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../common/common.dart';
 import '../../../generated/l10n.dart';
@@ -31,80 +29,32 @@ class ProfileScreen extends StatelessWidget {
                   color: T(context).color.surface,
                   borderRadius: BorderRadius.circular(T(context).shape.large),
                 ),
-                child: BlocBuilder<SettingBloc, SettingState>(
-                  builder: (context, state) {
-                    if (state.status.isLoading) {
-                      return Shimmer.fromColors(
-                        baseColor: T(context).color.surface.baseShimmer,
-                        highlightColor: T(context).color.surface.highlightShimmer,
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              minRadius: 25,
-                              child: Text(state.username[0]),
-                            ),
-                            const SizedBox(width: 20),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 35,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    color: T(context).color.background,
-                                    borderRadius: BorderRadius.circular(T(context).shape.small),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: T(context).color.background,
-                                    borderRadius: BorderRadius.circular(T(context).shape.small),
-                                  ),
-                                  height: 20,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                          ],
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // TODO: Implement user avatar
+                      },
+                      child: const CircleAvatar(
+                        minRadius: 25,
+                        child: Text('A'),
+                      ),
+                    ),
+                    const SizedBox(width: 24),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          s(context).username,
+                          style: T(context).textStyle.headingMedium,
                         ),
-                      );
-                    } else if (state.status.isLoaded) {
-                      return Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // TODO: Implement user avatar
-                            },
-                            child: const CircleAvatar(
-                              minRadius: 25,
-                              child: Text('A'),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.username,
-                                style: T(context).textStyle.headingMedium,
-                              ),
-                              Text(
-                                state.description,
-                                style: T(context).textStyle.bodyMedium,
-                              ),
-                            ],
-                          )
-                        ],
-                      );
-                    } else {
-                      return const SizedBox(
-                        child: Center(
-                          child: Text('Error'),
+                        Text(
+                          s(context).description,
+                          style: T(context).textStyle.bodyMedium,
                         ),
-                      );
-                    }
-                  },
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),

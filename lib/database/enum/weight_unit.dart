@@ -1,4 +1,4 @@
 enum WeightUnit {
-  kgs,
   lbs,
+  kgs,
 }

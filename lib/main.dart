@@ -22,6 +22,7 @@ void main() async {
   final MavenDatabase db = await MavenDatabase.initialize();
 
   ExerciseGroupService exerciseGroupService = ExerciseGroupService(
+    settingDao: db.settingDao,
     exerciseGroupDao: db.baseExerciseGroupDao,
     exerciseSetDao: db.exerciseSetDao,
     exerciseSetDataDao: db.exerciseSetDataDao,
@@ -43,7 +44,8 @@ void main() async {
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 routineDao: db.routineDao,
                 noteDao: db.noteDao,
-            exerciseGroupService: exerciseGroupService,
+                templateDataDao: db.templateDataDao,
+                exerciseGroupService: exerciseGroupService,
               )..add(const TemplateInitialize())),
       BlocProvider(
           create: (context) => WorkoutBloc(
@@ -104,12 +106,11 @@ class Main extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (state.status.isLoaded) {
           return ThemeProvider(
-            theme: AppTheme.themes.firstWhere((element) => element.id == state.themeId),
-            themes: AppTheme.themes,
+            setting: state.setting!,
             child: Builder(
               builder: (context) {
                 return MaterialApp(
-                  theme: InheritedThemeWidget.of(context).theme.data,
+                  theme: InheritedSettingWidget.of(context).setting.theme.data,
                   // TODO: Give user option to change this.
                   // scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
@@ -119,7 +120,7 @@ class Main extends StatelessWidget {
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
                   ],
-                  locale: state.locale,
+                  locale: state.setting!.locale,
                   supportedLocales: S.delegate.supportedLocales,
                   home: const Stack(children: [
                     Maven(),

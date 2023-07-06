@@ -10,7 +10,8 @@ import '../../../theme/theme.dart';
 import '../equipment.dart';
 
 class EditPlateScreen extends StatefulWidget {
-  const EditPlateScreen({Key? key,
+  const EditPlateScreen({
+    Key? key,
     required this.plate,
   }) : super(key: key);
 
@@ -21,17 +22,15 @@ class EditPlateScreen extends StatefulWidget {
 }
 
 class _EditPlateScreenState extends State<EditPlateScreen> {
-
   late int amount;
   late Color color;
   late double height;
   late double weight;
 
-  void _pickColor () {
+  void _pickColor() {
     showBottomSheetDialog(
       context: context,
-      onClose: () {
-      },
+      onClose: () {},
       height: 350,
       child: ColorPicker(
         hexInputBar: true,
@@ -39,7 +38,6 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
         colorPickerWidth: 500,
         pickerAreaHeightPercent: 0.4,
         pickerColor: color,
-
         labelTypes: const [],
         onColorChanged: (value) {
           setState(() {
@@ -63,129 +61,144 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Edit Plate'),
         actions: [
           IconButton(
             onPressed: () {
               context.read<EquipmentBloc>().add(PlateUpdate(
-                plate: Plate(
-                  id: widget.plate.id,
-                  amount: amount,
-                  color: color,
-                  height: height,
-                  weight: weight,
-                ),
-              ));
+                    plate: Plate(
+                      id: widget.plate.id,
+                      amount: amount,
+                      color: color,
+                      height: height,
+                      weight: weight,
+                    ),
+                  ));
               Navigator.pop(context);
             },
             icon: const Icon(Icons.check),
           )
         ],
       ),
-      body: ListView(
-        children: [
-          Container(
-            alignment: Alignment.center,
-            height: 250,
-            child: CustomPaint(
-              size: const Size(200, 200),
-              painter: WeightPlatePainter(
-                color: color,
-                weight: weight,
-                height: height,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: T(context).shape.large),
+        child: CustomScrollView(
+          slivers: [
+            Heading(title: 'Preview', size: HeadingSize.small,),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Container(
+                  alignment: Alignment.center,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(T(context).shape.large),
+                    color: T(context).color.surface,
+                  ),
+                  child: CustomPaint(
+                    size: const Size(200, 200),
+                    painter: WeightPlatePainter(
+                      color: color,
+                      weight: weight,
+                      height: height,
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+            Heading(title: 'Details'),
+            SliverToBoxAdapter(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(T(context).shape.large),
+                child: Material(
+                  color: T(context).color.surface,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () => showBottomSheetDialog(
+                          context: context,
+                          onClose: () {},
+                          height: 250,
+                          child: TextInputDialog(
+                            title: 'Total Plates Available',
+                            initialValue: amount.toString(),
+                            onValueChanged: (value) {
+                              setState(() {
+                                amount = value.isEmpty ? 0 : int.parse(value);
+                              });
+                            },
+                          ),
+                        ),
+                        title: Text(
+                          'Amount',
+                        ),
+                        trailing: Text(
+                          '$amount plates',
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () => showBottomSheetDialog(
+                          context: context,
+                          onClose: () {},
+                          height: 250,
+                          child: TextInputDialog(
+                            title: 'Total Plate Weight',
+                            initialValue: weight.toString(),
+                            onValueChanged: (value) {
+                              setState(() {
+                                weight = value.isEmpty ? 0 : double.parse(value);
+                              });
+                            },
+                          ),
+                        ),
+                        title: Text(
+                          'Weight',
+                        ),
+                        trailing: Text(
+                          weight.toString(),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Size',
+                        ),
+                        trailing: SizedBox(
+                          width: 200,
+                          child: Slider(
+                            min: 0.35,
+                            max: 1.0,
+                            value: height,
+                            onChanged: (double value) {
+                              setState(() {
+                                height = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () => _pickColor(),
+                        leading: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: color,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                        title: Text(
+                          'Color',
+                        ),
+                        trailing: Text(
+                          '#${color.value.toRadixString(16)}',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          ListTile(
-            onTap: () => showBottomSheetDialog(
-              context: context,
-              onClose: () {},
-              height: 250,
-              child: TextInputDialog(
-                title: 'Total Plates Available',
-                initialValue: amount.toString(),
-                onValueChanged: (value) {
-                  setState(() {
-                    amount = value.isEmpty ? 0 : int.parse(value);
-                  });
-                },
-              ),
-            ),
-            title: Text(
-              'Amount',
-              style: T(context).textStyle.bodyLarge,
-            ),
-            subtitle: Text(
-              '$amount plates',
-              style: T(context).textStyle.bodyMedium,
-            ),
-          ),
-          ListTile(
-            onTap: () => showBottomSheetDialog(
-              context: context,
-              onClose: () {},
-              height: 250,
-              child: TextInputDialog(
-                title: 'Total Plate Weight',
-                initialValue: weight.toString(),
-                onValueChanged: (value) {
-                  setState(() {
-                    weight = value.isEmpty ? 0 : double.parse(value);
-                  });
-                },
-              ),
-            ),
-            title: Text(
-              'Weight',
-              style: T(context).textStyle.bodyLarge,
-            ),
-            subtitle: Text(
-              weight.toString(),
-              style: T(context).textStyle.bodyMedium,
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Size',
-              style: T(context).textStyle.bodyLarge,
-            ),
-            subtitle: Text(
-              height.toStringAsFixed(3),
-              style: T(context).textStyle.bodyMedium,
-            ),
-            trailing: SizedBox(
-              width: 200,
-              child: Slider(
-                min: 0.35,
-                max: 1.0,
-                value: height,
-                onChanged: (double value) {
-                  setState(() {
-                    height = value;
-                  });
-                },
-              ),
-            ),
-          ),
-          ListTile(
-            onTap: () => _pickColor(),
-            leading: Container(
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(50),
-              ),
-            ),
-            title: Text(
-              'Color',
-              style: T(context).textStyle.bodyLarge,
-            ),
-            subtitle: Text(
-              '#${color.value.toRadixString(16)}',
-              style: T(context).textStyle.bodyMedium,
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -245,13 +258,14 @@ class WeightPlatePainter extends CustomPainter {
       ));
     canvas.drawCircle(center, radius * 0.35, metalPaint);
 
-    final holePaint = Paint()
-      ..color = Colors.black.withOpacity(0.6);
-    canvas.drawOval(Rect.fromCenter(
-      center: center,
-      width: 25,
-      height: 25,
-    ), holePaint);
+    final holePaint = Paint()..color = Colors.black.withOpacity(0.6);
+    canvas.drawOval(
+        Rect.fromCenter(
+          center: center,
+          width: 25,
+          height: 25,
+        ),
+        holePaint);
 
     // Add engraved text indicating the weight on both sides
     final textStyle = TextStyle(
@@ -289,7 +303,6 @@ class WeightPlatePainter extends CustomPainter {
     canvas.translate(center.dx - textWidth / 2, center.dy - textHeight / 2);
     textPainter.paint(canvas, Offset(-65 * height, 0));
     canvas.restore();
-
   }
 
   @override

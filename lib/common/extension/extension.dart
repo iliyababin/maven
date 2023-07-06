@@ -64,3 +64,9 @@ Color _darkenColor(Color color, {double amount = 0.1}) {
 
   return Color.fromARGB(alpha, red, green, blue);
 }
+
+extension RemoveTrailingZeros on String {
+  String get truncateZeros {
+    return toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
+  }
+}

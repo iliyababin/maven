@@ -34,7 +34,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
 
             return GestureDetector(
               onTap: () {
-                InheritedThemeWidget.of(context).setTheme(theme.id);
+                InheritedSettingWidget.of(context).setTheme(theme.id);
               },
               child: Container(
                 height: 1,
@@ -43,7 +43,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
                     width: 3,
-                    color: InheritedThemeWidget.of(context).theme.id == theme.id ? T(context).color.primary : Colors.transparent,
+                    color: InheritedSettingWidget.of(context).setting.theme.id == theme.id ? T(context).color.primary : Colors.transparent,
                   ),
                 ),
                 child: Stack(

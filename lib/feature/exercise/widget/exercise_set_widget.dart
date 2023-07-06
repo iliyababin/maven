@@ -131,7 +131,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      e.fieldType == ExerciseFieldType.weight ? removeTrailingZeros(e.value) : e.value.toString(),
+                      e.fieldType == ExerciseFieldType.weight ? e.value.truncateZeros : e.value.toString(),
                       style: T(context).textStyle.bodyLarge.copyWith(
                             color: T(context).color.onSuccessContainer,
                           ),
@@ -176,16 +176,3 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
   }
 }
 
-String removeTrailingZeros(String input) {
-  if (input.isEmpty) {
-    return '';
-  }
-
-  double? number = double.tryParse(input);
-  if (number == null) {
-    // Input is not a valid number
-    return input;
-  }
-
-  return number.toStringAsFixed(number.truncateToDouble() == number ? 0 : 1);
-}
