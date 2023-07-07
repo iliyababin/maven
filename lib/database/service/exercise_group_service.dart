@@ -5,6 +5,7 @@ import '../database.dart';
 
 class ExerciseGroupService {
   const ExerciseGroupService({
+    required this.exerciseDao,
     required this.settingDao,
     required this.exerciseGroupDao,
     required this.exerciseSetDao,
@@ -12,6 +13,7 @@ class ExerciseGroupService {
     required this.noteDao,
   });
 
+  final ExerciseDao exerciseDao;
   final SettingDao settingDao;
   final ExerciseGroupDao exerciseGroupDao;
   final ExerciseSetDao exerciseSetDao;
@@ -90,14 +92,30 @@ class ExerciseGroupService {
     return setting!.weightUnit == WeightUnit.lbs ? volume : (volume * 0.45359237);
   }
 
-  Map<Muscle, double> getMusclePercentages(List<ExerciseGroup> exerciseGroups) {
+  Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroup> exerciseGroups) async {
+    Map<Muscle, int> muscleCount = {};
+
+    for(ExerciseGroup exerciseGroup in exerciseGroups){
+      Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
+      muscleCount[exercise!.muscle] = (muscleCount[exercise.muscle] ?? 0) + 1;
+    }
+
     Map<Muscle, double> musclePercentages = {};
+    for(Muscle muscle in muscleCount.keys){
+      musclePercentages[muscle] = muscleCount[muscle]! / exerciseGroups.length;
+    }
 
     return musclePercentages;
   }
 
   Timed getDuration(List<ExerciseGroup> exerciseGroups) {
     Timed duration = const Timed.zero();
+
+    for(ExerciseGroup exerciseGroup in exerciseGroups){
+      for(ExerciseSet exerciseSet in exerciseGroup.sets){
+        duration = duration.add(exerciseGroup.timer);
+      }
+    }
 
     return duration;
   }

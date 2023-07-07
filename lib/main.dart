@@ -22,6 +22,7 @@ void main() async {
   final MavenDatabase db = await MavenDatabase.initialize();
 
   ExerciseGroupService exerciseGroupService = ExerciseGroupService(
+    exerciseDao: db.exerciseDao,
     settingDao: db.settingDao,
     exerciseGroupDao: db.baseExerciseGroupDao,
     exerciseSetDao: db.exerciseSetDao,

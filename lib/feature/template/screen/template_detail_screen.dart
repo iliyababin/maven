@@ -123,61 +123,63 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                         height: T(context).space.large,
                       ),
                       Container(
-                          padding: EdgeInsets.all(T(context).space.large),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: T(context).color.surface,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  Text(
-                                    'Details',
-                                    style: T(context).textStyle.titleLarge,
-                                  ),
-                                  Text(
-                                    '',
-                                    style: T(context).textStyle.titleLarge,
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  const Text(
-                                    'Duration',
-                                  ),
-                                  Text(
-                                    template.duration.toString(),
-                                    style: T(context).textStyle.labelSmall,
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  const Text(
-                                    'Volume',
-                                  ),
-                                  Text(
-                                    '${s(context).parseWeight(template.volume.toDouble())} ${s(context).weightUnit.name}',
-                                    style: T(context).textStyle.labelSmall,
-                                  ),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  const Text(
-                                    'Muscle Coverage',
-                                  ),
-                                  Text(
-                                    parseMuscleCoverage(template.musclePercentages),
-                                    style: T(context).textStyle.labelSmall,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),),
+                        padding: EdgeInsets.all(T(context).space.large),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: T(context).color.surface,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Table(
+                          defaultVerticalAlignment: TableCellVerticalAlignment.top,
+                          children: [
+                            TableRow(
+                              children: [
+                                Text(
+                                  'Details',
+                                  style: T(context).textStyle.titleLarge,
+                                ),
+                                Text(
+                                  '',
+                                  style: T(context).textStyle.titleLarge,
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                const Text(
+                                  'Est. Duration',
+                                ),
+                                Text(
+                                  template.duration.toString(),
+                                  style: T(context).textStyle.labelSmall,
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                const Text(
+                                  'Volume',
+                                ),
+                                Text(
+                                  '${s(context).parseWeight(template.volume.toDouble())} ${s(context).weightUnit.name}',
+                                  style: T(context).textStyle.labelSmall,
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                const Text(
+                                  'Muscle Coverage',
+                                ),
+                                Text(
+                                  parseMuscleCoverage(template.musclePercentages),
+                                  style: T(context).textStyle.labelSmall,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -257,9 +259,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
           );
         } else {
           return Scaffold(
-            appBar: AppBar(
-
-            ),
+            appBar: AppBar(),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

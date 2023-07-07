@@ -6,8 +6,7 @@ import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../session.dart';
 
-
-class SessionDetailScreen extends StatelessWidget {
+class SessionDetailScreen extends StatefulWidget {
   const SessionDetailScreen({
     Key? key,
     required this.session,
@@ -15,91 +14,110 @@ class SessionDetailScreen extends StatelessWidget {
 
   final Session session;
 
-  /* List<TextSpan> test(Session seb, int index, BuildContext context) {
-    List<TextSpan> result = [];
+  @override
+  State<SessionDetailScreen> createState() => _SessionDetailScreenState();
+}
 
-    result.add(TextSpan(
-      text: '${index + 1}  ',
-      style: T(context).textStyle.bodyMedium.copyWith(
-            color: seb.sessionExerciseSets[index].type.color(context),
-          ),
-    ));
+class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTickerProviderStateMixin {
+  late TabController tabController;
 
-    for (int i = 0; i < seb.sessionExerciseSets[index].data.length; i++) {
-      result.add(TextSpan(
-        text: seb.sessionExerciseSets[index].data[i].stringify(seb.sessionExerciseGroup),
-        style: TextStyle(
-          color: T(context).color.onBackground,
-        ),
-      ));
-
-      if (i < seb.sessionExerciseSets[index].data.length - 1) {
-        result.add(TextSpan(
-          text: ' x ',
-          style: TextStyle(
-            color: T(context).color.onBackground,
-          ),
-        ));
-      }
-    }
-    return result;
-  }*/
+  @override
+  void initState() {
+    tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Details',
+          'Session',
+        ),
+        bottom: TabBar(
+          controller: tabController,
+          tabs: const [
+            Tab(
+              text: 'About',
+            ),
+            Tab(
+              text: 'Exercise',
+            ),
+          ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: T(context).space.large,
-          right: T(context).space.large,
-          top: T(context).space.large,
-        ),
-        child: BlocBuilder<ExerciseBloc, ExerciseState>(
-          builder: (context, state) {
-            if(state.status.isLoaded) {
-              return ListView.separated(
-                itemCount: session.exerciseGroups.length,
-                separatorBuilder: (context, index) =>
-                const SizedBox(
-                  height: 12,
-                ),
-                itemBuilder: (context, index) {
-                  ExerciseGroup exerciseGroup = session.exerciseGroups[index];
-                  Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        exercise.name,
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      ListView.builder(
-                        itemCount: exerciseGroup.sets.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          ExerciseSet exerciseSet = exerciseGroup.sets[index];
+      body: BlocBuilder<SessionBloc, SessionState>(
+        builder: (context, state) {
+          if(state.status.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.status.isLoaded) {
+            Session session = state.sessions.firstWhere((element) => element.routine.id == widget.session.routine.id);
 
-                          return Text(
-                            exerciseSet.data.map((data) => data.stringify(exerciseGroup).toString()).toList().toString(),
-                          );
-                        },
-                      ),
-                    ],
+            return TabBarView(
+              controller: tabController,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(T(context).space.large),
+                  child: SessionAboutView(
+                    session: session,
+                  ),
+                ),
+                Text('nnie'),
+              ],
+            );
+
+            return BlocBuilder<ExerciseBloc, ExerciseState>(
+              builder: (context, state) {
+                if (state.status.isLoaded) {
+                  return ListView.separated(
+                    itemCount: session.exerciseGroups.length,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 12,
+                    ),
+                    itemBuilder: (context, index) {
+                      ExerciseGroup exerciseGroup = session.exerciseGroups[index];
+                      Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            exercise.name,
+                          ),
+                          const SizedBox(
+                            height: 2,
+                          ),
+                          ListView.builder(
+                            itemCount: exerciseGroup.sets.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              ExerciseSet exerciseSet = exerciseGroup.sets[index];
+
+                              return Text(
+                                exerciseSet.data.map((data) => data.stringify(exerciseGroup).toString()).toList().toString(),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
+                } else {
+                  return Container();
+                }
+              },
+            );
+          } else {
+            return const Center(
+              child: Text('Error'),
+            );
+          }
+
+        },
       ),
     );
   }

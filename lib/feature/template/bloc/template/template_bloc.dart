@@ -152,7 +152,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         note: routine.note,
         data: data!,
         exerciseGroups: exerciseGroups,
-        musclePercentages: exerciseGroupService.getMusclePercentages(exerciseGroups),
+        musclePercentages: await exerciseGroupService.getMusclePercentages(exerciseGroups),
         duration: exerciseGroupService.getDuration(exerciseGroups),
         volume: await exerciseGroupService.getVolume(exerciseGroups),
       ));

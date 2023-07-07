@@ -16,7 +16,7 @@ showTemplateOptionsView(BuildContext context, Template template) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EditTemplateScreen(
+                builder: (context) => RoutineEditScreen(
                   routine: template,
                   exerciseGroups: template.exerciseGroups,
                   onSubmit: (template, exerciseGroups) {

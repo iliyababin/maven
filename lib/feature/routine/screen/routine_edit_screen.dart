@@ -6,10 +6,10 @@ import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../note/note.dart';
 
-typedef TemplateEditCallback = void Function(Routine routine, List<ExerciseGroup> exerciseGroups);
+typedef RoutineEditCallback = void Function(Routine routine, List<ExerciseGroup> exerciseGroups);
 
-class EditTemplateScreen extends StatefulWidget {
-  const EditTemplateScreen({
+class RoutineEditScreen extends StatefulWidget {
+  const RoutineEditScreen({
     Key? key,
     this.routine,
     this.exerciseGroups,
@@ -18,13 +18,13 @@ class EditTemplateScreen extends StatefulWidget {
 
   final Routine? routine;
   final List<ExerciseGroup>? exerciseGroups;
-  final TemplateEditCallback onSubmit;
+  final RoutineEditCallback onSubmit;
 
   @override
-  State<EditTemplateScreen> createState() => _EditTemplateScreenState();
+  State<RoutineEditScreen> createState() => _RoutineEditScreenState();
 }
 
-class _EditTemplateScreenState extends State<EditTemplateScreen> {
+class _RoutineEditScreenState extends State<RoutineEditScreen> {
   late Routine routine;
   late List<ExerciseGroup> exerciseGroups;
 

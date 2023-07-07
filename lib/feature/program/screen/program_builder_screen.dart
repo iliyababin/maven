@@ -167,7 +167,7 @@ class _ProgramBuilderScreenState extends State<ProgramBuilderScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditTemplateScreen(
+                            builder: (context) => RoutineEditScreen(
                               onSubmit: (template, exerciseBundles) {
                                 /*setState(() {
                                   programTemplates.add(

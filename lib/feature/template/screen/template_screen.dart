@@ -61,7 +61,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => EditTemplateScreen(
+                                  builder: (context) => RoutineEditScreen(
                                     onSubmit: (routine, exerciseGroups) {
                                       context.read<TemplateBloc>().add(
                                             TemplateCreate(
