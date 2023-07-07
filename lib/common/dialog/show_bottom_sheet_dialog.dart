@@ -9,7 +9,6 @@ void showBottomSheetDialog({
   EdgeInsets padding = const EdgeInsets.all(18),
   required Widget child,
   VoidCallback? onClose,
-  double height = 330,
 }) {
   showModalBottomSheet(
     context: context,

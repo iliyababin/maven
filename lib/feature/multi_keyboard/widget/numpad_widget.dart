@@ -61,7 +61,8 @@ class _NumPadWidgetState extends State<NumPadWidget> {
         _controller.selection =
             TextSelection.collapsed(offset: selectionStart + 1, affinity: TextAffinity.upstream);
       },
-      height: double.infinity,
+      height: 50,
+      expand: true,
       borderRadius: 0,
       child: Text(
         number.toString(),
@@ -93,77 +94,67 @@ class _NumPadWidgetState extends State<NumPadWidget> {
         ),
 
         Container(
-          height: 2,
+          height: 1,
           color: T(context).color.outline,
         ),
 
-        Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                    children: [
-                      numberTile('1'),
-                      numberTile('2'),
-                      numberTile('3'),
-                    ]
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    numberTile('4'),
-                    numberTile('5'),
-                    numberTile('6'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    numberTile('7'),
-                    numberTile('8'),
-                    numberTile('9'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  height: 65,
-                  child: Row(
-                    children: [
-                      numberTile('.'),
-                      numberTile('0'),
+        Column(
+          children: [
+            Row(
+              children: [
+                numberTile('1'),
+                numberTile('2'),
+                numberTile('3'),
+              ]
+            ),
+            Row(
+              children: [
+                numberTile('4'),
+                numberTile('5'),
+                numberTile('6'),
+              ],
+            ),
+            Row(
+              children: [
+                numberTile('7'),
+                numberTile('8'),
+                numberTile('9'),
+              ],
+            ),
+            Container(
+              height: 65,
+              child: Row(
+                children: [
+                  numberTile('.'),
+                  numberTile('0'),
 
-                      MButton(
-                        onPressed: (){
-                          int selectionStart = _controller.selection.start;
-                          int selectionEnd = _controller.selection.end;
+                  MButton(
+                    onPressed: (){
+                      int selectionStart = _controller.selection.start;
+                      int selectionEnd = _controller.selection.end;
 
-                          if(selectionStart == 0 && selectionEnd == 0) return;
+                      if(selectionStart == 0 && selectionEnd == 0) return;
 
-                          if (selectionStart == selectionEnd) {
-                            selectionStart = selectionStart - 1;
-                          }
+                      if (selectionStart == selectionEnd) {
+                        selectionStart = selectionStart - 1;
+                      }
 
-                          _controller.text = _controller.text.substring(0, selectionStart) +
-                              _controller.text.substring(selectionEnd);
-                          _controller.selection =
-                              TextSelection.collapsed(offset: selectionStart);
-                        },
-                        height: 65,
-                        borderRadius: 0,
-                        leading: Icon(
-                          Icons.backspace_rounded,
-                          color: T(context).color.onBackground,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                      _controller.text = _controller.text.substring(0, selectionStart) +
+                          _controller.text.substring(selectionEnd);
+                      _controller.selection =
+                          TextSelection.collapsed(offset: selectionStart);
+                    },
+                    height: 65,
+                    borderRadius: 0,
+                    leading: Icon(
+                      Icons.backspace_rounded,
+                      color: T(context).color.onBackground,
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         )
       ],
     );

@@ -102,25 +102,17 @@ class BarbellCalculatorWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Plate Calculator',
-                      style: TextStyle(
-                        color: T(context).color.primary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                      ),
+                      style: T(context).textStyle.titleLarge,
                     ),
-                    const SizedBox(height: 5,),
                     Text(
                       'Target: ${weight.toString()} | Possible: $possibleWeight ',
-                      style: T(context).textStyle.bodyMedium,
+                      style: T(context).textStyle.labelSmall,
                     ),
                   ],
                 ),
               ),
               Container(
-                height: 1,
-                color: T(context).color.outline,
-              ),
-              Expanded(
+                height: 200,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -128,18 +120,15 @@ class BarbellCalculatorWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 1,
-                color: T(context).color.outline,
-              ),
               MButton(
                 onPressed: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EquipmentScreen()));
                 },
                 width: 50,
                 borderRadius: 0,
-                leading: const Icon(
+                leading:  Icon(
                   Icons.settings,
+                  color: T(context).color.onBackground,
                 ),
               ),
             ],

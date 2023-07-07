@@ -58,6 +58,29 @@ class BaseExerciseSetData {
     }
   }
 
+  String get valueAsString {
+    switch (fieldType) {
+      case ExerciseFieldType.reps:
+        return value;
+      case ExerciseFieldType.weight:
+        return value.truncateZeros;
+      case ExerciseFieldType.duration:
+        if(value.isEmpty) {
+          return 'None';
+        } else {
+          return Timed.fromSeconds(int.parse(value)).toString();
+        }
+      case ExerciseFieldType.distance:
+        return value.truncateZeros;
+      case ExerciseFieldType.bodyWeight:
+        return value;
+      case ExerciseFieldType.weighted:
+        return value;
+      case ExerciseFieldType.assisted:
+        return value;
+    }
+  }
+
   BaseExerciseSetData copyWith({
     int? id,
     String? value,

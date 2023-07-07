@@ -10,7 +10,7 @@ class ExerciseSetWidget extends StatefulWidget {
   const ExerciseSetWidget({
     Key? key,
     required this.index,
-    this.barId,
+    required this.group,
     required this.exercise,
     required this.exerciseSet,
     required this.onExerciseSetUpdate,
@@ -20,7 +20,7 @@ class ExerciseSetWidget extends StatefulWidget {
   }) : super(key: key);
 
   final int index;
-  final int? barId;
+  final ExerciseGroup group;
   final Exercise exercise;
   final ExerciseSet exerciseSet;
   final ValueChanged<ExerciseSet> onExerciseSetUpdate;
@@ -104,42 +104,17 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
         options: exerciseSet.data
             .where((element) => element.fieldType != ExerciseFieldType.bodyWeight)
             .toList()
-            .map(
-              (e) => Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    showBottomSheetDialog(
-                      context: context,
-                      child: MultiKeyboard(
-                        barId: widget.barId,
-                        equipment: widget.exercise.equipment,
-                        data: e,
-                        onValueChanged: (value) {
-                          widget.onExerciseSetUpdate(
-                            exerciseSet,
-                          );
-                        },
-                      ),
-                      onClose: () {},
+            .map((e) => ExerciseSetDataWidget(
+                  isChecked: _isChecked,
+                  group: widget.group,
+                  data: e,
+                  set: exerciseSet,
+                  onUpdate: (value) {
+                    widget.onExerciseSetUpdate(
+                      value,
                     );
                   },
-                  child: Container(
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: _isChecked ? T(context).color.successContainer : T(context).color.surface,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      e.fieldType == ExerciseFieldType.weight ? e.value.truncateZeros : e.value.toString(),
-                      style: T(context).textStyle.bodyLarge.copyWith(
-                            color: T(context).color.onSuccessContainer,
-                          ),
-                    ),
-                  ),
-                ),
-              ),
-            )
+                ))
             .toList(),
         checkbox: widget.checkboxEnabled
             ? SizedBox(
@@ -175,4 +150,3 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     );
   }
 }
-

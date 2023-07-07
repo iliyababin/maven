@@ -11,3 +11,4 @@ export 'widget/exercise_group_widget.dart';
 export 'widget/exercise_row_widget.dart';
 export 'widget/exercise_set_widget.dart';
 export 'widget/exercise_timer_widget.dart';
+export 'widget/exercise_set_data_widget.dart';

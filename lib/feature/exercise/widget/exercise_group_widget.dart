@@ -305,7 +305,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 ),
                 child: ExerciseSetWidget(
                   index: regularIndex,
-                  barId: widget.exerciseGroup.barId,
+                  group: widget.exerciseGroup,
                   exercise: widget.exercise,
                   exerciseSet: widget.exerciseSets[index],
                   onExerciseSetUpdate: (value) {

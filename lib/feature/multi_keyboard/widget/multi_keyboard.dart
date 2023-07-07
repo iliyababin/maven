@@ -6,7 +6,6 @@ import '../../../theme/theme.dart';
 import '../../exercise/model/exercise_set_data.dart';
 import '../multi_keyboard.dart';
 
-
 enum MKeyboardType {
   regular,
   barbell,
@@ -15,7 +14,8 @@ enum MKeyboardType {
 }
 
 class MultiKeyboard extends StatefulWidget {
-  const MultiKeyboard({Key? key,
+  const MultiKeyboard({
+    Key? key,
     this.barId,
     required this.equipment,
     required this.data,
@@ -49,7 +49,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             return NumPadWidget(
               value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
-                if(value == 0) {
+                if (value == 0) {
                   widget.data.value = '';
                 } else {
                   widget.data.value = value.toStringAsFixed(0);
@@ -61,7 +61,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             return NumPadWidget(
               value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
-                if(value == 0) {
+                if (value == 0) {
                   widget.data.value = '';
                 } else {
                   widget.data.value = value.toString();
@@ -69,11 +69,19 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
                 widget.onValueChanged(widget.data);
               },
             );
+          case ExerciseFieldType.duration:
+            return TimedPickerDialog(
+              initialValue: Timed.fromSeconds(int.parse(widget.data.value.isEmpty ? '0' : widget.data.value)),
+              onSubmit: (value) {
+                widget.data.value = value.toSeconds().toString();
+                widget.onValueChanged(widget.data);
+              },
+            );
           default:
             return NumPadWidget(
               value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
-                if(value == 0) {
+                if (value == 0) {
                   widget.data.value = '';
                 } else {
                   widget.data.value = value.toString();
@@ -85,76 +93,76 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: Row(
-        children: [
-          Expanded(
-            child: SizedBox(height: double.infinity, child: _buildScreen(_selectedTab)),
-          ),
-          Container(
-            width: 1,
-            color: T(context).color.outline,
-          ),
-          SizedBox(
-            width: 70,
-            child: Column(
-              children: [
-                MButton(
-                  onPressed: (){
-                    setState(() {
-                      _selectedTab = 0;
-                    });
-                  },
-                  borderRadius: 0,
-                  leading: Icon(
-                    Icons.history_rounded,
-                    color: _selectedTab == 0 ? null : T(context).color.onBackground,
-                  ),
-                ),
-                Equipment.barbell == widget.equipment ? MButton(
-                  onPressed: (){
-                    setState(() {
-                      _selectedTab = 1;
-                    });
-                  },
-                  borderRadius: 0,
-                  leading: Icon(
-                    Icons.calculate_rounded,
-                    color: _selectedTab == 1 ? null : T(context).color.onBackground,
-                  ),
-                ) : Container(),
-                MButton(
-                  onPressed: (){
-                    setState(() {
-                      _selectedTab = 2;
-                    });
-                  },
-                  borderRadius: 0,
-                  leading: Icon(
-                    Icons.numbers_rounded,
-                    color: _selectedTab == 2 ? null : T(context).color.onBackground,
-                  ),
-                ),
-                MButton(
-                  onPressed: (){
-                    //widget.onValueChanged(_controller.text);
-                    Navigator.pop(context);
-                  },
-                  borderRadius: 0,
-                  leading: Icon(
-                    Icons.check,
-                    color: T(context).color.onBackground,
-                  ),
-                ),
-              ],
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _buildScreen(_selectedTab),
             ),
-          ),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minHeight: 220,
+                  minWidth: 65,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedTab = 0;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.history_rounded,
+                        color: _selectedTab == 0 ? null : T(context).color.onBackground,
+                      ),
+                    ),
+                    if(Equipment.barbell == widget.equipment)
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedTab = 1;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.calculate_rounded,
+                          color: _selectedTab == 1 ? null : T(context).color.onBackground,
+                        ),
+                      ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedTab = 2;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.numbers_rounded,
+                        color: _selectedTab == 2 ? null : T(context).color.onBackground,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        //widget.onValueChanged(_controller.text);
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.check,
+                        color: T(context).color.onBackground,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

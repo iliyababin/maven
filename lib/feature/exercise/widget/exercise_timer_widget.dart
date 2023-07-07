@@ -45,7 +45,8 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
         child: ClipRRect(
           borderRadius: BorderRadiusDirectional.circular(8),
           child: SizedBox(
-            height: 38,
+            height: 40,
+
             child: Stack(
               children: [
                 LinearProgressIndicator(

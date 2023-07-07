@@ -31,7 +31,6 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
     showBottomSheetDialog(
       context: context,
       onClose: () {},
-      height: 350,
       child: ColorPicker(
         hexInputBar: true,
         enableAlpha: false,
@@ -117,7 +116,6 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                         onTap: () => showBottomSheetDialog(
                           context: context,
                           onClose: () {},
-                          height: 250,
                           child: TextInputDialog(
                             title: 'Total Plates Available',
                             initialValue: amount.toString(),
@@ -139,7 +137,6 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                         onTap: () => showBottomSheetDialog(
                           context: context,
                           onClose: () {},
-                          height: 250,
                           child: TextInputDialog(
                             title: 'Total Plate Weight',
                             initialValue: weight.toString(),
