@@ -11,6 +11,7 @@ import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/session/session.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
+import 'feature/user/user.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'generated/l10n.dart';
 import 'theme/theme.dart';
@@ -91,6 +92,10 @@ void main() async {
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,
               )..add(const SettingInitialize())),
+      BlocProvider(
+          create: (context) => UserBloc(
+            userDao: db.userDao,
+          )..add(const UserInitialize())),
     ],
     child: const Main(),
   ));

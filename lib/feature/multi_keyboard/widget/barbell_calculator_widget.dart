@@ -40,7 +40,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
             color: const Color(0xFF4e5967),
             alignment: Alignment.center,
             child: Text(
-              removeDecimalZeroFormat(barWeight),
+              barWeight.truncateZeros,
               style: TextStyle(
                 color: T(context).color.onSurface,
               ),

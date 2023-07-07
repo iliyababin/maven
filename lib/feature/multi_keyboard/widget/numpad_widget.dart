@@ -26,7 +26,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
     if(widget.value == 0) {
       _controller.text = '';
     } else {
-      _controller.text = removeDecimalZeroFormat(widget.value);
+      _controller.text = widget.value.truncateZeros;
     }
     super.initState();
 

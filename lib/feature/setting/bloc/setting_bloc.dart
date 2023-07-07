@@ -26,9 +26,8 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
 
   Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
     BaseSetting? setting = await settingDao.getSetting();
-    int themeId = await settingDao.getThemeId() ?? 1;
 
-    final AppTheme theme = AppTheme.themes.firstWhere((theme) => theme.id == themeId);
+    final AppTheme theme = AppTheme.themes.firstWhere((theme) => theme.id == (setting?.themeId ?? 1));
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
@@ -36,9 +35,8 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
         theme: theme,
         themes: AppTheme.themes,
         weightUnit: setting!.weightUnit,
+        distanceUnit: setting.distanceUnit,
         locale: Locale(setting.languageCode, setting.countryCode),
-        username: setting.username,
-        description: setting.description,
       ),
     ));
   }

@@ -282,7 +282,7 @@ class WeightPlatePainter extends CustomPainter {
     );
 
     final textSpan = TextSpan(
-      text: removeDecimalZeroFormat(weight),
+      text: weight.truncateZeros,
       style: textStyle,
     );
 

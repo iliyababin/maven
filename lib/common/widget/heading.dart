@@ -31,7 +31,7 @@ class Heading extends StatelessWidget {
       case HeadingSize.medium:
         return 16;
       case HeadingSize.large:
-        return 32;
+        return 28;
     }
   }
 

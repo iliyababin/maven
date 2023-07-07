@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
+import '../../../theme/theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,16 +13,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const TitledScaffold(
+    return TitledScaffold(
       title: 'Home',
-      body: CustomScrollView(
-        slivers: [
-          Heading(
-            title: 'Dashboard',
-            side: true,
-            size: HeadingSize.small,
-          )
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
+        child: const CustomScrollView(
+          slivers: [
+            Heading(
+              title: 'Dashboard',
+              size: HeadingSize.small,
+            ),
+            EmptyWidget(),
+          ],
+        ),
       ),
     );
   }

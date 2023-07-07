@@ -14,4 +14,5 @@ export 'routine.dart';
 export 'session_data.dart';
 export 'setting.dart';
 export 'template_data.dart';
+export 'user.dart';
 export 'workout_data.dart';

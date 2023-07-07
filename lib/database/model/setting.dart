@@ -16,6 +16,7 @@ class BaseSetting extends Equatable {
     required this.countryCode,
     required this.themeId,
     required this.weightUnit,
+    required this.distanceUnit,
     required this.username,
     required this.description,
   });
@@ -35,6 +36,9 @@ class BaseSetting extends Equatable {
   @ColumnInfo(name: 'weight_unit')
   final WeightUnit weightUnit;
 
+  @ColumnInfo(name: 'distance_unit')
+  final DistanceUnit distanceUnit;
+
   @ColumnInfo(name: 'username')
   final String username;
 
@@ -47,6 +51,7 @@ class BaseSetting extends Equatable {
     String? countryCode,
     int? themeId,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     String? username,
     String? description,
   }) {
@@ -56,6 +61,7 @@ class BaseSetting extends Equatable {
       countryCode: countryCode ?? this.countryCode,
       themeId: themeId ?? this.themeId,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       username: username ?? this.username,
       description: description ?? this.description,
     );
@@ -68,6 +74,7 @@ class BaseSetting extends Equatable {
         countryCode,
         themeId,
         weightUnit,
+        distanceUnit,
         username,
         description,
       ];

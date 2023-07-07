@@ -70,3 +70,9 @@ extension RemoveTrailingZeros on String {
     return toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
   }
 }
+
+extension RemoveTrailingZerosDouble on double {
+  String get truncateZeros {
+    return toStringAsFixed(truncateToDouble() == this ? 0 : 1);
+  }
+}

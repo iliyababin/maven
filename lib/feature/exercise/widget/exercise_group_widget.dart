@@ -338,7 +338,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                     fieldType: e.type,
                     exerciseSetId: -1,
                   );
-                }).toList(),
+                }).toList(growable: true),
               );
 
               widget.onExerciseSetAdd(exerciseSet);

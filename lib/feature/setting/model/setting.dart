@@ -9,17 +9,15 @@ class Setting extends Equatable {
     required this.theme,
     required this.themes,
     required this.weightUnit,
+    required this.distanceUnit,
     required this.locale,
-    required this.username,
-    required this.description,
   });
 
   final AppTheme theme;
   final List<AppTheme> themes;
   final WeightUnit weightUnit;
+  final DistanceUnit distanceUnit;
   final Locale locale;
-  final String username;
-  final String description;
 
   double parseWeight(double volume) {
     if (weightUnit == WeightUnit.lbs) {
@@ -29,21 +27,39 @@ class Setting extends Equatable {
     }
   }
 
+  double parseHeight(double height) {
+    switch (distanceUnit) {
+      case DistanceUnit.kilometer:
+        return height / 1000;
+      case DistanceUnit.mile:
+        return height / 1609.344;
+      case DistanceUnit.feet:
+        return height / 3.28084;
+      case DistanceUnit.meter:
+        return height;
+      case DistanceUnit.centimeter:
+        return height / 100;
+      case DistanceUnit.inch:
+        return height / 39.37008;
+      default:
+        return height;
+    }
+  }
+
+
   Setting copyWith ({
     AppTheme? theme,
     List<AppTheme>? themes,
     WeightUnit? weightUnit,
+    DistanceUnit? distanceUnit,
     Locale? locale,
-    String? username,
-    String? description,
   }) {
     return Setting(
       theme: theme ?? this.theme,
       themes: themes ?? this.themes,
       weightUnit: weightUnit ?? this.weightUnit,
+      distanceUnit: distanceUnit ?? this.distanceUnit,
       locale: locale ?? this.locale,
-      username: username ?? this.username,
-      description: description ?? this.description,
     );
   }
 
@@ -52,8 +68,8 @@ class Setting extends Equatable {
         theme,
         themes,
         weightUnit,
+        distanceUnit,
         locale,
-        username,
-        description,
       ];
+
 }

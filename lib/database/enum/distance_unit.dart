@@ -1,6 +1,8 @@
 enum DistanceUnit {
+  meter,
   kilometer,
   mile,
   feet,
-  meter,
+  centimeter,
+  inch,
 }

@@ -145,7 +145,7 @@ class _PlateScreenState extends State<PlateScreen> {
                       backgroundColor: plate.color,
                     ),
                     title: Text(
-                      removeDecimalZeroFormat(plate.weight),
+                      plate.weight.truncateZeros,
                     ),
                     trailing: Text(
                       plate.amount.toString(),

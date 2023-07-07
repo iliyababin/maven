@@ -15,7 +15,6 @@ class ProgressScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
           child: CustomScrollView(
             slivers: [
-              Heading(title: 'General'),
               Heading(
                 title: 'History',
                 size: HeadingSize.small,

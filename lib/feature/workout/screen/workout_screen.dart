@@ -29,6 +29,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
 
   late Workout workout;
 
+  bool isEditing = false;
+
   @override
   void initState() {
     workout = widget.workout;
@@ -65,13 +67,26 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                           if (exercises != null) {
                             List<ExerciseGroup> exerciseGroups = exercises.map((exercise) {
                               return ExerciseGroup(
-                                id: DateTime.now().millisecondsSinceEpoch,
                                 timer: exercise.timer,
                                 weightUnit: exercise.weightUnit,
                                 distanceUnit: exercise.distanceUnit,
                                 exerciseId: exercise.id!,
                                 barId: exercise.barId,
                                 routineId: workout.routine.id,
+                                sets: [
+                                  ExerciseSet(
+                                    type: ExerciseSetType.regular,
+                                    checked: false,
+                                    exerciseGroupId: -1,
+                                    data: exercise.fields.map((field) {
+                                      return ExerciseSetData(
+                                        value: '',
+                                        fieldType: field.type,
+                                        exerciseSetId: -1,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
                               );
                             }).toList();
                             setState(() {
@@ -109,7 +124,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                                 title: const Text('Rename'),
                               ),
                               ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    isEditing = !isEditing;
+                                  });
+                                },
                                 leading: const Icon(
                                   Icons.filter_list,
                                 ),
@@ -183,9 +202,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                 MButton(
                   onPressed: () {
                     // TODO: ship data to session
-                     context.read<SessionBloc>().add(SessionAdd(
-                          workout: workout
-                        ));
+                    context.read<SessionBloc>().add(SessionAdd(workout: workout));
                     exerciseTimerController.dispose();
                     context.read<WorkoutBloc>().add(WorkoutFinish(workout: workout));
                   },
@@ -205,46 +222,95 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
           Expanded(
             child: CustomScrollView(
               slivers: [
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextFormField(
-                          onChanged: (value) {
-                            //context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
-                          },
-                          onTapOutside: (event) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          focusNode: _workoutNameNode,
-                          initialValue: workout.routine.name,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(0),
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintText: 'Workout',
+                !isEditing
+                    ? SliverList(
+                        delegate: SliverChildListDelegate([
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 18, 15, 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFormField(
+                                onChanged: (value) {
+                                  //context.read<WorkoutBloc>().add(WorkoutUpdate(workout: workout.copyWith(name: value)));
+                                },
+                                onTapOutside: (event) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
+                                focusNode: _workoutNameNode,
+                                initialValue: workout.routine.name,
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.all(0),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: 'Workout',
+                                ),
+                                style: T(context).textStyle.headingLarge,
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              StreamBuilder(
+                                stream: Stream.periodic(const Duration(seconds: 1)),
+                                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                  return Text(
+                                    workoutDuration(workout.routine.timestamp),
+                                    style: T(context).textStyle.bodyMedium,
+                                  );
+                                },
+                              )
+                            ],
                           ),
-                          style: T(context).textStyle.headingLarge,
+                        )
+                      ]))
+                    : SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 40,
+                            child: FilledButton(
+                              onPressed: (){
+
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(T(context).color.errorContainer),
+                                foregroundColor: MaterialStateProperty.all(T(context).color.onErrorContainer),
+                              ),
+                              child: Text(
+                                'Cancel',
+                              ),
+                            ),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        StreamBuilder(
-                          stream: Stream.periodic(const Duration(seconds: 1)),
-                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                            return Text(
-                              workoutDuration(workout.routine.timestamp),
-                              style: T(context).textStyle.bodyMedium,
-                            );
-                          },
+                        Expanded(child: Container()),
+                        Expanded(
+                          child: Container(
+                            height: 40,
+                            child: FilledButton.icon(
+                              onPressed: (){
+
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(T(context).color.primaryContainer),
+                                foregroundColor: MaterialStateProperty.all(T(context).color.onPrimaryContainer),
+                              ),
+                              label: Text(
+                                'Save',
+                              ),
+                              icon: Icon(
+                                Icons.check_rounded,
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   )
-                ])),
+                ),
                 BlocBuilder<ExerciseBloc, ExerciseState>(
                   builder: (context, state) {
                     if (state.status.isLoading) {
@@ -254,6 +320,57 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                         ),
                       );
                     } else if (state.status.isLoaded) {
+                      if (isEditing) {
+                        return SliverReorderableList(
+                          itemCount: workout.exerciseGroups.length,
+                          proxyDecorator: (widget, index, animation) {
+                            return ProxyDecorator(widget, index, animation, context);
+                          },
+                          itemBuilder: (context, index) {
+                            return ReorderableDelayedDragStartListener(
+                              index: index,
+                              key: ValueKey(workout.exerciseGroups[index].id),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: T(context).space.large,
+                                  vertical: T(context).space.medium,
+                                ),
+                                color: T(context).color.background,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(state.exercises.firstWhere((exercise) => exercise.id == workout.exerciseGroups[index].exerciseId).name),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.close,
+                                          ),
+                                          constraints: const BoxConstraints(),
+                                          padding: EdgeInsets.zero,
+                                          color: T(context).color.error,
+                                        ),
+                                        SizedBox(
+                                          width: T(context).space.medium,
+                                        ),
+                                        ReorderableDragStartListener(
+                                          index: index,
+                                          child: const Icon(
+                                            Icons.drag_indicator_rounded,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          onReorder: (oldIndex, newIndex) {},
+                        );
+                      }
+
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
                           childCount: workout.exerciseGroups.length,
@@ -276,20 +393,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               },
                               onExerciseSetAdd: (value) {
                                 setState(() {
-                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..add(value)));
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..add(value)));
                                 });
                               },
                               onExerciseSetUpdate: (value, index2) {
                                 setState(() {
-                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
                                 });
                               },
                               onExerciseSetToggled: (value, index2) {
-                                workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
+                                workout = workout.copyWith(
+                                    exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..[index2] = value));
                               },
                               onExerciseSetDelete: (value, index2) {
                                 setState(() {
-                                  workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..removeAt(index2)));
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups..[index] = exerciseGroup.copyWith(sets: exerciseGroup.sets..removeAt(index2)));
                                 });
                               },
                               checkboxEnabled: true,
