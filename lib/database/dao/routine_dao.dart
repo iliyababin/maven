@@ -7,7 +7,7 @@ abstract class RoutineDao {
   @insert
   Future<int> add(Routine routine);
 
-  @Query('SELECT * FROM routine')
+  @Query('SELECT * FROM routine ORDER BY timestamp ASC')
   Future<List<Routine>> getAll();
 
   @Query('SELECT * FROM routine WHERE id = :routineId')

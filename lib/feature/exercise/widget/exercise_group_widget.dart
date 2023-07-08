@@ -240,7 +240,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               .map(
                 (e) => Expanded(
                   child: Text(
-                    generateTitle(e.type, widget.exerciseGroup),
+                    e.type.generateTitle(widget.exerciseGroup),
                     style: T(context).textStyle.bodyLarge.copyWith(
                           fontSize: 13,
                           color: T(context).color.onSurfaceVariant,
@@ -356,24 +356,5 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
         ),
       ],
     );
-  }
-
-  String generateTitle(ExerciseFieldType type, ExerciseGroup exerciseGroup) {
-    switch (type) {
-      case ExerciseFieldType.weight:
-        return exerciseGroup.weightUnit!.name.toUpperCase();
-      case ExerciseFieldType.reps:
-        return type.name.toUpperCase();
-      case ExerciseFieldType.distance:
-        return exerciseGroup.distanceUnit!.name.toUpperCase();
-      case ExerciseFieldType.assisted:
-        return '- ${exerciseGroup.weightUnit!.name.toUpperCase()}';
-      case ExerciseFieldType.weighted:
-        return '+ ${exerciseGroup.weightUnit!.name.toUpperCase()}';
-      case ExerciseFieldType.duration:
-        return 'DURATION';
-      default:
-        return '';
-    }
   }
 }

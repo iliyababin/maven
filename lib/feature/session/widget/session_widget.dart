@@ -79,7 +79,7 @@ class SessionWidget extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      session.volume.toString(),
+                      '${s(context).parseWeight(session.volume).truncateZeros} ${s(context).weightUnit.name}',
                     ),
                     const SizedBox(
                       width: 20,
@@ -94,6 +94,7 @@ class SessionWidget extends StatelessWidget {
                     return session.exerciseGroups.isNotEmpty
                         ? ListView.builder(
                             itemCount: session.exerciseGroups.length,
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               ExerciseGroup exerciseGroup = session.exerciseGroups[index];

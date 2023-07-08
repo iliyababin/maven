@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
+import 'package:maven/common/common.dart';
 
 import '../../../theme/theme.dart';
 import '../session.dart';
@@ -49,7 +50,7 @@ class SessionAboutView extends StatelessWidget {
             children: [
               Text(
                 'Details',
-                style: T(context).textStyle.titleMedium,
+                style: T(context).textStyle.titleLarge,
               ),
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.top,
@@ -95,7 +96,7 @@ class SessionAboutView extends StatelessWidget {
             children: [
               Text(
                 'Exercises',
-                style: T(context).textStyle.titleMedium,
+                style: T(context).textStyle.titleLarge,
               ),
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.top,
@@ -106,7 +107,7 @@ class SessionAboutView extends StatelessWidget {
                         'Volume',
                       ),
                       Text(
-                        '98492 lbs',
+                        '${s(context).parseWeight(session.volume).truncateZeros} ${s(context).weightUnit.name}',
                         style: T(context).textStyle.labelSmall,
                       ),
                     ],
@@ -117,7 +118,7 @@ class SessionAboutView extends StatelessWidget {
                         'Coverage',
                       ),
                       Text(
-                        'Biceps 90% \nTriceps 10%',
+                        parseMuscleCoverage(session.musclePercentages),
                         style: T(context).textStyle.labelSmall,
                       ),
                     ],

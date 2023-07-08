@@ -95,22 +95,22 @@ class BaseExerciseSetData {
     );
   }
 
-  String stringify(BaseExerciseGroup exerciseGroup) {
+  String toShortString() {
     switch (fieldType) {
       case ExerciseFieldType.reps:
         return value;
       case ExerciseFieldType.weight:
-        return value.truncateZeros + exerciseGroup.weightUnit!.name;
+        return value.truncateZeros;
       case ExerciseFieldType.duration:
-        return '$value seconds';
+        return Timed.fromSeconds(valueAsDouble.toInt()).toString();
       case ExerciseFieldType.distance:
-        return '$value ${exerciseGroup.distanceUnit!.name}';
+        return value.truncateZeros;
       case ExerciseFieldType.bodyWeight:
-        return '$value BODYWEIGHT';
+        return value;
       case ExerciseFieldType.weighted:
-        return '$value bpm';
+        return value.truncateZeros;
       case ExerciseFieldType.assisted:
-        return '$value m/s';
+        return value.truncateZeros;
     }
   }
 

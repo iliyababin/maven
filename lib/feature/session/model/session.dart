@@ -9,12 +9,14 @@ class Session extends Equatable {
     this.exerciseGroups = const [],
     required this.data,
     this.volume = 0,
+    this.musclePercentages = const {},
   });
 
   final Routine routine;
   final List<ExerciseGroup> exerciseGroups;
   final SessionData data;
   final double volume;
+  final Map<Muscle, double> musclePercentages;
 
   @override
   List<Object?> get props => [

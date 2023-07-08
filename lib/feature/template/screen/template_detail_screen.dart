@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:maven/common/extension/extension.dart';
 
-import '../../../common/dialog/confirmation_dialog.dart';
-import '../../../common/dialog/show_bottom_sheet_dialog.dart';
+import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
@@ -36,14 +34,6 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
     super.initState();
   }
 
-  String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
-    String result = '';
-    musclePercentages.forEach((key, value) {
-      result += '${key.name.capitalize}: ${(value * 100).truncate()}%\n';
-    });
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
@@ -58,7 +48,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
           return Scaffold(
             appBar: AppBar(
               title: const Text(
-                'View',
+                'Template',
               ),
               actions: [
                 IconButton(
@@ -161,7 +151,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                   'Volume',
                                 ),
                                 Text(
-                                  '${s(context).parseWeight(template.volume.toDouble())} ${s(context).weightUnit.name}',
+                                  '${s(context).parseWeight(template.volume.toDouble()).truncateZeros} ${s(context).weightUnit.name}',
                                   style: T(context).textStyle.labelSmall,
                                 ),
                               ],

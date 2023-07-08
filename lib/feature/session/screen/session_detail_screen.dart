@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/feature/session/view/session_options_view.dart';
 
-import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../exercise/exercise.dart';
 import '../session.dart';
 
 class SessionDetailScreen extends StatefulWidget {
@@ -37,6 +36,16 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
         title: const Text(
           'Session',
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSessionOptionsView(context, widget.session);
+            },
+            icon: const Icon(
+              Icons.more_vert_outlined,
+            ),
+          ),
+        ],
         bottom: TabBar(
           controller: tabController,
           tabs: const [
@@ -67,11 +76,16 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
                     session: session,
                   ),
                 ),
-                Text('nnie'),
+                Padding(
+                  padding: EdgeInsets.all(T(context).space.large),
+                  child: SessionExerciseView(
+                    exerciseGroups: session.exerciseGroups,
+                  ),
+                ),
               ],
             );
 
-            return BlocBuilder<ExerciseBloc, ExerciseState>(
+          /*  return BlocBuilder<ExerciseBloc, ExerciseState>(
               builder: (context, state) {
                 if (state.status.isLoaded) {
                   return ListView.separated(
@@ -98,7 +112,7 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
                               ExerciseSet exerciseSet = exerciseGroup.sets[index];
 
                               return Text(
-                                exerciseSet.data.map((data) => data.stringify(exerciseGroup).toString()).toList().toString(),
+                                exerciseSet.data.map((data) => data.toLongString(exerciseGroup).toString()).toList().toString(),
                               );
                             },
                           ),
@@ -110,7 +124,7 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
                   return Container();
                 }
               },
-            );
+            );*/
           } else {
             return const Center(
               child: Text('Error'),

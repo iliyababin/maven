@@ -114,6 +114,11 @@ class ExerciseGroupService {
     for(ExerciseGroup exerciseGroup in exerciseGroups){
       for(ExerciseSet exerciseSet in exerciseGroup.sets){
         duration = duration.add(exerciseGroup.timer);
+        for(ExerciseSetData exerciseSetData in exerciseSet.data){
+          if(exerciseSetData.fieldType == ExerciseFieldType.duration){
+            duration = duration.add(Timed.fromSeconds(exerciseSetData.valueAsDouble.toInt()));
+          }
+        }
       }
     }
 

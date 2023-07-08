@@ -112,6 +112,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         exerciseGroups: exerciseGroups,
         data: data!,
         volume: await exerciseGroupService.getVolume(exerciseGroups),
+        musclePercentages: await exerciseGroupService.getMusclePercentages(exerciseGroups),
       ));
     }
     return sessions;

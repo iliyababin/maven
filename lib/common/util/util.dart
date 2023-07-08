@@ -1,3 +1,7 @@
+import 'package:maven/common/common.dart';
+
+import '../../database/database.dart';
+
 String workoutDuration(DateTime startTime) {
   Duration difference = DateTime.now().difference(startTime);
   int hours = difference.inHours;
@@ -7,6 +11,14 @@ String workoutDuration(DateTime startTime) {
     return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
   }
   return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+}
+
+String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
+  String result = '';
+  musclePercentages.forEach((key, value) {
+    result += '${key.name.capitalize}: ${(value * 100).truncate()}%\n';
+  });
+  return result;
 }
 
 String secondsToTime(int seconds) {
