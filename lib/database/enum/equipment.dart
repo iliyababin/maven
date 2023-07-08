@@ -1,4 +1,6 @@
 
+import 'package:maven/common/common.dart';
+
 enum Equipment {
   assisted,
   band,
@@ -11,16 +13,16 @@ enum Equipment {
   machine,
   none,
   stretch,
-  weighted,
+  weighted;
+
+  String get name {
+    return toString().split('.').last.capitalize;
+  }
 }
 
 extension EquipmentExtension on Equipment {
   int get equipmentId {
     return index + 1;
-  }
-
-  String get name {
-    return toString().split('.').last;
   }
 
   String get description {

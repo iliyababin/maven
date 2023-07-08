@@ -14,9 +14,12 @@ class ColorOptions {
     required this.onBackground,
     required this.surface,
     required this.onSurface,
+    required this.onSurfaceVariant,
     required this.outline,
     required this.outlineVariant,
-    required this.onSurfaceVariant,
+    required this.inversePrimary,
+    required this.inverseSurface,
+    required this.onInverseSurface,
     required this.success,
     required this.onSuccess,
     required this.successContainer,
@@ -51,6 +54,10 @@ class ColorOptions {
   final Color outline;
   final Color outlineVariant;
 
+  final Color inversePrimary;
+  final Color inverseSurface;
+  final Color onInverseSurface;
+
   final Color success;
   final Color onSuccess;
   final Color successContainer;
@@ -83,6 +90,9 @@ class ColorOptions {
         'onSurfaceVariant': onSurfaceVariant,
         'outline': outline,
         'outlineVariant': outlineVariant,
+        'inversePrimary': inversePrimary,
+        'inverseSurface': inverseSurface,
+        'onInverseSurface': onInverseSurface,
         'success': success,
         'onSuccess': onSuccess,
         'successContainer': successContainer,

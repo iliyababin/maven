@@ -6,18 +6,6 @@ extension StringExtension on String {
   }
 }
 
-extension MuscleStringExtension on String {
-  String parseMuscleToString() {
-    String muscleString = toString().split('.').last;
-    return muscleString.replaceAllMapped(
-      RegExp(
-        r'(?<=[a-z])([A-Z])',
-      ),
-          (match) => ' ${match.group(1)}',
-    ).toLowerCase().capitalize;
-  }
-}
-
 extension DateTimeExtension on DateTime {
   String timeLeft() {
     DateTime due = DateTime(

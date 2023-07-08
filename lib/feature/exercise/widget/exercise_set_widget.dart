@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../multi_keyboard/multi_keyboard.dart';
 import '../exercise.dart';
 
 class ExerciseSetWidget extends StatefulWidget {
@@ -107,6 +106,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             .map((e) => ExerciseSetDataWidget(
                   isChecked: _isChecked,
                   group: widget.group,
+                  exercise: widget.exercise,
                   data: e,
                   set: exerciseSet,
                   onUpdate: (value) {

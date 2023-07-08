@@ -1,3 +1,6 @@
+
+import 'package:maven/common/common.dart';
+
 enum MuscleGroup {
   arms,
   back,
@@ -5,6 +8,10 @@ enum MuscleGroup {
   core,
   legs,
   shoulders,
-  fullBody,
+  fullBody;
+
+  String get name {
+    return toString().split('.').last.capitalize;
+  }
 }
 

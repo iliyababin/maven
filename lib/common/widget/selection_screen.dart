@@ -25,7 +25,7 @@ class SearchableSelectionScreen<T> extends StatefulWidget {
 
   /// A callback function that takes a [BuildContext] and an item of type [T],
   /// and returns a widget that represents the item in the list.
-  final Widget Function(BuildContext context, T index) itemBuilder;
+  final Widget Function(BuildContext context, T item) itemBuilder;
 
   /// The additional actions to be displayed in the app bar.
   final List<Widget> actions;

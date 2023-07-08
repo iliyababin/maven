@@ -1,3 +1,5 @@
+import 'package:maven/common/common.dart';
+
 enum Muscle {
   adductors,
   bicepsBrachii,
@@ -37,5 +39,15 @@ enum Muscle {
   trapezius,
   tricepsBrachii,
   wrist,
-  fullBody,
+  fullBody;
+
+  String get name {
+    String muscleString = toString().split('.').last;
+    return muscleString.replaceAllMapped(
+      RegExp(
+        r'(?<=[a-z])([A-Z])',
+      ),
+          (match) => ' ${match.group(1)}',
+    ).toLowerCase().capitalize;
+  }
 }

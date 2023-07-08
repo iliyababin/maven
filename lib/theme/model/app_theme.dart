@@ -64,25 +64,27 @@ class AppTheme extends Equatable {
         onSurface: options.color.onBackground,
         surfaceTint: options.color.background,
 
+        inversePrimary: options.color.inversePrimary,
+        inverseSurface: options.color.inverseSurface,
+        onInverseSurface: options.color.onInverseSurface,
+
         onTertiary: Colors.yellow,
         onTertiaryContainer: Colors.yellow,
         tertiary: Colors.yellow,
         tertiaryContainer: Colors.yellow,
 
-        //TODO: Add these colors
-        inversePrimary: Colors.purple,
-        inverseSurface: Colors.purple,
-        onInverseSurface: Colors.purple,
 /*
         onSurfaceVariant: Color(0xff424940),
 */
         // A utility color that creates boundaries for decorative elements when a 3:1 contrast isn’t required, such as for dividers or decorative elements.
         scrim: Colors.red,
-        shadow: Colors.red,
+        shadow: options.color.shadow,
         surfaceVariant: options.color.outlineVariant,
       ),
       typography: Typography.material2021(),
-
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+      ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
@@ -229,6 +231,10 @@ class AppTheme extends Equatable {
         outline: Color(0xFFDCDCDC),
         outlineVariant: Color(0xFFB9B9B9),
 
+        inversePrimary: Color(0xFF2196F3),
+        inverseSurface: Color(0xFF282828),
+        onInverseSurface: Color(0xFFffffff),
+
         success: Color(0xFF2DCD70),
         onSuccess: Color(0xFFffffff),
         successContainer: Color(0xFFD9F5E7),
@@ -311,6 +317,10 @@ class AppTheme extends Equatable {
         outline: Color(0xFF3A3A3A),
         outlineVariant: Color(0xFF3A3A3A),
 
+        inversePrimary: Color(0xFFFFAE00),
+        inverseSurface: Color(0xFF282828),
+        onInverseSurface: Color(0xFFffffff),
+
         success: Color(0xFF2DCD70),
         onSuccess: Color(0xff121212),
         successContainer: Color(0xFF155A37),
@@ -358,6 +368,10 @@ class AppTheme extends Equatable {
         outlineVariant: Color(0xFFC4C8BB),
 
         onSurfaceVariant: Color(0xFF757575),
+
+        inversePrimary: Color(0xFF2196F3),
+        inverseSurface: Color(0xFF282828),
+        onInverseSurface: Color(0xFFffffff),
 
         success: Color(0xFF2DCD70),
         onSuccess: Color(0xFFffffff),

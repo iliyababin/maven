@@ -5,6 +5,8 @@ import 'package:video_player/video_player.dart';
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
+import '../../equipment/equipment.dart';
+import '../../muscle/muscle.dart';
 import '../exercise.dart';
 
 class ExerciseDetailView extends StatefulWidget {
@@ -95,7 +97,20 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MuscleSelectionScreen(
+                                muscle: widget.exercise.muscle,
+                              ),
+                            ),
+                          ).then((value) {
+                            if (value != null) {
+                              context.read<ExerciseBloc>().add(ExerciseUpdate(exercise: widget.exercise.copyWith(muscle: value)));
+                            }
+                          });
+                        },
                         leading: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -109,11 +124,26 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                           style: T(context).textStyle.bodyLarge,
                         ),
                         trailing: Text(
-                          widget.exercise.muscle.name.parseMuscleToString(),
+                          widget.exercise.muscle.name,
                         ),
                       ),
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MuscleGroupSelectionScreen(
+                                muscleGroup: widget.exercise.muscleGroup,
+                              ),
+                            ),
+                          ).then((value) {
+                            if (value != null) {
+                              context.read<ExerciseBloc>().add(ExerciseUpdate(
+                                    exercise: widget.exercise.copyWith(muscleGroup: value),
+                                  ));
+                            }
+                          });
+                        },
                         leading: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -159,7 +189,20 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                         ),
                       ),
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EquipmentSelectionScreen(
+                                equipment: widget.exercise.equipment,
+                              ),
+                            ),
+                          ).then((value) {
+                            if (value != null) {
+                              context.read<ExerciseBloc>().add(ExerciseUpdate(exercise: widget.exercise.copyWith(equipment: value)));
+                            }
+                          });
+                        },
                         leading: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -177,7 +220,18 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                         ),
                       ),
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ExerciseTypeSelectionScreen(
+                                exerciseTypes: widget.exercise.fields.map((e) => e.type).toList(),
+                              ),
+                            ),
+                          ).then((value) {
+                            // TODO: Implement different types in exercise
+                          });
+                        },
                         leading: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -196,7 +250,36 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                       ),
                       if (widget.exercise.weightUnit != null)
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            showBottomSheetDialog(
+                              context: context,
+                              child: ListDialog(
+                                children: List.generate(
+                                  WeightUnit.values.length,
+                                  (index) {
+                                    return ListTile(
+                                      onTap: () {
+                                        context.read<ExerciseBloc>().add(ExerciseUpdate(
+                                              exercise: widget.exercise.copyWith(
+                                                weightUnit: WeightUnit.values[index],
+                                              ),
+                                            ));
+                                        Navigator.pop(context);
+                                      },
+                                      title: Text(
+                                        WeightUnit.values[index].name,
+                                      ),
+                                      trailing: widget.exercise.weightUnit == WeightUnit.values[index]
+                                          ? const Icon(
+                                              Icons.check_outlined,
+                                            )
+                                          : null,
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
                           leading: const Icon(
                             Icons.scale,
                           ),
@@ -210,7 +293,36 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                         ),
                       if (widget.exercise.distanceUnit != null)
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            showBottomSheetDialog(
+                              context: context,
+                              child: ListDialog(
+                                children: List.generate(
+                                  DistanceUnit.values.length,
+                                      (index) {
+                                    return ListTile(
+                                      onTap: () {
+                                        context.read<ExerciseBloc>().add(ExerciseUpdate(
+                                          exercise: widget.exercise.copyWith(
+                                            distanceUnit: DistanceUnit.values[index],
+                                          ),
+                                        ));
+                                        Navigator.pop(context);
+                                      },
+                                      title: Text(
+                                        DistanceUnit.values[index].name,
+                                      ),
+                                      trailing: widget.exercise.distanceUnit == DistanceUnit.values[index]
+                                          ? const Icon(
+                                        Icons.check_outlined,
+                                      )
+                                          : null,
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
                           leading: const Icon(
                             Icons.directions_run,
                           ),

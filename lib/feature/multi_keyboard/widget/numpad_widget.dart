@@ -61,7 +61,7 @@ class _NumPadWidgetState extends State<NumPadWidget> {
         _controller.selection =
             TextSelection.collapsed(offset: selectionStart + 1, affinity: TextAffinity.upstream);
       },
-      height: 50,
+      height: 60,
       expand: true,
       borderRadius: 0,
       child: Text(

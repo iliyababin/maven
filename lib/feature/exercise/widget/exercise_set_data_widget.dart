@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maven/feature/exercise/model/exercise_set_data.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
@@ -15,6 +14,7 @@ class ExerciseSetDataWidget extends StatefulWidget {
     required this.data,
     required this.onUpdate,
     required this.isChecked,
+    required this.exercise,
   }) : super(key: key);
 
   final ExerciseSet set;
@@ -22,6 +22,7 @@ class ExerciseSetDataWidget extends StatefulWidget {
   final ExerciseSetData data;
   final ValueChanged<ExerciseSet> onUpdate;
   final bool isChecked;
+  final Exercise exercise;
 
   @override
   State<ExerciseSetDataWidget> createState() => _ExerciseSetDataWidgetState();
@@ -37,7 +38,7 @@ class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
             context: context,
             child: MultiKeyboard(
               barId: widget.group.barId,
-              equipment: Equipment.barbell,
+              equipment: widget.exercise.equipment,
               data: widget.data,
               onValueChanged: (value) {
                 widget.onUpdate(widget.set);
@@ -56,8 +57,8 @@ class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
           child: Text(
             widget.data.valueAsString,
             style: T(context).textStyle.bodyLarge.copyWith(
-              color: T(context).color.onSuccessContainer,
-            ),
+                  color: T(context).color.onSuccessContainer,
+                ),
           ),
         ),
       ),

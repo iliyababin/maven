@@ -21,23 +21,32 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
   final ExerciseFieldDao exerciseFieldDao;
 
   Future<void> _initialize(ExerciseInitialize event, emit) async {
+    emit(state.copyWith(
+      status: ExerciseStatus.loaded,
+      exercises: await _getExercises(),
+    ));
+  }
+
+  Future<void> _update(ExerciseUpdate event, emit) async {
+    emit(state.copyWith(
+      status: ExerciseStatus.loading,
+    ));
+
+    await exerciseDao.updateExercise(event.exercise);
+
+    emit(state.copyWith(
+      status: ExerciseStatus.loaded,
+      exercises: await _getExercises(),
+    ));
+  }
+
+  Future<List<Exercise>> _getExercises() async {
     List<Exercise> exercises = await exerciseDao.getExercises();
 
     for (int i = 0; i < exercises.length; i++) {
       exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercises[i].id!));
     }
 
-    emit(state.copyWith(
-      status: () => ExerciseStatus.loaded,
-      exercises: () => exercises,
-    ));
-  }
-
-  Future<void> _update(ExerciseUpdate event, emit) async {
-    emit(state.copyWith(status: () => ExerciseStatus.loading,));
-
-    await exerciseDao.updateExercise(event.exercise);
-
-    emit(state.copyWith(status: () => ExerciseStatus.loaded,));
+    return exercises;
   }
 }

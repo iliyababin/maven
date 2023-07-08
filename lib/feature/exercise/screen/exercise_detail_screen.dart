@@ -24,7 +24,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
     return BlocBuilder<ExerciseBloc, ExerciseState>(
       builder: (context, state) {
         if (state.status.isLoading) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (state.status.isLoaded) {
           final Exercise exercise = state.exercises.firstWhere((element) => element.id == widget.exercise.id);
           
@@ -58,6 +58,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 children: [
                   ExerciseDetailView(exercise: exercise),
                  // CompleteExerciseHistoryListWidget(exercise: exercise),
+                  ListView(),
                   ListView(),
                   ListView(),
                 ],

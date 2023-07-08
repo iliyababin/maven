@@ -10,6 +10,10 @@ enum ExerciseFieldType {
   weight,
   weighted,
   bodyWeight;
+
+  String get name {
+    return toString().split('.').last.capitalize;
+  }
 }
 
 extension ExerciseFieldTypeExtension on ExerciseFieldType {

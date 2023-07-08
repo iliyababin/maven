@@ -95,6 +95,25 @@ class BaseExerciseSetData {
     );
   }
 
+  bool get requiresBar {
+    switch (fieldType) {
+      case ExerciseFieldType.reps:
+        return false;
+      case ExerciseFieldType.weight:
+        return true;
+      case ExerciseFieldType.duration:
+        return false;
+      case ExerciseFieldType.distance:
+        return false;
+      case ExerciseFieldType.bodyWeight:
+        return false;
+      case ExerciseFieldType.weighted:
+        return true;
+      case ExerciseFieldType.assisted:
+        return true;
+    }
+  }
+
   String toShortString() {
     switch (fieldType) {
       case ExerciseFieldType.reps:

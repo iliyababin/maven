@@ -43,7 +43,6 @@ part 'database.g.dart';
 )
 @TypeConverters([
   DateTimeConverter,
-  EquipmentConverter,
   ColorConverter,
   TimedConverter,
   SetTypeConverter,
@@ -69,10 +68,13 @@ abstract class MavenDatabase extends FloorDatabase {
   TemplateDataDao get templateDataDao;
   UserDao get userDao;
 
+  static bool _isFirstTime = false;
+
   static final Callback _callback = Callback(
     onCreate: (database, version) {
       database.rawInsert("INSERT INTO setting (id, language_code, country_code, theme_id, weight_unit, distance_unit, username, description) "
           "VALUES (1, 'en', 'US', 1, 0, 0, 'John Doe', 'Weightlifter')");
+      _isFirstTime = true;
     },
     onOpen: (database) {},
     onUpgrade: (database, startVersion, endVersion) {},
@@ -83,10 +85,12 @@ abstract class MavenDatabase extends FloorDatabase {
         .databaseBuilder('maven_db_1.db')
         .addCallback(_callback)
         .build();
-    db.plateDao.addPlates(getDefaultPlates());
-    db.barDao.addBars(getDefaultBars());
-    db.exerciseDao.addExercises(getDefaultExercises());
-    db.exerciseFieldDao.addExerciseFields(getDefaults());
+    if (_isFirstTime) {
+      db.plateDao.addPlates(getDefaultPlates());
+      db.barDao.addBars(getDefaultBars());
+      db.exerciseDao.addExercises(getDefaultExercises());
+      db.exerciseFieldDao.addExerciseFields(getDefaults());
+    }
     return db;
   }
 }
