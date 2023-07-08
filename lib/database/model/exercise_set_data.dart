@@ -75,9 +75,9 @@ class BaseExerciseSetData {
       case ExerciseFieldType.bodyWeight:
         return value;
       case ExerciseFieldType.weighted:
-        return value;
+        return value.truncateZeros;
       case ExerciseFieldType.assisted:
-        return value;
+        return value.truncateZeros;
     }
   }
 

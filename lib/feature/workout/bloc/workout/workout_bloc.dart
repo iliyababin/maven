@@ -23,6 +23,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
+    on<WorkoutStateEmpty>(_empty);
     on<WorkoutFinish>(_finish);
     on<WorkoutDelete>(_delete);
   }
@@ -49,6 +50,26 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
       isActive: true,
       timeElapsed: const Timed.zero(),
       routineId: await _addRoutine(event.routine, RoutineType.workout),
+    ));
+
+    emit(state.copyWith(
+      status: WorkoutStatus.active,
+      workout: await _getWorkout(),
+    ));
+  }
+
+  Future<void> _empty(WorkoutStateEmpty event, Emitter<WorkoutState> emit) async {
+    int routineId = await routineDao.add(Routine(
+      name: 'Empty Workout',
+      note: '',
+      timestamp: DateTime.now(),
+      type: RoutineType.workout,
+    ));
+
+    await workoutDataDao.add(WorkoutData(
+      isActive: true,
+      timeElapsed: const Timed.zero(),
+      routineId: routineId,
     ));
 
     emit(state.copyWith(

@@ -240,7 +240,7 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
               .map(
                 (e) => Expanded(
                   child: Text(
-                    e.type.generateTitle(widget.exerciseGroup),
+                    e.type.generateTitle(widget.exerciseGroup).toUpperCase(),
                     style: T(context).textStyle.bodyLarge.copyWith(
                           fontSize: 13,
                           color: T(context).color.onSurfaceVariant,

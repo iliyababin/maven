@@ -5,8 +5,8 @@ import 'package:maven/common/widget/heading.dart';
 import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
-import '../../program/screen/program_builder_screen.dart';
 import '../../program/view/program_list_view.dart';
+import '../../workout/workout.dart';
 import '../template.dart';
 
 /// Screen which manages templates, workouts, and programs
@@ -40,6 +40,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                   children: [
                     FilledButton(
                       onPressed: () {
+                        context.read<WorkoutBloc>().add(const WorkoutStateEmpty());
                       },
                       child: const Text(
                         'Start an Empty Workout',
@@ -101,12 +102,12 @@ class _TemplateScreenState extends State<TemplateScreen> {
                               foregroundColor: T(context).color.primary,
                             ),
                             onPressed: () {
-                              Navigator.push(
+                              /*Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const ProgramBuilderScreen(),
                                 ),
-                              );
+                              );*/
                             },
                             icon: const Icon(
                               Icons.polyline,

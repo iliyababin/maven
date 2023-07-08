@@ -82,7 +82,7 @@ class _MavenState extends State<Maven> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'asdsdds',
+                        state.workout!.routine.name,
                         style: T(context).textStyle.titleLarge,
                       ),
                       const SizedBox(height: 1),

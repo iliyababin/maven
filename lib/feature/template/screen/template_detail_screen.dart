@@ -213,7 +213,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                 ),
                 const Center(
                   child: Text(
-                    'Workout',
+                    'History',
                   ),
                 ),
               ],

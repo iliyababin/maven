@@ -20,8 +20,15 @@ class WorkoutStart extends WorkoutEvent {
 
   @override
   List<Object?> get props => [
-    routine,
-  ];
+        routine,
+      ];
+}
+
+class WorkoutStateEmpty extends WorkoutEvent {
+  const WorkoutStateEmpty();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class WorkoutFinish extends WorkoutEvent {
@@ -33,16 +40,15 @@ class WorkoutFinish extends WorkoutEvent {
 
   @override
   List<Object?> get props => [
-    workout,
-  ];
+        workout,
+      ];
 }
 
 class WorkoutDelete extends WorkoutEvent {
   const WorkoutDelete();
 
   @override
-  List<Object?> get props => [
-  ];
+  List<Object?> get props => [];
 }
 
 class WorkoutExerciseAdd extends WorkoutEvent {
@@ -56,9 +62,9 @@ class WorkoutExerciseAdd extends WorkoutEvent {
 
   @override
   List<Object?> get props => [
-    exerciseGroups,
-    exerciseSets,
-  ];
+        exerciseGroups,
+        exerciseSets,
+      ];
 }
 
 class WorkoutExerciseUpdate extends WorkoutEvent {
@@ -72,9 +78,9 @@ class WorkoutExerciseUpdate extends WorkoutEvent {
 
   @override
   List<Object?> get props => [
-    exerciseGroup,
-    exerciseSet,
-  ];
+        exerciseGroup,
+        exerciseSet,
+      ];
 }
 
 class WorkoutExerciseDelete extends WorkoutEvent {
@@ -88,7 +94,7 @@ class WorkoutExerciseDelete extends WorkoutEvent {
 
   @override
   List<Object?> get props => [
-    exerciseGroup,
-    exerciseSet,
-  ];
+        exerciseGroup,
+        exerciseSet,
+      ];
 }
