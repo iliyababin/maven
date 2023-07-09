@@ -13,6 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     required this.userDao,
   }) : super(const UserState()) {
     on<UserInitialize>(_initialize);
+    on<UserUpdate>(_update);
   }
 
   final UserDao userDao;
@@ -27,6 +28,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(state.copyWith(
       status: UserStatus.loaded,
       user: user,
+    ));
+  }
+
+  Future<void> _update(UserUpdate event, Emitter<UserState> emit) async {
+    await userDao.modify(event.user);
+
+    emit(state.copyWith(
+      status: UserStatus.loaded,
+      user: event.user,
     ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/common.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maven/feature/user/screen/user_edit_screen.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
@@ -22,72 +23,51 @@ class _UserWidgetState extends State<UserWidget> {
           return Container();
         } else if(state.status.isLoaded) {
           User user = state.user;
-          return Container(
-            padding: EdgeInsets.all(T(context).space.large),
-            decoration: BoxDecoration(
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(T(context).shape.large),
+            child: Material(
               color: T(context).color.surface,
-              borderRadius: BorderRadius.circular(T(context).shape.large),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: Implement user avatar
-                      },
-                      child: const CircleAvatar(
-                        minRadius: 25,
-                        child: Text('A'),
-                      ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UserEditScreen(user: user,),
                     ),
-                    const SizedBox(width: 24),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user.username,
-                          style: T(context).textStyle.headingMedium,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(T(context).space.large),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // TODO: Implement user avatar
+                        },
+                        child: CircleAvatar(
+                          minRadius: 30,
+                          maxRadius: 30,
+                          child: SvgPicture.string(user.picture),
                         ),
-                        Text(
-                          user.description,
-                          style: T(context).textStyle.bodyMedium,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Container(
-                    height: 1,
+                      ),
+                      const SizedBox(width: 24),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.username,
+                            style: T(context).textStyle.headingMedium,
+                          ),
+                          Text(
+                            user.description,
+                            style: T(context).textStyle.bodyMedium,
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Weight ${s(context).parseWeight(user.weight).truncateZeros} ${s(context).weightUnit.name}',
-                      textAlign: TextAlign.center,
-                      style: T(context).textStyle.labelSmall,
-                    ),
-                    const Text('|'),
-                    Text(
-                      'Height ${s(context).parseHeight(user.height).truncateZeros} ${s(context).distanceUnit.name}',
-                      textAlign: TextAlign.center,
-
-                      style: T(context).textStyle.labelSmall,
-                    ),
-                    const Text('|'),
-                    Text(
-                      'Age ${user.age}',
-                      textAlign: TextAlign.center,
-                      style: T(context).textStyle.labelSmall,
-                    )
-                  ],
-                ),
-              ],
+              ),
             ),
           );
         } else {

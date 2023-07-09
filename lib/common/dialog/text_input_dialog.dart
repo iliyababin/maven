@@ -63,6 +63,11 @@ class _TextInputDialogState extends State<TextInputDialog> {
               },
               validator: (value) {
                 if(value == null || value.isEmpty) return "The input cannot be empty. ";
+                if(widget.keyboardType == TextInputType.number) {
+                  if(double.tryParse(value) == null) {
+                    return "The input must be a number. ";
+                  }
+                }
                 return null;
               },
               controller: _textEditingController,

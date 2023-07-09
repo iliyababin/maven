@@ -10,3 +10,16 @@ class UserInitialize extends UserEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UserUpdate extends UserEvent {
+  const UserUpdate({
+    required this.user,
+  });
+
+  final User user;
+
+  @override
+  List<Object?> get props => [
+    user,
+  ];
+}

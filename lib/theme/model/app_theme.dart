@@ -221,10 +221,10 @@ class AppTheme extends Equatable {
         primaryContainer: Color(0xFFDBF0FF),
         onPrimaryContainer: Color(0xFF167DD0),
 
-        secondary: Color(0xFFEFEFEF),
-        onSecondary: Color(0xFF282828),
-        secondaryContainer: Color(0xFFEFEFEF),
-        onSecondaryContainer: Color(0xFF282828),
+        secondary: Color(0xFF40E0D0),
+        onSecondary: Color(0xFFFFFFFF),
+        secondaryContainer: Color(0xFFA3E5DD),
+        onSecondaryContainer: Color(0xFF094F4A),
 
         background: Color(0xffffffff),
         onBackground: Color(0xff000000),
