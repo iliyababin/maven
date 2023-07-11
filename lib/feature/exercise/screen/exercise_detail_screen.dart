@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
 import '../../../main.dart';
+import '../../session/session.dart';
 import '../exercise.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
@@ -57,8 +58,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen> {
                 physics: CustomScrollBehavior().getScrollPhysics(context),
                 children: [
                   ExerciseDetailView(exercise: exercise),
-                 // CompleteExerciseHistoryListWidget(exercise: exercise),
-                  ListView(),
+                  ExerciseHistoryView(exercise: exercise),
                   ListView(),
                   ListView(),
                 ],

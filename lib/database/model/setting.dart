@@ -15,8 +15,7 @@ class BaseSetting extends Equatable {
     required this.languageCode,
     required this.countryCode,
     required this.themeId,
-    required this.weightUnit,
-    required this.distanceUnit,
+    required this.unit,
   });
 
   @PrimaryKey()
@@ -31,27 +30,22 @@ class BaseSetting extends Equatable {
   @ColumnInfo(name: 'theme_id')
   final int themeId;
 
-  @ColumnInfo(name: 'weight_unit')
-  final WeightUnit weightUnit;
-
-  @ColumnInfo(name: 'distance_unit')
-  final DistanceUnit distanceUnit;
+  @ColumnInfo(name: 'unit')
+  final Unit unit;
 
   BaseSetting copyWith({
     int? id,
     String? languageCode,
     String? countryCode,
     int? themeId,
-    WeightUnit? weightUnit,
-    DistanceUnit? distanceUnit,
+    Unit? unit,
   }) {
     return BaseSetting(
       id: id ?? this.id,
       languageCode: languageCode ?? this.languageCode,
       countryCode: countryCode ?? this.countryCode,
       themeId: themeId ?? this.themeId,
-      weightUnit: weightUnit ?? this.weightUnit,
-      distanceUnit: distanceUnit ?? this.distanceUnit,
+      unit: unit ?? this.unit,
     );
   }
 
@@ -61,7 +55,6 @@ class BaseSetting extends Equatable {
         languageCode,
         countryCode,
         themeId,
-        weightUnit,
-        distanceUnit,
+        unit,
       ];
 }

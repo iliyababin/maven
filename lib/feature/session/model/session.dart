@@ -18,6 +18,22 @@ class Session extends Equatable {
   final double volume;
   final Map<Muscle, double> musclePercentages;
 
+  Session copyWith({
+    Routine? routine,
+    List<ExerciseGroup>? exerciseGroups,
+    SessionData? data,
+    double? volume,
+    Map<Muscle, double>? musclePercentages,
+  }) {
+    return Session(
+      routine: routine ?? this.routine,
+      exerciseGroups: exerciseGroups ?? this.exerciseGroups,
+      data: data ?? this.data,
+      volume: volume ?? this.volume,
+      musclePercentages: musclePercentages ?? this.musclePercentages,
+    );
+  }
+
   @override
   List<Object?> get props => [
     routine,

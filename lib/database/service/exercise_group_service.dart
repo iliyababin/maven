@@ -71,25 +71,29 @@ class ExerciseGroupService {
   }
 
   Future<double> getVolume(List<ExerciseGroup> exerciseGroups) async {
-    double volume = 0;
+    double pounds = 0;
 
     for(ExerciseGroup exerciseGroup in exerciseGroups){
       for(ExerciseSet exerciseSet in exerciseGroup.sets){
-        double setVolume = 1;
+        double setPounds = 1;
 
         for(ExerciseSetData exerciseSetData in exerciseSet.data){
-          if(exerciseGroup.weightUnit == WeightUnit.lbs) {
-            setVolume *= exerciseSetData.valueAsDouble;
-          } else {
-            setVolume *= exerciseSetData.valueAsDouble * 0.45359237;
+          if(exerciseSetData.fieldType == ExerciseFieldType.weight) {
+            if(exerciseGroup.weightUnit == WeightUnit.pound) {
+              setPounds *= exerciseSetData.valueAsDouble;
+            } else if (exerciseGroup.weightUnit == WeightUnit.kilogram) {
+              setPounds *= exerciseSetData.valueAsDouble * 2.20462262;
+            }
+          } else if (exerciseSetData.fieldType == ExerciseFieldType.reps) {
+            setPounds *= exerciseSetData.valueAsDouble;
           }
         }
-        volume += setVolume.toInt();
+        pounds += setPounds;
       }
     }
 
-    BaseSetting? setting = await settingDao.getSetting();
-    return setting!.weightUnit == WeightUnit.lbs ? volume : (volume * 0.45359237);
+    print(pounds);
+    return pounds;
   }
 
   Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroup> exerciseGroups) async {

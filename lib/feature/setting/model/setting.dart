@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/common/common.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
@@ -8,27 +9,26 @@ class Setting extends Equatable {
   const Setting({
     required this.theme,
     required this.themes,
-    required this.weightUnit,
-    required this.distanceUnit,
+    required this.unit,
     required this.locale,
   });
 
   final AppTheme theme;
   final List<AppTheme> themes;
-  final WeightUnit weightUnit;
-  final DistanceUnit distanceUnit;
+  final Unit unit;
   final Locale locale;
 
-  double parseWeight(double volume) {
-    if (weightUnit == WeightUnit.lbs) {
-      return volume;
+  String parseWeight(double volume) {
+    if (unit == Unit.imperial) {
+      return '${volume.toStringAsFixed(2).truncateZeros} lbs';
     } else {
-      return volume * 0.45359237;
+      return '${(volume * 0.45359237).toStringAsFixed(2).truncateZeros} kgs';
     }
   }
 
   double parseHeight(double height) {
-    switch (distanceUnit) {
+    return height;
+    /*switch (unit) {
       case DistanceUnit.kilometer:
         return height / 1000;
       case DistanceUnit.mile:
@@ -43,22 +43,20 @@ class Setting extends Equatable {
         return height / 39.37008;
       default:
         return height;
-    }
+    }*/
   }
 
-
-  Setting copyWith ({
+  Setting copyWith({
     AppTheme? theme,
     List<AppTheme>? themes,
-    WeightUnit? weightUnit,
+    Unit? unit,
     DistanceUnit? distanceUnit,
     Locale? locale,
   }) {
     return Setting(
       theme: theme ?? this.theme,
       themes: themes ?? this.themes,
-      weightUnit: weightUnit ?? this.weightUnit,
-      distanceUnit: distanceUnit ?? this.distanceUnit,
+      unit: unit ?? this.unit,
       locale: locale ?? this.locale,
     );
   }
@@ -67,9 +65,7 @@ class Setting extends Equatable {
   List<Object?> get props => [
         theme,
         themes,
-        weightUnit,
-        distanceUnit,
+        unit,
         locale,
       ];
-
 }

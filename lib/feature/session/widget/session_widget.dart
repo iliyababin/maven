@@ -79,7 +79,7 @@ class SessionWidget extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      '${s(context).parseWeight(session.volume).truncateZeros} ${s(context).weightUnit.name}',
+                      s(context).parseWeight(session.volume).truncateZeros,
                     ),
                     const SizedBox(
                       width: 20,

@@ -22,7 +22,7 @@ class _UserWidgetState extends State<UserWidget> {
         if(state.status.isLoading) {
           return Container();
         } else if(state.status.isLoaded) {
-          User user = state.user;
+          User user = state.user!;
           return ClipRRect(
             borderRadius: BorderRadius.circular(T(context).shape.large),
             child: Material(

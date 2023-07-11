@@ -15,11 +15,11 @@ extension UserStatusExtension on UserStatus {
 class UserState extends Equatable {
   const UserState({
     this.status = UserStatus.loading,
-    this.user = const User.base(),
+    this.user,
   });
 
   final UserStatus status;
-  final User user;
+  final User? user;
 
   UserState copyWith({
     UserStatus? status,

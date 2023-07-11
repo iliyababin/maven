@@ -104,8 +104,6 @@ void main() async {
 class Main extends StatelessWidget {
   const Main({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingBloc, SettingState>(
@@ -120,7 +118,7 @@ class Main extends StatelessWidget {
                 return MaterialApp(
                   theme: InheritedSettingWidget.of(context).setting.theme.data,
                   // TODO: Give user option to change this.
-                  scrollBehavior: CustomScrollBehavior(),
+                  // scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
                   localizationsDelegates: const [
                     S.delegate,

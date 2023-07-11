@@ -151,7 +151,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                                   'Volume',
                                 ),
                                 Text(
-                                  '${s(context).parseWeight(template.volume.toDouble()).truncateZeros} ${s(context).weightUnit.name}',
+                                  '${s(context).parseWeight(template.volume.toDouble())}',
                                   style: T(context).textStyle.labelSmall,
                                 ),
                               ],

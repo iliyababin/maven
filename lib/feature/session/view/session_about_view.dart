@@ -107,7 +107,7 @@ class SessionAboutView extends StatelessWidget {
                         'Volume',
                       ),
                       Text(
-                        '${s(context).parseWeight(session.volume).truncateZeros} ${s(context).weightUnit.name}',
+                        s(context).parseWeight(session.volume).truncateZeros,
                         style: T(context).textStyle.labelSmall,
                       ),
                     ],

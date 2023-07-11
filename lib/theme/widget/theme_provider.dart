@@ -50,11 +50,11 @@ class _ThemeProviderState extends State<ThemeProvider> {
   Widget build(BuildContext context) {
     return InheritedSettingWidget(
       setting: _setting,
-      setWeightUnit: (WeightUnit weightUnit) {
+      unit: (Unit unit) {
         setState(() {
-          _setting = _setting.copyWith(weightUnit: weightUnit);
+          _setting = _setting.copyWith(unit: unit);
         });
-        context.read<SettingBloc>().add(SettingChangeWeightUnit(weightUnit: weightUnit));
+        context.read<SettingBloc>().add(SettingChangeUnits(unit: unit));
       },
       setTheme: (int id) {
         for (AppTheme element in _setting.themes) {

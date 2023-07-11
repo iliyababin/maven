@@ -19,7 +19,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<SettingInitialize>(_initialize);
     on<SettingChangeTheme>(_changeTheme);
     on<SettingChangeLocale>(_changeLocale);
-    on<SettingChangeWeightUnit>(_changeWeightUnit);
+    on<SettingChangeUnits>(_changeUnit);
   }
 
   final SettingDao settingDao;
@@ -34,8 +34,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       setting: Setting(
         theme: theme,
         themes: AppTheme.themes,
-        weightUnit: setting!.weightUnit,
-        distanceUnit: setting.distanceUnit,
+        unit: setting!.unit,
         locale: Locale(setting.languageCode, setting.countryCode),
       ),
     ));
@@ -57,12 +56,11 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   }
 
   Future<void> _changeLocale(SettingChangeLocale event, Emitter<SettingState> emit) async {
-    if (state.setting!.locale == event.locale) return;
-    emit(state.copyWith(status: SettingStatus.loading));
+    emit(state.copyWith(
+      status: SettingStatus.loading,
+    ));
 
     S.load(event.locale);
-
-    await Future.delayed(const Duration(seconds: 1));
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
@@ -72,17 +70,17 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     ));
   }
 
-  Future<void> _changeWeightUnit(SettingChangeWeightUnit event, Emitter<SettingState> emit) async {
+  Future<void> _changeUnit(SettingChangeUnits event, Emitter<SettingState> emit) async {
     BaseSetting? setting = await settingDao.getSetting();
 
     await settingDao.updateSetting(setting!.copyWith(
-      weightUnit: event.weightUnit,
+      unit: event.unit,
     ));
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
       setting: state.setting!.copyWith(
-        weightUnit: event.weightUnit,
+        unit: event.unit,
       ),
     ));
   }

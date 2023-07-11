@@ -55,7 +55,21 @@ Color _darkenColor(Color color, {double amount = 0.1}) {
 
 extension RemoveTrailingZeros on String {
   String get truncateZeros {
-    return toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
+    double? number = double.tryParse(this);
+
+    if (number != null) {
+      String result = number.toString();
+      if (result.contains('.') && !result.contains('e')) {
+        // Remove trailing zeros
+        result = result.replaceAll(RegExp(r'0*$'), '');
+        // Remove decimal if it only contains zeros
+        if (result.endsWith('.')) {
+          result = result.substring(0, result.length - 1);
+        }
+        return result;
+      }
+    }
+    return this;
   }
 }
 

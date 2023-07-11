@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:maven/common/common.dart';
 import 'package:multiavatar/multiavatar.dart';
 
@@ -158,9 +159,22 @@ class _UserEditScreenState extends State<UserEditScreen> {
                           onTap: () {
                             showBottomSheetDialog(
                               context: context,
-                              child: const ListDialog(
+                              child: ListDialog(
                                 children: [
                                   ListTile(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        user = user.copyWith(
+                                          gender: Gender.male,
+                                        );
+                                      });
+                                      context.read<UserBloc>().add(
+                                            UserUpdate(
+                                              user: user,
+                                            ),
+                                          );
+                                    },
                                     leading: Icon(
                                       Icons.male,
                                       color: Colors.blue,
@@ -170,6 +184,19 @@ class _UserEditScreenState extends State<UserEditScreen> {
                                     ),
                                   ),
                                   ListTile(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        user = user.copyWith(
+                                          gender: Gender.female,
+                                        );
+                                      });
+                                      context.read<UserBloc>().add(
+                                        UserUpdate(
+                                          user: user,
+                                        ),
+                                      );
+                                    },
                                     leading: Icon(
                                       Icons.female,
                                       color: Colors.pink,
@@ -218,6 +245,17 @@ class _UserEditScreenState extends State<UserEditScreen> {
                           trailing: Text(
                             '${user.height}',
                           ),
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Created At',
+                          ),
+                          trailing: Text(
+                            DateFormat.MMMMEEEEd().format(user.createdAt),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         const SizedBox(
                           height: 10,

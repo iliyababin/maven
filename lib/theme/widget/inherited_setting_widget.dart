@@ -9,20 +9,20 @@ class InheritedSettingWidget extends InheritedWidget {
     super.key,
     required Setting setting,
     required Function(int themeId) setTheme,
-    required Function(WeightUnit weightUnit) setWeightUnit,
+    required Function(Unit unit) unit,
     required Widget child,
   })  : _setting = setting,
         _setTheme = setTheme,
-        _setWeightUnit = setWeightUnit,
+        _setUnit = unit,
         super(child: child);
 
   final Setting _setting;
   final Function(int themeId) _setTheme;
-  final Function(WeightUnit weightUnit) _setWeightUnit;
+  final Function(Unit unit) _setUnit;
 
   Setting get setting => _setting;
   Function(int themeId) get setTheme => _setTheme;
-  Function(WeightUnit weightUnit) get setWeightUnit => _setWeightUnit;
+  Function(Unit unit) get setUnit => _setUnit;
 
   static InheritedSettingWidget of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<InheritedSettingWidget>()!;

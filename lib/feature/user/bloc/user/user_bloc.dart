@@ -22,7 +22,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     User? user = await userDao.get(1);
 
     if(user == null) {
-      await userDao.add(const User.base());
+      await userDao.add(User.base());
+      user = await userDao.get(1);
     }
 
     emit(state.copyWith(
