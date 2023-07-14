@@ -14,6 +14,7 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     required this.exerciseFieldDao,
   }) : super(const ExerciseState()) {
     on<ExerciseInitialize>(_initialize);
+    on<ExerciseAdd>(_add);
     on<ExerciseUpdate>(_update);
   }
 
@@ -21,6 +22,26 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
   final ExerciseFieldDao exerciseFieldDao;
 
   Future<void> _initialize(ExerciseInitialize event, emit) async {
+    emit(state.copyWith(
+      status: ExerciseStatus.loaded,
+      exercises: await _getExercises(),
+    ));
+  }
+
+  Future<void> _add(ExerciseAdd event, emit) async {
+    emit(state.copyWith(
+      status: ExerciseStatus.loading,
+    ));
+
+    int exerciseId = await exerciseDao.add(event.exercise.copyWith(isCustom: true));
+
+    for (ExerciseField field in event.exercise.fields) {
+      await exerciseFieldDao.add(ExerciseField(
+        exerciseId: exerciseId,
+        type: field.type,
+      ));
+    }
+
     emit(state.copyWith(
       status: ExerciseStatus.loaded,
       exercises: await _getExercises(),
@@ -44,7 +65,7 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     List<Exercise> exercises = await exerciseDao.getExercises();
 
     for (int i = 0; i < exercises.length; i++) {
-      exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getExerciseFieldsByExerciseId(exercises[i].id!));
+      exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getByExerciseId(exercises[i].id!));
     }
 
     return exercises;

@@ -39,7 +39,8 @@ enum Muscle {
   trapezius,
   tricepsBrachii,
   wrist,
-  fullBody;
+  fullBody,
+  none;
 
   String get name {
     String muscleString = toString().split('.').last;

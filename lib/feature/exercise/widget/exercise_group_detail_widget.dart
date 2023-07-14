@@ -45,6 +45,9 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
                   routine == null ? exercise.name : DateFormat.yMMMMEEEEd().format(routine!.timestamp),
                   style: routine == null ? T(context).textStyle.titleLarge : T(context).textStyle.labelMedium,
                 ),
+                SizedBox(
+                  height: 2,
+                ),
                 Table(
                   children: List.generate(
                     exerciseGroup.sets.length + 1,

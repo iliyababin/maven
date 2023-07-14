@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:maven/common/common.dart';
-import 'package:maven/database/enum/enum.dart';
 
+import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 
 class ExerciseTypeSelectionScreen extends StatefulWidget {
   const ExerciseTypeSelectionScreen({
     Key? key,
+    required this.exercise,
     this.exerciseTypes,
   }) : super(key: key);
 
+  final Exercise exercise;
   final List<ExerciseFieldType>? exerciseTypes;
 
   @override
@@ -17,10 +19,12 @@ class ExerciseTypeSelectionScreen extends StatefulWidget {
 }
 
 class _ExerciseTypeSelectionScreenState extends State<ExerciseTypeSelectionScreen> {
+  late Exercise exercise;
   late final List<ExerciseFieldType> exerciseTypes;
 
   @override
   void initState() {
+    exercise = widget.exercise.copyWith();
     exerciseTypes = List.from(widget.exerciseTypes ?? []);
     super.initState();
   }
@@ -33,7 +37,7 @@ class _ExerciseTypeSelectionScreenState extends State<ExerciseTypeSelectionScree
       actions: [
         IconButton(
           onPressed: () {
-            if(exerciseTypes.length < 1 || exerciseTypes.length > 3) {
+            if (exerciseTypes.length < 1 || exerciseTypes.length > 3) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(
@@ -43,7 +47,17 @@ class _ExerciseTypeSelectionScreenState extends State<ExerciseTypeSelectionScree
               );
               return;
             }
-            Navigator.pop(context, exerciseTypes);
+            Navigator.pop(
+              context,
+              exercise.copyWith(
+                fields: exerciseTypes.map((e) {
+                  return ExerciseField(
+                    exerciseId: -1,
+                    type: e,
+                  );
+                }).toList(),
+              ),
+            );
           },
           icon: Icon(
             Icons.check,
@@ -55,7 +69,24 @@ class _ExerciseTypeSelectionScreenState extends State<ExerciseTypeSelectionScree
         return ListTile(
           onTap: () {
             setState(() {
-              if(!exerciseTypes.remove(item)) {
+              if (exerciseTypes.remove(item)) {
+                exercise = Exercise(
+                  id: exercise.id,
+                  name: exercise.name,
+                  muscle: exercise.muscle,
+                  muscleGroup: exercise.muscleGroup,
+                  timer: exercise.timer,
+                  equipment: exercise.equipment,
+                  videoPath: exercise.videoPath,
+                  weightUnit: item == ExerciseFieldType.weight ? null : exercise.weightUnit,
+                  distanceUnit: item == ExerciseFieldType.distance ? null : exercise.distanceUnit,
+                  barId: exercise.barId,
+                );
+              } else {
+                exercise = exercise.copyWith(
+                  weightUnit: item == ExerciseFieldType.weight ? WeightUnit.kilogram : null,
+                  distanceUnit: item == ExerciseFieldType.distance ? DistanceUnit.meter : null,
+                );
                 exerciseTypes.add(item);
               }
             });

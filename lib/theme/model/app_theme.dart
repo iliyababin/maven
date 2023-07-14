@@ -84,6 +84,9 @@ class AppTheme extends Equatable {
       typography: Typography.material2021(),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(options.shape.medium),
+        ),
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       textButtonTheme: TextButtonThemeData(

@@ -118,15 +118,15 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _reorder(TemplateReorder event, Emitter<TemplateState> emit) async {
-    /*Template template = state.templates.removeAt(event.oldIndex);
+    Template template = state.templates.removeAt(event.oldIndex);
     state.templates.insert(event.newIndex, template);
     for (int i = 0; i < state.templates.length; i++) {
       Template template = state.templates[i];
-      routineDao.modify(template.copyWith(sort: i + 1));
+      templateDataDao.modify(template.data!.copyWith(sort: i + 1));
     }
     emit(state.copyWith(
       templates: await _getTemplates(),
-    ));*/
+    ));
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
@@ -139,22 +139,21 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   Future<List<Template>> _getTemplates() async {
     List<Template> templates = [];
 
-    for (Routine routine in await routineDao.getByType(RoutineType.template)) {
-      List<ExerciseGroup> exerciseGroups = await exerciseGroupService.getByRoutineId(routine.id!);
-
-      TemplateData? data = await templateDataDao.getByRoutineId(routine.id!);
+    for(TemplateData data in await templateDataDao.getAll()) {
+      Routine? routine = await routineDao.get(data.routineId);
+      List<ExerciseGroup> groups = await exerciseGroupService.getByRoutineId(data.routineId);
 
       templates.add(Template(
-        id: routine.id,
+        id: routine!.id,
         type: routine.type,
         name: routine.name,
         timestamp: routine.timestamp,
         note: routine.note,
-        data: data!,
-        exerciseGroups: exerciseGroups,
-        musclePercentages: await exerciseGroupService.getMusclePercentages(exerciseGroups),
-        duration: exerciseGroupService.getDuration(exerciseGroups),
-        volume: await exerciseGroupService.getVolume(exerciseGroups),
+        data: data,
+        exerciseGroups: groups,
+        musclePercentages: await exerciseGroupService.getMusclePercentages(groups),
+        duration: exerciseGroupService.getDuration(groups),
+        volume: await exerciseGroupService.getVolume(groups),
       ));
     }
 

@@ -8,7 +8,8 @@ enum MuscleGroup {
   core,
   legs,
   shoulders,
-  fullBody;
+  fullBody,
+  none;
 
   String get name {
     return toString().split('.').last.capitalize;

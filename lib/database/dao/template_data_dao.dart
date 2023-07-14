@@ -13,7 +13,7 @@ abstract class TemplateDataDao {
   @Query('SELECT * FROM template_data WHERE id = :templateDataId')
   Future<TemplateData?> get(int templateDataId);
 
-  @Query('SELECT * FROM template_data')
+  @Query('SELECT * FROM template_data ORDER BY sort ASC')
   Future<List<TemplateData>> getAll();
 
   @Query('SELECT * FROM template_data WHERE routine_id = :routineId')

@@ -32,6 +32,18 @@ class ExerciseField extends Equatable {
   @ColumnInfo(name: 'exercise_id')
   final int exerciseId;
 
+  ExerciseField copyWith({
+    int? id,
+    int? exerciseId,
+    ExerciseFieldType? type,
+  }) {
+    return ExerciseField(
+      id: id ?? this.id,
+      exerciseId: exerciseId ?? this.exerciseId,
+      type: type ?? this.type,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

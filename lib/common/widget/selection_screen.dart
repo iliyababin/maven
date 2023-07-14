@@ -35,17 +35,11 @@ class SearchableSelectionScreen<T> extends StatefulWidget {
 }
 
 class _SearchableSelectionScreenState<T> extends State<SearchableSelectionScreen<T>> {
-  late List<T> filteredItems;
-
   final FocusNode searchNode = FocusNode();
 
   bool typing = false;
 
-  @override
-  void initState() {
-    super.initState();
-    filteredItems = widget.items;
-  }
+  String query = '';
 
   @override
   void dispose() {
@@ -53,21 +47,20 @@ class _SearchableSelectionScreenState<T> extends State<SearchableSelectionScreen
     super.dispose();
   }
 
-  /// Filters the list of items based on the provided query.
-  void filterList(String query) {
-    setState(() {
-      filteredItems = widget.items.where((item) => item.toString().toLowerCase().contains(query.toLowerCase())).toList();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    List<T> items = widget.items.where((item) => item.toString().toLowerCase().contains(query.toLowerCase())).toList();
     return Scaffold(
       appBar: AppBar(
         title: typing
             ? TextField(
                 focusNode: searchNode,
-                onChanged: filterList,
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
                 decoration: const InputDecoration(
                   hintText: 'Search',
                   enabledBorder: InputBorder.none,
@@ -83,7 +76,7 @@ class _SearchableSelectionScreenState<T> extends State<SearchableSelectionScreen
                   onPressed: () {
                     setState(() {
                       searchNode.unfocus();
-                      filterList('');
+                      query = '';
                       typing = false;
                     });
                   },
@@ -106,9 +99,9 @@ class _SearchableSelectionScreenState<T> extends State<SearchableSelectionScreen
         ],
       ),
       body: ListView.builder(
-        itemCount: filteredItems.length,
+        itemCount: items.length,
         itemBuilder: (context, index) {
-          final item = filteredItems[index];
+          final item = items[index];
           return widget.itemBuilder(context, item);
         },
       ),

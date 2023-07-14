@@ -13,18 +13,22 @@ extension ExerciseStatusExtension on ExerciseStatus {
 class ExerciseState extends Equatable {
   const ExerciseState({
     this.status = ExerciseStatus.loading,
+    this.message = '',
     this.exercises = const [],
   });
 
   final ExerciseStatus status;
+  final String message;
   final List<Exercise> exercises;
 
   ExerciseState copyWith({
     ExerciseStatus? status,
+    String? message,
     List<Exercise>? exercises,
   }) {
     return ExerciseState(
       status: status ?? this.status,
+      message: message ?? this.message,
       exercises: exercises ?? this.exercises,
     );
   }
@@ -32,6 +36,7 @@ class ExerciseState extends Equatable {
   @override
   List<Object?> get props => [
     status,
+    message,
     exercises
   ];
 }

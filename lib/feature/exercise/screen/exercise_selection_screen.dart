@@ -28,10 +28,7 @@ class ExerciseSelectionScreen extends StatefulWidget {
 class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
   final List<Exercise> _selectedExercises = [];
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool showHidden = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +38,59 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if(state.status == ExerciseStatus.loaded) {
+        } else if (state.status == ExerciseStatus.loaded) {
+          List<Exercise> exercises = [];
+          if(showHidden) {
+            exercises = state.exercises;
+          } else {
+            exercises = state.exercises.where((element) => !element.isHidden).toList();
+          }
+
+
           return SearchableSelectionScreen(
             title: 'Exercises',
-            items: state.exercises,
+            items: exercises,
             actions: [
               IconButton(
                 onPressed: () {
-
+                  showBottomSheetDialog(
+                    context: context,
+                    child: ListDialog(
+                      children: [
+                        ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ExerciseAddScreen()),
+                            );
+                          },
+                          leading: const Icon(
+                            Icons.add_outlined,
+                          ),
+                          title: Text(
+                            'Add',
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            setState(() {
+                              showHidden = !showHidden;
+                            });
+                            Navigator.pop(context);
+                          },
+                          leading: const Icon(
+                            Icons.visibility,
+                          ),
+                          title: Text(
+                            '${showHidden ? 'Hide' : 'Show'} Hidden',
+                          ),
+                        )
+                      ],
+                    ),
+                  );
                 },
                 icon: const Icon(
-                  Icons.add_outlined,
+                  Icons.more_vert_outlined,
                 ),
               ),
               if (widget.selection)
@@ -84,15 +123,26 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                 },
                 leading: CircleAvatar(
                   child: Text(
-                    item.name.substring(0, 1).toUpperCase(),
+                    item.name.isEmpty ? '' : item.name.substring(0, 1).toUpperCase(),
                   ),
+                  backgroundColor: item.isHidden ? T(context).color.error : null,
+                  foregroundColor: item.isHidden ? T(context).color.onError : null,
                 ),
-                tileColor: widget.selection && _selectedExercises.contains(item) ? T(context).color.primaryContainer : null,
+                tileColor: item.isHidden ? T(context).color.errorContainer :
+                  widget.selection && _selectedExercises.contains(item)
+                      ? T(context).color.primaryContainer
+                      : null,
                 title: Text(
                   item.name,
+                  style: TextStyle(
+                    color: item.isHidden ? T(context).color.onErrorContainer : null,
+                  ),
                 ),
                 subtitle: Text(
                   '${item.muscleGroup.name.capitalize} · ${item.muscle.name}',
+                  style: TextStyle(
+                    color: item.isHidden ? T(context).color.onErrorContainer : null,
+                  ),
                 ),
                 trailing: widget.selection
                     ? Icon(

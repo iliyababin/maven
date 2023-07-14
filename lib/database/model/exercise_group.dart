@@ -14,6 +14,7 @@ import '../database.dart';
       childColumns: ['exercise_id'],
       parentColumns: ['id'],
       entity: Exercise,
+      onDelete: ForeignKeyAction.restrict,
     ),
     ForeignKey(
       childColumns: ['bar_id'],

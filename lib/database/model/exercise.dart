@@ -30,20 +30,24 @@ class Exercise extends Equatable {
     this.weightUnit,
     this.distanceUnit,
     this.fields = const [],
+    this.isCustom = false,
+    this.isHidden = false,
   });
 
   const Exercise.empty()
       : id = null,
-        name = 'Empty',
-        muscle = Muscle.trapezius,
-        muscleGroup = MuscleGroup.arms,
+        name = '',
+        muscle = Muscle.none,
+        muscleGroup = MuscleGroup.none,
         equipment = Equipment.none,
         videoPath = 'Empty',
         timer = const Timed.zero(),
         barId = null,
         weightUnit = null,
         distanceUnit = null,
-        fields = const [];
+        fields = const [],
+        isCustom = false,
+        isHidden = false;
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
@@ -76,6 +80,12 @@ class Exercise extends Equatable {
   @ColumnInfo(name: 'distance_unit')
   final DistanceUnit? distanceUnit;
 
+  @ColumnInfo(name: 'is_custom')
+  final bool isCustom;
+
+  @ColumnInfo(name: 'is_hidden')
+  final bool isHidden;
+
   @ignore
   final List<ExerciseField> fields;
 
@@ -91,6 +101,9 @@ class Exercise extends Equatable {
         barId,
         weightUnit,
         distanceUnit,
+        isCustom,
+        isHidden,
+        fields,
       ];
 
   Exercise copyWith({
@@ -104,6 +117,8 @@ class Exercise extends Equatable {
     int? barId,
     WeightUnit? weightUnit,
     DistanceUnit? distanceUnit,
+    bool? isCustom,
+    bool? isHidden,
     List<ExerciseField>? fields,
   }) {
     return Exercise(
@@ -117,6 +132,8 @@ class Exercise extends Equatable {
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
       distanceUnit: distanceUnit ?? this.distanceUnit,
+      isCustom: isCustom ?? this.isCustom,
+      isHidden: isHidden ?? this.isHidden,
       fields: fields ?? this.fields,
     );
   }
