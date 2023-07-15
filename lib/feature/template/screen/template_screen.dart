@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/widget/heading.dart';
+import 'package:maven/common/common.dart';
 
-import '../../../common/widget/titled_scaffold.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../program/view/program_list_view.dart';
@@ -19,8 +18,15 @@ class TemplateScreen extends StatefulWidget {
 }
 
 class _TemplateScreenState extends State<TemplateScreen> {
-
-  List<Widget> hey = [SliverToBoxAdapter(child: Container(color: Colors.red, height: 50, width: 50,),)];
+  List<Widget> hey = [
+    SliverToBoxAdapter(
+      child: Container(
+        color: Colors.red,
+        height: 50,
+        width: 50,
+      ),
+    )
+  ];
   @override
   Widget build(BuildContext context) {
     return TitledScaffold(
@@ -123,7 +129,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 ),
               ]),
             ),
-           /* BlocBuilder<WorkoutBloc, WorkoutState>(
+            /* BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if(!state.status.isError && state.pausedWorkouts.isNotEmpty) {
                   return const Heading(
@@ -151,7 +157,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                     ),
                   );
                 } else {
-                  *//*List<Workout> workouts = state.pausedWorkouts;
+                  */ /*List<Workout> workouts = state.pausedWorkouts;
                   return workouts.isEmpty
                       ? SliverToBoxAdapter()
                       : SliverList(
@@ -176,35 +182,17 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             },
                             childCount: max(0, workouts.length * 2 - 1),
                           ),
-                        );*//*
+                        );*/ /*
                   return SliverToBoxAdapter();
                 }
               },
             ),*/
-            Heading(
+            const Heading(
               title: 'Templates',
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.sort_rounded,
-                    size: 24,
-                  ),
-                ),
-              ],
             ),
             const TemplateListView(),
-            Heading(
+            const Heading(
               title: 'Programs',
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.sort_rounded,
-                    size: 24,
-                  ),
-                ),
-              ],
             ),
             const ProgramListView(),
             const SliverToBoxAdapter(

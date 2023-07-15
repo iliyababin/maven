@@ -321,7 +321,7 @@ class AppTheme extends Equatable {
         outlineVariant: Color(0xFF3A3A3A),
 
         inversePrimary: Color(0xFFFFAE00),
-        inverseSurface: Color(0xFF282828),
+        inverseSurface: Color(0xFF484848),
         onInverseSurface: Color(0xFFffffff),
 
         success: Color(0xFF2DCD70),

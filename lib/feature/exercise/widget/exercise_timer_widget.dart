@@ -43,14 +43,14 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
     if (timeLeft != 0) {
       return Expanded(
         child: ClipRRect(
-          borderRadius: BorderRadiusDirectional.circular(8),
+          borderRadius: BorderRadiusDirectional.circular(T(context).shape.large),
           child: SizedBox(
             height: 40,
 
             child: Stack(
               children: [
                 LinearProgressIndicator(
-                  backgroundColor: T(context).color.secondary,
+                  backgroundColor: T(context).color.surface,
                   color: T(context).color.primary,
                   value: timeLeft / totalTime,
                   minHeight: 38,
@@ -59,7 +59,6 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
                   child: Text(
                     secondsToTime(timeLeft),
                     style: TextStyle(
-                      color: timeLeft / totalTime > 0.5 ? T(context).color.onSurface : T(context).color.primary,
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
                     ),

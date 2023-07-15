@@ -13,9 +13,11 @@ class SessionWidget extends StatelessWidget {
   const SessionWidget({
     Key? key,
     required this.session,
+    this.dateEnabled = true,
   }) : super(key: key);
 
   final Session session;
+  final bool dateEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class SessionWidget extends StatelessWidget {
                   session.routine.name,
                   style: T(context).textStyle.titleLarge,
                 ),
+                if(dateEnabled)
                 Text(
                   DateFormat.yMMMMEEEEd().format(session.routine.timestamp).toString(),
                   style: T(context).textStyle.titleSmall,

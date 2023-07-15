@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/feature/exercise/exercise.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../theme/theme.dart';
@@ -27,6 +28,7 @@ class _MavenState extends State<Maven> {
 
   int _selectedIndex = 1;
 
+  final ExerciseTimerController timerController = ExerciseTimerController();
   final PanelController _panelController = PanelController();
 
   void _onItemTapped(int index) {
@@ -127,6 +129,7 @@ class _MavenState extends State<Maven> {
                     ),
                     WorkoutScreen(
                       workout: state.workout!,
+                      timerController: timerController,
                     ),
                   ],
                 ),

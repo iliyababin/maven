@@ -20,8 +20,8 @@ class TemplateCreate extends TemplateEvent {
 
   @override
   List<Object?> get props => [
-    template,
-  ];
+        template,
+      ];
 }
 
 class TemplateUpdate extends TemplateEvent {
@@ -35,22 +35,20 @@ class TemplateUpdate extends TemplateEvent {
 
   @override
   List<Object?> get props => [
-    routine,
-    exerciseGroups,
-  ];
+        routine,
+        exerciseGroups,
+      ];
 }
 
 class TemplateDelete extends TemplateEvent {
-  const TemplateDelete({
-    required this.template
-  });
+  const TemplateDelete({required this.template});
 
   final Template template;
 
   @override
   List<Object?> get props => [
-    template,
-  ];
+        template,
+      ];
 }
 
 class TemplateReorder extends TemplateEvent {
@@ -64,21 +62,7 @@ class TemplateReorder extends TemplateEvent {
 
   @override
   List<Object?> get props => [
-    oldIndex,
-    newIndex,
-  ];
+        oldIndex,
+        newIndex,
+      ];
 }
-
-class TemplateStreamUpdateTemplates extends TemplateEvent {
-  const TemplateStreamUpdateTemplates({
-    required this.templates,
-  });
-
-  final List<Template> templates;
-
-  @override
-  List<Object?> get props => [
-    templates,
-  ];
-}
-

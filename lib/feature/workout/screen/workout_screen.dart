@@ -2,23 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:maven/feature/note/note.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
-import '../../session/session.dart';
 import '../workout.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({
     Key? key,
     required this.workout,
+    required this.timerController,
   }) : super(key: key);
 
   final Workout workout;
+  final ExerciseTimerController timerController;
 
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
@@ -26,7 +26,6 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProviderStateMixin {
   late final FocusNode nameNode;
-  late final ExerciseTimerController exerciseTimerController;
   late final ScrollController scrollController;
   late Workout workout;
 
@@ -35,7 +34,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   @override
   void initState() {
     nameNode = FocusNode();
-    exerciseTimerController = ExerciseTimerController();
     scrollController = ScrollController();
     workout = widget.workout;
     super.initState();
@@ -44,7 +42,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
   @override
   void dispose() {
     nameNode.dispose();
-    exerciseTimerController.dispose();
     scrollController.dispose();
     super.dispose();
   }
@@ -56,7 +53,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
         children: [
           WorkoutBarWidget(
             workout: workout,
-            exerciseTimerController: exerciseTimerController,
+            exerciseTimerController: widget.timerController,
             nameNode: nameNode,
             reordering: isReordering,
             onReorder: () {
@@ -203,7 +200,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> with SingleTickerProvider
                               exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
                               exerciseGroup: exerciseGroup,
                               exerciseSets: exerciseGroup.sets,
-                              controller: exerciseTimerController,
+                              controller: widget.timerController,
                               onExerciseGroupUpdate: (value) {
                                 setState(() {
                                   workout = workout.copyWith(exerciseGroups: workout.exerciseGroups..[index] = value);

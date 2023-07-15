@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maven/feature/session/screen/session_calendar_screen.dart';
 
 import '../../../common/common.dart';
 import '../../../theme/theme.dart';
@@ -21,7 +22,12 @@ class ProgressScreen extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      // TODO: Add calendar view
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SessionCalendarScreen(),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.calendar_month_outlined,
