@@ -15,6 +15,7 @@ class ExerciseSetDataWidget extends StatefulWidget {
     required this.onUpdate,
     required this.isChecked,
     required this.exercise,
+    required this.checkboxEnabled,
   }) : super(key: key);
 
   final ExerciseSet set;
@@ -23,6 +24,7 @@ class ExerciseSetDataWidget extends StatefulWidget {
   final ValueChanged<ExerciseSet> onUpdate;
   final bool isChecked;
   final Exercise exercise;
+  final bool checkboxEnabled;
 
   @override
   State<ExerciseSetDataWidget> createState() => _ExerciseSetDataWidgetState();
@@ -51,6 +53,11 @@ class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
           height: 35,
           decoration: BoxDecoration(
             color: widget.isChecked ? T(context).color.successContainer : T(context).color.surface,
+            /*widget.checkboxEnabled
+                ? widget.isChecked
+                  ? T(context).color.successContainer
+                  : T(context).color.surface
+                : T(context).color.surface*/
             borderRadius: BorderRadius.circular(12),
           ),
           alignment: Alignment.center,

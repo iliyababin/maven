@@ -381,10 +381,10 @@ class AppTheme extends Equatable {
         successContainer: Color(0xFFD9F5E7),
         onSuccessContainer: Color(0xFF000000),
 
-        error: Color(0xFFffb4a5),
-        onError: Color(0xFF650900),
-        errorContainer: Color(0xFF862211),
-        onErrorContainer: Color(0xFFffdad3),
+        error: Color(0xFFa63926),
+        onError: Color(0xFFffffff),
+        errorContainer: Color(0xFFffdad3),
+        onErrorContainer: Color(0xFF3f0300),
 
         shadow: Color(0xFFBDBDBD),
         warmup: Color(0xFFFFAE00),

@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: 'Dashboard',
               size: HeadingSize.small,
             ),
-            EmptyWidget(),
+            SliverBoxWidget(),
           ],
         ),
       ),

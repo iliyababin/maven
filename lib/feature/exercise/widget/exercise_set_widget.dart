@@ -47,7 +47,11 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: 44,
-      color: _isChecked ? T(context).color.successContainer : T(context).color.background,
+      color: widget.checkboxEnabled
+          ? _isChecked
+            ? T(context).color.successContainer
+            : T(context).color.background
+          : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ExerciseRowWidget.build(
         set: MButton(
@@ -109,6 +113,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   exercise: widget.exercise,
                   data: e,
                   set: exerciseSet,
+                  checkboxEnabled: widget.checkboxEnabled,
                   onUpdate: (value) {
                     widget.onExerciseSetUpdate(
                       value,

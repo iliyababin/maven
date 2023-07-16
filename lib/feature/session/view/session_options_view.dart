@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/feature/routine/screen/routine_edit_screen.dart';
 
 import '../../../common/common.dart';
 import '../../../theme/theme.dart';
@@ -12,7 +13,28 @@ showSessionOptionsView(BuildContext context, Session session) {
       children: [
         ListTile(
           onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RoutineEditScreen(
+                  routine: session.routine,
+                  exerciseGroups: session.exerciseGroups,
+                  onSubmit: (routine, exerciseGroups) {
+                    Navigator.pop(context);
+                    context.read<SessionBloc>().add(
+                          SessionUpdate(
+                            session: session.copyWith(
+                              routine: routine,
+                              exerciseGroups: exerciseGroups,
+                            ),
+                          ),
+                        );
 
+                  },
+                ),
+              ),
+            );
           },
           leading: const Icon(
             Icons.edit_rounded,
@@ -22,9 +44,7 @@ showSessionOptionsView(BuildContext context, Session session) {
           ),
         ),
         ListTile(
-          onTap: () {
-
-          },
+          onTap: () {},
           leading: Icon(
             Icons.library_add_outlined,
           ),
@@ -34,7 +54,12 @@ showSessionOptionsView(BuildContext context, Session session) {
         ),
         ListTile(
           onTap: () {
-
+            Navigator.pop(context);
+            context.read<SessionBloc>().add(
+                  SessionDelete(
+                    session: session,
+                  ),
+                );
           },
           leading: Icon(
             Icons.delete,

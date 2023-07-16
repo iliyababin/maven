@@ -24,6 +24,9 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   }) : super(const SessionState()) {
     on<SessionInitialize>(_initialize);
     on<SessionAdd>(_add);
+    on<SessionUpdate>(_update);
+    on<SessionDelete>(_delete);
+    on<SessionSetSort>(_setSort);
   }
 
   final RoutineDao routineDao;
@@ -48,6 +51,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     ));
 
     int routineId = await routineDao.add(Routine(
+      id: event.workout.data.id == -1 ? event.workout.data.id : null ,
       name: event.workout.routine.name,
       note: event.workout.routine.note,
       timestamp: DateTime.now(),
@@ -62,9 +66,12 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     for(ExerciseGroup exerciseGroup in event.workout.exerciseGroups) {
       int completedSets = 0;
       for(ExerciseSet exerciseSet in exerciseGroup.sets) {
-        if (exerciseSet.checked) {
+        int completedFields = 0;
+        for(ExerciseSetData data in exerciseSet.data) {
+          if (data.value.isEmpty) continue;
           completedSets++;
         }
+        if(completedFields == 0) continue;
       }
       if(completedSets == 0) continue;
 
@@ -78,11 +85,9 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       ));
 
       for(ExerciseSet exerciseSet in exerciseGroup.sets) {
-        if (!exerciseSet.checked) continue;
-
         int exerciseSetId = await exerciseSetDao.add(ExerciseSet(
           type: exerciseSet.type,
-          checked: exerciseSet.checked,
+          checked: true,
           exerciseGroupId: exerciseGroupId,
         ));
 
@@ -102,7 +107,67 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     ));
   }
 
-  Future<List<Session>> _getSessions() async {
+  Future<void> _update(SessionUpdate event, Emitter<SessionState> emit) async {
+    emit(state.copyWith(
+      status: SessionStatus.loading,
+    ));
+
+    await routineDao.remove(event.session.routine);
+
+    add(SessionAdd(
+      workout: Workout(
+        routine: event.session.routine,
+        exerciseGroups: event.session.exerciseGroups,
+        data: const WorkoutData(
+          isActive: false,
+          timeElapsed: Timed.zero(),
+          routineId: -1,
+        )
+      ),
+    ));
+  }
+
+  Future<void> _delete(SessionDelete event, Emitter<SessionState> emit) async {
+    emit(state.copyWith(
+      status: SessionStatus.loading,
+    ));
+
+    await routineDao.remove(event.session.routine);
+
+    emit(state.copyWith(
+      status: SessionStatus.loaded,
+      sessions: await _getSessions(),
+    ));
+  }
+
+  Future<void> _setSort(SessionSetSort event, Emitter<SessionState> emit) async {
+    emit(state.copyWith(
+      status: SessionStatus.loading,
+    ));
+
+    emit(state.copyWith(
+      sessions: await _getSessions(sort: event.sort),
+      status: SessionStatus.loaded,
+      sort: event.sort,
+    ));
+  }
+
+  int _sessionSortComparison(Session a, Session b) {
+    final propertyA = a.routine.timestamp;
+    final propertyB = a.routine.timestamp;
+
+    int result = propertyA.compareTo(propertyB);
+
+    if (result < 0) {
+      return -1;
+    } else if (result > 0) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  Future<List<Session>> _getSessions({SessionSort sort = SessionSort.newest}) async {
     List<Session> sessions = [];
     for(Routine routine in await routineDao.getByType(RoutineType.session)) {
       SessionData? data = await sessionDataDao.getByRoutineId(routine.id!);
@@ -115,6 +180,31 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         musclePercentages: await exerciseGroupService.getMusclePercentages(exerciseGroups),
       ));
     }
-    return sessions;
+
+    switch(sort) {
+      case SessionSort.newest:
+        sessions.sort(_sessionSortComparison);
+        return sessions;
+      case SessionSort.oldest:
+        sessions.sort(_sessionSortComparison);
+        sessions = sessions.reversed.toList();
+        return sessions;
+      case SessionSort.volume:
+        sessions.sort((a, b) {
+          final propertyA = a.volume;
+          final propertyB = b.volume;
+
+          int result = propertyA.compareTo(propertyB);
+
+          if (result < 0) {
+            return 1;
+          } else if (result > 0) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        return sessions;
+    }
   }
 }

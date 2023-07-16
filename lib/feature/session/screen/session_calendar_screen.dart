@@ -48,6 +48,11 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Container(
+                      padding: EdgeInsets.only(
+                        left: T(context).space.medium,
+                        right: T(context).space.medium,
+                        bottom: T(context).space.medium,
+                      ),
                       decoration: BoxDecoration(
                         color: T(context).color.surface,
                         borderRadius: BorderRadius.circular(
@@ -68,7 +73,7 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                             return [];
                           }
                         },
-                        rowHeight: 40,
+                        rowHeight: 50,
                         calendarStyle: CalendarStyle(
                           selectedDecoration: BoxDecoration(
                             color: T(context).color.primary,
@@ -84,7 +89,6 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                           ),
                         ),
                         onDaySelected: (selectedDay, focusedDay) {
-                          print(focusedDay);
                           setState(() {
                             _selectedDay = selectedDay;
                           });
@@ -96,7 +100,7 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                       ),
                     ),
                   ),
-                  Heading(title: 'Sessions'),
+                  const Heading(title: 'Sessions'),
                   selectedSessions.isNotEmpty ? SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: selectedSessions.length,
@@ -112,7 +116,7 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                         );
                       },
                     ),
-                  ) : EmptyWidget(),
+                  ) : const SliverBoxWidget(),
                 ],
               ),
             );

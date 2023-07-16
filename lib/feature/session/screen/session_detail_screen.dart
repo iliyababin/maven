@@ -31,43 +31,56 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Session',
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSessionOptionsView(context, widget.session);
-            },
-            icon: const Icon(
-              Icons.more_vert_outlined,
-            ),
-          ),
-        ],
-        bottom: TabBar(
-          controller: tabController,
-          tabs: const [
-            Tab(
-              text: 'About',
-            ),
-            Tab(
-              text: 'Exercise',
-            ),
-          ],
-        ),
-      ),
-      body: BlocBuilder<SessionBloc, SessionState>(
-        builder: (context, state) {
-          if(state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.status.isLoaded) {
-            Session session = state.sessions.firstWhere((element) => element.routine.id == widget.session.routine.id);
+    return  BlocBuilder<SessionBloc, SessionState>(
+      builder: (context, state) {
+        if(state.status.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state.status.isLoaded) {
+          late Session session;
 
-            return TabBarView(
+          try {
+            session = state.sessions.firstWhere((element) => element.routine.id == widget.session.routine.id);
+          } catch (e) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: Text(
+                  'Not Found',
+                  style: T(context).textStyle.titleLarge,
+                ),
+              ),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Session',
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    showSessionOptionsView(context, widget.session);
+                  },
+                  icon: const Icon(
+                    Icons.more_vert_outlined,
+                  ),
+                ),
+              ],
+              bottom: TabBar(
+                controller: tabController,
+                tabs: const [
+                  Tab(
+                    text: 'About',
+                  ),
+                  Tab(
+                    text: 'Exercise',
+                  ),
+                ],
+              ),
+            ),
+            body: TabBarView(
               controller: tabController,
               children: [
                 Padding(
@@ -83,7 +96,8 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
                   ),
                 ),
               ],
-            );
+            ),
+          );
 
           /*  return BlocBuilder<ExerciseBloc, ExerciseState>(
               builder: (context, state) {
@@ -125,14 +139,13 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
                 }
               },
             );*/
-          } else {
-            return const Center(
-              child: Text('Error'),
-            );
-          }
+        } else {
+          return const Center(
+            child: Text('Error'),
+          );
+        }
 
-        },
-      ),
+      },
     );
   }
 }

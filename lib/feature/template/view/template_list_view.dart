@@ -13,12 +13,14 @@ class TemplateListView extends StatelessWidget {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
         if(state.status.isLoading) {
-          return const LoadingWidget();
+          return const SliverBoxWidget(
+            type: SliverBoxType.loading,
+          );
         } else if (state.status.isLoaded) {
           List<Template> templates = state.templates;
 
           if(templates.isEmpty) {
-            return const EmptyWidget();
+            return const SliverBoxWidget();
           }
 
           return SliverReorderableGrid(

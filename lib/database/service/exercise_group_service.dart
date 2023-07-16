@@ -91,8 +91,6 @@ class ExerciseGroupService {
         pounds += setPounds;
       }
     }
-
-    print(pounds);
     return pounds;
   }
 

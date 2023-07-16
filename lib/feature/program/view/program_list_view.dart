@@ -26,7 +26,7 @@ class _ProgramListViewState extends State<ProgramListView> {
           List<Program> programs = state.programs;
 
           if(programs.isEmpty) {
-            return EmptyWidget();
+            return SliverBoxWidget();
           }
 
           return SliverReorderableGrid(

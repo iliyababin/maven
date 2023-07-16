@@ -130,36 +130,37 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                     (context, index) {
                       ExerciseGroup exerciseGroup = exerciseGroups[index];
                       return ExerciseGroupWidget(
-                          key: UniqueKey(),
-                          exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
-                          exerciseGroup: exerciseGroup,
-                          exerciseSets: exerciseGroup.sets,
-                          onExerciseGroupUpdate: (value) {
-                            setState(() {
-                              exerciseGroups[index] = value;
-                            });
-                          },
-                          onExerciseGroupDelete: () {
-                            setState(() {
-                              exerciseGroups.removeAt(index);
-                            });
-                          },
-                          onExerciseSetAdd: (value) {
-                            setState(() {
-                              exerciseGroups[index].sets.add(value);
-                            });
-                          },
-                          onExerciseSetUpdate: (value, setIndex) {
-                            setState(() {
-                              exerciseGroups[index].sets[setIndex] = value;
-                            });
-                          },
-                          onExerciseSetDelete: (value, index2) {
-                            setState(() {
-                              exerciseGroups[index].sets.removeAt(index2);
-                            });
-                          },
-                          onExerciseSetToggled: (value, index2) {});
+                        key: UniqueKey(),
+                        exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
+                        exerciseGroup: exerciseGroup,
+                        exerciseSets: exerciseGroup.sets,
+                        onExerciseGroupUpdate: (value) {
+                          setState(() {
+                            exerciseGroups[index] = value;
+                          });
+                        },
+                        onExerciseGroupDelete: () {
+                          setState(() {
+                            exerciseGroups.removeAt(index);
+                          });
+                        },
+                        onExerciseSetAdd: (value) {
+                          setState(() {
+                            exerciseGroups[index].sets.add(value);
+                          });
+                        },
+                        onExerciseSetUpdate: (value, setIndex) {
+                          setState(() {
+                            exerciseGroups[index].sets[setIndex] = value;
+                          });
+                        },
+                        onExerciseSetDelete: (value, index2) {
+                          setState(() {
+                            exerciseGroups[index].sets.removeAt(index2);
+                          });
+                        },
+                        onExerciseSetToggled: (value, index2) {},
+                      );
                     },
                   ),
                 );

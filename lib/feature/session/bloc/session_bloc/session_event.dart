@@ -23,3 +23,42 @@ class SessionAdd extends SessionEvent {
     workout,
   ];
 }
+
+class SessionUpdate extends SessionEvent {
+  const SessionUpdate({
+    required this.session,
+  });
+
+  final Session session;
+
+  @override
+  List<Object?> get props => [
+    session,
+  ];
+}
+
+class SessionDelete extends SessionEvent {
+  const SessionDelete({
+    required this.session,
+  });
+
+  final Session session;
+
+  @override
+  List<Object?> get props => [
+    session,
+  ];
+}
+
+class SessionSetSort extends SessionEvent {
+  const SessionSetSort({
+    required this.sort,
+  });
+
+  final SessionSort sort;
+
+  @override
+  List<Object?> get props => [
+    sort,
+  ];
+}
