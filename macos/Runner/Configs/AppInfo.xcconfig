@@ -8,7 +8,7 @@
 PRODUCT_NAME = maven
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.Deluxepter.maven
+PRODUCT_BUNDLE_IDENTIFIER = com.deluxepter.maven
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 com.Deluxepter. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 com.deluxepter. All rights reserved.

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Deluxepter.maven">
+    package="com.deluxepter.maven">
    <application
         android:label="maven"
         android:name="${applicationName}"

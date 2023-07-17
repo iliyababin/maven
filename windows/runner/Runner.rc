@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.Deluxepter" "\0"
+            VALUE "CompanyName", "com.deluxepter" "\0"
             VALUE "FileDescription", "maven" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "maven" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.Deluxepter. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.deluxepter. All rights reserved." "\0"
             VALUE "OriginalFilename", "maven.exe" "\0"
             VALUE "ProductName", "maven" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
