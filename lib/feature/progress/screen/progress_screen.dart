@@ -33,8 +33,24 @@ class ProgressScreen extends StatelessWidget {
                 return CustomScrollView(
                   slivers: [
                     Heading(
-                      title: 'History',
+                      title: 'Exercise ',
                       size: HeadingSize.small,
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SliverList(
+                      delegate: SliverChildListDelegate([]),
+                    ),
+                    Heading(
+                      title: 'History',
                       actions: [
                         IconButton(
                           onPressed: () {
