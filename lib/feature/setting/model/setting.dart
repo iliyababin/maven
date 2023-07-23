@@ -11,12 +11,14 @@ class Setting extends Equatable {
     required this.themes,
     required this.unit,
     required this.locale,
+    required this.sessionWeeklyGoal,
   });
 
   final AppTheme theme;
   final List<AppTheme> themes;
   final Unit unit;
   final Locale locale;
+  final int sessionWeeklyGoal;
 
   String parseWeight(double volume) {
     if (unit == Unit.imperial) {
@@ -52,12 +54,14 @@ class Setting extends Equatable {
     Unit? unit,
     DistanceUnit? distanceUnit,
     Locale? locale,
+    int? sessionWeeklyGoal,
   }) {
     return Setting(
       theme: theme ?? this.theme,
       themes: themes ?? this.themes,
       unit: unit ?? this.unit,
       locale: locale ?? this.locale,
+      sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
     );
   }
 
@@ -67,5 +71,6 @@ class Setting extends Equatable {
         themes,
         unit,
         locale,
+        sessionWeeklyGoal,
       ];
 }

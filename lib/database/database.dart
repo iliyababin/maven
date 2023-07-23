@@ -72,8 +72,6 @@ abstract class MavenDatabase extends FloorDatabase {
 
   static final Callback _callback = Callback(
     onCreate: (database, version) {
-      database.rawInsert("INSERT INTO setting (id, language_code, country_code, theme_id, unit) "
-          "VALUES (1, 'en', 'US', 1, 0)");
       _isFirstTime = true;
     },
     onOpen: (database) {},

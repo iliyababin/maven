@@ -6,5 +6,4 @@ export 'screen/session_detail_screen.dart';
 export 'view/session_about_view.dart';
 export 'view/session_exercise_view.dart';
 export 'view/session_list_view.dart';
-export 'widget/complete_exercise_widget.dart';
 export 'widget/session_widget.dart';

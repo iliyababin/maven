@@ -17,12 +17,46 @@ import 'generated/l10n.dart';
 import 'theme/theme.dart';
 import 'theme/widget/design_tool_widget.dart';
 
+class MyErrorsHandler {
+  static final MyErrorsHandler _instance = MyErrorsHandler._internal();
+
+  factory MyErrorsHandler() {
+    return _instance;
+  }
+
+  MyErrorsHandler._internal();
+
+  void initialize() {
+  }
+
+  void onErrorDetails(FlutterErrorDetails details) {
+    print('Caught error: ${details.exception}');
+  }
+
+  void onError(dynamic error, dynamic stack) {
+    print('Caught error: $error');
+  }
+
+}
+
 void main() async {
+  /*final myErrorsHandler = MyErrorsHandler();
+  myErrorsHandler.initialize();
+
+  FlutterError.onError = (details) {
+    myErrorsHandler.onErrorDetails(details);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    myErrorsHandler.onError(error, stack);
+    return true;
+  };*/
+
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase db = await MavenDatabase.initialize();
 
-  ExerciseGroupService exerciseGroupService = ExerciseGroupService(
+  DatabaseService databaseService = DatabaseService(
     exerciseDao: db.exerciseDao,
     settingDao: db.settingDao,
     exerciseGroupDao: db.baseExerciseGroupDao,
@@ -30,6 +64,18 @@ void main() async {
     exerciseSetDataDao: db.exerciseSetDataDao,
     noteDao: db.noteDao,
   );
+
+  /*int routineId = await db.routineDao.add(Routine(
+    name: 'Session',
+    note: '',
+    timestamp: DateTime.now().subtract(const Duration(days: 7)),
+    type: RoutineType.session,
+  ));
+
+  db.sessionDataDao.add(SessionData(
+    timeElapsed: const Timed.zero(),
+    routineId: routineId
+  ));*/
 
   runApp(MultiBlocProvider(
     providers: [
@@ -47,7 +93,7 @@ void main() async {
                 routineDao: db.routineDao,
                 noteDao: db.noteDao,
                 templateDataDao: db.templateDataDao,
-                exerciseGroupService: exerciseGroupService,
+                databaseService: databaseService,
               )..add(const TemplateInitialize())),
       BlocProvider(
           create: (context) => WorkoutBloc(
@@ -57,7 +103,7 @@ void main() async {
                 exerciseSetDao: db.exerciseSetDao,
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 workoutDataDao: db.workoutDataDao,
-                exerciseGroupService: exerciseGroupService,
+                databaseService: databaseService,
               )..add(const WorkoutInitialize())),
       BlocProvider(
           create: (context) => EquipmentBloc(
@@ -79,7 +125,7 @@ void main() async {
                 noteDao: db.noteDao,
                 exerciseSetDao: db.exerciseSetDao,
                 exerciseSetDataDao: db.exerciseSetDataDao,
-                exerciseGroupService: exerciseGroupService,
+                databaseService: databaseService,
                 sessionDataDao: db.sessionDataDao,
               )..add(const SessionInitialize())),
       /*BlocProvider(
@@ -102,7 +148,9 @@ void main() async {
 }
 
 class Main extends StatelessWidget {
-  const Main({super.key});
+  const Main({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -3,8 +3,8 @@ import '../../feature/exercise/exercise.dart';
 import '../../feature/note/note.dart';
 import '../database.dart';
 
-class ExerciseGroupService {
-  const ExerciseGroupService({
+class DatabaseService {
+  const DatabaseService({
     required this.exerciseDao,
     required this.settingDao,
     required this.exerciseGroupDao,
@@ -22,7 +22,6 @@ class ExerciseGroupService {
 
   Future<List<ExerciseGroup>> getByRoutineId(int routineId) async {
     List<ExerciseGroup> exerciseGroups = [];
-
     for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routineId)) {
       List<Note> notes = [];
       for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
@@ -126,4 +125,28 @@ class ExerciseGroupService {
 
     return duration;
   }
+
+  static int getWeekStreak(List<DateTime> dateTimes) {
+    List<DateTime> dates = dateTimes.map((e) => DateTime(e.year, e.month, e.day)).toList();
+
+    dates.sort((a, b) => b.compareTo(a));
+
+    int streakCount = 0;
+
+    for (int i = 0; i < dates.length - 1; i++) {
+      Duration difference = dates[i].difference(dates[i + 1]);
+
+      if (difference.inDays > 7) {
+        break; // The streak is broken
+      }
+
+      // Check if the date of the current workout is the earliest date of the week
+      if (dates[i].weekday == DateTime.monday || difference.inDays >= 7) {
+        streakCount++;
+      }
+    }
+
+    return streakCount;
+  }
+
 }

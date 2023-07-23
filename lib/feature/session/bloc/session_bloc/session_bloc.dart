@@ -19,7 +19,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
-    required this.exerciseGroupService,
+    required this.databaseService,
     required this.sessionDataDao,
   }) : super(const SessionState()) {
     on<SessionInitialize>(_initialize);
@@ -35,8 +35,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
   final SessionDataDao sessionDataDao;
-
-  final ExerciseGroupService exerciseGroupService;
+  final DatabaseService databaseService;
 
   Future<void> _initialize(SessionInitialize event, Emitter<SessionState> emit) async {
     emit(state.copyWith(
@@ -171,13 +170,13 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     List<Session> sessions = [];
     for(Routine routine in await routineDao.getByType(RoutineType.session)) {
       SessionData? data = await sessionDataDao.getByRoutineId(routine.id!);
-      List<ExerciseGroup> exerciseGroups =  await exerciseGroupService.getByRoutineId(routine.id!);
+      List<ExerciseGroup> exerciseGroups =  await databaseService.getByRoutineId(routine.id!);
       sessions.add(Session(
         routine: routine,
         exerciseGroups: exerciseGroups,
         data: data!,
-        volume: await exerciseGroupService.getVolume(exerciseGroups),
-        musclePercentages: await exerciseGroupService.getMusclePercentages(exerciseGroups),
+        volume: await databaseService.getVolume(exerciseGroups),
+        musclePercentages: await databaseService.getMusclePercentages(exerciseGroups),
       ));
     }
 

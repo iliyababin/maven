@@ -49,3 +49,16 @@ class SettingChangeUnits extends SettingEvent {
     unit,
   ];
 }
+
+class SettingUpdate extends SettingEvent {
+  const SettingUpdate({
+    required this.setting,
+  });
+
+  final Setting setting;
+
+  @override
+  List<Object?> get props => [
+    setting,
+  ];
+}

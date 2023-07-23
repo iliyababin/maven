@@ -20,7 +20,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     required this.exerciseSetDataDao,
     required this.noteDao,
     required this.templateDataDao,
-    required this.exerciseGroupService,
+    required this.databaseService,
   }) : super(const TemplateState()) {
     on<TemplateInitialize>(_initialize);
     on<TemplateCreate>(_create);
@@ -37,7 +37,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   final NoteDao noteDao;
   final TemplateDataDao templateDataDao;
 
-  final ExerciseGroupService exerciseGroupService;
+  final DatabaseService databaseService;
 
   Future<void> _initialize(TemplateInitialize event, Emitter<TemplateState> emit) async {
     emit(state.copyWith(
@@ -141,7 +141,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     for(TemplateData data in await templateDataDao.getAll()) {
       Routine? routine = await routineDao.get(data.routineId);
-      List<ExerciseGroup> groups = await exerciseGroupService.getByRoutineId(data.routineId);
+      List<ExerciseGroup> groups = await databaseService.getByRoutineId(data.routineId);
 
       templates.add(Template(
         id: routine!.id,
@@ -151,9 +151,9 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         note: routine.note,
         data: data,
         exerciseGroups: groups,
-        musclePercentages: await exerciseGroupService.getMusclePercentages(groups),
-        duration: exerciseGroupService.getDuration(groups),
-        volume: await exerciseGroupService.getVolume(groups),
+        musclePercentages: await databaseService.getMusclePercentages(groups),
+        duration: databaseService.getDuration(groups),
+        volume: await databaseService.getVolume(groups),
       ));
     }
 

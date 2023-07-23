@@ -20,30 +20,22 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<SettingChangeTheme>(_changeTheme);
     on<SettingChangeLocale>(_changeLocale);
     on<SettingChangeUnits>(_changeUnit);
+    on<SettingUpdate>(_update);
   }
 
   final SettingDao settingDao;
 
   Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
-    BaseSetting? setting = await settingDao.getSetting();
-
-    final AppTheme theme = AppTheme.themes.firstWhere((theme) => theme.id == (setting?.themeId ?? 1));
-
     emit(state.copyWith(
       status: SettingStatus.loaded,
-      setting: Setting(
-        theme: theme,
-        themes: AppTheme.themes,
-        unit: setting!.unit,
-        locale: Locale(setting.languageCode, setting.countryCode),
-      ),
+      setting: await _fetchSetting(),
     ));
   }
 
   Future<void> _changeTheme(SettingChangeTheme event, Emitter<SettingState> emit) async {
-    BaseSetting? setting = await settingDao.getSetting();
+    BaseSetting? setting = await settingDao.get();
 
-    await settingDao.updateSetting(setting!.copyWith(
+    await settingDao.modify(setting!.copyWith(
       themeId: event.id,
     ));
 
@@ -71,9 +63,9 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   }
 
   Future<void> _changeUnit(SettingChangeUnits event, Emitter<SettingState> emit) async {
-    BaseSetting? setting = await settingDao.getSetting();
+    BaseSetting? setting = await settingDao.get();
 
-    await settingDao.updateSetting(setting!.copyWith(
+    await settingDao.modify(setting!.copyWith(
       unit: event.unit,
     ));
 
@@ -83,5 +75,42 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
         unit: event.unit,
       ),
     ));
+  }
+
+  Future<void> _update(SettingUpdate event, Emitter<SettingState> emit) async {
+    BaseSetting? setting = await settingDao.get();
+
+    await settingDao.modify(setting!.copyWith(
+      unit: event.setting.unit,
+      countryCode: event.setting.locale.countryCode,
+      languageCode: event.setting.locale.languageCode,
+      themeId: event.setting.theme.id,
+      sessionWeeklyGoal: event.setting.sessionWeeklyGoal,
+    ));
+
+    emit(state.copyWith(
+      status: SettingStatus.loaded,
+      setting: await _fetchSetting(),
+    ));
+  }
+
+  Future<Setting> _fetchSetting() async {
+    BaseSetting? temp = await settingDao.get();
+
+    if(temp == null) {
+      await settingDao.add(const BaseSetting.base());
+    }
+
+    BaseSetting? setting = await settingDao.get();
+
+    final AppTheme theme = AppTheme.themes.firstWhere((theme) => theme.id == (setting?.themeId ?? 1));
+
+    return Setting(
+      theme: theme,
+      themes: AppTheme.themes,
+      unit: setting!.unit,
+      locale: Locale(setting.languageCode, setting.countryCode),
+      sessionWeeklyGoal: setting.sessionWeeklyGoal ,
+    );
   }
 }

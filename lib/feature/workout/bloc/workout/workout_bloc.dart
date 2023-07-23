@@ -19,7 +19,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     required this.exerciseSetDataDao,
     required this.noteDao,
     required this.workoutDataDao,
-    required this.exerciseGroupService,
+    required this.databaseService,
   }) : super(const WorkoutState()) {
     on<WorkoutInitialize>(_initialize);
     on<WorkoutStart>(_start);
@@ -35,7 +35,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final NoteDao noteDao;
   final WorkoutDataDao workoutDataDao;
 
-  final ExerciseGroupService exerciseGroupService;
+  final DatabaseService databaseService;
 
   Future<void> _initialize(WorkoutInitialize event, emit) async {
     Workout? workout = await _getWorkout();
@@ -163,7 +163,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     return Workout(
       routine: routine,
       data: workoutData.first,
-      exerciseGroups: await exerciseGroupService.getByRoutineId(routine.id!),
+      exerciseGroups: await databaseService.getByRoutineId(routine.id!),
     );
   }
 }

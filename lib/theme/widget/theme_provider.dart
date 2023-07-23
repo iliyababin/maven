@@ -56,6 +56,14 @@ class _ThemeProviderState extends State<ThemeProvider> {
         });
         context.read<SettingBloc>().add(SettingChangeUnits(unit: unit));
       },
+      setSessionWeeklyGoal: (goal) {
+        setState(() {
+          _setting = _setting.copyWith(sessionWeeklyGoal: goal);
+        });
+        context.read<SettingBloc>().add(SettingUpdate(
+          setting: _setting.copyWith(sessionWeeklyGoal: goal),
+        ));
+      },
       setTheme: (int id) {
         for (AppTheme element in _setting.themes) {
           if (element.id == id) {

@@ -16,11 +16,10 @@ class SliverBoxWidget extends StatefulWidget {
   final SliverBoxType type;
 
   @override
-  _SliverBoxWidgetState createState() => _SliverBoxWidgetState();
+  State<SliverBoxWidget>  createState() => _SliverBoxWidgetState();
 }
 
-class _SliverBoxWidgetState extends State<SliverBoxWidget>
-    with SingleTickerProviderStateMixin {
+class _SliverBoxWidgetState extends State<SliverBoxWidget> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override

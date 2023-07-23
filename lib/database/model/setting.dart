@@ -16,7 +16,17 @@ class BaseSetting extends Equatable {
     required this.countryCode,
     required this.themeId,
     required this.unit,
+    required this.sessionWeeklyGoal,
   });
+
+  const BaseSetting.base() : this(
+    id: 1,
+    languageCode: 'en',
+    countryCode: 'US',
+    themeId: 1,
+    unit: Unit.imperial,
+    sessionWeeklyGoal: 3,
+  );
 
   @PrimaryKey()
   final int id;
@@ -33,12 +43,16 @@ class BaseSetting extends Equatable {
   @ColumnInfo(name: 'unit')
   final Unit unit;
 
+  @ColumnInfo(name: 'session_weekly_goal')
+  final int sessionWeeklyGoal;
+
   BaseSetting copyWith({
     int? id,
     String? languageCode,
     String? countryCode,
     int? themeId,
     Unit? unit,
+    int? sessionWeeklyGoal,
   }) {
     return BaseSetting(
       id: id ?? this.id,
@@ -46,6 +60,7 @@ class BaseSetting extends Equatable {
       countryCode: countryCode ?? this.countryCode,
       themeId: themeId ?? this.themeId,
       unit: unit ?? this.unit,
+      sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
     );
   }
 
@@ -56,5 +71,6 @@ class BaseSetting extends Equatable {
         countryCode,
         themeId,
         unit,
+        sessionWeeklyGoal,
       ];
 }

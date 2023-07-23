@@ -83,6 +83,9 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                             color: T(context).color.secondary,
                             shape: BoxShape.circle,
                           ),
+                          weekendTextStyle: TextStyle(
+                            color: T(context).color.onSurface,
+                          ),
                           todayDecoration: BoxDecoration(
                             color: T(context).color.inverseSurface,
                             shape: BoxShape.circle,
