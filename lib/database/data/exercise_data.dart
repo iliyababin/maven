@@ -6,7 +6,7 @@ import '../database.dart';
 /// The list contains pre-defined [Exercise] instances that can be used as a starting point
 /// or default set of exercises.
 List<Exercise> getDefaultExercises() => [
-  Exercise(
+  const Exercise(
     id: 1,
     name: 'Barbell Squat',
     muscle: Muscle.quadriceps,
@@ -17,7 +17,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
     weightUnit: WeightUnit.pound,
   ),
-  Exercise(
+  const Exercise(
     id: 2,
     name: 'Barbell Bench Press',
     muscle: Muscle.pectoralisMajor,
@@ -28,7 +28,7 @@ List<Exercise> getDefaultExercises() => [
     barId: 1,
     weightUnit: WeightUnit.pound,
   ),
-  Exercise(
+  const Exercise(
     id: 3,
     name: 'Pull-up',
     muscle: Muscle.latissimusDorsi,
@@ -37,7 +37,7 @@ List<Exercise> getDefaultExercises() => [
     videoPath: 'assets/exercises/videos/pull_up.mp4',
     timer: Timed.zero(),
   ),
-  Exercise(
+  const Exercise(
     id: 4,
     name: 'Machine-assisted Triceps Dip',
     muscle: Muscle.tricepsBrachii,
@@ -47,7 +47,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
     weightUnit: WeightUnit.pound,
   ),
-  Exercise(
+  const Exercise(
     id: 5,
     name: 'Dumbbell Curl',
     muscle: Muscle.bicepsBrachii,
@@ -57,7 +57,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
     weightUnit: WeightUnit.pound,
   ),
-  Exercise(
+  const Exercise(
     id: 6,
     name: 'Running',
     muscle: Muscle.fullBody,
@@ -67,7 +67,7 @@ List<Exercise> getDefaultExercises() => [
     timer: Timed.zero(),
     distanceUnit: DistanceUnit.mile,
   ),
-  Exercise(
+  const Exercise(
     id: 7,
     name: 'Farmer\'s Walk',
     muscle: Muscle.fullBody,
@@ -78,5 +78,26 @@ List<Exercise> getDefaultExercises() => [
     barId: 3,
     weightUnit: WeightUnit.pound,
     distanceUnit: DistanceUnit.feet,
+  ),
+  const Exercise(
+    id: 8,
+    name: 'Barbell Deadlift',
+    muscle: Muscle.gluteus,
+    muscleGroup: MuscleGroup.back,
+    equipment: Equipment.barbell,
+    videoPath: 'assets/exercises/videos/barbell_deadlift.mp4',
+    timer: Timed.zero(),
+    barId: 1,
+    weightUnit: WeightUnit.pound,
+  ),
+  const Exercise(
+    id: 9,
+    name: 'Cable Pulldown',
+    muscle: Muscle.latissimusDorsi,
+    muscleGroup: MuscleGroup.back,
+    equipment: Equipment.cable,
+    videoPath: 'assets/exercises/videos/cable_pulldown.mp4',
+    timer: Timed.zero(),
+    weightUnit: WeightUnit.pound,
   ),
 ];

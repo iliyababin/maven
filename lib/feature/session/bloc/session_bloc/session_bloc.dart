@@ -27,6 +27,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<SessionUpdate>(_update);
     on<SessionDelete>(_delete);
     on<SessionSetSort>(_setSort);
+    on<SessionImport>(_import);
   }
 
   final RoutineDao routineDao;
@@ -166,6 +167,36 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     }
   }
 
+  Future<void> _import(SessionImport event, Emitter<SessionState> emit) async {
+    emit(state.copyWith(
+      status: SessionStatus.loading,
+    ));
+
+    for(Session session in event.sessions) {
+      int sessionId = await routineDao.add(session.routine);
+      await sessionDataDao.add(SessionData(
+        timeElapsed: session.data.timeElapsed,
+        routineId: sessionId,
+      ));
+
+      for(ExerciseGroup group in session.exerciseGroups) {
+        int exerciseGroupId = await exerciseGroupDao.add(group.copyWith(
+          routineId: sessionId,
+        ));
+        /*for(ExerciseSet exerciseSet in exerciseGroup.sets) {
+          int exerciseSetId = await exerciseSetDao.add(exerciseSet);
+          for(ExerciseSetData exerciseSetData in exerciseSet.data) {
+            await exerciseSetDataDao.add(exerciseSetData);
+          }
+        }*/
+      }
+    }
+
+    emit(state.copyWith(
+      status: SessionStatus.loaded,
+      sessions: await _getSessions(),
+    ));
+  }
   Future<List<Session>> _getSessions({SessionSort sort = SessionSort.newest}) async {
     List<Session> sessions = [];
     for(Routine routine in await routineDao.getByType(RoutineType.session)) {

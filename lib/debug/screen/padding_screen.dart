@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widget/inherited_setting_widget.dart';
+import '../../theme/widget/inherited_setting_widget.dart';
 
 class PaddingScreen extends StatelessWidget {
   const PaddingScreen({super.key});

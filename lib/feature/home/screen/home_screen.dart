@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:maven/feature/session/widget/session_weekly_goal_widget.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../session/session.dart';
+import '../../user/user.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,29 +24,75 @@ class HomeScreen extends StatelessWidget {
               title: 'Dashboard',
               size: HeadingSize.small,
             ),
-            BlocBuilder<SessionBloc, SessionState>(
+            BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                if(state.status.isLoading) {
+                if (state.status.isLoading) {
                   return const SliverBoxWidget(
                     type: SliverBoxType.loading,
                   );
                 } else if (state.status.isLoaded) {
                   return SliverList(
                     delegate: SliverChildListDelegate([
-                      SessionWeeklyGoalWidget(
-                        goal: s(context).sessionWeeklyGoal,
-                        onModified: (value) {
-                          InheritedSettingWidget.of(context).setSessionWeeklyGoal(value);
-                        },
-                        dates: state.sessions.map((e) => e.routine.timestamp).toList(),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: T(context).color.surface,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: EdgeInsets.all(T(context).space.large),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              DateFormat('MMMMEEEEd').format(DateTime.now()),
+                              style: T(context).textStyle.labelSmall.copyWith(
+                                    color: T(context).color.onSurfaceVariant,
+                                  ),
+                            ),
+                            Text(
+                              'Good ${greeting()}',
+                              style: T(context).textStyle.headingMedium,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: T(context).space.medium,
-                      ),
+                    ]),
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      'Error',
+                      style: T(context).textStyle.bodyLarge,
+                    ),
+                  );
+                }
+              },
+            ),
+            Heading(
+              title: 'Overview',
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.widgets_outlined,
+                  ),
+                )
+              ],
+            ),
+            BlocBuilder<SessionBloc, SessionState>(
+              builder: (context, state) {
+                if (state.status.isLoading) {
+                  return const SliverBoxWidget(
+                    type: SliverBoxType.loading,
+                  );
+                } else if (state.status.isLoaded) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate([
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Container(
+                              height: 100,
                               padding: EdgeInsets.all(
                                 T(context).space.large,
                               ),
@@ -59,10 +107,10 @@ class HomeScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.local_fire_department_rounded,
                                     color: Colors.orange,
-                                    size: 44,
+                                    size: 32,
                                   ),
-                                  const SizedBox(
-                                    width: 10,
+                                  SizedBox(
+                                    width: T(context).space.large,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +133,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Container(
+                              height: 100,
                               padding: EdgeInsets.all(
                                 T(context).space.large,
                               ),
@@ -111,6 +160,16 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: T(context).space.medium,
+                      ),
+                      SessionWeeklyGoalWidget(
+                        goal: s(context).sessionWeeklyGoal,
+                        onModified: (value) {
+                          InheritedSettingWidget.of(context).setSessionWeeklyGoal(value);
+                        },
+                        dates: state.sessions.map((e) => e.routine.timestamp).toList(),
+                      ),
                     ]),
                   );
                 } else {
@@ -119,12 +178,6 @@ class HomeScreen extends StatelessWidget {
                   );
                 }
               },
-            ),
-            const Heading(
-              title: 'Exercises',
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([]),
             ),
           ],
         ),

@@ -53,7 +53,7 @@ class ConfirmationDialog extends StatelessWidget {
             subtitle,
             textAlign: TextAlign.center,
             style: T(context).textStyle.bodyLarge,
-            maxLines: 2,
+            maxLines: 9,
           ),
           const SizedBox(height: 30),
           Row(

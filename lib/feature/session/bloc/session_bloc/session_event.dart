@@ -62,3 +62,16 @@ class SessionSetSort extends SessionEvent {
     sort,
   ];
 }
+
+class SessionImport extends SessionEvent {
+  const SessionImport({
+    required this.sessions,
+  });
+
+  final List<Session> sessions;
+
+  @override
+  List<Object?> get props => [
+    sessions,
+  ];
+}

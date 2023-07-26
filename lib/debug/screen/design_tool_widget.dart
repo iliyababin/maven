@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../screen/developer_screen.dart';
-import 'inherited_setting_widget.dart';
+import '../../theme/widget/inherited_setting_widget.dart';
+import 'developer_screen.dart';
 
 class DesignToolWidget extends StatefulWidget {
   const DesignToolWidget({Key? key}) : super(key: key);

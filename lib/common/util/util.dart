@@ -21,6 +21,17 @@ String parseMuscleCoverage(Map<Muscle, double> musclePercentages) {
   return result;
 }
 
+String greeting() {
+  var hour = DateTime.now().hour;
+  if (hour < 12) {
+    return 'Morning';
+  }
+  if (hour < 17) {
+    return 'Afternoon';
+  }
+  return 'Evening';
+}
+
 String secondsToTime(int seconds) {
   int hours = (seconds / 3600).floor();
   int minutes = ((seconds % 3600) / 60).floor();

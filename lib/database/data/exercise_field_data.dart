@@ -61,4 +61,20 @@ List<ExerciseField> getDefaults() => [
     exerciseId: 7,
     type: ExerciseFieldType.reps,
   ),
+  const ExerciseField(
+    exerciseId: 8,
+    type: ExerciseFieldType.weight,
+  ),
+  const ExerciseField(
+    exerciseId: 8,
+    type: ExerciseFieldType.reps,
+  ),
+  const ExerciseField(
+    exerciseId: 9,
+    type: ExerciseFieldType.weight,
+  ),
+  const ExerciseField(
+    exerciseId: 9,
+    type: ExerciseFieldType.reps,
+  ),
 ];

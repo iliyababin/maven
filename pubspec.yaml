@@ -5,6 +5,7 @@ publish_to: 'none'
 
 version: 1.0.0+1
 
+
 environment:
   sdk: '>=2.18.5 <3.0.0'
 
@@ -22,9 +23,12 @@ dependencies:
   sqflite: ^2.2.2
   floor: ^1.4.1
   floor_generator: ^1.4.1
+  csv: ^5.0.2
   # State Management
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
+  # System
+  file_picker: ^5.3.3
   # User Interface
   cupertino_icons: ^1.0.5
   expandable: ^5.0.1

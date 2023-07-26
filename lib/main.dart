@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'database/database.dart';
+import 'database/service/dummydata.dart';
+import 'database/service/external_service.dart';
+import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
@@ -15,7 +18,6 @@ import 'feature/user/user.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'generated/l10n.dart';
 import 'theme/theme.dart';
-import 'theme/widget/design_tool_widget.dart';
 
 class MyErrorsHandler {
   static final MyErrorsHandler _instance = MyErrorsHandler._internal();
@@ -154,6 +156,9 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Session> sessions = ExternalService.strong(csv);
+    print(sessions.map((e) => e.exerciseGroups.length));
+    context.read<SessionBloc>().add(SessionImport(sessions: sessions));
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
         if (state.status.isLoading) {
@@ -166,7 +171,7 @@ class Main extends StatelessWidget {
                 return MaterialApp(
                   theme: InheritedSettingWidget.of(context).setting.theme.data,
                   // TODO: Give user option to change this.
-                  scrollBehavior: CustomScrollBehavior(),
+                  // scrollBehavior: CustomScrollBehavior(),
                   title: 'Maven',
                   localizationsDelegates: const [
                     S.delegate,

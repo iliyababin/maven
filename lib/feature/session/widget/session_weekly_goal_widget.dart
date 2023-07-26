@@ -38,7 +38,7 @@ class _SessionWeeklyGoalWidgetState extends State<SessionWeeklyGoalWidget> {
     for (int week = 0; week < 6; week++) {
       data[day.add(Duration(days: week * 7))] = 0;
 
-      for (int temp = 1; temp < 7; temp++) {
+      for (int temp = 1; temp <= 7; temp++) {
         DateTime calculatedDay = DateUtils.dateOnly(day.add(Duration(days: week * 7 + temp)));
         if (dates.contains(calculatedDay)) {
           data[day.add(Duration(days: week * 7))] = data[day.add(Duration(days: week * 7))]! + dates.where((element) => element == calculatedDay).length;
