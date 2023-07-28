@@ -34,6 +34,7 @@ class ProgressScreen extends StatelessWidget {
                   slivers: [
                     Heading(
                       title: 'History',
+                      size: HeadingSize.small,
                       actions: [
                         IconButton(
                           onPressed: () {

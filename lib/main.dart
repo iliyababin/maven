@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'database/database.dart';
-import 'database/service/dummydata.dart';
-import 'database/service/external_service.dart';
 import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
+import 'feature/external/external.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/session/session.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
@@ -65,6 +64,10 @@ void main() async {
     exerciseSetDao: db.exerciseSetDao,
     exerciseSetDataDao: db.exerciseSetDataDao,
     noteDao: db.noteDao,
+  );
+
+  StrongService strongService = StrongService(
+    exercises: await db.exerciseDao.getExercises(),
   );
 
   /*int routineId = await db.routineDao.add(Routine(
@@ -129,6 +132,7 @@ void main() async {
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 databaseService: databaseService,
                 sessionDataDao: db.sessionDataDao,
+                strongService: strongService,
               )..add(const SessionInitialize())),
       /*BlocProvider(
           create: (context) => SessionExerciseBloc(
@@ -156,9 +160,6 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Session> sessions = ExternalService.strong(csv);
-    print(sessions.map((e) => e.exerciseGroups.length));
-    context.read<SessionBloc>().add(SessionImport(sessions: sessions));
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
         if (state.status.isLoading) {

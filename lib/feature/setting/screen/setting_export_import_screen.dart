@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/common.dart';
+import 'package:maven/database/service/dummydata.dart';
 
 import '../../../theme/theme.dart';
+import '../../session/session.dart';
 
 class SettingExportImportScreen extends StatefulWidget {
   const SettingExportImportScreen({Key? key}) : super(key: key);
@@ -31,11 +34,11 @@ class _SettingExportImportScreenState extends State<SettingExportImportScreen> w
         ),
         bottom: TabBar(
           controller: tabController,
-          tabs: [
-            const Tab(
+          tabs: const [
+            Tab(
               text: 'Import',
             ),
-            const Tab(
+            Tab(
               text: 'Export',
             ),
           ],
@@ -74,19 +77,7 @@ class _SettingExportImportScreenState extends State<SettingExportImportScreen> w
                           ),
                           ListTile(
                             onTap: () async {
-                              /*FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                type: FileType.custom,
-                                allowedExtensions: ['csv'],
-                                dialogTitle: 'Select file',
-                              );
-
-                              if (result != null) {
-                                File file = File(result.files.single.path!);
-                                List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(await file.readAsString());
-                                print(rowsAsListOfValues);
-                              } else {
-                                // User canceled the picker
-                              }*/
+                              context.read<SessionBloc>().add(SessionImport(csv: csv));
                             },
                             leading: Image.asset(
                               'assets/images/strong.png',

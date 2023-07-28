@@ -1,8 +1,8 @@
 class Timed {
-  Timed({
-    required this.hour,
-    required this.minute,
-    required this.second
+  const Timed({
+    this.hour = 0,
+    this.minute = 0,
+    this.second = 0,
   });
 
   const Timed.zero()

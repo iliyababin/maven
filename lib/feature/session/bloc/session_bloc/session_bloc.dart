@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:maven/feature/external/external.dart';
 
 import '../../../../common/common.dart';
 import '../../../../database/database.dart';
@@ -19,8 +20,9 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
-    required this.databaseService,
     required this.sessionDataDao,
+    required this.databaseService,
+    required this.strongService,
   }) : super(const SessionState()) {
     on<SessionInitialize>(_initialize);
     on<SessionAdd>(_add);
@@ -37,6 +39,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final NoteDao noteDao;
   final SessionDataDao sessionDataDao;
   final DatabaseService databaseService;
+  final StrongService strongService;
 
   Future<void> _initialize(SessionInitialize event, Emitter<SessionState> emit) async {
     emit(state.copyWith(
@@ -172,7 +175,9 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       status: SessionStatus.loading,
     ));
 
-    for(Session session in event.sessions) {
+    List<Session> sessions = strongService.parse(event.csv);
+
+    for(Session session in sessions) {
       int sessionId = await routineDao.add(session.routine);
       await sessionDataDao.add(SessionData(
         timeElapsed: session.data.timeElapsed,
@@ -183,12 +188,18 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         int exerciseGroupId = await exerciseGroupDao.add(group.copyWith(
           routineId: sessionId,
         ));
-        /*for(ExerciseSet exerciseSet in exerciseGroup.sets) {
-          int exerciseSetId = await exerciseSetDao.add(exerciseSet);
-          for(ExerciseSetData exerciseSetData in exerciseSet.data) {
-            await exerciseSetDataDao.add(exerciseSetData);
+
+        for(ExerciseSet set in group.sets) {
+          int exerciseSetId = await exerciseSetDao.add(set.copyWith(
+            exerciseGroupId: exerciseGroupId,
+          ));
+
+          for(ExerciseSetData data in set.data) {
+            await exerciseSetDataDao.add(data.copyWith(
+              exerciseSetId: exerciseSetId,
+            ));
           }
-        }*/
+        }
       }
     }
 
