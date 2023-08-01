@@ -6,53 +6,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'database/database.dart';
 import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/maven.dart';
-import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
-import 'feature/exercise/bloc/exercise_bloc.dart';
-import 'feature/program/bloc/program/program_bloc.dart';
+import 'feature/equipment/equipment.dart';
+import 'feature/exercise/exercise.dart';
+import 'feature/program/program.dart';
 import 'feature/session/session.dart';
-import 'feature/setting/bloc/setting_bloc.dart';
-import 'feature/template/bloc/template/template_bloc.dart';
+import 'feature/setting/setting.dart';
+import 'feature/template/template.dart';
 import 'feature/transfer/transfer.dart';
 import 'feature/user/user.dart';
-import 'feature/workout/bloc/workout/workout_bloc.dart';
+import 'feature/workout/workout.dart';
 import 'generated/l10n.dart';
 import 'theme/theme.dart';
 
-class MyErrorsHandler {
-  static final MyErrorsHandler _instance = MyErrorsHandler._internal();
-
-  factory MyErrorsHandler() {
-    return _instance;
-  }
-
-  MyErrorsHandler._internal();
-
-  void initialize() {
-  }
-
-  void onErrorDetails(FlutterErrorDetails details) {
-    print('Caught error: ${details.exception}');
-  }
-
-  void onError(dynamic error, dynamic stack) {
-    print('Caught error: $error');
-  }
-
-}
-
 void main() async {
-  /*final myErrorsHandler = MyErrorsHandler();
-  myErrorsHandler.initialize();
-
-  FlutterError.onError = (details) {
-    myErrorsHandler.onErrorDetails(details);
-  };
-
-  PlatformDispatcher.instance.onError = (error, stack) {
-    myErrorsHandler.onError(error, stack);
-    return true;
-  };*/
-
   WidgetsFlutterBinding.ensureInitialized();
 
   final MavenDatabase db = await MavenDatabase.initialize();
@@ -69,19 +35,6 @@ void main() async {
   TransferService strongService = TransferService(
     exercises: getDefaultExercises(),
   );
-
-  /*int routineId = await db.routineDao.add(Routine(
-    name: 'Session',
-    note: '',
-    timestamp: DateTime.now().subtract(const Duration(days: 7)),
-    type: RoutineType.session,
-  ));
-
-  db.sessionDataDao.add(SessionData(
-    timeElapsed: const Timed.zero(),
-    routineId: routineId
-  ));*/
-
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -134,20 +87,14 @@ void main() async {
                 sessionDataDao: db.sessionDataDao,
                 transferService: strongService,
               )..add(const SessionInitialize())),
-      /*BlocProvider(
-          create: (context) => SessionExerciseBloc(
-                completeDao: db.sessionDao,
-                completeExerciseGroupDao: db.sessionExerciseGroupDao,
-                completeExerciseSetDao: db.sessionExerciseSetDao,
-              )..add(const SessionExerciseInitialize())),*/
       BlocProvider(
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,
               )..add(const SettingInitialize())),
       BlocProvider(
           create: (context) => UserBloc(
-            userDao: db.userDao,
-          )..add(const UserInitialize())),
+                userDao: db.userDao,
+              )..add(const UserInitialize())),
     ],
     child: const Main(),
   ));
