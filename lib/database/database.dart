@@ -86,8 +86,14 @@ abstract class MavenDatabase extends FloorDatabase {
     if (_isFirstTime) {
       db.plateDao.addPlates(getDefaultPlates());
       db.barDao.addBars(getDefaultBars());
-      db.exerciseDao.addAll(getDefaultExercises());
-      db.exerciseFieldDao.addAll(getDefaults());
+      for (Exercise exercise in getDefaultExercises()){
+        int exerciseId = await db.exerciseDao.add(exercise);
+        for (ExerciseField field in exercise.fields){
+          db.exerciseFieldDao.add(field.copyWith(
+            exerciseId: exerciseId,
+          ));
+        }
+      }
     }
     return db;
   }

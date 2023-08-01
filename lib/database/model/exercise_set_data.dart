@@ -117,7 +117,7 @@ class BaseExerciseSetData {
   String toShortString() {
     switch (fieldType) {
       case ExerciseFieldType.reps:
-        return value;
+        return value.truncateZeros;
       case ExerciseFieldType.weight:
         return value.truncateZeros;
       case ExerciseFieldType.duration:

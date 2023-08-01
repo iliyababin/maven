@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../../common/model/timed.dart';
+import '../../feature/transfer/transfer.dart';
 import '../database.dart';
 
 @Entity(
@@ -30,6 +31,7 @@ class Exercise extends Equatable {
     this.weightUnit,
     this.distanceUnit,
     this.fields = const [],
+    this.conversions = const [],
     this.isCustom = false,
     this.isHidden = false,
   });
@@ -46,6 +48,7 @@ class Exercise extends Equatable {
         weightUnit = null,
         distanceUnit = null,
         fields = const [],
+        conversions = const [],
         isCustom = false,
         isHidden = false;
 
@@ -89,22 +92,9 @@ class Exercise extends Equatable {
   @ignore
   final List<ExerciseField> fields;
 
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        muscle,
-        muscleGroup,
-        equipment,
-        videoPath,
-        timer,
-        barId,
-        weightUnit,
-        distanceUnit,
-        isCustom,
-        isHidden,
-        fields,
-      ];
+  @ignore
+  final List<ExerciseConversion> conversions;
+
 
   Exercise copyWith({
     int? id,
@@ -120,6 +110,7 @@ class Exercise extends Equatable {
     bool? isCustom,
     bool? isHidden,
     List<ExerciseField>? fields,
+    List<ExerciseConversion>? conversions,
   }) {
     return Exercise(
       id: id ?? this.id,
@@ -135,6 +126,23 @@ class Exercise extends Equatable {
       isCustom: isCustom ?? this.isCustom,
       isHidden: isHidden ?? this.isHidden,
       fields: fields ?? this.fields,
+      conversions: conversions ?? this.conversions,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        muscle,
+        muscleGroup,
+        equipment,
+        videoPath,
+        timer,
+        barId,
+        weightUnit,
+        distanceUnit,
+        isCustom,
+        isHidden,
+      ];
 }

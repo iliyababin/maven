@@ -43,7 +43,7 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
                   ),
                 Text(
                   routine == null ? exercise.name : DateFormat.yMMMMEEEEd().format(routine!.timestamp),
-                  style: routine == null ? T(context).textStyle.titleLarge : T(context).textStyle.labelMedium,
+                  style: routine == null ? T(context).textStyle.titleMedium : T(context).textStyle.labelMedium,
                 ),
                 SizedBox(
                   height: 2,

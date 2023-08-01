@@ -8,11 +8,11 @@ import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/maven.dart';
 import 'feature/equipment/bloc/equipment/equipment_bloc.dart';
 import 'feature/exercise/bloc/exercise_bloc.dart';
-import 'feature/external/external.dart';
 import 'feature/program/bloc/program/program_bloc.dart';
 import 'feature/session/session.dart';
 import 'feature/setting/bloc/setting_bloc.dart';
 import 'feature/template/bloc/template/template_bloc.dart';
+import 'feature/transfer/transfer.dart';
 import 'feature/user/user.dart';
 import 'feature/workout/bloc/workout/workout_bloc.dart';
 import 'generated/l10n.dart';
@@ -66,8 +66,8 @@ void main() async {
     noteDao: db.noteDao,
   );
 
-  StrongService strongService = StrongService(
-    exercises: await db.exerciseDao.getExercises(),
+  TransferService strongService = TransferService(
+    exercises: getDefaultExercises(),
   );
 
   /*int routineId = await db.routineDao.add(Routine(
@@ -132,7 +132,7 @@ void main() async {
                 exerciseSetDataDao: db.exerciseSetDataDao,
                 databaseService: databaseService,
                 sessionDataDao: db.sessionDataDao,
-                strongService: strongService,
+                transferService: strongService,
               )..add(const SessionInitialize())),
       /*BlocProvider(
           create: (context) => SessionExerciseBloc(

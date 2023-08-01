@@ -98,10 +98,10 @@ class SettingScreen extends StatelessWidget {
                                       Navigator.pop(context);
                                       InheritedSettingWidget.of(context).setUnit(Unit.metric);
                                     },
-                                    title: Text(
+                                    title: const Text(
                                       'Metric',
                                     ),
-                                    trailing: Text(
+                                    trailing: const Text(
                                       'kg/km/m/cm',
                                     ),
                                   ),
@@ -110,10 +110,10 @@ class SettingScreen extends StatelessWidget {
                                       Navigator.pop(context);
                                       InheritedSettingWidget.of(context).setUnit(Unit.imperial);
                                     },
-                                    title: Text(
+                                    title: const Text(
                                       'Imperial',
                                     ),
-                                    trailing: Text(
+                                    trailing: const Text(
                                       'lb/mile/ft/in',
                                     ),
                                   ),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/common.dart';
-import 'package:maven/database/service/dummydata.dart';
 
 import '../../../theme/theme.dart';
-import '../../session/session.dart';
 
 class SettingExportImportScreen extends StatefulWidget {
   const SettingExportImportScreen({Key? key}) : super(key: key);
@@ -77,7 +74,8 @@ class _SettingExportImportScreenState extends State<SettingExportImportScreen> w
                           ),
                           ListTile(
                             onTap: () async {
-                              context.read<SessionBloc>().add(SessionImport(csv: csv));
+                              // TODO: Import from csv
+                              // context.read<SessionBloc>().add(SessionImport(csv: csv));
                             },
                             leading: Image.asset(
                               'assets/images/strong.png',

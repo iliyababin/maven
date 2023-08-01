@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:maven/feature/external/external.dart';
 
 import '../../../../common/common.dart';
 import '../../../../database/database.dart';
 import '../../../exercise/exercise.dart';
+import '../../../transfer/transfer.dart';
 import '../../../workout/workout.dart';
 import '../../session.dart';
 
@@ -22,7 +22,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     required this.noteDao,
     required this.sessionDataDao,
     required this.databaseService,
-    required this.strongService,
+    required this.transferService,
   }) : super(const SessionState()) {
     on<SessionInitialize>(_initialize);
     on<SessionAdd>(_add);
@@ -39,7 +39,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final NoteDao noteDao;
   final SessionDataDao sessionDataDao;
   final DatabaseService databaseService;
-  final StrongService strongService;
+  final TransferService transferService;
 
   Future<void> _initialize(SessionInitialize event, Emitter<SessionState> emit) async {
     emit(state.copyWith(
@@ -175,7 +175,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       status: SessionStatus.loading,
     ));
 
-    List<Session> sessions = strongService.parse(event.csv);
+    List<Session> sessions = transferService.parse(event.csv, TransferType.strong);
 
     for(Session session in sessions) {
       int sessionId = await routineDao.add(session.routine);
