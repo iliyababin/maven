@@ -67,11 +67,11 @@ flutter run
 If you’ve used other workout apps in the past, the Maven experience should feel familiar and intuitive. However, for those who are new to
 the world of tracking their workouts, we’ve developed a comprehensive usage guide to help get you up to speed. 
 
-[Usage Guide](/docs/usage/usage.md)
+[Usage Guide](/docs/usage.md)
 
 
 ## Contributing
-Whether you want to report a bug or add a new feature, contributions are welcome and greatly appreciated. For more detailed information on how to contribute, please refer to our [Contributing Guide.](/docs/contributing/contributing.md)
+Whether you want to report a bug or add a new feature, contributions are welcome and greatly appreciated. For more detailed information on how to contribute, please refer to our [Contributing Guide.](/docs/contributing.md)
 
 
 ## Support
@@ -79,5 +79,5 @@ If you encounter any issues or have questions, please [open an issue.](https://g
 
 
 ## License
-This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) - see the [LICENSE.md](LICENSE)
+This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) - see the [LICENSE](LICENSE)
 file for details.

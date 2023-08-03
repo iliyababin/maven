@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../model/setting.dart';
+import 'setting.dart';
 
 @dao
 abstract class SettingDao {

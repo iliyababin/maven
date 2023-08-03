@@ -13,7 +13,7 @@ class EquipmentSelectionScreen extends StatelessWidget {
     return SearchableSelectionScreen<Equipment>(
       title: 'Equipment',
       items: Equipment.values,
-      itemBuilder: (context, item) {
+      itemBuilder: (context, item, isSelected) {
         return ListTile(
           onTap: () {
             Navigator.of(context).pop(item);

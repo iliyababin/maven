@@ -16,6 +16,12 @@ import '../database.dart';
       entity: Routine,
       onDelete: ForeignKeyAction.cascade,
     ),
+    ForeignKey(
+      childColumns: ['import_id'],
+      parentColumns: ['id'],
+      entity: Import,
+      onDelete: ForeignKeyAction.cascade,
+    ),
   ],
 )
 class SessionData extends Equatable {
@@ -23,6 +29,7 @@ class SessionData extends Equatable {
     this.id,
     required this.timeElapsed,
     required this.routineId,
+    this.importId,
   });
 
   @PrimaryKey(autoGenerate: true)
@@ -35,10 +42,14 @@ class SessionData extends Equatable {
   @ColumnInfo(name: 'routine_id')
   final int routineId;
 
+  @ColumnInfo(name: 'import_id')
+  final int? importId;
+
   @override
   List<Object?> get props => [
     id,
     timeElapsed,
     routineId,
+    importId,
   ];
 }

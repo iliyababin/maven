@@ -64,8 +64,8 @@ class TextStyleOptions {
         'Title Small': titleSmall,
         'Body Large': bodyLarge,
         'Body Medium': bodyMedium,
-        'Subtitle 2': labelSmall,
         'Label Large': labelLarge,
-        'Button 2': labelMedium,
+        'Label Medium': labelMedium,
+        'Label Small': labelSmall,
       };
 }

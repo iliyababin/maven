@@ -7,11 +7,6 @@ import '../../exercise/exercise.dart';
 import '../../session/session.dart';
 import '../transfer.dart';
 
-enum TransferType {
-  strong,
-  hevy,
-}
-
 class TransferService {
   const TransferService({
     required this.exercises,
@@ -19,19 +14,23 @@ class TransferService {
 
   final List<Exercise> exercises;
 
-  List<Session> parse(String csv, TransferType type) {
+  List<Session> parse(String csv, TransferSource source) {
     List<List<dynamic>> data = const CsvToListConverter(eol: '\n').convert(csv);
 
     List<CSVRow> rows = [];
 
-    switch (type) {
-      case TransferType.strong:
+    switch (source) {
+      case TransferSource.strong:
         for(int i = 1; i < data.length; i++) {
           rows.add(StrongRow(data[i]));
         }
         break;
-      case TransferType.hevy:
+      case TransferSource.hevy:
         rows = data.map((e) => HevyRow(e)).toList();
+        break;
+      case TransferSource.json:
+        // TODO: Handle this case.
+        break;
     }
 
     List<Session> sessions = [];
@@ -42,8 +41,6 @@ class TransferService {
       int sessionIndex = sessions.indexWhere((element) {
         return element.routine.timestamp == DateTimeConverter().decode(row.date);
       });
-
-      print(sessionIndex);
 
       if (sessionIndex == -1) {
         sessions.add(Session(

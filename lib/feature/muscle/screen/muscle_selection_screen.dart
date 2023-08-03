@@ -16,7 +16,7 @@ class MuscleSelectionScreen extends StatelessWidget {
     return SearchableSelectionScreen<Muscle>(
       title: 'Muscle',
       items: Muscle.values,
-      itemBuilder: (context, item) {
+      itemBuilder: (context, item, isSelected) {
         return ListTile(
           onTap: () {
             Navigator.of(context).pop(item);

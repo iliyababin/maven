@@ -65,7 +65,7 @@ class _ExerciseTypeSelectionScreenState extends State<ExerciseTypeSelectionScree
           ),
         ),
       ],
-      itemBuilder: (context, item) {
+      itemBuilder: (context, item, isSelected) {
         return ListTile(
           onTap: () {
             setState(() {

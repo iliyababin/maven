@@ -1,7 +1,7 @@
 
 import 'package:floor/floor.dart';
 
-import '../model/bar.dart';
+import 'bar.dart';
 
 @dao
 abstract class BarDao {

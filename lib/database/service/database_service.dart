@@ -133,14 +133,20 @@ class DatabaseService {
 
     int streakCount = 0;
 
+    DateTime today = DateTime.now();
+    Duration differenceWithToday = today.difference(dates.first);
+
+    if (differenceWithToday.inDays <= 7 && dates.first.weekday == DateTime.monday) {
+      streakCount++;
+    }
+
     for (int i = 0; i < dates.length - 1; i++) {
       Duration difference = dates[i].difference(dates[i + 1]);
 
       if (difference.inDays > 7) {
-        break; // The streak is broken
+        break;
       }
 
-      // Check if the date of the current workout is the earliest date of the week
       if (dates[i].weekday == DateTime.monday || difference.inDays >= 7) {
         streakCount++;
       }
@@ -148,5 +154,4 @@ class DatabaseService {
 
     return streakCount;
   }
-
 }

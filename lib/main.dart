@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'database/database.dart';
 import 'debug/screen/design_tool_widget.dart';
-import 'feature/app/screen/maven.dart';
+import 'feature/app/screen/app_screen.dart';
 import 'feature/equipment/equipment.dart';
 import 'feature/exercise/exercise.dart';
 import 'feature/program/program.dart';
@@ -86,6 +86,7 @@ void main() async {
                 databaseService: databaseService,
                 sessionDataDao: db.sessionDataDao,
                 transferService: strongService,
+                importDao: db.importDao,
               )..add(const SessionInitialize())),
       BlocProvider(
           create: (context) => SettingBloc(

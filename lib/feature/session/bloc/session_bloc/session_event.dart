@@ -65,13 +65,13 @@ class SessionSetSort extends SessionEvent {
 
 class SessionImport extends SessionEvent {
   const SessionImport({
-    required this.csv,
+    required this.source,
   });
 
-  final String csv;
+  final TransferSource source;
 
   @override
   List<Object?> get props => [
-    csv,
+    source,
   ];
 }

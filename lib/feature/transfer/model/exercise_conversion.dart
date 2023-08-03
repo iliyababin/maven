@@ -1,12 +1,12 @@
-import '../transfer.dart';
+import '../../../database/database.dart';
 
 
  class ExerciseConversion {
   const ExerciseConversion({
-    required this.type,
+    required this.source,
     required this.name,
   });
 
-  final TransferType type;
+  final TransferSource source;
   final String name;
 }

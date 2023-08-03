@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/common.dart';
 import 'package:maven/feature/setting/screen/about_screen.dart';
-import 'package:maven/feature/setting/screen/setting_export_import_screen.dart';
+import 'package:maven/feature/transfer/screen/transfer_import_export_screen.dart';
 
 import '../../../database/database.dart';
 import '../../../l10n/screen/language_screen.dart';
@@ -31,7 +31,7 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Setting',
+          'Settings',
         ),
       ),
       body: BlocBuilder<SettingBloc, SettingState>(
@@ -203,7 +203,7 @@ class SettingScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SettingExportImportScreen(),
+                                builder: (context) => const TransferImportExportScreen(),
                               ),
                             );
                           },

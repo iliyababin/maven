@@ -44,7 +44,7 @@ class _PlateScreenState extends State<PlateScreen> {
                     child: ListDialog(
                       children: [
                         ListTile(
-                          onTap: (){
+                          onTap: () {
                             context.read<EquipmentBloc>().add(PlateAddEmpty());
                           },
                           leading: const Icon(
@@ -96,7 +96,10 @@ class _PlateScreenState extends State<PlateScreen> {
                 ),
               )
             ],
-            itemBuilder: (context, plate) {
+            onSelected: (items) {
+              // TODO: Implement
+            },
+            itemBuilder: (context, plate, isSelected) {
               return ListTile(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
@@ -107,6 +110,7 @@ class _PlateScreenState extends State<PlateScreen> {
                 title: Text(
                   plate.weight.truncateZeros,
                 ),
+                tileColor: isSelected ? T(context).color.primaryContainer : null,
                 trailing: Text(
                   plate.amount.toString(),
                 ),

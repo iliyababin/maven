@@ -34,7 +34,7 @@ class _BarSelectionScreenState extends State<BarSelectionScreen> {
                 icon: const Icon(Icons.add),
               ),
             ],
-            itemBuilder: (context, item) {
+            itemBuilder: (context, item, isSelected) {
               return ListTile(
                 onTap: () {
                   Navigator.pop(context, item);

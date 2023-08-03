@@ -27,7 +27,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Ab Wheel',
       ),
     ],
@@ -56,7 +56,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Arnold Press (Dumbbell)',
       ),
     ],
@@ -85,7 +85,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Around the World',
       ),
     ],
@@ -114,7 +114,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Back Extension',
       ),
     ],
@@ -143,7 +143,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Back Extension (Machine)',
       ),
     ],
@@ -172,7 +172,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Ball Slams',
       ),
     ],
@@ -201,7 +201,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Battle Ropes',
       ),
     ],
@@ -230,7 +230,7 @@ List<Exercise> getDefaultExercises() => [
     ],
     conversions: [
       ExerciseConversion(
-        type: TransferType.strong,
+        source: TransferSource.strong,
         name: 'Bench Dip',
       ),
     ],
@@ -259,7 +259,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -287,7 +287,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -316,7 +316,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -344,7 +344,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press (Smith Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -372,7 +372,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press Close Grip (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -400,7 +400,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bench Press Wide Grip (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -429,7 +429,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bent-over One Arm Row (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -453,7 +453,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bent-over Row (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -481,7 +481,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bent-over Row (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -510,7 +510,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bent-over Row (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -538,7 +538,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bent-over Row - Underhand (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -567,7 +567,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bicep Curl (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -596,7 +596,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bicep Curl (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -625,7 +625,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bicep Curl (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -654,7 +654,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bicep Curl (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -678,7 +678,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bicycle Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -703,7 +703,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Box Jump',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -731,7 +731,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Box Squat (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -760,7 +760,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Bulgarian Split Squat (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -784,7 +784,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Burpee',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -813,7 +813,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cable Crossover',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -842,7 +842,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cable Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -871,7 +871,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cable Kickback',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -900,7 +900,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cable Pull Through',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -929,7 +929,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cable Twist',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -958,7 +958,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Calf Press on Leg Press',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -987,7 +987,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Calf Press on Seated Leg Press',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1016,7 +1016,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Dip',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1045,7 +1045,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Dip (Assisted)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1074,7 +1074,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Fly (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1099,7 +1099,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Fly (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1128,7 +1128,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Fly (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1153,7 +1153,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Press (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1182,7 +1182,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chest Press (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1211,7 +1211,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chin Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1240,7 +1240,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Chin Up (Assisted)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1268,7 +1268,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Clean (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1296,7 +1296,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Clean and Jerk (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1325,7 +1325,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Concentration Curl (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1350,7 +1350,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cross Body Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1379,7 +1379,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1408,7 +1408,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Crunch (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1433,7 +1433,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Crunch (Stability Ball)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1459,7 +1459,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cycling (Indoor)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1484,7 +1484,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Cycling',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1508,7 +1508,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deadlift (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1536,7 +1536,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deadlift (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1564,7 +1564,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deadlift (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1592,7 +1592,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deadlift (Smith Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1620,7 +1620,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deadlift High Pull (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1648,7 +1648,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Decline Bench Press (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1676,7 +1676,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Decline Bench Press (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1704,7 +1704,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Decline Bench Press (Smith Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1733,7 +1733,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Decline Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1761,7 +1761,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Deficit Deadlift (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1787,7 +1787,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Elliptical Trainer',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1816,7 +1816,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Face Pull (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1840,7 +1840,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Flat Knee Raise',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1864,7 +1864,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Flat Leg Raise',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1892,7 +1892,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Floor Press (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1917,7 +1917,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Raise (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1946,7 +1946,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Raise (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -1975,7 +1975,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Raise (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2004,7 +2004,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Raise (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2032,7 +2032,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Raise (Plate)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2060,7 +2060,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Front Squat (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2089,7 +2089,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Glute Ham Raise',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2118,7 +2118,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Glute Kickback (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2146,7 +2146,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Goblet Squat (Kettlebell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2174,7 +2174,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Good Morning (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2202,7 +2202,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hack Squat',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2230,7 +2230,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hack Squat (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2254,7 +2254,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hammer Curl (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2283,7 +2283,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hammer Curl (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2312,7 +2312,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hammer Curl (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2339,7 +2339,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Handstand Push-Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2367,7 +2367,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hang Clean (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2395,7 +2395,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hang Snatch (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2419,7 +2419,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hanging knee Raise',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2443,7 +2443,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hanging Leg Raise',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2467,7 +2467,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'High Knee Skips',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2492,7 +2492,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hiking',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2521,7 +2521,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hip Abductor (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2550,7 +2550,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hip Adductor (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2578,7 +2578,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hip Thrust (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2607,7 +2607,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Hip Thrust (Bodyweight)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2635,7 +2635,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Bench Press (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2663,7 +2663,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Bench Press (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2691,7 +2691,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Bench Press (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2718,7 +2718,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Bench Press (Smith Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2747,7 +2747,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Chest Fly (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2776,7 +2776,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Chest Press (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2805,7 +2805,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Curl (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2834,7 +2834,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Incline Row (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2862,7 +2862,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Inverted row (Bodyweight)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2890,7 +2890,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Iso-Lateral Chest Press (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2919,7 +2919,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Iso-Lateral Row (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2943,7 +2943,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Jackknife Sit-Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2964,7 +2964,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Jump Rope',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -2992,7 +2992,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Jump Shrug (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3016,7 +3016,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Jump Squat',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3040,7 +3040,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Jumping Jack',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3069,7 +3069,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Kettlebell Swing',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3098,7 +3098,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Kettlebell Turkish Get-Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3125,7 +3125,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Kipping Pull-Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3149,7 +3149,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Knee Raise (Captain\'s Chair)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3173,7 +3173,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Kneeling Pull-Down (Band)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3200,7 +3200,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Knees to Elbows',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3229,7 +3229,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lat Pulldown (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3258,7 +3258,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lat Pulldown (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3287,7 +3287,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lat Pulldown (Single Arm)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3316,7 +3316,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lat Pulldown - Underhand (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3345,7 +3345,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lat Pulldown - Wide Grip (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3373,7 +3373,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lateral Box Jump',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3402,7 +3402,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lateral Raise (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3431,7 +3431,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lateral Raise (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3460,7 +3460,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lateral Raise (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3489,7 +3489,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Leg Extension (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3518,7 +3518,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Leg Press',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3547,7 +3547,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lunge (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3575,7 +3575,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lunge (Bodyweight)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3603,7 +3603,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lunge (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3632,7 +3632,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Lying Leg Curl (Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3656,7 +3656,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Mountain Climber',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3683,7 +3683,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Muscle Up',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3707,7 +3707,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Oblique Crunch',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3735,7 +3735,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Overhead Press (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3764,7 +3764,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Overhead Press (Cable)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3793,7 +3793,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Overhead Press (Dumbbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3821,7 +3821,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Overhead Press (Smith Machine)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),
@@ -3849,7 +3849,7 @@ List<Exercise> getDefaultExercises() => [
     conversions: [
       ExerciseConversion(
         name: 'Overhead Squat (Barbell)',
-        type: TransferType.strong,
+        source: TransferSource.strong,
       ),
     ],
   ),

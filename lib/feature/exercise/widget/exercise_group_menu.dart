@@ -70,7 +70,14 @@ class ExerciseGroupMenu extends StatelessWidget {
             trailing: BlocBuilder<EquipmentBloc, EquipmentState>(
               builder: (context, state) {
                 if (state.status.isLoaded) {
-                  Bar bar = state.bars.firstWhere((element) => element.id == exerciseGroup.barId);
+                  Bar bar = state.bars.firstWhere(
+                    (element) => element.id == exerciseGroup.barId,
+                    orElse: () => const Bar(
+                      id: -1,
+                      name: 'None',
+                      weight: 0,
+                    ),
+                  );
                   return Text(
                     bar.name,
                   );

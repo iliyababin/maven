@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maven/common/common.dart';
 import 'package:maven/feature/user/screen/user_edit_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
@@ -20,7 +22,17 @@ class _UserWidgetState extends State<UserWidget> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if(state.status.isLoading) {
-          return Container();
+          return Shimmer.fromColors(
+            baseColor: T(context).color.surface.baseShimmer,
+            highlightColor: T(context).color.surface.highlightShimmer,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(T(context).shape.large),
+              ),
+              height: 100,
+            ),
+          );
         } else if(state.status.isLoaded) {
           User user = state.user!;
           return ClipRRect(

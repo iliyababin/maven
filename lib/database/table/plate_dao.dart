@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import '../model/plate.dart';
+import 'plate.dart';
 
 
 @dao

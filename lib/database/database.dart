@@ -4,17 +4,15 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'converter/converter.dart';
-import 'dao/dao.dart';
 import 'data/data.dart';
 import 'enum/enum.dart';
-import 'model/model.dart';
+import 'table/table.dart';
 
 export 'converter/converter.dart';
-export 'dao/dao.dart';
 export 'data/data.dart';
 export 'enum/enum.dart';
-export 'model/model.dart';
 export 'service/service.dart';
+export 'table/table.dart';
 
 part 'database.g.dart';
 
@@ -39,6 +37,7 @@ part 'database.g.dart';
     SessionData,
     TemplateData,
     User,
+    Import,
   ],
 )
 @TypeConverters([
@@ -67,6 +66,7 @@ abstract class MavenDatabase extends FloorDatabase {
   SessionDataDao get sessionDataDao;
   TemplateDataDao get templateDataDao;
   UserDao get userDao;
+  ImportDao get importDao;
 
   static bool _isFirstTime = false;
 

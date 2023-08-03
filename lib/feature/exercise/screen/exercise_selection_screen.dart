@@ -78,8 +78,8 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                             });
                             Navigator.pop(context);
                           },
-                          leading: const Icon(
-                            Icons.visibility,
+                          leading: Icon(
+                            showHidden ? Icons.visibility_off : Icons.visibility,
                           ),
                           title: Text(
                             '${showHidden ? 'Hide' : 'Show'} Hidden',
@@ -103,7 +103,12 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   ),
                 ),
             ],
-            itemBuilder: (BuildContext context, Exercise item) {
+            selectedActionText: 'Hide',
+            onSelected: (items) {
+              // TODO: implement
+              print(items.length);
+            },
+            itemBuilder: (BuildContext context, Exercise item, bool isSelected) {
               return ListTile(
                 onTap: () {
                   if (widget.selection) {
@@ -128,10 +133,10 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   backgroundColor: item.isHidden ? T(context).color.error : null,
                   foregroundColor: item.isHidden ? T(context).color.onError : null,
                 ),
-                tileColor: item.isHidden ? T(context).color.errorContainer :
-                  widget.selection && _selectedExercises.contains(item)
-                      ? T(context).color.primaryContainer
-                      : null,
+                tileColor: isSelected ? T(context).color.primaryContainer : item.isHidden ? T(context).color.errorContainer :
+                widget.selection && _selectedExercises.contains(item)
+                    ? T(context).color.primaryContainer
+                    : null,
                 title: Text(
                   item.name,
                   style: TextStyle(
