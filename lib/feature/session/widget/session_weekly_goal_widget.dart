@@ -30,9 +30,6 @@ class _SessionWeeklyGoalWidgetState extends State<SessionWeeklyGoalWidget> {
     data.clear();
     day = DateTime.now();
     List<DateTime> dates = widget.dates.map((e) => DateUtils.dateOnly(e)).toList();
-    while (day.weekday != DateTime.sunday) {
-      day = day.add(const Duration(days: 1));
-    }
     day = day.subtract(const Duration(days: 42));
 
     for (int week = 0; week < 6; week++) {

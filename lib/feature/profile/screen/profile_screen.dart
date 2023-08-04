@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../generated/l10n.dart';
-import '../../../theme/theme.dart';
 import '../../equipment/equipment.dart';
 import '../../exercise/exercise.dart';
-import '../../setting/setting.dart';
+import '../../settings/settings.dart';
 import '../../user/user.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -84,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SettingScreen(),
+                              builder: (context) => const SettingsScreen(),
                             ),
                           );
                         },

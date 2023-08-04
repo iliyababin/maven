@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../database/database.dart';
-import '../../feature/setting/setting.dart';
-import '../model/theme_options.dart';
+import '../../../database/database.dart';
+import '../../../theme/model/theme_options.dart';
+import '../settings.dart';
 
 class InheritedSettingWidget extends InheritedWidget {
   const InheritedSettingWidget({

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/common.dart';
-import 'package:maven/feature/setting/screen/about_screen.dart';
 import 'package:maven/feature/transfer/screen/transfer_import_export_screen.dart';
 
+import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../l10n/screen/language_screen.dart';
-import '../../../theme/theme.dart';
-import '../setting.dart';
+import '../settings.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   Widget Panel(BuildContext context, Widget child) {
     return SliverToBoxAdapter(

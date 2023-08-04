@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/extension/extension.dart';
-import 'package:maven/feature/setting/bloc/setting_bloc.dart';
 
-import '../../generated/l10n.dart';
+import '../../../generated/l10n.dart';
+import '../../../theme/theme.dart';
+import '../bloc/setting_bloc.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -27,11 +27,16 @@ class LanguageScreen extends StatelessWidget {
               ));
             },
             tileColor: Localizations.localeOf(context) == locale
-                ? Theme.of(context).colorScheme.secondary
+                ? T(context).color.primaryContainer
                 : null,
             title: Text(
-              locale.languageCode.capitalize,
+              locale.toLanguageTag(),
             ),
+            trailing: Localizations.localeOf(context) == locale
+                ? const Icon(
+                    Icons.check,
+                  )
+                : null
           );
         },
       ),

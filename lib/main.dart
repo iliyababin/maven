@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'common/common.dart';
 import 'database/database.dart';
 import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/app_screen.dart';
@@ -10,7 +11,7 @@ import 'feature/equipment/equipment.dart';
 import 'feature/exercise/exercise.dart';
 import 'feature/program/program.dart';
 import 'feature/session/session.dart';
-import 'feature/setting/setting.dart';
+import 'feature/settings/settings.dart';
 import 'feature/template/template.dart';
 import 'feature/transfer/transfer.dart';
 import 'feature/user/user.dart';
@@ -35,6 +36,19 @@ void main() async {
   TransferService strongService = TransferService(
     exercises: getDefaultExercises(),
   );
+
+int routineId = await db.routineDao.add(Routine(
+    name: 'Session',
+    note: '',
+    timestamp: DateTime.now().subtract(const Duration(days: 7)),
+    type: RoutineType.session,
+  ));
+
+  db.sessionDataDao.add(SessionData(
+    timeElapsed: const Timed.zero(),
+    routineId: routineId
+  ));
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(

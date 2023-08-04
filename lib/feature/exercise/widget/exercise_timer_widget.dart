@@ -33,12 +33,6 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
   }
 
   @override
-  void dispose() {
-    widget.controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (timeLeft != 0) {
       return Expanded(

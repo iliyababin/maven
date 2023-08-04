@@ -72,13 +72,13 @@ class DatabaseService {
   Future<double> getVolume(List<ExerciseGroup> exerciseGroups) async {
     double pounds = 0;
 
-    for(ExerciseGroup exerciseGroup in exerciseGroups){
-      for(ExerciseSet exerciseSet in exerciseGroup.sets){
+    for (ExerciseGroup exerciseGroup in exerciseGroups) {
+      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
         double setPounds = 1;
 
-        for(ExerciseSetData exerciseSetData in exerciseSet.data){
-          if(exerciseSetData.fieldType == ExerciseFieldType.weight) {
-            if(exerciseGroup.weightUnit == WeightUnit.pound) {
+        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+          if (exerciseSetData.fieldType == ExerciseFieldType.weight) {
+            if (exerciseGroup.weightUnit == WeightUnit.pound) {
               setPounds *= exerciseSetData.valueAsDouble;
             } else if (exerciseGroup.weightUnit == WeightUnit.kilogram) {
               setPounds *= exerciseSetData.valueAsDouble * 2.20462262;
@@ -96,13 +96,13 @@ class DatabaseService {
   Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroup> exerciseGroups) async {
     Map<Muscle, int> muscleCount = {};
 
-    for(ExerciseGroup exerciseGroup in exerciseGroups){
+    for (ExerciseGroup exerciseGroup in exerciseGroups) {
       Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
       muscleCount[exercise!.muscle] = (muscleCount[exercise.muscle] ?? 0) + 1;
     }
 
     Map<Muscle, double> musclePercentages = {};
-    for(Muscle muscle in muscleCount.keys){
+    for (Muscle muscle in muscleCount.keys) {
       musclePercentages[muscle] = muscleCount[muscle]! / exerciseGroups.length;
     }
 
@@ -112,11 +112,11 @@ class DatabaseService {
   Timed getDuration(List<ExerciseGroup> exerciseGroups) {
     Timed duration = const Timed.zero();
 
-    for(ExerciseGroup exerciseGroup in exerciseGroups){
-      for(ExerciseSet exerciseSet in exerciseGroup.sets){
+    for (ExerciseGroup exerciseGroup in exerciseGroups) {
+      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
         duration = duration.add(exerciseGroup.timer);
-        for(ExerciseSetData exerciseSetData in exerciseSet.data){
-          if(exerciseSetData.fieldType == ExerciseFieldType.duration){
+        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+          if (exerciseSetData.fieldType == ExerciseFieldType.duration) {
             duration = duration.add(Timed.fromSeconds(exerciseSetData.valueAsDouble.toInt()));
           }
         }
@@ -127,31 +127,27 @@ class DatabaseService {
   }
 
   static int getWeekStreak(List<DateTime> dateTimes) {
-    List<DateTime> dates = dateTimes.map((e) => DateTime(e.year, e.month, e.day)).toList();
+    if (dateTimes.isEmpty) return 0;
 
+    List<DateTime> dates = dateTimes.map((e) => DateTime(e.year, e.month, e.day)).toList();
     dates.sort((a, b) => b.compareTo(a));
 
-    int streakCount = 0;
+    if (dates.first.isBefore(DateTime.now().subtract(const Duration(days: 7)))) return 0;
 
-    DateTime today = DateTime.now();
-    Duration differenceWithToday = today.difference(dates.first);
+    int weekStreak = 1;
 
-    if (differenceWithToday.inDays <= 7 && dates.first.weekday == DateTime.monday) {
-      streakCount++;
-    }
+    DateTime completeByDate = dates.first.subtract(const Duration(days: 7));
+    DateTime incrementDate = dates.first.subtract(const Duration(days: 7));
 
-    for (int i = 0; i < dates.length - 1; i++) {
-      Duration difference = dates[i].difference(dates[i + 1]);
+    for (DateTime date in dates) {
+      if (date.isBefore(completeByDate)) break;
 
-      if (difference.inDays > 7) {
-        break;
-      }
-
-      if (dates[i].weekday == DateTime.monday || difference.inDays >= 7) {
-        streakCount++;
+      completeByDate = date.subtract(const Duration(days: 7));
+      if (date.isBefore(incrementDate)) {
+        weekStreak++;
+        incrementDate = date.subtract(const Duration(days: 7));
       }
     }
-
-    return streakCount;
+    return weekStreak;
   }
 }

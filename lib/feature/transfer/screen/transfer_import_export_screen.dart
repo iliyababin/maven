@@ -56,7 +56,7 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
             child: CustomScrollView(
               slivers: [
                 const Heading(
-                  title: 'Import',
+                  title: 'Source',
                   size: HeadingSize.medium,
                 ),
                 SliverToBoxAdapter(
@@ -137,6 +137,12 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                         type: SliverBoxType.loading,
                       );
                     } else {
+                      if(state.imports.isEmpty) {
+                        return const SliverBoxWidget(
+                          type: SliverBoxType.empty,
+                        );
+                      }
+
                       return SliverList(
                         delegate: SliverChildListDelegate([
                           ClipRRect(

@@ -16,18 +16,22 @@ class SettingState extends Equatable {
   const SettingState({
     this.status = SettingStatus.initial,
     this.setting,
+    this.packageInfo,
   });
 
   final SettingStatus status;
   final Setting? setting;
+  final PackageInfo? packageInfo;
 
   SettingState copyWith({
     SettingStatus? status,
     Setting? setting,
+    PackageInfo? packageInfo,
   }) {
     return SettingState(
       status: status ?? this.status,
       setting: setting ?? this.setting,
+      packageInfo: packageInfo ?? this.packageInfo,
     );
   }
 
@@ -35,6 +39,7 @@ class SettingState extends Equatable {
   List<Object?> get props => [
     status,
     setting,
+    packageInfo,
   ];
 }
 

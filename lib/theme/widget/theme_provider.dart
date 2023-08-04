@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../database/database.dart';
-import '../../feature/setting/setting.dart';
+import '../../feature/settings/settings.dart';
 import '../model/app_theme.dart';
-import 'inherited_setting_widget.dart';
 
 /// A widget that provides a theme to descendant widgets.
 ///

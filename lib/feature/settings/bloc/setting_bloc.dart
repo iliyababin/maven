@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../database/database.dart';
 import '../../../generated/l10n.dart';
 import '../../../theme/theme.dart';
-import '../setting.dart';
+import '../settings.dart';
 
 part 'setting_event.dart';
 part 'setting_state.dart';
@@ -26,9 +27,12 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   final SettingDao settingDao;
 
   Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
     emit(state.copyWith(
       status: SettingStatus.loaded,
       setting: await _fetchSetting(),
+      packageInfo: packageInfo,
     ));
   }
 
