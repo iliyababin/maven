@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:maven/common/common.dart';
 
 import '../../../theme/theme.dart';
+import '../../settings/settings.dart';
 import '../session.dart';
 
 class SessionAboutView extends StatelessWidget {

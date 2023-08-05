@@ -6,6 +6,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../settings/settings.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../template.dart';
 import '../view/template_options_view.dart';

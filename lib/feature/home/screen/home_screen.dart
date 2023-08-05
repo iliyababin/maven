@@ -7,6 +7,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../session/session.dart';
+import '../../settings/settings.dart';
 import '../../user/user.dart';
 
 class HomeScreen extends StatelessWidget {

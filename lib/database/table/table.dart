@@ -1,3 +1,5 @@
+export 'app_theme.dart';
+export 'app_theme_dao.dart';
 export 'bar.dart';
 export 'bar_dao.dart';
 export 'exercise.dart';

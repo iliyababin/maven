@@ -7,6 +7,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../settings/settings.dart';
 import '../session.dart';
 
 class SessionWidget extends StatelessWidget {

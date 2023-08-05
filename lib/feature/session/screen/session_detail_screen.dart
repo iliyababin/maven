@@ -61,7 +61,7 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
               actions: [
                 IconButton(
                   onPressed: () {
-                    showSessionOptionsView(context, widget.session);
+                    showSessionOptionsView(context, session);
                   },
                   icon: const Icon(
                     Icons.more_vert_outlined,

@@ -11,6 +11,19 @@ class SettingInitialize extends SettingEvent {
   List<Object?> get props => [];
 }
 
+class SettingAddTheme extends SettingEvent {
+  const SettingAddTheme({
+    required this.theme,
+  });
+
+  final AppTheme theme;
+
+  @override
+  List<Object?> get props => [
+    theme,
+  ];
+}
+
 class SettingChangeTheme extends SettingEvent {
   const SettingChangeTheme({
     required this.id,

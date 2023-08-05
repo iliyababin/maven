@@ -4,6 +4,7 @@ import 'package:maven/feature/transfer/screen/transfer_import_export_screen.dart
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
+import '../../../theme/theme.dart';
 import '../settings.dart';
 
 class SettingsScreen extends StatelessWidget {

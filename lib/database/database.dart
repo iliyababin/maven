@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:floor/floor.dart';
+import 'package:maven/theme/data/app_theme_data.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'converter/converter.dart';
@@ -38,6 +40,7 @@ part 'database.g.dart';
     TemplateData,
     User,
     Import,
+    BaseAppTheme,
   ],
 )
 @TypeConverters([
@@ -67,6 +70,7 @@ abstract class MavenDatabase extends FloorDatabase {
   TemplateDataDao get templateDataDao;
   UserDao get userDao;
   ImportDao get importDao;
+  AppThemeDao get appThemeDao;
 
   static bool _isFirstTime = false;
 
@@ -86,6 +90,7 @@ abstract class MavenDatabase extends FloorDatabase {
     if (_isFirstTime) {
       db.plateDao.addPlates(getDefaultPlates());
       db.barDao.addBars(getDefaultBars());
+      db.appThemeDao.addAll(getDefaultAppThemes);
       for (Exercise exercise in getDefaultExercises()){
         int exerciseId = await db.exerciseDao.add(exercise);
         for (ExerciseField field in exercise.fields){

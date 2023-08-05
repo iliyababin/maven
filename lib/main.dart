@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'common/common.dart';
 import 'database/database.dart';
 import 'debug/screen/design_tool_widget.dart';
 import 'feature/app/screen/app_screen.dart';
@@ -37,7 +36,7 @@ void main() async {
     exercises: getDefaultExercises(),
   );
 
-int routineId = await db.routineDao.add(Routine(
+/*int routineId = await db.routineDao.add(Routine(
     name: 'Session',
     note: '',
     timestamp: DateTime.now().subtract(const Duration(days: 7)),
@@ -47,7 +46,7 @@ int routineId = await db.routineDao.add(Routine(
   db.sessionDataDao.add(SessionData(
     timeElapsed: const Timed.zero(),
     routineId: routineId
-  ));
+  ));*/
 
   runApp(MultiBlocProvider(
     providers: [
@@ -105,6 +104,7 @@ int routineId = await db.routineDao.add(Routine(
       BlocProvider(
           create: (context) => SettingBloc(
                 settingDao: db.settingDao,
+                appThemeDao: db.appThemeDao,
               )..add(const SettingInitialize())),
       BlocProvider(
           create: (context) => UserBloc(

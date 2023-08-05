@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/model/theme_options.dart';
 import '../settings.dart';
 
 class InheritedSettingWidget extends InheritedWidget {
@@ -38,8 +37,6 @@ class InheritedSettingWidget extends InheritedWidget {
   }
 }
 
-/// Returns the [ThemeOptions] of the closest [InheritedSettingWidget] ancestor.
-ThemeOptions T(BuildContext context) => InheritedSettingWidget.of(context).setting.theme.options;
 
 // Returns the [Setting] of the closest [InheritedSettingWidget] ancestor.
 Setting s(BuildContext context) => InheritedSettingWidget.of(context).setting;

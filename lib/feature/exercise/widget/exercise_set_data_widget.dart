@@ -64,7 +64,7 @@ class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
           child: Text(
             widget.data.valueAsString,
             style: T(context).textStyle.bodyLarge.copyWith(
-                  color: T(context).color.onSuccessContainer,
+                  color: T(context).color.onSurface,
                 ),
           ),
         ),

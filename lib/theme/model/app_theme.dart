@@ -1,20 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import 'color_options.dart';
 import 'theme_options.dart';
 
 /// A theme that can be applied to the app.
 class AppTheme extends Equatable {
   const AppTheme({
-    required this.id,
+    this.id,
     required this.name,
     required this.path,
     required this.brightness,
     required this.options,
   });
 
-  final int id;
+  final int? id;
   final String name;
   final String path;
   final Brightness brightness;
@@ -34,7 +33,6 @@ class AppTheme extends Equatable {
         labelLarge: options.textStyle.labelLarge,
         labelMedium: options.textStyle.labelMedium,
         labelSmall: options.textStyle.labelSmall,
-
       ),
       splashFactory: InkSparkle.splashFactory,
       colorScheme: ColorScheme(
@@ -152,19 +150,6 @@ class AppTheme extends Equatable {
           ),
         ),
       ),
-
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: options.color.background,
-        selectedItemColor: options.color.primary,
-        unselectedItemColor: options.color.onSurface,
-        elevation: 0,
-        selectedLabelStyle: const TextStyle(
-          fontSize: 14,
-        ),
-        unselectedLabelStyle: const TextStyle(
-          fontSize: 14,
-        ),
-      ),
       iconTheme: IconThemeData(
         color: options.color.primary,
         size: 24,
@@ -172,6 +157,17 @@ class AppTheme extends Equatable {
       listTileTheme: ListTileThemeData(
         contentPadding: const EdgeInsets.only(left: 24, right: 24),
         iconColor: options.color.primary,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        labelTextStyle: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return TextStyle(
+              fontWeight: FontWeight.bold,
+            );
+          } else {
+            return TextStyle();
+          }
+        }),
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith((states) {
@@ -204,6 +200,22 @@ class AppTheme extends Equatable {
     );
   }
 
+  AppTheme copyWith({
+    int? id,
+    String? name,
+    String? path,
+    Brightness? brightness,
+    ThemeOptions? options,
+  }) {
+    return AppTheme(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      path: path ?? this.path,
+      brightness: brightness ?? this.brightness,
+      options: options ?? this.options,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,
@@ -211,192 +223,4 @@ class AppTheme extends Equatable {
         path,
         options,
       ];
-
-  static const AppTheme light = AppTheme(
-    id: 1,
-    name: 'Light',
-    path: 'assets/images/light.jpg',
-    brightness: Brightness.light,
-    options: ThemeOptions(
-      color: ColorOptions(
-        primary: Color(0xFF2196F3),
-        onPrimary: Color(0xFFFFFFFF),
-        primaryContainer: Color(0xFFDBF0FF),
-        onPrimaryContainer: Color(0xFF167DD0),
-
-        secondary: Color(0xFF40E0D0),
-        onSecondary: Color(0xFFFFFFFF),
-        secondaryContainer: Color(0xFFA3E5DD),
-        onSecondaryContainer: Color(0xFF094F4A),
-
-        background: Color(0xffffffff),
-        onBackground: Color(0xff000000),
-        outline: Color(0xFFDCDCDC),
-        outlineVariant: Color(0xFFB9B9B9),
-
-        inversePrimary: Color(0xFF2196F3),
-        inverseSurface: Color(0xFF282828),
-        onInverseSurface: Color(0xFFffffff),
-
-        success: Color(0xFF2DCD70),
-        onSuccess: Color(0xFFffffff),
-        successContainer: Color(0xFFD9F5E7),
-        onSuccessContainer: Color(0xFF000000),
-
-        error: Color(0xFFDD614A),
-        onError: Color(0xFFffffff),
-        errorContainer: Color(0xFFffdad3),
-        onErrorContainer: Color(0xFF783428),
-
-        onSurfaceVariant: Color(0xFF808080),
-        shadow: Color(0xFFC1C1C1),
-        warmup: Color(0xFFFFAE00),
-        drop: Color(0xFFBD4ADD),
-        cooldown: Color(0xFF21F3F3),
-
-        surface: Color(0xfff2f2f2),
-        onSurface: Color(0xFF001f25),
-      ),
-    ),
-  );
-
-  /*static const AppTheme dark = AppTheme(
-    id: 2,
-    name: 'Dark',
-    path: 'assets/images/dark.jpg',
-    options: ThemeOptions(
-      color: ColorOptions(
-        primary: Color(0xFF2196F3),
-        onPrimary: Color(0xff121212),
-        primaryContainer: Color(0xFF072533),
-        onPrimaryContainer: Color(0xFF1685DE),
-
-        secondary: Color(0xFF232323),
-        onSecondary: Color(0xFF37A7FF),
-        secondaryContainer: Color(0xFF282828),
-        onSecondaryContainer: Color(0xFFEFEFEF),
-
-        background: Color(0xff121212),
-        outline: Color(0xFF5F5F5F),
-        outlineVariant: Color(0xFF131313),
-
-
-        text: Color(0xffffffff),
-        subtext: Color(0xFF808080),
-        neutral: Color(0xFFFFFFFF),
-        success: Color(0xFF2DCD70),
-        error: Color(0xFFDD614A),
-        shadow: Color(0xFF353535),
-        warmup: Color(0xFFFFAE00),
-        drop: Color(0xFFBD4ADD),
-        cooldown: Color(0xFF21F3F3),
-      ),
-    ),
-  );*/
-
-  static const AppTheme solarFlare = AppTheme(
-    id: 2,
-    name: 'Solar flare',
-    path: 'assets/images/solar_flare.jpg',
-    brightness: Brightness.dark,
-    options: ThemeOptions(
-      color: ColorOptions(
-        primary: Color(0xFFFFAE00),
-        onPrimary: Color(0xff121212),
-        primaryContainer: Color(0xFF463C26),
-        onPrimaryContainer: Color(0xFFFFB939),
-
-        secondary: Color(0xff6f6240),
-        onSecondary: Color(0xffffe1aa),
-        secondaryContainer: Color(0xFF56442a),
-        onSecondaryContainer: Color(0xFFfadebb),
-
-        background: Color(0xff232323),
-        onBackground: Color(0xffffffff),
-
-        surface: Color(0xFF2A2A2A),
-        onSurface: Color(0xFFFFFFFF),
-
-        outline: Color(0xFF3A3A3A),
-        outlineVariant: Color(0xFF3A3A3A),
-
-        inversePrimary: Color(0xFFFFAE00),
-        inverseSurface: Color(0xFF484848),
-        onInverseSurface: Color(0xFFffffff),
-
-        success: Color(0xFF2DCD70),
-        onSuccess: Color(0xff121212),
-        successContainer: Color(0xFF155A37),
-        onSuccessContainer: Color(0xFFFFFFFF),
-
-        error: Color(0xFFa63926),
-        onError: Color(0xFFffffff),
-        errorContainer: Color(0xFFffdad3),
-        onErrorContainer: Color(0xFF3f0300),
-
-        onSurfaceVariant: Color(0xFFACACAC),
-
-        shadow: Color(0xFF101010),
-        warmup: Color(0xFFFFAE00),
-        drop: Color(0xFFBD4ADD),
-        cooldown: Color(0xFF21F3F3),
-      ),
-    ),
-  );
-
-  static const AppTheme nature = AppTheme(
-    id: 3,
-    name: 'Nature',
-    path: 'assets/images/nature.jpg',
-    brightness: Brightness.light,
-    options: ThemeOptions(
-      color: ColorOptions(
-        primary: Color(0xFF4CAF50),
-        onPrimary: Color(0xffffffff),
-        primaryContainer: Color(0xFF94f990),
-        onPrimaryContainer: Color(0xFF002204),
-
-        secondary: Color(0xFF52634f),
-        onSecondary: Color(0xFFffffff),
-        secondaryContainer: Color(0xFFd5e8cf),
-        onSecondaryContainer: Color(0xFF111f0f),
-
-        background: Color(0xFFf6fff1),
-        onBackground: Color(0xFF212121),
-
-        surface: Color(0xffe8f8d7),
-        onSurface: Color(0xFF141e0d),
-
-        outline: Color(0xFFC4C8BB),
-        outlineVariant: Color(0xFFC4C8BB),
-
-        onSurfaceVariant: Color(0xFF757575),
-
-        inversePrimary: Color(0xFF2196F3),
-        inverseSurface: Color(0xFF282828),
-        onInverseSurface: Color(0xFFffffff),
-
-        success: Color(0xFF2DCD70),
-        onSuccess: Color(0xFFffffff),
-        successContainer: Color(0xFFD9F5E7),
-        onSuccessContainer: Color(0xFF000000),
-
-        error: Color(0xFFa63926),
-        onError: Color(0xFFffffff),
-        errorContainer: Color(0xFFffdad3),
-        onErrorContainer: Color(0xFF3f0300),
-
-        shadow: Color(0xFFBDBDBD),
-        warmup: Color(0xFFFFAE00),
-        drop: Color(0xFFBD4ADD),
-        cooldown: Color(0xFF21F3F3),
-      ),
-    ),
-  );
-
-  static const List<AppTheme> themes = [
-    light,
-    nature,
-    solarFlare,
-  ];
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../feature/settings/widget/inherited_setting_widget.dart';
+import '../../theme/theme.dart';
 
 class ColorScreen extends StatelessWidget {
   const ColorScreen({Key? key}) : super(key: key);

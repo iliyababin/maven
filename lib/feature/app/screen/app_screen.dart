@@ -144,27 +144,27 @@ class _MavenState extends State<Maven> {
         },
       )),
       bottomNavigationBar: SizedBox(
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          items: const [
-            BottomNavigationBarItem(
+        child: NavigationBar(
+          onDestinationSelected: _onItemTapped,
+          selectedIndex: _selectedIndex,
+          destinations: const [
+            NavigationDestination(
               icon: Icon(Icons.home),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: Icon(Icons.fitness_center),
               label: 'Workout',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: Icon(Icons.stacked_line_chart),
               label: 'Progress',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: Icon(Icons.person),
               label: 'Profile',
             ),
           ],
-          onTap: _onItemTapped,
         ),
       ),
     );
