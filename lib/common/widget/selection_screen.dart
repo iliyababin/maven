@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 
 /// A screen that displays a list of items for selection.
 ///

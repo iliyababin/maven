@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 
 class ColorScreen extends StatelessWidget {
   const ColorScreen({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
-class ShapeOption {
-  const ShapeOption({
+class AppThemeShape {
+  const AppThemeShape({
     required this.small,
     required this.medium,
     required this.large,

@@ -1,5 +1,5 @@
-class SpaceOptions {
-  const SpaceOptions({
+class AppThemeSpacer {
+  const AppThemeSpacer({
     required this.large,
     required this.medium,
     required this.small,

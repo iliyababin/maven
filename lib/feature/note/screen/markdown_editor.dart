@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:maven/common/common.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class MarkdownEditor extends StatefulWidget {
   const MarkdownEditor({

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maven/common/common.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class SessionWeeklyGoalWidget extends StatefulWidget {
   const SessionWeeklyGoalWidget({

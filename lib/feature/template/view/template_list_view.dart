@@ -4,7 +4,7 @@ import 'package:reorderable_grid/reorderable_grid.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../common/common.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../template.dart';
 
 class TemplateListView extends StatelessWidget {

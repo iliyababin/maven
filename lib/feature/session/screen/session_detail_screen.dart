@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/session/view/session_options_view.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../session.dart';
 
 class SessionDetailScreen extends StatefulWidget {

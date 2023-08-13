@@ -3,7 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:maven/common/common.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../settings/settings.dart';
 import '../session.dart';
 

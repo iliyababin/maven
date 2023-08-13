@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/routine/screen/routine_edit_screen.dart';
 
 import '../../../common/common.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../session.dart';
 
 showSessionOptionsView(BuildContext context, Session session) {

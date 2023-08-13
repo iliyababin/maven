@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/exercise/widget/exercise_group_detail_widget.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../session/session.dart';
 import '../exercise.dart';
 

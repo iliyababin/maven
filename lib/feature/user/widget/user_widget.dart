@@ -6,7 +6,7 @@ import 'package:maven/feature/user/screen/user_edit_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../user.dart';
 
 class UserWidget extends StatefulWidget {

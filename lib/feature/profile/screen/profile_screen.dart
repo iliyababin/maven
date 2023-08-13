@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../generated/l10n.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../equipment/equipment.dart';
 import '../../exercise/exercise.dart';
 import '../../settings/settings.dart';

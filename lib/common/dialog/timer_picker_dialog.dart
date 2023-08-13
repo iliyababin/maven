@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 import '../common.dart';
 
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 
 /// Dialog that prompts the user to confirm an action before proceeding.
 ///

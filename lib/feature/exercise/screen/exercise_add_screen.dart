@@ -4,7 +4,7 @@ import 'package:maven/common/common.dart';
 import 'package:maven/feature/exercise/exercise.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class ExerciseAddScreen extends StatefulWidget {
   const ExerciseAddScreen({Key? key}) : super(key: key);

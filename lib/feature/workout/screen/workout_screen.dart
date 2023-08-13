@@ -6,7 +6,7 @@ import 'package:maven/feature/note/note.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../workout.dart';
 

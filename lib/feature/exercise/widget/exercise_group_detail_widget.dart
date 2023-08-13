@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:maven/common/common.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../exercise.dart';
 
 class ExerciseGroupDetailWidget extends StatelessWidget {

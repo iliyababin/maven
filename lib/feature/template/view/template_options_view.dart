@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../template.dart';
 
 showTemplateOptionsView(BuildContext context, Template template) {

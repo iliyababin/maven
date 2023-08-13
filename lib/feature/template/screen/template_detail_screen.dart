@@ -4,7 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../settings/settings.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';

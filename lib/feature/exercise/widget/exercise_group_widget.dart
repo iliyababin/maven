@@ -6,7 +6,7 @@ import 'package:maven/feature/note/screen/markdown_editor.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../note/note.dart';
 import '../exercise.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 
 
 class DaySelectorScreen extends StatefulWidget {

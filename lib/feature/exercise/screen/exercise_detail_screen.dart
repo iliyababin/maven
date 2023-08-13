@@ -4,7 +4,7 @@ import 'package:maven/common/common.dart';
 
 import '../../../database/database.dart';
 import '../../../main.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../session/session.dart';
 import '../exercise.dart';
 

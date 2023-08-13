@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/common.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../session.dart';
 
 class SessionCalendarScreen extends StatefulWidget {

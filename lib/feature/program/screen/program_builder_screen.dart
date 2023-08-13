@@ -6,7 +6,7 @@ import 'package:reorderable_grid/reorderable_grid.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../template/template.dart';
 import '../program.dart';
 

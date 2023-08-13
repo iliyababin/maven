@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../session/session.dart';
 
 class TransferImportExportScreen extends StatefulWidget {

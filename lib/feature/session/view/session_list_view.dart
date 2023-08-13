@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../session.dart';
 
 class SessionListView extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/session/screen/session_calendar_screen.dart';
 
 import '../../../common/common.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../session/session.dart';
 
 class ProgressScreen extends StatelessWidget {

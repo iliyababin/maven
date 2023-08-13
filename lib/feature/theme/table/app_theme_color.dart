@@ -1,8 +1,19 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 
-class ColorOptions {
-  const ColorOptions({
+@Entity(
+  tableName: 'app_theme_color',
+  primaryKeys: [
+    'id',
+  ],
+  foreignKeys: [
+
+  ]
+)
+class AppThemeColor {
+  const AppThemeColor({
+    this.id,
+    required this.appThemeId,
     required this.primary,
     required this.onPrimary,
     required this.primaryContainer,
@@ -34,6 +45,47 @@ class ColorOptions {
     required this.drop,
     required this.cooldown,
   });
+
+  const AppThemeColor.empty() : this(
+    appThemeId: 0,
+    primary: Colors.green,
+    onPrimary: Colors.red,
+    primaryContainer: Colors.red,
+    onPrimaryContainer: Colors.red,
+    secondary: Colors.red,
+    onSecondary: Colors.red,
+    secondaryContainer: Colors.red,
+    onSecondaryContainer: Colors.red,
+    background: Colors.blue,
+    onBackground: Colors.red,
+    surface: Colors.yellow,
+    onSurface: Colors.red,
+    onSurfaceVariant: Colors.red,
+    outline: Colors.red,
+    outlineVariant: Colors.red,
+    inversePrimary: Colors.red,
+    inverseSurface: Colors.red,
+    onInverseSurface: Colors.red,
+    success: Colors.red,
+    onSuccess: Colors.red,
+    successContainer: Colors.red,
+    onSuccessContainer: Colors.red,
+    error: Colors.red,
+    onError: Colors.red,
+    errorContainer: Colors.red,
+    onErrorContainer: Colors.red,
+    shadow: Colors.red,
+    warmup: Colors.red,
+    drop: Colors.red,
+    cooldown: Colors.red,
+  );
+  
+  @PrimaryKey(autoGenerate: true)
+  @ColumnInfo(name: 'id')
+  final int? id;
+
+  @ColumnInfo(name: 'app_theme_id')
+  final int appThemeId;
 
   @ColumnInfo(name: 'primary')
   final Color primary;
@@ -158,8 +210,10 @@ class ColorOptions {
         'cooldown': cooldown,
       };
 
-  ColorOptions setColors(Map<String, Color> map) {
-    return ColorOptions(
+  AppThemeColor setColors(Map<String, Color> map) {
+    return AppThemeColor(
+      id: id,
+      appThemeId: appThemeId,
       primary: map['primary'] ?? primary,
       onPrimary: map['onPrimary'] ?? onPrimary,
       primaryContainer: map['primaryContainer'] ?? primaryContainer,
@@ -190,6 +244,76 @@ class ColorOptions {
       warmup: map['warmup'] ?? warmup,
       drop: map['drop'] ?? drop,
       cooldown: map['cooldown'] ?? cooldown,
+    );
+  }
+
+  AppThemeColor copyWith({
+    int? id,
+    int? appThemeId,
+    Color? primary,
+    Color? onPrimary,
+    Color? primaryContainer,
+    Color? onPrimaryContainer,
+    Color? secondary,
+    Color? onSecondary,
+    Color? secondaryContainer,
+    Color? onSecondaryContainer,
+    Color? background,
+    Color? onBackground,
+    Color? surface,
+    Color? onSurface,
+    Color? onSurfaceVariant,
+    Color? outline,
+    Color? outlineVariant,
+    Color? inversePrimary,
+    Color? inverseSurface,
+    Color? onInverseSurface,
+    Color? success,
+    Color? onSuccess,
+    Color? successContainer,
+    Color? onSuccessContainer,
+    Color? error,
+    Color? onError,
+    Color? errorContainer,
+    Color? onErrorContainer,
+    Color? shadow,
+    Color? warmup,
+    Color? drop,
+    Color? cooldown,
+  }) {
+    return AppThemeColor(
+      id: id ?? this.id,
+      appThemeId: appThemeId ?? this.appThemeId,
+      primary: primary ?? this.primary,
+      onPrimary: onPrimary ?? this.onPrimary,
+      primaryContainer: primaryContainer ?? this.primaryContainer,
+      onPrimaryContainer: onPrimaryContainer ?? this.onPrimaryContainer,
+      secondary: secondary ?? this.secondary,
+      onSecondary: onSecondary ?? this.onSecondary,
+      secondaryContainer: secondaryContainer ?? this.secondaryContainer,
+      onSecondaryContainer: onSecondaryContainer ?? this.onSecondaryContainer,
+      background: background ?? this.background,
+      onBackground: onBackground ?? this.onBackground,
+      surface: surface ?? this.surface,
+      onSurface: onSurface ?? this.onSurface,
+      onSurfaceVariant: onSurfaceVariant ?? this.onSurfaceVariant,
+      outline: outline ?? this.outline,
+      outlineVariant: outlineVariant ?? this.outlineVariant,
+      inversePrimary: inversePrimary ?? this.inversePrimary,
+      inverseSurface: inverseSurface ?? this.inverseSurface,
+      onInverseSurface: onInverseSurface ?? this.onInverseSurface,
+      success: success ?? this.success,
+      onSuccess: onSuccess ?? this.onSuccess,
+      successContainer: successContainer ?? this.successContainer,
+      onSuccessContainer: onSuccessContainer ?? this.onSuccessContainer,
+      error: error ?? this.error,
+      onError: onError ?? this.onError,
+      errorContainer: errorContainer ?? this.errorContainer,
+      onErrorContainer: onErrorContainer ?? this.onErrorContainer,
+      shadow: shadow ?? this.shadow,
+      warmup: warmup ?? this.warmup,
+      drop: drop ?? this.drop,
+      cooldown: cooldown ?? this.cooldown,
     );
   }
 }

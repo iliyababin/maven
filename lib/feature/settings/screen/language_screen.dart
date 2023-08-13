@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../generated/l10n.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../bloc/setting_bloc.dart';
 
 class LanguageScreen extends StatelessWidget {

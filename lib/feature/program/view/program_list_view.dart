@@ -5,7 +5,7 @@ import 'package:reorderable_grid/reorderable_grid.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../program.dart';
 
 class ProgramListView extends StatefulWidget {

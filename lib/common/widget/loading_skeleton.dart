@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maven/common/common.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 
 
 class LoadingSkeleton extends StatelessWidget {

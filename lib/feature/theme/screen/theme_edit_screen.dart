@@ -1,35 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:maven/common/dialog/dialog.dart';
-import 'package:maven/theme/data/app_theme_data.dart';
 
+import '../../../common/common.dart';
 import '../theme.dart';
 
 class ThemeEditScreen extends StatefulWidget {
   const ThemeEditScreen({
     super.key,
+    this.theme,
   });
+
+  final AppTheme? theme;
 
   @override
   State<ThemeEditScreen> createState() => _ThemeEditScreenState();
 }
 
 class _ThemeEditScreenState extends State<ThemeEditScreen> {
-  AppTheme theme = AppTheme(
+  AppTheme theme = const AppTheme(
     name: 'Custom',
     brightness: Brightness.light,
-    options: ThemeOptions(color: getDefaultAppThemes.first),
-    path: 'null',
+    option: AppThemeOption(
+      color: AppThemeColor.empty(),
+    ),
   );
 
-  Map<String, Color> colors = getDefaultAppThemes.first.colors;
+  Map<String, Color> colors = const AppThemeColor.empty().colors;
+
+
+  @override
+  void initState() {
+    if(widget.theme != null) {
+      theme = widget.theme!.copyWith(
+        option: AppThemeOption(
+          color: widget.theme!.option.color.copyWith().setColors(widget.theme!.option.color.colors),
+        ),
+      );
+      colors = theme.option.color.colors;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Create',
+        title: Text(
+          widget.theme == null ? 'Create' : 'Edit',
         ),
         actions: [
           IconButton(
@@ -37,8 +54,9 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
               Navigator.pop(
                 context,
                 theme.copyWith(
-                  options: ThemeOptions(
-                    color: theme.options.color.setColors(colors),
+                  option: AppThemeOption(
+
+                    color: theme.option.color.setColors(colors),
                   ),
                 ),
               );

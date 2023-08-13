@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/exercise/exercise.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../home/home.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';

@@ -1,5 +1,5 @@
-export 'app_theme.dart';
-export 'app_theme_dao.dart';
+export '../../feature/theme/table/app_theme.dart';
+export '../../feature/theme/table/app_theme_dao.dart';
 export 'bar.dart';
 export 'bar_dao.dart';
 export 'exercise.dart';
@@ -38,3 +38,4 @@ export 'user.dart';
 export 'user_dao.dart';
 export 'workout_data.dart';
 export 'workout_data_dao.dart';
+export '../../feature/theme/table/app_theme_color.dart';

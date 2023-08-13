@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../exercise/model/exercise_set_data.dart';
 import '../multi_keyboard.dart';
 

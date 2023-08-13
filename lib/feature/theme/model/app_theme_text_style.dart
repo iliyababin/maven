@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextStyleOptions {
-  const TextStyleOptions()
+class AppThemeTextStyle {
+  const AppThemeTextStyle()
       : headingLarge = const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.w500,

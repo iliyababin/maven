@@ -3,19 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:maven/common/common.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 
 class Setting extends Equatable {
   const Setting({
-    required this.theme,
-    required this.themes,
     required this.unit,
     required this.locale,
     required this.sessionWeeklyGoal,
   });
 
-  final AppTheme theme;
-  final List<AppTheme> themes;
   final Unit unit;
   final Locale locale;
   final int sessionWeeklyGoal;
@@ -57,8 +53,6 @@ class Setting extends Equatable {
     int? sessionWeeklyGoal,
   }) {
     return Setting(
-      theme: theme ?? this.theme,
-      themes: themes ?? this.themes,
       unit: unit ?? this.unit,
       locale: locale ?? this.locale,
       sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
@@ -67,8 +61,6 @@ class Setting extends Equatable {
 
   @override
   List<Object?> get props => [
-        theme,
-        themes,
         unit,
         locale,
         sessionWeeklyGoal,

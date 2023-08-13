@@ -7,23 +7,19 @@ class InheritedSettingWidget extends InheritedWidget {
   const InheritedSettingWidget({
     super.key,
     required Setting setting,
-    required Function(int themeId) setTheme,
     required Function(Unit unit) unit,
     required Function(int goal) setSessionWeeklyGoal,
     required Widget child,
   })  : _setting = setting,
-        _setTheme = setTheme,
         _setUnit = unit,
         _setSessionWeeklyGoal = setSessionWeeklyGoal,
         super(child: child);
 
   final Setting _setting;
-  final Function(int themeId) _setTheme;
   final Function(Unit unit) _setUnit;
   final Function(int goal) _setSessionWeeklyGoal;
 
   Setting get setting => _setting;
-  Function(int themeId) get setTheme => _setTheme;
   Function(Unit unit) get setUnit => _setUnit;
   Function(int goal) get setSessionWeeklyGoal => _setSessionWeeklyGoal;
 
@@ -33,7 +29,7 @@ class InheritedSettingWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedSettingWidget oldWidget) {
-    return setTheme != oldWidget.setTheme || setting != oldWidget.setting;
+    return  setting != oldWidget.setting;
   }
 }
 

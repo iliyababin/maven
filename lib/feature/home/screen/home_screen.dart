@@ -5,7 +5,7 @@ import 'package:maven/feature/session/widget/session_weekly_goal_widget.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../../session/session.dart';
 import '../../settings/settings.dart';
 import '../../user/user.dart';

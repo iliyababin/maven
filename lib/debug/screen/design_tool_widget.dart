@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../feature/theme/theme.dart';
 import 'developer_screen.dart';
 
 class DesignToolWidget extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../screen/markdown_editor.dart';
 
 class NoteWidget extends StatefulWidget {

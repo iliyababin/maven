@@ -6,7 +6,7 @@ import 'package:maven/common/common.dart';
 import 'package:multiavatar/multiavatar.dart';
 
 import '../../../database/database.dart';
-import '../../../theme/theme.dart';
+import '../../theme/theme.dart';
 import '../user.dart';
 
 class UserEditScreen extends StatefulWidget {
