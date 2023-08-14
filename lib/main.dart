@@ -141,7 +141,6 @@ class Main extends StatelessWidget {
       ],
       child: BlocBuilder<SettingBloc, SettingState>(
         builder: (context, state) {
-          log('Entire Widget Tree');
           if (state.status.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),

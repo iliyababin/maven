@@ -94,7 +94,8 @@ class SettingsScreen extends StatelessWidget {
                                   ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      InheritedSettingWidget.of(context).setUnit(Unit.metric);
+                                      // TODO THIS
+                                      // InheritedSettingWidget.of(context).setUnit(Unit.metric);
                                     },
                                     title: const Text(
                                       'Metric',
@@ -106,7 +107,8 @@ class SettingsScreen extends StatelessWidget {
                                   ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      InheritedSettingWidget.of(context).setUnit(Unit.imperial);
+                                      //TODO THIS
+                                     //  InheritedSettingWidget.of(context).setUnit(Unit.imperial);
                                     },
                                     title: const Text(
                                       'Imperial',

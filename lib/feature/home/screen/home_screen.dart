@@ -167,7 +167,9 @@ class HomeScreen extends StatelessWidget {
                       SessionWeeklyGoalWidget(
                         goal: s(context).sessionWeeklyGoal,
                         onModified: (value) {
-                          InheritedSettingWidget.of(context).setSessionWeeklyGoal(value);
+                          //TODO THIS
+
+                          // InheritedSettingWidget.of(context).setSessionWeeklyGoal(value);
                         },
                         dates: state.sessions.map((e) => e.routine.timestamp).toList(),
                       ),

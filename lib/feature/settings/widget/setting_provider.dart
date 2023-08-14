@@ -29,23 +29,13 @@ class _SettingProviderState extends State<SettingProvider> {
 
   @override
   Widget build(BuildContext context) {
-    return InheritedSettingWidget(
-      setting: _setting,
-      unit: (Unit unit) {
-        setState(() {
-          _setting = _setting.copyWith(unit: unit);
-        });
-        context.read<SettingBloc>().add(SettingChangeUnits(unit: unit));
+    return BlocBuilder<SettingBloc, SettingState>(
+      builder: (context, state) {
+        return InheritedSettingWidget(
+          setting: _setting,
+          child: widget.child,
+        );
       },
-      setSessionWeeklyGoal: (goal) {
-        setState(() {
-          _setting = _setting.copyWith(sessionWeeklyGoal: goal);
-        });
-        context.read<SettingBloc>().add(SettingUpdate(
-          setting: _setting.copyWith(sessionWeeklyGoal: goal),
-        ));
-      },
-      child: widget.child,
     );
   }
 }

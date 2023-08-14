@@ -22,7 +22,6 @@ class _ThemeProviderState extends State<ThemeProvider> {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
-        log('Theme Tree');
         return InheritedThemeWidget(
           theme: state.theme,
           child: widget.child,

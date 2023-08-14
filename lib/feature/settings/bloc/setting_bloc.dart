@@ -78,6 +78,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       countryCode: event.setting.locale.countryCode,
       languageCode: event.setting.locale.languageCode,
       sessionWeeklyGoal: event.setting.sessionWeeklyGoal,
+      themeId: event.setting.themeId,
     ));
 
     emit(state.copyWith(
@@ -99,7 +100,8 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     return Setting(
       unit: setting!.unit,
       locale: Locale(setting.languageCode, setting.countryCode),
-      sessionWeeklyGoal: setting.sessionWeeklyGoal ,
+      sessionWeeklyGoal: setting.sessionWeeklyGoal,
+      themeId: setting.themeId,
     );
   }
 }

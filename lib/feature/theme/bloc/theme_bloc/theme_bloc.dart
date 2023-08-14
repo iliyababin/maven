@@ -66,6 +66,9 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   }
 
   Future<void> _change(ThemeChange event, Emitter<ThemeState> emit) async {
+    await settingDao.modify(await settingDao.get().then((value) => value!.copyWith(
+      themeId: event.theme.id,
+    )));
     emit(state.copyWith(
       theme: state.themes.where((element) => element.id == event.theme.id).first,
     ));
