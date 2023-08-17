@@ -35,8 +35,11 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
     return BlocBuilder<ExerciseBloc, ExerciseState>(
       builder: (context, state) {
         if (state.status == ExerciseStatus.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         } else if (state.status == ExerciseStatus.loaded) {
           List<Exercise> exercises = [];
@@ -45,7 +48,6 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           } else {
             exercises = state.exercises.where((element) => !element.isHidden).toList();
           }
-
 
           return SearchableSelectionScreen(
             title: 'Exercises',

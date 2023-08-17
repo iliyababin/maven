@@ -8,7 +8,7 @@ class AppThemeOption {
   }) : _colorOptions = color;
 
   const AppThemeOption.empty()
-      : _colorOptions = const AppThemeColor.empty();
+      : _colorOptions = const AppThemeColor.dark();
 
   final AppThemeColor _colorOptions;
 

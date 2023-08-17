@@ -11,15 +11,20 @@ class SliverBoxWidget extends StatefulWidget {
   const SliverBoxWidget({
     Key? key,
     this.type = SliverBoxType.empty,
+    this.side = false,
+    this.text = '',
   }) : super(key: key);
 
   final SliverBoxType type;
+  final bool side;
+  final String text;
 
   @override
-  State<SliverBoxWidget>  createState() => _SliverBoxWidgetState();
+  State<SliverBoxWidget> createState() => _SliverBoxWidgetState();
 }
 
-class _SliverBoxWidgetState extends State<SliverBoxWidget> with SingleTickerProviderStateMixin {
+class _SliverBoxWidgetState extends State<SliverBoxWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -47,34 +52,39 @@ class _SliverBoxWidgetState extends State<SliverBoxWidget> with SingleTickerProv
       ),
     );
 
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 100,
-        key: const ValueKey('add'),
-        decoration: BoxDecoration(
-          color: T(context).color.surface,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedBuilder(
-                animation: animation,
-                builder: (BuildContext context, Widget? child) {
-                  final int dotsCount = animation.value.toInt() + 1;
-                  final String dots = '.' * dotsCount;
-                  return Text(
-                    widget.type == SliverBoxType.empty
-                        ? 'Empty'
-                        : 'Loading$dots',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                },
-              ),
-            ],
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(
+        horizontal: widget.side ? T(context).space.large : 0,
+      ),
+      sliver: SliverToBoxAdapter(
+        child: Container(
+          height: 100,
+          key: const ValueKey('add'),
+          decoration: BoxDecoration(
+            color: T(context).color.surface,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedBuilder(
+                  animation: animation,
+                  builder: (BuildContext context, Widget? child) {
+                    final int dotsCount = animation.value.toInt() + 1;
+                    final String dots = '.' * dotsCount;
+                    return Text(
+                      widget.type == SliverBoxType.empty
+                          ? widget.text.isEmpty ? 'Empty' : widget.text
+                          : 'Loading$dots',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

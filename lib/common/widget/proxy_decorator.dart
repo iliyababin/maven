@@ -6,7 +6,7 @@ Widget ProxyDecorator(widget, index, animation, context) {
   final scale = Tween<double>(begin: 1, end: 1.05).animate(animation);
   final shadow = BoxShadow(
     color: T(context).color.shadow,
-    blurRadius: 8,
+    blurRadius: 4,
     offset: const Offset(0, 0),
   );
   return ScaleTransition(

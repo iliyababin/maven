@@ -46,6 +46,8 @@ dependencies:
   flutter_svg: ^2.0.7
   table_calendar: ^3.0.9
   mockito: ^5.4.2
+  sliver_tools: ^0.2.12
+  dynamic_color: ^1.6.6
 
 dev_dependencies:
   flutter_test:

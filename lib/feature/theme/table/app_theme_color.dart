@@ -46,7 +46,7 @@ class AppThemeColor {
     required this.cooldown,
   });
 
-  const AppThemeColor.empty() : this(
+  const AppThemeColor.dark() : this(
     appThemeId: 0,
     primary: Colors.green,
     onPrimary: Colors.red,
@@ -66,20 +66,20 @@ class AppThemeColor {
     inversePrimary: Colors.red,
     inverseSurface: Colors.red,
     onInverseSurface: Colors.red,
-    success: Colors.red,
-    onSuccess: Colors.red,
-    successContainer: Colors.red,
-    onSuccessContainer: Colors.red,
-    error: Colors.red,
-    onError: Colors.red,
-    errorContainer: Colors.red,
-    onErrorContainer: Colors.red,
-    shadow: Colors.red,
-    warmup: Colors.red,
-    drop: Colors.red,
-    cooldown: Colors.red,
+    success: const MaterialColor(0xFF2DCD70, {}),
+    onSuccess: const MaterialColor(0xff121212, {}),
+    successContainer: const MaterialColor(0xFF155A37, {}),
+    onSuccessContainer: const MaterialColor(0xFFFFFFFF, {}),
+    error: const MaterialColor(0xFFa63926, {}),
+    onError: const MaterialColor(0xFFffffff, {}),
+    errorContainer: const MaterialColor(0xFFffdad3, {}),
+    onErrorContainer: const MaterialColor(0xFF3f0300, {}),
+    shadow: const MaterialColor(0xFF101010, {}),
+    warmup: const MaterialColor(0xFFFFAE00, {}),
+    drop: const MaterialColor(0xFFBD4ADD, {}),
+    cooldown: const MaterialColor(0xFF21F3F3, {}),
   );
-  
+
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
   final int? id;

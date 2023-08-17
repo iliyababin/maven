@@ -1,6 +1,8 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/database/database.dart';
 
 import '../model/app_theme_option.dart';
 
@@ -20,8 +22,49 @@ class AppTheme extends Equatable {
 
   const AppTheme.empty() : this(
     name: '',
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
   );
+
+  AppTheme.fromSystem(ColorScheme colorScheme) : this(
+    name: 'System',
+    brightness: colorScheme.brightness,
+    option: AppThemeOption(
+      color: AppThemeColor.dark().copyWith(
+        background: colorScheme.background,
+        inversePrimary: colorScheme.inversePrimary,
+        inverseSurface: colorScheme.inverseSurface,
+        onBackground: colorScheme.onBackground,
+        error: colorScheme.error,
+        errorContainer: colorScheme.errorContainer,
+        onError: colorScheme.onError,
+        onErrorContainer: colorScheme.onErrorContainer,
+        onInverseSurface: colorScheme.onInverseSurface,
+        onPrimary: colorScheme.onPrimary,
+        onPrimaryContainer: colorScheme.onPrimaryContainer,
+        onSecondary: colorScheme.onSecondary,
+        onSecondaryContainer: colorScheme.onSecondaryContainer,
+        onSurface: colorScheme.onSurface,
+        onSurfaceVariant: colorScheme.onSurfaceVariant,
+        outline: colorScheme.outline,
+        outlineVariant: colorScheme.outlineVariant,
+        primary: colorScheme.primary,
+        primaryContainer: colorScheme.primaryContainer,
+        secondary: colorScheme.secondary,
+        secondaryContainer: colorScheme.secondaryContainer,
+        shadow: colorScheme.shadow,
+        surface: darken(colorScheme.secondaryContainer, 0.0001),
+      ),
+    )
+  );
+
+  static Color darken(Color color, [double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+
+    final hsl = HSLColor.fromColor(color);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+
+    return hslDark.toColor();
+  }
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
@@ -43,7 +86,6 @@ class AppTheme extends Equatable {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       appBarTheme: AppBarTheme(
         centerTitle: true,
-        elevation: 0,
         backgroundColor: option.color.background,
         foregroundColor: option.color.onBackground,
         iconTheme: IconThemeData(
@@ -107,7 +149,7 @@ class AppTheme extends Equatable {
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(
-            Size(double.infinity, 44),
+            const Size(double.infinity, 44),
           ),
           foregroundColor: MaterialStateProperty.all(
             option.color.onPrimary,
@@ -192,6 +234,7 @@ class AppTheme extends Equatable {
         labelSmall: option.textStyle.labelSmall,
       ),
       typography: Typography.material2021(),
+
       /*inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
           color: options.color.onSurfaceVariant,
@@ -239,4 +282,5 @@ class AppTheme extends Equatable {
         brightness,
         option,
       ];
+
 }

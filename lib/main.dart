@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -149,26 +150,31 @@ class Main extends StatelessWidget {
             return SettingProvider(
               setting: state.setting!,
               child: ThemeProvider(
+                useSystemTheme: state.setting!.useSystemDefaultTheme,
                 child: Builder(
                   builder: (context) {
-                    return MaterialApp(
-                      theme: InheritedThemeWidget.of(context).theme.data,
-                      title: 'Maven',
-                      localizationsDelegates: const [
-                        S.delegate,
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      locale: state.setting!.locale,
-                      supportedLocales: S.delegate.supportedLocales,
-                      home: const Stack(children: [
-                        Maven(),
-                        Visibility(
-                          visible: kDebugMode,
-                          child: DesignToolWidget(),
-                        ),
-                      ]),
+                    return DynamicColorBuilder(
+                      builder: (lightDynamic, darkDynamic) {
+                        return MaterialApp(
+                          theme: InheritedThemeWidget.of(context).theme.data,
+                          title: 'Maven',
+                          localizationsDelegates: const [
+                            S.delegate,
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          locale: state.setting!.locale,
+                          supportedLocales: S.delegate.supportedLocales,
+                          home: const Stack(children: [
+                            Maven(),
+                            Visibility(
+                              visible: kDebugMode,
+                              child: DesignToolWidget(),
+                            ),
+                          ]),
+                        );
+                      },
                     );
                   },
                 ),

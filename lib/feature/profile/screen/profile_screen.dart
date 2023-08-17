@@ -15,94 +15,89 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TitledScaffold(
       title: 'Profile',
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
-        child: CustomScrollView(
-          slivers: [
-            const Heading(
-              title: 'Account',
-              size: HeadingSize.small,
-            ),
-            const SliverToBoxAdapter(
-              child: UserWidget(),
-            ),
-            const Heading(
-              title: 'Basic',
-            ),
-            SliverToBoxAdapter(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Material(
-                  color: T(context).color.surface,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ExerciseSelectionScreen(
-                                selection: false,
-                              ),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.sports_gymnastics,
+      slivers: [
+        const Heading(
+          title: 'Account',
+          size: HeadingSize.small,
+        ),
+        const SliverToBoxAdapter(
+          child: UserWidget(),
+        ),
+        const Heading(
+          title: 'Basic',
+        ),
+        SliverToBoxAdapter(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Material(
+              color: T(context).color.surface,
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ExerciseSelectionScreen(
+                            selection: false,
+                          ),
                         ),
-                        title: Text(S.current.exercises),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const EquipmentScreen(),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.home_repair_service_rounded,
-                        ),
-                        title: const Text(
-                          'Equipment',
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          // TODO: Add measureing feature
-                        },
-                        leading: const Icon(
-                          Icons.straighten,
-                        ),
-                        title: const Text(
-                          'Measure',
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SettingsScreen(),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.settings,
-                        ),
-                        title: const Text(
-                          'Settings',
-                        ),
-                      ),
-                    ],
+                      );
+                    },
+                    leading: const Icon(
+                      Icons.sports_gymnastics,
+                    ),
+                    title: Text(S.current.exercises),
                   ),
-                ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EquipmentScreen(),
+                        ),
+                      );
+                    },
+                    leading: const Icon(
+                      Icons.home_repair_service_rounded,
+                    ),
+                    title: const Text(
+                      'Equipment',
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      // TODO: Add measureing feature
+                    },
+                    leading: const Icon(
+                      Icons.straighten,
+                    ),
+                    title: const Text(
+                      'Measure',
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsScreen(),
+                        ),
+                      );
+                    },
+                    leading: const Icon(
+                      Icons.settings,
+                    ),
+                    title: const Text(
+                      'Settings',
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

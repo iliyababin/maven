@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/session/screen/session_calendar_screen.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../common/common.dart';
 import '../../theme/theme.dart';
@@ -13,13 +14,12 @@ class ProgressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TitledScaffold(
       title: 'Progress',
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
-        child: BlocBuilder<SessionBloc, SessionState>(
+      slivers: [
+        BlocBuilder<SessionBloc, SessionState>(
           builder: (context, state) {
             if (state.status.isLoading) {
-              return const CustomScrollView(
-                slivers: [
+              return MultiSliver(
+                children: const [
                   Heading(
                     title: 'History',
                     size: HeadingSize.small,
@@ -30,8 +30,8 @@ class ProgressScreen extends StatelessWidget {
                 ],
               );
             } else if (state.status.isLoaded) {
-              return CustomScrollView(
-                slivers: [
+              return MultiSliver(
+                children: [
                   Heading(
                     title: 'History',
                     size: HeadingSize.small,
@@ -41,7 +41,8 @@ class ProgressScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SessionCalendarScreen(),
+                              builder: (context) =>
+                                  const SessionCalendarScreen(),
                             ),
                           );
                         },
@@ -71,7 +72,9 @@ class ProgressScreen extends StatelessWidget {
                                     'Newest',
                                   ),
                                   trailing: Icon(
-                                    state.sort == SessionSort.newest ? Icons.check : null,
+                                    state.sort == SessionSort.newest
+                                        ? Icons.check
+                                        : null,
                                   ),
                                 ),
                                 ListTile(
@@ -90,7 +93,9 @@ class ProgressScreen extends StatelessWidget {
                                     'Oldest',
                                   ),
                                   trailing: Icon(
-                                    state.sort == SessionSort.oldest ? Icons.check : null,
+                                    state.sort == SessionSort.oldest
+                                        ? Icons.check
+                                        : null,
                                   ),
                                 ),
                                 ListTile(
@@ -109,7 +114,9 @@ class ProgressScreen extends StatelessWidget {
                                     'Volume',
                                   ),
                                   trailing: Icon(
-                                    state.sort == SessionSort.volume ? Icons.check : null,
+                                    state.sort == SessionSort.volume
+                                        ? Icons.check
+                                        : null,
                                   ),
                                 ),
                               ],
@@ -136,7 +143,7 @@ class ProgressScreen extends StatelessWidget {
             }
           },
         ),
-      ),
+      ],
     );
   }
 }

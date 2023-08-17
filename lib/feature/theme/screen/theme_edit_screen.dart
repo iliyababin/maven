@@ -21,19 +21,20 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
     name: 'Custom',
     brightness: Brightness.light,
     option: AppThemeOption(
-      color: AppThemeColor.empty(),
+      color: AppThemeColor.dark(),
     ),
   );
 
-  Map<String, Color> colors = const AppThemeColor.empty().colors;
-
+  Map<String, Color> colors = const AppThemeColor.dark().colors;
 
   @override
   void initState() {
-    if(widget.theme != null) {
+    if (widget.theme != null) {
       theme = widget.theme!.copyWith(
         option: AppThemeOption(
-          color: widget.theme!.option.color.copyWith().setColors(widget.theme!.option.color.colors),
+          color: widget.theme!.option.color
+              .copyWith()
+              .setColors(widget.theme!.option.color.colors),
         ),
       );
       colors = theme.option.color.colors;
@@ -55,7 +56,6 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
                 context,
                 theme.copyWith(
                   option: AppThemeOption(
-
                     color: theme.option.color.setColors(colors),
                   ),
                 ),
@@ -67,44 +67,89 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: colors.length,
-        itemBuilder: (context, index) {
-          String name = colors.keys.elementAt(index);
-          Color color = colors.values.elementAt(index);
-          return ListTile(
-            onTap: () {
-              showBottomSheetDialog(
-                context: context,
-                child: ColorPicker(
-                  hexInputBar: true,
-                  enableAlpha: false,
-                  colorPickerWidth: 500,
-                  pickerAreaHeightPercent: 0.4,
-                  pickerColor: color,
-                  labelTypes: const [],
-                  onColorChanged: (value) {
-                    setState(() {
-                      colors[name] = value;
-                    });
-                  },
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.all(
+              T(context).space.large,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  T(context).shape.large,
                 ),
-              );
-            },
-            leading: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: color,
+                child: Material(
+                  color: T(context).color.surface,
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                      T(context).space.large,
+                    ),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        theme = theme.copyWith(
+                          name: value,
+                        );
+                      },
+                      initialValue: theme.name,
+                      onTapOutside: (event) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(0),
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintText: 'New Template',
+                        counterText: '',
+                      ),
+                      style: T(context).textStyle.headingLarge,
+                    ),
+                  ),
+                ),
               ),
             ),
-            title: Text(
-              name,
-              style: T(context).textStyle.bodyLarge,
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: colors.length,
+              (context, index) {
+                String name = colors.keys.elementAt(index);
+                Color color = colors.values.elementAt(index);
+                return ListTile(
+                  onTap: () {
+                    showBottomSheetDialog(
+                      context: context,
+                      child: ColorPicker(
+                        hexInputBar: true,
+                        enableAlpha: false,
+                        colorPickerWidth: 500,
+                        pickerAreaHeightPercent: 0.4,
+                        pickerColor: color,
+                        labelTypes: const [],
+                        onColorChanged: (value) {
+                          setState(() {
+                            colors[name] = value;
+                          });
+                        },
+                      ),
+                    );
+                  },
+                  leading: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: color,
+                    ),
+                  ),
+                  title: Text(
+                    name,
+                    style: T(context).textStyle.bodyLarge,
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

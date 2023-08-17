@@ -11,32 +11,6 @@ class SettingInitialize extends SettingEvent {
   List<Object?> get props => [];
 }
 
-class SettingChangeLocale extends SettingEvent {
-  const SettingChangeLocale({
-    required this.locale,
-  });
-
-  final Locale locale;
-
-  @override
-  List<Object?> get props => [
-    locale,
-  ];
-}
-
-class SettingChangeUnits extends SettingEvent {
-  const SettingChangeUnits({
-    required this.unit,
-  });
-
-  final Unit unit;
-
-  @override
-  List<Object?> get props => [
-    unit,
-  ];
-}
-
 class SettingUpdate extends SettingEvent {
   const SettingUpdate({
     required this.setting,

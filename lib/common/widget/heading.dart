@@ -66,7 +66,7 @@ class Heading extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
-                              color: T(context).color.primaryContainer,
+                              color: T(context).color.surface,
                             ),
                             child: IconButton(
                               padding: const EdgeInsets.all(2),

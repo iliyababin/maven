@@ -17,6 +17,8 @@ class BaseSetting extends Equatable {
     required this.themeId,
     required this.unit,
     required this.sessionWeeklyGoal,
+    required this.useSystemDefaultTheme,
+    required this.useDynamicColor,
   });
 
   const BaseSetting.base() : this(
@@ -26,6 +28,8 @@ class BaseSetting extends Equatable {
     themeId: 1,
     unit: Unit.imperial,
     sessionWeeklyGoal: 3,
+    useSystemDefaultTheme: true,
+    useDynamicColor: true,
   );
 
   @PrimaryKey()
@@ -46,6 +50,12 @@ class BaseSetting extends Equatable {
   @ColumnInfo(name: 'session_weekly_goal')
   final int sessionWeeklyGoal;
 
+  @ColumnInfo(name: 'use_system_default_theme')
+  final bool useSystemDefaultTheme;
+
+  @ColumnInfo(name: 'use_dynamic_color')
+  final bool useDynamicColor;
+
   BaseSetting copyWith({
     int? id,
     String? languageCode,
@@ -53,6 +63,8 @@ class BaseSetting extends Equatable {
     int? themeId,
     Unit? unit,
     int? sessionWeeklyGoal,
+    bool? useSystemDefaultTheme,
+    bool? useDynamicColor,
   }) {
     return BaseSetting(
       id: id ?? this.id,
@@ -61,6 +73,8 @@ class BaseSetting extends Equatable {
       themeId: themeId ?? this.themeId,
       unit: unit ?? this.unit,
       sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
+      useSystemDefaultTheme: useSystemDefaultTheme ?? this.useSystemDefaultTheme,
+      useDynamicColor: useDynamicColor ?? this.useDynamicColor,
     );
   }
 
@@ -72,5 +86,7 @@ class BaseSetting extends Equatable {
         themeId,
         unit,
         sessionWeeklyGoal,
+        useSystemDefaultTheme,
+        useDynamicColor,
       ];
 }

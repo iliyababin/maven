@@ -31,105 +31,102 @@ class _TemplateScreenState extends State<TemplateScreen> {
   Widget build(BuildContext context) {
     return TitledScaffold(
       title: 'Workout',
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: T(context).space.large),
-        child: CustomScrollView(
-          slivers: [
-            const Heading(
-              title: 'Quick Start',
-              size: HeadingSize.small,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+      slivers: [
+        const Heading(
+          title: 'Quick Start',
+          size: HeadingSize.small,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                FilledButton(
+                  onPressed: () {
+                    context.read<WorkoutBloc>().add(const WorkoutStateEmpty());
+                  },
+                  child: const Text(
+                    'Start an Empty Workout',
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
                   children: [
-                    FilledButton(
-                      onPressed: () {
-                        context.read<WorkoutBloc>().add(const WorkoutStateEmpty());
-                      },
-                      child: const Text(
-                        'Start an Empty Workout',
+                    Expanded(
+                      flex: 4,
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: T(context).color.surface,
+                          foregroundColor: T(context).color.primary,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RoutineEditScreen(
+                                onSubmit: (routine, exerciseGroups) {
+                                  context.read<TemplateBloc>().add(
+                                    TemplateCreate(
+                                      template: Template(
+                                        name: routine.name,
+                                        note: routine.note,
+                                        timestamp: DateTime.now(),
+                                        type: RoutineType.template,
+                                        data: TemplateData(
+                                          sort: -1,
+                                          routineId: -1,
+                                        ),
+                                        exerciseGroups: exerciseGroups,
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.post_add,
+                        ),
+                        label: const Text(
+                          'Create Template',
+                        ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 4,
-                          child: FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                              backgroundColor: T(context).color.surface,
-                              foregroundColor: T(context).color.primary,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RoutineEditScreen(
-                                    onSubmit: (routine, exerciseGroups) {
-                                      context.read<TemplateBloc>().add(
-                                            TemplateCreate(
-                                              template: Template(
-                                                name: routine.name,
-                                                note: routine.note,
-                                                timestamp: DateTime.now(),
-                                                type: RoutineType.template,
-                                                data: TemplateData(
-                                                  sort: -1,
-                                                  routineId: -1,
-                                                ),
-                                                exerciseGroups: exerciseGroups,
-                                              ),
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.post_add,
-                            ),
-                            label: const Text(
-                              'Create Template',
-                            ),
-                          ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 3,
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: T(context).color.surface,
+                          foregroundColor: T(context).color.primary,
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          flex: 3,
-                          child: FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                              backgroundColor: T(context).color.surface,
-                              foregroundColor: T(context).color.primary,
-                            ),
-                            onPressed: () {
-                              /*Navigator.push(
+                        onPressed: () {
+                          /*Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const ProgramBuilderScreen(),
                                 ),
                               );*/
-                            },
-                            icon: const Icon(
-                              Icons.polyline,
-                            ),
-                            label: const Text(
-                              'Program',
-                            ),
-                          ),
+                        },
+                        icon: const Icon(
+                          Icons.polyline,
                         ),
-                      ],
+                        label: const Text(
+                          'Program',
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ]),
+              ],
             ),
-            /* BlocBuilder<WorkoutBloc, WorkoutState>(
+          ]),
+        ),
+        /* BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if(!state.status.isError && state.pausedWorkouts.isNotEmpty) {
                   return const Heading(
@@ -139,7 +136,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 return const SliverToBoxAdapter();
               },
             ),*/
-            /*BlocBuilder<WorkoutBloc, WorkoutState>(
+        /*BlocBuilder<WorkoutBloc, WorkoutState>(
               builder: (context, state) {
                 if (state.status == WorkoutStatus.loading) {
                   return SliverToBoxAdapter(
@@ -187,22 +184,20 @@ class _TemplateScreenState extends State<TemplateScreen> {
                 }
               },
             ),*/
-            const Heading(
-              title: 'Templates',
-            ),
-            const TemplateListView(),
-            const Heading(
-              title: 'Programs',
-            ),
-            const ProgramListView(),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 200,
-              ),
-            ),
-          ],
+        const Heading(
+          title: 'Templates',
         ),
-      ),
+        const TemplateListView(),
+        const Heading(
+          title: 'Programs',
+        ),
+        const ProgramListView(),
+        const SliverToBoxAdapter(
+          child: SizedBox(
+            height: 300,
+          ),
+        ),
+      ],
     );
   }
 }

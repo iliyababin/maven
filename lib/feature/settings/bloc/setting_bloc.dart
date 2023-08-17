@@ -11,6 +11,7 @@ import '../../theme/theme.dart';
 import '../settings.dart';
 
 part 'setting_event.dart';
+
 part 'setting_state.dart';
 
 class SettingBloc extends Bloc<SettingEvent, SettingState> {
@@ -20,8 +21,6 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     required this.themeColorDao,
   }) : super(const SettingState()) {
     on<SettingInitialize>(_initialize);
-    on<SettingChangeLocale>(_changeLocale);
-    on<SettingChangeUnits>(_changeUnit);
     on<SettingUpdate>(_update);
   }
 
@@ -29,44 +28,14 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   final AppThemeDao themeDao;
   final AppThemeColorDao themeColorDao;
 
-  Future<void> _initialize(SettingInitialize event, Emitter<SettingState> emit) async {
+  Future<void> _initialize(
+      SettingInitialize event, Emitter<SettingState> emit) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
       setting: await _fetchSetting(),
       packageInfo: packageInfo,
-    ));
-  }
-
-
-  Future<void> _changeLocale(SettingChangeLocale event, Emitter<SettingState> emit) async {
-    emit(state.copyWith(
-      status: SettingStatus.loading,
-    ));
-
-    S.load(event.locale);
-
-    emit(state.copyWith(
-      status: SettingStatus.loaded,
-      setting: state.setting!.copyWith(
-        locale: event.locale,
-      ),
-    ));
-  }
-
-  Future<void> _changeUnit(SettingChangeUnits event, Emitter<SettingState> emit) async {
-    BaseSetting? setting = await settingDao.get();
-
-    await settingDao.modify(setting!.copyWith(
-      unit: event.unit,
-    ));
-
-    emit(state.copyWith(
-      status: SettingStatus.loaded,
-      setting: state.setting!.copyWith(
-        unit: event.unit,
-      ),
     ));
   }
 
@@ -79,7 +48,11 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       languageCode: event.setting.locale.languageCode,
       sessionWeeklyGoal: event.setting.sessionWeeklyGoal,
       themeId: event.setting.themeId,
+      useSystemDefaultTheme: event.setting.useSystemDefaultTheme,
+      useDynamicColor: event.setting.useDynamicColor,
     ));
+
+    S.load(event.setting.locale);
 
     emit(state.copyWith(
       status: SettingStatus.loaded,
@@ -90,18 +63,22 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   Future<Setting> _fetchSetting() async {
     BaseSetting? temp = await settingDao.get();
 
-    if(temp == null) {
+    if (temp == null) {
       await settingDao.add(const BaseSetting.base());
     }
 
     BaseSetting? setting = await settingDao.get();
 
-
     return Setting(
       unit: setting!.unit,
-      locale: Locale(setting.languageCode, setting.countryCode),
+      locale: Locale(
+        setting.languageCode,
+        setting.countryCode,
+      ),
       sessionWeeklyGoal: setting.sessionWeeklyGoal,
       themeId: setting.themeId,
+      useSystemDefaultTheme: setting.useSystemDefaultTheme,
+      useDynamicColor: setting.useDynamicColor,
     );
   }
 }

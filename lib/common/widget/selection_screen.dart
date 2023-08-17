@@ -65,115 +65,121 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
   Widget build(BuildContext context) {
     List<Type> items = widget.items.where((item) => item.toString().toLowerCase().contains(query.toLowerCase())).toList();
     return Scaffold(
-      appBar: AppBar(
-        title: typing
-            ? TextField(
-                focusNode: searchNode,
-                onChanged: (value) {
-                  setState(() {
-                    query = value;
-                  });
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Search',
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
-              )
-            : Text(
-                widget.title,
-              ),
-        actions: [
-          !isSelecting
-          ? typing
-              ? IconButton(
-            onPressed: () {
-              setState(() {
-                searchNode.unfocus();
-                query = '';
-                typing = false;
-              });
-            },
-            icon: const Icon(
-              Icons.close,
-            ),
-          )
-              : IconButton(
-            onPressed: () {
-              setState(() {
-                searchNode.requestFocus();
-                typing = true;
-              });
-            },
-            icon: const Icon(
-              Icons.search,
-            ),
-          )
-          : Container(),
-          if(!isSelecting)
-            ...widget.actions,
-          if(widget.onSelected != null && isSelecting)
-            TextButton(
-              onPressed: () {
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: typing
+                ? TextField(
+              focusNode: searchNode,
+              onChanged: (value) {
                 setState(() {
-                  widget.onSelected!(selectedItems);
-                  selectedItems.clear();
-                  isSelecting = false;
+                  query = value;
                 });
               },
-              child: Text(
-                widget.selectedActionText,
-                style: T(context).textStyle.labelMedium.copyWith(
-                  color: T(context).color.error,
-                  fontWeight: FontWeight.bold,
+              decoration: const InputDecoration(
+                hintText: 'Search',
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+              ),
+            )
+                : Text(
+              widget.title,
+            ),
+            actions: [
+              !isSelecting
+                  ? typing
+                  ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    searchNode.unfocus();
+                    query = '';
+                    typing = false;
+                  });
+                },
+                icon: const Icon(
+                  Icons.close,
                 ),
-              ),
+              )
+                  : IconButton(
+                onPressed: () {
+                  setState(() {
+                    searchNode.requestFocus();
+                    typing = true;
+                  });
+                },
+                icon: const Icon(
+                  Icons.search,
+                ),
+              )
+                  : Container(),
+              if(!isSelecting)
+                ...widget.actions,
+              if(widget.onSelected != null && isSelecting)
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.onSelected!(selectedItems);
+                      selectedItems.clear();
+                      isSelecting = false;
+                    });
+                  },
+                  child: Text(
+                    widget.selectedActionText,
+                    style: T(context).textStyle.labelMedium.copyWith(
+                      color: T(context).color.error,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: items.length,
+              (context, index) {
+                Type item = items[index];
+                return InkWell(
+                  onTap: widget.onSelected == null ? null : () {
+                    if (isSelecting) {
+                      setState(() {
+                        if (!selectedItems.remove(item)) {
+                          selectedItems.add(item);
+                        }
+
+                        if (selectedItems.isNotEmpty) {
+                          isSelecting = true;
+                        } else {
+                          isSelecting = false;
+                        }
+                      });
+                    }
+                  },
+                  onLongPress: widget.onSelected == null ? null : () {
+                    setState(() {
+                      if (!selectedItems.remove(item)) {
+                        selectedItems.add(item);
+                      }
+
+                      if (selectedItems.isNotEmpty) {
+                        isSelecting = true;
+                      } else {
+                        isSelecting = false;
+                      }
+                    });
+                  },
+                  child: IgnorePointer(
+                    ignoring: isSelecting,
+                    child: widget.itemBuilder(
+                      context,
+                      item,
+                      selectedItems.contains(item),
+                    ),
+                  ),
+                );
+              },
             ),
+          ),
         ],
-      ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return InkWell(
-            onTap: widget.onSelected == null ? null : () {
-              if (isSelecting) {
-                setState(() {
-                  if (!selectedItems.remove(item)) {
-                    selectedItems.add(item);
-                  }
-
-                  if (selectedItems.isNotEmpty) {
-                    isSelecting = true;
-                  } else {
-                    isSelecting = false;
-                  }
-                });
-              }
-            },
-            onLongPress: widget.onSelected == null ? null : () {
-              setState(() {
-                if (!selectedItems.remove(item)) {
-                  selectedItems.add(item);
-                }
-
-                if (selectedItems.isNotEmpty) {
-                  isSelecting = true;
-                } else {
-                  isSelecting = false;
-                }
-              });
-            },
-            child: IgnorePointer(
-              ignoring: isSelecting,
-              child: widget.itemBuilder(
-                context,
-                item,
-                selectedItems.contains(item),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

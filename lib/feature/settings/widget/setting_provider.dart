@@ -19,20 +19,12 @@ class SettingProvider extends StatefulWidget {
 }
 
 class _SettingProviderState extends State<SettingProvider> {
-  late Setting _setting;
-
-  @override
-  void initState() {
-    _setting = widget.setting;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
         return InheritedSettingWidget(
-          setting: _setting,
+          setting: state.setting!,
           child: widget.child,
         );
       },
