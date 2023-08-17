@@ -165,8 +165,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     try{
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         dialogTitle: 'Import Data',
-        allowedExtensions: ['csv'],
-        type: FileType.custom,
       );
       if (result == null) throw Exception('No file selected');
       String fileData = await File(result.files.single.path!).readAsString();

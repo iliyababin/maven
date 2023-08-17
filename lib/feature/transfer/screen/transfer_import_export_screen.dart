@@ -12,10 +12,12 @@ class TransferImportExportScreen extends StatefulWidget {
   const TransferImportExportScreen({Key? key}) : super(key: key);
 
   @override
-  State<TransferImportExportScreen> createState() => _TransferImportExportScreenState();
+  State<TransferImportExportScreen> createState() =>
+      _TransferImportExportScreenState();
 }
 
-class _TransferImportExportScreenState extends State<TransferImportExportScreen> with SingleTickerProviderStateMixin {
+class _TransferImportExportScreenState extends State<TransferImportExportScreen>
+    with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -79,7 +81,9 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                           ),
                           ListTile(
                             onTap: () async {
-                              context.read<SessionBloc>().add(const SessionImport(
+                              context
+                                  .read<SessionBloc>()
+                                  .add(const SessionImport(
                                     source: TransferSource.strong,
                                   ));
                             },
@@ -116,19 +120,20 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                   listener: (context, state) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text(
-                            state.message,
-                          ),
-                          action: SnackBarAction(
-                            label: 'COPY',
-                            onPressed: () {
-                              Clipboard.setData(
-                                ClipboardData(
-                                  text: state.message,
-                                ),
-                              );
-                            },
-                          )),
+                        content: Text(
+                          state.message,
+                        ),
+                        action: SnackBarAction(
+                          label: 'COPY',
+                          onPressed: () {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: state.message,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     );
                   },
                   builder: (context, state) {
@@ -137,7 +142,7 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                         type: SliverBoxType.loading,
                       );
                     } else {
-                      if(state.imports.isEmpty) {
+                      if (state.imports.isEmpty) {
                         return const SliverBoxWidget(
                           type: SliverBoxType.empty,
                         );
@@ -156,11 +161,14 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                                   Import import = state.imports[index];
                                   return ListTile(
                                     onTap: () {},
-                                    leading: const Icon(
-                                      Icons.description_outlined,
+                                    leading: Image.asset(
+                                      import.source.imagePath,
+                                      height: 24,
                                     ),
                                     title: Text(
-                                      DateFormat('yMd').add_jm().format(import.timestamp),
+                                      DateFormat('yMd')
+                                          .add_jm()
+                                          .format(import.timestamp),
                                     ),
                                   );
                                 },

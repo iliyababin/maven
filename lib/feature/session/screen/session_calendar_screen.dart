@@ -26,6 +26,11 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Calendar',
+        ),
+      ),
       body: BlocBuilder<SessionBloc, SessionState>(
         builder: (context, state) {
           if (state.status.isLoading) {
@@ -43,9 +48,9 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
                 .toList();
             return CustomScrollView(
               slivers: [
-                SliverAppBar.large(
-                  title: const Text(
-                    'Calendar',
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: T(context).space.large,
                   ),
                 ),
                 SliverPadding(
