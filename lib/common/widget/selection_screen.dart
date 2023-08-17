@@ -67,7 +67,7 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
+          SliverAppBar(
             title: typing
                 ? TextField(
               focusNode: searchNode,
@@ -85,6 +85,7 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
                 : Text(
               widget.title,
             ),
+            floating: true,
             actions: [
               !isSelecting
                   ? typing

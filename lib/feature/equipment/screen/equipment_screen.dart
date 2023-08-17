@@ -11,15 +11,13 @@ class EquipmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Equipment',
+        )
+      ),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.medium(
-            leading: BackButton(),
-            title: const Text(
-              'Equipment',
-            ),
-            centerTitle: false,
-          ),
           BlocBuilder<EquipmentBloc, EquipmentState>(
             builder: (context, state) {
               if (state.status == EquipmentStatus.loading) {

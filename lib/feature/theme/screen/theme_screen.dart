@@ -19,13 +19,13 @@ class _ThemeScreenState extends State<ThemeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Theme',
+        ),
+      ),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
-            title: const Text(
-              'Theme',
-            ),
-          ),
           const Heading(
             title: 'General',
             size: HeadingSize.small,
@@ -159,9 +159,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
                                         ),
                                       ).then((value) {
                                         if (value != null) {
-                                          context.read<ThemeBloc>().add(ThemeUpdate(
-                                            theme: value,
-                                          ));
+                                          context
+                                              .read<ThemeBloc>()
+                                              .add(ThemeUpdate(
+                                                theme: value,
+                                              ));
                                         }
                                       });
                                     },
