@@ -19,6 +19,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     on<ThemeAdd>(_add);
     on<ThemeChange>(_change);
     on<ThemeUpdate>(_update);
+    on<ThemeDelete>(_delete);
   }
 
   final AppThemeDao themeDao;
@@ -78,6 +79,13 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   Future<void> _update(ThemeUpdate event, Emitter<ThemeState> emit) async {
     await themeDao.modify(event.theme);
     await themeColorDao.modify(event.theme.option.color);
+    emit(state.copyWith(
+      themes: await _fetchThemes(),
+    ));
+  }
+
+  Future<void> _delete(ThemeDelete event, Emitter<ThemeState> emit) async {
+    await themeDao.remove(event.theme);
     emit(state.copyWith(
       themes: await _fetchThemes(),
     ));

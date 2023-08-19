@@ -106,7 +106,7 @@ const List<AppTheme> getDefaultAppThemes = [
         surface: Color(0xffe8f8d7),
         onSurface: Color(0xFF141e0d),
         outline: Color(0xFFC4C8BB),
-        outlineVariant: Color(0xFFC4C8BB),
+        outlineVariant: Color(0xFF878B7D),
         onSurfaceVariant: Color(0xFF757575),
         inversePrimary: Color(0xFF2196F3),
         inverseSurface: Color(0xFF282828),

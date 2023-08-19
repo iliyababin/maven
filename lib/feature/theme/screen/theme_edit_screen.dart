@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/common.dart';
@@ -32,8 +33,7 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
     if (widget.theme != null) {
       theme = widget.theme!.copyWith(
         option: AppThemeOption(
-          color: widget.theme!.option.color
-              .copyWith()
+          color: const AppThemeColor.dark().copyWith()
               .setColors(widget.theme!.option.color.colors),
         ),
       );
@@ -50,6 +50,81 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
           widget.theme == null ? 'Create' : 'Edit',
         ),
         actions: [
+          if (widget.theme != null)
+            IconButton(
+              onPressed: () {
+                showBottomSheetDialog(
+                  context: context,
+                  child: ListDialog(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          context.read<ThemeBloc>().add(ThemeAdd(
+                                theme: AppTheme(
+                                  brightness: theme.brightness,
+                                  name: '${theme.name} - Copy',
+                                  option: AppThemeOption(
+                                    color: theme.option.color,
+                                  ),
+                                ),
+                              ));
+                        },
+                        leading: const Icon(
+                          Icons.copy_outlined,
+                        ),
+                        title: const Text(
+                          'Duplicate',
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // TODO: share theme
+                        },
+                        leading: const Icon(
+                          Icons.share_rounded,
+                        ),
+                        title: const Text(
+                          'Share',
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          if (widget.theme!.id ==
+                              InheritedThemeWidget.of(context).theme.id) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Cannot delete current theme',
+                                ),
+                              ),
+                            );
+                          } else {
+                            context.read<ThemeBloc>().add(ThemeDelete(
+                                  theme: theme,
+                                ));
+                          }
+                        },
+                        leading: Icon(
+                          Icons.delete_rounded,
+                          color: T(context).color.error,
+                        ),
+                        title: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: T(context).color.error,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: const Icon(Icons.more_vert_rounded),
+            ),
           IconButton(
             onPressed: () {
               Navigator.pop(
@@ -80,29 +155,53 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
                 ),
                 child: Material(
                   color: T(context).color.surface,
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                      T(context).space.large,
-                    ),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        theme = theme.copyWith(
-                          name: value,
-                        );
-                      },
-                      initialValue: theme.name,
-                      onTapOutside: (event) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.all(0),
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintText: 'New Template',
-                        counterText: '',
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          showBottomSheetDialog(
+                            context: context,
+                            child: TextInputDialog(
+                              title: 'Name',
+                              initialValue: theme.name,
+                              keyboardType: TextInputType.name,
+                              onValueSubmit: (value) {
+                                setState(() {
+                                  theme = theme.copyWith(
+                                    name: value,
+                                  );
+                                });
+                              },
+                            ),
+                          );
+                        },
+                        title: const Text(
+                          'Name',
+                        ),
+                        trailing: Text(
+                          theme.name,
+                        ),
                       ),
-                      style: T(context).textStyle.headingLarge,
-                    ),
+                      ListTile(
+                        title: const Text(
+                          'Brightness',
+                        ),
+                        subtitle: Text(
+                          theme.brightness.name.capitalize,
+                        ),
+                        trailing: Switch(
+                          value: theme.brightness == Brightness.light,
+                          onChanged: (value) {
+                            setState(() {
+                              theme = theme.copyWith(
+                                brightness:
+                                    value ? Brightness.light : Brightness.dark,
+                              );
+                            });
+                          },
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -144,6 +243,14 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
                   title: Text(
                     name,
                     style: T(context).textStyle.bodyLarge,
+                  ),
+                  subtitle: Text(
+                    color.value
+                        .toRadixString(16)
+                        .substring(
+                          2,
+                        )
+                        .toUpperCase(),
                   ),
                 );
               },

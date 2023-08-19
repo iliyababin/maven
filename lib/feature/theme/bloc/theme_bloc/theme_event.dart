@@ -24,19 +24,6 @@ class ThemeAdd extends ThemeEvent {
       ];
 }
 
-class ThemeChange extends ThemeEvent {
-  const ThemeChange({
-    required this.theme,
-  });
-
-  final AppTheme theme;
-
-  @override
-  List<Object?> get props => [
-        theme,
-      ];
-}
-
 class ThemeUpdate extends ThemeEvent {
   const ThemeUpdate({
     required this.theme,
@@ -48,4 +35,30 @@ class ThemeUpdate extends ThemeEvent {
   List<Object?> get props => [
         theme,
       ];
+}
+
+class ThemeDelete extends ThemeEvent {
+  const ThemeDelete({
+    required this.theme,
+  });
+
+  final AppTheme theme;
+
+  @override
+  List<Object?> get props => [
+        theme,
+      ];
+}
+
+class ThemeChange extends ThemeEvent {
+  const ThemeChange({
+    required this.theme,
+  });
+
+  final AppTheme theme;
+
+  @override
+  List<Object?> get props => [
+    theme,
+  ];
 }

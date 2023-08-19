@@ -1,14 +1,21 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 
+import '../../../database/database.dart';
+
 @Entity(
   tableName: 'app_theme_color',
   primaryKeys: [
     'id',
   ],
   foreignKeys: [
-
-  ]
+    ForeignKey(
+      childColumns: ['app_theme_id'],
+      parentColumns: ['id'],
+      entity: AppTheme,
+      onDelete: ForeignKeyAction.cascade,
+    ),
+  ],
 )
 class AppThemeColor {
   const AppThemeColor({
@@ -46,39 +53,40 @@ class AppThemeColor {
     required this.cooldown,
   });
 
-  const AppThemeColor.dark() : this(
-    appThemeId: 0,
-    primary: Colors.green,
-    onPrimary: Colors.red,
-    primaryContainer: Colors.red,
-    onPrimaryContainer: Colors.red,
-    secondary: Colors.red,
-    onSecondary: Colors.red,
-    secondaryContainer: Colors.red,
-    onSecondaryContainer: Colors.red,
-    background: Colors.blue,
-    onBackground: Colors.red,
-    surface: Colors.yellow,
-    onSurface: Colors.red,
-    onSurfaceVariant: Colors.red,
-    outline: Colors.red,
-    outlineVariant: Colors.red,
-    inversePrimary: Colors.red,
-    inverseSurface: Colors.red,
-    onInverseSurface: Colors.red,
-    success: const MaterialColor(0xFF2DCD70, {}),
-    onSuccess: const MaterialColor(0xff121212, {}),
-    successContainer: const MaterialColor(0xFF155A37, {}),
-    onSuccessContainer: const MaterialColor(0xFFFFFFFF, {}),
-    error: const MaterialColor(0xFFa63926, {}),
-    onError: const MaterialColor(0xFFffffff, {}),
-    errorContainer: const MaterialColor(0xFFffdad3, {}),
-    onErrorContainer: const MaterialColor(0xFF3f0300, {}),
-    shadow: const MaterialColor(0xFF101010, {}),
-    warmup: const MaterialColor(0xFFFFAE00, {}),
-    drop: const MaterialColor(0xFFBD4ADD, {}),
-    cooldown: const MaterialColor(0xFF21F3F3, {}),
-  );
+  const AppThemeColor.dark()
+      : this(
+          appThemeId: 0,
+          primary: Colors.green,
+          onPrimary: Colors.red,
+          primaryContainer: Colors.red,
+          onPrimaryContainer: Colors.red,
+          secondary: Colors.red,
+          onSecondary: Colors.red,
+          secondaryContainer: Colors.red,
+          onSecondaryContainer: Colors.red,
+          background: Colors.blue,
+          onBackground: Colors.red,
+          surface: Colors.yellow,
+          onSurface: Colors.red,
+          onSurfaceVariant: Colors.red,
+          outline: Colors.red,
+          outlineVariant: Colors.red,
+          inversePrimary: Colors.red,
+          inverseSurface: Colors.red,
+          onInverseSurface: Colors.red,
+          success: const MaterialColor(0xFF2DCD70, {}),
+          onSuccess: const MaterialColor(0xff121212, {}),
+          successContainer: const MaterialColor(0xFF155A37, {}),
+          onSuccessContainer: const MaterialColor(0xFFFFFFFF, {}),
+          error: const MaterialColor(0xFFa63926, {}),
+          onError: const MaterialColor(0xFFffffff, {}),
+          errorContainer: const MaterialColor(0xFFffdad3, {}),
+          onErrorContainer: const MaterialColor(0xFF3f0300, {}),
+          shadow: const MaterialColor(0xFF101010, {}),
+          warmup: const MaterialColor(0xFFFFAE00, {}),
+          drop: const MaterialColor(0xFFBD4ADD, {}),
+          cooldown: const MaterialColor(0xFF21F3F3, {}),
+        );
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')

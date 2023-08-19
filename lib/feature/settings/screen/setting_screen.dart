@@ -151,9 +151,9 @@ class SettingsScreen extends StatelessWidget {
                           title: const Text(
                             'Theme',
                           ),
-                          /*trailing: Text(
-                            setting.theme.name,
-                          ),*/
+                          trailing: Text(
+                            InheritedThemeWidget.of(context).theme.name,
+                          ),
                         ),
                         ListTile(
                           onTap: () {},
