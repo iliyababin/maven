@@ -46,22 +46,20 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             try {
               double original = double.parse(widget.data.value);
               double newValue = original + value;
-              if(newValue < 0) return;
+              if (newValue < 0) return;
               widget.data.value = newValue.toString();
 
               widget.onValueChanged(widget.data);
-              setState(() {
-
-              });
-            } catch (e) {
-            }
+              setState(() {});
+            } catch (e) {}
           },
         );
       default:
         switch (widget.data.fieldType) {
           case ExerciseFieldType.reps:
             return NumPadWidget(
-              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              value: double.parse(
+                  widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
                 if (value == 0) {
                   widget.data.value = '';
@@ -73,7 +71,8 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             );
           case ExerciseFieldType.distance:
             return NumPadWidget(
-              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              value: double.parse(
+                  widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
                 if (value == 0) {
                   widget.data.value = '';
@@ -85,7 +84,8 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             );
           case ExerciseFieldType.duration:
             return TimedPickerDialog(
-              initialValue: Timed.fromSeconds(int.parse(widget.data.value.isEmpty ? '0' : widget.data.value)),
+              initialValue: Timed.fromSeconds(int.parse(
+                  widget.data.value.isEmpty ? '0' : widget.data.value)),
               onSubmit: (value) {
                 widget.data.value = value.toSeconds().toString();
                 widget.onValueChanged(widget.data);
@@ -93,7 +93,8 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
             );
           default:
             return NumPadWidget(
-              value: double.parse(widget.data.value.isEmpty ? '0' : widget.data.value),
+              value: double.parse(
+                  widget.data.value.isEmpty ? '0' : widget.data.value),
               onValueChanged: (value) {
                 if (value == 0) {
                   widget.data.value = '';
@@ -109,76 +110,106 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: _buildScreen(_selectedTab),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MButton(
-                  onPressed: (){
-                    setState(() {
-                      _selectedTab = 0;
-                    });
-                  },
-                  width: 80,
-                  height: 65,
-                  child: Icon(
-                    Icons.history_rounded,
-                    color: _selectedTab == 0 ? null : T(context).color.onBackground,
-                    size: 30,
+    return SizedBox(
+      height: 320,
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildScreen(_selectedTab),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Material(
+                  color: T(context).color.background,
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        _selectedTab = 0;
+                      });
+                    },
+                    child: SizedBox(
+                      width: 80,
+                      child: Icon(
+                        Icons.history_rounded,
+                        color: _selectedTab == 0
+                            ? null
+                            : T(context).color.onBackground,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
-                if(Equipment.barbell == widget.equipment && widget.data.requiresBar)
-                  MButton(
-                    onPressed: (){
+              ),
+              if (Equipment.barbell == widget.equipment &&
+                  widget.data.requiresBar)
+              Expanded(
+                child: Material(
+                  color: T(context).color.background,
+                  child: InkWell(
+                    onTap: (){
                       setState(() {
                         _selectedTab = 1;
                       });
                     },
-                    width: 80,
-                    height: 65,
-                    child: Icon(
-                      Icons.calculate_rounded,
-                      color: _selectedTab == 1 ? null : T(context).color.onBackground,
-                      size: 30,
+                    child: SizedBox(
+                      width: 80,
+                      child: Icon(
+                        Icons.calculate_outlined,
+                        color: _selectedTab == 1
+                            ? null
+                            : T(context).color.onBackground,
+                        size: 30,
+                      ),
                     ),
                   ),
-                MButton(
-                  onPressed: (){
-                    setState(() {
-                      _selectedTab = 2;
-                    });
-                  },
-                  width: 80,
-                  height: 65,
-                  child: Icon(
-                    Icons.numbers_rounded,
-                    color: _selectedTab == 2 ? null : T(context).color.onBackground,
-                    size: 30,
+                ),
+              ),
+              Expanded(
+                child: Material(
+                  color: T(context).color.background,
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        _selectedTab = 2;
+                      });
+                    },
+                    child: SizedBox(
+                      width: 80,
+                      child: Icon(
+                        Icons.numbers_rounded,
+                        color: _selectedTab == 2
+                            ? null
+                            : T(context).color.onBackground,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
-                MButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  width: 80,
-                  height: 65,
-                  child: Icon(
-                    Icons.keyboard_hide_outlined,
-                    color: T(context).color.onBackground,
-                    size: 30,
+              ),
+              Expanded(
+                child: Material(
+                  color: T(context).color.background,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox(
+                      width: 80,
+                      child: Icon(
+                        Icons.keyboard_hide_outlined,
+                        color: T(context).color.onBackground,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        )
-      ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

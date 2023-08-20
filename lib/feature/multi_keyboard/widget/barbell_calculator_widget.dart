@@ -6,7 +6,7 @@ import '../../../database/database.dart';
 import '../../theme/theme.dart';
 import '../../equipment/equipment.dart';
 
-class BarbellCalculatorWidget extends StatelessWidget {
+class BarbellCalculatorWidget extends StatefulWidget {
   const BarbellCalculatorWidget({
     Key? key,
     this.barId,
@@ -19,6 +19,29 @@ class BarbellCalculatorWidget extends StatelessWidget {
   final Function(double weight) onWeightChanged;
 
   @override
+  State<BarbellCalculatorWidget> createState() => _BarbellCalculatorWidgetState();
+}
+
+class _BarbellCalculatorWidgetState extends State<BarbellCalculatorWidget> {
+  Widget buildActionChip(double value) {
+    return Theme(
+      data: Theme.of(context).copyWith(canvasColor: T(context).color.surface),
+      child: ActionChip(
+        side: BorderSide.none,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(T(context).shape.large),
+        ),
+        onPressed: () {
+          widget.onWeightChanged(value);
+        },
+        label: Text(
+          '${value.isNegative ? '-' : '+'} ${value.abs().truncateZeros}',
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<EquipmentBloc, EquipmentState>(builder: (context, state) {
       if (state.status.isLoading) {
@@ -26,13 +49,13 @@ class BarbellCalculatorWidget extends StatelessWidget {
       } else if (state.status.isLoaded) {
         double weight;
         try {
-          weight = double.parse(target);
+          weight = double.parse(widget.target);
         } catch (e) {
           weight = 0;
         }
 
         final double barWeight = state.bars.firstWhere(
-          (bar) => bar.id == barId,
+          (bar) => bar.id == widget.barId,
           orElse: () {
             return state.bars.first;
           },
@@ -51,26 +74,27 @@ class BarbellCalculatorWidget extends StatelessWidget {
         ui.add(Container(
           width: 40,
           height: 20,
-          color: const Color(0xFF4e5967),
+          color: T(context).color.inverseSurface,
           alignment: Alignment.center,
           child: Text(
             barWeight.truncateZeros,
             style: TextStyle(
-              color: T(context).color.onSurface,
+              color: T(context).color.inverseSurface.computeLuminance() > 0.5 ? Colors.black : Colors.white,
             ),
           ),
         ));
 
+
         ui.add(Container(
           width: 10,
           height: 35,
-          color: const Color(0xFF4e5967),
+          color: T(context).color.inverseSurface,
         ));
 
         ui.add(Container(
           width: 1,
           height: 20,
-          color: const Color(0xFF4e5967),
+          color: T(context).color.inverseSurface,
         ));
 
         for (Plate plate in plates) {
@@ -86,7 +110,9 @@ class BarbellCalculatorWidget extends StatelessWidget {
               quarterTurns: 3,
               child: Text(
                 plate.weight.toStringAsFixed(plate.weight.truncateToDouble() == plate.weight ? 0 : 1),
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: plate.color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                ),
               ),
             ),
           ));
@@ -94,7 +120,7 @@ class BarbellCalculatorWidget extends StatelessWidget {
           ui.add(Container(
             width: 1,
             height: 20,
-            color: const Color(0xFF4e5967),
+            color: T(context).color.inverseSurface,
           ));
         }
 
@@ -113,18 +139,13 @@ class BarbellCalculatorWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Plate Calculator',
+                    'Target: ${weight.truncateZeros}',
                     style: T(context).textStyle.titleLarge,
-                  ),
-                  Text(
-                    'Target: ${weight.toString()} | Possible: $possibleWeight ',
-                    style: T(context).textStyle.labelSmall,
                   ),
                 ],
               ),
             ),
-            Container(
-              height: 175,
+            Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -133,8 +154,8 @@ class BarbellCalculatorWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(
-                T(context).space.large,
+              padding: EdgeInsets.symmetric(
+                vertical: T(context).space.large,
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -142,53 +163,17 @@ class BarbellCalculatorWidget extends StatelessWidget {
                   direction: Axis.horizontal,
                   spacing: T(context).space.medium,
                   children: [
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(2.5);
-                      },
-                      label: const Text(
-                        '+ 2.5',
-                      ),
+                    SizedBox(
+                      width: T(context).space.medium,
                     ),
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(5);
-                      },
-                      label: const Text(
-                        '+ 5',
-                      ),
-                    ),
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(10);
-                      },
-                      label: const Text(
-                        '+ 10',
-                      ),
-                    ),
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(-2.5);
-                      },
-                      label: const Text(
-                        '- 2.5',
-                      ),
-                    ),
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(-5);
-                      },
-                      label: const Text(
-                        '- 5',
-                      ),
-                    ),
-                    ActionChip(
-                      onPressed: () {
-                        onWeightChanged(-10);
-                      },
-                      label: const Text(
-                        '- 10',
-                      ),
+                    buildActionChip(2.5),
+                    buildActionChip(5),
+                    buildActionChip(10),
+                    buildActionChip(-2.5),
+                    buildActionChip(-5),
+                    buildActionChip(-10),
+                    SizedBox(
+                      width: T(context).space.medium,
                     ),
                   ],
                 ),

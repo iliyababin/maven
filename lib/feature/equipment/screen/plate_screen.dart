@@ -14,23 +14,14 @@ class PlateScreen extends StatefulWidget {
 }
 
 class _PlateScreenState extends State<PlateScreen> {
-  bool isSelecting = false;
-  List<Plate> selectedPlates = [];
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EquipmentBloc, EquipmentState>(
-      listener: (context, state) {
-        if (state.status == EquipmentStatus.delete) {
-          setState(() {
-            isSelecting = false;
-            selectedPlates.clear();
-          });
-        }
-      },
+    return BlocBuilder<EquipmentBloc, EquipmentState>(
       builder: (context, state) {
         if (state.status == EquipmentStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else {
           List<Plate> plates = state.plates;
           return SearchableSelectionScreen(
@@ -60,15 +51,20 @@ class _PlateScreenState extends State<PlateScreen> {
                               context: context,
                               child: ConfirmationDialog(
                                 title: 'Reset Plates',
-                                subtitle: 'This will reset all plates to default',
+                                subtitle:
+                                    'This will reset all plates to default',
                                 confirmText: 'Reset',
                                 confirmButtonStyle: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(T(context).color.error),
-                                  foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      T(context).color.error),
+                                  foregroundColor: MaterialStateProperty.all(
+                                      T(context).color.onError),
                                 ),
                                 onSubmit: () {
                                   setState(() {
-                                    context.read<EquipmentBloc>().add(PlateReset());
+                                    context
+                                        .read<EquipmentBloc>()
+                                        .add(PlateReset());
                                   });
                                 },
                               ),
@@ -97,12 +93,20 @@ class _PlateScreenState extends State<PlateScreen> {
               )
             ],
             onSelected: (items) {
+              print(items);
               // TODO: Implement
             },
             itemBuilder: (context, plate, isSelected) {
               return ListTile(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditPlateScreen(plate: plate)));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditPlateScreen(
+                        plate: plate,
+                      ),
+                    ),
+                  );
                 },
                 leading: CircleAvatar(
                   backgroundColor: plate.color,
@@ -110,10 +114,13 @@ class _PlateScreenState extends State<PlateScreen> {
                 title: Text(
                   plate.weight.truncateZeros,
                 ),
-                tileColor: isSelected ? T(context).color.primaryContainer : null,
-                trailing: Text(
-                  plate.amount.toString(),
-                ),
+                tileColor:
+                    isSelected ? T(context).color.primaryContainer : null,
+                trailing: isSelected
+                    ? const Icon(
+                        Icons.check_outlined,
+                      )
+                    : null,
               );
             },
           );

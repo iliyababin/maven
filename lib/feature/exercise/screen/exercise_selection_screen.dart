@@ -22,7 +22,8 @@ class ExerciseSelectionScreen extends StatefulWidget {
   final bool selection;
 
   @override
-  State<ExerciseSelectionScreen> createState() => _ExerciseSelectionScreenState();
+  State<ExerciseSelectionScreen> createState() =>
+      _ExerciseSelectionScreenState();
 }
 
 class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
@@ -43,10 +44,11 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
           );
         } else if (state.status == ExerciseStatus.loaded) {
           List<Exercise> exercises = [];
-          if(showHidden) {
+          if (showHidden) {
             exercises = state.exercises;
           } else {
-            exercises = state.exercises.where((element) => !element.isHidden).toList();
+            exercises =
+                state.exercises.where((element) => !element.isHidden).toList();
           }
 
           return SearchableSelectionScreen(
@@ -63,7 +65,9 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const ExerciseAddScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ExerciseAddScreen()),
                             );
                           },
                           leading: const Icon(
@@ -81,7 +85,9 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                             Navigator.pop(context);
                           },
                           leading: Icon(
-                            showHidden ? Icons.visibility_off : Icons.visibility,
+                            showHidden
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           title: Text(
                             '${showHidden ? 'Hide' : 'Show'} Hidden',
@@ -97,9 +103,11 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
               ),
               if (widget.selection)
                 IconButton(
-                  onPressed: () {
-                    Navigator.pop(context, _selectedExercises);
-                  },
+                  onPressed: _selectedExercises.isEmpty
+                      ? null
+                      : () {
+                          Navigator.pop(context, _selectedExercises);
+                        },
                   icon: const Icon(
                     Icons.check_outlined,
                   ),
@@ -110,13 +118,15 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
               // TODO: implement
               print(items.length);
             },
-            itemBuilder: (BuildContext context, Exercise item, bool isSelected) {
+            itemBuilder:
+                (BuildContext context, Exercise item, bool isSelected) {
               return ListTile(
                 onTap: () {
                   if (widget.selection) {
                     setState(() {
                       if (!_selectedExercises.remove(item)) {
-                        if (!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                        if (!widget.single ||
+                            (widget.single && _selectedExercises.isEmpty)) {
                           _selectedExercises.add(item);
                         }
                       }
@@ -124,31 +134,44 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ExerciseDetailScreen(exercise: item)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ExerciseDetailScreen(exercise: item)),
                     );
                   }
                 },
                 leading: CircleAvatar(
                   child: Text(
-                    item.name.isEmpty ? '' : item.name.substring(0, 1).toUpperCase(),
+                    item.name.isEmpty
+                        ? ''
+                        : item.name.substring(0, 1).toUpperCase(),
                   ),
-                  backgroundColor: item.isHidden ? T(context).color.error : null,
-                  foregroundColor: item.isHidden ? T(context).color.onError : null,
+                  backgroundColor:
+                      item.isHidden ? T(context).color.error : null,
+                  foregroundColor:
+                      item.isHidden ? T(context).color.onError : null,
                 ),
-                tileColor: isSelected ? T(context).color.primaryContainer : item.isHidden ? T(context).color.errorContainer :
-                widget.selection && _selectedExercises.contains(item)
+                tileColor: isSelected
                     ? T(context).color.primaryContainer
-                    : null,
+                    : item.isHidden
+                        ? T(context).color.errorContainer
+                        : widget.selection && _selectedExercises.contains(item)
+                            ? T(context).color.primaryContainer
+                            : null,
                 title: Text(
                   item.name,
                   style: TextStyle(
-                    color: item.isHidden ? T(context).color.onErrorContainer : null,
+                    color: item.isHidden
+                        ? T(context).color.onErrorContainer
+                        : null,
                   ),
                 ),
                 subtitle: Text(
                   '${item.muscleGroup.name.capitalize} · ${item.muscle.name}',
                   style: TextStyle(
-                    color: item.isHidden ? T(context).color.onErrorContainer : null,
+                    color: item.isHidden
+                        ? T(context).color.onErrorContainer
+                        : null,
                   ),
                 ),
                 trailing: widget.selection

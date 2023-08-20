@@ -52,18 +52,18 @@ class AppTheme extends Equatable {
         secondary: colorScheme.secondary,
         secondaryContainer: colorScheme.secondaryContainer,
         shadow: colorScheme.shadow,
-        surface: darken(colorScheme.secondaryContainer, 0.0001),
+        surface: adjustBrightness(colorScheme.secondaryContainer, colorScheme.brightness),
       ),
     )
   );
 
-  static Color darken(Color color, [double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
+  static Color adjustBrightness(Color color, Brightness brightness) {
+    final brightnessFactor = brightness == Brightness.dark ? -0.1 : 0.01;
     final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+    final adjustedLightness = (hsl.lightness + brightnessFactor).clamp(0.0, 1.0);
+    final hslAdjusted = hsl.withLightness(adjustedLightness);
 
-    return hslDark.toColor();
+    return hslAdjusted.toColor();
   }
 
   @PrimaryKey(autoGenerate: true)
