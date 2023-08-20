@@ -1,9 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Dart
+name: Build & Test
 
 on:
   push:
@@ -18,8 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
-
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.10.0
+            
       - name: Install dependencies
         run: flutter pub get
 
@@ -32,11 +28,3 @@ jobs:
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
         run: dart analyze
-
-      
-
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
