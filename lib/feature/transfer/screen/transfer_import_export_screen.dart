@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:maven/feature/transfer/screen/transfer_detail_screen.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
@@ -160,7 +161,16 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                                 itemBuilder: (context, index) {
                                   Import import = state.imports[index];
                                   return ListTile(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TransferDetailScreen(
+                                            import: import,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                     leading: Image.asset(
                                       import.source.imagePath,
                                       height: 24,

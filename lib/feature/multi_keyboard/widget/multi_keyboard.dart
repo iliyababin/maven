@@ -40,7 +40,7 @@ class _MultiKeyboardState extends State<MultiKeyboard> {
         return Container();
       case 1:
         return BarbellCalculatorWidget(
-          barId: widget.barId!,
+          barId: widget.barId,
           target: widget.data.value,
           onWeightChanged: (value) {
             try {

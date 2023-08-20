@@ -9,12 +9,12 @@ import '../../equipment/equipment.dart';
 class BarbellCalculatorWidget extends StatelessWidget {
   const BarbellCalculatorWidget({
     Key? key,
-    required this.barId,
+    this.barId,
     required this.target,
     required this.onWeightChanged,
   }) : super(key: key);
 
-  final int barId;
+  final int? barId;
   final String target;
   final Function(double weight) onWeightChanged;
 
@@ -31,7 +31,12 @@ class BarbellCalculatorWidget extends StatelessWidget {
           weight = 0;
         }
 
-        final double barWeight = state.bars.firstWhere((bar) => bar.id == barId).weight;
+        final double barWeight = state.bars.firstWhere(
+          (bar) => bar.id == barId,
+          orElse: () {
+            return state.bars.first;
+          },
+        ).weight;
 
         List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, (weight - barWeight) / 2);
 

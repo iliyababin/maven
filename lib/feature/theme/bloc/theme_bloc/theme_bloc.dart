@@ -78,7 +78,17 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Future<void> _update(ThemeUpdate event, Emitter<ThemeState> emit) async {
     await themeDao.modify(event.theme);
-    await themeColorDao.modify(event.theme.option.color);
+    print('Trying to update with this color: ${event.theme.option.color.primary}');
+    print('Colors: ${event.theme.option.color}');
+
+    int status = await themeColorDao.modify(event.theme.option.color);
+    print('Status: $status');
+
+    AppThemeColor? color = await themeColorDao.get(event.theme.id!);
+    print('Updated color: ${color!.primary}');
+    print('Colors New: $color');
+
+
     emit(state.copyWith(
       themes: await _fetchThemes(),
     ));
@@ -93,6 +103,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Future<List<AppTheme>> _fetchThemes() async {
     List<AppTheme> themes = [];
+    print('getting Themes');
+
     for(AppTheme theme in await themeDao.getAll()) {
       AppThemeColor? color = await themeColorDao.get(theme.id!);
       themes.add(theme.copyWith(

@@ -324,4 +324,9 @@ class AppThemeColor {
       cooldown: cooldown ?? this.cooldown,
     );
   }
+
+  @override
+  String toString() {
+    return 'AppThemeColor{id: $id, appThemeId: $appThemeId, primary: $primary, onPrimary: $onPrimary, primaryContainer: $primaryContainer, onPrimaryContainer: $onPrimaryContainer, secondary: $secondary, onSecondary: $onSecondary, secondaryContainer: $secondaryContainer, onSecondaryContainer: $onSecondaryContainer, background: $background, onBackground: $onBackground, surface: $surface, onSurface: $onSurface, onSurfaceVariant: $onSurfaceVariant, outline: $outline, outlineVariant: $outlineVariant, inversePrimary: $inversePrimary, inverseSurface: $inverseSurface, onInverseSurface: $onInverseSurface, success: $success, onSuccess: $onSuccess, successContainer: $successContainer, onSuccessContainer: $onSuccessContainer, error: $error, onError: $onError, errorContainer: $errorContainer, onErrorContainer: $onErrorContainer, shadow: $shadow, warmup: $warmup, drop: $drop, cooldown: $cooldown}';
+  }
 }

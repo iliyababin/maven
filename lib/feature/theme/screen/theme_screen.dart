@@ -159,6 +159,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                                         ),
                                       ).then((value) {
                                         if (value != null) {
+                                          AppTheme theme = value;
                                           context
                                               .read<ThemeBloc>()
                                               .add(ThemeUpdate(

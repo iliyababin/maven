@@ -132,7 +132,7 @@ const List<AppTheme> getDefaultAppThemes = [
     brightness: Brightness.dark,
     option: AppThemeOption(
       color: AppThemeColor(
-        appThemeId: 2,
+        appThemeId: 4,
         primary: Color(0xFFFFAE00),
         onPrimary: Color(0xff121212),
         primaryContainer: Color(0xFF463C26),
