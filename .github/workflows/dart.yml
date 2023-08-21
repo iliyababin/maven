@@ -25,6 +25,8 @@ jobs:
       - name: Install localizations
         run: flutter pub run intl_utils:generate
         
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: dart analyze
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK
+        run: flutter build apk
