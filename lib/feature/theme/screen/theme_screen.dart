@@ -28,7 +28,6 @@ class _ThemeScreenState extends State<ThemeScreen> {
         slivers: [
           const Heading(
             title: 'General',
-            size: HeadingSize.small,
             side: true,
           ),
           SliverPadding(

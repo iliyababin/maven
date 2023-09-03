@@ -16,6 +16,7 @@ class SearchableSelectionScreen<Type> extends StatefulWidget {
     required this.title,
     required this.items,
     required this.itemBuilder,
+    this.selectionEnabled = false,
     this.actions = const [],
     this.selectedActionText = 'Delete',
     this.onSelected,
@@ -30,6 +31,9 @@ class SearchableSelectionScreen<Type> extends StatefulWidget {
   /// A callback function that takes a [BuildContext] and an item of type [T],
   /// and returns a widget that represents the item in the list.
   final Widget Function(BuildContext context, Type item, bool isSelected) itemBuilder;
+
+  /// Whether to enable selection of items.
+  final bool selectionEnabled;
 
   /// The additional actions to be displayed in the app bar.
   final List<Widget> actions;
@@ -155,7 +159,7 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
                       });
                     }
                   },
-                  onLongPress: widget.onSelected == null ? null : () {
+                  onLongPress: widget.selectionEnabled ? widget.onSelected == null ? null : () {
                     setState(() {
                       if (!selectedItems.remove(item)) {
                         selectedItems.add(item);
@@ -167,7 +171,7 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
                         isSelecting = false;
                       }
                     });
-                  },
+                  } : null,
                   child: IgnorePointer(
                     ignoring: isSelecting,
                     child: widget.itemBuilder(

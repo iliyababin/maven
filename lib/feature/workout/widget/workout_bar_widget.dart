@@ -42,9 +42,14 @@ class WorkoutBarWidget extends StatelessWidget {
               children: [
                 MButton(
                   onPressed: () async {
-                    List<Exercise>? exercises = await Navigator.push(context, MaterialPageRoute(builder: (context) => const ExerciseSelectionScreen()));
+                    List<Exercise>? exercises = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const ExerciseSelectionScreen()));
                     if (exercises != null) {
-                      List<ExerciseGroup> exerciseGroups = exercises.map((exercise) {
+                      List<ExerciseGroup> exerciseGroups =
+                          exercises.map((exercise) {
                         return ExerciseGroup(
                           timer: exercise.timer,
                           weightUnit: exercise.weightUnit,
@@ -129,11 +134,15 @@ class WorkoutBarWidget extends StatelessWidget {
                                 subtitle: 'All progress will be lost.',
                                 confirmText: 'Delete',
                                 confirmButtonStyle: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(T(context).color.error),
-                                  foregroundColor: MaterialStateProperty.all(T(context).color.onError),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      T(context).color.error),
+                                  foregroundColor: MaterialStateProperty.all(
+                                      T(context).color.onError),
                                 ),
                                 onSubmit: () {
-                                  context.read<WorkoutBloc>().add(const WorkoutDelete());
+                                  context
+                                      .read<WorkoutBloc>()
+                                      .add(const WorkoutDelete());
                                 },
                               ),
                             );
@@ -178,10 +187,12 @@ class WorkoutBarWidget extends StatelessWidget {
                     onReorder();
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(T(context).color.primaryContainer),
-                    foregroundColor: MaterialStateProperty.all(T(context).color.onPrimaryContainer),
+                    backgroundColor: MaterialStateProperty.all(
+                        T(context).color.primaryContainer),
+                    foregroundColor: MaterialStateProperty.all(
+                        T(context).color.onPrimaryContainer),
                   ),
-            icon: const Icon(
+                  icon: const Icon(
                     Icons.check_rounded,
                   ),
                   label: Text(
@@ -190,8 +201,12 @@ class WorkoutBarWidget extends StatelessWidget {
                 )
               : MButton(
                   onPressed: () {
-                    context.read<SessionBloc>().add(SessionAdd(workout: workout));
-                    context.read<WorkoutBloc>().add(WorkoutFinish(workout: workout));
+                    context
+                        .read<SessionBloc>()
+                        .add(SessionAdd(workout: workout));
+                    context
+                        .read<WorkoutBloc>()
+                        .add(WorkoutFinish(workout: workout));
                   },
                   height: 40,
                   width: 84,

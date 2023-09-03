@@ -52,7 +52,7 @@ class Heading extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: T(context).textStyle.titleMedium,
+                style: T(context).textStyle.titleLarge,
               ),
               if (actions.isNotEmpty)
                 Row(

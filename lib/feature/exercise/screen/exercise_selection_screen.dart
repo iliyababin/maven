@@ -118,6 +118,7 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
               // TODO: implement
               print(items.length);
             },
+            selectionEnabled: !widget.selection,
             itemBuilder:
                 (BuildContext context, Exercise item, bool isSelected) {
               return ListTile(
@@ -174,11 +175,15 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                         : null,
                   ),
                 ),
-                trailing: widget.selection
-                    ? Icon(
-                        _selectedExercises.contains(item) ? Icons.check : null,
+                trailing: isSelected
+                    ? const Icon(
+                        Icons.check,
                       )
-                    : null,
+                    : widget.selection
+                    ? Icon(
+                  _selectedExercises.contains(item) ? Icons.check : null,
+                )
+                    : null
               );
             },
           );

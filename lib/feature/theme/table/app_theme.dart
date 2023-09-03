@@ -58,7 +58,7 @@ class AppTheme extends Equatable {
   );
 
   static Color adjustBrightness(Color color, Brightness brightness) {
-    final brightnessFactor = brightness == Brightness.dark ? -0.1 : 0.01;
+    final brightnessFactor = brightness == Brightness.dark ? -0.0 : 0.01;
     final hsl = HSLColor.fromColor(color);
     final adjustedLightness = (hsl.lightness + brightnessFactor).clamp(0.0, 1.0);
     final hslAdjusted = hsl.withLightness(adjustedLightness);
@@ -85,7 +85,6 @@ class AppTheme extends Equatable {
       splashFactory: InkSparkle.splashFactory,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       appBarTheme: AppBarTheme(
-        centerTitle: true,
         backgroundColor: option.color.background,
         foregroundColor: option.color.onBackground,
         iconTheme: IconThemeData(
@@ -149,7 +148,7 @@ class AppTheme extends Equatable {
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all(
-            const Size(double.infinity, 44),
+            const Size(double.infinity, 46),
           ),
           foregroundColor: MaterialStateProperty.all(
             option.color.onPrimary,
