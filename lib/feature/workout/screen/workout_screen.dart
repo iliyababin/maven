@@ -162,74 +162,72 @@ class _WorkoutScreenState extends State<WorkoutScreen>
 
                           ExerciseGroup exerciseGroup =
                           workout.exerciseGroups[index];
-                          return ReorderableDelayedDragStartListener(
-                            index: index,
-                            key: ValueKey(workout.exerciseGroups[index].id),
-                            child: GestureDetector(
-                              onLongPress: !isReordering ? () {
+
+                          return GestureDetector(
+                            key: ValueKey(exerciseGroup.id),
+                            onLongPress: !isReordering ? () {
+                              setState(() {
+                                isReordering = true;
+                              });
+                            } : null,
+                            child: ExerciseGroupWidget(
+                              exercise: state.exercises.firstWhere(
+                                      (exercise) =>
+                                  exercise.id ==
+                                      exerciseGroup.exerciseId),
+                              exerciseGroup: exerciseGroup,
+                              exerciseSets: exerciseGroup.sets,
+                              controller: widget.timerController,
+                              collapsed: isReordering,
+                              onExerciseGroupUpdate: (value) {
                                 setState(() {
-                                  isReordering = true;
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups
+                                        ..[index] = value);
                                 });
-                              } : null,
-                              child: ExerciseGroupWidget(
-                                exercise: state.exercises.firstWhere(
-                                        (exercise) =>
-                                    exercise.id ==
-                                        exerciseGroup.exerciseId),
-                                exerciseGroup: exerciseGroup,
-                                exerciseSets: exerciseGroup.sets,
-                                controller: widget.timerController,
-                                collapsed: isReordering,
-                                onExerciseGroupUpdate: (value) {
-                                  setState(() {
-                                    workout = workout.copyWith(
-                                        exerciseGroups: workout.exerciseGroups
-                                          ..[index] = value);
-                                  });
-                                },
-                                onExerciseGroupDelete: () {
-                                  setState(() {
-                                    workout = workout.copyWith(
-                                        exerciseGroups: workout.exerciseGroups
-                                          ..removeAt(index));
-                                  });
-                                },
-                                onExerciseSetAdd: (value) {
-                                  setState(() {
-                                    workout = workout.copyWith(
-                                        exerciseGroups: workout.exerciseGroups
-                                          ..[index] = exerciseGroup.copyWith(
-                                              sets: exerciseGroup.sets
-                                                ..add(value)));
-                                  });
-                                },
-                                onExerciseSetUpdate: (value, index2) {
-                                  setState(() {
-                                    workout = workout.copyWith(
-                                        exerciseGroups: workout.exerciseGroups
-                                          ..[index] = exerciseGroup.copyWith(
-                                              sets: exerciseGroup.sets
-                                                ..[index2] = value));
-                                  });
-                                },
-                                onExerciseSetToggled: (value, index2) {
+                              },
+                              onExerciseGroupDelete: () {
+                                setState(() {
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups
+                                        ..removeAt(index));
+                                });
+                              },
+                              onExerciseSetAdd: (value) {
+                                setState(() {
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups
+                                        ..[index] = exerciseGroup.copyWith(
+                                            sets: exerciseGroup.sets
+                                              ..add(value)));
+                                });
+                              },
+                              onExerciseSetUpdate: (value, index2) {
+                                setState(() {
                                   workout = workout.copyWith(
                                       exerciseGroups: workout.exerciseGroups
                                         ..[index] = exerciseGroup.copyWith(
                                             sets: exerciseGroup.sets
                                               ..[index2] = value));
-                                },
-                                onExerciseSetDelete: (value, index2) {
-                                  setState(() {
-                                    workout = workout.copyWith(
-                                        exerciseGroups: workout.exerciseGroups
-                                          ..[index] = exerciseGroup.copyWith(
-                                              sets: exerciseGroup.sets
-                                                ..removeAt(index2)));
-                                  });
-                                },
-                                checkboxEnabled: true,
-                              ),
+                                });
+                              },
+                              onExerciseSetToggled: (value, index2) {
+                                workout = workout.copyWith(
+                                    exerciseGroups: workout.exerciseGroups
+                                      ..[index] = exerciseGroup.copyWith(
+                                          sets: exerciseGroup.sets
+                                            ..[index2] = value));
+                              },
+                              onExerciseSetDelete: (value, index2) {
+                                setState(() {
+                                  workout = workout.copyWith(
+                                      exerciseGroups: workout.exerciseGroups
+                                        ..[index] = exerciseGroup.copyWith(
+                                            sets: exerciseGroup.sets
+                                              ..removeAt(index2)));
+                                });
+                              },
+                              checkboxEnabled: true,
                             ),
                           );
                         },
