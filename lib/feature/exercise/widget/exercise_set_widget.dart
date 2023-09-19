@@ -129,6 +129,7 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   child: Checkbox(
                     value: _isChecked,
                     onChanged: (value) async {
+                      print(value);
                       if (exerciseSet.data
                           .where((element) => element.fieldType != ExerciseFieldType.bodyWeight)
                           .toList()

@@ -12,7 +12,6 @@ import '../../progress/screen/progress_screen.dart';
 import '../../template/template.dart';
 import '../../workout/workout.dart';
 
-
 class Maven extends StatefulWidget {
   const Maven({super.key});
 
@@ -43,7 +42,6 @@ class _MavenState extends State<Maven> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: T(context).color.background,
       body: SafeArea(child: BlocBuilder<WorkoutBloc, WorkoutState>(
@@ -81,7 +79,8 @@ class _MavenState extends State<Maven> {
                       topLeft: Radius.circular(T(context).shape.large),
                       topRight: Radius.circular(T(context).shape.large),
                     ),
-                    color: T(context).color.surface.balance(InheritedThemeWidget.of(context).theme.brightness),
+                    color: T(context).color.surface.balance(
+                        InheritedThemeWidget.of(context).theme.brightness),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -107,7 +106,8 @@ class _MavenState extends State<Maven> {
                             seconds: 1,
                           ),
                         ),
-                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
                           return Text(
                             'hey',
                             //workoutDuration(state.workout?.timestamp ?? DateTime.now()),
@@ -155,31 +155,35 @@ class _MavenState extends State<Maven> {
             );
           }
         },
-      )),
-      bottomNavigationBar: SizedBox(
-        height: (1 - panelPosition) * 80,
-        child: NavigationBar(
-          onDestinationSelected: _onItemTapped,
-          selectedIndex: _selectedIndex,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home),
-              label: 'Home',
+      ),),
+      bottomNavigationBar: BlocBuilder<WorkoutBloc, WorkoutState>(
+        builder: (context, state) {
+          return SizedBox(
+            height: state.status.isActive ? (1 - panelPosition) * 80 : 80,
+            child: NavigationBar(
+              onDestinationSelected: _onItemTapped,
+              selectedIndex: _selectedIndex,
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.fitness_center),
+                  label: 'Workout',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.stacked_line_chart),
+                  label: 'Progress',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
             ),
-            NavigationDestination(
-              icon: Icon(Icons.fitness_center),
-              label: 'Workout',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.stacked_line_chart),
-              label: 'Progress',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

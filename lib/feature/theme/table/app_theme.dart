@@ -171,7 +171,6 @@ class AppTheme extends Equatable {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: option.color.surface.balance(brightness),
-
         /*labelTextStyle: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
             return TextStyle(
