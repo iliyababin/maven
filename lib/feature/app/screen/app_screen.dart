@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/common.dart';
 import 'package:maven/feature/exercise/exercise.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../settings/settings.dart';
 import '../../theme/theme.dart';
 import '../../home/home.dart';
 import '../../profile/screen/profile_screen.dart';
@@ -31,6 +33,8 @@ class _MavenState extends State<Maven> {
   final ExerciseTimerController timerController = ExerciseTimerController();
   final PanelController _panelController = PanelController();
 
+  double panelPosition = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,6 +43,7 @@ class _MavenState extends State<Maven> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: T(context).color.background,
       body: SafeArea(child: BlocBuilder<WorkoutBloc, WorkoutState>(
@@ -52,6 +57,11 @@ class _MavenState extends State<Maven> {
                 topLeft: Radius.circular(15),
               ),
               minHeight: 80,
+              onPanelSlide: (position) {
+                setState(() {
+                  panelPosition = position;
+                });
+              },
               maxHeight: MediaQuery.of(context).size.height,
               backdropEnabled: true,
               controller: _panelController,
@@ -67,8 +77,11 @@ class _MavenState extends State<Maven> {
                 child: Container(
                   height: 70,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
-                    color: T(context).color.background,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(T(context).shape.large),
+                      topRight: Radius.circular(T(context).shape.large),
+                    ),
+                    color: T(context).color.surface.balance(InheritedThemeWidget.of(context).theme.brightness),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -144,6 +157,7 @@ class _MavenState extends State<Maven> {
         },
       )),
       bottomNavigationBar: SizedBox(
+        height: (1 - panelPosition) * 80,
         child: NavigationBar(
           onDestinationSelected: _onItemTapped,
           selectedIndex: _selectedIndex,

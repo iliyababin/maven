@@ -42,6 +42,13 @@ extension ShimmerColorExtension on Color {
   }
 }
 
+extension LightAdjustmentExtension on Color {
+  Color balance (Brightness brightness) {
+    final brightnessFactor = brightness == Brightness.dark ? 0.3 : 0.00001;
+    return _darkenColor(this, amount: brightnessFactor);
+  }
+}
+
 Color _darkenColor(Color color, {double amount = 0.1}) {
   assert(amount >= 0 && amount <= 1, 'Amount should be between 0 and 1');
 

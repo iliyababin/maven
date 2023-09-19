@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
+import 'package:maven/common/common.dart';
 import 'package:maven/database/database.dart';
 
 import '../model/app_theme_option.dart';
@@ -169,7 +170,9 @@ class AppTheme extends Equatable {
         iconColor: option.color.primary,
       ),
       navigationBarTheme: NavigationBarThemeData(
-        labelTextStyle: MaterialStateProperty.resolveWith((states) {
+        backgroundColor: option.color.surface.balance(brightness),
+
+        /*labelTextStyle: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
             return TextStyle(
               fontWeight: FontWeight.bold,
@@ -177,7 +180,7 @@ class AppTheme extends Equatable {
           } else {
             return TextStyle();
           }
-        }),
+        }),*/
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
