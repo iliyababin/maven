@@ -69,6 +69,7 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
   Widget build(BuildContext context) {
     List<Type> items = widget.items.where((item) => item.toString().toLowerCase().contains(query.toLowerCase())).toList();
     return Scaffold(
+
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
