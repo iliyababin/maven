@@ -3,28 +3,27 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../database/database.dart';
+import '../../../../database/database.dart';
+import '../../exercise.dart';
 
 part 'exercise_event.dart';
 part 'exercise_state.dart';
 
 class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
   ExerciseBloc({
-    required this.exerciseDao,
-    required this.exerciseFieldDao,
+    required this.exerciseService,
   }) : super(const ExerciseState()) {
     on<ExerciseInitialize>(_initialize);
     on<ExerciseAdd>(_add);
     on<ExerciseUpdate>(_update);
   }
 
-  final ExerciseDao exerciseDao;
-  final ExerciseFieldDao exerciseFieldDao;
+  final ExerciseService exerciseService;
 
   Future<void> _initialize(ExerciseInitialize event, emit) async {
     emit(state.copyWith(
       status: ExerciseStatus.loaded,
-      exercises: await _getExercises(),
+      exercises: await exerciseService.getAll(),
     ));
   }
 
@@ -33,18 +32,11 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
       status: ExerciseStatus.loading,
     ));
 
-    int exerciseId = await exerciseDao.add(event.exercise.copyWith(isCustom: true));
-
-    for (ExerciseField field in event.exercise.fields) {
-      await exerciseFieldDao.add(ExerciseField(
-        exerciseId: exerciseId,
-        type: field.type,
-      ));
-    }
+    Exercise exercise = await exerciseService.add(event.exercise);
 
     emit(state.copyWith(
       status: ExerciseStatus.loaded,
-      exercises: await _getExercises(),
+      exercises: [...state.exercises, exercise],
     ));
   }
 
@@ -53,21 +45,13 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
       status: ExerciseStatus.loading,
     ));
 
-    await exerciseDao.updateExercise(event.exercise);
+    Exercise exercise = await exerciseService.update(event.exercise);
 
     emit(state.copyWith(
       status: ExerciseStatus.loaded,
-      exercises: await _getExercises(),
+      exercises: [
+        for (Exercise e in state.exercises)
+          if (e.id == exercise.id) exercise else e],
     ));
-  }
-
-  Future<List<Exercise>> _getExercises() async {
-    List<Exercise> exercises = await exerciseDao.getExercises();
-
-    for (int i = 0; i < exercises.length; i++) {
-      exercises[i] = exercises[i].copyWith(fields: await exerciseFieldDao.getByExerciseId(exercises[i].id!));
-    }
-
-    return exercises;
   }
 }

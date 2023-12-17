@@ -48,6 +48,8 @@ dependencies:
   mockito: ^5.4.2
   sliver_tools: ^0.2.12
   dynamic_color: ^1.6.6
+  bloc_test: ^9.1.5
+  mocktail: ^1.0.2
 
 dev_dependencies:
   flutter_test:

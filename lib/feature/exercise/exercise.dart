@@ -1,4 +1,3 @@
-export 'bloc/exercise_bloc.dart';
 export 'model/exercise_bundle.dart';
 export 'model/exercise_group.dart';
 export 'model/exercise_set.dart';
@@ -15,3 +14,6 @@ export 'widget/exercise_row_widget.dart';
 export 'widget/exercise_set_data_widget.dart';
 export 'widget/exercise_set_widget.dart';
 export 'widget/exercise_timer_widget.dart';
+export 'bloc/bloc.dart';
+export 'model/model.dart';
+export 'service/service.dart';

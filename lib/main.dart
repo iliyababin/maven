@@ -66,6 +66,10 @@ class Main extends StatelessWidget {
       noteDao: db.noteDao,
     );
 
+    ExerciseService exerciseService = ExerciseService(
+      exerciseDao: db.exerciseDao,
+      exerciseFieldDao: db.exerciseFieldDao,
+    );
     TransferService strongService = TransferService(
       exercises: getDefaultExercises(),
     );
@@ -74,8 +78,7 @@ class Main extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (context) => ExerciseBloc(
-                  exerciseDao: db.exerciseDao,
-                  exerciseFieldDao: db.exerciseFieldDao,
+                  exerciseService: exerciseService,
                 )..add(const ExerciseInitialize())),
         BlocProvider(
             create: (context) => TemplateBloc(
@@ -147,6 +150,7 @@ class Main extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state.status.isLoaded) {
+            print("rebuilding verything");
             return SettingProvider(
               setting: state.setting!,
               child: ThemeProvider(
