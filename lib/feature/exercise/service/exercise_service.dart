@@ -15,7 +15,7 @@ class ExerciseService {
   /// Throws [Exception] if the provided exercise already has a non-null ID.
   Future<Exercise> add(Exercise exercise) async {
     if (exercise.id != null) {
-      throw Exception('Cannot add an exercise that already has an id');
+      throw Exception('Exercise already has an ID');
     }
 
     int exerciseId = await exerciseDao.add(exercise);
@@ -62,7 +62,7 @@ class ExerciseService {
   /// Note: This method will only add new fields to the database
   Future<Exercise> update(Exercise exercise) async {
     if (exercise.id == null) {
-      throw Exception('Cannot update an exercise that does not have an id');
+      throw Exception('Exercise that does not have an ID');
     }
 
     int rowsChanged = await exerciseDao.updateExercise(exercise);

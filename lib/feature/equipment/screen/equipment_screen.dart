@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../equipment.dart';
 
 class EquipmentScreen extends StatelessWidget {
@@ -12,10 +11,9 @@ class EquipmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Equipment',
-        )
-      ),
+          title: const Text(
+        'Equipment',
+      )),
       body: CustomScrollView(
         slivers: [
           BlocBuilder<EquipmentBloc, EquipmentState>(
@@ -31,57 +29,33 @@ class EquipmentScreen extends StatelessWidget {
                   delegate: SliverChildListDelegate([
                     ListTile(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const PlateScreen()));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => const PlateScreen()));
                       },
                       leading: const CircleAvatar(
-                        child: Text(
-                          'P',
-                        ),
+                        child: Text('P'),
                       ),
-                      title: Text(
-                        'Plates',
-                        style: T(context).textStyle.bodyLarge,
-                      ),
-                      subtitle: Text(
-                        '${plates.length}',
-                        style: T(context).textStyle.bodyMedium,
-                      ),
+                      title: const Text('Plates'),
+                      subtitle: Text('${plates.length}'),
                     ),
                     ListTile(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const BarScreen()));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => const BarScreen()));
                       },
                       leading: const CircleAvatar(
-                        child: Text(
-                          'B',
-                        ),
+                        child: Text('B'),
                       ),
-                      title: Text(
-                        'Bars',
-                        style: T(context).textStyle.bodyLarge,
-                      ),
-                      subtitle: Text(
-                        '${bars.length}',
-                        style: T(context).textStyle.bodyMedium,
-                      ),
+                      title: const Text('Bars'),
+                      subtitle: Text('${bars.length}'),
                     ),
                     ListTile(
                       onTap: () {},
                       leading: const CircleAvatar(
-                        child: Text(
-                          'M',
-                        ),
+                        child: Text('M'),
                       ),
-                      title: Text(
-                        'Machines',
-                        style: T(context).textStyle.bodyLarge,
-                      ),
-                      subtitle: Text(
-                        '0',
-                        style: T(context).textStyle.bodyMedium,
-                      ),
+                      title: const Text('Machines'),
+                      subtitle: const Text('0'),
                     ),
                   ]),
                 );
@@ -89,83 +63,6 @@ class EquipmentScreen extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Equipment',
-        ),
-      ),
-      body: BlocBuilder<EquipmentBloc, EquipmentState>(
-        builder: (context, state) {
-          if (state.status == EquipmentStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            final List<Plate> plates = state.plates;
-            final List<Bar> bars = state.bars;
-            return ListView(
-              children: [
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const PlateScreen()));
-                  },
-                  leading: const CircleAvatar(
-                    child: Text(
-                      'P',
-                    ),
-                  ),
-                  title: Text(
-                    'Plates',
-                    style: T(context).textStyle.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    '${plates.length}',
-                    style: T(context).textStyle.bodyMedium,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BarScreen()));
-                  },
-                  leading: const CircleAvatar(
-                    child: Text(
-                      'B',
-                    ),
-                  ),
-                  title: Text(
-                    'Bars',
-                    style: T(context).textStyle.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    '${bars.length}',
-                    style: T(context).textStyle.bodyMedium,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: const CircleAvatar(
-                    child: Text(
-                      'M',
-                    ),
-                  ),
-                  title: Text(
-                    'Machines',
-                    style: T(context).textStyle.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    '0',
-                    style: T(context).textStyle.bodyMedium,
-                  ),
-                ),
-              ],
-            );
-          }
-        },
       ),
     );
   }

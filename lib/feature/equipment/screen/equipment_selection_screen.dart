@@ -4,7 +4,10 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 
 class EquipmentSelectionScreen extends StatelessWidget {
-  const EquipmentSelectionScreen({Key? key, this.equipment,}) : super(key: key);
+  const EquipmentSelectionScreen({
+    Key? key,
+    this.equipment,
+  }) : super(key: key);
 
   final Equipment? equipment;
 
@@ -19,13 +22,9 @@ class EquipmentSelectionScreen extends StatelessWidget {
             Navigator.of(context).pop(item);
           },
           leading: CircleAvatar(
-            child: Text(
-              item.name[0],
-            ),
+            child: Text(item.name[0]),
           ),
-          title: Text(
-            item.name,
-          ),
+          title: Text(item.name),
           trailing: equipment == item ? const Icon(Icons.check) : null,
         );
       },

@@ -17,6 +17,14 @@ class Plate extends Equatable {
     required this.height,
   });
 
+  const Plate.empty()
+      : this(
+          weight: 0,
+          amount: 0,
+          color: Colors.red,
+          height: 1,
+        );
+
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
   final int? id;
@@ -33,6 +41,22 @@ class Plate extends Equatable {
   @ColumnInfo(name: 'height')
   final double height;
 
+  Plate copyWith({
+    int? id,
+    double? weight,
+    int? amount,
+    Color? color,
+    double? height,
+  }) {
+    return Plate(
+      id: id ?? this.id,
+      weight: weight ?? this.weight,
+      amount: amount ?? this.amount,
+      color: color ?? this.color,
+      height: height ?? this.height,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,
@@ -41,4 +65,9 @@ class Plate extends Equatable {
         color,
         height,
       ];
+
+  @override
+  String toString() {
+    return 'Plate { id: $id, weight: $weight, amount: $amount, color: $color, height: $height }';
+  }
 }

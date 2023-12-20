@@ -3,13 +3,11 @@ part of 'equipment_bloc.dart';
 enum EquipmentStatus {
   loading,
   loaded,
-  delete,
 }
 
 extension EquipmentStatusX on EquipmentStatus {
   bool get isLoading => this == EquipmentStatus.loading;
   bool get isLoaded => this == EquipmentStatus.loaded;
-  bool get isDelete => this == EquipmentStatus.delete;
 }
 
 class EquipmentState extends Equatable {
@@ -24,14 +22,14 @@ class EquipmentState extends Equatable {
   final List<Bar> bars;
 
   EquipmentState copyWith({
-    EquipmentStatus Function()? status,
-    List<Plate> Function()? plates,
-    List<Bar> Function()? bars,
+    EquipmentStatus? status,
+    List<Plate>? plates,
+    List<Bar>? bars,
   }) {
     return EquipmentState(
-      status: status != null ? status() : this.status,
-      plates: plates != null ? plates() : this.plates,
-      bars: bars != null ? bars() : this.bars,
+      status: status ?? this.status,
+      plates: plates ?? this.plates,
+      bars: bars ?? this.bars,
     );
   }
 

@@ -2,7 +2,6 @@ part of 'equipment_bloc.dart';
 
 abstract class EquipmentEvent extends Equatable {
   const EquipmentEvent();
-
 }
 
 class EquipmentInitialize extends EquipmentEvent {
@@ -12,17 +11,17 @@ class EquipmentInitialize extends EquipmentEvent {
   List<Object?> get props => [];
 }
 
-class PlateAddEmpty extends EquipmentEvent {
-  const PlateAddEmpty();
+class PlateAdd extends EquipmentEvent {
+  const PlateAdd(this.plate);
+
+  final Plate plate;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [plate];
 }
 
 class PlateUpdate extends EquipmentEvent {
-  const PlateUpdate({
-    required this.plate,
-  });
+  const PlateUpdate(this.plate);
 
   final Plate plate;
 
@@ -31,12 +30,12 @@ class PlateUpdate extends EquipmentEvent {
 }
 
 class PlateDelete extends EquipmentEvent {
-  const PlateDelete(this.plates);
+  const PlateDelete(this.plate);
 
-  final List<Plate> plates;
+  final Plate plate;
 
   @override
-  List<Object?> get props => [plates];
+  List<Object?> get props => [plate];
 }
 
 class PlateReset extends EquipmentEvent {
@@ -46,30 +45,26 @@ class PlateReset extends EquipmentEvent {
   List<Object?> get props => [];
 }
 
-class PlateStreamUpdatePlates extends EquipmentEvent {
-  const PlateStreamUpdatePlates({
-    required this.plates,
-  });
+class BarAdd extends EquipmentEvent {
+  const BarAdd(this.bar);
 
-  final List<Plate> plates;
+  final Bar bar;
 
   @override
-  List<Object?> get props => [plates];
+  List<Object?> get props => [bar];
 }
 
 class BarDelete extends EquipmentEvent {
   const BarDelete(this.bar);
 
-  final List<Bar> bar;
+  final Bar bar;
 
   @override
   List<Object?> get props => [bar];
 }
 
 class BarUpdate extends EquipmentEvent {
-  const BarUpdate({
-    required this.bar,
-  });
+  const BarUpdate(this.bar);
 
   final Bar bar;
 
@@ -83,22 +78,3 @@ class BarReset extends EquipmentEvent {
   @override
   List<Object?> get props => [];
 }
-
-class BarAddEmpty extends EquipmentEvent {
-  const BarAddEmpty();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class BarStreamUpdateBars extends EquipmentEvent {
-  const BarStreamUpdateBars({
-    required this.bars,
-  });
-
-  final List<Bar> bars;
-
-  @override
-  List<Object?> get props => [bars];
-}
-

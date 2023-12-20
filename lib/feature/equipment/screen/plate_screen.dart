@@ -19,11 +19,13 @@ class _PlateScreenState extends State<PlateScreen> {
     return BlocBuilder<EquipmentBloc, EquipmentState>(
       builder: (context, state) {
         if (state.status == EquipmentStatus.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         } else {
-          List<Plate> plates = state.plates;
+          final List<Plate> plates = state.plates;
           return SearchableSelectionScreen(
             title: 'Plates',
             items: plates,
@@ -36,14 +38,11 @@ class _PlateScreenState extends State<PlateScreen> {
                       children: [
                         ListTile(
                           onTap: () {
-                            context.read<EquipmentBloc>().add(PlateAddEmpty());
+                            context.read<EquipmentBloc>().add(const PlateAdd(Plate.empty()));
+                            Navigator.pop(context);
                           },
-                          leading: const Icon(
-                            Icons.add_rounded,
-                          ),
-                          title: Text(
-                            'Add',
-                          ),
+                          leading: const Icon(Icons.add_rounded),
+                          title: const Text('Add'),
                         ),
                         ListTile(
                           onTap: () async {
@@ -51,24 +50,12 @@ class _PlateScreenState extends State<PlateScreen> {
                               context: context,
                               child: ConfirmationDialog(
                                 title: 'Reset Plates',
-                                subtitle:
-                                    'This will reset all plates to default',
+                                subtitle: 'This will reset all plates to default',
                                 confirmText: 'Reset',
-                                confirmButtonStyle: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      T(context).color.error),
-                                  foregroundColor: MaterialStateProperty.all(
-                                      T(context).color.onError),
-                                ),
                                 onSubmit: () {
-                                  setState(() {
-                                    context
-                                        .read<EquipmentBloc>()
-                                        .add(PlateReset());
-                                  });
+                                  context.read<EquipmentBloc>().add(const PlateReset());
                                 },
                               ),
-                              onClose: () {},
                             );
                           },
                           leading: Icon(
@@ -79,7 +66,6 @@ class _PlateScreenState extends State<PlateScreen> {
                             'Reset',
                             style: TextStyle(
                               color: T(context).color.error,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -87,40 +73,17 @@ class _PlateScreenState extends State<PlateScreen> {
                     ),
                   );
                 },
-                icon: const Icon(
-                  Icons.more_vert_outlined,
-                ),
+                icon: const Icon(Icons.more_vert_outlined),
               )
             ],
-            onSelected: (items) {
-              print(items);
-              // TODO: Implement
-            },
             itemBuilder: (context, plate, isSelected) {
               return ListTile(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditPlateScreen(
-                        plate: plate,
-                      ),
-                    ),
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PlateEditScreen(plate: plate)));
                 },
-                leading: CircleAvatar(
-                  backgroundColor: plate.color,
-                ),
-                title: Text(
-                  plate.weight.truncateZeros,
-                ),
-                tileColor:
-                    isSelected ? T(context).color.primaryContainer : null,
-                trailing: isSelected
-                    ? const Icon(
-                        Icons.check_outlined,
-                      )
-                    : null,
+                leading: CircleAvatar(backgroundColor: plate.color),
+                title: Text(plate.weight.truncateZeros),
               );
             },
           );

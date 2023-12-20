@@ -2,30 +2,23 @@ import 'package:floor/floor.dart';
 
 import 'plate.dart';
 
-
 @dao
 abstract class PlateDao {
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int> addPlate(Plate plate);
+  @insert
+  Future<int> add(Plate plate);
 
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<List<int>> addPlates(List<Plate> plates);
+  @insert
+  Future<List<int>> addAll(List<Plate> plates);
 
   @Query('SELECT * FROM plate WHERE id = :plateId')
-  Future<Plate?> getPlate(int plateId);
-
-  @Query('SELECT * FROM plate')
-  Future<List<Plate>> getPlates();
+  Future<Plate?> get(int plateId);
 
   @Query('SELECT * FROM plate ORDER BY weight DESC')
-  Stream<List<Plate>> getPlatesAsStream();
+  Future<List<Plate>> getAll();
 
   @update
-  Future<void> updatePlate(Plate plate);
+  Future<int> modify(Plate plate);
 
   @delete
-  Future<void> deletePlates(List<Plate> plates);
-
-  @Query('DELETE FROM plate')
-  Future<void> deleteAllPlates();
+  Future<int> remove(Plate plate);
 }

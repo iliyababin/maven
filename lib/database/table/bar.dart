@@ -14,6 +14,12 @@ class Bar extends Equatable {
     required this.weight,
   });
 
+  const Bar.empty()
+      : this(
+          name: '',
+          weight: 0,
+        );
+
   @ColumnInfo(name: 'id')
   @PrimaryKey(autoGenerate: true)
   final int? id;
@@ -42,4 +48,9 @@ class Bar extends Equatable {
         name,
         weight,
       ];
+
+  @override
+  String toString() {
+    return 'Bar { id: $id, name: $name, weight: $weight }';
+  }
 }

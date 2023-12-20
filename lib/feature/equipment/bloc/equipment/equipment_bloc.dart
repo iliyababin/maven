@@ -1,95 +1,155 @@
-
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../database/database.dart';
+import '../../equipment.dart';
 
 part 'equipment_event.dart';
 part 'equipment_state.dart';
 
 class EquipmentBloc extends Bloc<EquipmentEvent, EquipmentState> {
   EquipmentBloc({
-    required this.plateDao,
-    required this.barDao,
+    required this.equipmentService,
   }) : super(const EquipmentState()) {
-    plateDao.getPlatesAsStream().listen((event) => add(PlateStreamUpdatePlates(plates: event)));
-    barDao.getBarsAsStream().listen((event) => add(BarStreamUpdateBars(bars: event)));
-
-    on<PlateStreamUpdatePlates>(_plateStreamUpdatePlates);
-
-    on<EquipmentInitialize>(_equipmentInitialize);
-
-    on<PlateAddEmpty>(_plateAddEmpty);
+    on<EquipmentInitialize>(_initialize);
+    on<PlateAdd>(_plateAdd);
     on<PlateUpdate>(_plateUpdate);
     on<PlateDelete>(_plateDelete);
     on<PlateReset>(_plateReset);
-
-    on<BarAddEmpty>(_barAddEmpty);
+    on<BarAdd>(_barAdd);
     on<BarUpdate>(_barUpdate);
     on<BarDelete>(_barDelete);
     on<BarReset>(_barReset);
-    on<BarStreamUpdateBars>(_barStreamUpdateBars);
   }
 
-  final PlateDao plateDao;
-  final BarDao barDao;
+  final EquipmentService equipmentService;
 
-  Future<void> _plateStreamUpdatePlates(PlateStreamUpdatePlates event, emit) async {
-    emit(state.copyWith(plates: () => event.plates));
+  Future<void> _initialize(EquipmentInitialize event, emit) async {
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      bars: await equipmentService.getAllBars(),
+      plates: await equipmentService.getAllPlates(),
+    ));
   }
 
-  Future<void> _barStreamUpdateBars(BarStreamUpdateBars event, emit) async {
-    emit(state.copyWith(bars: () => event.bars));
-  }
+  Future<void> _plateAdd(PlateAdd event, emit) async {
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
 
-  Future<void> _equipmentInitialize(EquipmentInitialize event, emit) async {
-    emit(state.copyWith(status: () => EquipmentStatus.loaded));
-  }
+    Plate plate = await equipmentService.addPlate(event.plate);
 
-  Future<void> _plateAddEmpty(PlateAddEmpty event, emit) async {
-    await plateDao.addPlate(const Plate(
-      amount: 0,
-      color: Colors.pink,
-      height: 1,
-      weight: 0,
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      plates: [...state.plates, plate],
     ));
   }
 
   Future<void> _plateUpdate(PlateUpdate event, emit) async {
-    await plateDao.updatePlate(event.plate);
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    Plate plate = await equipmentService.updatePlate(event.plate);
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      plates: [
+        for (Plate p in state.plates)
+          if (p.id == plate.id) plate else p
+      ],
+    ));
   }
 
   Future<void> _plateDelete(PlateDelete event, emit) async {
-    await plateDao.deletePlates(event.plates);
-    emit(state.copyWith(status: () => EquipmentStatus.delete));
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    await equipmentService.deletePlate(event.plate);
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      plates: [
+        for (Plate p in state.plates)
+          if (p.id != event.plate.id) p
+      ],
+    ));
   }
 
   Future<void> _plateReset(PlateReset event, emit) async {
-    await plateDao.deleteAllPlates();
-    await plateDao.addPlates(getDefaultPlates());
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    List<Plate> plates = await equipmentService.resetPlates();
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      plates: plates,
+    ));
   }
 
-  Future<void> _barAddEmpty(BarAddEmpty event, emit) async {
-    await barDao.addBar(const Bar(
-      name: 'Untitled',
-      weight: 0,
+  Future<void> _barAdd(BarAdd event, emit) async {
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    Bar bar = await equipmentService.addBar(event.bar);
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      bars: [
+        ...state.bars,
+        bar,
+      ],
     ));
   }
 
   Future<void> _barUpdate(BarUpdate event, emit) async {
-    await barDao.updateBar(event.bar);
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    Bar bar = await equipmentService.updateBar(event.bar);
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      bars: [
+        for (Bar b in state.bars)
+          if (b.id == bar.id) bar else b
+      ],
+    ));
   }
 
   Future<void> _barDelete(BarDelete event, emit) async {
-    await barDao.deleteBars(event.bar);
-    emit(state.copyWith(status: () => EquipmentStatus.delete));
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    await equipmentService.deleteBar(event.bar);
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      bars: [
+        for (Bar b in state.bars)
+          if (b.id != event.bar.id) b
+      ],
+    ));
   }
 
   Future<void> _barReset(BarReset event, emit) async {
-    await barDao.deleteAllBars();
-    await barDao.addBars(getDefaultBars());
+    emit(state.copyWith(
+      status: EquipmentStatus.loading,
+    ));
+
+    List<Bar> bars = await equipmentService.resetBars();
+
+    emit(state.copyWith(
+      status: EquipmentStatus.loaded,
+      bars: bars,
+    ));
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +21,7 @@ class _BarSelectionScreenState extends State<BarSelectionScreen> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.status.isLoaded) {
+        } else {
           return SearchableSelectionScreen<Bar>(
             title: 'Select Bar',
             items: state.bars,
@@ -46,10 +45,6 @@ class _BarSelectionScreenState extends State<BarSelectionScreen> {
                 subtitle: Text(item.weight.toString()),
               );
             },
-          );
-        } else {
-          return const Center(
-            child: Text('There was an error loading the bars'),
           );
         }
       },

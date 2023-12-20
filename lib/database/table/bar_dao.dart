@@ -5,27 +5,21 @@ import 'bar.dart';
 
 @dao
 abstract class BarDao {
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<int> addBar(Bar bar);
+  @insert
+  Future<int> add(Bar bar);
 
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<List<int>> addBars(List<Bar> bars);
+  @insert
+  Future<List<int>> addAll(List<Bar> bars);
 
   @Query('SELECT * FROM bar WHERE id = :barId')
-  Future<Bar?> getBar(int barId);
-
-  @Query('SELECT * FROM bar')
-  Future<List<Bar>> getBars();
+  Future<Bar?> get(int barId);
 
   @Query('SELECT * FROM bar ORDER BY weight DESC')
-  Stream<List<Bar>> getBarsAsStream();
+  Future<List<Bar>> getAll();
 
   @update
-  Future<void> updateBar(Bar bar);
+  Future<int> modify(Bar bar);
 
   @delete
-  Future<void> deleteBars(List<Bar> bars);
-
-  @Query('DELETE FROM bar')
-  Future<void> deleteAllBars();
+  Future<int> remove(Bar bar);
 }

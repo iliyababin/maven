@@ -90,15 +90,15 @@ abstract class MavenDatabase extends FloorDatabase {
         .addCallback(_callback)
         .build();
     if (_isFirstTime) {
-      db.plateDao.addPlates(getDefaultPlates());
-      db.barDao.addBars(getDefaultBars());
-      for(AppTheme theme in getDefaultAppThemes) {
+      db.plateDao.addAll(getDefaultPlates());
+      db.barDao.addAll(getDefaultBars());
+      for (AppTheme theme in getDefaultAppThemes) {
         db.themeDao.add(theme);
         db.themeColorDao.add(theme.option.color);
       }
-      for (Exercise exercise in getDefaultExercises()){
+      for (Exercise exercise in getDefaultExercises()) {
         int exerciseId = await db.exerciseDao.add(exercise);
-        for (ExerciseField field in exercise.fields){
+        for (ExerciseField field in exercise.fields) {
           db.exerciseFieldDao.add(field.copyWith(
             exerciseId: exerciseId,
           ));

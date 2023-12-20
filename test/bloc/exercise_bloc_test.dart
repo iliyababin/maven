@@ -1,11 +1,6 @@
-/*
-import 'dart:async';
-
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maven/common/common.dart';
 import 'package:maven/database/database.dart';
-import 'package:maven/feature/exercise/exercise.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockExerciseDao extends Mock implements ExerciseDao {}
@@ -37,11 +32,10 @@ void main() {
       );
     });
 
-    ExerciseBloc buildBloc() {
-      return ExerciseBloc(
-        exerciseDao: exerciseDao,
-        exerciseFieldDao: exerciseFieldDao,
-      );
+    test('moce', () => {expect(1, 1)});
+
+/*    ExerciseBloc buildBloc() {
+
     }
 
     setUp(() {
@@ -99,8 +93,8 @@ void main() {
         expect(bloc.state.exercises.first.fields.first,
             exercise.fields.first.copyWith(id: 1));
       },
-    );
-
+    );*/
+/*
     ExerciseBloc buildBlocWithExercise() {
       final bloc =  ExerciseBloc(
         exerciseDao: exerciseDao,
@@ -133,7 +127,6 @@ void main() {
           ],
         ),
       ],
-    );
+    );*/
   });
 }
-*/

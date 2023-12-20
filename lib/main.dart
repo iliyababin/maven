@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:maven/feature/theme/widget/inherited_theme_widget.dart';
-import 'package:provider/provider.dart';
 
 import 'database/database.dart';
 import 'debug/screen/design_tool_widget.dart';
@@ -17,11 +13,11 @@ import 'feature/program/program.dart';
 import 'feature/session/session.dart';
 import 'feature/settings/settings.dart';
 import 'feature/template/template.dart';
+import 'feature/theme/theme.dart';
 import 'feature/transfer/transfer.dart';
 import 'feature/user/user.dart';
 import 'feature/workout/workout.dart';
 import 'generated/l10n.dart';
-import 'feature/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,6 +69,10 @@ class Main extends StatelessWidget {
     TransferService strongService = TransferService(
       exercises: getDefaultExercises(),
     );
+    EquipmentService equipmentService = EquipmentService(
+      plateDao: db.plateDao,
+      barDao: db.barDao,
+    );
 
     return MultiBlocProvider(
       providers: [
@@ -109,8 +109,7 @@ class Main extends StatelessWidget {
                 )..add(const WorkoutInitialize())),
         BlocProvider(
             create: (context) => EquipmentBloc(
-                  plateDao: db.plateDao,
-                  barDao: db.barDao,
+              equipmentService: equipmentService,
                 )..add(const EquipmentInitialize())),
         BlocProvider(
             create: (context) => ProgramBloc(

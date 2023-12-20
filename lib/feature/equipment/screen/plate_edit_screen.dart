@@ -6,11 +6,12 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
+import '../../settings/settings.dart';
 import '../../theme/theme.dart';
 import '../equipment.dart';
 
-class EditPlateScreen extends StatefulWidget {
-  const EditPlateScreen({
+class PlateEditScreen extends StatefulWidget {
+  const PlateEditScreen({
     Key? key,
     required this.plate,
   }) : super(key: key);
@@ -18,14 +19,12 @@ class EditPlateScreen extends StatefulWidget {
   final Plate plate;
 
   @override
-  State<EditPlateScreen> createState() => _EditPlateScreenState();
+  State<PlateEditScreen> createState() => _PlateEditScreenState();
 }
 
-class _EditPlateScreenState extends State<EditPlateScreen> {
-  late int amount;
-  late Color color;
-  late double height;
-  late double weight;
+class _PlateEditScreenState extends State<PlateEditScreen> {
+  late Plate plate;
+  late bool isEdited;
 
   void _pickColor() {
     showBottomSheetDialog(
@@ -36,54 +35,89 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
         enableAlpha: false,
         colorPickerWidth: 500,
         pickerAreaHeightPercent: 0.4,
-        pickerColor: color,
+        pickerColor: plate.color,
         labelTypes: const [],
         onColorChanged: (value) {
-          setState(() {
-            color = value;
-          });
+          updatePlate(plate.copyWith(color: value));
         },
       ),
     );
   }
 
+  void updatePlate(Plate plate) {
+    setState(() {
+      this.plate = plate;
+      isEdited = this.plate != widget.plate;
+    });
+  }
+
   @override
   void initState() {
-    amount = widget.plate.amount;
-    color = widget.plate.color;
-    height = widget.plate.height;
-    weight = widget.plate.weight;
+    plate = widget.plate.copyWith();
+    isEdited = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: isEdited
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                context.read<EquipmentBloc>().add(PlateUpdate(plate));
+                Navigator.pop(context);
+              },
+              label: const Text('Save'),
+              icon: const Icon(Icons.save),
+            )
+          : null,
       appBar: AppBar(
         title: const Text('Edit Plate'),
         actions: [
           IconButton(
             onPressed: () {
-              context.read<EquipmentBloc>().add(PlateUpdate(
-                    plate: Plate(
-                      id: widget.plate.id,
-                      amount: amount,
-                      color: color,
-                      height: height,
-                      weight: weight,
+              showBottomSheetDialog(
+                context: context,
+                child: ListDialog(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        // TODO: Duplicate plate
+                      },
+                      leading: const Icon(Icons.copy_rounded),
+                      title: const Text('Duplicate'),
                     ),
-                  ));
-              Navigator.pop(context);
+                    ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        context.read<EquipmentBloc>().add(PlateDelete(plate));
+                      },
+                      leading: Icon(
+                        Icons.delete_rounded,
+                        color: T(context).color.error,
+                      ),
+                      title: Text(
+                        'Delete',
+                        style: TextStyle(color: T(context).color.error),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             },
-            icon: const Icon(Icons.check),
-          )
+            icon: const Icon(Icons.more_vert_rounded),
+          ),
         ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: T(context).shape.large),
         child: CustomScrollView(
           slivers: [
-            Heading(title: 'Preview', size: HeadingSize.small,),
+            const Heading(
+              title: 'Preview',
+              size: HeadingSize.small,
+            ),
             SliverList(
               delegate: SliverChildListDelegate([
                 Container(
@@ -96,15 +130,15 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                   child: CustomPaint(
                     size: const Size(200, 200),
                     painter: WeightPlatePainter(
-                      color: color,
-                      weight: weight,
-                      height: height,
+                      color: plate.color,
+                      weight: plate.weight,
+                      height: plate.height,
                     ),
                   ),
                 ),
               ]),
             ),
-            Heading(title: 'Details'),
+            const Heading(title: 'Details'),
             SliverToBoxAdapter(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(T(context).shape.large),
@@ -118,20 +152,15 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                           onClose: () {},
                           child: TextInputDialog(
                             title: 'Total Plates Available',
-                            initialValue: amount.toString(),
+                            initialValue: plate.amount.toString(),
                             onValueChanged: (value) {
-                              setState(() {
-                                amount = value.isEmpty ? 0 : int.parse(value);
-                              });
+                              updatePlate(
+                                  plate.copyWith(amount: value.isEmpty ? 0 : int.parse(value)));
                             },
                           ),
                         ),
-                        title: Text(
-                          'Amount',
-                        ),
-                        trailing: Text(
-                          '$amount plates',
-                        ),
+                        title: const Text('Amount'),
+                        trailing: Text('${plate.amount} plates'),
                       ),
                       ListTile(
                         onTap: () => showBottomSheetDialog(
@@ -139,35 +168,26 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                           onClose: () {},
                           child: TextInputDialog(
                             title: 'Total Plate Weight',
-                            initialValue: weight.toString(),
+                            initialValue: plate.weight.toString(),
                             onValueChanged: (value) {
-                              setState(() {
-                                weight = value.isEmpty ? 0 : double.parse(value);
-                              });
+                              updatePlate(
+                                  plate.copyWith(weight: value.isEmpty ? 0 : double.parse(value)));
                             },
                           ),
                         ),
-                        title: Text(
-                          'Weight',
-                        ),
-                        trailing: Text(
-                          weight.toString(),
-                        ),
+                        title: const Text('Weight'),
+                        trailing: Text(s(context).parseWeight(plate.weight)),
                       ),
                       ListTile(
-                        title: Text(
-                          'Size',
-                        ),
+                        title: const Text('Size'),
                         trailing: SizedBox(
                           width: 200,
                           child: Slider(
                             min: 0.35,
                             max: 1.0,
-                            value: height,
+                            value: plate.height,
                             onChanged: (double value) {
-                              setState(() {
-                                height = value;
-                              });
+                              updatePlate(plate.copyWith(height: value));
                             },
                           ),
                         ),
@@ -178,22 +198,18 @@ class _EditPlateScreenState extends State<EditPlateScreen> {
                           height: 35,
                           width: 35,
                           decoration: BoxDecoration(
-                            color: color,
+                            color: plate.color,
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
-                        title: Text(
-                          'Color',
-                        ),
-                        trailing: Text(
-                          '#${color.value.toRadixString(16)}',
-                        ),
+                        title: const Text('Color'),
+                        trailing: Text('#${plate.color.value.toRadixString(16)}'),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

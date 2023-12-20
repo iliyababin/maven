@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../equipment/equipment.dart';
+import '../../theme/theme.dart';
 
 class BarbellCalculatorWidget extends StatefulWidget {
   const BarbellCalculatorWidget({
@@ -61,7 +61,8 @@ class _BarbellCalculatorWidgetState extends State<BarbellCalculatorWidget> {
           },
         ).weight;
 
-        List<Plate> plates = EquipmentService.getPlatesFromWeight(state.plates, (weight - barWeight) / 2);
+        List<Plate> plates =
+            EquipmentService.getPlatesByWeight(state.plates, (weight - barWeight) / 2);
 
         double possibleWeight = 0;
         for (var plate in plates) {
