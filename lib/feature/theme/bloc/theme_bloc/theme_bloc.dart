@@ -24,14 +24,15 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   final AppThemeDao themeDao;
   final AppThemeColorDao themeColorDao;
-  final SettingDao settingDao;
+  final SettingsDao settingDao;
 
   Future<void> _initialize(ThemeInitialize event, Emitter<ThemeState> emit) async {
     emit(state.copyWith(
       status: ThemeStatus.loading,
     ));
 
-    AppTheme? theme = await themeDao.get(await settingDao.get().then((value) => value?.themeId ?? 1));
+    AppTheme? theme =
+        await themeDao.get(await settingDao.get().then((value) => value?.themeId ?? 1));
     AppThemeColor? color = await themeColorDao.get(theme!.id!);
     theme = theme.copyWith(
       option: AppThemeOption(

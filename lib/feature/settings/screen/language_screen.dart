@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../generated/l10n.dart';
 import '../../theme/theme.dart';
-import '../bloc/setting_bloc.dart';
 import '../settings.dart';
 
 class LanguageScreen extends StatelessWidget {
@@ -23,23 +22,17 @@ class LanguageScreen extends StatelessWidget {
           Locale locale = S.delegate.supportedLocales[index];
           return ListTile(
               onTap: () async {
-                context.read<SettingBloc>().add(SettingUpdate(
-                  setting: InheritedSettingWidget.of(context).setting.copyWith(
-                    locale: locale,
-                  ),
-                ));
+                context.read<SettingsBloc>().add(SettingsUpdate(
+                      InheritedSettingsWidget.of(context).settings.copyWith(
+                            locale: locale,
+                          ),
+                    ));
               },
               tileColor: Localizations.localeOf(context) == locale
                   ? T(context).color.primaryContainer
                   : null,
-              title: Text(
-                locale.toLanguageTag(),
-              ),
-              trailing: Localizations.localeOf(context) == locale
-                  ? const Icon(
-                      Icons.check,
-                    )
-                  : null);
+              title: Text(locale.toLanguageTag()),
+              trailing: Localizations.localeOf(context) == locale ? const Icon(Icons.check) : null);
         },
       ),
     );

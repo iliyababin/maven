@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../settings/settings.dart';
 import 'model/model.dart';
@@ -11,6 +10,6 @@ export 'screen/screen.dart';
 export 'table/table.dart';
 export 'widget/widget.dart';
 
-/// Returns the [AppThemeOption] of the closest [InheritedSettingWidget] ancestor.
+/// Returns the [AppThemeOption] of the closest [InheritedSettingsWidget] ancestor.
 AppThemeOption T(BuildContext context) => InheritedThemeWidget.of(context).theme.option;
 

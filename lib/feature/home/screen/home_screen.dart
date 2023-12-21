@@ -5,9 +5,9 @@ import 'package:maven/feature/session/widget/session_weekly_goal_widget.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../session/session.dart';
 import '../../settings/settings.dart';
+import '../../theme/theme.dart';
 import '../../user/user.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -164,13 +164,13 @@ class HomeScreen extends StatelessWidget {
                   SessionWeeklyGoalWidget(
                     goal: s(context).sessionWeeklyGoal,
                     onModified: (value) {
-                      context.read<SettingBloc>().add(
-                        SettingUpdate(
-                          setting: InheritedSettingWidget.of(context).setting.copyWith(
-                            sessionWeeklyGoal: value,
-                          ),
-                        ),
-                      );
+                      context.read<SettingsBloc>().add(
+                            SettingsUpdate(
+                              InheritedSettingsWidget.of(context).settings.copyWith(
+                                    sessionWeeklyGoal: value,
+                                  ),
+                            ),
+                          );
                     },
                     dates: state.sessions.map((e) => e.routine.timestamp).toList(),
                   ),

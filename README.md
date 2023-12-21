@@ -44,24 +44,37 @@ flutter packages pub run build_runner build
 ```
 
 5. Generate localizations.
+
 ```
 flutter pub run intl_utils:generate
 ```
 
 6. Run the app.
+
 ```
 flutter run
 ```
 
+7. Run tests.
+
+```
+flutter test --coverage
+```
+
+8. Generate coverage report.
+
+```
+genhtml coverage/lcov.info -o coverage/html
+```
 
 ## Features
+
 - [x] Sample List
 - [x] Track workouts
 - [x] Track body measurements
 - [x] Track nutritional intake
 - [x] Track progress
 - [x] Track goals
-
 
 ## Usage
 If you’ve used other workout apps in the past, the Maven experience should feel familiar and intuitive. However, for those who are new to

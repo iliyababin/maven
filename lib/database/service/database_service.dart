@@ -14,7 +14,7 @@ class DatabaseService {
   });
 
   final ExerciseDao exerciseDao;
-  final SettingDao settingDao;
+  final SettingsDao settingDao;
   final ExerciseGroupDao exerciseGroupDao;
   final ExerciseSetDao exerciseSetDao;
   final ExerciseSetDataDao exerciseSetDataDao;

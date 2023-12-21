@@ -1,4 +1,4 @@
-part of 'setting_bloc.dart';
+part of 'settings_bloc.dart';
 
 enum SettingStatus {
   initial,
@@ -12,34 +12,35 @@ extension SettingStatusX on SettingStatus {
   bool get isLoaded => this == SettingStatus.loaded;
 }
 
-class SettingState extends Equatable {
-  const SettingState({
+class SettingsState extends Equatable {
+  const SettingsState({
     this.status = SettingStatus.initial,
-    this.setting,
+    this.settings,
     this.packageInfo,
   });
 
   final SettingStatus status;
-  final Setting? setting;
+  final Settings? settings;
   final PackageInfo? packageInfo;
 
-  SettingState copyWith({
+  SettingsState copyWith({
     SettingStatus? status,
-    Setting? setting,
+    Settings? settings,
     PackageInfo? packageInfo,
   }) {
-    return SettingState(
+    return SettingsState(
       status: status ?? this.status,
-      setting: setting ?? this.setting,
+      settings: settings ?? this.settings,
       packageInfo: packageInfo ?? this.packageInfo,
     );
   }
 
   @override
-  List<Object?> get props => [
-    status,
-    setting,
-    packageInfo,
-  ];
+  List<Object?> get props =>
+      [
+        status,
+        settings,
+        packageInfo,
+      ];
 }
 

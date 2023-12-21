@@ -32,7 +32,7 @@ part 'database.g.dart';
     ProgramExerciseGroup,
     ProgramFolder,
     ProgramTemplate,
-    BaseSetting,
+    Settings,
     Routine,
     BaseNote,
     WorkoutData,
@@ -48,6 +48,7 @@ part 'database.g.dart';
   DateTimeConverter,
   ColorConverter,
   TimedConverter,
+  LocaleConverter,
   SetTypeConverter,
   DurationConverter,
 ])
@@ -63,8 +64,11 @@ abstract class MavenDatabase extends FloorDatabase {
   ProgramExerciseGroupDao get programExerciseGroupDao;
   ProgramFolderDao get programFolderDao;
   ProgramTemplateDao get programTemplateDao;
+
   RoutineDao get routineDao;
-  SettingDao get settingDao;
+
+  SettingsDao get settingDao;
+
   NoteDao get noteDao;
   WorkoutDataDao get workoutDataDao;
   SessionDataDao get sessionDataDao;

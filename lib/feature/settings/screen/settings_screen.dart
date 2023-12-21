@@ -28,18 +28,16 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
-        ),
+        title: const Text('Settings'),
       ),
-      body: BlocBuilder<SettingBloc, SettingState>(
+      body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state.status.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.status.isLoaded) {
-            Setting setting = state.setting!;
+          } else {
+            Settings setting = state.settings!;
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: T(context).space.large,
@@ -57,21 +55,13 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.fitness_center_outlined,
-                          ),
-                          title: const Text(
-                            'Routine',
-                          ),
+                          leading: const Icon(Icons.fitness_center_outlined),
+                          title: const Text('Routine'),
                         ),
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.calculate_outlined,
-                          ),
-                          title: const Text(
-                            'Plate Calculator',
-                          ),
+                          leading: const Icon(Icons.calculate_outlined),
+                          title: const Text('Plate Calculator'),
                         ),
                       ],
                     ),
@@ -94,98 +84,66 @@ class SettingsScreen extends StatelessWidget {
                                   ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      context.read<SettingBloc>().add(
-                                        SettingUpdate(
-                                          setting: InheritedSettingWidget.of(context).setting.copyWith(
-                                            unit: Unit.metric,
-                                          ),
-                                        ),
-                                      );
+                                      context.read<SettingsBloc>().add(
+                                            SettingsUpdate(
+                                              InheritedSettingsWidget.of(context).settings.copyWith(
+                                                    unit: Unit.metric,
+                                                  ),
+                                            ),
+                                          );
                                     },
-                                    title: const Text(
-                                      'Metric',
-                                    ),
-                                    trailing: const Text(
-                                      'kg/km/m/cm',
-                                    ),
+                                    title: const Text('Metric'),
+                                    trailing: const Text('kg/km/m/cm'),
                                   ),
                                   ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      context.read<SettingBloc>().add(
-                                        SettingUpdate(
-                                          setting: InheritedSettingWidget.of(context).setting.copyWith(
-                                            unit: Unit.imperial,
-                                          ),
-                                        ),
-                                      );
+                                      context.read<SettingsBloc>().add(
+                                            SettingsUpdate(
+                                              InheritedSettingsWidget.of(context).settings.copyWith(
+                                                    unit: Unit.imperial,
+                                                  ),
+                                            ),
+                                          );
                                     },
-                                    title: const Text(
-                                      'Imperial',
-                                    ),
-                                    trailing: const Text(
-                                      'lb/mile/ft/in',
-                                    ),
+                                    title: const Text('Imperial'),
+                                    trailing: const Text('lb/mile/ft/in'),
                                   ),
                                 ],
                               ),
                             );
                           },
-                          leading: const Icon(
-                            Icons.straighten_outlined,
-                          ),
-                          title: const Text(
-                            'Units',
-                          ),
-                          trailing: Text(
-                            setting.unit.name,
-                          ),
+                          leading: const Icon(Icons.straighten_outlined),
+                          title: const Text('Units'),
+                          trailing: Text(setting.unit.name),
                         ),
                         ListTile(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ThemeScreen()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const ThemeScreen()));
                           },
-                          leading: const Icon(
-                            Icons.palette,
-                          ),
-                          title: const Text(
-                            'Theme',
-                          ),
-                          trailing: Text(
-                            InheritedThemeWidget.of(context).theme.name,
-                          ),
+                          leading: const Icon(Icons.palette),
+                          title: const Text('Theme'),
+                          trailing: Text(InheritedThemeWidget.of(context).theme.name),
                         ),
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.volume_up_outlined,
-                          ),
-                          title: const Text(
-                            'Sound',
-                          ),
+                          leading: const Icon(Icons.volume_up_outlined),
+                          title: const Text('Sound'),
                         ),
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.notifications_none_outlined,
-                          ),
-                          title: const Text(
-                            'Notifications',
-                          ),
+                          leading: const Icon(Icons.notifications_none_outlined),
+                          title: const Text('Notifications'),
                         ),
                         ListTile(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const LanguageScreen()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const LanguageScreen()));
                           },
-                          leading: const Icon(
-                            Icons.language,
-                          ),
-                          title: const Text(
-                            'Language',
-                          ),
-                          trailing: Text(
-                            s(context).locale.languageCode.capitalize,
-                          ),
+                          leading: const Icon(Icons.language),
+                          title: const Text('Language'),
+                          trailing: Text(s(context).locale.languageCode.capitalize),
                         ),
                       ],
                     ),
@@ -201,12 +159,8 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.backup,
-                          ),
-                          title: const Text(
-                            'Backup',
-                          ),
+                          leading: const Icon(Icons.backup),
+                          title: const Text('Backup'),
                         ),
                         ListTile(
                           onTap: () {
@@ -238,21 +192,13 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.help_outline_outlined,
-                          ),
-                          title: const Text(
-                            'Help',
-                          ),
+                          leading: const Icon(Icons.help_outline_outlined),
+                          title: const Text('Help'),
                         ),
                         ListTile(
                           onTap: () {},
-                          leading: const Icon(
-                            Icons.feedback_outlined,
-                          ),
-                          title: const Text(
-                            'Feedback',
-                          ),
+                          leading: const Icon(Icons.feedback_outlined),
+                          title: const Text('Feedback'),
                         ),
                         ListTile(
                           onTap: () {
@@ -263,12 +209,8 @@ class SettingsScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          leading: const Icon(
-                            Icons.info_outline,
-                          ),
-                          title: const Text(
-                            'About',
-                          ),
+                          leading: const Icon(Icons.info_outline),
+                          title: const Text('About'),
                         ),
                       ],
                     ),
@@ -279,12 +221,6 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
-            );
-          } else {
-            return const Center(
-              child: Text(
-                'Error',
               ),
             );
           }

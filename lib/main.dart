@@ -73,6 +73,11 @@ class Main extends StatelessWidget {
       plateDao: db.plateDao,
       barDao: db.barDao,
     );
+    SettingsService settingsService = SettingsService(
+      settingDao: db.settingDao,
+      themeDao: db.themeDao,
+      themeColorDao: db.themeColorDao,
+    );
 
     return MultiBlocProvider(
       providers: [
@@ -132,17 +137,15 @@ class Main extends StatelessWidget {
                   importDao: db.importDao,
                 )..add(const SessionInitialize())),
         BlocProvider(
-            create: (context) => SettingBloc(
-                  settingDao: db.settingDao,
-                  themeDao: db.themeDao,
-                  themeColorDao: db.themeColorDao,
-                )..add(const SettingInitialize())),
+            create: (context) => SettingsBloc(
+                  settingsService: settingsService,
+                )..add(const SettingsInitialize())),
         BlocProvider(
             create: (context) => UserBloc(
                   userDao: db.userDao,
                 )..add(const UserInitialize())),
       ],
-      child: BlocBuilder<SettingBloc, SettingState>(
+      child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state.status.isLoading) {
             return const Center(
@@ -150,10 +153,10 @@ class Main extends StatelessWidget {
             );
           } else if (state.status.isLoaded) {
             print("rebuilding verything");
-            return SettingProvider(
-              setting: state.setting!,
+            return SettingsProvider(
+              settings: state.settings!,
               child: ThemeProvider(
-                useSystemTheme: state.setting!.useSystemDefaultTheme,
+                useSystemTheme: state.settings!.useSystemDefaultTheme,
                 child: Builder(
                   builder: (context) {
                     return DynamicColorBuilder(
@@ -167,7 +170,7 @@ class Main extends StatelessWidget {
                             GlobalWidgetsLocalizations.delegate,
                             GlobalCupertinoLocalizations.delegate,
                           ],
-                          locale: state.setting!.locale,
+                          locale: state.settings!.locale,
                           supportedLocales: S.delegate.supportedLocales,
                           home: const Stack(children: [
                             Maven(),

@@ -4,27 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../database/database.dart';
 import '../settings.dart';
 
-class SettingProvider extends StatefulWidget {
-  const SettingProvider({
+class SettingsProvider extends StatefulWidget {
+  const SettingsProvider({
     Key? key,
-    required this.setting,
+    required this.settings,
     required this.child,
   }) : super(key: key);
 
-  final Setting setting;
+  final Settings settings;
   final Widget child;
 
   @override
-  State<SettingProvider> createState() => _SettingProviderState();
+  State<SettingsProvider> createState() => _SettingsProviderState();
 }
 
-class _SettingProviderState extends State<SettingProvider> {
+class _SettingsProviderState extends State<SettingsProvider> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingBloc, SettingState>(
+    return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        return InheritedSettingWidget(
-          setting: state.setting!,
+        return InheritedSettingsWidget(
+          settings: state.settings!,
           child: widget.child,
         );
       },

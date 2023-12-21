@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/feature/theme/widget/inherited_theme_widget.dart';
-import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../common/common.dart';
-import '../theme.dart';
 import '../../settings/settings.dart';
+import '../theme.dart';
 
 class ThemeScreen extends StatefulWidget {
   const ThemeScreen({Key? key}) : super(key: key);
@@ -50,14 +47,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
                         trailing: Switch(
                           value: s(context).useSystemDefaultTheme,
                           onChanged: (value) {
-                            context.read<SettingBloc>().add(SettingUpdate(
-                                  setting: InheritedSettingWidget.of(context)
-                                      .setting
-                                      .copyWith(
+                            context.read<SettingsBloc>().add(SettingsUpdate(
+                                  InheritedSettingsWidget.of(context).settings.copyWith(
                                         useSystemDefaultTheme: value,
-                                        useDynamicColor: value
-                                            ? s(context).useDynamicColor
-                                            : false,
+                                        useDynamicColor: value ? s(context).useDynamicColor : false,
                                       ),
                                 ));
                           },
@@ -73,13 +66,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
                         trailing: Switch(
                           value: s(context).useDynamicColor,
                           onChanged: (value) {
-                            context.read<SettingBloc>().add(SettingUpdate(
-                                  setting: InheritedSettingWidget.of(context)
-                                      .setting
-                                      .copyWith(
-                                        useSystemDefaultTheme: value
-                                            ? true
-                                            : s(context).useSystemDefaultTheme,
+                            context.read<SettingsBloc>().add(SettingsUpdate(
+                                  InheritedSettingsWidget.of(context).settings.copyWith(
+                                        useSystemDefaultTheme:
+                                            value ? true : s(context).useSystemDefaultTheme,
                                         useDynamicColor: value,
                                       ),
                                 ));

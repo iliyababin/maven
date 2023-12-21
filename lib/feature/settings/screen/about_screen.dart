@@ -11,11 +11,9 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'About',
-        ),
+        title: const Text('About'),
       ),
-      body: BlocBuilder<SettingBloc, SettingState>(
+      body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state.status.isLoading) {
             return const Center(
@@ -26,36 +24,22 @@ class AboutScreen extends StatelessWidget {
             return ListView(
               children: [
                 ListTile(
-                  title: const Text(
-                    'Name',
-                  ),
-                  subtitle: Text(
-                    packageInfo.appName,
-                  ),
+                  title: const Text('Name'),
+                  subtitle: Text(packageInfo.appName),
                 ),
                 ListTile(
-                  title: const Text(
-                    'Version',
-                  ),
-                  subtitle: Text(
-                    packageInfo.version,
-                  ),
+                  title: const Text('Version'),
+                  subtitle: Text(packageInfo.version),
                 ),
                 ListTile(
-                  title: const Text(
-                    'Build Number',
-                  ),
-                  subtitle: Text(
-                    packageInfo.buildNumber,
-                  ),
+                  title: const Text('Build Number'),
+                  subtitle: Text(packageInfo.buildNumber),
                 ),
                 ListTile(
                   onTap: () {
                     // Add Licenses
                   },
-                  title: const Text(
-                    'Open Source Licenses',
-                  ),
+                  title: const Text('Open Source Licenses'),
                 ),
               ],
             );

@@ -1,25 +1,57 @@
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
-import 'package:maven/common/common.dart';
+import 'package:maven/common/extension/extension.dart';
 
-import '../../../database/database.dart';
-import '../../theme/theme.dart';
+import '../database.dart';
 
-class Setting extends Equatable {
-  const Setting({
-    required this.unit,
+@Entity(
+  tableName: 'settings',
+  primaryKeys: [
+    'id',
+  ],
+)
+class Settings extends Equatable {
+  const Settings({
+    required this.id,
     required this.locale,
-    required this.sessionWeeklyGoal,
     required this.themeId,
+    required this.unit,
+    required this.sessionWeeklyGoal,
     required this.useSystemDefaultTheme,
     required this.useDynamicColor,
   });
 
-  final Unit unit;
+  const Settings.empty()
+      : this(
+          id: 1,
+          locale: const Locale('en', 'US'),
+          themeId: 1,
+          unit: Unit.imperial,
+          sessionWeeklyGoal: 3,
+          useSystemDefaultTheme: true,
+          useDynamicColor: true,
+        );
+
+  @PrimaryKey()
+  final int id;
+
+  @ColumnInfo(name: 'locale')
   final Locale locale;
-  final int sessionWeeklyGoal;
+
+  @ColumnInfo(name: 'theme_id')
   final int themeId;
+
+  @ColumnInfo(name: 'unit')
+  final Unit unit;
+
+  @ColumnInfo(name: 'session_weekly_goal')
+  final int sessionWeeklyGoal;
+
+  @ColumnInfo(name: 'use_system_default_theme')
   final bool useSystemDefaultTheme;
+
+  @ColumnInfo(name: 'use_dynamic_color')
   final bool useDynamicColor;
 
   String parseWeight(double volume) {
@@ -50,30 +82,34 @@ class Setting extends Equatable {
     }*/
   }
 
-  Setting copyWith({
-    Unit? unit,
+  Settings copyWith({
+    int? id,
     Locale? locale,
-    int? sessionWeeklyGoal,
     int? themeId,
+    Unit? unit,
+    int? sessionWeeklyGoal,
     bool? useSystemDefaultTheme,
     bool? useDynamicColor,
   }) {
-    return Setting(
-      unit: unit ?? this.unit,
+    return Settings(
+      id: id ?? this.id,
       locale: locale ?? this.locale,
-      sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
       themeId: themeId ?? this.themeId,
+      unit: unit ?? this.unit,
+      sessionWeeklyGoal: sessionWeeklyGoal ?? this.sessionWeeklyGoal,
       useSystemDefaultTheme: useSystemDefaultTheme ?? this.useSystemDefaultTheme,
       useDynamicColor: useDynamicColor ?? this.useDynamicColor,
     );
   }
 
   @override
-  List<Object?> get props => [
-        unit,
+  List<Object?> get props =>
+      [
+        id,
         locale,
-        sessionWeeklyGoal,
         themeId,
+        unit,
+        sessionWeeklyGoal,
         useSystemDefaultTheme,
         useDynamicColor,
       ];

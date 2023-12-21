@@ -1,2 +1,2 @@
-export 'inherited_setting_widget.dart';
-export 'setting_provider.dart';
+export 'settings_inherited_widget.dart';
+export 'settings_provider.dart';
