@@ -74,7 +74,7 @@ class Main extends StatelessWidget {
       barDao: db.barDao,
     );
     SettingsService settingsService = SettingsService(
-      settingDao: db.settingDao,
+      settingsDao: db.settingDao,
       themeDao: db.themeDao,
       themeColorDao: db.themeColorDao,
     );
@@ -152,7 +152,6 @@ class Main extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state.status.isLoaded) {
-            print("rebuilding verything");
             return SettingsProvider(
               settings: state.settings!,
               child: ThemeProvider(

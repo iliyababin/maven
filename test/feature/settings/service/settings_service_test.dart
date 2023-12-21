@@ -24,7 +24,7 @@ void main() {
 
     SettingsService build() {
       return SettingsService(
-        settingDao: settingDao,
+        settingsDao: settingDao,
         themeColorDao: themeColorDao,
         themeDao: themeDao,
       );
