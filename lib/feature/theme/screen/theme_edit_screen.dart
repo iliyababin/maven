@@ -128,9 +128,10 @@ class _ThemeEditScreenState extends State<ThemeEditScreen> {
           IconButton(
             onPressed: () {
               AppThemeColor theme2 = AppThemeColor.dark().copyWith(
-                id: widget.theme!.option.color.id,
-                appThemeId: widget.theme!.option.color.appThemeId,
-              ).setColors(colors);
+                      /*id: widget.theme!.option.color.id,
+                appThemeId: widget.theme!.option.color.appThemeId,*/
+                      )
+                  .setColors(colors);
               Navigator.pop(
                 context,
                 theme.copyWith(

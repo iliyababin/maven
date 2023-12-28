@@ -34,7 +34,7 @@ part 'database.g.dart';
     ProgramTemplate,
     Settings,
     Routine,
-    BaseNote,
+    Note,
     WorkoutData,
     SessionData,
     TemplateData,
@@ -67,7 +67,7 @@ abstract class MavenDatabase extends FloorDatabase {
 
   RoutineDao get routineDao;
 
-  SettingsDao get settingDao;
+  SettingsDao get settingsDao;
 
   NoteDao get noteDao;
   WorkoutDataDao get workoutDataDao;
@@ -94,6 +94,7 @@ abstract class MavenDatabase extends FloorDatabase {
         .addCallback(_callback)
         .build();
     if (_isFirstTime) {
+      db.settingsDao.add(const Settings.empty());
       db.plateDao.addAll(getDefaultPlates());
       db.barDao.addAll(getDefaultBars());
       for (AppTheme theme in getDefaultAppThemes) {

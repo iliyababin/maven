@@ -61,7 +61,6 @@ flutter:
   generate: false
   assets:
     - assets/images/
-    - assets/exercises/videos/
 
 flutter_intl:
   enabled: true

@@ -20,6 +20,7 @@ class SearchableSelectionScreen<Type> extends StatefulWidget {
     this.actions = const [],
     this.selectedActionText = 'Delete',
     this.onSelected,
+    this.floatingActionButton,
   }) : super(key: key);
 
   /// The title to be displayed in the app bar.
@@ -43,6 +44,9 @@ class SearchableSelectionScreen<Type> extends StatefulWidget {
 
   /// Returns the selected items.
   final Function(List<Type> items)? onSelected;
+
+  /// The floating action button to be displayed in the screen.
+  final Widget? floatingActionButton;
 
   @override
   State<SearchableSelectionScreen<Type>> createState() => _SearchableSelectionScreenState<Type>();
@@ -69,18 +73,18 @@ class _SearchableSelectionScreenState<Type> extends State<SearchableSelectionScr
   Widget build(BuildContext context) {
     List<Type> items = widget.items.where((item) => item.toString().toLowerCase().contains(query.toLowerCase())).toList();
     return Scaffold(
-
+      floatingActionButton: widget.floatingActionButton,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: typing
                 ? TextField(
-              focusNode: searchNode,
-              onChanged: (value) {
-                setState(() {
-                  query = value;
-                });
-              },
+                    focusNode: searchNode,
+                    onChanged: (value) {
+                      setState(() {
+                        query = value;
+                      });
+                    },
               decoration: const InputDecoration(
                 hintText: 'Search',
                 enabledBorder: InputBorder.none,

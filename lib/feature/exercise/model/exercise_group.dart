@@ -1,6 +1,5 @@
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../note/note.dart';
 import 'exercise_set.dart';
 
 class ExerciseGroup extends BaseExerciseGroup {
@@ -15,6 +14,20 @@ class ExerciseGroup extends BaseExerciseGroup {
     this.sets = const [],
     this.notes = const [],
   });
+
+  ExerciseGroup.fromBase({
+    required BaseExerciseGroup baseExerciseGroup,
+    this.sets = const [],
+    this.notes = const [],
+  }) : super(
+          id: baseExerciseGroup.id,
+          timer: baseExerciseGroup.timer,
+          weightUnit: baseExerciseGroup.weightUnit,
+          distanceUnit: baseExerciseGroup.distanceUnit,
+          exerciseId: baseExerciseGroup.exerciseId,
+          barId: baseExerciseGroup.barId,
+          routineId: baseExerciseGroup.routineId,
+        );
 
   final List<Note> notes;
   final List<ExerciseSet> sets;

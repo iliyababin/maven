@@ -4,10 +4,10 @@ import '../database.dart';
 
 @dao
 abstract class WorkoutDataDao {
-  @Insert(onConflict: OnConflictStrategy.replace)
+  @insert
   Future<int> add(WorkoutData workoutData);
 
-  @Insert(onConflict: OnConflictStrategy.replace)
+  @insert
   Future<List<int>> addAll(List<WorkoutData> workoutData);
 
   @Query('SELECT * FROM workout_data WHERE id = :workoutDataId')
@@ -20,7 +20,7 @@ abstract class WorkoutDataDao {
   Future<List<WorkoutData>> getByRoutine(int routineId);
 
   @Query('SELECT * FROM workout_data WHERE is_active = 1')
-  Future<List<WorkoutData>> getByIsActive();
+  Future<WorkoutData?> getByIsActive();
 
   @update
   Future<int> modify(WorkoutData workoutData);

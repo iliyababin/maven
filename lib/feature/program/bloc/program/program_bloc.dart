@@ -125,7 +125,7 @@ class ProgramBloc extends Bloc<ProgramEvent, ProgramState> {
           List<ExerciseBundle> exerciseBundles = [];
 
           for(ProgramExerciseGroup programExerciseGroup in await programExerciseGroupDao.getProgramExerciseGroupsByProgramTemplateId(programTemplate.id!)){
-            Exercise? exercise = await exerciseDao.getExercise(programExerciseGroup.exerciseId);
+            Exercise? exercise = await exerciseDao.get(programExerciseGroup.exerciseId);
 
             /*exerciseBundles.add(ExerciseBundle(
               exercise: exercise!,

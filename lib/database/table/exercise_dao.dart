@@ -12,16 +12,13 @@ abstract class ExerciseDao {
   Future<List<int>> addAll(List<Exercise> exercises);
 
   @Query('SELECT * FROM exercise WHERE id = :exerciseId')
-  Future<Exercise?> getExercise(int exerciseId);
+  Future<Exercise?> get(int exerciseId);
 
   @Query('SELECT * FROM exercise ORDER BY name ASC')
-  Future<List<Exercise>> getExercises();
-
-  @Query('SELECT * FROM exercise')
-  Stream<List<Exercise>> getExercisesAsStream();
+  Future<List<Exercise>> getAll();
 
   @update
-  Future<int> updateExercise(Exercise exercise);
+  Future<int> modify(Exercise exercise);
 
   @delete
   Future<int> remove(Exercise exercise);

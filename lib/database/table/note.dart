@@ -14,8 +14,8 @@ import '../database.dart';
     ),
   ],
 )
-class BaseNote extends Equatable {
-  const BaseNote({
+class Note extends Equatable {
+  const Note({
     this.id,
     required this.data,
     required this.exerciseGroupId,
@@ -31,12 +31,12 @@ class BaseNote extends Equatable {
   @ColumnInfo(name: 'exercise_group_id')
   final int exerciseGroupId;
 
-  BaseNote copyWith({
+  Note copyWith({
     int? id,
     String? data,
     int? exerciseGroupId,
   }) {
-    return BaseNote(
+    return Note(
       id: id ?? this.id,
       data: data ?? this.data,
       exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,

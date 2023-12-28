@@ -101,34 +101,31 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                   Icons.more_vert_outlined,
                 ),
               ),
-              if (widget.selection)
-                IconButton(
-                  onPressed: _selectedExercises.isEmpty
-                      ? null
-                      : () {
-                          Navigator.pop(context, _selectedExercises);
-                        },
-                  icon: const Icon(
-                    Icons.check_outlined,
-                  ),
-                ),
             ],
             selectedActionText: 'Hide',
             onSelected: (items) {
               // TODO: implement
               print(items.length);
             },
+            floatingActionButton: widget.selection && _selectedExercises.isNotEmpty
+                ? FloatingActionButton(
+                    onPressed: () {
+                      Navigator.pop(context, _selectedExercises);
+                    },
+                    child: const Icon(
+                      Icons.check_rounded,
+                    ),
+                  )
+                : null,
             selectionEnabled: !widget.selection,
-            itemBuilder:
-                (BuildContext context, Exercise item, bool isSelected) {
+            itemBuilder: (BuildContext context, Exercise item, bool isSelected) {
               return ListTile(
-                onTap: () {
-                  if (widget.selection) {
-                    setState(() {
-                      if (!_selectedExercises.remove(item)) {
-                        if (!widget.single ||
-                            (widget.single && _selectedExercises.isEmpty)) {
-                          _selectedExercises.add(item);
+                  onTap: () {
+                    if (widget.selection) {
+                      setState(() {
+                        if (!_selectedExercises.remove(item)) {
+                          if (!widget.single || (widget.single && _selectedExercises.isEmpty)) {
+                            _selectedExercises.add(item);
                         }
                       }
                     });

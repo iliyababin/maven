@@ -22,6 +22,13 @@ class Routine extends Equatable {
     required this.type,
   });
 
+  Routine.empty()
+      : id = 1,
+        name = '',
+        note = '',
+        timestamp = DateTime.now(),
+        type = RoutineType.template;
+
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
   final int? id;

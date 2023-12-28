@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../../database/database.dart';
 import '../../theme/theme.dart';
 
+/// A service class for managing settings in the database.
 class SettingsService {
   final SettingsDao settingsDao;
   final AppThemeDao themeDao;

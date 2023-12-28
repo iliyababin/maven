@@ -34,20 +34,19 @@ class ExerciseService {
   ///
   /// Throws [Exception] if the provided ID does not exist.
   Future<Exercise> get(int exerciseId) async {
-    Exercise? exercise = await exerciseDao.getExercise(exerciseId);
+    Exercise? exercise = await exerciseDao.get(exerciseId);
 
     if (exercise == null) {
       throw Exception('Exercise does not exist');
     }
 
-    List<ExerciseField> fields =
-        await exerciseFieldDao.getByExerciseId(exerciseId);
+    List<ExerciseField> fields = await exerciseFieldDao.getByExerciseId(exerciseId);
     return exercise.copyWith(fields: fields);
   }
 
   /// Get all exercises with fields from the database.
   Future<List<Exercise>> getAll() async {
-    List<Exercise> exercises = await exerciseDao.getExercises();
+    List<Exercise> exercises = await exerciseDao.getAll();
     for (int i = 0; i < exercises.length; i++) {
       exercises[i] = await get(exercises[i].id!);
     }
@@ -65,7 +64,7 @@ class ExerciseService {
       throw Exception('Exercise that does not have an ID');
     }
 
-    int rowsChanged = await exerciseDao.updateExercise(exercise);
+    int rowsChanged = await exerciseDao.modify(exercise);
 
     if (rowsChanged == 0) {
       throw Exception('No rows changed, exercise does not exist');

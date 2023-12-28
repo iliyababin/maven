@@ -10,6 +10,16 @@ class ExerciseSet extends BaseExerciseSet {
     this.data = const [],
   });
 
+  ExerciseSet.fromBase({
+    required BaseExerciseSet baseExerciseSet,
+    this.data = const [],
+  }) : super(
+          id: baseExerciseSet.id,
+          type: baseExerciseSet.type,
+          checked: baseExerciseSet.checked,
+          exerciseGroupId: baseExerciseSet.exerciseGroupId,
+        );
+
   final List<ExerciseSetData> data;
 
   @override

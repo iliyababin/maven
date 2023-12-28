@@ -4,9 +4,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../settings/settings.dart';
+import '../../theme/theme.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../template.dart';
 import '../view/template_options_view.dart';
@@ -233,7 +233,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                           subtitle: 'This will delete any current workout.',
                           confirmText: 'Start',
                           onSubmit: () {
-                            context.read<WorkoutBloc>().add(WorkoutStart(routine: template));
+                            context.read<WorkoutBloc>().add(WorkoutStart(template));
                             Navigator.pop(context);
                           },
                         ),

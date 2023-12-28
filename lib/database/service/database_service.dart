@@ -1,6 +1,5 @@
 import '../../common/common.dart';
 import '../../feature/exercise/exercise.dart';
-import '../../feature/note/note.dart';
 import '../database.dart';
 
 class DatabaseService {
@@ -24,7 +23,7 @@ class DatabaseService {
     List<ExerciseGroup> exerciseGroups = [];
     for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routineId)) {
       List<Note> notes = [];
-      for (BaseNote note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
+      for (Note note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
         notes.add(Note(
           id: note.id,
           data: note.data,
@@ -97,7 +96,7 @@ class DatabaseService {
     Map<Muscle, int> muscleCount = {};
 
     for (ExerciseGroup exerciseGroup in exerciseGroups) {
-      Exercise? exercise = await exerciseDao.getExercise(exerciseGroup.exerciseId);
+      Exercise? exercise = await exerciseDao.get(exerciseGroup.exerciseId);
       muscleCount[exercise!.muscle] = (muscleCount[exercise.muscle] ?? 0) + 1;
     }
 

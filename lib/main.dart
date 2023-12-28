@@ -10,6 +10,7 @@ import 'feature/app/screen/app_screen.dart';
 import 'feature/equipment/equipment.dart';
 import 'feature/exercise/exercise.dart';
 import 'feature/program/program.dart';
+import 'feature/routine/service/service.dart';
 import 'feature/session/session.dart';
 import 'feature/settings/settings.dart';
 import 'feature/template/template.dart';
@@ -55,7 +56,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     DatabaseService databaseService = DatabaseService(
       exerciseDao: db.exerciseDao,
-      settingDao: db.settingDao,
+      settingDao: db.settingsDao,
       exerciseGroupDao: db.baseExerciseGroupDao,
       exerciseSetDao: db.exerciseSetDao,
       exerciseSetDataDao: db.exerciseSetDataDao,
@@ -74,9 +75,17 @@ class Main extends StatelessWidget {
       barDao: db.barDao,
     );
     SettingsService settingsService = SettingsService(
-      settingsDao: db.settingDao,
+      settingsDao: db.settingsDao,
       themeDao: db.themeDao,
       themeColorDao: db.themeColorDao,
+    );
+    RoutineService routineService = RoutineService(
+      routineDao: db.routineDao,
+      exerciseGroupDao: db.baseExerciseGroupDao,
+      noteDao: db.noteDao,
+      exerciseSetDao: db.exerciseSetDao,
+      exerciseSetDataDao: db.exerciseSetDataDao,
+      workoutDataDao: db.workoutDataDao,
     );
 
     return MultiBlocProvider(
@@ -98,19 +107,14 @@ class Main extends StatelessWidget {
                 )..add(const TemplateInitialize())),
         BlocProvider(
             create: (context) => ThemeBloc(
-                  themeDao: db.themeDao,
+              themeDao: db.themeDao,
                   themeColorDao: db.themeColorDao,
-                  settingDao: db.settingDao,
+                  settingDao: db.settingsDao,
                 )..add(const ThemeInitialize())),
         BlocProvider(
             create: (context) => WorkoutBloc(
-                  routineDao: db.routineDao,
-                  exerciseGroupDao: db.baseExerciseGroupDao,
-                  noteDao: db.noteDao,
-                  exerciseSetDao: db.exerciseSetDao,
-                  exerciseSetDataDao: db.exerciseSetDataDao,
-                  workoutDataDao: db.workoutDataDao,
-                  databaseService: databaseService,
+              databaseService: databaseService,
+                  routineService: routineService,
                 )..add(const WorkoutInitialize())),
         BlocProvider(
             create: (context) => EquipmentBloc(

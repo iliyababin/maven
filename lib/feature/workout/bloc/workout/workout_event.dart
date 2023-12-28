@@ -12,16 +12,12 @@ class WorkoutInitialize extends WorkoutEvent {
 }
 
 class WorkoutStart extends WorkoutEvent {
-  const WorkoutStart({
-    required this.routine,
-  });
+  const WorkoutStart(this.template);
 
-  final Routine routine;
+  final Template template;
 
   @override
-  List<Object?> get props => [
-        routine,
-      ];
+  List<Object?> get props => [template];
 }
 
 class WorkoutStateEmpty extends WorkoutEvent {
