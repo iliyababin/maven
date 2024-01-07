@@ -22,15 +22,15 @@ showSessionOptionsView(BuildContext context, Session session) {
                   exerciseGroups: session.exerciseGroups,
                   onSubmit: (routine, exerciseGroups) {
                     Navigator.pop(context);
-                    context.read<SessionBloc>().add(
+                    // TODO THJS
+                    /*context.read<SessionBloc>().add(
                           SessionUpdate(
                             session: session.copyWith(
                               routine: routine,
                               exerciseGroups: exerciseGroups,
                             ),
                           ),
-                        );
-
+                        );*/
                   },
                 ),
               ),

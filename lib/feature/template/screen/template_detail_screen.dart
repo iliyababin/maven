@@ -9,7 +9,6 @@ import '../../settings/settings.dart';
 import '../../theme/theme.dart';
 import '../../workout/bloc/workout/workout_bloc.dart';
 import '../template.dart';
-import '../view/template_options_view.dart';
 
 class TemplateDetailScreen extends StatefulWidget {
   const TemplateDetailScreen({
@@ -39,7 +38,9 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
-        List<Template> templates = state.templates.where((element) => widget.template.id == element.id).toList();
+        List<Template> templates = state.templates
+            .where((element) => widget.template.routine.id == element.routine.id)
+            .toList();
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -48,31 +49,26 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
           Template template = templates.first;
           return Scaffold(
             appBar: AppBar(
-              title: const Text(
-                'Template',
-              ),
+              title: const Text('Template'),
               actions: [
                 IconButton(
                   onPressed: () {
-                    showTemplateOptionsView(context, template);
+                    // TODO: THIS
+                    // showTemplateOptionsView(context, template);
                   },
                   icon: const Icon(
-                    Icons.more_vert_rounded,
-                  ),
+                      Icons.more_vert_rounded),
                 ),
               ],
               bottom: TabBar(
                 controller: tabController,
                 tabs: const [
                   Tab(
-                    text: 'About',
-                  ),
+                      text: 'About'),
                   Tab(
-                    text: 'Exercise',
-                  ),
+                      text: 'Exercise'),
                   Tab(
-                    text: 'History',
-                  ),
+                      text: 'History'),
                 ],
               ),
             ),
@@ -100,12 +96,12 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              template.name,
+                              template.routine.name,
                               style: T(context).textStyle.headingLarge,
                             ),
-                            if (template.note.isNotEmpty)
+                            if (template.routine.note.isNotEmpty)
                               MarkdownBody(
-                                data: template.note,
+                                data: template.routine.note,
                               ),
                           ],
                         ),
@@ -182,10 +178,11 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                       );
                     } else if (state.status.isLoaded) {
                       return ListView.builder(
-                        itemCount: template.exerciseGroups.length,
+                        itemCount: template.exerciseList.getLength(),
                         itemBuilder: (context, index) {
-                          final exerciseGroup = template.exerciseGroups[index];
-                          Exercise exercise = state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                          final exerciseGroup = template.exerciseList.getExerciseGroup(index);
+                          Exercise exercise = state.exercises
+                              .firstWhere((element) => element.id == exerciseGroup.exerciseId);
                           return ListTile(
                             leading: CircleAvatar(
                               child: Text(

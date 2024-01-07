@@ -1,26 +1,33 @@
-
+import 'package:equatable/equatable.dart';
 import 'package:maven/database/database.dart';
 
 import '../../../common/common.dart';
-import '../../exercise/model/exercise_group.dart';
+import '../../exercise/model/exercise_list.dart';
 
-class Template extends Routine {
+class Template extends Equatable {
   const Template({
-    super.id,
-    required super.name,
-    required super.note,
-    required super.timestamp,
-    required super.type,
-    this.data,
-    this.exerciseGroups = const [],
-    this.musclePercentages = const {},
-    this.duration = const Timed.zero(),
-    this.volume = 0,
+    required this.routine,
+    required this.data,
+    required this.exerciseList,
+    required this.musclePercentages,
+    required this.duration,
+    required this.volume,
   });
 
-  final TemplateData? data;
-  final List<ExerciseGroup> exerciseGroups;
+  final Routine routine;
+  final TemplateData data;
+  final ExerciseList exerciseList;
   final Map<Muscle, double> musclePercentages;
   final Timed duration;
   final double volume;
+
+  @override
+  List<Object?> get props => [
+        routine,
+        data,
+        exerciseList,
+        musclePercentages,
+        duration,
+        volume,
+      ];
 }

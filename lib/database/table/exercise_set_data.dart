@@ -81,20 +81,6 @@ class BaseExerciseSetData {
     }
   }
 
-  BaseExerciseSetData copyWith({
-    int? id,
-    String? value,
-    ExerciseFieldType? fieldType,
-    int? exerciseSetId,
-  }) {
-    return BaseExerciseSetData(
-      id: id ?? this.id,
-      value: value ?? this.value,
-      fieldType: fieldType ?? this.fieldType,
-      exerciseSetId: exerciseSetId ?? this.exerciseSetId,
-    );
-  }
-
   bool get requiresBar {
     switch (fieldType) {
       case ExerciseFieldType.reps:

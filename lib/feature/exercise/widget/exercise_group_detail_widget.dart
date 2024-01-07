@@ -15,7 +15,7 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Routine? routine;
-  final ExerciseGroup exerciseGroup;
+  final ExerciseGroupDto exerciseGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
                                   style: T(context).textStyle.titleSmall,
                                 );
                               }
-                              ExerciseSetData data = exerciseGroup.sets.first.data[index];
+                              ExerciseSetDataDto data = exerciseGroup.sets.first.data[index];
                               return Text(
                                 data.fieldType.generateTitle(exerciseGroup),
                                 style: T(context).textStyle.titleSmall,
@@ -74,25 +74,23 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
                           ),
                         );
                       }
-                      ExerciseSet set = exerciseGroup.sets[index];
+                      ExerciseSetDto set = exerciseGroup.sets[index];
 
                       return TableRow(
                         children: List.generate(
                           set.data.length + 1,
-                              (index2) {
+                          (index2) {
                             index2 = index2 - 1;
                             if (index2 == -1) {
                               return Text(
-                                set.type.name
-                                    .substring(0, 1)
-                                    .capitalize,
+                                set.type.name.substring(0, 1).capitalize,
                                 style: TextStyle(
                                   color: set.type.color(context),
                                   fontWeight: FontWeight.bold,
                                 ),
                               );
                             }
-                            ExerciseSetData data = set.data[index2];
+                            ExerciseSetDataDto data = set.data[index2];
                             return Text(
                               data.toShortString(),
                             );

@@ -7,12 +7,11 @@ import 'package:maven/feature/note/screen/markdown_editor.dart';
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../theme/theme.dart';
-import '../../note/note.dart';
 import '../exercise.dart';
 
-/// Widget for displaying an [ExerciseGroup] with [BaseExerciseSet]'s.
+/// Widget for displaying an [ExerciseGroupDto] with [BaseExerciseSet]'s.
 class ExerciseGroupWidget extends StatefulWidget {
-  /// Creates a widget to display an [ExerciseGroup] with [BaseExerciseSet]'s.
+  /// Creates a widget to display an [ExerciseGroupDto] with [BaseExerciseSet]'s.
   const ExerciseGroupWidget({
     super.key,
     required this.exercise,
@@ -35,32 +34,32 @@ class ExerciseGroupWidget extends StatefulWidget {
 
   final bool collapsed;
 
-  /// [ExerciseGroup]
-  final ExerciseGroup exerciseGroup;
+  /// [ExerciseGroupDto]
+  final ExerciseGroupDto exerciseGroup;
 
-  /// The list of [BaseExerciseSet]'s within this [ExerciseGroup].
-  final List<ExerciseSet> exerciseSets;
+  /// The list of [BaseExerciseSet]'s within this [ExerciseGroupDto].
+  final List<ExerciseSetDto> exerciseSets;
 
-  /// The [ExerciseTimerController] for this [ExerciseGroup].
+  /// The [ExerciseTimerController] for this [ExerciseGroupDto].
   final ExerciseTimerController? controller;
 
-  /// A callback function that is called when the [ExerciseGroup] is updated.
-  final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
+  /// A callback function that is called when the [ExerciseGroupDto] is updated.
+  final ValueChanged<ExerciseGroupDto> onExerciseGroupUpdate;
 
-  /// A callback function that is called when the [ExerciseGroup] is deleted.
+  /// A callback function that is called when the [ExerciseGroupDto] is deleted.
   final Function() onExerciseGroupDelete;
 
   /// A callback function that is called when a new [BaseExerciseSet] is added.
-  final ValueChanged<ExerciseSet> onExerciseSetAdd;
+  final ValueChanged<ExerciseSetDto> onExerciseSetAdd;
 
   /// A callback function that is called when an [BaseExerciseSet] is updated.
-  final Function(ExerciseSet value, int setIndex) onExerciseSetUpdate;
+  final Function(ExerciseSetDto value, int setIndex) onExerciseSetUpdate;
 
   /// A callback function that is called when an [BaseExerciseSet] is deleted.
-  final Function(ExerciseSet value, int setIndex) onExerciseSetDelete;
+  final Function(ExerciseSetDto value, int setIndex) onExerciseSetDelete;
 
   /// A callback function that is called when an [BaseExerciseSet] is toggled.
-  final Function(ExerciseSet value, int setIndex) onExerciseSetToggled;
+  final Function(ExerciseSetDto value, int setIndex) onExerciseSetToggled;
 
   /// Indicates whether or not checkboxes should be enabled for the [BaseExerciseSet]'s.
   final bool checkboxEnabled;
@@ -301,9 +300,9 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                           ),
                           SlidableAction(
                             onPressed: (BuildContext context) {
-                              ExerciseSet exerciseSet = widget.exerciseSets[index];
-                              widget.onExerciseSetDelete(exerciseSet, index);
-                            },
+                              ExerciseSetDto exerciseSet = widget.exerciseSets[index];
+                                widget.onExerciseSetDelete(exerciseSet, index);
+                              },
                             padding: EdgeInsets.zero,
                             icon: Icons.delete,
                             foregroundColor: T(context).color.error,
@@ -336,18 +335,18 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                 child: TextButton.icon(
                   onPressed: () {
-                    ExerciseSet exerciseSet = ExerciseSet(
-                      checked: false,
-                      type: ExerciseSetType.regular,
-                      exerciseGroupId: widget.exerciseGroup.id ?? -1,
-                      data: widget.exercise.fields.map((e) {
-                        return ExerciseSetData(
-                          value: '',
-                          fieldType: e.type,
-                          exerciseSetId: -1,
-                        );
-                      }).toList(growable: true),
-                    );
+                    ExerciseSetDto exerciseSet = ExerciseSetDto(
+                        checked: false,
+                        type: ExerciseSetType.regular,
+                        exerciseGroupId: widget.exerciseGroup.id ?? -1,
+                        data: widget.exercise.fields.map((e) {
+                          return ExerciseSetDataDto(
+                            value: '',
+                            fieldType: e.type,
+                            exerciseSetId: -1,
+                          );
+                        }).toList(growable: true),
+                      );
 
                     widget.onExerciseSetAdd(exerciseSet);
                   },

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../session/session.dart';
+import '../../theme/theme.dart';
 import '../workout.dart';
 
 class WorkoutBarWidget extends StatelessWidget {
@@ -24,7 +24,7 @@ class WorkoutBarWidget extends StatelessWidget {
   final FocusNode nameNode;
   final bool reordering;
   final Null Function() onReorder;
-  final Function(List<ExerciseGroup> exerciseGroups) onAddExercises;
+  final Function(List<ExerciseGroupDto> exerciseGroups) onAddExercises;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +48,8 @@ class WorkoutBarWidget extends StatelessWidget {
                             builder: (context) =>
                                 const ExerciseSelectionScreen()));
                     if (exercises != null) {
-                      List<ExerciseGroup> exerciseGroups =
-                          exercises.map((exercise) {
-                        return ExerciseGroup(
+                      List<ExerciseGroupDto> exerciseGroups = exercises.map((exercise) {
+                        return ExerciseGroupDto(
                           timer: exercise.timer,
                           weightUnit: exercise.weightUnit,
                           distanceUnit: exercise.distanceUnit,
@@ -58,12 +57,12 @@ class WorkoutBarWidget extends StatelessWidget {
                           barId: exercise.barId,
                           routineId: workout.routine.id,
                           sets: [
-                            ExerciseSet(
+                            ExerciseSetDto(
                               type: ExerciseSetType.regular,
                               checked: false,
                               exerciseGroupId: -1,
                               data: exercise.fields.map((field) {
-                                return ExerciseSetData(
+                                return ExerciseSetDataDto(
                                   value: '',
                                   fieldType: field.type,
                                   exerciseSetId: -1,

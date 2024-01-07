@@ -6,8 +6,8 @@ import 'package:maven/feature/note/note.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../theme/theme.dart';
 import '../workout.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -160,8 +160,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                               exercise.id ==
                                   workout.exerciseGroups[index].exerciseId);
 
-                          ExerciseGroup exerciseGroup =
-                          workout.exerciseGroups[index];
+                          ExerciseGroupDto exerciseGroup = workout.exerciseGroups[index];
 
                           return GestureDetector(
                             key: ValueKey(exerciseGroup.id),

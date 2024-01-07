@@ -19,11 +19,11 @@ class ExerciseSetWidget extends StatefulWidget {
   }) : super(key: key);
 
   final int index;
-  final ExerciseGroup group;
+  final ExerciseGroupDto group;
   final Exercise exercise;
-  final ExerciseSet exerciseSet;
-  final ValueChanged<ExerciseSet> onExerciseSetUpdate;
-  final ValueChanged<ExerciseSet>? onExerciseSetToggled;
+  final ExerciseSetDto exerciseSet;
+  final ValueChanged<ExerciseSetDto> onExerciseSetUpdate;
+  final ValueChanged<ExerciseSetDto>? onExerciseSetToggled;
   final bool checkboxEnabled;
   final bool hintsEnabled;
 
@@ -32,7 +32,7 @@ class ExerciseSetWidget extends StatefulWidget {
 }
 
 class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
-  late ExerciseSet exerciseSet;
+  late ExerciseSetDto exerciseSet;
   bool _isChecked = false;
 
   @override

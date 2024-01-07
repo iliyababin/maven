@@ -74,31 +74,31 @@ class TransferService {
       });
 
       if(groupIndex == -1) {
-        sessions[sessionIndex].exerciseGroups.add(ExerciseGroup(
-          exerciseId: temp.id!,
-          distanceUnit: temp.distanceUnit,
-          weightUnit: temp.weightUnit,
-          timer: temp.timer,
-          barId: temp.barId,
-          routineId: -1,
-          sets: [],
-        ));
+        sessions[sessionIndex].exerciseGroups.add(ExerciseGroupDto(
+              exerciseId: temp.id!,
+              distanceUnit: temp.distanceUnit,
+              weightUnit: temp.weightUnit,
+              timer: temp.timer,
+              barId: temp.barId,
+              routineId: -1,
+              sets: [],
+            ));
 
         groupIndex = sessions[sessionIndex].exerciseGroups.length - 1;
       }
 
-      List<ExerciseSetData> data = [];
+      List<ExerciseSetDataDto> data = [];
 
-      if(row.weight != '0') {
-        data.add(ExerciseSetData(
+      if (row.weight != '0') {
+        data.add(ExerciseSetDataDto(
           fieldType: ExerciseFieldType.weight,
           value: row.weight,
           exerciseSetId: -1,
         ));
       }
 
-      if(row.reps != '0') {
-        data.add(ExerciseSetData(
+      if (row.reps != '0') {
+        data.add(ExerciseSetDataDto(
           fieldType: ExerciseFieldType.reps,
           value: row.reps,
           exerciseSetId: -1,
@@ -106,7 +106,7 @@ class TransferService {
       }
 
       if(row.distance != '0') {
-        data.add(ExerciseSetData(
+        data.add(ExerciseSetDataDto(
           fieldType: ExerciseFieldType.distance,
           value: row.distance,
           exerciseSetId: -1,
@@ -114,19 +114,19 @@ class TransferService {
       }
 
       if(row.duration != '0') {
-        data.add(ExerciseSetData(
+        data.add(ExerciseSetDataDto(
           fieldType: ExerciseFieldType.duration,
           value: row.duration,
           exerciseSetId: -1,
         ));
       }
 
-      sessions[sessionIndex].exerciseGroups[groupIndex].sets.add(ExerciseSet(
-        type: ExerciseSetType.regular,
-        exerciseGroupId: -1,
-        checked: true,
-        data: data,
-      ));
+      sessions[sessionIndex].exerciseGroups[groupIndex].sets.add(ExerciseSetDto(
+            type: ExerciseSetType.regular,
+            exerciseGroupId: -1,
+            checked: true,
+            data: data,
+          ));
     }
     return sessions;
   }

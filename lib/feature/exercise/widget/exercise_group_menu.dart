@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../equipment/equipment.dart';
-import '../../note/note.dart';
-import '../model/exercise_group.dart';
+import '../../theme/theme.dart';
+import '../exercise.dart';
 
 class ExerciseGroupMenu extends StatelessWidget {
   const ExerciseGroupMenu({
@@ -18,8 +17,8 @@ class ExerciseGroupMenu extends StatelessWidget {
   }) : super(key: key);
 
   final Exercise exercise;
-  final ExerciseGroup exerciseGroup;
-  final ValueChanged<ExerciseGroup> onExerciseGroupUpdate;
+  final ExerciseGroupDto exerciseGroup;
+  final ValueChanged<ExerciseGroupDto> onExerciseGroupUpdate;
   final Function() onExerciseGroupDelete;
 
   @override

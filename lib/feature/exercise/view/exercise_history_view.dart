@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/exercise/widget/exercise_group_detail_widget.dart';
 
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../session/session.dart';
+import '../../theme/theme.dart';
 import '../exercise.dart';
 
 
@@ -35,8 +35,10 @@ class _ExerciseHistoryViewState extends State<ExerciseHistoryView> {
           );
         } else if (state.status.isLoaded) {
           List<Session> sessions = state.sessions.where((session) {
-            List<ExerciseGroup> groups = session.exerciseGroups.where((group) => group.exerciseId == widget.exercise.id).toList();
-            if(groups.isNotEmpty) {
+            List<ExerciseGroupDto> groups = session.exerciseGroups
+                .where((group) => group.exerciseId == widget.exercise.id)
+                .toList();
+            if (groups.isNotEmpty) {
               return true;
             } else {
               return false;

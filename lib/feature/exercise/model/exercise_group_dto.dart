@@ -1,9 +1,14 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import 'exercise_set.dart';
+import '../exercise.dart';
 
-class ExerciseGroup extends BaseExerciseGroup {
-  const ExerciseGroup({
+part 'exercise_group_dto.g.dart';
+
+@CopyWith()
+class ExerciseGroupDto extends BaseExerciseGroup {
+  const ExerciseGroupDto({
     super.id,
     required super.timer,
     required super.weightUnit,
@@ -15,7 +20,7 @@ class ExerciseGroup extends BaseExerciseGroup {
     this.notes = const [],
   });
 
-  ExerciseGroup.fromBase({
+  ExerciseGroupDto.fromBase({
     required BaseExerciseGroup baseExerciseGroup,
     this.sets = const [],
     this.notes = const [],
@@ -30,10 +35,10 @@ class ExerciseGroup extends BaseExerciseGroup {
         );
 
   final List<Note> notes;
-  final List<ExerciseSet> sets;
+  final List<ExerciseSetDto> sets;
 
-  @override
-  ExerciseGroup copyWith({
+/* @override
+  ExerciseGroupDto copyWith({
     int? id,
     Timed? timer,
     WeightUnit? weightUnit,
@@ -42,9 +47,9 @@ class ExerciseGroup extends BaseExerciseGroup {
     int? barId,
     int? routineId,
     List<Note>? notes,
-    List<ExerciseSet>? sets,
+    List<ExerciseSetDto>? sets,
   }) {
-    return ExerciseGroup(
+    return ExerciseGroupDto(
       id: id ?? this.id,
       timer: timer ?? this.timer,
       weightUnit: weightUnit ?? this.weightUnit,
@@ -55,5 +60,5 @@ class ExerciseGroup extends BaseExerciseGroup {
       notes: notes ?? this.notes,
       sets: sets ?? this.sets,
     );
-  }
+  }*/
 }

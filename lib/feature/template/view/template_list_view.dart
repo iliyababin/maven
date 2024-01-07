@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../common/common.dart';
-import '../../theme/theme.dart';
+import '../../exercise/bloc/bloc.dart';
 import '../template.dart';
 
 class TemplateListView extends StatelessWidget {
@@ -19,57 +18,39 @@ class TemplateListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TemplateBloc, TemplateState>(
-      builder: (context, state) {
-        if(state.status.isLoading) {
-          return SliverGrid(
-            gridDelegate: gridDelegate,
-            delegate: SliverChildBuilderDelegate(
-              childCount: 2,
-              (context, index) {
-                return Shimmer.fromColors(
-                  baseColor: T(context).color.surface.baseShimmer,
-                  highlightColor: T(context).color.surface.highlightShimmer,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: T(context).color.surface,
-                    ),
-                  ),
-                );
-              },
+    final templateState = context.watch<TemplateBloc>().state;
+    final exerciseState = context.watch<ExerciseBloc>().state;
+
+    if (templateState.status.isLoading || exerciseState.status.isLoading) {
+      return const SliverBoxWidget(
+        type: SliverBoxType.loading,
+      );
+    } else if (templateState.templates.isEmpty) {
+      return const SliverBoxWidget(
+        type: SliverBoxType.empty,
+      );
+    } else {
+      return SliverReorderableGrid(
+        itemCount: templateState.templates.length,
+        gridDelegate: gridDelegate,
+        proxyDecorator: (child, index, animation) =>
+            ProxyDecorator(child, index, animation, context),
+        itemBuilder: (context, index) {
+          return ReorderableGridDelayedDragStartListener(
+            key: ValueKey(templateState.templates[index].routine.id),
+            index: index,
+            child: TemplateWidget(
+              template: templateState.templates[index],
+              exercises: exerciseState.exercises,
             ),
           );
-        } else if (state.status.isLoaded) {
-          List<Template> templates = state.templates;
-
-          if(templates.isEmpty) {
-            return const SliverBoxWidget();
-          }
-
-          return SliverReorderableGrid(
-            itemCount: templates.length,
-            gridDelegate: gridDelegate,
-            proxyDecorator: (child, index, animation) => ProxyDecorator(child, index, animation, context),
-            itemBuilder: (context, index) {
-              return ReorderableGridDelayedDragStartListener(
-                key: ValueKey(templates[index].id),
-                index: index,
-                child: TemplateWidget(
-                  template: templates[index],
-                ),
-              );
-            },
-            onReorder: (oldIndex, newIndex) {
-              context.read<TemplateBloc>().add(
+        },
+        onReorder: (oldIndex, newIndex) {
+          context.read<TemplateBloc>().add(
                 TemplateReorder(oldIndex: oldIndex, newIndex: newIndex),
               );
-            },
-          );
-        } else {
-          throw Exception('Unhandled state: $state');
-        }
-      },
-    );
+        },
+      );
+    }
   }
 }

@@ -5,9 +5,9 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
 import '../../settings/settings.dart';
+import '../../theme/theme.dart';
 import '../session.dart';
 
 class SessionWidget extends StatelessWidget {
@@ -101,7 +101,7 @@ class SessionWidget extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              ExerciseGroup exerciseGroup = session.exerciseGroups[index];
+                              ExerciseGroupDto exerciseGroup = session.exerciseGroups[index];
 
                               if (state.status.isLoading) {
                                 return Shimmer.fromColors(

@@ -62,6 +62,7 @@ class BaseExerciseGroup extends Equatable {
   @ColumnInfo(name: 'routine_id')
   final int? routineId;
 
+  /* @override
   BaseExerciseGroup copyWith({
     int? id,
     Timed? timer,
@@ -81,6 +82,18 @@ class BaseExerciseGroup extends Equatable {
       routineId: routineId ?? this.routineId,
     );
   }
+
+  BaseExerciseGroup copyWithNullID() {
+    return BaseExerciseGroup(
+      id: null,
+      timer: timer,
+      weightUnit: weightUnit,
+      distanceUnit: distanceUnit,
+      exerciseId: exerciseId,
+      barId: barId,
+      routineId: routineId,
+    );
+  }*/
 
   @override
   List<Object?> get props => [

@@ -1,25 +1,205 @@
 import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../exercise/exercise.dart';
+import '../../exercise/model/exercise_list.dart';
 import '../../template/template.dart';
 import '../../workout/workout.dart';
 
 class RoutineService {
   final RoutineDao routineDao;
+  final ExerciseDao exerciseDao;
   final ExerciseGroupDao exerciseGroupDao;
   final ExerciseSetDao exerciseSetDao;
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
   final WorkoutDataDao workoutDataDao;
+  final TemplateDataDao templateDataDao;
 
   RoutineService({
     required this.routineDao,
+    required this.exerciseDao,
     required this.exerciseGroupDao,
     required this.exerciseSetDao,
     required this.exerciseSetDataDao,
     required this.noteDao,
     required this.workoutDataDao,
+    required this.templateDataDao,
   });
+
+  /// Gets a template from the database.
+  ///
+  /// Throws [Exception] if the provided ID does not exist.
+  Future<Template> getTemplate(int templateDataId) async {
+    TemplateData? templateData = await templateDataDao.get(templateDataId);
+
+    if (templateData == null) {
+      throw Exception('Template does not exist');
+    }
+
+    Routine routine = await getRoutine(templateData.routineId);
+    List<ExerciseGroupDto> exerciseGroups = await _getExerciseGroups(routine.id!);
+
+    return Template(
+      routine: routine,
+      data: templateData,
+      exerciseList: ExerciseList(exerciseGroups),
+      duration: getDuration(exerciseGroups),
+      musclePercentages: await getMusclePercentages(exerciseGroups),
+      volume: getVolume(exerciseGroups),
+    );
+  }
+
+  /// Gets all templates from the database.
+  Future<List<Template>> getTemplates() async {
+    List<Template> templates = [];
+
+    for (TemplateData templateData in await templateDataDao.getAll()) {
+      templates.add(await getTemplate(templateData.id!));
+    }
+
+    return templates;
+  }
+
+  double getVolume(List<ExerciseGroupDto> exerciseGroups) {
+    double pounds = 0;
+
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        double setPounds = 1;
+
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          if (exerciseSetData.fieldType == ExerciseFieldType.weight) {
+            if (exerciseGroup.weightUnit == WeightUnit.pound) {
+              setPounds *= exerciseSetData.valueAsDouble;
+            } else if (exerciseGroup.weightUnit == WeightUnit.kilogram) {
+              setPounds *= exerciseSetData.valueAsDouble * 2.20462262;
+            }
+          } else if (exerciseSetData.fieldType == ExerciseFieldType.reps) {
+            setPounds *= exerciseSetData.valueAsDouble;
+          }
+        }
+        pounds += setPounds;
+      }
+    }
+    return pounds;
+  }
+
+  Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroupDto> exerciseGroups) async {
+    Map<Muscle, int> muscleCount = {};
+
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
+      Exercise? exercise = await exerciseDao.get(exerciseGroup.exerciseId);
+      muscleCount[exercise!.muscle] = (muscleCount[exercise.muscle] ?? 0) + 1;
+    }
+
+    Map<Muscle, double> musclePercentages = {};
+    for (Muscle muscle in muscleCount.keys) {
+      musclePercentages[muscle] = muscleCount[muscle]! / exerciseGroups.length;
+    }
+
+    return musclePercentages;
+  }
+
+  Timed getDuration(List<ExerciseGroupDto> exerciseGroups) {
+    Timed duration = const Timed.zero();
+
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        duration = duration.add(exerciseGroup.timer);
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          if (exerciseSetData.fieldType == ExerciseFieldType.duration) {
+            duration = duration.add(Timed.fromSeconds(exerciseSetData.valueAsDouble.toInt()));
+          }
+        }
+      }
+    }
+
+    return duration;
+  }
+
+  /// Adds a template to the database.
+  ///
+  /// Throws [Exception] if the provided routine is not of type template.
+  Future<Template> addTemplate(Routine routine, ExerciseList exerciseList) async {
+    if (routine.type != RoutineType.template) {
+      throw Exception('Routine must be of type template');
+    }
+
+    int routineId = await routineDao.add(routine);
+
+    int templateDataId = await templateDataDao.add(TemplateData(
+      routineId: routineId,
+      sort: -1,
+    ));
+
+    for (int i = 0; i < exerciseList.getLength(); i++) {
+      ExerciseGroupDto exerciseGroup = exerciseList.getExerciseGroup(i);
+      int exerciseGroupId =
+          await exerciseGroupDao.add(exerciseGroup.copyWith(routineId: routineId));
+
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        int exerciseSetId =
+            await exerciseSetDao.add(exerciseSet.copyWith(exerciseGroupId: exerciseGroupId));
+
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.add(exerciseSetData.copyWith(exerciseSetId: exerciseSetId));
+        }
+      }
+
+      for (Note note in exerciseGroup.notes) {
+        await noteDao.add(note.copyWith(exerciseGroupId: exerciseGroupId));
+      }
+    }
+
+    return getTemplate(templateDataId);
+  }
+
+  /// Updates a template in the database.
+  ///
+  /// Throws [Exception] if the provided routine is not of type template.
+  Future<Template> updateTemplate(Routine routine, ExerciseList exerciseList) async {
+    if (routine.type != RoutineType.template) {
+      throw Exception('Routine must be of type template');
+    }
+
+    await routineDao.modify(routine);
+
+    for (int i = 0; i < exerciseList.getLength(); i++) {
+      ExerciseGroupDto exerciseGroup = exerciseList.getExerciseGroup(i);
+      await exerciseGroupDao.modify(exerciseGroup);
+
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        await exerciseSetDao.modify(exerciseSet);
+
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.modify(exerciseSetData);
+        }
+      }
+
+      for (Note note in exerciseGroup.notes) {
+        await noteDao.modify(note);
+      }
+    }
+
+    return getTemplate(routine.id!);
+  }
+
+  void updateTemplateData(TemplateData data) {
+    templateDataDao.modify(data);
+  }
+
+  void deleteTemplate(Template template) {
+    routineDao.remove(template.routine);
+  }
+
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
 
   /// Gets a routine from the database.
   ///
@@ -45,7 +225,7 @@ class RoutineService {
     }
 
     Routine routine = await getRoutine(workoutData.routineId);
-    List<ExerciseGroup> exerciseGroups = await _getExerciseGroups(routine.id!);
+    List<ExerciseGroupDto> exerciseGroups = await _getExerciseGroups(routine.id!);
 
     return Workout(
       routine: routine,
@@ -91,8 +271,8 @@ class RoutineService {
   /// Starts a workout from a template.
   Future<Workout?> startTemplate(Template template) async {
     Routine routine = Routine(
-      name: template.name,
-      note: template.note,
+      name: template.routine.name,
+      note: template.routine.note,
       timestamp: DateTime.now(),
       type: RoutineType.workout,
     );
@@ -107,17 +287,19 @@ class RoutineService {
 
     int workoutDataId = await workoutDataDao.add(workoutData);
 
-    List<ExerciseGroup> exerciseGroups = [];
-    for (ExerciseGroup exerciseGroup in template.exerciseGroups) {
+    List<ExerciseGroupDto> exerciseGroups = [];
+    for (int i = 0; i < template.exerciseList.getLength(); i++) {
+      ExerciseGroupDto exerciseGroup = template.exerciseList.getExerciseGroup(i);
       int exerciseGroupId =
-          await exerciseGroupDao.add(exerciseGroup.copyWith(routineId: routineId));
+          await exerciseGroupDao.add(exerciseGroup.copyWith(id: null, routineId: routineId));
 
-      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
-        int exerciseSetId =
-            await exerciseSetDao.add(exerciseSet.copyWith(exerciseGroupId: exerciseGroupId));
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        int exerciseSetId = await exerciseSetDao
+            .add(exerciseSet.copyWith(id: null, exerciseGroupId: exerciseGroupId));
 
-        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
-          await exerciseSetDataDao.add(exerciseSetData.copyWith(exerciseSetId: exerciseSetId));
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao
+              .add(exerciseSetData.copyWith(id: null, exerciseSetId: exerciseSetId));
         }
       }
 
@@ -131,15 +313,15 @@ class RoutineService {
     return getWorkout();
   }
 
-  Future<List<ExerciseGroup>> _getExerciseGroups(int routineId) async {
-    List<ExerciseGroup> exerciseGroups = [];
+  Future<List<ExerciseGroupDto>> _getExerciseGroups(int routineId) async {
+    List<ExerciseGroupDto> exerciseGroups = [];
 
     List<BaseExerciseGroup> baseExerciseGroups = await exerciseGroupDao.getByRoutineId(routineId);
     for (BaseExerciseGroup baseExerciseGroup in baseExerciseGroups) {
       List<Note> notes = await noteDao.getByExerciseGroupId(baseExerciseGroup.id!);
-      List<ExerciseSet> exerciseSets = await _getExerciseSets(baseExerciseGroup);
+      List<ExerciseSetDto> exerciseSets = await _getExerciseSets(baseExerciseGroup);
 
-      exerciseGroups.add(ExerciseGroup.fromBase(
+      exerciseGroups.add(ExerciseGroupDto.fromBase(
         baseExerciseGroup: baseExerciseGroup,
         notes: notes,
         sets: exerciseSets,
@@ -149,14 +331,14 @@ class RoutineService {
     return exerciseGroups;
   }
 
-  Future<List<ExerciseSet>> _getExerciseSets(BaseExerciseGroup exerciseGroup) async {
+  Future<List<ExerciseSetDto>> _getExerciseSets(BaseExerciseGroup exerciseGroup) async {
     List<BaseExerciseSet> baseExerciseSets =
         await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!);
-    List<ExerciseSet> exerciseSets = [];
+    List<ExerciseSetDto> exerciseSets = [];
 
     for (BaseExerciseSet baseExerciseSet in baseExerciseSets) {
-      List<ExerciseSetData> exerciseSetData = await _getExerciseSetData(baseExerciseSet);
-      exerciseSets.add(ExerciseSet.fromBase(
+      List<ExerciseSetDataDto> exerciseSetData = await _getExerciseSetData(baseExerciseSet);
+      exerciseSets.add(ExerciseSetDto.fromBase(
         baseExerciseSet: baseExerciseSet,
         data: exerciseSetData,
       ));
@@ -165,11 +347,11 @@ class RoutineService {
     return exerciseSets;
   }
 
-  Future<List<ExerciseSetData>> _getExerciseSetData(BaseExerciseSet exerciseSet) async {
+  Future<List<ExerciseSetDataDto>> _getExerciseSetData(BaseExerciseSet exerciseSet) async {
     List<BaseExerciseSetData> baseExerciseSetDataList =
         await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!);
     return baseExerciseSetDataList
-        .map((baseData) => ExerciseSetData(
+        .map((baseData) => ExerciseSetDataDto(
             id: baseData.id,
             value: baseData.value,
             fieldType: baseData.fieldType,

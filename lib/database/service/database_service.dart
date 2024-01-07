@@ -19,8 +19,8 @@ class DatabaseService {
   final ExerciseSetDataDao exerciseSetDataDao;
   final NoteDao noteDao;
 
-  Future<List<ExerciseGroup>> getByRoutineId(int routineId) async {
-    List<ExerciseGroup> exerciseGroups = [];
+  Future<List<ExerciseGroupDto>> getByRoutineId(int routineId) async {
+    List<ExerciseGroupDto> exerciseGroups = [];
     for (BaseExerciseGroup exerciseGroup in await exerciseGroupDao.getByRoutineId(routineId)) {
       List<Note> notes = [];
       for (Note note in await noteDao.getByExerciseGroupId(exerciseGroup.id!)) {
@@ -31,11 +31,13 @@ class DatabaseService {
         ));
       }
 
-      List<ExerciseSet> exerciseSets = [];
-      for (BaseExerciseSet exerciseSet in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
-        List<ExerciseSetData> exerciseSetData = [];
-        for (BaseExerciseSetData baseExerciseSetData in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
-          exerciseSetData.add(ExerciseSetData(
+      List<ExerciseSetDto> exerciseSets = [];
+      for (BaseExerciseSet exerciseSet
+          in await exerciseSetDao.getByExerciseGroupId(exerciseGroup.id!)) {
+        List<ExerciseSetDataDto> exerciseSetData = [];
+        for (BaseExerciseSetData baseExerciseSetData
+            in await exerciseSetDataDao.getByExerciseSetId(exerciseSet.id!)) {
+          exerciseSetData.add(ExerciseSetDataDto(
             id: baseExerciseSetData.id,
             value: baseExerciseSetData.value,
             fieldType: baseExerciseSetData.fieldType,
@@ -43,7 +45,7 @@ class DatabaseService {
           ));
         }
 
-        exerciseSets.add(ExerciseSet(
+        exerciseSets.add(ExerciseSetDto(
           id: exerciseSet.id,
           type: exerciseSet.type,
           checked: exerciseSet.checked,
@@ -52,7 +54,7 @@ class DatabaseService {
         ));
       }
 
-      exerciseGroups.add(ExerciseGroup(
+      exerciseGroups.add(ExerciseGroupDto(
         id: exerciseGroup.id,
         timer: exerciseGroup.timer,
         weightUnit: exerciseGroup.weightUnit,
@@ -68,14 +70,14 @@ class DatabaseService {
     return exerciseGroups;
   }
 
-  Future<double> getVolume(List<ExerciseGroup> exerciseGroups) async {
+  Future<double> getVolume(List<ExerciseGroupDto> exerciseGroups) async {
     double pounds = 0;
 
-    for (ExerciseGroup exerciseGroup in exerciseGroups) {
-      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
         double setPounds = 1;
 
-        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
           if (exerciseSetData.fieldType == ExerciseFieldType.weight) {
             if (exerciseGroup.weightUnit == WeightUnit.pound) {
               setPounds *= exerciseSetData.valueAsDouble;
@@ -92,10 +94,10 @@ class DatabaseService {
     return pounds;
   }
 
-  Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroup> exerciseGroups) async {
+  Future<Map<Muscle, double>> getMusclePercentages(List<ExerciseGroupDto> exerciseGroups) async {
     Map<Muscle, int> muscleCount = {};
 
-    for (ExerciseGroup exerciseGroup in exerciseGroups) {
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
       Exercise? exercise = await exerciseDao.get(exerciseGroup.exerciseId);
       muscleCount[exercise!.muscle] = (muscleCount[exercise.muscle] ?? 0) + 1;
     }
@@ -108,13 +110,13 @@ class DatabaseService {
     return musclePercentages;
   }
 
-  Timed getDuration(List<ExerciseGroup> exerciseGroups) {
+  Timed getDuration(List<ExerciseGroupDto> exerciseGroups) {
     Timed duration = const Timed.zero();
 
-    for (ExerciseGroup exerciseGroup in exerciseGroups) {
-      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
+    for (ExerciseGroupDto exerciseGroup in exerciseGroups) {
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
         duration = duration.add(exerciseGroup.timer);
-        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
           if (exerciseSetData.fieldType == ExerciseFieldType.duration) {
             duration = duration.add(Timed.fromSeconds(exerciseSetData.valueAsDouble.toInt()));
           }

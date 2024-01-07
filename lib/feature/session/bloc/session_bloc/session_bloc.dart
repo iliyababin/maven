@@ -71,11 +71,11 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       routineId: routineId,
     ));
 
-    for (ExerciseGroup exerciseGroup in event.workout.exerciseGroups) {
+    for (ExerciseGroupDto exerciseGroup in event.workout.exerciseGroups) {
       int completedSets = 0;
-      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
         int completedFields = 0;
-        for (ExerciseSetData data in exerciseSet.data) {
+        for (ExerciseSetDataDto data in exerciseSet.data) {
           if (data.value.isEmpty) continue;
           completedSets++;
         }
@@ -83,7 +83,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       }
       if (completedSets == 0) continue;
 
-      int exerciseGroupId = await exerciseGroupDao.add(ExerciseGroup(
+      int exerciseGroupId = await exerciseGroupDao.add(ExerciseGroupDto(
         timer: exerciseGroup.timer,
         weightUnit: exerciseGroup.weightUnit,
         distanceUnit: exerciseGroup.distanceUnit,
@@ -92,15 +92,18 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         routineId: routineId,
       ));
 
-      for (ExerciseSet exerciseSet in exerciseGroup.sets) {
-        int exerciseSetId = await exerciseSetDao.add(ExerciseSet(
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        int exerciseSetId = await exerciseSetDao.add(ExerciseSetDto(
           type: exerciseSet.type,
           checked: true,
           exerciseGroupId: exerciseGroupId,
         ));
 
-        for (ExerciseSetData exerciseSetData in exerciseSet.data) {
-          await exerciseSetDataDao.add(ExerciseSetData(value: exerciseSetData.value, fieldType: exerciseSetData.fieldType, exerciseSetId: exerciseSetId));
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.add(ExerciseSetDataDto(
+              value: exerciseSetData.value,
+              fieldType: exerciseSetData.fieldType,
+              exerciseSetId: exerciseSetId));
         }
       }
     }
@@ -190,17 +193,17 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         importId: importId,
       ));
 
-      for (ExerciseGroup group in session.exerciseGroups) {
+      for (ExerciseGroupDto group in session.exerciseGroups) {
         int exerciseGroupId = await exerciseGroupDao.add(group.copyWith(
           routineId: sessionId,
         ));
 
-        for (ExerciseSet set in group.sets) {
+        for (ExerciseSetDto set in group.sets) {
           int exerciseSetId = await exerciseSetDao.add(set.copyWith(
             exerciseGroupId: exerciseGroupId,
           ));
 
-          for (ExerciseSetData data in set.data) {
+          for (ExerciseSetDataDto data in set.data) {
             await exerciseSetDataDao.add(data.copyWith(
               exerciseSetId: exerciseSetId,
             ));
@@ -220,7 +223,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     List<Session> sessions = [];
     for (Routine routine in await routineDao.getByType(RoutineType.session)) {
       SessionData? data = await sessionDataDao.getByRoutineId(routine.id!);
-      List<ExerciseGroup> exerciseGroups = await databaseService.getByRoutineId(routine.id!);
+      List<ExerciseGroupDto> exerciseGroups = await databaseService.getByRoutineId(routine.id!);
       sessions.add(Session(
         routine: routine,
         exerciseGroups: exerciseGroups,

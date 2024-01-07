@@ -17,7 +17,7 @@ enum ExerciseFieldType {
 }
 
 extension ExerciseFieldTypeExtension on ExerciseFieldType {
-  String generateTitle(ExerciseGroup exerciseGroup) {
+  String generateTitle(ExerciseGroupDto exerciseGroup) {
     switch (this) {
       case ExerciseFieldType.weight:
         return exerciseGroup.weightUnit!.name;

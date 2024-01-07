@@ -53,7 +53,7 @@ class WorkoutExerciseAdd extends WorkoutEvent {
     this.exerciseSets,
   });
 
-  final List<ExerciseGroup>? exerciseGroups;
+  final List<ExerciseGroupDto>? exerciseGroups;
   final List<BaseExerciseSet>? exerciseSets;
 
   @override
@@ -69,7 +69,7 @@ class WorkoutExerciseUpdate extends WorkoutEvent {
     this.exerciseSet,
   });
 
-  final ExerciseGroup? exerciseGroup;
+  final ExerciseGroupDto? exerciseGroup;
   final BaseExerciseSet? exerciseSet;
 
   @override
@@ -85,7 +85,7 @@ class WorkoutExerciseDelete extends WorkoutEvent {
     this.exerciseSet,
   });
 
-  final ExerciseGroup? exerciseGroup;
+  final ExerciseGroupDto? exerciseGroup;
   final BaseExerciseSet? exerciseSet;
 
   @override

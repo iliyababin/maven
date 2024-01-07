@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
+import '../../exercise/model/exercise_set_data_dto.dart';
 import '../../theme/theme.dart';
-import '../../exercise/model/exercise_set_data.dart';
 import '../multi_keyboard.dart';
 
 enum MKeyboardType {
@@ -24,8 +24,8 @@ class MultiKeyboard extends StatefulWidget {
 
   final int? barId;
   final Equipment equipment;
-  final ExerciseSetData data;
-  final Function(ExerciseSetData) onValueChanged;
+  final ExerciseSetDataDto data;
+  final Function(ExerciseSetDataDto) onValueChanged;
 
   @override
   State<MultiKeyboard> createState() => _MultiKeyboardState();

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maven/common/common.dart';
 import 'package:maven/feature/exercise/exercise.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../settings/settings.dart';
-import '../../theme/theme.dart';
 import '../../home/home.dart';
 import '../../profile/screen/profile_screen.dart';
 import '../../progress/screen/progress_screen.dart';
 import '../../template/template.dart';
+import '../../theme/theme.dart';
 import '../../workout/workout.dart';
 
 class Maven extends StatefulWidget {
@@ -43,7 +41,6 @@ class _MavenState extends State<Maven> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: T(context).color.background,
       body: SafeArea(
         child: BlocBuilder<WorkoutBloc, WorkoutState>(
           builder: (context, state) {
@@ -80,8 +77,7 @@ class _MavenState extends State<Maven> {
                         topLeft: Radius.circular(T(context).shape.large),
                         topRight: Radius.circular(T(context).shape.large),
                       ),
-                      color: T(context).color.surface.balance(
-                          InheritedThemeWidget.of(context).theme.brightness),
+                      color: T(context).color.background,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -160,7 +156,17 @@ class _MavenState extends State<Maven> {
       ),
       bottomNavigationBar: BlocBuilder<WorkoutBloc, WorkoutState>(
         builder: (context, state) {
-          return SizedBox(
+          return Container(
+            decoration: BoxDecoration(
+              boxShadow: !state.status.isActive
+                  ? [
+                      BoxShadow(
+                        color: T(context).color.shadow,
+                        blurRadius: 3,
+                      )
+                    ]
+                  : null,
+            ),
             height: state.status.isActive ? (1 - panelPosition) * 80 : 80,
             child: NavigationBar(
               onDestinationSelected: _onItemTapped,

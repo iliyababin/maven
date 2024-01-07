@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../exercise/exercise.dart';
+import '../../exercise/model/exercise_list.dart';
+import '../../exercise/widget/exercise_list_widget.dart';
 import '../../note/note.dart';
+import '../../theme/theme.dart';
 
-typedef RoutineEditCallback = void Function(Routine routine, List<ExerciseGroup> exerciseGroups);
+typedef RoutineEditCallback = void Function(Routine routine, ExerciseList exerciseList);
 
 class RoutineEditScreen extends StatefulWidget {
   const RoutineEditScreen({
@@ -17,7 +19,7 @@ class RoutineEditScreen extends StatefulWidget {
   }) : super(key: key);
 
   final Routine? routine;
-  final List<ExerciseGroup>? exerciseGroups;
+  final List<ExerciseGroupDto>? exerciseGroups;
   final RoutineEditCallback onSubmit;
 
   @override
@@ -26,10 +28,11 @@ class RoutineEditScreen extends StatefulWidget {
 
 class _RoutineEditScreenState extends State<RoutineEditScreen> {
   late Routine routine;
-  late List<ExerciseGroup> exerciseGroups;
+  late ExerciseList exerciseList;
 
   @override
   void initState() {
+    exerciseList = ExerciseList([]);
     if (widget.routine == null) {
       routine = Routine(
         name: '',
@@ -37,19 +40,8 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         timestamp: DateTime.now(),
         type: RoutineType.template,
       );
-      exerciseGroups = [];
     } else {
       routine = widget.routine!.copyWith();
-      exerciseGroups = widget.exerciseGroups!.map((exerciseGroup) {
-        return exerciseGroup.copyWith(
-            sets: exerciseGroup.sets.map((exerciseSet) {
-          return exerciseSet.copyWith(
-            data: exerciseSet.data.map((exerciseSetData) {
-              return exerciseSetData.copyWith();
-            }).toList(),
-          );
-        }).toList());
-      }).toList();
     }
     super.initState();
   }
@@ -74,7 +66,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                 );
                 return;
               }
-              widget.onSubmit(routine, exerciseGroups);
+              widget.onSubmit(routine, exerciseList);
             },
             icon: const Icon(
               Icons.check_rounded,
@@ -124,45 +116,9 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           BlocBuilder<ExerciseBloc, ExerciseState>(
             builder: (context, state) {
               if (state.status.isLoaded) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: exerciseGroups.length,
-                    (context, index) {
-                      ExerciseGroup exerciseGroup = exerciseGroups[index];
-                      return ExerciseGroupWidget(
-                        key: UniqueKey(),
-                        exercise: state.exercises.firstWhere((exercise) => exercise.id == exerciseGroup.exerciseId),
-                        exerciseGroup: exerciseGroup,
-                        exerciseSets: exerciseGroup.sets,
-                        onExerciseGroupUpdate: (value) {
-                          setState(() {
-                            exerciseGroups[index] = value;
-                          });
-                        },
-                        onExerciseGroupDelete: () {
-                          setState(() {
-                            exerciseGroups.removeAt(index);
-                          });
-                        },
-                        onExerciseSetAdd: (value) {
-                          setState(() {
-                            exerciseGroups[index].sets.add(value);
-                          });
-                        },
-                        onExerciseSetUpdate: (value, setIndex) {
-                          setState(() {
-                            exerciseGroups[index].sets[setIndex] = value;
-                          });
-                        },
-                        onExerciseSetDelete: (value, index2) {
-                          setState(() {
-                            exerciseGroups[index].sets.removeAt(index2);
-                          });
-                        },
-                        onExerciseSetToggled: (value, index2) {},
-                      );
-                    },
-                  ),
+                return ExerciseListWidget(
+                  exercises: state.exercises,
+                  exerciseList: exerciseList,
                 );
               } else {
                 return const SliverFillRemaining(
@@ -175,49 +131,22 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
           ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          onPressed: () async {
-            List<Exercise>? exercises = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ExerciseSelectionScreen(),
-              ),
-            );
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          List<Exercise>? exercises = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ExerciseSelectionScreen(),
+            ),
+          );
 
-            for (Exercise exercise in exercises ?? []) {
-              setState(() {
-                exerciseGroups.add(ExerciseGroup(
-                  timer: exercise.timer,
-                  weightUnit: exercise.weightUnit,
-                  distanceUnit: exercise.distanceUnit,
-                  exerciseId: exercise.id!,
-                  routineId: -1,
-                  sets: [
-                    ExerciseSet(
-                      exerciseGroupId: -1,
-                      checked: false,
-                      type: ExerciseSetType.regular,
-                      data: exercise.fields.map((e) {
-                        return ExerciseSetData(
-                          value: '',
-                          fieldType: e.type,
-                          exerciseSetId: -1,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                  barId: exercise.barId,
-                ));
-              });
-            }
-          },
-          child: const Icon(Icons.add),
-        ),
+          for (Exercise exercise in exercises ?? []) {
+            setState(() {
+              exerciseList.addExerciseGroup(exercise);
+            });
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

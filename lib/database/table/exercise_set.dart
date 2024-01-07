@@ -45,18 +45,4 @@ class BaseExerciseSet extends Equatable {
         checked,
         exerciseGroupId,
       ];
-
-  BaseExerciseSet copyWith({
-    int? id,
-    ExerciseSetType? type,
-    bool? checked,
-    int? exerciseGroupId,
-  }) {
-    return BaseExerciseSet(
-      id: id ?? this.id,
-      type: type ?? this.type,
-      checked: checked ?? this.checked,
-      exerciseGroupId: exerciseGroupId ?? this.exerciseGroupId,
-    );
-  }
 }

@@ -13,12 +13,12 @@ class Workout extends Equatable {
 
   final Routine routine;
   final WorkoutData data;
-  final List<ExerciseGroup> exerciseGroups;
+  final List<ExerciseGroupDto> exerciseGroups;
 
   Workout copyWith({
     Routine? routine,
     WorkoutData? data,
-    List<ExerciseGroup>? exerciseGroups,
+    List<ExerciseGroupDto>? exerciseGroups,
   }) {
     return Workout(
       routine: routine ?? this.routine,

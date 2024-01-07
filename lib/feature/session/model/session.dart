@@ -13,14 +13,14 @@ class Session extends Equatable {
   });
 
   final Routine routine;
-  final List<ExerciseGroup> exerciseGroups;
+  final List<ExerciseGroupDto> exerciseGroups;
   final SessionData data;
   final double volume;
   final Map<Muscle, double> musclePercentages;
 
   Session copyWith({
     Routine? routine,
-    List<ExerciseGroup>? exerciseGroups,
+    List<ExerciseGroupDto>? exerciseGroups,
     SessionData? data,
     double? volume,
     Map<Muscle, double>? musclePercentages,

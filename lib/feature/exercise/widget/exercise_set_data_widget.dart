@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../multi_keyboard/multi_keyboard.dart';
+import '../../theme/theme.dart';
 import '../exercise.dart';
 
 class ExerciseSetDataWidget extends StatefulWidget {
@@ -18,10 +18,10 @@ class ExerciseSetDataWidget extends StatefulWidget {
     required this.checkboxEnabled,
   }) : super(key: key);
 
-  final ExerciseSet set;
-  final ExerciseGroup group;
-  final ExerciseSetData data;
-  final ValueChanged<ExerciseSet> onUpdate;
+  final ExerciseSetDto set;
+  final ExerciseGroupDto group;
+  final ExerciseSetDataDto data;
+  final ValueChanged<ExerciseSetDto> onUpdate;
   final bool isChecked;
   final Exercise exercise;
   final bool checkboxEnabled;

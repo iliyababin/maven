@@ -1,5 +1,4 @@
 export 'bloc/bloc.dart';
-export 'model/exercise_set_data.dart';
 export 'model/model.dart';
 export 'screen/exercise_add_screen.dart';
 export 'screen/exercise_detail_screen.dart';

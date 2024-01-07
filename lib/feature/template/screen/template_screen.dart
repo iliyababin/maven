@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/common/common.dart';
 
-import '../../../database/database.dart';
-import '../../theme/theme.dart';
 import '../../program/view/program_list_view.dart';
+import '../../theme/theme.dart';
 import '../../workout/workout.dart';
 import '../template.dart';
 
@@ -66,22 +65,13 @@ class _TemplateScreenState extends State<TemplateScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => RoutineEditScreen(
-                                onSubmit: (routine, exerciseGroups) {
+                                onSubmit: (routine, exerciseList) {
                                   context.read<TemplateBloc>().add(
-                                    TemplateCreate(
-                                      template: Template(
-                                        name: routine.name,
-                                        note: routine.note,
-                                        timestamp: DateTime.now(),
-                                        type: RoutineType.template,
-                                        data: TemplateData(
-                                          sort: -1,
-                                          routineId: -1,
+                                        TemplateCreate(
+                                          routine: routine,
+                                          exerciseList: exerciseList,
                                         ),
-                                        exerciseGroups: exerciseGroups,
-                                      ),
-                                    ),
-                                  );
+                                      );
                                   Navigator.pop(context);
                                 },
                               ),
