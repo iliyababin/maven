@@ -93,12 +93,18 @@ class AppTheme extends Equatable {
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return option.color.primary;
+            return option.color.success;
           } else {
-            return option.color.secondary;
+            return option.color.surface;
           }
         }),
-        checkColor: MaterialStateProperty.all(option.color.background),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+        side: BorderSide(
+          color: option.color.surface,
+          width: 1,
+        ),
       ),
       colorScheme: ColorScheme(
         brightness: brightness,

@@ -22,7 +22,8 @@ class TemplateDetailScreen extends StatefulWidget {
   State<TemplateDetailScreen> createState() => _TemplateDetailScreenState();
 }
 
-class _TemplateDetailScreenState extends State<TemplateDetailScreen> with SingleTickerProviderStateMixin {
+class _TemplateDetailScreenState extends State<TemplateDetailScreen>
+    with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -38,37 +39,109 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
   Widget build(BuildContext context) {
     return BlocBuilder<TemplateBloc, TemplateState>(
       builder: (context, state) {
-        List<Template> templates = state.templates
+        Template? template = state.templates
             .where((element) => widget.template.routine.id == element.routine.id)
-            .toList();
+            .firstOrNull;
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.status.isLoaded && templates.isNotEmpty) {
-          Template template = templates.first;
+        } else if (state.status.isLoaded && template != null) {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Template'),
               actions: [
                 IconButton(
                   onPressed: () {
-                    // TODO: THIS
-                    // showTemplateOptionsView(context, template);
+                    showBottomSheetDialog(
+                      context: context,
+                      child: ListDialog(
+                        children: [
+                          ListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RoutineEditScreen(
+                                    routine: template.routine,
+                                    exerciseList: template.exerciseList,
+                                    onSubmit: (routine, exerciseList) {
+                                      Navigator.pop(context);
+                                      context.read<TemplateBloc>().add(
+                                            TemplateUpdate(
+                                              routine: routine,
+                                              exerciseList: exerciseList,
+                                            ),
+                                          );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                            leading: const Icon(Icons.edit_rounded),
+                            title: const Text('Edit'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              // TODO: Implement share
+                            },
+                            leading: const Icon(Icons.share_rounded),
+                            title: const Text('Share'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              showBottomSheetDialog(
+                                context: context,
+                                child: ConfirmationDialog(
+                                  title: 'Delete Template',
+                                  subtitle: 'This action cannot be undone.',
+                                  cancelButtonStyle: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all(T(context).color.onBackground),
+                                  ),
+                                  confirmButtonStyle: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(T(context).color.error),
+                                    foregroundColor:
+                                        MaterialStateProperty.all(T(context).color.onError),
+                                  ),
+                                  confirmText: 'Delete',
+                                  onSubmit: () {
+                                    context.read<TemplateBloc>().add(TemplateDelete(
+                                          template: template,
+                                        ));
+                                  },
+                                ),
+                                onClose: () {},
+                              );
+                            },
+                            leading: Icon(
+                              Icons.delete_rounded,
+                              color: T(context).color.error,
+                            ),
+                            title: Text(
+                              'Delete',
+                              style: TextStyle(
+                                color: T(context).color.error,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
-                  icon: const Icon(
-                      Icons.more_vert_rounded),
+                  icon: const Icon(Icons.more_vert_rounded),
                 ),
               ],
               bottom: TabBar(
                 controller: tabController,
                 tabs: const [
-                  Tab(
-                      text: 'About'),
-                  Tab(
-                      text: 'Exercise'),
-                  Tab(
-                      text: 'History'),
+                  Tab(text: 'About'),
+                  Tab(text: 'Exercise'),
+                  Tab(text: 'History'),
                 ],
               ),
             ),
@@ -114,7 +187,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: T(context).color.surface,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(T(context).shape.large),
                         ),
                         child: Table(
                           defaultVerticalAlignment: TableCellVerticalAlignment.top,
@@ -133,9 +206,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                             ),
                             TableRow(
                               children: [
-                                const Text(
-                                  'Est. Duration',
-                                ),
+                                const Text('Est. Duration'),
                                 Text(
                                   template.duration.toString(),
                                   style: T(context).textStyle.labelSmall,
@@ -144,20 +215,16 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                             ),
                             TableRow(
                               children: [
-                                const Text(
-                                  'Volume',
-                                ),
+                                const Text('Volume'),
                                 Text(
-                                  '${s(context).parseWeight(template.volume.toDouble())}',
+                                  s(context).parseWeight(template.volume.toDouble()),
                                   style: T(context).textStyle.labelSmall,
                                 ),
                               ],
                             ),
                             TableRow(
                               children: [
-                                const Text(
-                                  'Muscle Coverage',
-                                ),
+                                const Text('Muscle Coverage'),
                                 Text(
                                   parseMuscleCoverage(template.musclePercentages),
                                   style: T(context).textStyle.labelSmall,
@@ -185,9 +252,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                               .firstWhere((element) => element.id == exerciseGroup.exerciseId);
                           return ListTile(
                             leading: CircleAvatar(
-                              child: Text(
-                                exercise.name.substring(0, 1),
-                              ),
+                              child: Text(exercise.name.substring(0, 1)),
                             ),
                             title: Text(
                               exercise.name,
@@ -202,17 +267,13 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                       );
                     } else {
                       return const Center(
-                        child: Text(
-                          'Error',
-                        ),
+                        child: Text('Error'),
                       );
                     }
                   },
                 ),
                 const Center(
-                  child: Text(
-                    'History',
-                  ),
+                  child: Text('History'),
                 ),
               ],
             ),
@@ -237,9 +298,7 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                         onClose: () {},
                       );
                     },
-                    child: const Text(
-                      'Start',
-                    ),
+                    child: const Text('Start'),
                   ),
                 ),
               ),
@@ -255,18 +314,6 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen> with Single
                   child: Text(
                     'Not Found',
                     style: T(context).textStyle.titleLarge,
-                  ),
-                ),
-                SizedBox(
-                  height: T(context).space.large,
-                ),
-                Center(
-                  child: Container(
-                    width: 300,
-                    child: const Text(
-                      'The template was either deleted or does not exist.',
-                      textAlign: TextAlign.center,
-                    ),
                   ),
                 ),
               ],

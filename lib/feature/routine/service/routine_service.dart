@@ -135,19 +135,20 @@ class RoutineService {
     for (int i = 0; i < exerciseList.getLength(); i++) {
       ExerciseGroupDto exerciseGroup = exerciseList.getExerciseGroup(i);
       int exerciseGroupId =
-          await exerciseGroupDao.add(exerciseGroup.copyWith(routineId: routineId));
+          await exerciseGroupDao.add(exerciseGroup.copyWith(id: null, routineId: routineId));
 
       for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
-        int exerciseSetId =
-            await exerciseSetDao.add(exerciseSet.copyWith(exerciseGroupId: exerciseGroupId));
+        int exerciseSetId = await exerciseSetDao
+            .add(exerciseSet.copyWith(id: null, exerciseGroupId: exerciseGroupId));
 
         for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
-          await exerciseSetDataDao.add(exerciseSetData.copyWith(exerciseSetId: exerciseSetId));
+          await exerciseSetDataDao
+              .add(exerciseSetData.copyWith(id: null, exerciseSetId: exerciseSetId));
         }
       }
 
       for (Note note in exerciseGroup.notes) {
-        await noteDao.add(note.copyWith(exerciseGroupId: exerciseGroupId));
+        await noteDao.add(note.copyWith(id: null, exerciseGroupId: exerciseGroupId));
       }
     }
 
@@ -162,26 +163,9 @@ class RoutineService {
       throw Exception('Routine must be of type template');
     }
 
-    await routineDao.modify(routine);
+    await routineDao.remove(routine);
 
-    for (int i = 0; i < exerciseList.getLength(); i++) {
-      ExerciseGroupDto exerciseGroup = exerciseList.getExerciseGroup(i);
-      await exerciseGroupDao.modify(exerciseGroup);
-
-      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
-        await exerciseSetDao.modify(exerciseSet);
-
-        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
-          await exerciseSetDataDao.modify(exerciseSetData);
-        }
-      }
-
-      for (Note note in exerciseGroup.notes) {
-        await noteDao.modify(note);
-      }
-    }
-
-    return getTemplate(routine.id!);
+    return addTemplate(routine, exerciseList);
   }
 
   void updateTemplateData(TemplateData data) {

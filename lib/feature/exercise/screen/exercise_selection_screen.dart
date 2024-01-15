@@ -150,12 +150,12 @@ class _ExerciseSelectionScreenState extends State<ExerciseSelectionScreen> {
                       item.isHidden ? T(context).color.onError : null,
                 ),
                 tileColor: isSelected
-                    ? T(context).color.primaryContainer
-                    : item.isHidden
-                        ? T(context).color.errorContainer
-                        : widget.selection && _selectedExercises.contains(item)
-                            ? T(context).color.primaryContainer
-                            : null,
+                      ? T(context).color.surface
+                      : item.isHidden
+                          ? T(context).color.errorContainer
+                          : widget.selection && _selectedExercises.contains(item)
+                              ? T(context).color.surface
+                              : null,
                 title: Text(
                   item.name,
                   style: TextStyle(

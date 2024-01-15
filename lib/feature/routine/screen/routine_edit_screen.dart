@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maven/common/common.dart';
 
 import '../../../database/database.dart';
 import '../../exercise/exercise.dart';
@@ -8,18 +9,23 @@ import '../../exercise/widget/exercise_list_widget.dart';
 import '../../note/note.dart';
 import '../../theme/theme.dart';
 
+enum RoutineEditState {
+  create,
+  edit,
+}
+
 typedef RoutineEditCallback = void Function(Routine routine, ExerciseList exerciseList);
 
 class RoutineEditScreen extends StatefulWidget {
   const RoutineEditScreen({
     Key? key,
     this.routine,
-    this.exerciseGroups,
+    this.exerciseList,
     required this.onSubmit,
   }) : super(key: key);
 
   final Routine? routine;
-  final List<ExerciseGroupDto>? exerciseGroups;
+  final ExerciseList? exerciseList;
   final RoutineEditCallback onSubmit;
 
   @override
@@ -29,19 +35,23 @@ class RoutineEditScreen extends StatefulWidget {
 class _RoutineEditScreenState extends State<RoutineEditScreen> {
   late Routine routine;
   late ExerciseList exerciseList;
+  late RoutineEditState state;
 
   @override
   void initState() {
-    exerciseList = ExerciseList([]);
-    if (widget.routine == null) {
+    if (widget.routine != null) {
+      routine = widget.routine!.copyWith();
+      exerciseList = widget.exerciseList!.deepCopy();
+      state = RoutineEditState.edit;
+    } else {
       routine = Routine(
         name: '',
         note: '',
         timestamp: DateTime.now(),
         type: RoutineType.template,
       );
-    } else {
-      routine = widget.routine!.copyWith();
+      exerciseList = ExerciseList([]);
+      state = RoutineEditState.create;
     }
     super.initState();
   }
@@ -51,7 +61,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.exerciseGroups == null ? 'Create' : 'Edit',
+          state.name.capitalize,
         ),
         actions: [
           IconButton(
@@ -60,8 +70,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      'Please fill in all fields',
-                    ),
+                        'Please fill in all fields'),
                   ),
                 );
                 return;
@@ -69,8 +78,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
               widget.onSubmit(routine, exerciseList);
             },
             icon: const Icon(
-              Icons.check_rounded,
-            ),
+                Icons.check_rounded),
           ),
         ],
       ),
@@ -78,8 +86,7 @@ class _RoutineEditScreenState extends State<RoutineEditScreen> {
         slivers: [
           SliverPadding(
             padding: EdgeInsets.all(
-              T(context).space.large,
-            ),
+                T(context).space.large),
             sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

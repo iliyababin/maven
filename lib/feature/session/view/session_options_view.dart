@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maven/feature/routine/screen/routine_edit_screen.dart';
 
 import '../../../common/common.dart';
+import '../../exercise/model/exercise_list.dart';
 import '../../theme/theme.dart';
 import '../session.dart';
 
@@ -19,18 +20,18 @@ showSessionOptionsView(BuildContext context, Session session) {
               MaterialPageRoute(
                 builder: (context) => RoutineEditScreen(
                   routine: session.routine,
-                  exerciseGroups: session.exerciseGroups,
+                  exerciseList: ExerciseList([]),
                   onSubmit: (routine, exerciseGroups) {
                     Navigator.pop(context);
                     // TODO THJS
-                    /*context.read<SessionBloc>().add(
+                    context.read<SessionBloc>().add(
                           SessionUpdate(
                             session: session.copyWith(
                               routine: routine,
-                              exerciseGroups: exerciseGroups,
+                              exerciseGroups: [],
                             ),
                           ),
-                        );*/
+                        );
                   },
                 ),
               ),

@@ -143,11 +143,6 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                         );
                       }
                     },
-                    fillColor:
-                        _isChecked ? MaterialStateProperty.all<Color>(T(context).color.success) : MaterialStateProperty.all<Color>(T(context).color.surface),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
                   ),
                 ),
               )

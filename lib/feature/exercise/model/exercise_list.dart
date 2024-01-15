@@ -51,12 +51,8 @@ class ExerciseList {
       checked: false,
       type: ExerciseSetType.regular,
       exerciseGroupId: blank,
-      data: exerciseGroup.sets.first.data.map((data) {
-        return ExerciseSetDataDto(
-          value: '',
-          fieldType: data.fieldType,
-          exerciseSetId: blank,
-        );
+      data: exerciseGroup.sets.last.data.map((data) {
+        return data.copyWith();
       }).toList(),
     );
 
@@ -77,5 +73,31 @@ class ExerciseList {
 
   void updateExerciseGroup(ExerciseGroupDto value, int index) {
     _exercises[index] = value;
+  }
+
+  // figure some shit out for this temp solution
+  ExerciseList deepCopy() {
+    return ExerciseList(_exercises
+        .map(
+          (exerciseGroup) => exerciseGroup.copyWith(
+            sets: exerciseGroup.sets
+                .map(
+                  (exerciseSet) => exerciseSet.copyWith(
+                    data: exerciseSet.data
+                        .map(
+                          (exerciseSetData) => exerciseSetData.copyWith(),
+                        )
+                        .toList(),
+                  ),
+                )
+                .toList(),
+            notes: exerciseGroup.notes
+                .map(
+                  (note) => note.copyWith(),
+                )
+                .toList(),
+          ),
+        )
+        .toList());
   }
 }
