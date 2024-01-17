@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
 import '../database.dart';
@@ -17,8 +16,8 @@ import '../database.dart';
     ),
   ],
 )
-class BaseExerciseSet extends Equatable {
-  const BaseExerciseSet({
+class BaseExerciseSet {
+  BaseExerciseSet({
     this.id,
     required this.type,
     required this.checked,
@@ -27,22 +26,14 @@ class BaseExerciseSet extends Equatable {
 
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
-  final int? id;
+  int? id;
 
   @ColumnInfo(name: 'exercise_set_type')
-  final ExerciseSetType type;
+  ExerciseSetType type;
 
   @ColumnInfo(name: 'checked')
-  final bool checked;
+  bool checked;
 
   @ColumnInfo(name: 'exercise_group_id')
-  final int exerciseGroupId;
-
-  @override
-  List<Object?> get props => [
-        id,
-        type,
-        checked,
-        exerciseGroupId,
-      ];
+  int exerciseGroupId;
 }

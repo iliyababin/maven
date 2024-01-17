@@ -63,7 +63,10 @@ class _ExerciseHistoryViewState extends State<ExerciseHistoryView> {
               itemBuilder: (context, index) {
                 return ExerciseGroupDetailWidget(
                   routine: sessions[index].routine,
-                  exerciseGroup: sessions[index].exerciseGroups.firstWhere((element) => element.exerciseId == widget.exercise.id),
+                  exercise: widget.exercise,
+                  exerciseGroup: sessions[index]
+                      .exerciseGroups
+                      .firstWhere((element) => element.exerciseId == widget.exercise.id),
                 );
               },
             ),

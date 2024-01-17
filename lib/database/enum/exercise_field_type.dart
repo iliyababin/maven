@@ -20,7 +20,7 @@ extension ExerciseFieldTypeExtension on ExerciseFieldType {
   String generateTitle(ExerciseGroupDto exerciseGroup) {
     switch (this) {
       case ExerciseFieldType.weight:
-        return exerciseGroup.weightUnit!.name;
+        return exerciseGroup.weightUnit?.name ?? 'Error';
       case ExerciseFieldType.reps:
         return name.capitalize;
       case ExerciseFieldType.distance:

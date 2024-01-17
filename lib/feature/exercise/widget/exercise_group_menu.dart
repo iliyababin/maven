@@ -207,7 +207,6 @@ class ExerciseGroupMenu extends StatelessWidget {
             'Remove Exercise',
             style: TextStyle(
               color: T(context).color.error,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),

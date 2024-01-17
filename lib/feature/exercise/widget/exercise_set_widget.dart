@@ -9,48 +9,34 @@ class ExerciseSetWidget extends StatefulWidget {
   const ExerciseSetWidget({
     Key? key,
     required this.index,
-    required this.group,
     required this.exercise,
-    required this.exerciseSet,
-    required this.onExerciseSetUpdate,
+    required this.group,
+    required this.set,
     this.onExerciseSetToggled,
     required this.checkboxEnabled,
-    required this.hintsEnabled,
   }) : super(key: key);
 
   final int index;
-  final ExerciseGroupDto group;
   final Exercise exercise;
-  final ExerciseSetDto exerciseSet;
-  final ValueChanged<ExerciseSetDto> onExerciseSetUpdate;
+  final ExerciseGroupDto group;
+  final ExerciseSetDto set;
   final ValueChanged<ExerciseSetDto>? onExerciseSetToggled;
   final bool checkboxEnabled;
-  final bool hintsEnabled;
 
   @override
   State<ExerciseSetWidget> createState() => _ExerciseSetWidgetState();
 }
 
 class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
-  late ExerciseSetDto exerciseSet;
-  bool _isChecked = false;
-
-  @override
-  void initState() {
-    exerciseSet = widget.exerciseSet;
-    _isChecked = exerciseSet.checked ?? false;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: 44,
       color: widget.checkboxEnabled
-          ? _isChecked
-            ? T(context).color.successContainer
-            : T(context).color.background
+          ? widget.set.checked
+              ? T(context).color.successContainer
+              : T(context).color.background
           : T(context).color.background,
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: ExerciseRowWidget.build(
@@ -63,9 +49,8 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                   return ListTile(
                     onTap: () {
                       setState(() {
-                        exerciseSet = exerciseSet.copyWith(type: exerciseSetType);
+                        widget.set.type = exerciseSetType;
                       });
-                      widget.onExerciseSetUpdate(exerciseSet.copyWith(type: exerciseSetType));
                       Navigator.pop(context);
                     },
                     leading: Container(
@@ -74,12 +59,14 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                       width: 30,
                       child: Text(
                         exerciseSetType.abbreviated,
-                        style: T(context).textStyle.labelSmall.copyWith(color: exerciseSetType.color(context)),
+                        style: T(context)
+                            .textStyle
+                            .labelSmall
+                            .copyWith(color: exerciseSetType.color(context)),
                       ),
                     ),
                     title: Text(
-                      exerciseSetType.name,
-                    ),
+                        exerciseSetType.name),
                   );
                 }).toList(),
               ),
@@ -90,8 +77,10 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
           height: 35,
           backgroundColor: Colors.transparent,
           child: Text(
-            widget.exerciseSet.type == ExerciseSetType.regular ? widget.index.toString() : widget.exerciseSet.type.abbreviated,
-            style: T(context).textStyle.labelSmall.copyWith(color: widget.exerciseSet.type.color(context)),
+            widget.set.type == ExerciseSetType.regular
+                ? widget.index.toString()
+                : widget.set.type.abbreviated,
+            style: T(context).textStyle.labelSmall.copyWith(color: widget.set.type.color(context)),
           ),
         ),
         previous: MButton(
@@ -104,22 +93,18 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
             style: T(context).textStyle.bodyMedium,
           ),
         ),
-        options: exerciseSet.data
-            .where((element) => element.fieldType != ExerciseFieldType.bodyWeight)
+        options: widget.set.data
+            .where((data) => data.fieldType != ExerciseFieldType.bodyWeight)
             .toList()
-            .map((e) => ExerciseSetDataWidget(
-                  isChecked: _isChecked,
-                  group: widget.group,
-                  exercise: widget.exercise,
-                  data: e,
-                  set: exerciseSet,
-                  checkboxEnabled: widget.checkboxEnabled,
-                  onUpdate: (value) {
-                    widget.onExerciseSetUpdate(
-                      value,
-                    );
-                  },
-                ))
+            .map(
+              (data) => ExerciseSetDataWidget(
+                exercise: widget.exercise,
+                group: widget.group,
+                set: widget.set,
+                data: data,
+                isChecked: widget.set.checked,
+              ),
+            )
             .toList(),
         checkbox: widget.checkboxEnabled
             ? SizedBox(
@@ -127,19 +112,18 @@ class _ExerciseSetWidgetState extends State<ExerciseSetWidget> {
                 child: Transform.scale(
                   scale: 1.8,
                   child: Checkbox(
-                    value: _isChecked,
+                    value: widget.set.checked,
                     onChanged: (value) async {
-                      print(value);
-                      if (exerciseSet.data
+                      if (widget.set.data
                           .where((element) => element.fieldType != ExerciseFieldType.bodyWeight)
                           .toList()
                           .any((element) => element.value.isEmpty)) {
                       } else {
                         setState(() {
-                          _isChecked = value!;
+                          widget.set.checked = value!;
                         });
                         widget.onExerciseSetToggled!(
-                          exerciseSet.copyWith(checked: value),
+                          widget.set.copyWith(checked: value),
                         );
                       }
                     },

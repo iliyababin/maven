@@ -7,7 +7,7 @@ part 'exercise_set_dto.g.dart';
 
 @CopyWith()
 class ExerciseSetDto extends BaseExerciseSet {
-  const ExerciseSetDto({
+  ExerciseSetDto({
     super.id,
     required super.type,
     required super.checked,
@@ -26,13 +26,4 @@ class ExerciseSetDto extends BaseExerciseSet {
         );
 
   final List<ExerciseSetDataDto> data;
-
-  @override
-  List<Object?> get props => [
-        id,
-        type,
-        checked,
-        exerciseGroupId,
-        data,
-      ];
 }

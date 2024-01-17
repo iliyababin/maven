@@ -33,6 +33,12 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
   }
 
   @override
+  void dispose() {
+    widget.controller.removeListener(() {});
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (timeLeft != 0) {
       return Expanded(
@@ -40,7 +46,6 @@ class _ExerciseTimerWidgetState extends State<ExerciseTimerWidget> {
           borderRadius: BorderRadiusDirectional.circular(T(context).shape.large),
           child: SizedBox(
             height: 40,
-
             child: Stack(
               children: [
                 LinearProgressIndicator(

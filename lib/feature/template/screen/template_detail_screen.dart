@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:maven/feature/exercise/widget/exercise_group_detail_widget.dart';
 
 import '../../../common/common.dart';
 import '../../../database/database.dart';
@@ -237,40 +238,38 @@ class _TemplateDetailScreenState extends State<TemplateDetailScreen>
                     ],
                   ),
                 ),
-                BlocBuilder<ExerciseBloc, ExerciseState>(
-                  builder: (context, state) {
-                    if (state.status.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state.status.isLoaded) {
-                      return ListView.builder(
-                        itemCount: template.exerciseList.getLength(),
-                        itemBuilder: (context, index) {
-                          final exerciseGroup = template.exerciseList.getExerciseGroup(index);
-                          Exercise exercise = state.exercises
-                              .firstWhere((element) => element.id == exerciseGroup.exerciseId);
-                          return ListTile(
-                            leading: CircleAvatar(
-                              child: Text(exercise.name.substring(0, 1)),
-                            ),
-                            title: Text(
-                              exercise.name,
-                              style: T(context).textStyle.bodyLarge,
-                            ),
-                            subtitle: Text(
-                              exerciseGroup.sets.length.toString(),
-                              style: T(context).textStyle.bodyMedium,
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('Error'),
-                      );
-                    }
-                  },
+                Padding(
+                  padding: EdgeInsets.all(T(context).space.large),
+                  child: BlocBuilder<ExerciseBloc, ExerciseState>(
+                    builder: (context, state) {
+                      if (state.status.isLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state.status.isLoaded) {
+                        return ListView.separated(
+                            itemCount: template.exerciseList.getLength(),
+                            itemBuilder: (context, index) {
+                              final exerciseGroup = template.exerciseList.getExerciseGroup(index);
+                              Exercise exercise = state.exercises
+                                  .firstWhere((element) => element.id == exerciseGroup.exerciseId);
+                              return ExerciseGroupDetailWidget(
+                                exercise: exercise,
+                                exerciseGroup: exerciseGroup,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: T(context).space.medium,
+                              );
+                            });
+                      } else {
+                        return const Center(
+                          child: Text('Error'),
+                        );
+                      }
+                    },
+                  ),
                 ),
                 const Center(
                   child: Text('History'),

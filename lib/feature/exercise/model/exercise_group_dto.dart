@@ -37,28 +37,8 @@ class ExerciseGroupDto extends BaseExerciseGroup {
   final List<Note> notes;
   final List<ExerciseSetDto> sets;
 
-/* @override
-  ExerciseGroupDto copyWith({
-    int? id,
-    Timed? timer,
-    WeightUnit? weightUnit,
-    DistanceUnit? distanceUnit,
-    int? exerciseId,
-    int? barId,
-    int? routineId,
-    List<Note>? notes,
-    List<ExerciseSetDto>? sets,
-  }) {
-    return ExerciseGroupDto(
-      id: id ?? this.id,
-      timer: timer ?? this.timer,
-      weightUnit: weightUnit ?? this.weightUnit,
-      distanceUnit: distanceUnit ?? this.distanceUnit,
-      exerciseId: exerciseId ?? this.exerciseId,
-      barId: barId ?? this.barId,
-      routineId: routineId ?? this.routineId,
-      notes: notes ?? this.notes,
-      sets: sets ?? this.sets,
-    );
-  }*/
+  @override
+  String toString() {
+    return 'ExerciseGroupDto{notes: $notes, sets: $sets}';
+  }
 }

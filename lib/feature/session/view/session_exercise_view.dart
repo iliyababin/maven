@@ -30,6 +30,7 @@ class SessionExerciseView extends StatelessWidget {
               Exercise exercise =
                   state.exercises.firstWhere((element) => element.id == exerciseGroup.exerciseId);
               return ExerciseGroupDetailWidget(
+                exercise: exercise,
                 exerciseGroup: exerciseGroup,
               );
             },

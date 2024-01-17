@@ -139,7 +139,6 @@ class _MavenState extends State<Maven> {
                       ),
                       WorkoutScreen(
                         workout: state.workout!,
-                        timerController: timerController,
                       ),
                     ],
                   ),

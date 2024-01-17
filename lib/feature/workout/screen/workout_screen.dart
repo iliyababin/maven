@@ -14,11 +14,9 @@ class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({
     Key? key,
     required this.workout,
-    required this.timerController,
   }) : super(key: key);
 
   final Workout workout;
-  final ExerciseTimerController timerController;
 
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
@@ -29,6 +27,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   late final FocusNode nameNode;
   late final ScrollController scrollController;
   late Workout workout;
+  late ExerciseTimerController timerController;
 
   bool isReordering = false;
 
@@ -37,6 +36,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     nameNode = FocusNode();
     scrollController = ScrollController();
     workout = widget.workout;
+    timerController = ExerciseTimerController();
     super.initState();
   }
 
@@ -44,6 +44,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   void dispose() {
     nameNode.dispose();
     scrollController.dispose();
+    timerController.dispose();
     super.dispose();
   }
 
@@ -54,7 +55,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
         children: [
           WorkoutBarWidget(
             workout: workout,
-            exerciseTimerController: widget.timerController,
+            exerciseTimerController: timerController,
             nameNode: nameNode,
             reordering: isReordering,
             onReorder: () {
@@ -171,18 +172,15 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                             } : null,
                             child: ExerciseGroupWidget(
                               exercise: state.exercises.firstWhere(
-                                      (exercise) =>
-                                  exercise.id ==
-                                      exerciseGroup.exerciseId),
+                                  (exercise) => exercise.id == exerciseGroup.exerciseId),
                               exerciseGroup: exerciseGroup,
                               exerciseSets: exerciseGroup.sets,
-                              controller: widget.timerController,
+                              controller: timerController,
                               collapsed: isReordering,
                               onExerciseGroupUpdate: (value) {
                                 setState(() {
                                   workout = workout.copyWith(
-                                      exerciseGroups: workout.exerciseGroups
-                                        ..[index] = value);
+                                      exerciseGroups: workout.exerciseGroups..[index] = value);
                                 });
                               },
                               onExerciseGroupDelete: () {

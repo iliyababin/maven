@@ -11,10 +11,12 @@ class ExerciseGroupDetailWidget extends StatelessWidget {
   const ExerciseGroupDetailWidget({
     Key? key,
     this.routine,
+    required this.exercise,
     required this.exerciseGroup,
   }) : super(key: key);
 
   final Routine? routine;
+  final Exercise exercise;
   final ExerciseGroupDto exerciseGroup;
 
   @override

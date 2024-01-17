@@ -312,23 +312,19 @@ class _ExerciseGroupWidgetState extends State<ExerciseGroupWidget> {
                       ),
                       child: ExerciseSetWidget(
                         index: regularIndex,
-                        group: widget.exerciseGroup,
-                        exercise: widget.exercise,
-                        exerciseSet: widget.exerciseSets[index],
-                        onExerciseSetUpdate: (value) {
-                          widget.onExerciseSetUpdate(value, index);
-                        },
-                        onExerciseSetToggled: (value) {
-                          if (widget.onExerciseSetToggled != null) {
-                            widget.onExerciseSetToggled!(value, index);
-                            if (value.checked == true && widget.controller != null) {
-                              widget.controller!.startTimer(widget.exerciseGroup.timer);
+                          group: widget.exerciseGroup,
+                          exercise: widget.exercise,
+                          set: widget.exerciseSets[index],
+                          onExerciseSetToggled: (value) {
+                            if (widget.onExerciseSetToggled != null) {
+                              widget.onExerciseSetToggled!(value, index);
+                              if (value.checked == true && widget.controller != null) {
+                                widget.controller!.startTimer(widget.exerciseGroup.timer);
+                              }
                             }
-                          }
-                        },
-                        checkboxEnabled: widget.checkboxEnabled,
-                        hintsEnabled: widget.hintsEnabled,
-                      ));
+                          },
+                          checkboxEnabled: widget.checkboxEnabled,
+                        ));
                 },
               ),
               Container(

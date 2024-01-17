@@ -9,33 +9,34 @@ import '../exercise.dart';
 class ExerciseSetDataWidget extends StatefulWidget {
   const ExerciseSetDataWidget({
     Key? key,
-    required this.set,
-    required this.group,
-    required this.data,
-    required this.onUpdate,
-    required this.isChecked,
     required this.exercise,
-    required this.checkboxEnabled,
+    required this.group,
+    required this.set,
+    required this.data,
+    required this.isChecked,
   }) : super(key: key);
 
-  final ExerciseSetDto set;
-  final ExerciseGroupDto group;
-  final ExerciseSetDataDto data;
-  final ValueChanged<ExerciseSetDto> onUpdate;
-  final bool isChecked;
   final Exercise exercise;
-  final bool checkboxEnabled;
+  final ExerciseGroupDto group;
+  final ExerciseSetDto set;
+  final ExerciseSetDataDto data;
+  final bool isChecked;
 
   @override
   State<ExerciseSetDataWidget> createState() => _ExerciseSetDataWidgetState();
 }
 
 class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
+  bool _isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
         onTap: () {
+          setState(() {
+            _isSelected = true;
+          });
           showBottomSheetDialog(
             context: context,
             child: MultiKeyboard(
@@ -43,29 +44,36 @@ class _ExerciseSetDataWidgetState extends State<ExerciseSetDataWidget> {
               equipment: widget.exercise.equipment,
               data: widget.data,
               onValueChanged: (value) {
-                widget.onUpdate(widget.set);
+                setState(() {
+                  widget.data.value = value.value;
+                });
               },
             ),
-            onClose: () {},
+            onClose: () {
+              setState(() {
+                _isSelected = false;
+              });
+            },
           );
         },
         child: Container(
           height: 35,
           decoration: BoxDecoration(
             color: widget.isChecked ? T(context).color.successContainer : T(context).color.surface,
-            /*widget.checkboxEnabled
-                ? widget.isChecked
-                  ? T(context).color.successContainer
-                  : T(context).color.surface
-                : T(context).color.surface*/
             borderRadius: BorderRadius.circular(12),
+            border: _isSelected
+                ? Border.all(
+                    color: T(context).color.primary,
+                    width: 2,
+                  )
+                : null,
           ),
           alignment: Alignment.center,
           child: Text(
             widget.data.valueAsString,
             style: T(context).textStyle.bodyLarge.copyWith(
-                  color: T(context).color.onSurface,
-                ),
+              color: T(context).color.onSurface,
+            ),
           ),
         ),
       ),
