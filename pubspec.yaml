@@ -22,13 +22,13 @@ dependencies:
   sqflite: ^2.2.2
   floor: ^1.4.1
   floor_generator: ^1.4.1
-  csv: ^5.0.2
+  csv: ^6.0.0
   # State Management
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   # System
-  file_picker: ^5.3.3
-  package_info_plus: ^4.1.0
+  file_picker: ^6.2.0
+  package_info_plus: ^5.0.1
   device_info_plus: ^9.0.3
   # User Interface
   cupertino_icons: ^1.0.5
@@ -55,7 +55,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   copy_with_extension_gen: ^5.0.4
 
 flutter:
