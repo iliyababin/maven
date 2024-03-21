@@ -1,0 +1,21 @@
+{
+  "name": "Floor Table",
+  "description": "Create a new model and dao",
+  "path": "/templates/floor_table",
+  "param": [
+    "Table Name"
+  ],
+  "selectParam": [],
+  "addFile": [
+    {
+      "name": "{Table Name}[-c]_dao.dart",
+      "path": "/",
+      "fileTemplatePath": "dao.tm"
+    },
+    {
+      "name": "{Table Name}[-c].dart",
+      "path": "/",
+      "fileTemplatePath": "model.tm"
+    }
+  ]
+}
