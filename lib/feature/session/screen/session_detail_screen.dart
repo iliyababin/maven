@@ -144,7 +144,6 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> with SingleTi
             child: Text('Error'),
           );
         }
-
       },
     );
   }

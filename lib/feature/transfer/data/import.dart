@@ -1,7 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
-import '../database.dart';
+import '../transfer.dart';
+
+part 'import.g.dart';
 
 @Entity(
   tableName: 'import',
@@ -9,6 +12,7 @@ import '../database.dart';
     'id',
   ],
 )
+@CopyWith()
 class Import extends Equatable {
   const Import({
     this.id,
@@ -25,18 +29,6 @@ class Import extends Equatable {
 
   @ColumnInfo(name: 'transfer_source')
   final TransferSource source;
-
-  Import copyWith({
-    int? id,
-    DateTime? timestamp,
-    TransferSource? source,
-  }) {
-    return Import(
-      id: id ?? this.id,
-      timestamp: timestamp ?? this.timestamp,
-      source: source ?? this.source,
-    );
-  }
 
   @override
   List<Object?> get props => [

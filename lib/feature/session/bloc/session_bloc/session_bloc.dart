@@ -49,7 +49,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     emit(state.copyWith(
       status: SessionStatus.loaded,
       sessions: await _getSessions(),
-      imports: await importDao.getAll(),
     ));
   }
 
@@ -215,7 +214,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     emit(state.copyWith(
       status: SessionStatus.loaded,
       sessions: await _getSessions(),
-      imports: await importDao.getAll(),
     ));
   }
 

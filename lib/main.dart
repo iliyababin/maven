@@ -69,6 +69,8 @@ class Main extends StatelessWidget {
     );
     TransferService strongService = TransferService(
       exercises: getDefaultExercises(),
+      importDao: db.importDao,
+      exportDao: db.exportDao,
     );
     EquipmentService equipmentService = EquipmentService(
       plateDao: db.plateDao,
@@ -144,6 +146,10 @@ class Main extends StatelessWidget {
             create: (context) => UserBloc(
                   userDao: db.userDao,
                 )..add(const UserInitialize())),
+        BlocProvider(
+            create: (context) => TransferBloc(
+                  transferService: strongService,
+                )..add(const TransferInitialize())),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {

@@ -14,6 +14,17 @@ showSessionOptionsView(BuildContext context, Session session) {
       children: [
         ListTile(
           onTap: () {
+            print(session.routine.toJson());
+          },
+          leading: Icon(
+            Icons.library_add_outlined,
+          ),
+          title: Text(
+            'Nice',
+          ),
+        ),
+        ListTile(
+          onTap: () {
             Navigator.pop(context);
             Navigator.push(
               context,

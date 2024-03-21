@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:floor/floor.dart';
+import 'package:maven/feature/transfer/data/data.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../feature/theme/theme.dart';
+import '../feature/transfer/transfer.dart';
 import 'converter/converter.dart';
 import 'data/data.dart';
 import 'enum/enum.dart';
@@ -40,6 +42,7 @@ part 'database.g.dart';
     TemplateData,
     User,
     Import,
+    Export,
     AppTheme,
     AppThemeColor,
   ],
@@ -64,17 +67,15 @@ abstract class MavenDatabase extends FloorDatabase {
   ProgramExerciseGroupDao get programExerciseGroupDao;
   ProgramFolderDao get programFolderDao;
   ProgramTemplateDao get programTemplateDao;
-
   RoutineDao get routineDao;
-
   SettingsDao get settingsDao;
-
   NoteDao get noteDao;
   WorkoutDataDao get workoutDataDao;
   SessionDataDao get sessionDataDao;
   TemplateDataDao get templateDataDao;
   UserDao get userDao;
   ImportDao get importDao;
+  ExportDao get exportDao;
   AppThemeDao get themeDao;
   AppThemeColorDao get themeColorDao;
 

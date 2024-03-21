@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-import 'import.dart';
+import 'data.dart';
 
 @dao
 abstract class ImportDao {

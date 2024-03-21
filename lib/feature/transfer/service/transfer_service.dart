@@ -6,13 +6,27 @@ import '../../../database/database.dart';
 import '../../exercise/exercise.dart';
 import '../../session/session.dart';
 import '../transfer.dart';
+import 'transfer_service.dart';
 
 class TransferService {
-  const TransferService({
+  TransferService({
     required this.exercises,
+    required this.importDao,
+    required this.exportDao,
   });
 
   final List<Exercise> exercises;
+  final ImportDao importDao;
+  final ExportDao exportDao;
+
+  /// Returns a list of imports from the database.
+  Future<List<Import>> getImports() async {
+    return await importDao.getAll();
+  }
+
+  Future<List<Export>> getExports() async {
+    return await exportDao.getAll();
+  }
 
   List<Session> parse(String csv, TransferSource source) {
     List<List<dynamic>> data = const CsvToListConverter(eol: '\n').convert(csv);
@@ -129,5 +143,14 @@ class TransferService {
           ));
     }
     return sessions;
+  }
+
+  String export() {
+    // TODO: implement export
+    throw UnimplementedError();
+  }
+
+  void import() {
+    // TODO: implement import
   }
 }

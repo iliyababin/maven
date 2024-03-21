@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../database.dart';
+
+part 'note.g.dart';
 
 @Entity(
   tableName: 'note',
@@ -14,6 +17,7 @@ import '../database.dart';
     ),
   ],
 )
+@JsonSerializable()
 class Note extends Equatable {
   const Note({
     this.id,
@@ -49,4 +53,7 @@ class Note extends Equatable {
     data,
     exerciseGroupId,
   ];
+
+  factory Note.fromJson(Map<String, dynamic> json) => _$NoteFromJson(json);
+  Map<String, dynamic> toJson() => _$NoteToJson(this);
 }

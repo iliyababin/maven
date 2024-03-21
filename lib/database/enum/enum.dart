@@ -6,6 +6,5 @@ export 'exercise_set_type.dart';
 export 'gender.dart';
 export 'muscle.dart';
 export 'muscle_group.dart';
-export 'transfer_source.dart';
 export 'unit.dart';
 export 'weight_unit.dart';

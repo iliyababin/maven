@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'routine.g.dart';
 
 enum RoutineType {
   template,
@@ -13,6 +16,7 @@ enum RoutineType {
     'id',
   ],
 )
+@JsonSerializable()
 class Routine extends Equatable {
   const Routine({
     this.id,
@@ -69,4 +73,7 @@ class Routine extends Equatable {
         timestamp,
         type,
       ];
+
+  factory Routine.fromJson(Map<String, dynamic> json) => _$RoutineFromJson(json);
+  Map<String, dynamic> toJson() => _$RoutineToJson(this);
 }

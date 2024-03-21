@@ -8,6 +8,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../theme/theme.dart';
 import '../../session/session.dart';
+import '../transfer.dart';
 
 class TransferImportExportScreen extends StatefulWidget {
   const TransferImportExportScreen({Key? key}) : super(key: key);
@@ -34,18 +35,12 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Manage',
-        ),
+        title: const Text('Manage'),
         bottom: TabBar(
           controller: tabController,
           tabs: const [
-            Tab(
-              text: 'Import',
-            ),
-            Tab(
-              text: 'Export',
-            ),
+            Tab(text: 'Import'),
+            Tab(text: 'Export'),
           ],
         ),
       ),
@@ -114,29 +109,7 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                 const Heading(
                   title: 'History',
                 ),
-                BlocConsumer<SessionBloc, SessionState>(
-                  listenWhen: (previous, current) {
-                    return previous.message != current.message;
-                  },
-                  listener: (context, state) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          state.message,
-                        ),
-                        action: SnackBarAction(
-                          label: 'COPY',
-                          onPressed: () {
-                            Clipboard.setData(
-                              ClipboardData(
-                                text: state.message,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
+                BlocBuilder<TransferBloc, TransferState>(
                   builder: (context, state) {
                     if (state.status.isLoading) {
                       return const SliverBoxWidget(
@@ -165,7 +138,8 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => TransferDetailScreen(
+                                          builder: (context) =>
+                                              TransferDetailScreen(
                                             import: import,
                                           ),
                                         ),
@@ -196,6 +170,14 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: T(context).space.large,
+            ),
+            child: TextButton(
+              onPressed: () {
+
+              },
+              child: const Text(
+                'Export',
+              )
             ),
           ),
         ],

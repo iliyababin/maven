@@ -1,5 +1,3 @@
-
-
 enum TransferSource {
   json,
   strong,
