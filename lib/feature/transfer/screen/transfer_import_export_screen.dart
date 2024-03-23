@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +32,35 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
       vsync: this,
     );
     super.initState();
+  }
+
+  Future<String?> getDataFromFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      dialogTitle: 'Import Data',
+    );
+
+    if (result != null) {
+      return await File(result.files.single.path!).readAsString();
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> importCustom(TransferSource source, String? data) async {
+    if (data != null) {
+      context.read<TransferBloc>().add(TransferImport(
+        import: Import(
+          timestamp: DateTime.now(),
+          source: source,
+        ),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No file selected'),
+        ),
+      );
+    }
   }
 
   @override
@@ -71,25 +103,17 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                               TransferSource.json.imagePath,
                               height: 24,
                             ),
-                            title: const Text(
-                              'Json',
-                            ),
+                            title: const Text('Json'),
                           ),
                           ListTile(
                             onTap: () async {
-                              context
-                                  .read<SessionBloc>()
-                                  .add(const SessionImport(
-                                    source: TransferSource.strong,
-                                  ));
+                              importCustom(TransferSource.strong, await getDataFromFile());
                             },
                             leading: Image.asset(
                               TransferSource.strong.imagePath,
                               height: 24,
                             ),
-                            title: const Text(
-                              'Strong',
-                            ),
+                            title: const Text('Strong'),
                           ),
                           ListTile(
                             onTap: () {},
@@ -97,18 +121,14 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
                               TransferSource.hevy.imagePath,
                               height: 24,
                             ),
-                            title: const Text(
-                              'Hevy',
-                            ),
+                            title: const Text('Hevy'),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                const Heading(
-                  title: 'History',
-                ),
+                const Heading(title: 'History'),
                 BlocBuilder<TransferBloc, TransferState>(
                   builder: (context, state) {
                     if (state.status.isLoading) {
@@ -172,13 +192,10 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
               horizontal: T(context).space.large,
             ),
             child: TextButton(
-              onPressed: () {
-
-              },
-              child: const Text(
-                'Export',
-              )
-            ),
+                onPressed: () {},
+                child: const Text(
+                  'Export',
+                )),
           ),
         ],
       ),

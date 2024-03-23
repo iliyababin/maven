@@ -11,3 +11,14 @@ class TransferInitialize extends TransferEvent {
   List<Object?> get props => [];
 }
 
+class TransferImport extends TransferEvent {
+  final Import import;
+
+  const TransferImport({
+    required this.import,
+
+  });
+
+  @override
+  List<Object?> get props => [import];
+}

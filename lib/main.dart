@@ -90,6 +90,7 @@ class Main extends StatelessWidget {
       workoutDataDao: db.workoutDataDao,
       exerciseDao: db.exerciseDao,
       templateDataDao: db.templateDataDao,
+      sessionDataDao: db.sessionDataDao,
     );
 
     return MultiBlocProvider(
@@ -128,15 +129,7 @@ class Main extends StatelessWidget {
                 )..add(const ProgramInitialize())),
         BlocProvider(
             create: (context) => SessionBloc(
-                  routineDao: db.routineDao,
-                  exerciseGroupDao: db.baseExerciseGroupDao,
-                  noteDao: db.noteDao,
-                  exerciseSetDao: db.exerciseSetDao,
-                  exerciseSetDataDao: db.exerciseSetDataDao,
-                  databaseService: databaseService,
-                  sessionDataDao: db.sessionDataDao,
-                  transferService: strongService,
-                  importDao: db.importDao,
+                  routineService: routineService,
                 )..add(const SessionInitialize())),
         BlocProvider(
             create: (context) => SettingsBloc(

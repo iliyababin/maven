@@ -68,7 +68,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _finish(WorkoutFinish event, Emitter<WorkoutState> emit) async {
-    await routineService.removeWorkout(event.workout);
+    await routineService.deleteRoutine(event.workout.routine);
 
     emit(state.copyWith(
       status: WorkoutStatus.none,
@@ -76,7 +76,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   }
 
   Future<void> _delete(WorkoutDelete event, Emitter<WorkoutState> emit) async {
-    await routineService.removeWorkout(state.workout!);
+    await routineService.deleteRoutine(state.workout!.routine);
 
     emit(state.copyWith(
       status: WorkoutStatus.none,

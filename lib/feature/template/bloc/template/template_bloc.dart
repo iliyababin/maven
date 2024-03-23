@@ -68,7 +68,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   }
 
   Future<void> _delete(TemplateDelete event, Emitter<TemplateState> emit) async {
-    routineService.deleteTemplate(event.template);
+    routineService.deleteRoutine(event.template.routine);
 
     emit(state.copyWith(
       templates: [...state.templates.where((t) => t.routine.id != event.template.routine.id)],

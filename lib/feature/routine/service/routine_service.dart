@@ -2,6 +2,7 @@ import '../../../common/common.dart';
 import '../../../database/database.dart';
 import '../../exercise/exercise.dart';
 import '../../exercise/model/exercise_list.dart';
+import '../../session/session.dart';
 import '../../template/template.dart';
 import '../../workout/workout.dart';
 
@@ -14,6 +15,7 @@ class RoutineService {
   final NoteDao noteDao;
   final WorkoutDataDao workoutDataDao;
   final TemplateDataDao templateDataDao;
+  final SessionDataDao sessionDataDao;
 
   RoutineService({
     required this.routineDao,
@@ -24,6 +26,7 @@ class RoutineService {
     required this.noteDao,
     required this.workoutDataDao,
     required this.templateDataDao,
+    required this.sessionDataDao,
   });
 
   /// Gets a template from the database.
@@ -172,10 +175,6 @@ class RoutineService {
     templateDataDao.modify(data);
   }
 
-  void deleteTemplate(Template template) {
-    routineDao.remove(template.routine);
-  }
-
   ///
   ///
   ///
@@ -196,6 +195,17 @@ class RoutineService {
     }
 
     return routine;
+  }
+
+  /// Removes a routine from the database.
+  ///
+  /// Throws [Exception] if the workout was not removed.
+  Future<void> deleteRoutine(Routine routine) async {
+    int count = await routineDao.remove(routine);
+
+    if (count == 0) {
+      throw Exception('Workout was not removed');
+    }
   }
 
   /// Gets a workout from the database.
@@ -239,17 +249,6 @@ class RoutineService {
       data: workoutData.copyWith(id: workoutDataId),
       exerciseGroups: const [],
     );
-  }
-
-  /// Removes a workout from the database.
-  ///
-  /// Throws [Exception] if the workout was not removed.
-  Future<void> removeWorkout(Workout workout) async {
-    int count = await routineDao.remove(workout.routine);
-
-    if (count == 0) {
-      throw Exception('Workout was not removed');
-    }
   }
 
   /// Starts a workout from a template.
@@ -297,6 +296,126 @@ class RoutineService {
     return getWorkout();
   }
 
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+
+  /// Adds a session to the database from a workout.
+  ///
+  /// Throws [Exception] if the workout does not exist.
+  Future<Session> addSession(Workout workout) async {
+    if (workout == null) {
+      throw Exception('Workout does not exist');
+    }
+
+    int sessionId = await routineDao.add(workout.routine.copyWith(
+      id: null,
+      type: RoutineType.session,
+      timestamp: DateTime.now(),
+    ));
+
+    int sessionDataId = await sessionDataDao.add(SessionData(
+      timeElapsed: workout.data.timeElapsed,
+      routineId: sessionId,
+    ));
+
+    for (ExerciseGroupDto exerciseGroup in workout.exerciseGroups) {
+      ////////////////////////////////////////////////////////
+      int completedSets = 0;
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        int completedFields = 0;
+        for (ExerciseSetDataDto data in exerciseSet.data) {
+          if (data.value.isEmpty) continue;
+          completedSets++;
+        }
+        if (completedFields == 0) continue;
+      }
+      if (completedSets == 0) continue;
+      ////////////////////////////////////////////////////////
+
+      int exerciseGroupId = await exerciseGroupDao.add(exerciseGroup.copyWith(
+        id: null,
+        routineId: sessionId,
+      ));
+
+      for (ExerciseSetDto exerciseSet in exerciseGroup.sets) {
+        int exerciseSetId = await exerciseSetDao.add(exerciseSet.copyWith(
+          id: null,
+          exerciseGroupId: exerciseGroupId,
+        ));
+
+        for (ExerciseSetDataDto exerciseSetData in exerciseSet.data) {
+          await exerciseSetDataDao.add(exerciseSetData.copyWith(
+            id: null,
+            exerciseSetId: exerciseSetId,
+          ));
+        }
+      }
+    }
+
+    return getSession(sessionDataId);
+  }
+
+  /// Gets a session from the database.
+  ///
+  /// Throws [Exception] if the provided ID does not exist.
+  Future<Session> getSession(int sessionDataId) async {
+    SessionData? sessionData = await sessionDataDao.get(sessionDataId);
+
+    if (sessionData == null) {
+      throw Exception('Session does not exist');
+    }
+
+    Routine routine = await getRoutine(sessionData.routineId);
+    List<ExerciseGroupDto> exerciseGroups = await _getExerciseGroups(routine.id!);
+
+    return Session(
+      routine: routine,
+      data: sessionData,
+      exerciseGroups: exerciseGroups,
+      musclePercentages: await getMusclePercentages(exerciseGroups),
+      volume: getVolume(exerciseGroups),
+    );
+  }
+
+  /// Gets all sessions from the database.
+  Future<List<Session>> getSessions({SessionSort sort = SessionSort.newest}) async {
+    List<Session> sessions = [];
+
+    for (SessionData sessionData in await sessionDataDao.getAll()) {
+      sessions.add(await getSession(sessionData.id!));
+    }
+
+    switch (sort) {
+      case SessionSort.newest:
+        sessions.sort((a, b) => a.routine.timestamp.compareTo(b.routine.timestamp));
+        return sessions.reversed.toList();
+      case SessionSort.oldest:
+        sessions.sort((a, b) => a.routine.timestamp.compareTo(b.routine.timestamp));
+      case SessionSort.volume:
+        sessions.sort((a, b) {
+          final propertyA = a.volume;
+          final propertyB = b.volume;
+          int result = propertyA.compareTo(propertyB);
+          if (result < 0) {
+            return 1;
+          } else if (result > 0) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+    }
+
+    return sessions;
+  }
+
+  /// Helper methods
   Future<List<ExerciseGroupDto>> _getExerciseGroups(int routineId) async {
     List<ExerciseGroupDto> exerciseGroups = [];
 
