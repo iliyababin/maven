@@ -150,7 +150,25 @@ class TransferService {
     throw UnimplementedError();
   }
 
-  void import() {
-    // TODO: implement import
+  /// Returns an import from the database.
+  ///
+  /// Throws an [Exception] if the import is not found.
+  Future<Import> getImport(int importid) async {
+    Import? import = await importDao.get(importid);
+
+    if(import == null) {
+      throw Exception('Import not found');
+    }
+
+    return import;
+  }
+
+  Future<Import> addImport(TransferSource source) async {
+    int importId = await importDao.add(Import(
+      timestamp: DateTime.now(),
+      source: source,
+    ));
+
+    return await getImport(importId);
   }
 }

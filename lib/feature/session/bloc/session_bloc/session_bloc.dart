@@ -26,7 +26,6 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<SessionUpdate>(_update);
     on<SessionDelete>(_delete);
     on<SessionSetSort>(_setSort);
-    on<SessionImport>(_import);
   }
 
   final RoutineService routineService;
@@ -95,65 +94,5 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       status: SessionStatus.loaded,
       sort: event.sort,
     ));
-  }
-
-  Future<void> _import(SessionImport event, Emitter<SessionState> emit) async {
-    /*emit(state.copyWith(
-      status: SessionStatus.loading,
-    ));
-
-    List<Session> sessions = [];
-
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        dialogTitle: 'Import Data',
-      );
-      if (result == null) throw Exception('No file selected');
-      String fileData = await File(result.files.single.path!).readAsString();
-      sessions = transferService.parse(fileData, event.source);
-    } catch (e) {
-      emit(state.copyWith(
-        status: SessionStatus.loaded,
-        message: e.toString(),
-      ));
-      return;
-    }
-
-    int importId = await importDao.add(Import(
-      timestamp: DateTime.now(),
-      source: event.source,
-    ));
-
-    for (Session session in sessions) {
-      int sessionId = await routineDao.add(session.routine);
-      await sessionDataDao.add(SessionData(
-        timeElapsed: session.data.timeElapsed,
-        routineId: sessionId,
-        importId: importId,
-      ));
-
-      for (ExerciseGroupDto group in session.exerciseGroups) {
-        int exerciseGroupId = await exerciseGroupDao.add(group.copyWith(
-          routineId: sessionId,
-        ));
-
-        for (ExerciseSetDto set in group.sets) {
-          int exerciseSetId = await exerciseSetDao.add(set.copyWith(
-            exerciseGroupId: exerciseGroupId,
-          ));
-
-          for (ExerciseSetDataDto data in set.data) {
-            await exerciseSetDataDao.add(data.copyWith(
-              exerciseSetId: exerciseSetId,
-            ));
-          }
-        }
-      }
-    }
-
-    emit(state.copyWith(
-      status: SessionStatus.loaded,
-      sessions: await _getSessions(),
-    ));*/
   }
 }

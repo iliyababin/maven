@@ -305,7 +305,7 @@ class RoutineService {
   ///
   ///
 
-  /// Adds a session to the database from a workout.
+  /// Creates a session from a workout.
   ///
   /// Throws [Exception] if the workout does not exist.
   Future<Session> addSession(Workout workout) async {
@@ -359,6 +359,36 @@ class RoutineService {
     }
 
     return getSession(sessionDataId);
+  }
+
+  /// Adds sessions to the database accosiated with an import.
+  Future<void> addSessions(List<Session> sessions, int importId) async {
+    for (Session session in sessions) {
+      int sessionId = await routineDao.add(session.routine);
+      await sessionDataDao.add(SessionData(
+        timeElapsed: session.data.timeElapsed,
+        routineId: sessionId,
+        importId: importId,
+      ));
+
+      for (ExerciseGroupDto group in session.exerciseGroups) {
+        int exerciseGroupId = await exerciseGroupDao.add(group.copyWith(
+          routineId: sessionId,
+        ));
+
+        for (ExerciseSetDto set in group.sets) {
+          int exerciseSetId = await exerciseSetDao.add(set.copyWith(
+            exerciseGroupId: exerciseGroupId,
+          ));
+
+          for (ExerciseSetDataDto data in set.data) {
+            await exerciseSetDataDao.add(data.copyWith(
+              exerciseSetId: exerciseSetId,
+            ));
+          }
+        }
+      }
+    }
   }
 
   /// Gets a session from the database.

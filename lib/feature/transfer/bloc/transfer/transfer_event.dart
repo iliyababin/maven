@@ -12,13 +12,17 @@ class TransferInitialize extends TransferEvent {
 }
 
 class TransferImport extends TransferEvent {
-  final Import import;
+  final TransferSource source;
+  final String data;
 
   const TransferImport({
-    required this.import,
-
+    required this.source,
+    required this.data,
   });
 
   @override
-  List<Object?> get props => [import];
+  List<Object?> get props => [
+        source,
+        data,
+      ];
 }

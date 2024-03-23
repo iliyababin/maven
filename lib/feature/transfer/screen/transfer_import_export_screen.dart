@@ -49,10 +49,8 @@ class _TransferImportExportScreenState extends State<TransferImportExportScreen>
   Future<void> importCustom(TransferSource source, String? data) async {
     if (data != null) {
       context.read<TransferBloc>().add(TransferImport(
-        import: Import(
-          timestamp: DateTime.now(),
-          source: source,
-        ),
+        source: source,
+        data: data,
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

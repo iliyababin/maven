@@ -142,6 +142,7 @@ class Main extends StatelessWidget {
         BlocProvider(
             create: (context) => TransferBloc(
                   transferService: strongService,
+                  routineService: routineService,
                 )..add(const TransferInitialize())),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
